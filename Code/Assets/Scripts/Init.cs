@@ -22,7 +22,7 @@ public class Init : MonoBehaviour
     public enum WindowTypeEnum
     {
         //Top
-        Loading = -1,
+        //Loading = -1,
 
         //Bottom
         View_Map,
@@ -68,6 +68,8 @@ public class Init : MonoBehaviour
     public GameProcessor Game;
 
     // public Transform MapRoot;
+
+    public Loading loading;
 
     public Transform Bottom;
     public Transform Center;
@@ -115,7 +117,7 @@ public class Init : MonoBehaviour
             UILayer.Top, new List<WindowTypeEnum>()
             {
                 WindowTypeEnum.Dialog_FloatButtons,
-                WindowTypeEnum.Loading,
+                //WindowTypeEnum.Loading,
                 WindowTypeEnum.Dialog_SecondaryConfirmation,
             }
         }
@@ -143,29 +145,29 @@ public class Init : MonoBehaviour
         //AsyncTapAccount();
 
         AsyncStartAsync();
+
+        //AsyncStartAsync();
     }
-
-
 
     private void AsyncStartAsync()
     {
-        StartCoroutine(NetworkHelper.CheckTime(
-              (long time) =>
-              {
-                  UserData.StartTime = time / 1000;
-                  this.LoadConfig();
-                  StartCoroutine(AsyncLoadWindows(time));
-              },
-              () =>
-              {
-                  Log.Debug("CheckTime Error");
-              }
-              ));
-    }
-
-    private void LoadConfig()
-    {
+        loading.SetText("正在加载配置");
         ConfigComponentNew.Load();
+
+        loading.SetText("正在获取网络时间");
+        StartCoroutine(NetworkHelper.CheckTime(
+          (long time) =>
+          {
+              UserData.StartTime = time / 1000;
+
+              loading.SetText("获取时间成功，正在加载界面");
+              StartCoroutine(AsyncLoadWindows(time));
+          },
+          () =>
+          {
+              loading.SetText("获取网络时间失败，请重启");
+          }
+          ));
     }
 
     // Update is called once per frame
@@ -201,12 +203,12 @@ public class Init : MonoBehaviour
                     }
                     win.transform.localPosition = Vector3.zero;
 
-                    var isLoading = winType == WindowTypeEnum.Loading;
-                    if (isLoading)
-                    {
-                        loadingPage = win;
-                    }
-                    win.gameObject.SetActive(isLoading);
+                    //var isLoading = winType == WindowTypeEnum.Loading;
+                    //if (isLoading)
+                    //{
+                    //    loadingPage = win;
+                    //}
+                    //win.gameObject.SetActive(isLoading);
                 }
                 else
                 {
@@ -274,17 +276,5 @@ public class Init : MonoBehaviour
     //    TapBootstrap.Init(config);
 
 
-    //}
-
-    //private async Task AsyncTapAccount()
-    //{
-    //    var currentUser = await TDSUser.GetCurrent();
-
-    //    if (null != currentUser)
-    //    {
-    //        UserData.tapAccount = currentUser.ObjectId;
-    //    }
-
-    //    AsyncStartAsync();
     //}
 }

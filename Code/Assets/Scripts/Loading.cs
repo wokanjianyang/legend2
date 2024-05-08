@@ -6,19 +6,17 @@ namespace Game
 {
     public class Loading : MonoBehaviour
     {
-        
+
         public Text Txt_Desc;
 
         void Awake()
         {
- 
+
         }
 
-        public void LoadGame()
+        public void SetText(string text)
         {
-
+            Txt_Desc.text = text;
         }
-
-
     }
 }

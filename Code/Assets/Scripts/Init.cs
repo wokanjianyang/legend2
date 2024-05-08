@@ -200,6 +200,7 @@ public class Init : MonoBehaviour
                             break;
                     }
                     win.transform.localPosition = Vector3.zero;
+
                     var isLoading = winType == WindowTypeEnum.Loading;
                     if (isLoading)
                     {

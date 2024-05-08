@@ -161,6 +161,7 @@ public class Init : MonoBehaviour
               UserData.StartTime = time / 1000;
 
               loading.SetText("获取时间成功，正在加载界面");
+
               StartCoroutine(AsyncLoadWindows(time));
           },
           () =>
@@ -177,7 +178,6 @@ public class Init : MonoBehaviour
 
     private IEnumerator AsyncLoadWindows(long currentTimeSecond)
     {
-        GameObject loadingPage = null;
         var layers = Enum.GetValues(typeof(UILayer));
         foreach (UILayer layer in layers)
         {
@@ -203,12 +203,7 @@ public class Init : MonoBehaviour
                     }
                     win.transform.localPosition = Vector3.zero;
 
-                    //var isLoading = winType == WindowTypeEnum.Loading;
-                    //if (isLoading)
-                    //{
-                    //    loadingPage = win;
-                    //}
-                    //win.gameObject.SetActive(isLoading);
+                    win.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -218,7 +213,7 @@ public class Init : MonoBehaviour
         }
 
         yield return null;
-        loadingPage.gameObject.SetActive(false);
+        loading.gameObject.SetActive(false);
         Game.Init(currentTimeSecond);
 
         yield return null;

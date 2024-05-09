@@ -169,57 +169,6 @@ namespace Game
             this.SelfPlayer.EventCenter.Raise(new SetPlayerHPEvent { });
         }
 
-        //public void RaiseEvents()
-        //{
-        //    foreach(var e in this.playerEvents)
-        //    {
-        //        this.SelfPlayer.EventCenter.Raise(e);
-        //    }
-        //    this.playerEvents.Clear();
-        //}
-
-        //public int GetMaxHP()
-        //{
-        //    var baseValue = 0f;
-        //    if (BaseAttributeMap.TryGetValue(AttributeEnum.HP, out var value))
-        //    {
-        //        baseValue = (float)Convert.ToDouble(value);
-        //    }
-        //    return (int)baseValue;
-        //}
-
-
-        //public float GetAttributeFloat(AttributeEnum attr)
-        //{
-        //    var baseValue = 0f;
-        //    if (BaseAttributeMap.TryGetValue(attr, out var value))
-        //    {
-        //        baseValue = (float)Convert.ToDouble(value);
-        //    }
-
-        //    var battleValue = 0f;
-        //    if (BattleAttributeMap.TryGetValue(attr, out var value2))
-        //    {
-        //        battleValue = (float)Convert.ToDouble(value2);
-        //    }
-
-        //    return baseValue + battleValue;
-        //}
-
-        public void AddBattleAttribute(AttributeEnum attr, float value)
-        {
-            //BattleAttributeMap.TryGetValue(attr, out var value2);
-            //BattleAttributeMap[attr] = (float)Convert.ToDouble(value2) + value;
-        }
-
-/*        private void SetHP(string hp)
-        {
-            SelfPlayer.EventCenter.Raise(new SetPlayerHPEvent
-            {
-                HP = hp
-            });
-        }*/
-
         public APlayer SelfPlayer { get; set; }
         public void SetParent(APlayer player)
         {

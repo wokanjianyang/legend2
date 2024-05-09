@@ -31,7 +31,6 @@ public class Monster_Specail : APlayer
         this.SetSkill(); //设置技能
 
         base.Load();
-        this.Logic.SetData(null); //设置UI
 
         this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
     }

@@ -117,9 +117,6 @@ namespace Game
                 this.MineRule?.OnUpdate();
             }
 
-            //计算泡点经验
-            SecondRewarod();
-
             //每分钟存档一次
             long ct = TimeHelper.ClientNowSeconds();
             if (saveTime == 0)
@@ -318,8 +315,8 @@ namespace Game
 
             if (!isTimeError && !isCheckError && !isVersionError && User.SecondExpTick > 0)
             {
-                Dialog_OfflineExp offlineExp = Canvas.FindObjectOfType<Dialog_OfflineExp>(true);
-                offlineExp.ShowOffline();
+                //Dialog_OfflineExp offlineExp = Canvas.FindObjectOfType<Dialog_OfflineExp>(true);
+                //offlineExp.ShowOffline();
             }
 
             this.Run();
@@ -379,68 +376,6 @@ namespace Game
             this.User.AdData.Check();
         }
 
-        private void SecondRewarod()
-        {
-            if (User == null)
-            {
-                return;
-            }
-
-            if (isTimeError)
-            {
-                return;
-            }
-
-            int interval = 5;
-            if (User.SecondExpTick == 0)
-            {
-                if (!isTimeError)
-                {
-                    User.SecondExpTick = TimeHelper.ClientNowSeconds();
-                }
-            }
-            else
-            {
-                if (User.isError)
-                {
-                    if (TimeHelper.ClientNowSeconds() - UserData.StartTime > 60 * 3)
-                    {
-                        if (RandomHelper.RandomNumber(1, 10) > 8)
-                        {
-                            Application.Quit();
-                            this.User = null;
-                        }
-                    }
-                }
-
-                if (TimeHelper.ClientNowSeconds() < (User.SecondExpTick - 60 * 2))
-                {
-                    isTimeError = true;
-                    return;
-                }
-
-                long tempTime = Math.Min(TimeHelper.ClientNowSeconds() - User.SecondExpTick, ConfigHelper.MaxOfflineTime);
-                long calTk = (tempTime) / interval;
-                if (calTk >= 1)
-                {
-                    //5秒计算一次经验,金币
-                    User.SecondExpTick += interval * calTk;
-                    long exp = User.AttributeBonus.GetTotalAttr(AttributeEnum.SecondExp) * calTk;
-                    long gold = User.AttributeBonus.GetTotalAttr(AttributeEnum.SecondGold) * calTk;
-                    if (exp > 0 || gold > 0)
-                    {
-                        User.AddExpAndGold(exp, gold);
-
-                        GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-                        {
-                            Message = BattleMsgHelper.BuildSecondExpMessage(exp, gold)
-                        });
-                    }
-                }
-            }
-
-        }
-
         public void LoadMin()
         {
             this.MineRule = new BattleRule_Mine();
@@ -451,9 +386,9 @@ namespace Game
             MapData = map.GetComponentInChildren<MapData>();
             MapData.Clear();
 
-            this.PlayerRoot = MapData.transform.parent.Find("[PlayerRoot]").transform;
+            this.PlayerRoot = map.Find("[PlayerRoot]").transform;
 
-            this.EffectRoot = MapData.transform.parent.Find("[EffectRoot]").transform;
+            this.EffectRoot = map.Find("[EffectRoot]").transform;
 
             bool autoHero = true;
 

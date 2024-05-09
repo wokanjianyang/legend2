@@ -48,8 +48,6 @@ namespace Game
         [JsonIgnore]
         public Transform Transform { get; private set; }
 
-        [JsonIgnore]
-        public Logic Logic { get; private set; }
 
         [JsonIgnore]
         public int RoundCounter { get; set; }
@@ -62,7 +60,7 @@ namespace Game
         {
             get
             {
-                return this.Logic.IsSurvice && this.HP > 0;
+                return this.HP > 0;
             }
         }
         [JsonIgnore]
@@ -71,8 +69,7 @@ namespace Game
         [JsonIgnore]
         protected Dictionary<int, List<Effect>> EffectMap = new Dictionary<int, List<Effect>>();
 
-        [JsonIgnore]
-        private Dictionary<int, int> SkillUseRoundCache = new Dictionary<int, int>();
+
         public void ChangeMaxHp(int fromId, double total)
         {
             double PreMaxHp = this.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
@@ -136,7 +133,6 @@ namespace Game
             this.UUID = System.Guid.NewGuid().ToString("N");
             this.EventCenter = new EventManager();
             this.AttributeBonus = new AttributeBonus();
-            this.SkillUseRoundCache = new Dictionary<int, int>();
             this.SelectSkillList = new List<SkillState>();
 
             //this.Load();
@@ -147,13 +143,16 @@ namespace Game
 
         virtual public void Load()
         {
-            var prefab = Resources.Load<GameObject>("Prefab/Char/Model");
+            var prefab = Resources.Load<GameObject>("Unit/Hero");
             this.Transform = GameObject.Instantiate(prefab).transform;
             this.Transform.SetParent(GameProcessor.Inst.PlayerRoot);
+
             var rect = this.Transform.GetComponent<RectTransform>();
             rect.sizeDelta = GameProcessor.Inst.MapData.CellSize;
             rect.localScale = UnityEngine.Vector3.one;
-            this.Logic = this.Transform.GetComponent<Logic>();
+
+            //this.Logic = this.Transform.GetComponent<Logic>();
+
             var coms = this.Transform.GetComponents<MonoBehaviour>();
             foreach (var com in coms)
             {
@@ -165,6 +164,11 @@ namespace Game
 
             //加载技能
             //LoadSkill();
+        }
+
+        public void ShowUI()
+        {
+
         }
 
         public void SetAttackSpeed(int SpeedPercent)
@@ -501,7 +505,7 @@ namespace Game
 
         public virtual void OnHit(DamageResult dr)
         {
-            this.Logic.OnDamage(dr);
+            
         }
 
         public void OnRestore(int fromId, double hp)
@@ -510,8 +514,6 @@ namespace Game
             {
                 return;
             }
-
-            this.Logic.OnRestore(hp);
         }
 
         public void SetHP(double hp)

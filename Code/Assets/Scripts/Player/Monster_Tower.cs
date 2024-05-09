@@ -59,7 +59,7 @@ public class Monster_Tower : APlayer
         this.SetSkill(); //设置技能
 
         base.Load();
-        this.Logic.SetData(null); //设置UI
+        this.ShowUI(); //设置UI
     }
 
     private void SetSkill()

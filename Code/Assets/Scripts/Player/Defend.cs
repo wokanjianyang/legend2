@@ -24,7 +24,6 @@ public class Defend : APlayer
         this.SetSkill(); //设置技能
 
         base.Load();
-        this.Logic.SetData(null); //设置UI
     }
 
     private void SetSkill()

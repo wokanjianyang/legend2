@@ -41,7 +41,6 @@ namespace Game
             this.SetSkill(); //设置技能
 
             base.Load();
-            this.Logic.SetData(null); //设置UI
         }
 
         private void SetAttr()

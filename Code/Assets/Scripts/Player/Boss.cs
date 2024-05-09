@@ -65,7 +65,6 @@ namespace Game
             }
 
             base.Load();
-            this.Logic.SetData(null); //…Ë÷√UI
         }
 
         private void SetAttr()

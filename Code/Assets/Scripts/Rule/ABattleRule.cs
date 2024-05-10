@@ -81,7 +81,7 @@ namespace Game
 
                 if (this.roundNum % 25 == 0)
                 {
-                    GameProcessor.Inst.PlayerManager.RemoveAllDeadPlayers();
+                    //GameProcessor.Inst.PlayerManager.RemoveAllDeadPlayers();
                 }
 
                 this.roundNum++;

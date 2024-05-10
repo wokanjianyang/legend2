@@ -13,15 +13,13 @@ namespace Game
         // Start is called before the first frame update
         void Start()
         {
-            Debug.Log("CircleProgress Start");
 
-            this.SetPercent(0.5f);
         }
-
-
 
         public void SetPercent(float percent)
         {
+            Debug.Log("hp percent:" + percent);
+
             image.fillAmount = percent;
         }
     }

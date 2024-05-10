@@ -12,8 +12,10 @@ using UnityEngine.UI;
 
 public class PlayerUINew : MonoBehaviour, IPlayer, IPointerClickHandler
 {
-    [LabelText("血条")]
-    public Com_Progress com_Progress;
+    public CircleProgress progress;
+
+    public Text Txt_Name;
+    public Text Txt_Level;
 
     private float doTime = 0;
 
@@ -71,29 +73,39 @@ public class PlayerUINew : MonoBehaviour, IPlayer, IPointerClickHandler
     {
         this.SelfPlayer = player;
 
-        this.SelfPlayer.EventCenter.AddListener<SetPlayerHPEvent>(OnSetPlayerHPEvent);
+        //this.SelfPlayer.EventCenter.AddListener<SetPlayerHPEvent>(OnSetPlayerHPEvent);
 
     }
+
+    public void Init()
+    {
+        this.Txt_Name.text = this.SelfPlayer.Name;
+        this.Txt_Level.text = this.SelfPlayer.Level + "";
+        SetHpProgress(this.SelfPlayer.GetHpProgress());
+    }
+
+    public void SetHpProgress(float progress)
+    {
+        this.progress.SetPercent(progress);
+    }
+
+    public void ClearPlayer()
+    {
+        StartCoroutine(this.SendClearPlayerEvent());
+    }
+
+    private IEnumerator SendClearPlayerEvent()
+    {
+        yield return new WaitForSeconds(ConfigHelper.DelayShowTime);
+        GameProcessor.Inst.PlayerManager.RemoveDeadPlayers(this.SelfPlayer);
+        yield return null;
+    }
+
 
     public void OnDestroy()
     {
-        if (this.SelfPlayer != null)
-        {
-            this.SelfPlayer.EventCenter.RemoveListener<SetPlayerHPEvent>(OnSetPlayerHPEvent);
-        }
-        this.com_Progress = null;
+
     }
-
-    private void OnSetPlayerHPEvent(SetPlayerHPEvent e)
-    {
-        if (this.com_Progress != null)
-        {
-            this.com_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
-        }
-    }
-
-    private List<ShowMsgEvent> msgTaskList = new List<ShowMsgEvent>();
-
 
     public void OnPointerClick(PointerEventData eventData)
     {

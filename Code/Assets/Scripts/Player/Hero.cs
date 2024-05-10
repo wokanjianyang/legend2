@@ -35,7 +35,7 @@ namespace Game
             this.Level = user.MagicLevel.Data;
 
             this.SetAttr(user);  //设置属性值
-            this.ShowUI(); //设置UI
+            //this.ShowUI(); //设置UI
         }
 
         public void HeroAttrChange(HeroAttrChangeEvent e)
@@ -60,7 +60,6 @@ namespace Game
             this.SetSkill(user); //设置技能
 
             base.Load();
-            this.ShowUI(); //设置UI
         }
 
         private void SetAttr(User user)

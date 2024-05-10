@@ -30,7 +30,6 @@ namespace Game
 
         public List<SkillData> SkillList { get; set; } = new List<SkillData>();
 
-        [JsonIgnore]
         public PlayerType Camp { get; set; }
 
         public MondelType ModelType { get; set; } = MondelType.Nomal;
@@ -39,13 +38,10 @@ namespace Game
 
         public int RingType { get; set; } = 0;
 
-        [JsonIgnore]
         public Vector3Int Cell { get; set; }
 
-        [JsonIgnore]
         public AttributeBonus AttributeBonus { get; set; }
 
-        [JsonIgnore]
         public Transform Transform { get; private set; }
 
 
@@ -55,18 +51,10 @@ namespace Game
         [JsonIgnore]
         public EventManager EventCenter { get; private set; }
 
-        [JsonIgnore]
-        public bool IsSurvice
-        {
-            get
-            {
-                return this.HP > 0;
-            }
-        }
-        [JsonIgnore]
+        public bool IsSurvice = true;
+
         public List<SkillState> SelectSkillList { get; set; }
 
-        [JsonIgnore]
         protected Dictionary<int, List<Effect>> EffectMap = new Dictionary<int, List<Effect>>();
 
 
@@ -108,6 +96,8 @@ namespace Game
             }
         }
 
+        private PlayerUINew UI;
+
         virtual public APlayer CalcEnemy()
         {
             if (_enemy != null && (_enemy.IsHide || !_enemy.IsSurvice))
@@ -134,12 +124,9 @@ namespace Game
             this.EventCenter = new EventManager();
             this.AttributeBonus = new AttributeBonus();
             this.SelectSkillList = new List<SkillState>();
-
+            this.IsSurvice = true;
             //this.Load();
         }
-
-        [JsonIgnore]
-        public int UseSkillPosition { get; set; } = 0;
 
         virtual public void Load()
         {
@@ -147,28 +134,19 @@ namespace Game
             this.Transform = GameObject.Instantiate(prefab).transform;
             this.Transform.SetParent(GameProcessor.Inst.PlayerRoot);
 
+            this.UI = prefab.GetComponent<PlayerUINew>();
+            this.UI.SetParent(this);
+
             var rect = this.Transform.GetComponent<RectTransform>();
             rect.sizeDelta = GameProcessor.Inst.MapData.CellSize;
             rect.localScale = UnityEngine.Vector3.one;
 
-            //this.Logic = this.Transform.GetComponent<Logic>();
-
-            var coms = this.Transform.GetComponents<MonoBehaviour>();
-            foreach (var com in coms)
-            {
-                if (com is IPlayer _com)
-                {
-                    _com.SetParent(this);
-                }
-            }
-
-            //加载技能
-            //LoadSkill();
+            this.ShowUI(); //设置UI
         }
 
         public void ShowUI()
         {
-
+            this.UI.Init();
         }
 
         public void SetAttackSpeed(int SpeedPercent)
@@ -503,9 +481,54 @@ namespace Game
             return enemys.GetRange(0, Math.Min(enemys.Count, 3));
         }
 
+        public float GetHpProgress()
+        {
+            double percent = this.HP / this.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
+
+            //Debug.Log("HP:" + this.HP);
+            //Debug.Log("MaxHP:" + this.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+
+            percent = Math.Min(percent, 1);
+            percent = Math.Max(0, percent);
+
+            //Debug.Log("percent:" + percent);
+
+            return (float)percent;
+        }
+
         public virtual void OnHit(DamageResult dr)
         {
-            
+            if (!IsSurvice)
+            {
+                return;
+            }
+
+            this.EventCenter.Raise(new ShowMsgEvent
+            {
+                Type = dr.Type,
+                Content = "-" + StringHelper.FormatNumber(dr.Damage)
+            });
+
+            this.HP = Math.Max(0, this.HP - dr.Damage);
+            this.UI.SetHpProgress(GetHpProgress());
+
+            this.EventCenter.Raise(new SetPlayerHPEvent { });
+
+            if (this.HP <= 0)
+            {
+                IsSurvice = false;
+
+                this.EventCenter.Raise(new DeadRewarddEvent
+                {
+                    FromId = dr.FromId,
+                    ToId = this.ID
+                });
+
+                if (this.Camp != PlayerType.Hero)
+                {
+                    this.UI.ClearPlayer();
+                }
+            }
         }
 
         public void OnRestore(int fromId, double hp)
@@ -519,7 +542,6 @@ namespace Game
         public void SetHP(double hp)
         {
             this.HP = hp;
-
         }
 
         public void ShowMiss()

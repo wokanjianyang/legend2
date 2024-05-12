@@ -65,12 +65,7 @@ public class Init : MonoBehaviour
                 "Dialog_Defend",
                 "Dialog_OfflineExp",
                 "Dialog_Settings",
-                "Map_Phantom",
-                "Map_BossFamily",
-                "Map_AnDian",
-                "Map_Defend",
-                "Map_HeroPhantom",
-                "Map_Infinite",
+
                 "Dialog_SoulRing",
                 "Dialog_Achievement",
                 "Dialog_Fashion",
@@ -87,6 +82,12 @@ public class Init : MonoBehaviour
         {
             UILayer.Map,new List<String>(){
               "Map_EquipCopy",
+              "Map_Phantom",
+              "Map_BossFamily",
+              "Map_AnDian",
+              "Map_Defend",
+              "Map_HeroPhantom",
+              "Map_Infinite",
             }
         }
     };

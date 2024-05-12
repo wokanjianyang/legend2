@@ -211,7 +211,7 @@ namespace Game
 
             //user.AddStartRate(this.MapId, qualityConfig.CountRate * countModelRate);
 
-            double dropRate = 1 + user.GetRealDropRate();
+            double dropRate = user.GetRealDropRate();
             double modelRate = dropModelRate * qualityConfig.DropRate;
             double countRate = countModelRate * qualityConfig.CountRate;
 

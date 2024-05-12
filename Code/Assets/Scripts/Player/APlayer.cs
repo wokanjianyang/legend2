@@ -130,7 +130,9 @@ namespace Game
 
         virtual public void Load()
         {
-            var prefab = Resources.Load<GameObject>("Unit/Hero");
+            string fabName = this.Camp == PlayerType.Hero ? "Hero" : "Monster";
+
+            var prefab = Resources.Load<GameObject>("Unit/" + fabName);
 
             this.Transform = GameObject.Instantiate(prefab).transform;
             this.Transform.SetParent(GameProcessor.Inst.PlayerRoot);

@@ -96,7 +96,7 @@ namespace Game
             }
         }
 
-        private PlayerUINew UI;
+        private PlayerUI UI;
 
         virtual public APlayer CalcEnemy()
         {
@@ -131,15 +131,16 @@ namespace Game
         virtual public void Load()
         {
             var prefab = Resources.Load<GameObject>("Unit/Hero");
+
             this.Transform = GameObject.Instantiate(prefab).transform;
             this.Transform.SetParent(GameProcessor.Inst.PlayerRoot);
-
-            this.UI = prefab.GetComponent<PlayerUINew>();
-            this.UI.SetParent(this);
 
             var rect = this.Transform.GetComponent<RectTransform>();
             rect.sizeDelta = GameProcessor.Inst.MapData.CellSize;
             rect.localScale = UnityEngine.Vector3.one;
+
+            this.UI = this.Transform.GetComponent<PlayerUI>();
+            this.UI.SetParent(this);
 
             this.ShowUI(); //设置UI
         }
@@ -503,16 +504,8 @@ namespace Game
                 return;
             }
 
-            this.EventCenter.Raise(new ShowMsgEvent
-            {
-                Type = dr.Type,
-                Content = "-" + StringHelper.FormatNumber(dr.Damage)
-            });
-
             this.HP = Math.Max(0, this.HP - dr.Damage);
-            this.UI.SetHpProgress(GetHpProgress());
-
-            this.EventCenter.Raise(new SetPlayerHPEvent { });
+            this.UI.SetHpProgress();
 
             if (this.HP <= 0)
             {

@@ -309,7 +309,7 @@ namespace Game
             }
 
             //AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 1000000000);
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.Test + 1, 100000);
+            //AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.Test + 1, 100000);
 
             //设置升级属性
             SetUpExp();

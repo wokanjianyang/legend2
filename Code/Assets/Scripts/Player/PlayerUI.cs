@@ -10,12 +10,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PlayerUINew : MonoBehaviour, IPlayer, IPointerClickHandler
+public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 {
-    public CircleProgress progress;
-
     public Text Txt_Name;
     public Text Txt_Level;
+
+    public Image progress;
 
     private float doTime = 0;
 
@@ -30,7 +30,6 @@ public class PlayerUINew : MonoBehaviour, IPlayer, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -72,21 +71,27 @@ public class PlayerUINew : MonoBehaviour, IPlayer, IPointerClickHandler
     public void SetParent(APlayer player)
     {
         this.SelfPlayer = player;
-
-        //this.SelfPlayer.EventCenter.AddListener<SetPlayerHPEvent>(OnSetPlayerHPEvent);
-
     }
 
     public void Init()
     {
+
+        Debug.Log("Name:" + this.SelfPlayer.Name);
+
         this.Txt_Name.text = this.SelfPlayer.Name;
-        this.Txt_Level.text = this.SelfPlayer.Level + "";
-        SetHpProgress(this.SelfPlayer.GetHpProgress());
+        this.Txt_Level.text = "lv." + this.SelfPlayer.Level;
+
     }
 
-    public void SetHpProgress(float progress)
+    public void SetHpProgress()
     {
-        this.progress.SetPercent(progress);
+        double maxHp = this.SelfPlayer.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
+        double percent = this.SelfPlayer.HP / maxHp;
+
+        percent = Math.Max(percent, 0);
+        percent = Math.Min(percent, 1);
+
+        progress.fillAmount = (float)percent;
     }
 
     public void ClearPlayer()

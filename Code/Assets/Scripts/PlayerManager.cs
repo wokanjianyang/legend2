@@ -44,23 +44,25 @@ namespace Game
         {
             hero = new Hero(ruleType);
 
-            var coms = hero.Transform.GetComponents<MonoBehaviour>();
-            foreach (var com in coms)
-            {
-                if (com is IPlayer _com)
-                {
-                    _com.SetParent(hero);
-                }
-            }
+
+            //var coms = hero.Transform.GetComponents<MonoBehaviour>();
+            //foreach (var com in coms)
+            //{
+            //    if (com is IPlayer _com)
+            //    {
+            //        _com.SetParent(hero);
+            //    }
+            //}
 
             var tempCells = GameProcessor.Inst.MapData.AllCells.ToList();
             var allPlayerCells = GameProcessor.Inst.PlayerManager.GetAllPlayers().Select(p => p.Cell).ToList();
             tempCells.RemoveAll(p => allPlayerCells.Contains(p));
 
 
-            var index = RandomHelper.RandomNumber(0, tempCells.Count);
-            var bornCell = tempCells[index];
-            hero.SetPosition(bornCell, true);
+            //var index = RandomHelper.RandomNumber(0, tempCells.Count);
+            //var bornCell = tempCells[index];
+            //hero.SetPosition(bornCell, true);
+            hero.SetPosition(new Vector3(3, 4), true);
             this.AddPlayer(hero);
         }
 

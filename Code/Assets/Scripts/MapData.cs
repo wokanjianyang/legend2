@@ -20,8 +20,8 @@ namespace Game
 
         private const int minX = 0;
         private const int minY = 0;
-        private const int maxX = 6;
-        private const int maxY = 7;
+        private const int maxX = 12;
+        private const int maxY = 14;
 
         public Vector3 MapStartPos { get; private set; } = Vector3.zero;
 

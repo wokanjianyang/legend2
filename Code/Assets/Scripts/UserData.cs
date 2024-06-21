@@ -409,53 +409,5 @@ namespace Game
 
             return filePath;
         }
-
-        //public static void TestFull(User user)
-        //{
-        //    user.MagicLevel.Data = ConfigHelper.Max_Level;
-
-        //    //精练
-        //    foreach (var kv in user.MagicEquipRefine)
-        //    {
-        //        kv.Value.Data = ConfigHelper.Max_Level_Refine;
-        //    }
-
-        //    //强化
-        //    foreach (var kv in user.MagicEquipStrength)
-        //    {
-        //        kv.Value.Data = ConfigHelper.Max_Level;
-        //    }
-
-        //    //图鉴
-        //    foreach (var kv in user.CardData)
-        //    {
-        //        try
-        //        {
-        //            CardConfig cardConfig = CardConfigCategory.Instance.Get(kv.Key);
-        //            kv.Value.Data = cardConfig.MaxLevel;
-        //        }
-        //        catch { }
-        //    }
-
-        //    //魂环
-        //    foreach (var kv in user.SoulRingData)
-        //    {
-        //    }
-
-        //    //幻神
-        //    List<PhantomConfig> phantoms = PhantomConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
-        //    foreach (var kv in phantoms)
-        //    {
-        //        user.PhantomRecord[kv.Id] = 15;
-        //    }
-
-        //    //广告
-        //    user.Record.AddRecord(RecordType.AdVirtual, 1000);
-        //    user.Record.AddRecord(RecordType.AdReal, 1000);
-
-        //    user.MagicRecord[AchievementSourceType.BossFamily].Data = 10000;
-
-        //    //技能
-        //}
     }
 }

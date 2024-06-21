@@ -125,7 +125,7 @@ namespace Game
             }
             else //伤害
             {
-                SelfPlayer.OnHit(new DamageResult(0, hp, MsgType.Damage, RoleType.All));
+                SelfPlayer.OnHit(new DamageResult(0, hp, MsgType.Damage, RoleType.Dark));
             }
         }
 

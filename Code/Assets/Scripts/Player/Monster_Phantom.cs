@@ -116,18 +116,6 @@ public class Monster_Phantom : APlayer
 
     public override void OnHit(DamageResult dr)
     {
-        if (attrConfig.ResistType > 0)
-        {
-            if (dr.RoleType != RoleType.All && (int)dr.RoleType != attrConfig.ResistType)
-            {
-                this.EventCenter.Raise(new ShowMsgEvent
-                {
-                    Type = MsgType.SkillName,
-                    Content = "抵抗"
-                });
-                return;
-            }
-        }
 
         double maxHp = this.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
         int pp = (int)(this.HP * 10 / maxHp);

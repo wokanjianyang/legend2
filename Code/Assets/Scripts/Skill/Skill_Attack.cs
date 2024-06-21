@@ -100,16 +100,6 @@ namespace Game
                     }
                 }
             }
-
-            if (SkillPanel.SkillData.SkillConfig.Role == (int)RoleType.Warrior)
-            {
-                //do Chediding
-                SkillState skillChediding = SelfPlayer.SelectSkillList.Where(m => m.SkillPanel.SkillId == 1010).FirstOrDefault();
-                if (skillChediding != null && baseHp > 0 && RandomHelper.RandomNumber(1, 6) <= 1)
-                {
-                    skillChediding.Do(baseHp);
-                }
-            }
         }
 
         abstract public List<AttackData> GetAllTargets();

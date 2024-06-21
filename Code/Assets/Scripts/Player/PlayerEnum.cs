@@ -217,14 +217,17 @@ namespace Game
         Defend = 5,
         HeorPhantom = 6,
         Mine = 7,
-        Infinite =8,
+        Infinite = 8,
     }
 
     public enum RoleType
     {
-        Warrior = 1, //战士
-        Mage = 2, //法师
-        Warlock = 3, //道士
-        All = 99,
+        Metal = 1, //金系
+        Wood = 2, //木
+        Water = 3, //水
+        Fire = 4, //火
+        Earth = 5, //土
+        Dark = 6, //阴
+        Light = 7, //阳
     }
 }

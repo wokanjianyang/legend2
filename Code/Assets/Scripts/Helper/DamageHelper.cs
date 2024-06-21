@@ -12,7 +12,7 @@ namespace Game
 
             int role = skill.SkillData.SkillConfig.Role;
 
-            double roleAttr = GetRoleAttack(attcher, role, true) * (100 + skill.AttrIncrea + attcher.GetAttackAttr(AttributeEnum.AurasAttrIncrea)) / 100;  //职业攻击
+            double roleAttr = GetRoleAttack(attcher, role) * (100 + skill.AttrIncrea + attcher.GetAttackAttr(AttributeEnum.AurasAttrIncrea)) / 100;  //职业攻击
 
             //防御 = 目标防御 * (100-无视防御)/100
             double def = enemy.GetAttackAttr(AttributeEnum.Def) + attcher.GetAttackAttr(AttributeEnum.DefIgnore);
@@ -52,11 +52,11 @@ namespace Game
             attack = attack * SkillDamage / 100;
 
             //职业伤害倍率(物伤加成，法伤加成，道伤加成)
-            double roleDamageRise = GetRoleDamageAttackRise(attcher, role, true);
+            //double roleDamageRise = GetRoleDamageAttackRise(attcher, role, true);
 
             //Debug.Log("roleDamageRise:" + roleDamageRise);
 
-            attack *= (1 + roleDamageRise / 100);
+            //attack *= (1 + roleDamageRise / 100);
 
             //增伤倍率
             double mdi = attcher.GetAttackAttr(AttributeEnum.MulDamageIncrea);
@@ -100,17 +100,37 @@ namespace Game
             long attack = 100;
             switch (role)
             {
-                case (int)RoleType.Warrior:
+                case (int)RoleType.Metal:
                     {
                         attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillPhyDamage);
                         break;
                     }
-                case (int)RoleType.Mage:
+                case (int)RoleType.Wood:
                     {
                         attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillMagicDamage);
                         break;
                     }
-                case (int)RoleType.Warlock:
+                case (int)RoleType.Water:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Fire:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Earth:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Dark:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Light:
                     {
                         attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
                         break;
@@ -122,45 +142,45 @@ namespace Game
             return attack;
         }
 
-        public static double GetRoleDamageAttackRise(AttributeBonus attributeBonus, int role, bool haveBuff)
-        {
-            switch (role)
-            {
-                case (int)RoleType.Warrior:
-                    {
-                        return attributeBonus.GetTotalAttrDouble(AttributeEnum.PhyDamage, haveBuff);
-                    }
-                case (int)RoleType.Mage:
-                    {
-                        return attributeBonus.GetTotalAttrDouble(AttributeEnum.MagicDamage, haveBuff);
-                    }
-                case (int)RoleType.Warlock:
-                    {
-                        return attributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritDamage, haveBuff);
-                    }
-            }
 
-            return 1;
-        }
-
-        public static double GetRoleAttack(AttributeBonus attributeBonus, int role, bool haveBuff)
+        public static double GetRoleAttack(AttributeBonus attributeBonus, int role)
         {
             double attack = 0;
             switch (role)
             {
-                case (int)RoleType.Warrior:
+                case (int)RoleType.Metal:
                     {
-                        attack = attributeBonus.GetTotalAttrDouble(AttributeEnum.PhyAtt, haveBuff);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillPhyDamage);
                         break;
                     }
-                case (int)RoleType.Mage:
+                case (int)RoleType.Wood:
                     {
-                        attack = attributeBonus.GetTotalAttrDouble(AttributeEnum.MagicAtt, haveBuff);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillMagicDamage);
                         break;
                     }
-                case (int)RoleType.Warlock:
+                case (int)RoleType.Water:
                     {
-                        attack = attributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritAtt, haveBuff);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Fire:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Earth:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Dark:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Light:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
                         break;
                     }
             }
@@ -173,19 +193,39 @@ namespace Game
             long attack = 0;
             switch (role)
             {
-                case (int)RoleType.Warrior:
+                case (int)RoleType.Metal:
                     {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarriorSkillPercent);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillPhyDamage);
                         break;
                     }
-                case (int)RoleType.Mage:
+                case (int)RoleType.Wood:
                     {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.MageSkillPercent);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillMagicDamage);
                         break;
                     }
-                case (int)RoleType.Warlock:
+                case (int)RoleType.Water:
                     {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarlockSkillPercent);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Fire:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Earth:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Dark:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Light:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
                         break;
                     }
             }
@@ -198,19 +238,39 @@ namespace Game
             long attack = 0;
             switch (role)
             {
-                case (int)RoleType.Warrior:
+                case (int)RoleType.Metal:
                     {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarriorSkillDamage);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillPhyDamage);
                         break;
                     }
-                case (int)RoleType.Mage:
+                case (int)RoleType.Wood:
                     {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.MageSkillDamage);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillMagicDamage);
                         break;
                     }
-                case (int)RoleType.Warlock:
+                case (int)RoleType.Water:
                     {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarlockSkillDamage);
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Fire:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Earth:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Dark:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
+                        break;
+                    }
+                case (int)RoleType.Light:
+                    {
+                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
                         break;
                     }
             }
@@ -227,54 +287,6 @@ namespace Game
             int rd = dr.Damage > 0 ? Math.Min((int)(hp / dr.Damage), 9999999) : 0;
 
             return Math.Max(rd, 1);
-        }
-
-        public static long GetEffectFromTotal(AttributeBonus attacker, SkillPanel skillPanel, EffectData effect)
-        {
-            int srcAttr = effect.Config.SourceAttr;
-
-            //按照某个属性，计算百分比+固定值得来的
-            if (srcAttr == -2)
-            {
-                long total = attacker.GetTotalAttr((AttributeEnum)effect.Config.SourceAttr);
-
-                //Debug.Log("Shield Base Total:" + total);
-
-                int role = skillPanel.SkillData.SkillConfig.Role;
-
-                long percent = effect.Percent;
-                if (effect.Config.ExpertRise > 0) //享受其他增强收益
-                {
-                    //Debug.Log("Shield Skill-Percent:" + skillPanel.Percent);
-                    //Debug.Log("Shield Role-Percent:" + GetRolePercent(attacker, role));
-
-                    //技能系数
-                    percent += GetRolePercent(attacker, role) * effect.Config.ExpertRise / 100;
-                }
-
-                long damage = effect.Damage;
-                if (effect.Config.ExpertRise > 0)
-                {
-                    damage += GetRoleDamage(attacker, role) * effect.Config.ExpertRise / 100;
-                    //Debug.Log("Shield Damage:" + damage);
-                }
-
-                //Debug.Log("Shield Percent:" + percent);
-
-                total = total * percent / 100 + damage;   // *百分比系数 + 固定数值
-
-                //Debug.Log("Shield Gain Total :" + total);
-
-                return total;
-            }
-            //配置来源的数值
-            else if (srcAttr == 0)
-            {
-                long total = effect.Percent;
-                return total;
-            }
-
-            return 0;
         }
     }
 

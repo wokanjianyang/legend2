@@ -160,7 +160,7 @@ namespace Game
 
         public double GetRoleAttack(int role, bool haveBuff)
         {
-            return DamageHelper.GetRoleAttack(this.AttributeBonus, role, haveBuff);
+            return DamageHelper.GetRoleAttack(this.AttributeBonus, role);
         }
 
         public long GetRolePercent(int role)

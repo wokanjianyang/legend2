@@ -188,8 +188,8 @@ namespace Game
             powerDamage *= (1 + GetTotalAttrDouble(AttributeEnum.Lucky) * 0.1);
             powerDamage *= Math.Min(GetTotalAttrDouble(AttributeEnum.CritRate), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamage) + 150) / 100;
 
-            double roleDamageRise = DamageHelper.GetRoleDamageAttackRise(this, role, true);
-            powerDamage *= (1 + roleDamageRise / 100);
+            //double roleDamageRise = DamageHelper.GetRoleDamageAttackRise(this, role, true);
+            //powerDamage *= (1 + roleDamageRise / 100);
 
             //增伤倍率
             double mdi = GetTotalAttrDouble(AttributeEnum.MulDamageIncrea);

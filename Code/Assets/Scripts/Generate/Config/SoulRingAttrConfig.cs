@@ -102,17 +102,20 @@ namespace Game
 		/// <summary>AurasLevel</summary>
 		[ProtoMember(9)]
 		public int AurasLevel { get; set; }
-		/// <summary>Fee</summary>
+		/// <summary>AurasRise</summary>
 		[ProtoMember(10)]
-		public int Fee { get; set; }
-		/// <summary>RiseFee</summary>
+		public int AurasRise { get; set; }
+		/// <summary>Fee</summary>
 		[ProtoMember(11)]
+		public long Fee { get; set; }
+		/// <summary>RiseFee</summary>
+		[ProtoMember(12)]
 		public int RiseFee { get; set; }
 		/// <summary>LockMemo</summary>
-		[ProtoMember(12)]
+		[ProtoMember(13)]
 		public string LockMemo { get; set; }
 		/// <summary>AurasMemo</summary>
-		[ProtoMember(13)]
+		[ProtoMember(14)]
 		public string AurasMemo { get; set; }
 
 	}

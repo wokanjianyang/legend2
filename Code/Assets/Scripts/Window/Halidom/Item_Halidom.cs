@@ -14,6 +14,9 @@ namespace Game
         public Text Txt_Level;
         public Text Txt_Attr_Current;
 
+        private int Count_Normal = 10;
+        private int Count_Tupo = 20;
+
         public HalidomConfig Config { get; set; }
 
         // Start is called before the first frame update
@@ -35,58 +38,151 @@ namespace Game
             MagicData halidomData = user.HalidomData[Config.Id];
             int maxLevel = user.GetHolidomLimit();
 
-            if (halidomData.Data < maxLevel)
-            {
-                int rise = (int)halidomData.Data * 1;
+            //Debug.Log("Holidom maxLEvel:" + maxLevel);
 
+            long currentLevel = halidomData.Data;
+            int rise = (int)currentLevel * 1;
+            int upNumber = 1 + rise;
+
+            if (currentLevel < maxLevel)
+            {
                 long total = user.Bags.Where(m => m.Item.Type == ItemType.Halidom && m.Item.ConfigId == Config.ItemId).Select(m => m.MagicNubmer.Data).Sum();
-                int upNumber = 1 + rise;
 
                 if (total < upNumber)
                 {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "对应的遗物数量不足", ToastType = ToastTypeEnum.Failure });
-                    return;
+                    if (currentLevel <= 0)
+                    {
+                        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "激活所需遗物数量不足", ToastType = ToastTypeEnum.Failure });
+                        return;
+                    }
+
+                    //使用粉尘升级
+                    upNumber *= Count_Normal; //粉尘消耗*10
+                    total = user.GetMaterialCount(ItemHelper.SpecialId_Halidom_Chip);
+
+                    if (total < upNumber)
+                    {
+                        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "升级所需遗物，粉尘数量不足", ToastType = ToastTypeEnum.Failure });
+                        return;
+                    }
+                    else
+                    {
+                        GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否确认用遗物粉尘升级遗物", true,
+                        () =>
+                        {
+                            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "消耗" + upNumber + "个遗物粉尘升级成功", ToastType = ToastTypeEnum.Success });
+                            GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+                            {
+                                Type = ItemType.Material,
+                                ItemId = ItemHelper.SpecialId_Halidom_Chip,
+                                Quantity = upNumber
+                            });
+
+                            halidomData.Data++;
+                            this.SetContent(this.Config, halidomData.Data);
+                            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+                        }, () =>
+                        {
+                        });
+
+
+
+                        //GameProcessor.Inst.SaveData();
+                    }
                 }
-
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "消耗" + upNumber + "个" + Config.Name + "升级成功", ToastType = ToastTypeEnum.Success });
-                GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+                else
                 {
-                    Type = ItemType.Halidom,
-                    ItemId = Config.ItemId,
-                    Quantity = upNumber
-                });
+                    //使用遗物升级
+                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "消耗" + upNumber + "个" + Config.Name + "升级成功", ToastType = ToastTypeEnum.Success });
+                    GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+                    {
+                        Type = ItemType.Halidom,
+                        ItemId = Config.ItemId,
+                        Quantity = upNumber
+                    });
 
-                halidomData.Data++;
-                this.SetContent(this.Config, halidomData.Data);
-                GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+                    halidomData.Data++;
+                    this.SetContent(this.Config, halidomData.Data);
+                    GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
 
+                    GameProcessor.Inst.SaveData();
+                }
             }
             else
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满级了", ToastType = ToastTypeEnum.Failure });
-                return;
+                int tupoLevel = maxLevel - 4;
+                if (currentLevel < maxLevel + tupoLevel)
+                {
+                    //突破，使用粉尘
+                    upNumber *= 20;
+
+                    //GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否确认用遗物粉尘突破遗物", true,
+                    //() =>
+                    //{
+                    long total = user.GetMaterialCount(ItemHelper.SpecialId_Halidom_Chip);
+                    if (total < upNumber)
+                    {
+                        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "突破所需遗物粉尘数量不足", ToastType = ToastTypeEnum.Failure });
+                        return;
+                    }
+
+                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "消耗" + upNumber + "个遗物粉尘突破成功", ToastType = ToastTypeEnum.Success });
+                    GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+                    {
+                        Type = ItemType.Material,
+                        ItemId = ItemHelper.SpecialId_Halidom_Chip,
+                        Quantity = upNumber
+                    });
+
+                    halidomData.Data++;
+                    this.SetContent(this.Config, halidomData.Data);
+                    GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+                    //}, () =>
+                    //{
+                    //});
+
+
+                }
+                else
+                {
+                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满级了", ToastType = ToastTypeEnum.Failure });
+                    return;
+                }
             }
         }
 
         public void SetContent(HalidomConfig config, long level)
         {
             this.Config = config;
+            this.Show(level);
+        }
 
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(6), config.Name);
+        public void Refresh()
+        {
+            User user = GameProcessor.Inst.User;
+            long level = user.GetHalidomLevel(this.Config.Id);
+            this.Show(level);
+        }
+
+        private void Show(long level)
+        {
+            string color = level > 8 ? QualityConfigHelper.GetQualityColor(7) : QualityConfigHelper.GetQualityColor(6);
+
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, this.Config.Name);
 
             if (level > 0)
             {
-                long val = config.AttrValue + (level - 1) * config.RiseAttr;
+                long val = this.Config.AttrValue + (level - 1) * this.Config.RiseAttr;
                 this.Txt_Level.text = ConfigHelper.LayerNameList[level - 1] + "阶";
-                this.Txt_Attr_Current.text = StringHelper.FormatAttrText(config.AttrId, val);
-                this.Txt_Attr_Rise.text = "升阶增加:" + StringHelper.FormatAttrValueText(config.AttrId, config.RiseAttr);
+                this.Txt_Attr_Current.text = StringHelper.FormatAttrText(this.Config.AttrId, val);
+                this.Txt_Attr_Rise.text = "升阶增加:" + StringHelper.FormatAttrValueText(this.Config.AttrId, this.Config.RiseAttr);
             }
             else
             {
 
                 this.Txt_Level.text = "未激活";
-                this.Txt_Attr_Current.text = StringHelper.FormatAttrValueName(config.AttrId);
-                this.Txt_Attr_Rise.text = "激活增加:" + StringHelper.FormatAttrValueText(config.AttrId, config.AttrValue);
+                this.Txt_Attr_Current.text = StringHelper.FormatAttrValueName(this.Config.AttrId);
+                this.Txt_Attr_Rise.text = "激活增加:" + StringHelper.FormatAttrValueText(this.Config.AttrId, this.Config.AttrValue);
             }
         }
     }

@@ -19,12 +19,12 @@ namespace Game
             return false;
         }
 
-        public override void Do()
+        public override void Do(SkillRunType runType)
         {
 
         }
 
-        public override void Do(double baseHp)
+        public override void Do(DamageResult baseDr)
         {
             List<Vector3Int> playCells = GetPlayCells();
 
@@ -37,7 +37,8 @@ namespace Game
 
                 if (enemy != null)
                 {
-                    if (DamageHelper.IsMiss(SelfPlayer, enemy))
+                    //Debug.Log("chediding acc:" + SkillPanel.Accuracy);
+                    if (DamageHelper.IsMiss(SelfPlayer, enemy, SkillPanel.Accuracy))
                     {
                         enemy.ShowMiss();
                         return;
@@ -52,9 +53,12 @@ namespace Game
                         }
                     }
 
-                    double dm = baseHp * 0.2 * SkillPanel.Percent;
+                    double dm = baseDr.Damage * 0.2 * SkillPanel.Percent;
+                    double edm = baseDr.ExtendDamage * 0.2 * SkillPanel.Percent;
 
-                    DamageResult dr = new DamageResult(dm, MsgType.Damage, RoleType.Dark); //
+                    //Debug.Log("dm:" + StringHelper.FormatNumber(dm) + "  edm:" + StringHelper.FormatNumber(edm));
+
+                    DamageResult dr = new DamageResult(dm, edm, MsgType.Damage, RoleType.Warrior, SkillPanel.SkillId); //
                     dr.FromId = attackData.Tid;
                     enemy.OnHit(dr);
 
@@ -96,9 +100,7 @@ namespace Game
 
         public List<Vector3Int> GetPlayCells()
         {
-            return GameProcessor.Inst.MapData.GetAttackRangeCell(SelfPlayer.Cell, SelfPlayer.Cell, SkillPanel);
+            return GameProcessor.Inst.MapData.GetAttackRangeCell(SelfPlayer.Enemy.Cell, SelfPlayer.Cell, SkillPanel);
         }
-
-
     }
 }

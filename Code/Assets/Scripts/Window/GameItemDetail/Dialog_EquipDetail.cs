@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using SA.Android.Utilities;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -45,42 +46,21 @@ namespace Game
         [LabelText("套装属性")]
         public Transform tran_GroupAttribute;
 
-        [LabelText("普通道具属性")]
-        public Transform tran_NormalAttribute;
-
         [LabelText("红装属性")]
         public Transform tran_RedAttribute;
 
         [Title("导航")]
-        [LabelText("穿戴")]
-        public Button btn_Equip;
 
-        [LabelText("卸下")]
+        public Button btn_Equip;
         public Button btn_UnEquip;
 
-        [LabelText("学习")]
-        public Button btn_Learn;
-
-        [LabelText("使用")]
-        public Button btn_Upgrade;
-
-        [LabelText("全部使用")]
-        public Button btn_UseAll;
-
-        [LabelText("回收")]
         public Button btn_Recovery;
+        public Button btn_Restore;
 
-        [LabelText("锻造")]
-        public Button btn_Forging;
-
-        [LabelText("锁定装备")]
         public Button btn_Lock;
-
-        [LabelText("解除锁定装备")]
         public Button btn_Unlock;
 
-        public Button btn_Select;
-        public Button btn_Deselect;
+        public Button Btn_Close;
 
         private BoxItem boxItem;
         private int equipPositioin;
@@ -93,19 +73,15 @@ namespace Game
         {
             this.btn_Equip.onClick.AddListener(this.OnEquip);
             this.btn_UnEquip.onClick.AddListener(this.OnUnEquip);
-            this.btn_Learn.onClick.AddListener(this.OnLearnSkill);
 
-            this.btn_Upgrade.onClick.AddListener(this.OnUpgradeSkill);
-            this.btn_UseAll.onClick.AddListener(this.OnUseAll);
 
             this.btn_Recovery.onClick.AddListener(this.OnRecovery);
-            this.btn_Forging.onClick.AddListener(this.OnForging);
+            this.btn_Restore.onClick.AddListener(this.OnClick_Restore);
 
             this.btn_Lock.onClick.AddListener(this.OnClick_Lock);
             this.btn_Unlock.onClick.AddListener(this.OnClick_Unlock);
 
-            this.btn_Select.onClick.AddListener(this.OnClick_Select);
-            this.btn_Deselect.onClick.AddListener(this.OnClick_Deselect);
+            this.Btn_Close.onClick.AddListener(this.OnClick_Close);
         }
 
         // Update is called once per frame
@@ -127,7 +103,6 @@ namespace Game
         {
             this.gameObject.SetActive(true);
             tran_BaseAttribute.gameObject.SetActive(false);
-            tran_NormalAttribute.gameObject.SetActive(false);
             tran_RandomAttribute.gameObject.SetActive(false);
             tran_QualityAttribute.gameObject.SetActive(false);
             tran_SkillAttribute.gameObject.SetActive(false);
@@ -137,15 +112,10 @@ namespace Game
 
             this.btn_Equip.gameObject.SetActive(false);
             this.btn_UnEquip.gameObject.SetActive(false);
-            this.btn_Learn.gameObject.SetActive(false);
-            this.btn_Upgrade.gameObject.SetActive(false);
-            this.btn_UseAll.gameObject.SetActive(false);
             this.btn_Recovery.gameObject.SetActive(false);
-            this.btn_Forging.gameObject.SetActive(false);
+            this.btn_Restore.gameObject.SetActive(false);
             this.btn_Lock.gameObject.SetActive(false);
             this.btn_Unlock.gameObject.SetActive(false);
-            this.btn_Select.gameObject.SetActive(false);
-            this.btn_Deselect.gameObject.SetActive(false);
 
             // this.transform.position = this.GetBetterPosition(e.Position);
             // this.img_Background.sprite = this.list_BackgroundImgs[this.item.GetQuality() - 1];
@@ -154,306 +124,285 @@ namespace Game
             this.BoxType = e.Type;
 
             var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item);
-            this.tmp_Title.text = string.Format("<color=#{0}>{1}</color>", titleColor, this.boxItem.Item.Name);
+
+            Equip equip = this.boxItem.Item as Equip;
+
+            string name = equip.Name;
+
+            if (equip.Part <= 10 || equip.Part >= 21)
+            {
+                name += "(" + ConfigHelper.LayerChinaList[equip.Layer] + "阶)";
+            }
+
+            this.tmp_Title.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
             string color = "green";
 
             User user = GameProcessor.Inst.User;
-            switch ((ItemType)this.boxItem.Item.Type)
+
+            long basePercent = 0;
+            long qualityPercent = 0;
+
+            long refineLevel = user.GetRefineLevel(equipPositioin);
+            if (refineLevel > 0)
             {
-                case ItemType.Equip://装备
-                    {
-                        Equip equip = this.boxItem.Item as Equip;
-
-                        long basePercent = 0;
-                        long qualityPercent = 0;
-                        if (user.MagicEquipRefine.TryGetValue(equipPositioin, out MagicData refineData))
-                        {
-                            long refineLevel = refineData.Data;
-                            if (refineLevel > 0)
-                            {
-                                EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
-                                basePercent = refineConfig.GetBaseAttrPercent(refineLevel);
-                                qualityPercent = refineConfig.GetQualityAttrPercent(refineLevel);
-                            }
-                        }
-
-                        IDictionary<int, long> BaseAttrList = equip.GetBaseAttrList();
-
-                        if (BaseAttrList != null && BaseAttrList.Count > 0)
-                        {
-                            tran_BaseAttribute.gameObject.SetActive(true);
-                            tran_BaseAttribute.Find("Title").GetComponent<Text>().text = "[基础属性]";
-                            tran_BaseAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
-
-                            var btList = BaseAttrList.ToList();
-
-                            for (int index = 0; index < 6; index++)
-                            {
-                                var child = tran_BaseAttribute.Find(string.Format("Attribute_{0}", index));
-
-                                if (index < btList.Count())
-                                {
-                                    child.GetComponent<Text>().text = FormatAttrText(btList[index].Key, btList[index].Value, basePercent);
-                                    child.gameObject.SetActive(true);
-                                }
-                                else
-                                {
-                                    child.gameObject.SetActive(false);
-                                }
-                            }
-                        }
-
-                        if (equip.AttrEntryList != null && equip.AttrEntryList.Count > 0)
-                        {
-                            tran_RandomAttribute.gameObject.SetActive(true);
-                            tran_RandomAttribute.Find("Title").GetComponent<Text>().text = "[随机属性]";
-
-                            var AttrEntryList = equip.AttrEntryList.ToList();
-
-                            for (int index = 0; index < 6; index++)
-                            {
-                                var child = tran_RandomAttribute.Find(string.Format("Attribute_{0}", index));
-
-                                if (index < AttrEntryList.Count)
-                                {
-                                    child.GetComponent<Text>().text = FormatAttrText(AttrEntryList[index].Key, AttrEntryList[index].Value, qualityPercent);
-                                    child.gameObject.SetActive(true);
-                                }
-                                else
-                                {
-                                    child.gameObject.SetActive(false);
-                                }
-                            }
-                        }
-
-                        if (equip.QualityAttrList != null && equip.QualityAttrList.Count > 0)
-                        {
-                            tran_QualityAttribute.gameObject.SetActive(true);
-                            tran_QualityAttribute.Find("Title").GetComponent<Text>().text = "[品质属性]";
-
-                            var QualityAttrList = equip.QualityAttrList.ToList();
-
-                            for (int index = 0; index < 4; index++)
-                            {
-                                var child = tran_QualityAttribute.Find(string.Format("Attribute_{0}", index));
-
-                                if (index < QualityAttrList.Count)
-                                {
-                                    child.GetComponent<Text>().text = FormatAttrText(QualityAttrList[index].Key, QualityAttrList[index].Value, qualityPercent);
-                                    child.gameObject.SetActive(true);
-                                }
-                                else
-                                {
-                                    child.gameObject.SetActive(false);
-                                }
-                            }
-                        }
-
-                        if (equip.SkillRuneConfig != null)
-                        {
-                            List<int> runeIdList = new List<int>();
-                            if (equip.RuneConfigId > 0)
-                            {
-                                runeIdList.Add(equip.RuneConfigId);
-                            }
-
-                            ShowRune(runeIdList);
-                        }
-
-                        if (equip.SkillSuitConfig != null)
-                        {
-                            int suitCount = user.GetSuitCount(equip.SkillSuitConfig.Id);
-
-                            List<int> suitIdList = new List<int>();
-                            suitIdList.Add(equip.SkillSuitConfig.Id);
-
-                            List<int> suitCountList = new List<int>();
-                            suitCountList.Add(suitCount);
-
-                            this.ShowSuit(suitIdList, suitCountList, user.SuitMax);
-                        }
-
-
-                        if (equip.Part <= 10)
-                        {
-                            EquipSuit equipSuit = user.GetEquipSuit(equip.EquipConfig);
-
-                            if (equipSuit.Config != null)
-                            {
-                                tran_GroupAttribute.gameObject.SetActive(true);
-
-                                int groupCount = 0;
-                                int nameIndex = 0;
-                                for (int i = 0; i < 3; i++)
-                                {
-                                    var nameChild = tran_GroupAttribute.Find(string.Format("Name_{0}", nameIndex++));
-
-                                    if (i >= equipSuit.ItemList.Count)
-                                    {
-                                        nameChild.gameObject.SetActive(false);
-                                    }
-                                    else
-                                    {
-                                        EquipSuitItem eg = equipSuit.ItemList[i];
-
-                                        string groupColor = QualityConfigHelper.GetEquipGroupColor(eg.Active);
-                                        if (eg.Active)
-                                        {
-
-                                            nameChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, eg.Name);
-                                            groupCount++;
-                                        }
-                                        else
-                                        {
-                                            nameChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, eg.Name);
-                                        }
-
-                                        nameChild.gameObject.SetActive(true);
-                                    }
-                                }
-
-                                tran_GroupAttribute.Find("Title").GetComponent<Text>().text = string.Format("[套装属性] ({0}/2)", groupCount);
-
-                                //
-                                EquipGroupConfig config = equipSuit.Config;
-
-                                for (int index = 0; index < 3; index++)
-                                {
-                                    var attrChild = tran_GroupAttribute.Find(string.Format("Attribute_{0}", index));
-
-                                    if (index < config.AttrIdList.Length)
-                                    {
-                                        string groupColor = QualityConfigHelper.GetEquipGroupColor(groupCount >= 2);
-
-                                        string attrText = FormatAttrText(config.AttrIdList[index], config.AttrValueList[index], 0);
-                                        attrChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, attrText);
-
-                                        attrChild.gameObject.SetActive(true);
-                                    }
-                                    else
-                                    {
-                                        attrChild.gameObject.SetActive(false);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (equip.GetQuality() >= 6)
-                        {
-                            tran_RedAttribute.gameObject.SetActive(true);
-
-                            EquipRedSuit red = user.GetEquipRedConfig(equip.EquipConfig.Role);
-
-                            this.ShowRed(red);
-                        }
-
-
-                        this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
-                        this.btn_UnEquip.gameObject.SetActive(this.boxItem.BoxId == -1);
-                        this.btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1);
-                        this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
-                        this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
-                    }
-                    break;
-
-                case ItemType.SkillBox://技能书
-                    {
-                        var skillBox = this.boxItem.Item as SkillBook;
-                        tran_NormalAttribute.gameObject.SetActive(true);
-                        tran_NormalAttribute.Find("Title").GetComponent<Text>().text = skillBox.ItemConfig.Des;
-                        tran_NormalAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
-                        var isLearn = user.SkillList.Find(b => b.SkillId == this.boxItem.Item.ConfigId) == null;
-
-                        this.btn_Learn.gameObject.SetActive(isLearn);
-                        this.btn_Upgrade.gameObject.SetActive(!isLearn);
-                        this.btn_UseAll.gameObject.SetActive(!isLearn);
-                        //this.btn_Learn.interactable = this.item.Level <= UserData.Load().Level;
-                    }
-                    break;
-                case ItemType.GiftPack:
-                    {
-                        GiftPack giftPack = this.boxItem.Item as GiftPack;
-
-                        tran_NormalAttribute.gameObject.SetActive(true);
-                        tran_NormalAttribute.Find("Title").GetComponent<Text>().text = giftPack.Des;
-                        this.btn_Upgrade.gameObject.SetActive(true);
-                        this.btn_UseAll.gameObject.SetActive(true);
-                    }
-                    break;
-                case ItemType.ExpPack:
-                case ItemType.GoldPack:
-                case ItemType.Ticket:
-                    {
-                        tran_NormalAttribute.gameObject.SetActive(true);
-                        tran_NormalAttribute.Find("Title").GetComponent<Text>().text = this.boxItem.Item.ItemConfig.Des;
-                        //tran_NormalAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.item.Level);
-
-                        this.btn_Learn.gameObject.SetActive(false);
-
-                        this.btn_Upgrade.gameObject.SetActive(true);
-                        this.btn_UseAll.gameObject.SetActive(true);
-                    }
-                    break;
-                case ItemType.Material:
-                    {
-                        tran_NormalAttribute.gameObject.SetActive(true);
-                        tran_NormalAttribute.Find("Title").GetComponent<Text>().text = this.boxItem.Item.ItemConfig.Des;
-                        tran_NormalAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
-                    }
-                    break;
-                case ItemType.Card:
-                    {
-                        tran_NormalAttribute.gameObject.SetActive(true);
-                        tran_NormalAttribute.Find("Title").GetComponent<Text>().text = this.boxItem.Item.ItemConfig.Des;
-                        tran_NormalAttribute.Find("NeedLevel").GetComponent<Text>().text = "";
-
-                        btn_Recovery.gameObject.SetActive(true);
-                        //tran_NormalAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
-                    }
-                    break;
-                default:
-                    {
-                        tran_NormalAttribute.gameObject.SetActive(true);
-                        tran_NormalAttribute.Find("Title").GetComponent<Text>().text = this.boxItem.Item.ItemConfig.Des;
-                    }
-                    break;
+                EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
+                basePercent = refineConfig.GetBaseAttrPercent(refineLevel);
+                qualityPercent = refineConfig.GetQualityAttrPercent(refineLevel);
             }
+            else if (equip.Part >= 21 && equip.Quality >= 7)
+            {
+                basePercent = 0;
+                qualityPercent = 100 * (equip.Layer - 1);
+            }
+
+            IDictionary<int, double> BaseAttrList = equip.GetBaseAttrList();
+
+            if (BaseAttrList != null && BaseAttrList.Count > 0)
+            {
+                tran_BaseAttribute.gameObject.SetActive(true);
+                tran_BaseAttribute.Find("Title").GetComponent<Text>().text = "[基础属性]";
+                tran_BaseAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
+
+                Transform gridBase = tran_BaseAttribute.Find("Grid_Base");
+
+                List<KeyValuePair<int, double>> btList = BaseAttrList.ToList();
+
+                for (int index = 0; index < 8; index++)
+                {
+                    var child = gridBase.Find(string.Format("Attribute_{0}", index));
+
+                    if (index < btList.Count())
+                    {
+                        child.GetComponent<Text>().text = FormatAttrText(btList[index].Key, btList[index].Value, basePercent);
+                        child.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            if (equip.AttrEntryList != null && equip.AttrEntryList.Count > 0)
+            {
+                tran_RandomAttribute.gameObject.SetActive(true);
+                tran_RandomAttribute.Find("Title").GetComponent<Text>().text = "[随机属性]";
+                Transform gridRandom = tran_RandomAttribute.Find("Grid_Random");
+
+                var AttrEntryList = equip.AttrEntryList.ToList();
+
+                for (int index = 0; index < 9; index++)
+                {
+                    var child = gridRandom.Find(string.Format("Attribute_{0}", index));
+
+                    if (index < AttrEntryList.Count)
+                    {
+                        int attrId = AttrEntryList[index].Key;
+                        long attrBaseValue = AttrEntryList[index].Value;
+                        long attrHoneVal = equip.GetHoneValue(index);
+                        long attrRiseValue = (attrBaseValue + attrHoneVal) * qualityPercent / 100;
+
+                        child.GetComponent<Text>().text = FormatEquipAttrText(attrId, attrBaseValue, attrHoneVal, attrRiseValue);
+                        child.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            if (equip.QualityAttrList != null && equip.QualityAttrList.Count > 0)
+            {
+                tran_QualityAttribute.gameObject.SetActive(true);
+                tran_QualityAttribute.Find("Title").GetComponent<Text>().text = "[品质属性]";
+                Transform gridQuality = tran_QualityAttribute.Find("Grid_Quality");
+
+                var QualityAttrList = equip.QualityAttrList.ToList();
+
+                for (int index = 0; index < 4; index++)
+                {
+                    var child = gridQuality.Find(string.Format("Attribute_{0}", index));
+
+                    if (index < QualityAttrList.Count)
+                    {
+                        child.GetComponent<Text>().text = FormatAttrText(QualityAttrList[index].Key, QualityAttrList[index].Value, qualityPercent);
+                        child.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            if (equip.SkillRuneConfig != null)
+            {
+                List<int> runeIdList = new List<int>();
+                if (equip.RuneConfigId > 0)
+                {
+                    runeIdList.Add(equip.RuneConfigId);
+                }
+
+                ShowRune(runeIdList);
+            }
+
+            if (equip.SkillSuitConfig != null)
+            {
+                int suitCount = user.GetSuitCount(equip.SkillSuitConfig.Id);
+
+                List<int> suitIdList = new List<int>();
+                suitIdList.Add(equip.SkillSuitConfig.Id);
+
+                List<int> suitCountList = new List<int>();
+                suitCountList.Add(suitCount);
+
+                this.ShowSuit(suitIdList, suitCountList, user.SuitMax);
+            }
+
+
+            if (equip.Part <= 10)
+            {
+                EquipSuit equipSuit = user.GetEquipSuit(equip.EquipConfig);
+
+                if (equipSuit.Config != null)
+                {
+                    tran_GroupAttribute.gameObject.SetActive(true);
+                    Transform gridGroup = tran_GroupAttribute.Find("Grid_Group");
+
+                    int groupCount = 0;
+                    int nameIndex = 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        var nameChild = gridGroup.Find(string.Format("Name_{0}", nameIndex++));
+
+                        if (i >= equipSuit.ItemList.Count)
+                        {
+                            nameChild.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            EquipSuitItem eg = equipSuit.ItemList[i];
+
+                            string groupColor = QualityConfigHelper.GetEquipGroupColor(eg.Active);
+                            if (eg.Active)
+                            {
+
+                                nameChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, eg.Name);
+                                groupCount++;
+                            }
+                            else
+                            {
+                                nameChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, eg.Name);
+                            }
+
+                            nameChild.gameObject.SetActive(true);
+                        }
+                    }
+
+                    tran_GroupAttribute.Find("Title").GetComponent<Text>().text = string.Format("[套装属性] ({0}/2)", groupCount);
+
+                    //
+                    EquipGroupConfig config = equipSuit.Config;
+
+                    for (int index = 0; index < 3; index++)
+                    {
+                        var attrChild = gridGroup.Find(string.Format("Attribute_{0}", index));
+
+                        if (index < config.AttrIdList.Length)
+                        {
+                            string groupColor = QualityConfigHelper.GetEquipGroupColor(groupCount >= 2);
+
+                            string attrText = FormatAttrText(config.AttrIdList[index], config.AttrValueList[index], 0);
+                            attrChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, attrText);
+
+                            attrChild.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            attrChild.gameObject.SetActive(false);
+                        }
+                    }
+                }
+            }
+
+            if (equip.Part <= 10 || equip.Part >= 21)
+            {
+                if (equip.GetQuality() >= 6 && equip.GetQuality() == 4 + equip.EquipConfig.Cycle)
+                {
+                    tran_RedAttribute.gameObject.SetActive(true);
+
+                    EquipRedSuit red = user.GetEquipRedConfig(equip.EquipConfig.Role, equip.GetQuality());
+
+                    this.ShowRed(red, equip.GetQuality());
+                }
+            }
+
+            this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
+            this.btn_UnEquip.gameObject.SetActive(this.boxItem.BoxId == -1);
+
+            if (equip.GetQuality() >= 6 && equip.Layer > 1)
+            {
+                this.btn_Restore.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
+                this.btn_Recovery.gameObject.SetActive(false);
+            }
+            else
+            {
+                this.btn_Restore.gameObject.SetActive(false);
+                this.btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
+            }
+
+            this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
+            this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
+
 
             if (equipPositioin < -1 || this.BoxType != ComBoxType.Bag) //不可操作
             {
                 this.btn_Equip.gameObject.SetActive(false);
                 this.btn_UnEquip.gameObject.SetActive(false);
-                this.btn_Learn.gameObject.SetActive(false);
-                this.btn_Upgrade.gameObject.SetActive(false);
-                this.btn_UseAll.gameObject.SetActive(false);
                 this.btn_Recovery.gameObject.SetActive(false);
-                this.btn_Forging.gameObject.SetActive(false);
+                this.btn_Restore.gameObject.SetActive(false);
                 this.btn_Lock.gameObject.SetActive(false);
                 this.btn_Unlock.gameObject.SetActive(false);
             }
-
-            if (this.BoxType == ComBoxType.Exclusive_Devour)
-            {
-                if (this.equipPositioin <= 0)
-                {
-                    this.btn_Select.gameObject.SetActive(true);
-                }
-                else
-                {
-                    this.btn_Deselect.gameObject.SetActive(true);
-                }
-            }
         }
 
-        private void ShowRed(EquipRedSuit redSuit)
+        private void ShowRed(EquipRedSuit redSuit, int quality)
         {
+            Text redTitle = tran_RedAttribute.Find("Title").GetComponent<Text>();
+
+            string color = QualityConfigHelper.GetQualityColor(quality);
+            if (quality == 6)
+            {
+                redTitle.text = string.Format("<color=#{0}>[红装属性]</color>", color);
+            }
+            else if (quality == 7)
+            {
+                redTitle.text = string.Format("<color=#{0}>[金装属性]</color>", color);
+            }
+            else if (quality == 8)
+            {
+                redTitle.text = string.Format("<color=#{0}>[暗金属性]</color>", color);
+            }
+            else if (quality == 9)
+            {
+                redTitle.text = string.Format("<color=#{0}>[混沌属性]</color>", color);
+            }
+
             Item_Equip_Red[] reds = tran_RedAttribute.GetComponentsInChildren<Item_Equip_Red>(true);
 
             for (int i = 0; i < reds.Length; i++)
             {
-                reds[i].gameObject.SetActive(true);
-                reds[i].SetContent(redSuit.List[i]);
+                if (i < redSuit.List.Count)
+                {
+                    reds[i].gameObject.SetActive(true);
+                    reds[i].SetContent(redSuit.List[i], quality);
+                }
+                else
+                {
+                    reds[i].gameObject.SetActive(false);
+                }
             }
         }
 
@@ -495,25 +444,53 @@ namespace Game
             tran_SuitAttribute.gameObject.SetActive(true);
         }
 
-        private string FormatAttrText(int attr, long val, long percent)
+        private string FormatAttrText(int attr, double val, long percent)
         {
             string unit = "";
 
-            List<int> percents = ConfigHelper.PercentAttrIdList.ToList().ToList(); ;
+            List<int> percents = ConfigHelper.BaseAttrIdList.ToList().ToList(); ;
 
-            if (percents.Contains(attr))
+            if (!percents.Contains(attr))
             {
                 unit = "%";
             }
 
             string refineText = "";
-            long refineAttr = val * percent / 100;
+            double refineAttr = val * percent / 100;
             if (refineAttr > 0)
             {
                 refineText = "+" + StringHelper.FormatNumber(refineAttr);
             }
 
             string text = StringHelper.FormatNumber(val) + refineText + unit + PlayerHelper.PlayerAttributeMap[((AttributeEnum)attr).ToString()];
+
+            return text;
+        }
+
+        private string FormatEquipAttrText(int attrId, long baseValue, long riseValue, long percentValue)
+        {
+            string unit = "";
+
+            List<int> percents = ConfigHelper.BaseAttrIdList.ToList().ToList(); ;
+
+            if (!percents.Contains(attrId))
+            {
+                unit = "%";
+            }
+
+            string text = baseValue + "";
+            if (riseValue > 0)
+            {
+                text = "(" + baseValue + "+" + riseValue + ")";
+            }
+
+            if (percentValue > 0)
+            {
+                text += "+" + percentValue;
+            }
+
+
+            text = text + unit + PlayerHelper.PlayerAttributeMap[((AttributeEnum)attrId).ToString()];
 
             return text;
         }
@@ -541,14 +518,26 @@ namespace Game
             });
         }
 
-        private void OnLearnSkill()
+        private void OnClick_Restore()
         {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new SkillBookLearnEvent()
+            if (this.boxItem.Item.IsLock)
             {
-                BoxItem = this.boxItem,
-            });
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "锁定的不能重生", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重生消耗5000兆金币，其他材料全额返回。是否确认？", true,
+                () =>
+                {
+                    this.gameObject.SetActive(false);
+                    GameProcessor.Inst.EventCenter.Raise(new RestoreEvent()
+                    {
+                        BoxItem = this.boxItem,
+                    });
+                }, () =>
+                {
+
+                });
         }
 
         private void OnRecovery()
@@ -562,16 +551,6 @@ namespace Game
             this.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new RecoveryEvent()
-            {
-                BoxItem = this.boxItem,
-            });
-        }
-
-        private void OnForging()
-        {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new ForgingEvent()
             {
                 BoxItem = this.boxItem,
             });
@@ -601,50 +580,6 @@ namespace Game
             {
                 BoxItem = this.boxItem,
                 IsLock = false
-            });
-        }
-        private void OnUpgradeSkill()
-        {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
-            {
-                Quantity = 1,
-                BoxItem = this.boxItem
-            });
-        }
-        private void OnUseAll()
-        {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
-            {
-                Quantity = -1,
-                BoxItem = this.boxItem
-            });
-        }
-
-
-        private void OnClick_Select()
-        {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new ComBoxSelectEvent()
-            {
-                Type = this.BoxType,
-                BoxItem = this.boxItem
-            });
-        }
-
-        private void OnClick_Deselect()
-        {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new ComBoxDeselectEvent()
-            {
-                Type = this.BoxType,
-                BoxItem = this.boxItem,
-                Position = this.equipPositioin
             });
         }
     }

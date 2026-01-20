@@ -81,18 +81,21 @@ namespace Game
 		/// <summary>Role</summary>
 		[ProtoMember(2)]
 		public int Role { get; set; }
-		/// <summary>Count</summary>
+		/// <summary>Quality</summary>
 		[ProtoMember(3)]
+		public int Quality { get; set; }
+		/// <summary>Count</summary>
+		[ProtoMember(4)]
 		public int Count { get; set; }
 		/// <summary>AttrId</summary>
-		[ProtoMember(4)]
+		[ProtoMember(5)]
 		public int AttrId { get; set; }
 		/// <summary>AttrValue</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int AttrValue { get; set; }
 		/// <summary>AttrRise</summary>
-		[ProtoMember(6)]
-		public int AttrRise { get; set; }
+		[ProtoMember(7)]
+		public double AttrRise { get; set; }
 
 	}
 }

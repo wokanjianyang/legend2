@@ -14,8 +14,6 @@ namespace Game.Data
 
         private long data;
 
-        private string text;
-
         public long Data
         {
             get
@@ -37,37 +35,9 @@ namespace Game.Data
                 }
                 else
                 {
-                    //if (!Check())
-                    //{
-                    //    return;
-                    //}
-
                     data = value * MagicRate + MagicOff;
-
-                    this.text = EncryptionHelper.Md5(data + "1o9&z");
                 }
             }
-        }
-
-
-
-        public bool Check()
-        {
-            if (text == null || text == "")
-            {
-                return true;
-            }
-
-            string md5 = EncryptionHelper.Md5(data + "1o9&z");
-
-            if (this.text != md5)
-            {
-                //数据校检失败
-                GameProcessor.Inst.EventCenter.Raise(new CheckGameCheatEvent());
-                return false;
-            }
-
-            return true;
         }
     }
 }

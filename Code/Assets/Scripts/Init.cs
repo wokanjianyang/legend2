@@ -8,6 +8,8 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using DG.Tweening;
 using System.Threading.Tasks;
+using SA.Android.App;
+using CodeStage.AntiCheat.Detectors;
 using System.Text;
 
 public class Init : MonoBehaviour
@@ -17,11 +19,7 @@ public class Init : MonoBehaviour
         Top = 0,
         Center,
         Bottom,
-
-        Map,
     }
-
-
 
     [LabelText("战斗模式")]
     public RuleType RuleType = RuleType.Normal;
@@ -34,60 +32,78 @@ public class Init : MonoBehaviour
 
     // public Transform MapRoot;
 
-    public Loading loading;
-
     public Transform Bottom;
     public Transform Center;
     public Transform Top;
+
 
     private Dictionary<UILayer, List<string>> allWindows = new Dictionary<UILayer, List<string>>()
     {
         {
             UILayer.Bottom, new List<string>()
             {
-                "View_Map",
-                "View_Bag",
-                "View_Skill",
-                "View_EndlessTower",
-                "View_Forge",
-                "View_More",
+                "Window/View_Map",
+                "Window/View_Bag",
+                "Window/View_Skill",
+                "Window/View_EndlessTower",
+                "Window/View_Forge",
+                "Window/View_More"
             }
         },
         {
             UILayer.Center, new List<string>()
             {
-                "View_TopStatu",
-                "View_BottomNavBar",
-                "Dialog_Detail_Select",
-                "Dialog_Detail",
-                "Dialog_EquipDetail",
-                "Dialog_Exclusive_Detail",
-                "Dialog_Defend",
-                "Dialog_OfflineExp",
-                "Dialog_Settings",
+                "Window/View_TopStatu",
+                "Window/View_BottomNavBar",
 
-                "Dialog_SoulRing",
-                "Dialog_Achievement",
-                "Dialog_Fashion",
-                "Dialog_Attr",
+                "Window/Map/Map_EquipCopy",
+                "Window/Map/Map_Phantom",
+                "Window/Map/Map_BossFamily",
+                "Window/Map/Map_AnDian",
+                "Window/Map/Map_Defend",
+                "Window/Map/Map_HeroPhantom",
+                "Window/Map/Map_Infinite",
+                "Window/Map/Map_Legacy",
+                "Window/Map/Map_Pill",
+                "Window/Map/Map_Babel",
+                "Window/Map/Map_Myth",
+                "Window/Map/Map_World",
+                "Window/Map/Map_Festive",
+                "Window/Map/Map_Shengxiao",
+                "Window/Spirit/Map_Spirit",
+
+                "Window/Dialog_Detail_Select",
+                "Window/Dialog_Detail",
+                "Window/Dialog_EquipDetail",
+                "Window/Dialog_Exclusive_Detail",
+                "Window/Defend/Dialog_Defend",
+                "Window/Dialog_OfflineExp",
+                "Window/Setting/Dialog_Settings",
+
+                "Window/Relic/Dialog_Relic",
+                "Window/SoulRing/Dialog_SoulRing",
+                "Window/Talent/Dialog_Talent",
+                "Window/Dialog_Achievement",
+                "Window/Fashion/Dialog_Fashion",
+                "Window/Dialog_Attr",
+                "Window/Legacy/Dialog_Legacy",
+                "Window/Pet/Dialog_Pet",
+                "Window/Dialog_Detail_Pet",
+                "Window/GameItem/Dialog_Shengxiao",
+
+                "Window/More/Dialog_Mine",
+
+                "Window/Skill/Dialog_Divine",
+
             }
         },
         {
-            UILayer.Top, new List<string>()
+            UILayer.Top,  new List<string>()
             {
-                "Dialog_FloatButtons",
-                "Dialog_SecondaryConfirmation",
-            }
-        },
-        {
-            UILayer.Map,new List<String>(){
-              "Map_EquipCopy",
-              "Map_Phantom",
-              "Map_BossFamily",
-              "Map_AnDian",
-              "Map_Defend",
-              "Map_HeroPhantom",
-              "Map_Infinite",
+                "Window/Festive/Dialog_FloatButtons",
+                "Window/Loading",
+                "Window/Dialog_Drop",
+                "Window/Dialog_SecondaryConfirmation",
             }
         }
     };
@@ -95,7 +111,7 @@ public class Init : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
-        Log.ILog = new UnityLogger();
+        Log.ILog = new ANLogger();
     }
 
     // Start is called before the first frame update
@@ -105,7 +121,7 @@ public class Init : MonoBehaviour
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Log.Debug("Demo Start()");
 
-        //InitBuglySDK();
+        InitBuglySDK();
         //Log.Debug("Init bugly sdk done");
         //BuglyAgent.SetScene(0);
 
@@ -116,48 +132,57 @@ public class Init : MonoBehaviour
         AsyncStartAsync();
     }
 
-    private void AsyncStartAsync()
+
+
+    private async Task AsyncStartAsync()
     {
-        loading.SetText("正在加载配置");
+        long currentTimeSecond = 0;
+
+        if (ConfigHelper.Channel == ConfigHelper.Channel_Tap)
+        {
+            currentTimeSecond = TimeHelper.ClientNowSeconds();
+
+            Log.Debug("local time:" + currentTimeSecond);
+        }
+        else
+        {
+            AN_Preloader.LockScreen("正在获取时间...");
+
+            var timeTaks = TimeCheatingDetector.GetOnlineTimeTask("https://www.baidu.com/");
+            await timeTaks;
+            currentTimeSecond = (long)timeTaks.Result.onlineSecondsUtc;
+            Log.Debug("net time:" + currentTimeSecond);
+
+            AN_Preloader.UnlockScreen();
+        }
+
+        AppHelper.StartTime = currentTimeSecond;
+
+        this.LoadConfig();
+
+        StartCoroutine(AsyncLoadWindows(currentTimeSecond));
+    }
+
+    private void LoadConfig()
+    {
         ConfigComponentNew.Load();
+    }
 
-        loading.SetText("正在获取网络时间");
-        StartCoroutine(NetworkHelper.CheckTime(
-          (long time) =>
-          {
-              UserData.StartTime = time / 1000;
-
-              loading.SetText("获取时间成功，正在加载界面");
-
-              StartCoroutine(AsyncLoadWindows(time));
-          },
-          () =>
-          {
-              loading.SetText("获取网络时间失败，请重启");
-          }
-          ));
+    // Update is called once per frame
+    void Update()
+    {
     }
 
     private IEnumerator AsyncLoadWindows(long currentTimeSecond)
     {
+        GameObject loadingPage = null;
         var layers = Enum.GetValues(typeof(UILayer));
-
         foreach (UILayer layer in layers)
         {
-            allWindows.TryGetValue(layer, out List<string> windowTypes);
-            foreach (string winName in windowTypes)
+            allWindows.TryGetValue(layer, out var windowTypes);
+            foreach (var winType in windowTypes)
             {
-                string winPath = "Window";
-
-                switch (layer)
-                {
-                    case UILayer.Map:
-                        winPath = "Map";
-                        break;
-                }
-
-                ResourceRequest request = Resources.LoadAsync<GameObject>($"Prefab/{winPath}/{winName}");
-
+                var request = Resources.LoadAsync<GameObject>($"Prefab/{winType}");
                 yield return request;
                 if (request.asset != null)
                 {
@@ -173,23 +198,24 @@ public class Init : MonoBehaviour
                         case UILayer.Top:
                             win.transform.SetParent(Top, false);
                             break;
-                        case UILayer.Map:
-                            win.transform.SetParent(Bottom, false);
-                            break;
                     }
                     win.transform.localPosition = Vector3.zero;
-
-                    win.gameObject.SetActive(false);
+                    var isLoading = winType == "Window/Loading";
+                    if (isLoading)
+                    {
+                        loadingPage = win;
+                    }
+                    win.gameObject.SetActive(isLoading);
                 }
                 else
                 {
-                    Log.Error($"窗口：Prefab/{winPath}/{winName} 不存在");
+                    Log.Error($"窗口：{winType}不存在");
                 }
             }
         }
 
         yield return null;
-        loading.gameObject.SetActive(false);
+        loadingPage.gameObject.SetActive(false);
         Game.Init(currentTimeSecond);
 
         yield return null;
@@ -247,5 +273,17 @@ public class Init : MonoBehaviour
     //    TapBootstrap.Init(config);
 
 
+    //}
+
+    //private async Task AsyncTapAccount()
+    //{
+    //    var currentUser = await TDSUser.GetCurrent();
+
+    //    if (null != currentUser)
+    //    {
+    //        UserData.tapAccount = currentUser.ObjectId;
+    //    }
+
+    //    AsyncStartAsync();
     //}
 }

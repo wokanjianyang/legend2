@@ -41,5 +41,7 @@ namespace Game
         BossFamily = 6,
         EquipCopy = 7,
         Defend = 8,
+        Infinite = 9,
+        Legacy = 10,
     }
 }

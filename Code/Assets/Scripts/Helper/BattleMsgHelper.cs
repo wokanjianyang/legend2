@@ -6,45 +6,60 @@ namespace Game
 {
     public class BattleMsgHelper
     {
-        public static string BuildMonsterDeadMessage(APlayer monster, long exp, long gold, List<Item> Drops)
+        //public static string BuildMonsterDeadMessage(APlayer monster, long exp, long gold, List<Item> Drops)
+        //{
+        //    string drops = "";
+        //    if (exp > 0)
+        //    {
+        //        drops += ",经验增加:" + StringHelper.FormatNumber(exp);
+        //    }
+
+        //    if (gold > 0)
+        //    {
+        //        drops += ",金币增加:" + StringHelper.FormatNumber(gold);
+        //    }
+
+        //    if (Drops != null && Drops.Count > 0)
+        //    {
+        //        drops += ",掉落";
+        //        foreach (var drop in Drops)
+        //        {
+        //            drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>";
+        //        }
+        //    }
+
+        //    string message = $"<color=#{QualityConfigHelper.GetQualityColor(monster.Quality)}>[{monster.Name}]</color><color=white>死亡{drops}</color>";
+
+        //    return message;
+        //}
+        public static string BuildMonsterDeadMessage(APlayer monster, double exp, double gold, List<Item> Drops, int burstMul)
+        {
+            return BuildMonsterDeadMessage(monster, exp, gold, Drops, burstMul, 0, 0);
+        }
+
+        public static string BuildMonsterDeadMessage(APlayer monster, double exp, double gold, List<Item> Drops, int burstMul, int soulRise, int newRate)
         {
             string drops = "";
+
+            if (burstMul > 0)
+            {
+                drops += "<color=#EE4444>连爆+" + burstMul + "</color>";
+            }
+
+            burstMul += 1;
+
             if (exp > 0)
             {
-                drops += ",经验增加:" + StringHelper.FormatNumber(exp);
-            }
-
-            if (gold > 0)
-            {
-                drops += ",金币增加:" + StringHelper.FormatNumber(gold);
-            }
-
-            if (Drops != null && Drops.Count > 0)
-            {
-                drops += ",掉落";
-                foreach (var drop in Drops)
+                drops += ",经验增加:" + StringHelper.FormatNumber(exp * burstMul);
+                if (newRate > 1)
                 {
-                    drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>";
+                    drops += "*" + newRate + "(新手福利)";
                 }
             }
 
-            string message = $"<color=#{QualityConfigHelper.GetQualityColor(monster.Quality)}>[{monster.Name}]</color><color=white>死亡{drops}</color>";
-
-            return message;
-        }
-
-        public static string BuildBossDeadMessage(APlayer monster, long exp, long gold, List<Item> Drops)
-        {
-            string drops = "";
-
-            if (exp > 0)
-            {
-                drops += ",经验增加:" + StringHelper.FormatNumber(exp);
-            }
-
             if (gold > 0)
             {
-                drops += ",金币增加:" + StringHelper.FormatNumber(gold);
+                drops += ",金币增加:" + StringHelper.FormatNumber(gold * burstMul);
             }
 
             if (Drops != null && Drops.Count > 0)
@@ -53,16 +68,21 @@ namespace Game
                 foreach (var drop in Drops)
                 {
                     string qt = "";
-                    if (drop.Count > 1)
+                    if (drop.Count > 1 || burstMul > 1)
                     {
-                        qt = "*" + drop.Count;
+                        qt = "*" + drop.Count * burstMul;
                     }
 
                     drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>" + qt;
                 }
             }
 
-            string message = $"<color=#FFD700>[{monster.Name}]</color><color=white>死亡{drops}</color>";
+            if (soulRise > 0)
+            {
+                drops += ",炼魂:<color=#FF6600>魂环碎片</color>*" + soulRise;
+            }
+
+            string message = $"<color=#{QualityConfigHelper.GetQualityColor(monster.Quality)}>[{monster.Name}]</color><color=white>死亡{drops}</color>";
 
             return message;
         }
@@ -181,15 +201,6 @@ namespace Game
         public static string BuildTimeErrorMessage()
         {
             string message = $"时间不正确,没有收益，请校准自己的时间 ";
-            return message;
-        }
-
-        public static string BuildMinerMessage(Miner miner, MetalConfig config, long level)
-        {
-            string message = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss") + " 矿工" + " 挖到了";
-            message += $"<color=#{QualityConfigHelper.GetQualityColor(config.Quality)}>[{config.Name}]</color>";
-            message += ",矿物等级为:" + level;
-
             return message;
         }
     }

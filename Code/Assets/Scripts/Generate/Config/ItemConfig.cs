@@ -92,7 +92,7 @@ namespace Game
 		public int Price { get; set; }
 		/// <summary>堆叠数量</summary>
 		[ProtoMember(6)]
-		public int MaxNum { get; set; }
+		public long MaxNum { get; set; }
 		/// <summary>道具使用等级</summary>
 		[ProtoMember(7)]
 		public int LevelRequired { get; set; }
@@ -102,6 +102,12 @@ namespace Game
 		/// <summary>使用效果值</summary>
 		[ProtoMember(9)]
 		public int UseParam { get; set; }
+		/// <summary>RecoveryItemId</summary>
+		[ProtoMember(10)]
+		public int RecoveryItemId { get; set; }
+		/// <summary>RecoveryCount</summary>
+		[ProtoMember(11)]
+		public int RecoveryCount { get; set; }
 
 	}
 }

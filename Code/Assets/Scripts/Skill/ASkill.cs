@@ -26,10 +26,17 @@ namespace Game
             this.SelfPlayer = player;
             this.SkillPanel = skill;
         }
-        abstract public void Do();
-        public virtual void Do(double baseHp)
+        abstract public void Do(SkillRunType runType);
+
+        public virtual void Do(DamageResult baseDr)
         {
 
+        }
+
+
+        public int CalDistance(Vector3Int from, Vector3Int to)
+        {
+            return Math.Abs(from.x - to.x) + Math.Abs(from.y - to.y);
         }
 
         public void DoEffect(APlayer enemy, APlayer self, double damage, long rolePercent, EffectData data)

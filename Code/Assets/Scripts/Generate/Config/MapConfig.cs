@@ -89,30 +89,21 @@ namespace Game
 		public int Layer { get; set; }
 		/// <summary>进入等级要求</summary>
 		[ProtoMember(5)]
-		public int LevelRequired { get; set; }
-		/// <summary>周围地图ID</summary>
-		[ProtoMember(6)]
-		public int[] MapAfter { get; set; }
-		/// <summary>怪物最小等级</summary>
-		[ProtoMember(7)]
-		public int MonsterLevelMin { get; set; }
-		/// <summary>怪物最大等级</summary>
-		[ProtoMember(8)]
-		public int MonsterLevelMax { get; set; }
+		public string LevelRequired { get; set; }
 		/// <summary>Memo</summary>
-		[ProtoMember(9)]
+		[ProtoMember(6)]
 		public string Memo { get; set; }
 		/// <summary>DropLevel</summary>
-		[ProtoMember(10)]
+		[ProtoMember(7)]
 		public int DropLevel { get; set; }
 		/// <summary>地图Id掉落</summary>
-		[ProtoMember(11)]
+		[ProtoMember(8)]
 		public int[] DropIdList { get; set; }
 		/// <summary>DropRateList</summary>
-		[ProtoMember(12)]
+		[ProtoMember(9)]
 		public int[] DropRateList { get; set; }
 		/// <summary>BossId</summary>
-		[ProtoMember(13)]
+		[ProtoMember(10)]
 		public int BoosId { get; set; }
 
 	}

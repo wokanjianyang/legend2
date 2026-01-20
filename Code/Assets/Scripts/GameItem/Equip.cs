@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 namespace Game
 {
@@ -24,6 +25,10 @@ namespace Game
         public int RefreshCount { get; set; }
         public long RefreshDate { get; set; }
 
+        public Dictionary<int, int> HoneList { get; set; } = new Dictionary<int, int>();
+
+        public EquipData Data { get; set; } = new EquipData();
+
         public override int GetQuality()
         {
             return Quality;
@@ -43,12 +48,6 @@ namespace Game
 
         [JsonIgnore]
         public int Part { get; set; }
-
-        //[JsonIgnore]
-        ///// <summary>
-        ///// 基础属性
-        ///// </summary>
-        //public IDictionary<int, long> BaseAttrList { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -86,13 +85,18 @@ namespace Game
             Quality = quality;
 
             QualityAttrList = new Dictionary<int, long>();
-            if (Quality > 0 && Part <= 10)
+            if (Quality > 0 && (Part <= 10 || Part >= 21))
             {
                 EquipQualityConfig qualityConfig = EquipQualityConfigCategory.Instance.Get(quality);
 
                 if (qualityConfig.AttrIdList != null)
                 {
                     int qualityRate = Level / 200 + 1;
+                    if (quality >= 7)
+                    {
+                        qualityRate = 1;
+                    }
+
                     for (int i = 0; i < qualityConfig.AttrIdList.Length; i++)
                     {
                         QualityAttrList.Add(qualityConfig.AttrIdList[i], qualityConfig.AttrValueList[i] * qualityRate);
@@ -100,25 +104,25 @@ namespace Game
                 }
             }
 
-            if (RuneConfigId > 0 && Part <= 10)
+            if (RuneConfigId > 0 && (EquipConfig.Cycle > 0))
             {
                 SkillRuneConfig = SkillRuneConfigCategory.Instance.Get(RuneConfigId);
             }
 
-            if (SuitConfigId > 0 && Part <= 10)
+            if (SuitConfigId > 0 && (EquipConfig.Cycle > 0))
             {
                 SkillSuitConfig = SkillSuitConfigCategory.Instance.Get(SuitConfigId);
             }
         }
 
-        public IDictionary<int, long> GetBaseAttrList()
+        public IDictionary<int, double> GetBaseAttrList()
         {
-            IDictionary<int, long> BaseAttrList = new Dictionary<int, long>();
+            IDictionary<int, double> BaseAttrList = new Dictionary<int, double>();
             for (int i = 0; i < EquipConfig.AttributeBase.Length; i++)
             {
                 long AttributeBase = EquipConfig.AttributeBase[i];
 
-                if (this.Part <= 10)
+                if (EquipConfig.Cycle == 1)
                 {
                     if (Quality <= 4)
                     {
@@ -128,16 +132,60 @@ namespace Game
                     {
                         AttributeBase = AttributeBase * 2;
                     }
-                    else if (Quality == 6)
-                    {
-                        AttributeBase = AttributeBase * (Layer);
-                    }
                 }
+                else if (EquipConfig.Cycle == 2 || EquipConfig.Cycle == 3)
+                { //红色，金色
+                    AttributeBase = AttributeBase * GetLayerRate(Layer);
+                }
+                else if (EquipConfig.Cycle == 4)
+                {
+                    //暗金，有倍率，所以最高2的7次方基础属性
+                    AttributeBase = AttributeBase * GetLayerRate(Math.Min(Layer, 7));
+                }
+                else if (EquipConfig.Cycle == 5)
+                {
+                    AttributeBase = AttributeBase * Quality * Layer;
+                }
+
+
+                //if (this.Part <= 10 || (this.Part >= 21))
+                //{
+                //    if (Quality <= 4)
+                //    {
+                //        AttributeBase = AttributeBase * (Quality * 20 + 20) / 100;
+                //    }
+                //    else if (Quality == 5)
+                //    {
+                //        AttributeBase = AttributeBase * 2;
+                //    }
+                //    else if (Quality == 6)
+                //    {
+                //        AttributeBase = AttributeBase * GetLayerRate(Layer);
+                //    }
+                //    else if (Quality == 7)
+                //    {
+                //        AttributeBase = AttributeBase * GetLayerRate(Layer);
+                //    }
+                //    else if (Quality == 8)
+                //    {
+                //        AttributeBase = AttributeBase * GetLayerRate(Layer);
+                //    }
+                //}
 
                 BaseAttrList.Add(EquipConfig.BaseArray[i], AttributeBase);
             }
 
             return BaseAttrList;
+        }
+
+        private int GetLayerRate(int layer)
+        {
+            int b = 1;
+            for (int i = 1; i < layer; i++)
+            {
+                b = b * 2;
+            }
+            return b;
         }
 
         public void CheckReFreshCount()
@@ -157,49 +205,50 @@ namespace Game
             {
                 this.SuitSeed = AppHelper.InitSeed();
             }
+
+            if (this.Data == null || this.Data.RuneIdList.Count == 0)
+            {
+                this.Data = new EquipData();
+                this.Data.Refresh(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role);
+            }
         }
 
-        public void Refesh()
+        public void Refesh(bool save)
         {
-            int tempSeed = AppHelper.RefreshSeed(this.Seed);
-            int tempRuneSeed = AppHelper.RefreshSeed1(this.RuneSeed);
-            int tempSuitSeed = AppHelper.RefreshSeed(this.SuitSeed);
-            //Debug.Log("tempSeed" + tempSeed);
-            List<KeyValuePair<int, long>> keyValues = AttrEntryConfigCategory.Instance.Build(this.Part, this.Level, this.Quality, this.EquipConfig.Role, tempSeed);
+            if (save)
+            {
+                this.AttrEntryList.Clear();
+                this.AttrEntryList.AddRange(Data.GetAttrList());
 
-            SkillRuneConfig runeConfig = SkillRuneHelper.RandomRune(tempSeed, tempRuneSeed, this.EquipConfig.Role, 1, this.Quality, this.Level);
+                this.RuneConfigId = Data.GetRuneId();
+                this.SuitConfigId = Data.GetSuitId();
 
-            SkillSuitConfig suitConfig = SkillSuitHelper.RandomSuit(tempSuitSeed, runeConfig.SkillId);
+                this.SkillRuneConfig = SkillRuneConfigCategory.Instance.Get(RuneConfigId);
+                this.SkillSuitConfig = SkillSuitConfigCategory.Instance.Get(SuitConfigId);
+            }
 
-
-            this.Seed = tempSeed;
-            this.AttrEntryList.Clear();
-            this.AttrEntryList.AddRange(keyValues);
-
-            this.RuneConfigId = runeConfig.Id;
-            this.SuitConfigId = suitConfig.Id;
-
-            this.SkillRuneConfig = runeConfig;
-            this.SkillSuitConfig = suitConfig;
+            Data.Refresh(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role);
         }
 
         public void Init(int seed)
         {
-            this.Seed = seed;
-            this.RuneSeed = AppHelper.InitSeed();
-            this.SuitSeed = AppHelper.InitSeed();
-
             //根据品质,生成随机属性
-            if (EquipConfig.RandomAttr == 0 && Part <= 10)
+            if (EquipConfig.RandomAttr == 0 && (Part <= 10 || Part >= 20))
             {
-                this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.Level, this.Quality, this.EquipConfig.Role, this.Seed));
+                this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role, seed));
+            }
+
+            if (this.Part <= 10 && this.Quality >= 6)
+            {
+                this.Data = new EquipData();
+                this.Data.Refresh(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role);
             }
         }
 
         /// <summary>
         /// 属性列表
         /// </summary>
-        public IDictionary<int, long> GetTotalAttrList(long level)
+        public IDictionary<int, double> GetTotalAttrList(long level)
         {
             long basePercent = 100;
             long qualityPercent = 100;
@@ -210,35 +259,161 @@ namespace Game
                 basePercent += refineConfig.GetBaseAttrPercent(level);
                 qualityPercent += refineConfig.GetQualityAttrPercent(level);
             }
-
-            //根据基础属性和词条属性，计算总属性
-            IDictionary<int, long> BaseAttrList = this.GetBaseAttrList();
-
-            IDictionary<int, long> AttrList = new Dictionary<int, long>();
-            foreach (int attrId in BaseAttrList.Keys)
+            else if (Part >= 21 && Quality >= 7)
             {
-                AttrList[attrId] = BaseAttrList[attrId] * basePercent / 100;
+                basePercent = 100;
+                qualityPercent = 100 * Layer;
             }
 
+            //根据基础属性和词条属性，计算总属性
+            IDictionary<int, double> BaseAttrList = this.GetBaseAttrList();
+
+            IDictionary<int, double> AttrList = new Dictionary<int, double>();
+            foreach (int attrId in BaseAttrList.Keys)
+            {
+                if (!AttrList.ContainsKey(attrId))
+                {
+                    AttrList[attrId] = 0;
+                }
+
+                AttrList[attrId] += BaseAttrList[attrId] * basePercent / 100;
+            }
+
+            //计算随机属性
             for (int i = 0; i < AttrEntryList.Count; i++)
             {
                 int attrId = AttrEntryList[i].Key;
-                long attrValue = AttrEntryList[i].Value * qualityPercent / 100;
+                long attrTotalValue = AttrEntryList[i].Value + GetHoneValue(i);
+                attrTotalValue = attrTotalValue * qualityPercent / 100;
 
-                AttrList.TryGetValue(attrId, out long val);
-                AttrList[attrId] = val + attrValue;
+                if (!AttrList.ContainsKey(attrId))
+                {
+                    AttrList[attrId] = 0;
+                }
+
+                AttrList[attrId] += attrTotalValue;
             }
 
+            //计算品质属性
             foreach (int attrId in QualityAttrList.Keys)
             {
-                AttrList[attrId] = QualityAttrList[attrId];
+                if (!AttrList.ContainsKey(attrId))
+                {
+                    AttrList[attrId] = 0;
+                }
+
+                AttrList[attrId] += QualityAttrList[attrId];
             }
+
             return AttrList;
         }
 
         public void Grade()
         {
             this.Layer++;
+        }
+
+        public void Hone(int index)
+        {
+            if (!HoneList.ContainsKey(index))
+            {
+                HoneList[index] = 0;
+            }
+
+            HoneList[index]++;
+        }
+
+        public int GetHoneLevel(int index)
+        {
+            if (HoneList.ContainsKey(index))
+            {
+                return HoneList[index];
+            }
+            return 0;
+        }
+
+        public int GetHoneValue(int index)
+        {
+            int level = GetHoneLevel(index);
+            int attrId = this.AttrEntryList[index].Key;
+            int attrValue = (int)this.AttrEntryList[index].Value;
+
+            if (level > 0)
+            {
+                EquipHoneConfig config = EquipHoneConfigCategory.Instance.GetByAttrId(attrId);
+                return Math.Min(level * config.AttrValue, config.StartValue + Layer * config.AttrValue - attrValue);
+            }
+
+            return 0;
+        }
+
+        public void GetRestoreItems(Dictionary<int, int> mlist)
+        {
+            int quanlity = this.GetQuality();
+            int layer = Layer;
+
+            for (int l = 1; l < layer; l++)
+            {
+                EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == Part && m.Layer == l && m.Quanlity == quanlity).FirstOrDefault();
+
+                if (!mlist.ContainsKey(config.MetailId))
+                {
+                    mlist[config.MetailId] = 0;
+                }
+
+                mlist[config.MetailId] += config.MetailCount;
+
+
+                if (!mlist.ContainsKey(config.MetailId1))
+                {
+                    mlist[config.MetailId1] = 0;
+                }
+
+                mlist[config.MetailId1] += config.MetailCount1;
+            }
+
+            foreach (var kv in HoneList)
+            {
+                int honeLevel = kv.Value;
+                int redNumber = EquipHoneConfigCategory.Instance.GetTotalNeedNumber(honeLevel);
+
+                if (!mlist.ContainsKey(ItemHelper.SpecialId_Red_Stone))
+                {
+                    mlist[ItemHelper.SpecialId_Red_Stone] = 0;
+                }
+                mlist[ItemHelper.SpecialId_Red_Stone] += redNumber;
+            }
+        }
+
+        public long GetAttrRateCount()
+        {
+            return AttrEntryList.Where(m => (m.Key == 2001 || m.Key == 2004 || m.Key == 2005 || m.Key == 2006 || m.Key == 2010)).Count();
+        }
+
+        public int GetFull()
+        {
+            int full = 0;
+
+            foreach (var sp in this.AttrEntryList)
+            {
+                AttrEntryConfig config = AttrEntryConfigCategory.Instance.GetRedConfig(sp.Key, this.EquipConfig.Cycle);
+                if (config == null)
+                {
+                    return 1;
+                }
+
+                if (sp.Value == config.MaxValue)
+                {
+                    full++;
+                }
+
+            }
+
+            if (full == this.AttrEntryList.Count) {
+                return 1;
+            }
+
+            return 0;
         }
     }
 }

@@ -42,11 +42,15 @@ namespace Game
         MoveSpeed = 29,//移动速度
         DefIgnore = 30,//无视防御
         Miss = 31, //闪避
-        Accuracy = 32, //精准
+        Accuracy = 32, //命中
         PhyDamage = 33, //物伤加成
         MagicDamage = 34,//魔伤加成
         SpiritDamage = 35, //道伤加成
         InheritAdvance = 36, //高级继承
+        Protect = 37,//免疫
+        BurstMul = 38,//连爆
+        Miss2 = 39,//二次闪避
+        Strong = 40,//韧性
 
         WarriorSkillPercent = 41, //战士技能百分比系数
         WarriorSkillDamage = 42, //战士技能固定系数
@@ -55,13 +59,49 @@ namespace Game
         WarlockSkillPercent = 45, //道士技能百分比系数
         WarlockSkillDamage = 46, //道士技能固定系数
 
+        ExpFinal = 50, //经验增幅
+        GoldFinal = 51, //金币增幅
+        BurstFinal = 52, //爆率增幅
+        QualityFinal = 53, //品质增幅
+        CritFinal = 54,//暴击增幅
+        LuckyFinal = 55,//幸运增幅
+        CritDamageFinal = 56, //爆伤增幅
+
+        Parry = 60,//格挡
+
+
+        MythAttr = 91,  //神话攻击加成
+        MythDef = 92,  //神话防御加成
+        MythHp = 93,  //神话生命加成
+        MythAll = 94, //神话全属性
+        SpiritAll = 95,//英灵全属性
+        EquipBaseIncrea = 101, //装备基础属性百分比
+        EquipRandomIncrea = 102, //装备随机属性百分比
+        EquipStrengthIncrea = 103, //装备强化属性百分比
+
+        MonsterFaster = 107,//副刷新速度加快
+        DropFinal = 108, //稀有爆率增幅
+        MetailFinal = 109, //挖矿
+        SoulPercent = 110, //炼魂夺魄
+        Talent = 111, //天赋点
+        DefendRate = 112, //防御系数
+        SpRate = 113,//护盾固防
+        RealHpDamage = 114,//真实血量伤害
+        RealMulDamageResist = 115, //溢出减伤迭代计算
+        RealCritRate = 116,//溢出暴击转为伤害加成
+        LuckyHit = 117, //青龙之力-幸运一击
+        Relic2 = 118, //神器2
+        Relic3 = 119, //神器2
+        Relic4 = 120, //神器2
+        Relic5 = 121, //神器2
+        RelicRise = 122, //所有神器等级+1
+
+
         AurasDamageResist = 201, //光环减伤
         AurasDamageIncrea = 202, //光环增伤
         AurasAttrIncrea = 203,//
 
-        EquipBaseIncrea = 101, //装备基础属性百分比
-        EquipRandomIncrea = 102, //装备随机属性百分比
-
+        SkillUpCount = 301, //技能栏出战数量
         SkillPhyDamage = 302, //物理伤害
         SkillMagicDamage = 303,//魔法伤害
         SkillSpiritDamage = 304, //道术伤害
@@ -69,6 +109,9 @@ namespace Game
         SkillValetCount = 306, //召唤数量+1
         SkillValetSpeed = 307, //攻击速度
         SkillValetHp = 308, //生命加成
+
+        SkillDivine2010 = 12010, //分身神技
+        SkillDivine3010 = 13010, //无极神技
 
         ExtraDamage = 401,//额外伤害
 
@@ -92,6 +135,8 @@ namespace Game
 
         MulDamageIncrea = 2010,  //增伤倍率
         MulDamageResist = 2011, //减伤倍率
+        StrongMul = 2012,//韧性倍率
+        Shatter = 2013,//破韧倍率
     }
 
     /// <summary>
@@ -117,6 +162,24 @@ namespace Game
         EquipRed = 15, //装备套装
         Halidom = 16, //遗物
         Metal = 17,//矿石
+        Legacy = 18,//传世
+        Ring = 19,//特戒
+        Cycle = 20,//转生
+        Pill = 21,//修炼
+        SoulBone = 22, //魂骨
+        Talent = 23, //天赋
+        EquipReform = 24, //改造
+        Pet = 25,//宠物
+        Relic = 26,//神器
+        Stone = 27,//宝石
+        Pill2 = 28,
+        CardSpeical = 29,//暗金图鉴
+        FashionSpeical = 30,//暗金时装
+        Pill3 = 31,
+        PetSpeical = 32,
+        Shengxiao = 33,
+        Festive = 34,
+        Spirit = 35,
 
         Dingzhi = 98,
         /// <summary>
@@ -186,6 +249,59 @@ namespace Game
         [LabelText("专属6")]
         神圣命运 = 20,
 
+        [LabelText("金武器")]
+        金武器 = 21,
+        [LabelText("金衣服")]
+        金衣服 = 22,
+        [LabelText("金项链")]
+        金项链 = 23,
+        [LabelText("金头盔")]
+        金头盔 = 24,
+        [LabelText("金左镯")]
+        金左镯 = 25,
+        [LabelText("金右镯")]
+        金右镯 = 26,
+        [LabelText("金左戒")]
+        金左戒 = 27,
+        [LabelText("金右戒")]
+        金右戒 = 28,
+        [LabelText("金腰带")]
+        金腰带 = 29,
+        [LabelText("金鞋子")]
+        金鞋子 = 30,
+
+        [LabelText("暗金武器")]
+        暗金武器 = 31,
+        [LabelText("暗金衣服")]
+        暗金衣服 = 32,
+        [LabelText("暗金项链")]
+        暗金项链 = 33,
+        [LabelText("暗金头盔")]
+        暗金头盔 = 34,
+        [LabelText("暗金左镯")]
+        暗金左镯 = 35,
+        [LabelText("暗金右镯")]
+        暗金右镯 = 36,
+        [LabelText("暗金左戒")]
+        暗金左戒 = 37,
+        [LabelText("暗金右戒")]
+        暗金右戒 = 38,
+        [LabelText("暗金腰带")]
+        暗金腰带 = 39,
+        [LabelText("暗金鞋子")]
+        暗金鞋子 = 40,
+
+        混沌武器 = 41,
+        混沌衣服 = 42,
+        混沌项链 = 43,
+        混沌头盔 = 44,
+        混沌左镯 = 45,
+        混沌右镯 = 46,
+        混沌左戒 = 47,
+        混沌右戒 = 48,
+        混沌腰带 = 49,
+        混沌鞋子 = 50,
+
         [LabelText("主专属")]
         主专属 = 101,
         [LabelText("副专属")]
@@ -218,16 +334,17 @@ namespace Game
         HeorPhantom = 6,
         Mine = 7,
         Infinite = 8,
+        Legacy = 9,
+        Pill,
+        Babel,
+        Myth,
     }
 
     public enum RoleType
     {
-        Metal = 1, //金系
-        Wood = 2, //木
-        Water = 3, //水
-        Fire = 4, //火
-        Earth = 5, //土
-        Dark = 6, //阴
-        Light = 7, //阳
+        Warrior = 1, //战士
+        Mage = 2, //法师
+        Warlock = 3, //道士
+        All = 99,
     }
 }

@@ -67,6 +67,11 @@ public class Com_AD : MonoBehaviour, IBattleLife
         Btn_Read2.onClick.AddListener(() => { ReadAd(2); });
         Btn_Read3.onClick.AddListener(() => { ReadAd(3); });
         Btn_Read4.onClick.AddListener(() => { ReadAd(4); });
+
+        //txt_Rule.gameObject.SetActive(true);
+
+        //string md5 = AppHelper.GetBaseMd5();
+        //txt_Rule.text = "md5 length:" + md5.Length + "\n md5:" + md5;
     }
 
     // Update is called once per frame
@@ -221,7 +226,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
 
     public IEnumerator EnableButton()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         Btn_Read1.gameObject.SetActive(true);
         Btn_Read2.gameObject.SetActive(true);
@@ -242,20 +247,47 @@ public class Com_AD : MonoBehaviour, IBattleLife
 
         User user = GameProcessor.Inst.User;
 
-        if (user.IsDz())
+        int skipCount = user.AdData.GetSkipCount();
+
+        if (skipCount > 0 && toggle_Skip.isOn)
         {
+            //使用跳过次数
+            user.AdData.Use();
             RewardAd(type, true);
+        }
+        else
+        {
+            RewardAd(type, false);
+        }
+    }
+
+    private void ReadAdOld(int type)
+    {
+        DisableButton();
+        GameProcessor.Inst.StartCoroutine(EnableButton());
+
+        //
+        if (!CheckCount(type))
+        {
             return;
         }
 
-        if (toggle_Skip.isOn)
+        User user = GameProcessor.Inst.User;
+
+        //if (user.IsDz())
+        //{
+        //    RewardAd(type, true);
+        //    return;
+        //}
+
+        if (toggle_Skip.isOn || true)
         {
             int skipCount = user.AdData.GetSkipCount();
 
-            if (skipCount > 0)
+            if (skipCount > 0 || true)
             {
                 //使用跳过次数
-                user.AdData.Use();
+                //user.AdData.Use(); 正式之后要改回来
                 RewardAd(type, true);
                 return;
             }
@@ -331,9 +363,6 @@ public class Com_AD : MonoBehaviour, IBattleLife
     {
         User user = GameProcessor.Inst.User;
 
-        int rate = real ? 2 : 1;
-        int dzRate = user.GetDzRate();
-
         var data = user.ADShowData?.GetADShowStatus((ADTypeEnum)type);
 
         if (data.CurrentShowCount >= 6)
@@ -341,7 +370,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
             return;
         }
 
-        data.CurrentShowCount += rate;
+        data.CurrentShowCount += 2;
 
         if (!user.Record.Check())
         {
@@ -351,29 +380,22 @@ public class Com_AD : MonoBehaviour, IBattleLife
         switch (type)
         {
             case 1:
-                RewardExpAndGold(rate * dzRate);
+                RewardExpAndGold(2, real);
                 break;
             case 2:
-                RewardBossTicket(rate * dzRate);
+                RewardBossTicket(2, real);
                 break;
             case 3:
-                RewardCopyTicket(rate * dzRate);
+                RewardCopyTicket(2, real);
                 break;
             case 4:
-                RewardStone(rate * dzRate);
+                RewardStone(2, real);
                 break;
             default:
                 break;
         }
 
-        if (real)
-        {
-            user.Record.AddRecord(RecordType.AdReal, 1 * dzRate);
-        }
-        else
-        {
-            user.Record.AddRecord(RecordType.AdVirtual, 1 * dzRate);
-        }
+        user.Record.AddRecord(RecordType.AdReal, 1);
 
         this.UpdateAdData();
     }
@@ -388,7 +410,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
     }
 
 
-    private void RewardExpAndGold(int rate)  //看的真广告还是假广告
+    private void RewardExpAndGold(int rate, bool real)  //看的真广告还是假广告
     {
         User user = GameProcessor.Inst.User;
 
@@ -404,20 +426,44 @@ public class Com_AD : MonoBehaviour, IBattleLife
         gold = gold + gold / 100 * atRate;
         exp = exp + exp / 100 * atRate;
 
+        if (real)
+        {
+            gold = (long)(gold * 1.2);
+            exp = (long)(exp * 1.2);
+        }
+
         user.AddExpAndGold(exp, gold);
+
+        int number = (5 + atRate / 100) * rate;
+
+        if (real)
+        {
+            number += 10;
+        }
+
+        List<Item> items = new List<Item>();
+        items.Add(ItemHelper.BuildItem(ItemType.Material_Usable, ItemHelper.SpecialId_Level_Stone, 1, number));
+        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
-            Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", exp, gold, null)
+            Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", exp, gold, items)
         });
     }
 
-    private void RewardBossTicket(int rate)
+    private void RewardBossTicket(int rate, bool real)
     {
         User user = GameProcessor.Inst.User;
 
         int atRate = user.GetArtifactValue(ArtifactType.BossTicketAd);
 
-        Item item = ItemHelper.BuildMaterial(ItemHelper.SpecialId_Boss_Ticket, rate * (4 + atRate));
+        int nubmer = rate * (4 + atRate);
+        if (real)
+        {
+            nubmer += 6;
+        }
+
+        Item item = ItemHelper.BuildMaterial(ItemHelper.SpecialId_Boss_Ticket, nubmer);
 
         List<Item> items = new List<Item>();
         items.Add(item);
@@ -433,22 +479,29 @@ public class Com_AD : MonoBehaviour, IBattleLife
         });
     }
 
-    private void RewardCopyTicket(int rate)
+    private void RewardCopyTicket(int rate, bool real)
     {
         User user = GameProcessor.Inst.User;
 
         int atRate = user.GetArtifactValue(ArtifactType.EquipTicketAd);
-        int atCount = (8 + atRate) * rate;
+        int number = (8 + atRate) * rate;
 
-        user.MagicCopyTikerCount.Data += atCount;
+        if (real)
+        {
+            number += 60;
+        }
+
+        List<Item> items = new List<Item>();
+        items.Add(ItemHelper.BuildItem(ItemType.Ticket, ItemHelper.SpecialId_Copy_Ticket, 1, number));
+        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
-            Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励-副本次数:" + atCount + "次", 0, 0, null)
+            Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", 0, 0, items)
         });
     }
 
-    private void RewardStone(int rate)
+    private void RewardStone(int rate, bool real)
     {
         User user = GameProcessor.Inst.User;
         int atRate = user.GetArtifactValue(ArtifactType.EquipStoneAd);
@@ -458,11 +511,24 @@ public class Com_AD : MonoBehaviour, IBattleLife
 
         stoneRate = stoneRate + stoneRate * atRate / 100;
 
-        int refineStone = 600 * MapNo * stoneRate * rate;
+        long refineStone = 600 * MapNo * stoneRate * rate;
+
+        if (real)
+        {
+            refineStone = (int)(refineStone * 1.2);
+        }
+
         Item item = ItemHelper.BuildRefineStone(refineStone);
 
         List<Item> items = new List<Item>();
         items.Add(item);
+
+        int legacyRate = user.GetArtifactValue(ArtifactType.LegacyTicketAd);
+        if (legacyRate > 0)
+        {
+            Item itemLegacy = ItemHelper.BuildItem(ItemType.Ticket, ItemHelper.SpecialId_Legacy_Ticket, 1, legacyRate * 2);
+            items.Add(itemLegacy);
+        }
 
         user.EventCenter.Raise(new HeroBagUpdateEvent()
         {

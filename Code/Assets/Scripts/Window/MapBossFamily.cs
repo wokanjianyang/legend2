@@ -75,13 +75,10 @@ public class MapBossFamily : MonoBehaviour, IBattleLife
             Quantity = this.MapRate
         });
 
-        long newTicket = user.GetMaterialCount(ItemHelper.SpecialId_Boss_Ticket);
-        if (newTicket >= bossTicket)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new CheckGameCheatEvent());
-        }
-
         user.MagicRecord[AchievementSourceType.BossFamily].Data += this.MapRate;
+        AppHelper.CopyCount += this.MapRate * 10;
+
+        //GameProcessor.Inst.SaveData();
 
         StartCopy();
     }
@@ -93,7 +90,8 @@ public class MapBossFamily : MonoBehaviour, IBattleLife
         {
             txt_Stop.text = "自动中...";
         }
-        else {
+        else
+        {
             txt_Stop.text = "不自动";
         }
 
@@ -181,7 +179,7 @@ public class MapBossFamily : MonoBehaviour, IBattleLife
     {
         GameProcessor.Inst.OnDestroy();
         this.gameObject.SetActive(false);
-        GameProcessor.Inst.EventCenter.Raise(new BossFamilyEndEvent());
+        GameProcessor.Inst.EventCenter.Raise(new BattlerEndEvent() { Type = RuleType.BossFamily });
         GameProcessor.Inst.SetGameOver(PlayerType.Hero);
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {

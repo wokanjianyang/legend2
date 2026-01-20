@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SA.CrossPlatform.UI;
 using UnityEngine;
 using zFramework.Internal;
 using Newtonsoft.Json;
@@ -61,6 +62,8 @@ namespace Game
 
         public ShowAd ShowVideoAd;
 
+        private float currentSaveTime = 0f;
+
         private float currentToastShowTime = 0f;
         private List<ShowGameMsgEvent> toastTaskList = new List<ShowGameMsgEvent>();
         private GameObject barragePrefab;
@@ -68,11 +71,25 @@ namespace Game
         private Coroutine ie_autoExitKey = null;
         private Coroutine ie_autoStartCopy = null;
         private Coroutine ie_autoBossFamily = null;
+        private Coroutine ie_autoPhatom = null;
+        private Coroutine ie_AutoResurrection = null;
+
+        private Coroutine ie_autoStartMap = null;
 
         //副本临时设置
         public bool EquipCopySetting_Rate = false;
         public bool EquipCopySetting_Auto = false;
+        public bool EquipCopySetting_Spe = true;
         public bool EquipBossFamily_Auto = false;
+        public bool Babel_Auto = false;
+        public bool Phantom_Auto = false;
+        public int Phantom_Auto_Id = 0;
+
+        public bool World_Auto = false;
+        public int World_Auto_Id = 0;
+
+        public bool Yundang = false;
+        public bool Net = true;
 
         void Awake()
         {
@@ -117,6 +134,14 @@ namespace Game
                 this.MineRule?.OnUpdate();
             }
 
+            if (this.User == null)
+            {
+                return;
+            }
+
+            //计算泡点经验
+            SecondRewarod();
+
             //每分钟存档一次
             long ct = TimeHelper.ClientNowSeconds();
             if (saveTime == 0)
@@ -128,20 +153,11 @@ namespace Game
                 onlineTime++;
                 saveTime = ct;
 
-                int index = onlineTime % 4;
-
-                if (index == 3)
-                {
-                    UserData.Save();
-                }
-                else
-                {
-                    UserData.SaveBack(index);
-                }
+                this.SaveData();
 
                 //Debug.Log("onlineTime:" + onlineTime);
 
-                if (this.User.Account != "" && onlineTime > 10)
+                if (this.User.Account != "" && onlineTime > 10 && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
                 {
                     long at = this.User.LastUploadTime;
                     if (ct - at > 1800)
@@ -177,49 +193,14 @@ namespace Game
                     {
                         this.User.LastSaveTime = ct;
 
-                        Dictionary<string, string> paramDict = new Dictionary<string, string>();
-                        paramDict.Add("account", this.User.Account);
-                        paramDict.Add("name", this.User.Name);
-                        paramDict.Add("power", this.User.AttributeBonus.GetPower());
-                        paramDict.Add("gold", StringHelper.FormatNumber(this.User.MagicGold.Data));
-                        paramDict.Add("level", this.User.MagicLevel.Data + "");
-
-                        long ringTotal = this.User.SoulRingData.Select(m => m.Value.Data).Sum();
-                        paramDict.Add("ring", ringTotal + "");
-                        paramDict.Add("swing", this.User.WingData.Data + "");
-
-                        long metalTotal = this.User.MetalData.Select(m => m.Value.Data).Sum();
-                        paramDict.Add("metal", metalTotal + "");
-
-                        long strongTotal = this.User.MagicEquipStrength.Select(m => m.Value.Data).Sum();
-                        paramDict.Add("strong", strongTotal + "");
-
-                        long refineTotal = this.User.MagicEquipRefine.Select(m => m.Value.Data).Sum();
-                        paramDict.Add("refine", refineTotal + "");
-
-                        long artifactTotal = this.User.ArtifactData.Select(m => m.Value.Data).Sum();
-                        paramDict.Add("artifact", artifactTotal + "");
-
-                        long ad1 = this.User.GetAchievementProgeress(AchievementSourceType.RealAdvert);
-                        paramDict.Add("advert1", ad1 + "");
-
-                        long ad2 = this.User.GetAchievementProgeress(AchievementSourceType.Advert);
-                        paramDict.Add("advert2", ad2 + "");
-
-                        long boss = this.User.GetAchievementProgeress(AchievementSourceType.BossFamily);
-                        paramDict.Add("boss", boss + "");
-
-                        long copy = this.User.GetAchievementProgeress(AchievementSourceType.EquipCopy);
-                        paramDict.Add("equip", copy + "");
-
-                        string param = JsonConvert.SerializeObject(paramDict);
+                        string param = NetworkHelper.BuildUpdateParam(this.User);
 
                         StartCoroutine(NetworkHelper.UpdateInfo(param,
                                 (WebResultWrapper result) =>
                                 {
                                     if (result.Code == StatusMessage.OK)
                                     {
-                                        Debug.Log("update info success");
+                                        //Debug.Log("update info success");
                                     }
                                 },
                                null));
@@ -230,7 +211,7 @@ namespace Game
             }
         }
 
-        public bool LoadInit(string str_json, string account)
+        public bool LoadInit(string str_json, string account, int serial)
         {
             //Debug.Log(str_json);
 
@@ -244,6 +225,7 @@ namespace Game
             {
                 this.User = user;
                 this.User.Account = account;
+                this.User.Serial = serial;
                 this.User.LoadTicketTime = TimeHelper.ClientNowSeconds();
                 //this.User.DataDate = DateTime.Now.Ticks;
 
@@ -276,19 +258,19 @@ namespace Game
 
 
             //判断是否非法时间
-            if (UserData.StartTime < ConfigHelper.PackTime)
+            if (AppHelper.StartTime < ConfigHelper.PackTime)
             {
                 //load时间小于打包时间,必定是往前修改了时间
                 isTimeError = true;
             }
 
-            if (UserData.StartTime > ConfigHelper.PackEndTime)
+            if (AppHelper.StartTime > ConfigHelper.PackEndTime)
             {
                 //load时间大于结束时间,必须要更新
-                isTimeError = true;
+                isVersionError = true;
             }
 
-            if (this.User.SecondExpTick > UserData.StartTime)
+            if (this.User.SecondExpTick > AppHelper.StartTime)
             {
                 //收益时间已经大于启动时间了，必然是往后改了
                 isTimeError = true;
@@ -307,7 +289,7 @@ namespace Game
 
             long currentTick = TimeHelper.ClientNowSeconds();
 
-            if (Math.Abs(UserData.StartTime - currentTick) > 60 * 2)
+            if (Math.Abs(AppHelper.StartTime - currentTick) > 60 * 2)
             {
                 //终端时间和网络时间差2分钟
                 isTimeError = true;
@@ -315,8 +297,8 @@ namespace Game
 
             if (!isTimeError && !isCheckError && !isVersionError && User.SecondExpTick > 0)
             {
-                //Dialog_OfflineExp offlineExp = Canvas.FindObjectOfType<Dialog_OfflineExp>(true);
-                //offlineExp.ShowOffline();
+                Dialog_OfflineExp offlineExp = Canvas.FindObjectOfType<Dialog_OfflineExp>(true);
+                offlineExp.ShowOffline();
             }
 
             this.Run();
@@ -347,8 +329,7 @@ namespace Game
             }
 
             this.EventCenter.AddListener<ShowGameMsgEvent>(ShowGameMsg);
-            this.EventCenter.AddListener<EndCopyEvent>(this.OnEndCopy);
-            this.EventCenter.AddListener<BossFamilyEndEvent>(this.OnEndBossFamily);
+            this.EventCenter.AddListener<BattlerEndEvent>(this.OnEndCopy);
             this.EventCenter.AddListener<CheckGameCheatEvent>(CheckGameCheat);
             this.EventCenter.AddListener<NewVersionEvent>(NewVersion);
 
@@ -367,13 +348,68 @@ namespace Game
                 StartCoroutine(this.AutoExitApp(ExitType.Version));
                 return;
             }
-            if (isCheckError || User.GameDoCheat)
+            if (this.User.OldFile)
+            {
+                StartCoroutine(this.AutoExitApp(ExitType.OldFile));
+                return;
+            }
+            if (isCheckError || User.GameDoCheat211)
             {
                 StartCoroutine(this.AutoExitApp(ExitType.Change));
                 return;
             }
 
             this.User.AdData.Check();
+        }
+
+        private void SecondRewarod()
+        {
+            if (User == null)
+            {
+                return;
+            }
+
+            if (isTimeError)
+            {
+                return;
+            }
+
+            int interval = 5;
+            if (User.SecondExpTick == 0)
+            {
+                if (!isTimeError)
+                {
+                    User.SecondExpTick = TimeHelper.ClientNowSeconds();
+                }
+            }
+            else
+            {
+                if (TimeHelper.ClientNowSeconds() < (User.SecondExpTick - 60 * 2))
+                {
+                    isTimeError = true;
+                    return;
+                }
+
+                long tempTime = Math.Min(TimeHelper.ClientNowSeconds() - User.SecondExpTick, ConfigHelper.MaxOfflineTime);
+                long calTk = (tempTime) / interval;
+                if (calTk >= 1)
+                {
+                    //5秒计算一次经验,金币
+                    User.SecondExpTick += interval * calTk;
+                    long exp = User.AttributeBonus.GetTotalAttr(AttributeEnum.SecondExp) * calTk;
+                    long gold = User.AttributeBonus.GetTotalAttr(AttributeEnum.SecondGold) * calTk;
+                    if (exp > 0 || gold > 0)
+                    {
+                        User.AddExpAndGold(exp, gold);
+
+                        this.EventCenter.Raise(new BattleMsgEvent()
+                        {
+                            Message = BattleMsgHelper.BuildSecondExpMessage(exp, gold)
+                        });
+                    }
+                }
+            }
+
         }
 
         public void LoadMin()
@@ -383,12 +419,17 @@ namespace Game
 
         public void LoadMap(RuleType ruleType, Transform map, Dictionary<string, object> param)
         {
+            if (ie_AutoResurrection != null)
+            {
+                StopCoroutine(ie_AutoResurrection);
+            }
+
             MapData = map.GetComponentInChildren<MapData>();
             MapData.Clear();
 
-            this.PlayerRoot = map.Find("[PlayerRoot]").transform;
+            this.PlayerRoot = MapData.transform.parent.Find("[PlayerRoot]").transform;
 
-            this.EffectRoot = map.Find("[EffectRoot]").transform;
+            this.EffectRoot = MapData.transform.parent.Find("[EffectRoot]").transform;
 
             bool autoHero = true;
 
@@ -421,6 +462,40 @@ namespace Game
                     break;
                 case RuleType.Infinite:
                     this.BattleRule = new BattleRule_Infinite(param);
+                    break;
+                case RuleType.Legacy:
+                    this.BattleRule = new BattleRule_Legacy(param);
+                    break;
+                case RuleType.Pill:
+                    this.BattleRule = new BattleRule_Pill(param);
+                    break;
+                case RuleType.Pill2:
+                    this.BattleRule = new BattleRule_Pill2(param);
+                    break;
+                case RuleType.Pill3:
+                    this.BattleRule = new BattleRule_Pill3(param);
+                    break;
+                case RuleType.Babel:
+                    this.BattleRule = new BattleRule_Babel(param);
+                    break;
+                case RuleType.Myth:
+                    autoHero = false;
+                    this.BattleRule = new BattleRule_Myth(param);
+                    break;
+                case RuleType.World:
+                    this.BattleRule = new BattleRule_World(param);
+                    break;
+                case RuleType.Festive:
+                    autoHero = false;
+                    this.BattleRule = new BattleRule_Festive(param);
+                    break;
+                case RuleType.Shengxiao:
+                    autoHero = false;
+                    this.BattleRule = new BattleRule_Shengxiao(param);
+                    break;
+                case RuleType.Spirit:
+                    autoHero = false;
+                    this.BattleRule = new BattleRule_Spirit(param);
                     break;
             }
 
@@ -489,28 +564,31 @@ namespace Game
         {
             if (User != null)
             {
-                User.GameDoCheat = true;
+                User.GameDoCheat211 = true;
             }
             StartCoroutine(this.AutoExitApp(ExitType.Change));
         }
         public void NewVersion(NewVersionEvent e)
         {
-            if (User != null)
+            if (e.Type == 1)
             {
-                User.VersionLog[e.Version] = TimeHelper.ClientNowSeconds();
+                if (User != null)
+                {
+                    User.OldFile = true;
+                }
+                StartCoroutine(this.AutoExitApp(ExitType.OldFile));
             }
-            StartCoroutine(this.AutoExitApp(ExitType.Version));
+            else
+            {
+                if (User != null)
+                {
+                    User.VersionLog[e.Version] = TimeHelper.ClientNowSeconds();
+                }
+                StartCoroutine(this.AutoExitApp(ExitType.Version));
+            }
         }
 
-        private void OnEndCopy(EndCopyEvent e)
-        {
-            if (ie_autoExitKey != null)
-            {
-                StopCoroutine(ie_autoExitKey);
-            }
-            ie_autoExitKey = null;
-        }
-        private void OnEndBossFamily(BossFamilyEndEvent e)
+        private void OnEndCopy(BattlerEndEvent e)
         {
             if (ie_autoExitKey != null)
             {
@@ -521,7 +599,7 @@ namespace Game
 
         private void ShowNextToast()
         {
-            if (Time.realtimeSinceStartup - currentToastShowTime > 0.5f)
+            if (Time.realtimeSinceStartup - currentToastShowTime > 0.2f)
             {
                 if (toastTaskList.Count > 0)
                 {
@@ -579,6 +657,86 @@ namespace Game
             }
         }
 
+        public void SaveData()
+        {
+            if (Time.realtimeSinceStartup - currentSaveTime > 10f)
+            {
+                //Debug.Log("SaveData:" + Time.realtimeSinceStartup);
+                //最近5S前存档了,才会继续存档
+                currentSaveTime = Time.realtimeSinceStartup;
+
+                UserData.Save();
+            }
+        }
+
+        public void SaveNetData()
+        {
+            try
+            {
+                User user = GameProcessor.Inst.User;
+                string str_json = JsonConvert.SerializeObject(user, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+                str_json = EncryptionHelper.AesEncrypt(str_json);
+
+                string md5 = EncryptionHelper.Md5(str_json);
+                Debug.Log("save md5:" + md5);
+                byte[] bytes = Encoding.UTF8.GetBytes(str_json);
+
+                Dictionary<string, string> headers = new Dictionary<string, string>();
+                headers.Add("md5", md5);
+
+                //再存储新档
+                StartCoroutine(NetworkHelper.UploadData(bytes, headers,
+                        (
+                            WebResultWrapper result) =>
+                        {
+                            this.Net = true;
+                        },
+                        () =>
+                        {
+                            this.Net = false;
+                        }));
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void SaveRecord(string type, string condition)
+        {
+            try
+            {
+                User user = GameProcessor.Inst.User;
+
+                if (user.Account == "")
+                {
+                    return;
+                }
+
+                //再存储新档
+                StartCoroutine(NetworkHelper.SaveRank(type, condition,
+                        (WebResultWrapper result) =>
+                        {
+                            if (result.Code == StatusMessage.OK)
+                            {
+                                this.EventCenter.Raise(new ShowGameMsgEvent() { Content = "更新纪录成功", ToastType = ToastTypeEnum.Success });
+                            }
+                            else
+                            {
+                                this.EventCenter.Raise(new ShowGameMsgEvent() { Content = result.Msg, ToastType = ToastTypeEnum.Failure });
+                            }
+                        },
+                        () =>
+                        {
+                            this.EventCenter.Raise(new ShowGameMsgEvent() { Content = "更新纪录失败" });
+                        }));
+            }
+            catch (Exception ex)
+            {
+                this.EventCenter.Raise(new ShowGameMsgEvent() { Content = "更新纪录失败" });
+            }
+        }
+
         void OnApplicationPause(bool isPaused)
         {
             //if(isPaused)
@@ -601,21 +759,39 @@ namespace Game
         {
             switch (ruleType)
             {
+
                 case RuleType.EquipCopy:
-                case RuleType.Phantom:
                 case RuleType.BossFamily:
                 case RuleType.HeroPhantom:
-                    ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time));
+                case RuleType.Phantom:
+                case RuleType.Myth:
+                case RuleType.World:
+                case RuleType.Pill2:
+                case RuleType.Pill3:
+                case RuleType.Babel:
+                case RuleType.Festive:
+                case RuleType.Spirit:
+                    ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time, ConfigHelper.AutoExitMapTime));
+                    break;
+                case RuleType.Shengxiao:
+                    if (AppHelper.Shengxiao_Auto)
+                    {
+                        ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time, ConfigHelper.AutoExitMapTime));
+                    }
+                    else
+                    {
+                        ie_AutoResurrection = StartCoroutine(this.AutoResurrection());
+                    }
                     break;
                 default:
-                    StartCoroutine(this.AutoResurrection());
+                    ie_AutoResurrection = StartCoroutine(this.AutoResurrection());
                     break;
             }
         }
 
         public void CloseBattle(RuleType ruleType, long time)
         {
-            ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time));
+            ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time, ConfigHelper.AutoExitMapTime));
         }
 
 
@@ -629,9 +805,8 @@ namespace Game
         {
             string title = "友情支持";
             string message = des;
-
-            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke(message, true,
-            () =>
+            var builder = new UM_NativeDialogBuilder(title, message);
+            builder.SetPositiveButton(des, () =>
             {
                 Log.Debug(des);
                 PocketAD.Inst.ShowAD(action, async delegate (int rv, AdStateEnum state, AdTypeEnum type)
@@ -670,10 +845,15 @@ namespace Game
                     await Loom.ToMainThread;
                     adResult?.Invoke((int)(state));
                 });
-            }, () =>
-            {
-
             });
+            builder.SetNegativeButton("取消", async () =>
+            {
+                // 到主线程执行
+                await Loom.ToMainThread;
+                adResult?.Invoke(-1);
+            });
+            var dialog = builder.Build();
+            dialog.Show();
         }
 
         public void SetGameOver(PlayerType winCamp)
@@ -691,12 +871,13 @@ namespace Game
 
         private IEnumerator AutoResurrection()
         {
-            for (int i = 0; i < 10; i++)
+            int cd = ConfigHelper.AutoResurrectionTime;
+            for (int i = 0; i < cd; i++)
             {
                 PlayerManager.GetHero().EventCenter.Raise(new ShowMsgEvent()
                 {
                     Type = MsgType.Normal,
-                    Content = $"{(10 - i)}秒后复活"
+                    Content = $"{(cd - i)}秒后复活"
                 });
                 yield return new WaitForSeconds(1f);
             }
@@ -704,14 +885,14 @@ namespace Game
             this.StartGame();
         }
 
-        private IEnumerator AutoExitMap(RuleType ruleType, long time)
+        private IEnumerator AutoExitMap(RuleType ruleType, long time, int cd)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < cd; i++)
             {
                 PlayerManager.GetHero().EventCenter.Raise(new ShowMsgEvent()
                 {
                     Type = MsgType.Normal,
-                    Content = $"{(5 - i)}秒后退出"
+                    Content = $"{(cd - i)}秒后退出"
                 });
                 yield return new WaitForSeconds(1f);
             }
@@ -719,90 +900,148 @@ namespace Game
 
             if (ruleType == RuleType.EquipCopy)
             {
-                int rate = this.EquipCopySetting_Rate ? 5 : 1;
+                int rl = User.GetArtifactValue(ArtifactType.EquipBattleRate);
+                int rate = 5 + rl;
 
                 //判断是否自动挑战
-                if (EquipCopySetting_Auto && GameProcessor.Inst.User.MagicCopyTikerCount.Data >= rate)
+                if (EquipCopySetting_Auto && User.MagicCopyTikerCount.Data >= rate)
                 {
-                    this.AutoEquipCopy();
+                    this.AutoStartMap(ruleType);
                 }
             }
             else if (ruleType == RuleType.BossFamily)
             {
-                long bossTicket = GameProcessor.Inst.User.GetMaterialCount(ItemHelper.SpecialId_Boss_Ticket);
-                if (EquipBossFamily_Auto && bossTicket > 0)
+                long bossTicket = User.GetMaterialCount(ItemHelper.SpecialId_Boss_Ticket);
+                int rl = User.GetArtifactValue(ArtifactType.BossBattleRate);
+                int rate = rl + 1;
+
+                //Debug.Log("剩余boss卷:" + bossTicket);
+
+                if (EquipBossFamily_Auto && bossTicket > rate)
                 {
-                    this.AutoBossFamily();
+                    this.AutoStartMap(ruleType);
                 }
             }
+            else if (ruleType == RuleType.Phantom && Phantom_Auto)
+            {
+                this.AutoStartMap(ruleType);
+            }
+            else if (ruleType == RuleType.World && World_Auto)
+            {
+                this.AutoStartMap(ruleType);
+            }
+            else if (ruleType == RuleType.Babel && Babel_Auto)
+            {
+                if (User.BabelCount.Data > 0)
+                {
+                    this.AutoStartMap(ruleType);
+                }
+            }
+            else if (ruleType == RuleType.Shengxiao && AppHelper.Shengxiao_Auto)
+            {
+                this.AutoStartMap(ruleType);
+            }
+            else if (ruleType == RuleType.Spirit && AppHelper.Spirit_Auto)
+            {
+                this.AutoStartMap(ruleType);
+            }
         }
 
-        private void AutoEquipCopy()
+        private void AutoStartMap(RuleType ruleType)
         {
-            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("5S后自动挑战装备副本", true,
-            () =>
-            {
-                StopCoroutine(ie_autoStartCopy);
-                AutoStartCopy();
-            }, () =>
-            {
-                StopCoroutine(ie_autoStartCopy);
-            });
+            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke(ConfigHelper.AutoStartMapTime + "S后自动挑战", true,
+                () =>
+                {
+                    StopCoroutine(ie_autoStartMap);
+                    AutoRunMap(ruleType);
+                }, () =>
+                {
+                    StopCoroutine(ie_autoStartMap);
+                });
 
-            ie_autoStartCopy = StartCoroutine(this.ShowAutoStartCopy());
+            ie_autoStartMap = StartCoroutine(this.ShowAutoStartMap(ruleType));
         }
-        private IEnumerator ShowAutoStartCopy()
+
+        private IEnumerator ShowAutoStartMap(RuleType ruleType)
         {
-            for (int i = 0; i < 5; i++)
+            int cd = ConfigHelper.AutoStartMapTime;
+            for (int i = 0; i < cd; i++)
             {
-                this.EventCenter.Raise(new SecondaryConfirmTextEvent() { Text = $"{(5 - i)}秒后自动挑战副本" });
+                this.EventCenter.Raise(new SecondaryConfirmTextEvent() { Text = $"{(cd - i)}S后自动挑战" });
                 yield return new WaitForSeconds(1f);
             }
 
             this.EventCenter.Raise(new SecondaryConfirmCloseEvent());
 
-            AutoStartCopy();
+            AutoRunMap(ruleType);
         }
 
-        private void AutoStartCopy()
+        private void AutoRunMap(RuleType ruleType)
         {
             this.EventCenter.Raise(new CopyViewCloseEvent());
-            this.EventCenter.Raise(new AutoStartCopyEvent());
-        }
 
-        private void AutoBossFamily()
-        {
-            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("5S后自动挑战BOSS之家", true,
-            () =>
-            {
-                StopCoroutine(ie_autoBossFamily);
-                AutoStartBossFamily();
-            }, () =>
-            {
-                StopCoroutine(ie_autoBossFamily);
-            });
+            //Debug.Log("auto type :" + ruleType);
 
-            ie_autoBossFamily = StartCoroutine(this.ShowAutoStartBossFamily());
-        }
-
-        private IEnumerator ShowAutoStartBossFamily()
-        {
-            for (int i = 0; i < 5; i++)
+            switch (ruleType)
             {
-                this.EventCenter.Raise(new SecondaryConfirmTextEvent() { Text = $"{(5 - i)}秒后自动挑战BOSS之家" });
-                yield return new WaitForSeconds(1f);
+                case RuleType.Babel:
+                    this.EventCenter.Raise(new BabelStartEvent() { });
+                    break;
+                case RuleType.World:
+                    this.EventCenter.Raise(new WorldStartEvent() { Id = World_Auto_Id });
+                    break;
+                case RuleType.Phantom:
+                    this.EventCenter.Raise(new PhantomStartEvent() { PhantomId = Phantom_Auto_Id });
+                    break;
+                case RuleType.BossFamily:
+                    this.EventCenter.Raise(new AutoStartBossFamily());
+                    break;
+                case RuleType.EquipCopy:
+                    this.EventCenter.Raise(new AutoStartCopyEvent());
+                    break;
+                case RuleType.Shengxiao:
+                    this.EventCenter.Raise(new ShengxiaoStartEvent() { Id = AppHelper.Shengxiao_Id });
+                    break;
+                case RuleType.Spirit:
+                    this.EventCenter.Raise(new SpiritStartEvent() { Id = AppHelper.Spirit_Id });
+                    break;
             }
-
-            this.EventCenter.Raise(new SecondaryConfirmCloseEvent());
-
-            AutoStartBossFamily();
-        }
-        private void AutoStartBossFamily()
-        {
-            this.EventCenter.Raise(new CopyViewCloseEvent());
-            this.EventCenter.Raise(new AutoStartBossFamily());
         }
 
+
+
+        //private void AutoWorld()
+        //{
+        //    GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke(ConfigHelper.AutoStartMapTime + "S后自动挑战神兽", true,
+        //    () =>
+        //    {
+        //        StopCoroutine(ie_autoPhatom);
+        //        AutoStartWorld();
+        //    }, () =>
+        //    {
+        //        StopCoroutine(ie_autoPhatom);
+        //    });
+
+        //    ie_autoPhatom = StartCoroutine(this.ShowAutoStartWorld());
+        //}
+        //private IEnumerator ShowAutoStartWorld()
+        //{
+        //    int cd = ConfigHelper.AutoStartMapTime;
+        //    for (int i = 0; i < cd; i++)
+        //    {
+        //        this.EventCenter.Raise(new SecondaryConfirmTextEvent() { Text = $"{(cd - i)}S后自动挑战神兽" });
+        //        yield return new WaitForSeconds(1f);
+        //    }
+
+        //    this.EventCenter.Raise(new SecondaryConfirmCloseEvent());
+
+        //    AutoStartWorld();
+        //}
+        //private void AutoStartWorld()
+        //{
+        //    this.EventCenter.Raise(new CopyViewCloseEvent());
+        //    this.EventCenter.Raise(new WorldStartEvent() { Id = World_Auto_Id });
+        //}
 
         private IEnumerator AutoExitApp(ExitType type)
         {
@@ -812,6 +1051,9 @@ namespace Game
             {
                 case ExitType.Version:
                     text = "后自动关闭游戏,请更新";
+                    break;
+                case ExitType.OldFile:
+                    text = "后自动关闭游戏,这不是最新存档。\n可以卸载重新安装游戏，再绑定之后读取最新存档";
                     break;
                 case ExitType.Change:
                     text = "后自动关闭游戏,请不要作弊";

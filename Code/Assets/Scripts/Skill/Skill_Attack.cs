@@ -42,12 +42,14 @@ namespace Game
 
         }
 
-        public override void Do()
+        public override void Do(SkillRunType runType)
         {
-            double baseHp = 0;
+            DamageResult baseDr = null;
 
             List<Vector3Int> playCells = GetPlayCells();
             this.skillGraphic?.PlayAnimation(playCells);
+
+            SkillState orbState = this.SelfPlayer.GetSkillByPriority(-100);
 
             List<AttackData> attackDataCache = GetAllTargets();
             foreach (var attackData in attackDataCache)
@@ -56,10 +58,16 @@ namespace Game
 
                 if (enemy != null)
                 {
-                    if (DamageHelper.IsMiss(SelfPlayer, enemy))
+                    if (DamageHelper.IsMiss(SelfPlayer, enemy, SkillPanel.Accuracy))
                     {
                         enemy.ShowMiss();
-                        return;
+                        continue;
+                    }
+
+                    if (DamageHelper.IsMiss2(SelfPlayer, enemy))
+                    {
+                        enemy.ShowMiss2();
+                        continue;
                     }
 
                     //先行特效
@@ -71,13 +79,25 @@ namespace Game
                         }
                     }
 
+                    if (orbState != null)
+                    {
+                        foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
+                        {
+                            if (effect.Config.Priority < 0)
+                            {
+                                DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
+                                //Debug.Log("Run Ring Effect:" + effect.Config.Name);
+                            }
+                        }
+                    }
+
                     var dr = DamageHelper.CalcDamage(SelfPlayer.AttributeBonus, enemy.AttributeBonus, SkillPanel);
                     dr.FromId = attackData.Tid;
                     enemy.OnHit(dr);
 
                     if (enemy.ID == SelfPlayer.Enemy.ID)
                     {
-                        baseHp = dr.Damage;
+                        baseDr = dr;
                     }
 
                     //if (this.SelfPlayer.Camp == PlayerType.Valet)
@@ -98,6 +118,46 @@ namespace Game
                             DoEffect(enemy, this.SelfPlayer, total, 0, effect);
                         }
                     }
+
+                    //法球
+                    if (orbState != null)
+                    {
+                        foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
+                        {
+                            if (effect.Config.Priority >= 0)
+                            {
+                                double total = dr.Damage * effect.Percent / 100;
+                                //Debug.Log("restor:" + total);
+                                DoEffect(enemy, this.SelfPlayer, total, 0, effect);
+                                //Debug.Log("Run Ring Effect:" + effect.Config.Name);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (orbState != null)
+            {
+                orbState.Do();
+            }
+
+            DoChediding(runType, baseDr);
+        }
+
+        protected void DoChediding(SkillRunType runType, DamageResult baseDr)
+        {
+
+            if (runType != SkillRunType.Double && SkillPanel.SkillData.SkillConfig.Role == (int)RoleType.Warrior)
+            {
+                //do Chediding
+                SkillState skillChediding = SelfPlayer.SelectSkillList.Where(m => m.SkillPanel.SkillId == 1010).FirstOrDefault();
+                //if (skillChediding != null)
+                //{
+                //    Debug.Log("Chediding rate:" + skillChediding.Rate);
+                //}
+                if (skillChediding != null && baseDr != null && RandomHelper.RandomRate(skillChediding.Rate))
+                {
+                    skillChediding.Do(baseDr);
                 }
             }
         }

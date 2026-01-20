@@ -9,9 +9,14 @@ namespace Game
 {
     public class Hero : APlayer
     {
-        private Dictionary<int, long> skillUseCache = new Dictionary<int, long>();
+        private Dictionary<int, float> SkillCDCache = new Dictionary<int, float>();
 
         public List<SkillState> DoubleHitSkillList { get; set; } = new List<SkillState>();
+
+        public Hero()
+        {
+
+        }
 
         public Hero(RuleType ruleType) : base()
         {
@@ -35,7 +40,7 @@ namespace Game
             this.Level = user.MagicLevel.Data;
 
             this.SetAttr(user);  //设置属性值
-            //this.ShowUI(); //设置UI
+            this.Logic.SetData(null); //设置UI
         }
 
         public void HeroAttrChange(HeroAttrChangeEvent e)
@@ -55,11 +60,16 @@ namespace Game
             this.Camp = PlayerType.Hero;
             this.Name = user.Name;
             this.Level = user.MagicLevel.Data;
+            this.FashionId = user.FashionUpId;
 
             this.SetAttr(user);  //设置属性值
             this.SetSkill(user); //设置技能
 
+            double maxHP = AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
+            SetHP(maxHP);
+
             base.Load();
+            this.Logic.SetData(null); //设置UI
         }
 
         private void SetAttr(User user)
@@ -69,7 +79,7 @@ namespace Game
             //计算Buff
             if (RuleType == RuleType.Defend)
             {
-                List<DefendBuffConfig> buffList = user.DefendData.GetBuffList(DefendBuffType.Attr);
+                List<DefendBuffConfig> buffList = user.DefendData.GetBuffList();
 
                 this.AttributeBonus.SetBuffList(buffList);
             }
@@ -81,7 +91,11 @@ namespace Game
                 AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.HeroPanel, ConfigHelper.PvpRate * 100);
             }
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+            double relic2 = 1 + user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic2) * user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageResist) / 100;
+
+            //Debug.Log("relic2:" + relic2);
+
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP) * relic2);
             AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.PhyAtt));
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MagicAtt));
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritAtt));
@@ -98,6 +112,10 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.InheritIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.InheritIncrea));
             AttributeBonus.SetAttr(AttributeEnum.RestoreHp, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RestoreHp));
             AttributeBonus.SetAttr(AttributeEnum.RestoreHpPercent, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RestoreHpPercent));
+            AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Strong));
+            AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Shatter));
+
+            AttributeBonus.SetAttr(AttributeEnum.DefIgnore, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefIgnore));
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Miss));
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Accuracy));
             AttributeBonus.SetAttr(AttributeEnum.AurasDamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.AurasDamageIncrea));
@@ -113,6 +131,14 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.SkillValetCount, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SkillValetCount));
             AttributeBonus.SetAttr(AttributeEnum.SkillValetSpeed, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SkillValetSpeed));
 
+            AttributeBonus.SetAttr(AttributeEnum.DefendRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefendRate));
+            AttributeBonus.SetAttr(AttributeEnum.SpRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpRate));
+            AttributeBonus.SetAttr(AttributeEnum.RealHpDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealHpDamage));
+            AttributeBonus.SetAttr(AttributeEnum.RealCritRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealCritRate));
+            AttributeBonus.SetAttr(AttributeEnum.LuckyHit, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.LuckyHit));
+            AttributeBonus.SetAttr(AttributeEnum.Relic3, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic3));
+            AttributeBonus.SetAttr(AttributeEnum.Relic4, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic4));
+            AttributeBonus.SetAttr(AttributeEnum.Relic5, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic5));
             //this.AurasList = new List<AAuras>();
             //foreach (var ac in user.GetAurasList())
             //{
@@ -129,8 +155,6 @@ namespace Game
             this.SetAttackSpeed((int)AttributeBonus.GetTotalAttrDouble(AttributeEnum.Speed));
             this.SetMoveSpeed((int)AttributeBonus.GetTotalAttrDouble(AttributeEnum.MoveSpeed));
 
-            double maxHP = AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
-            SetHP(maxHP);
             //Debug.Log("Hero Hp:" + StringHelper.FormatNumber(maxHP));
         }
 
@@ -139,7 +163,7 @@ namespace Game
             //计算Buff
             if (RuleType == RuleType.Defend)
             {
-                List<DefendBuffConfig> buffList = GameProcessor.Inst.User.DefendData.GetBuffList(DefendBuffType.Attr);
+                List<DefendBuffConfig> buffList = GameProcessor.Inst.User.DefendData.GetBuffList();
                 this.AttributeBonus.SetBuffList(buffList);
 
                 double maxHP = AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
@@ -152,46 +176,127 @@ namespace Game
         {
             SelectSkillList = new List<SkillState>();
 
-            List<SkillData> list = user.GetCurrentSkill();
-            list.Add(new SkillData(9001, (int)SkillPosition.Default));
-
-            if (RuleType == RuleType.Defend)
+            List<SkillData> list = new List<SkillData>();
+            foreach (KeyValuePair<int, Data.MagicData> sp in user.RingData)
             {
-                List<int> ids = user.GetCurrentSkillList();
+                long ringLevel = sp.Value.Data;
+                RingConfig ringConfig = RingConfigCategory.Instance.Get(sp.Key);
 
-                List<DefendBuffConfig> buffList = user.DefendData.GetBuffList(DefendBuffType.Skill);
-                foreach (DefendBuffConfig config in buffList)
+                if (ringLevel >= ringConfig.RequireLevel && !user.RingSelect.ContainsKey(sp.Key))
                 {
-                    if (!ids.Contains(config.SkillId))
+                    if (ringConfig.SkillId > 0)
                     {
-                        var sd = new SkillData(config.SkillId, (int)SkillPosition.Default);
-                        sd.MagicLevel.Data = 500;
-                        list.Add(sd);
+                        SkillData sd = list.Where(m => m.SkillId == ringConfig.SkillId).FirstOrDefault();
+                        if (sd == null)
+                        {
+                            sd = user.SkillList.Where(m => m.SkillId == ringConfig.SkillId).FirstOrDefault();
+                            if (sd == null)  //没有学习，则默认为1级
+                            {
+                                sd = new SkillData(ringConfig.SkillId, 0);
+                                sd.MagicLevel.Data = 1;
+                            }
+                            list.Add(sd); //没有上阵，则自动上阵
+                        }
                     }
                 }
             }
+
+            List<int> rids = list.Select(m => m.SkillId).ToList();
+            list.AddRange(user.GetCurrentSkill(rids));
+
+
+            list.Add(new SkillData(9001, (int)SkillPosition.Default));
+
+            //Debug.Log("skill list:" + list.Select(m => m.SkillId).ToList().ListToString());
 
             for (int i = 0; i < list.Count; i++)
             {
                 SkillData skillData = list[i];
 
                 List<SkillRuneConfig> buffRuneList = null;
-                if (RuleType == RuleType.Defend)
-                {
-                    buffRuneList = user.DefendData.GetBuffRuneList(skillData.SkillId);
-                }
 
                 List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, buffRuneList);
 
                 List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
 
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, true);
+                int petRate = user.GetPetSkillRate(skillData.SkillConfig.Role);
 
-                SkillState skill = new SkillState(this, skillPanel, i, 0);
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, true, RuleType, petRate);
+
+                SkillPanel from = null;
+                if (skillPanel.SkillData.SkillConfig.FromId > 0)
+                {
+                    SkillData fromData = user.SkillList.Where(m => m.SkillId == skillPanel.SkillData.SkillConfig.FromId).FirstOrDefault();
+
+                    if (fromData == null)
+                    {
+                        continue;
+                    }
+
+                    from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId, null), user.GetSuitList(fromData.SkillId), true, RuleType, petRate);
+                }
+
+                SkillState skill = new SkillState(this, skillPanel, from, i, 0);
                 SelectSkillList.Add(skill);
+
+                //职业专精技能的属性
+                if (skillData.SkillConfig.Type == (int)SkillType.Expert)
+                {
+                    int attrKey = (int)AttributeFrom.Skill * 10000 + skillData.SkillId;
+
+                    if (skillData.SkillConfig.Role == (int)RoleType.Warrior)
+                    {
+                        AttributeBonus.SetAttr(AttributeEnum.WarriorSkillPercent, attrKey, skillPanel.Percent);
+                        AttributeBonus.SetAttr(AttributeEnum.WarriorSkillDamage, attrKey, skillPanel.Damage);
+                    }
+                    else if (skillData.SkillConfig.Role == (int)RoleType.Mage)
+                    {
+                        AttributeBonus.SetAttr(AttributeEnum.MageSkillPercent, attrKey, skillPanel.Percent);
+                        AttributeBonus.SetAttr(AttributeEnum.MageSkillDamage, attrKey, skillPanel.Damage);
+                    }
+                    else if (skillData.SkillConfig.Role == (int)RoleType.Warlock)
+                    {
+                        AttributeBonus.SetAttr(AttributeEnum.WarlockSkillPercent, attrKey, skillPanel.Percent);
+                        AttributeBonus.SetAttr(AttributeEnum.WarlockSkillDamage, attrKey, skillPanel.Damage);
+                    }
+                }
+                else if (skillData.SkillId == 1011)
+                {
+                    AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.Skill, skillPanel.Percent);
+                    AttributeBonus.SetAttr(AttributeEnum.MulAttrPhy, AttributeFrom.Skill, skillPanel.Damage);
+                }
+                else if (skillData.SkillId == 2011)
+                {
+                    AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.Skill, skillPanel.Percent);
+                    AttributeBonus.SetAttr(AttributeEnum.MulAttrMagic, AttributeFrom.Skill, skillPanel.Damage);
+                }
+                else if (skillData.SkillId == 3011)
+                {
+                    AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.Skill, skillPanel.Percent);
+                    AttributeBonus.SetAttr(AttributeEnum.MulAttrSpirit, AttributeFrom.Skill, skillPanel.Damage);
+                }
+                else if (skillData.SkillId == 2010)
+                {
+                    if (skillPanel.DivineLevel > 0)
+                    {
+                        AttributeBonus.SetAttr(AttributeEnum.SkillDivine2010, AttributeFrom.Skill, skillPanel.DivineAttrConfig.Param * skillPanel.DivineLevel);
+                    }
+                }
+                else if (skillData.SkillId == 3010)
+                {
+                    AttributeBonus.SetAttr(AttributeEnum.InheritAdvance, AttributeFrom.Skill, skillPanel.Percent);
+                    AttributeBonus.SetAttr(AttributeEnum.SkillValetHp, AttributeFrom.Skill, skillPanel.Damage);
+
+                    if (skillPanel.DivineLevel > 0)
+                    {
+                        AttributeBonus.SetAttr(AttributeEnum.SkillDivine3010, AttributeFrom.Skill, skillPanel.DivineAttrConfig.Param * skillPanel.DivineLevel);
+                    }
+                }
             }
 
             InitDoubleHitSkill(user);
+
+            base.SetSkillAfter();
         }
 
         private void InitDoubleHitSkill(User user)
@@ -234,7 +339,7 @@ namespace Game
         {
             foreach (var skillState in SelectSkillList)
             {
-                skillUseCache[skillState.SkillPanel.SkillId] = skillState.LastUseTime;
+                SkillCDCache[skillState.SkillPanel.SkillId] = skillState.CD;
             }
 
             var user = GameProcessor.Inst.User;
@@ -243,10 +348,10 @@ namespace Game
 
             foreach (var skillState in SelectSkillList)
             {
-                skillUseCache.TryGetValue(skillState.SkillPanel.SkillId, out long LastUseTime);
-                if (LastUseTime > 0)
+                SkillCDCache.TryGetValue(skillState.SkillPanel.SkillId, out float cd);
+                if (cd > 0)
                 {
-                    skillState.SetLastUseTime(LastUseTime);
+                    skillState.CD = cd;
                 }
             }
         }
@@ -268,13 +373,13 @@ namespace Game
             skill = this.GetSkill(0);
             if (skill != null)
             {  //使用技能
-                //Debug.Log($"{(this.Name)}使用技能:{(skill.SkillPanel.SkillData.SkillConfig.Name)},攻击:" + targets.Count + "个");
+                //Debug.Log($"{(this.Name)}使用技能:{(skill.SkillPanel.SkillData.SkillConfig.Name)}");
                 skill.Do();
                 //this.EventCenter.Raise(new ShowAttackIcon ());
 
                 if (skill.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
                 {
-                    this.DoubleHit();
+                    //this.DoubleHit();
                 }
 
                 return AttckSpeed;
@@ -333,7 +438,7 @@ namespace Game
             {
                 if (RandomHelper.RandomRate(skill.Rate))
                 {
-                    skill.Do();
+                    skill.Do(SkillRunType.Double);
                     //Debug.Log(" Double Hit " + skill.SkillPanel.SkillData.SkillConfig.Name);
                     return;
                 }
@@ -354,13 +459,19 @@ namespace Game
         /// </summary>
         public void Resurrection()
         {
-            //this.ResetData();
+            this.Logic.ResetData();
             this._enemy = null;
         }
 
         public void UpdateEnemy(APlayer player)
         {
             this._enemy = player;
+        }
+        public override void OnHit(DamageResult dr)
+        {
+            //Debug.Log("heor hit damage:" + StringHelper.FormatNumber(dr.Damage) + " maxHP:" + StringHelper.FormatNumber(this.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP)));
+
+            base.OnHit(dr);
         }
     }
 }

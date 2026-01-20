@@ -12,10 +12,34 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 {
-    public Text Txt_Name;
-    public Text Txt_Level;
+    [LabelText("背景图片")]
+    public Image image_Background;
 
-    public Image progress;
+    [Title("信息")]
+    [LabelText("信息")]
+    public Transform tran_Info;
+
+    [LabelText("名称")]
+    public Text tmp_Info_Name;
+
+    //[LabelText("等级")]
+    //public Text tmp_Info_Level;
+
+    [Title("提示")]
+    [LabelText("弹幕")]
+    public Transform tran_Barrage;
+
+    [LabelText("攻击标识")]
+    public Transform tran_Attack;
+
+    [LabelText("血条")]
+    public HP_Progress hp_Progress;
+
+    [LabelText("护盾")]
+    public SP_Progress sp_Progress;
+
+    [LabelText("魂环")]
+    public Transform SourRingEffect;
 
     private float doTime = 0;
 
@@ -25,11 +49,15 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 
     private float restoreTime = 0;
 
+    private bool ShowUI = false;
+
     public APlayer SelfPlayer { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
+        this.tran_Info.gameObject.SetActive(true);
+        //this.size = this.transform.GetComponent<RectTransform>().sizeDelta;
     }
 
     // Update is called once per frame
@@ -52,13 +80,31 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 
         if (effectTime > 0.2f)
         {
-            this.SelfPlayer.DoEffect(effectTime);
+            //if (this.SelfPlayer.Camp == PlayerType.Hero && effectTime > 1)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = this.SelfPlayer.RuleType, Message = "CD时间:" + effectTime });
+            //}
+
+            if (effectTime > 0.3)
+            {
+                effectTime = 0.3f;
+            }
+
+            try
+            {
+                this.SelfPlayer.DoCD(effectTime);
+                this.SelfPlayer.DoEffect(effectTime);
+            }
+            catch (Exception ex)
+            {
+            }
             effectTime = 0;
         }
 
-        if (damageTime > 0.1f)
+        if (ShowUI && damageTime > 0.1f)
         {
             this.damageTime = 0;
+            this.ShowNextToast();
         }
 
         if (this.restoreTime >= 1f)
@@ -71,46 +117,193 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
     public void SetParent(APlayer player)
     {
         this.SelfPlayer = player;
+        // this.SelfPlayer.EventCenter.AddListener<SetBackgroundColorEvent>(OnSetBackgroundColorEvent);
+        this.SelfPlayer.EventCenter.AddListener<SetPlayerNameEvent>(OnSetNameEvent);
+        //this.SelfPlayer.EventCenter.AddListener<SetPlayerLevelEvent>(OnSetPlayerLevelEvent);
+        this.SelfPlayer.EventCenter.AddListener<SetPlayerHPEvent>(OnSetPlayerHPEvent);
+        this.SelfPlayer.EventCenter.AddListener<ShowMsgEvent>(OnShowMsgEvent);
+        this.SelfPlayer.EventCenter.AddListener<ShowAttackIcon>(OnShowAttackIcon);
+
+        this.SelfPlayer.EventCenter.AddListener<ShowHideEvent>(OnShowHide);
+
+        if (!GameProcessor.Inst.User.ShowMonsterDamage && player.Camp != PlayerType.Hero)
+        {
+            ShowUI = false;
+        }
+        else
+        {
+            ShowUI = true;
+        }
     }
-
-    public void Init()
-    {
-
-        Debug.Log("Name:" + this.SelfPlayer.Name);
-
-        this.Txt_Name.text = this.SelfPlayer.Name;
-        this.Txt_Level.text = "lv." + this.SelfPlayer.Level;
-
-    }
-
-    public void SetHpProgress()
-    {
-        double maxHp = this.SelfPlayer.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
-        double percent = this.SelfPlayer.HP / maxHp;
-
-        percent = Math.Max(percent, 0);
-        percent = Math.Min(percent, 1);
-
-        progress.fillAmount = (float)percent;
-    }
-
-    public void ClearPlayer()
-    {
-        StartCoroutine(this.SendClearPlayerEvent());
-    }
-
-    private IEnumerator SendClearPlayerEvent()
-    {
-        yield return new WaitForSeconds(ConfigHelper.DelayShowTime);
-        GameProcessor.Inst.PlayerManager.RemoveDeadPlayers(this.SelfPlayer);
-        yield return null;
-    }
-
 
     public void OnDestroy()
     {
-
+        if (this.SelfPlayer != null)
+        {
+            this.SelfPlayer.EventCenter.RemoveListener<SetBackgroundColorEvent>(OnSetBackgroundColorEvent);
+            this.SelfPlayer.EventCenter.RemoveListener<SetPlayerNameEvent>(OnSetNameEvent);
+            //this.SelfPlayer.EventCenter.RemoveListener<SetPlayerLevelEvent>(OnSetPlayerLevelEvent);
+            this.SelfPlayer.EventCenter.RemoveListener<SetPlayerHPEvent>(OnSetPlayerHPEvent);
+            this.SelfPlayer.EventCenter.RemoveListener<ShowMsgEvent>(OnShowMsgEvent);
+            this.SelfPlayer.EventCenter.RemoveListener<ShowHideEvent>(OnShowHide);
+        }
     }
+
+    private void OnSetBackgroundColorEvent(SetBackgroundColorEvent e)
+    {
+        this.image_Background.color = e.Color;
+    }
+
+    private void OnSetNameEvent(SetPlayerNameEvent e)
+    {
+        if (SelfPlayer.Quality > 1 && SelfPlayer.Quality < 5)
+        {
+            string color = QualityConfigHelper.GetQualityColor(SelfPlayer.Quality);
+            this.tmp_Info_Name.text = string.Format("<color=#{0}>{1}</color>", color, e.Name);
+        }
+        else
+        {
+            this.tmp_Info_Name.text = e.Name;
+        }
+
+        switch (SelfPlayer.Camp)
+        {
+            case PlayerType.Hero:
+            case PlayerType.Duplication:
+            case PlayerType.HeroPhatom:
+                if (SelfPlayer.FashionId > 0)
+                {
+                    this.image_Background.sprite = PrefabHelper.Instance().GetFashion(SelfPlayer.FashionId);
+                }
+                break;
+            case PlayerType.Valet:
+                if (SelfPlayer.FashionId == 3)
+                {
+                    this.image_Background.rectTransform.sizeDelta = new Vector2(300, 300);
+                }
+                this.image_Background.sprite = PrefabHelper.Instance().GetValet(SelfPlayer.FashionId);
+                break;
+            case PlayerType.Defend:
+                this.image_Background.sprite = PrefabHelper.Instance().GetDefend();
+                break;
+            case PlayerType.Enemy:
+                int index = this.SelfPlayer.Quality;
+
+                if (SelfPlayer.RuleType == RuleType.World)
+                {
+                    this.image_Background.rectTransform.sizeDelta = new Vector2(300, 300);
+                    this.image_Background.sprite = PrefabHelper.Instance().GetMonsterWorld(SelfPlayer.FashionId);
+                    break;
+                }
+                else
+                {
+                    this.image_Background.sprite = PrefabHelper.Instance().GetMonster(index);
+                    break;
+                }
+        }
+    }
+
+    //private void OnSetPlayerLevelEvent(SetPlayerLevelEvent e)
+    //{
+    //    string title = this.SelfPlayer.Title;
+    //    title = title == null ? "" : "(" + title + ")";
+
+    //    if (SelfPlayer is Monster_Phantom)
+    //    {
+    //        this.tmp_Info_Level.text = e.Level + "转";
+    //    }
+    //    else
+    //    {
+    //        this.tmp_Info_Level.text = "Lv." + e.Level + title;
+    //    }
+
+
+    //}
+
+    private void OnSetPlayerHPEvent(SetPlayerHPEvent e)
+    {
+        if (SelfPlayer.SP > 0 && SelfPlayer.MaxSP > 0)
+        {
+            this.sp_Progress.gameObject.SetActive(true);
+            this.sp_Progress.SetProgress(this.SelfPlayer.SP, SelfPlayer.MaxSP);
+
+            this.hp_Progress.HideTitle();
+        }
+        else
+        {
+            this.sp_Progress.gameObject.SetActive(false);
+
+            this.hp_Progress.ShowTitle();
+            this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+        }
+    }
+
+    private void OnShowMsgEvent(ShowMsgEvent e)
+    {
+        msgTaskList.Add(e);
+    }
+
+    private List<ShowMsgEvent> msgTaskList = new List<ShowMsgEvent>();
+    private void ShowNextToast()
+    {
+        if (msgTaskList.Count > 10)
+        {
+            this.damageTime = 1 / msgTaskList.Count;
+        }
+
+        if (msgTaskList.Count > 0)
+        {
+            var e = msgTaskList[0];
+            msgTaskList.RemoveAt(0);
+
+            var msg = GameObject.Instantiate(PrefabHelper.Instance().MessagePrefab());
+            msg.transform.SetParent(this.tran_Barrage);
+
+            var msgSize = msg.GetComponent<RectTransform>().sizeDelta;
+            var msgMaxY = 60;
+            var msgMinY = -120;
+
+            var msgX = 0;
+
+            msg.transform.localPosition = new Vector3(msgX, msgMinY);
+            var com = msg.GetComponent<Dialog_Msg>();
+
+            var msgColor = QualityConfigHelper.GetMsgColor(e.Type);
+            com.tmp_Msg_Content.text = string.Format("<color=#{0}>{1}</color>", msgColor, e.Content);
+
+            Vector3 scale = new Vector3(1.3f, 1.3f, 0);
+
+            //首先要创建一个DOTween队列
+            Sequence seq = DOTween.Sequence();
+
+            //seq.Append  里面是让主相机振动的临时试验代码
+            seq.Append(msg.transform.DOLocalMoveY(msgMaxY, 1.5f));
+            seq.Join(msg.transform.DOScale(scale, 1.5f));
+
+            seq.AppendCallback(() =>
+            {
+                GameObject.Destroy(msg);
+            });
+        }
+    }
+
+    private void OnShowAttackIcon(ShowAttackIcon e)
+    {
+        if (this.tran_Attack != null)
+        {
+            this.tran_Attack.localScale = e.NeedShow ? Vector3.one : Vector3.zero;
+        }
+    }
+    private void OnShowHide(ShowHideEvent e)
+    {
+        if (this.image_Background != null)
+        {
+            Color temp = this.image_Background.color;
+            temp.a = e.IsHide ? 0.3f : 1f;
+            this.image_Background.color = temp;
+        }
+    }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {

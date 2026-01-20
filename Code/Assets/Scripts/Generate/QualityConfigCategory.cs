@@ -18,6 +18,17 @@ namespace Game
             return titleColor;
         }
 
+        public static int GetMaxColor(List<Item> items)
+        {
+            int ml = 1;
+
+            foreach (var item in items)
+            {
+                ml = Math.Max(ml, item.GetQuality());
+            }
+            return ml;
+        }
+
         public static string GetEquipTagColor(bool isKeep)
         {
             return isKeep ? "FF0000" : "FFFFFF";
@@ -39,13 +50,24 @@ namespace Game
                     titleColor = "76B0FF";
                     break;
                 case 4:
-                    titleColor = "EE66EE";
+                    titleColor = "D380FF";
                     break;
                 case 5:
                     titleColor = "FF6600";
                     break;
                 case 6:
                     titleColor = "E60000";
+                    break;
+                case 7:
+                    titleColor = "FFD700";
+                    break;
+                case 8:
+                    titleColor = "A67C40";
+                    break;
+                case 9:
+                    titleColor = "FF80C0";
+                    break;
+                default:
                     break;
             }
 
@@ -69,6 +91,12 @@ namespace Game
                     break;
                 case MsgType.Effect:
                     color = "E3EA6F";
+                    break;
+                case MsgType.SP:
+                    color = "0A2D8";
+                    break;
+                case MsgType.Ring:
+                    color = "3232AA";
                     break;
                 case MsgType.Other:
                     break;

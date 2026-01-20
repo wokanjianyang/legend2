@@ -83,7 +83,17 @@ namespace Game
             return list;
         }
 
-        public static List<Item> BuildDropItem(List<KeyValuePair<double, DropConfig>> dropList, int qualityRate)
+        public static List<Item> BuildDropItem(List<KeyValuePair<double, DropConfig>> dropList, int seed)
+        {
+            return BuildDropItem(dropList, 1, RuleType.Normal, seed);
+        }
+
+        public static List<Item> BuildDropItem(List<KeyValuePair<double, DropConfig>> dropList)
+        {
+            return BuildDropItem(dropList, 1, RuleType.Normal, 0);
+        }
+
+        public static List<Item> BuildDropItem(List<KeyValuePair<double, DropConfig>> dropList, int qualityRate, RuleType ruleType, int seed)
         {
             List<Item> list = new List<Item>();
 
@@ -94,14 +104,38 @@ namespace Game
 
                 if (RandomHelper.RandomResult(rate))
                 {
-                    int index = RandomHelper.RandomNumber(0, config.ItemIdList.Length);
+                    int index = RandomHelper.RandomNumber(seed, 0, config.ItemIdList.Length);
                     int configId = config.ItemIdList[index];
 
-                    Item item = ItemHelper.BuildItem((ItemType)config.ItemType, configId, qualityRate, config.Quantity);
+                    Item item = ItemHelper.BuildItem((ItemType)config.ItemType, configId, qualityRate, config.Quantity, ruleType);
                     list.Add(item);
                 }
             }
             return list;
+        }
+
+        public static List<Item> BuildDropItem(List<int> dropIdList)
+        {
+            Dictionary<int, Item> dict = new Dictionary<int, Item>();
+
+            foreach (int dropId in dropIdList)
+            {
+                DropConfig config = DropConfigCategory.Instance.Get(dropId);
+
+                int index = RandomHelper.RandomNumber(0, config.ItemIdList.Length);
+                int itemId = config.ItemIdList[index];
+
+                if (!dict.ContainsKey(itemId))
+                {
+                    dict[itemId] = ItemHelper.BuildItem((ItemType)config.ItemType, itemId, 1, config.Quantity); ;
+                }
+                else
+                {
+                    dict[itemId].Count += config.Quantity;
+                }
+            }
+
+            return dict.Select(m => m.Value).OrderBy(m => m.ConfigId).ToList();
         }
     }
 }

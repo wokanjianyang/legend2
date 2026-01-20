@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using SA.Android.Utilities;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -29,6 +30,9 @@ namespace Game
         [LabelText("追击属性")]
         public Transform tran_DoubleHitAttribute;
 
+        [LabelText("升级词条")]
+        public Transform tran_LevelAttribute;
+
         [Title("导航")]
         [LabelText("穿戴")]
         public Button btn_Equip;
@@ -47,9 +51,6 @@ namespace Game
 
         public Button btn_Restore;
 
-        public Button btn_Select;
-        public Button btn_Deselect;
-
         public Button Btn_Close;
 
         private BoxItem boxItem;
@@ -66,9 +67,6 @@ namespace Game
 
             this.btn_Lock.onClick.AddListener(this.OnClick_Lock);
             this.btn_Unlock.onClick.AddListener(this.OnClick_Unlock);
-
-            this.btn_Select.onClick.AddListener(this.OnClick_Select);
-            this.btn_Deselect.onClick.AddListener(this.OnClick_Deselect);
 
             this.Btn_Close.onClick.AddListener(this.OnClick_Close);
         }
@@ -95,14 +93,13 @@ namespace Game
             tran_SuitAttribute.gameObject.SetActive(false);
             tran_GroupAttribute.gameObject.SetActive(false);
             tran_DoubleHitAttribute.gameObject.SetActive(false);
+            tran_LevelAttribute.gameObject.SetActive(false);
 
             this.btn_Equip.gameObject.SetActive(false);
             this.btn_UnEquip.gameObject.SetActive(false);
             this.btn_Recovery.gameObject.SetActive(false);
             this.btn_Lock.gameObject.SetActive(false);
             this.btn_Unlock.gameObject.SetActive(false);
-            this.btn_Select.gameObject.SetActive(false);
-            this.btn_Deselect.gameObject.SetActive(false);
             this.btn_Restore.gameObject.SetActive(false);
 
             // this.transform.position = this.GetBetterPosition(e.Position);
@@ -150,7 +147,7 @@ namespace Game
                 {
                     runeIdList.Add(exclusive.RuneConfigId);
                 }
-                if (exclusive.GetLevel() > 1)
+                if (exclusive.GetLayer() > 1)
                 {
                     runeIdList.AddRange(exclusive.RuneConfigIdList);
                 }
@@ -163,7 +160,7 @@ namespace Game
                 {
                     suitIdList.Add(exclusive.SuitConfigId);
                 }
-                if (exclusive.GetLevel() > 1)
+                if (exclusive.GetLayer() > 1)
                 {
                     suitIdList.AddRange(exclusive.SuitConfigIdList);
                 }
@@ -177,6 +174,11 @@ namespace Game
 
                 ShowSuit(suitIdList, suitCountList, user.SuitMax);
             }
+            if (exclusive.LevelDict.Count > 0)
+            {
+                ShowLevel(exclusive.LevelDict);
+            }
+
             if (exclusive.DoubleHitConfig != null)
             {
                 tran_DoubleHitAttribute.gameObject.SetActive(true);
@@ -190,7 +192,7 @@ namespace Game
 
                 ExclusiveSuit exclusiveSuit = user.GetExclusiveSuit(exclusive.ExclusiveConfig);
 
-                tran_GroupAttribute.Find("Title").GetComponent<Text>().text = string.Format("[套装属性] ({0}/6)   增加一个上阵技能栏", exclusiveSuit.ActiveCount);
+                tran_GroupAttribute.Find("Title").GetComponent<Text>().text = string.Format("[套装属性] ({0}/6)   {1}", exclusiveSuit.ActiveCount, exclusiveSuit.SuitConfig.Desc);
 
                 for (int index = 0; index < 3; index++)
                 {
@@ -209,8 +211,9 @@ namespace Game
                 }
             }
 
+            int layer = exclusive.GetLayer();
             int level = exclusive.GetLevel();
-            if (level > 1)
+            if (layer > 1 || level >= 1)
             {
                 this.btn_Restore.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
             }
@@ -232,18 +235,6 @@ namespace Game
                 this.btn_Lock.gameObject.SetActive(false);
                 this.btn_Unlock.gameObject.SetActive(false);
                 this.btn_Restore.gameObject.SetActive(false);
-            }
-
-            if (this.BoxType == ComBoxType.Exclusive_Devour)
-            {
-                if (this.equipPositioin <= 0)
-                {
-                    this.btn_Select.gameObject.SetActive(true);
-                }
-                else
-                {
-                    this.btn_Deselect.gameObject.SetActive(true);
-                }
             }
         }
 
@@ -283,6 +274,27 @@ namespace Game
                 }
             }
             tran_SuitAttribute.gameObject.SetActive(true);
+        }
+
+        private void ShowLevel(Dictionary<int, int> LevelDict)
+        {
+            Item_Rune_Level[] runes = tran_LevelAttribute.GetComponentsInChildren<Item_Rune_Level>(true);
+
+            List<int> runeIdList = LevelDict.Select(m => m.Key).ToList();
+            for (int i = 0; i < runes.Length; i++)
+            {
+                int runeId = runeIdList[i];
+                if (i < runeIdList.Count)
+                {
+                    runes[i].gameObject.SetActive(true);
+                    runes[i].SetContent(runeId, LevelDict[runeId]);
+                }
+                else
+                {
+                    runes[i].gameObject.SetActive(false);
+                }
+            }
+            tran_LevelAttribute.gameObject.SetActive(true);
         }
 
         private void OnEquip()
@@ -332,7 +344,7 @@ namespace Game
                 return;
             }
 
-            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重生只能得到80%的材料，和对应的专属。是否确认？", true,
+            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重生消耗5000兆金币，其他材料全额返回。是否确认？", true,
                 () =>
                 {
                     this.gameObject.SetActive(false);

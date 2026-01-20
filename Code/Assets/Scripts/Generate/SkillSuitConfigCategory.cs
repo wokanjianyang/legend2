@@ -7,24 +7,60 @@ namespace Game
 
     public partial class SkillSuitConfigCategory
     {
+        public int GetSuitIdBySkillLayer(int skillLayer)
+        {
+            return list.Where(m => m.SkillLayer == skillLayer).First().Id;
+        }
 
+        public List<SkillSuitConfig> GetSkillAllConfigs(int skillId, int skillLayer) {
+            return this.list.Where(m => (m.SkillId == skillId) || (m.SkillLayer == skillLayer)).ToList();
+        }
     }
 
     public class SkillSuitHelper
     {
-        public static SkillSuitConfig RandomSuit(int seed, int skillId)
+        public static SkillSuitConfig RandomSuit(int seed, int skillId, int type)
         {
-            List<SkillSuitConfig> list = SkillSuitConfigCategory.Instance.GetAll().Where(m => m.Value.SkillId == skillId).Select(m => m.Value).ToList();
-            int index = RandomHelper.RandomNumber(seed, 0, list.Count);
+            List<SkillSuitConfig> list = SkillSuitConfigCategory.Instance.GetAll().Where(m => m.Value.SkillId == skillId && m.Value.Type == type).Select(m => m.Value).ToList();
 
-            return list[index];
+            if (list.Count == 1)
+            {
+                return list[0];
+            }
+
+            int maxRate = list.Select(m => m.EquipRate).Sum();
+            int rd = RandomHelper.RandomNumber(seed, 1, maxRate + 1);
+
+            int tempRate = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                tempRate += list[i].EquipRate;
+
+                if (rd <= tempRate)
+                {
+                    return list[i];
+                }
+            }
+
+            return null;
         }
 
         public static List<SkillSuit> GetAllSuit(int skillId, int suitCount)
         {
+            return GetAllSuit(skillId, suitCount, null);
+        }
+
+        public static List<SkillSuit> GetAllSuit(int skillId, int suitCount, int[] excludeList)
+        {
             List<SkillSuit> suitList = new List<SkillSuit>();
 
-            List<SkillSuitConfig> suitConfigs = SkillSuitConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.SkillId == skillId).OrderBy(m => m.Id).ToList();
+            List<SkillSuitConfig> suitConfigs = SkillSuitConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.SkillId == skillId && m.Type == 1).OrderBy(m => m.Id).ToList();
+
+            if (excludeList != null)
+            {
+                suitConfigs = suitConfigs.Where(m => !excludeList.Contains(m.Id)).ToList();
+            }
+
             foreach (SkillSuitConfig config in suitConfigs)
             {
                 SkillSuit suit = new SkillSuit(config.Id);

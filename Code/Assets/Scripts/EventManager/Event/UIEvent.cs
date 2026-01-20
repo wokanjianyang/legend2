@@ -15,6 +15,7 @@ namespace Game
 
     public class SetPlayerLevelEvent : SDD.Events.Event
     {
+        public long Cycle { get; set; }
         public long Level { get; set; }
     }
 
@@ -44,6 +45,7 @@ namespace Game
 
     public class NewVersionEvent : SDD.Events.Event
     {
+        public int Type { get; set; }
         public int Version { get; set; }
     }
 
@@ -93,7 +95,7 @@ namespace Game
     }
 
     public class HeroBuffChangeEvent : SDD.Events.Event
-    { 
+    {
 
     }
 
@@ -142,6 +144,27 @@ namespace Game
     }
 
     public class HeroUpdateSkillEvent : SDD.Events.Event
+    {
+
+    }
+
+
+    public class TalentShowEvent : SDD.Events.Event
+    {
+
+    }
+
+    public class TalentDetailShowEvent : SDD.Events.Event
+    {
+        public int Tid { get; set; }
+    }
+
+    public class PetShowEvent : SDD.Events.Event
+    {
+
+    }
+
+    public class RelicShowEvent : SDD.Events.Event
     {
 
     }

@@ -41,7 +41,32 @@ namespace Game
             {nameof(AttributeEnum.RestoreHpPercent), "比例回血" },
             {nameof(AttributeEnum.QualityIncrea), "品质加成" },
             {nameof(AttributeEnum.Miss), "闪避" },
-            {nameof(AttributeEnum.Accuracy), "精准" },
+            {nameof(AttributeEnum.Accuracy), "命中" },
+            {nameof(AttributeEnum.Strong), "韧性" },
+            {nameof(AttributeEnum.Protect), "绝对减伤" },
+            {nameof(AttributeEnum.BurstMul), "多次掉落" },
+            {nameof(AttributeEnum.ExpFinal), "经验增幅" },
+            {nameof(AttributeEnum.GoldFinal), "金币增幅" },
+            {nameof(AttributeEnum.BurstFinal), "爆率增幅" },
+            {nameof(AttributeEnum.QualityFinal), "品质增幅" },
+            {nameof(AttributeEnum.CritFinal), "暴击增幅" },
+            {nameof(AttributeEnum.LuckyFinal), "幸运增幅" },
+            {nameof(AttributeEnum.DropFinal), "特殊爆率" },
+            {nameof(AttributeEnum.MetailFinal), "挖矿速度" },
+            {nameof(AttributeEnum.RelicRise), "神器掌控" },
+            {nameof(AttributeEnum.CritDamageFinal), "爆伤增幅" },
+            {nameof(AttributeEnum.Shatter), "破韧倍率" },
+
+            {nameof(AttributeEnum.MythAttr), "神话攻击" },
+            {nameof(AttributeEnum.MythDef), "神话防御" },
+            {nameof(AttributeEnum.MythHp), "神话生命" },
+            {nameof(AttributeEnum.MythAll), "神话攻防血" },
+            {nameof(AttributeEnum.SpiritAll), "英灵攻防血" },
+            {nameof(AttributeEnum.SoulPercent), "炼魂" },
+            {nameof(AttributeEnum.SpRate), "护盾固防" },
+            {nameof(AttributeEnum.RealMulDamageResist), "完全减伤" },
+            {nameof(AttributeEnum.RealHpDamage), "血量真伤" },
+            {nameof(AttributeEnum.RealCritRate), "弱点暴击" },
 
             {nameof(AttributeEnum.PhyDamage), "物伤加成" },
             {nameof(AttributeEnum.MagicDamage),"魔伤加成" },
@@ -53,6 +78,7 @@ namespace Game
 
             {nameof(AttributeEnum.EquipBaseIncrea), "装备基础属性" },
             {nameof(AttributeEnum.EquipRandomIncrea), "装备随机属性" },
+            {nameof(AttributeEnum.EquipStrengthIncrea), "装备强化属性" },
 
             {nameof(AttributeEnum.AurasDamageIncrea), "最终增伤" },
             {nameof(AttributeEnum.AurasDamageResist), "最终减伤" },
@@ -77,6 +103,7 @@ namespace Game
             {nameof(AttributeEnum.MulSpiritDamageRise), "道伤倍率" },
             {nameof(AttributeEnum.MulDamageIncrea), "增伤倍率" },
             {nameof(AttributeEnum.MulDamageResist),"减伤倍率" },
+            {nameof(AttributeEnum.StrongMul),"韧性倍率" },
         };
     }
 }

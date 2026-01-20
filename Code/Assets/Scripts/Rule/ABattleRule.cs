@@ -26,7 +26,7 @@ namespace Game
         {
             get
             {
-                return (int) ComponentOrder.BattleRule;
+                return (int)ComponentOrder.BattleRule;
             }
         }
 
@@ -42,7 +42,8 @@ namespace Game
         //    }
         //}
 
-        virtual public void DoMapLogic(int roundNum) { 
+        virtual public void DoMapLogic(int roundNum,double currentRoundTime)
+        {
 
         }
         public void DoMapCellLogic()
@@ -64,8 +65,13 @@ namespace Game
             this.currentRoundTime += Time.unscaledDeltaTime;
             if (this.currentRoundTime >= roundTime)
             {
+                if (this.currentRoundTime > 0.3)
+                {
+                    this.currentRoundTime = 0.3f;
+                }
+
+                this.DoMapLogic(roundNum, this.currentRoundTime);
                 this.currentRoundTime = 0;
-                this.DoMapLogic(roundNum);
 
 
                 var roundType = this.roundNum % 5;
@@ -81,7 +87,7 @@ namespace Game
 
                 if (this.roundNum % 25 == 0)
                 {
-                    //GameProcessor.Inst.PlayerManager.RemoveAllDeadPlayers();
+                    GameProcessor.Inst.PlayerManager.RemoveAllDeadPlayers();
                 }
 
                 this.roundNum++;
@@ -91,14 +97,14 @@ namespace Game
         virtual public void CheckGameResult()
         {
             var heroCamp = GameProcessor.Inst.PlayerManager.GetHero();
-            if (heroCamp.HP == 0)
+            if (heroCamp != null && heroCamp.HP <= 0)
             {
                 this.currentRoundTime = 0;
 
                 GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-                
-                Log.Debug($"{(GameProcessor.Inst.winCamp == PlayerType.Hero?"玩家":"怪物")}获胜！！");
-                GameProcessor.Inst.HeroDie(this.ruleType,0);
+
+                //Log.Debug($"{(GameProcessor.Inst.winCamp == PlayerType.Hero ? "玩家" : "怪物")}获胜！！");
+                GameProcessor.Inst.HeroDie(this.ruleType, 0);
             }
         }
     }

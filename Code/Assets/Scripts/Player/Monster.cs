@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Game
 {
@@ -70,6 +68,7 @@ namespace Game
             }
 
             base.Load();
+            this.Logic.SetData(null); //设置UI
         }
 
         private void SetAttr()
@@ -80,9 +79,12 @@ namespace Game
             double attrModelRate = ModelConfig == null ? 1 : ModelConfig.AttrRate;
             double defModelRate = ModelConfig == null ? 1 : ModelConfig.DefRate;
 
-            double hp = Double.Parse(Config.HP);
-            double attr = Double.Parse(Config.Attr);
-            double def = Double.Parse(Config.Def);
+            double hp = StringHelper.StringToNumber(Config.HP);
+            double attr = StringHelper.StringToNumber(Config.Attr);
+            double def = StringHelper.StringToNumber(Config.Def);
+            double strong = StringHelper.StringToNumber(Config.Strong);
+            double damageMul = StringHelper.StringToNumber(Config.DamageMul);
+            double parry = StringHelper.StringToNumber(Config.Parry);
 
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, (hp * hpModelRate * QualityConfig.HpRate));
             AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, (attr * attrModelRate * QualityConfig.AttrRate));
@@ -94,6 +96,18 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, Config.DamageResist);
             AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroBase, Config.CritRate);
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, Config.CritDamage);
+
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroBase, Config.Miss);
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroBase, Config.Accuracy);
+            AttributeBonus.SetAttr(AttributeEnum.Protect, AttributeFrom.HeroBase, Config.Protect);
+
+            AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroBase, strong);
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.HeroBase, damageMul);
+            AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.HeroBase, parry);
+
+            this.SetAttackSpeed(Config.Speed);
+            this.SetMoveSpeed(Config.Speed);
+
             //回满当前血量
             SetHP(AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
         }
@@ -124,8 +138,8 @@ namespace Game
 
             PlayerModel model = null;
 
-            List<PlayerModel> models = PlayerModelCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Layer == Config.Layer && m.Quality == Quality
-            && (m.MapId == 0 || m.MapId == MapId)).ToList();
+            List<PlayerModel> models = PlayerModelCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Quality == Quality
+            && m.StartMapId <= MapId && MapId <= m.EndMapId).ToList();
 
             if (models.Count > 0)
             {
@@ -152,7 +166,7 @@ namespace Game
                 {
                     if (model.Rune > 0)
                     {
-                        runeList = SkillRuneHelper.GetAllRune(skillData.SkillId, model.Rune);
+                        runeList = SkillRuneConfigCategory.Instance.GetAllRune(skillData.SkillId, model.Rune);
                     }
 
                     if (model.Suit > 0)
@@ -167,6 +181,14 @@ namespace Game
                 SelectSkillList.Add(skill);
             }
         }
+
+        public override void OnHit(DamageResult dr)
+        {
+            //Debug.Log("monster hit damage:" + StringHelper.FormatNumber(dr.Damage));
+
+            base.OnHit(dr);
+        }
+
         private void MakeReward(DeadRewarddEvent dead)
         {
             //Log.Info("Monster :" + this.ToString() + " dead");
@@ -188,11 +210,8 @@ namespace Game
             double dropModelRate = ModelConfig == null ? 1 : ModelConfig.DropRate;
             double countModelRate = ModelConfig == null ? 1 : ModelConfig.CountRate;
 
-            long exp = (long)(this.Exp * (100 + user.AttributeBonus.GetTotalAttr(AttributeEnum.ExpIncrea)) / 100 * rewardModelRate);
-            long gold = (long)(this.Gold * (100 + user.AttributeBonus.GetTotalAttr(AttributeEnum.GoldIncrea)) / 100 * rewardModelRate);
-
-            //增加经验,金币
-            user.AddExpAndGold(exp, gold);
+            double exp = (this.Exp * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.ExpIncrea)) / 100 * rewardModelRate);
+            double gold = (this.Gold * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.GoldIncrea)) / 100 * rewardModelRate);
 
             QualityConfig qualityConfig = QualityConfigCategory.Instance.Get(Quality);
 
@@ -201,40 +220,82 @@ namespace Game
             double dropRate = user.GetRealDropRate();
             double modelRate = dropModelRate * qualityConfig.DropRate;
             double countRate = countModelRate * qualityConfig.CountRate;
-
+            int soulPercent = (int)user.AttributeBonus.GetTotalAttr(AttributeEnum.SoulPercent);
             //Debug.Log("dropRate:" + dropRate);
 
             List<Item> items = new List<Item>();
             //生成道具奖励
             List<KeyValuePair<double, DropConfig>> dropList = DropConfigCategory.Instance.GetByMapLevel(Config.MapId, dropRate * modelRate);
 
+            //Debug.Log("count Rate:" + countRate);
+
+            double dropFinal = (100 + user.AttributeBonus.GetBaseAttr(AttributeEnum.DropFinal)) / 100;
+
+            //Debug.Log("dropFinal:" + dropFinal);
+
             //限时奖励
-            items.AddRange(DropLimitHelper.Build((int)DropLimitType.Normal, this.MapId, dropRate, modelRate, 1, countRate));
-            items.AddRange(DropLimitHelper.Build((int)DropLimitType.Map, this.MapId, dropRate, modelRate, 1, countRate));
+            int limit = user.GetLimitId();
+            items.AddRange(DropLimitHelper.Build((int)DropLimitType.Normal, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
+            items.AddRange(DropLimitHelper.Build((int)DropLimitType.Map, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
 
             if (this.RuleType == RuleType.EquipCopy || this.RuleType == RuleType.BossFamily)
             {
-                items.AddRange(DropLimitHelper.Build((int)DropLimitType.JieRi, this.MapId, dropRate, modelRate, 1, countRate));
+                items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
+                //items.AddRange(DropLimitHelper.Build((int)DropLimitType.JieRi, this.MapId, dropRate, modelRate, limit, countRate));
             }
 
-            int qualityRate = qualityConfig.QualityRate * (100 + (int)user.AttributeBonus.GetTotalAttr(AttributeEnum.QualityIncrea)) / 100;
-            items.AddRange(DropHelper.BuildDropItem(dropList, qualityRate));
+            int qualityRate = qualityConfig.QualityRate * user.GetRealQualityRate();
+            items.AddRange(DropHelper.BuildDropItem(dropList, qualityRate, RuleType.Normal, 0));
 
+            double rs = user.AttributeBonus.GetTotalAttr(AttributeEnum.BurstMul);
+            int itemCount = MathHelper.RandomBurstMul(rs);
+
+            int soulRise = 0;
+            if (soulPercent > 0)
+            {
+                soulRise = user.SoulRingNumber + user.GetArtifactValue(ArtifactType.SoulStone);
+                soulRise = (int)(soulRise * soulPercent * dropModelRate / 100);
+            }
+
+            int newRate = user.Cycle.Data <= 0 ? 2 : 1;
+            bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;
+            if (showMessage)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                {
+                    Type = RuleType,
+                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, soulRise, newRate)
+                });
+            }
+
+            if (itemCount > 0)
+            {
+                exp += exp * itemCount;
+                gold += gold * itemCount;
+                items.AddRange(ItemHelper.BurstMul(items, itemCount, qualityRate, RuleType.Normal));
+            }
+
+            if (soulRise > 0)
+            {
+                items.Add(ItemHelper.BuildSoulRingShard(soulRise));
+            }
+
+            //先回收
+            List<Item> recoveryList = user.CheckRecovery(items, out long recoveryGold, out int recoveryCount);
+            if (recoveryCount > 0 && showMessage)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                {
+                    Type = RuleType,
+                    Message = BattleMsgHelper.BuildAutoRecoveryMessage(recoveryCount, recoveryList, recoveryGold)
+                });
+            }
+
+            //增加经验,金币
+            user.AddExpAndGold(exp * newRate, gold + recoveryGold);
             if (items.Count > 0)
             {
                 user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-            }
-
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-            {
-                Type = RuleType,
-                Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items)
-            });
-
-            //自动回收
-            if (items.Count > 0)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new AutoRecoveryEvent() { RuleType = this.RuleType });
             }
         }
     }

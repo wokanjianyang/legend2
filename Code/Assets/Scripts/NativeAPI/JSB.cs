@@ -1,3 +1,4 @@
+using SA.Android.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace Game
             }
             catch(Exception e)
             {
-                Log.Error(e);
+                AN_Logger.LogError(e);
             }
             /*
             //JNI

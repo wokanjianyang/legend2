@@ -31,6 +31,7 @@ public class Monster_Specail : APlayer
         this.SetSkill(); //设置技能
 
         base.Load();
+        this.Logic.SetData(null); //设置UI
 
         this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
     }
@@ -101,17 +102,21 @@ public class Monster_Specail : APlayer
             dropList.Add(new KeyValuePair<double, DropConfig>(config.DropRateList[i], dropConfig));
         }
 
-        List<Item> items = DropHelper.BuildDropItem(dropList, 1);
+        List<Item> items = DropHelper.BuildDropItem(dropList);
 
         if (items.Count > 0)
         {
             user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
-        GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+        bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;
+        if (showMessage)
         {
-            Type = RuleType,
-            Message = BattleMsgHelper.BuildBossDeadMessage(this, 0, 0, items)
-        });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+            {
+                Type = RuleType,
+                Message = BattleMsgHelper.BuildMonsterDeadMessage(this, 0, 0, items, 0)
+            });
+        }
     }
 }

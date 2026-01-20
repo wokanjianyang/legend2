@@ -38,8 +38,17 @@ namespace Game
 
         public long GetAurasLevel(long level)
         {
-            long riseLevel = (level - this.StartLevel);
+            long riseLevel = (level - this.StartLevel) * AurasRise;
             return this.AurasLevel + riseLevel;
+        }
+    }
+
+    public partial class SoulBoneConfigCategory
+    {
+        public SoulBoneConfig GetConfig(int sid, long level)
+        {
+            var config = this.list.Where(m => m.Sid == sid && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
+            return config;
         }
     }
 }

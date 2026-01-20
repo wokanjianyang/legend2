@@ -56,6 +56,11 @@ namespace Game
             TotalTime += time;
             RunTime += time;
 
+            if (Data.Config.Id == 18)
+            {
+                //Debug.Log("免疫时间;" + TotalTime);
+            }
+
             if (RunTime < Interval)
             {
                 return; //还没到触发时间
@@ -125,7 +130,7 @@ namespace Game
             }
             else //伤害
             {
-                SelfPlayer.OnHit(new DamageResult(0, hp, MsgType.Damage, RoleType.Dark));
+                SelfPlayer.OnHit(new DamageResult(0, hp, MsgType.Damage, RoleType.All));
             }
         }
 

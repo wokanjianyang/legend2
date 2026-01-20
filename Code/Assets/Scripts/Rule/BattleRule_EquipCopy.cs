@@ -16,7 +16,7 @@ public class BattleRule_EquipCopy : ABattleRule
     private List<int> QualityList;
 
     private const int MaxQuanlity = 20; //最多数量
-    private const int MaxFreshQuanlity = 1; //最多刷新数量
+    private int MaxFreshQuanlity = 1; //最多刷新数量
     protected override RuleType ruleType => RuleType.EquipCopy;
 
     public BattleRule_EquipCopy(Dictionary<string, object> param)
@@ -24,11 +24,13 @@ public class BattleRule_EquipCopy : ABattleRule
         param.TryGetValue("MapId", out object mapId);
         param.TryGetValue("MapTime", out object mapTime);
         param.TryGetValue("MapRate", out object mapRate);
+        param.TryGetValue("MonsterFaster", out object monsterFaster);
 
         this.MapId = (int)mapId;
         this.MapTime = (long)mapTime;
         this.MapRate = (int)mapRate;
         this.Start = true;
+        this.MaxFreshQuanlity += (int)monsterFaster;
 
         QualityList = new List<int>();
 
@@ -56,16 +58,19 @@ public class BattleRule_EquipCopy : ABattleRule
         //增加玉兔
         MapConfig mapConfig = MapConfigCategory.Instance.Get(MapId);
 
-        List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.MapLevel == mapConfig.Level).ToList();
-        foreach (MonsterSpecialConfig config in configs)
+        if (GameProcessor.Inst.EquipCopySetting_Spe)
         {
-            GameProcessor.Inst.PlayerManager.LoadMonster(new Monster_Specail(config.Id, MapRate, RuleType.EquipCopy));
+            List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.MapLevel == mapConfig.Level).ToList();
+            foreach (MonsterSpecialConfig config in configs)
+            {
+                GameProcessor.Inst.PlayerManager.LoadMonster(new Monster_Specail(config.Id, MapRate, RuleType.EquipCopy));
+            }
         }
 
         TaskHelper.CheckTask(TaskType.ToCopy, 1);
     }
 
-    public override void DoMapLogic(int roundNum)
+    public override void DoMapLogic(int roundNum, double currentRoundTime)
     {
         var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
 

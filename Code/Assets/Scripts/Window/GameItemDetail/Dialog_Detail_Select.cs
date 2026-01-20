@@ -11,6 +11,8 @@ namespace Game
     {
         public Button Btn_Close;
         public Button Btn_OK;
+        public Button Btn_Query;
+        public Button Btn_OK_All;
 
         public RectTransform Container;
         public ToggleGroup toggleGroup;
@@ -18,7 +20,7 @@ namespace Game
         private BoxItem boxItem;
         private int ConfigId;
 
-        private List<SelectItem> ItemList = new List<SelectItem>();
+        private List<Gift_Item> ItemList = new List<Gift_Item>();
 
         public int Order => (int)ComponentOrder.Dialog;
 
@@ -26,6 +28,8 @@ namespace Game
         {
             Btn_Close.onClick.AddListener(OnClick_Close);
             Btn_OK.onClick.AddListener(OnClick_OK);
+            Btn_OK_All.onClick.AddListener(OnClick_OK_All);
+            Btn_Query.onClick.AddListener(OnClick_Query);
         }
 
 
@@ -44,13 +48,14 @@ namespace Game
             ItemList.Clear();
 
             GiftPackConfig config = GiftPackConfigCategory.Instance.Get(this.ConfigId);
-            var pref = Resources.Load<GameObject>("Prefab/Window/Item/Select_Item");
+            var pref = Resources.Load<GameObject>("Prefab/Window/GameItem/Gift_Item");
 
             for (int i = 0; i < config.ItemIdList.Length; i++)
             {
                 var itemUI = GameObject.Instantiate(pref, Container);
+                itemUI.transform.localScale = Vector3.one;
 
-                SelectItem item = itemUI.GetComponent<SelectItem>();
+                Gift_Item item = itemUI.GetComponent<Gift_Item>();
 
                 Item newItem = ItemHelper.BuildItem((ItemType)config.ItemTypeList[i], config.ItemIdList[i], 1, config.ItemCountList[i]);
 
@@ -62,6 +67,16 @@ namespace Game
                 item.SetItem(boxItem, toggleGroup);
 
                 ItemList.Add(item);
+            }
+
+            Debug.Log(config.Id + " " + config.Name + "" + config.OpenType);
+            if (config.OpenType == 1)
+            {
+                this.Btn_OK_All.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.Btn_OK_All.gameObject.SetActive(false);
             }
         }
 
@@ -81,7 +96,7 @@ namespace Game
 
         public void OnClick_OK()
         {
-            SelectItem select = ItemList.Where(m => m.Tg_Bg.isOn).FirstOrDefault();
+            Gift_Item select = ItemList.Where(m => m.toggle.isOn).FirstOrDefault();
 
             if (select == null)
             {
@@ -89,14 +104,108 @@ namespace Game
                 return;
             }
 
+            //判断空格
+            int ic = GameProcessor.Inst.User.GetBagIdleCount(select.BoxItem.GetBagType());
+            if (ic < 10)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留10个对应的包裹格子", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+
+            this.gameObject.SetActive(false);
+
             //选择第N个装备
             GameProcessor.Inst.EventCenter.Raise(new SelectGiftEvent()
             {
                 BoxItem = boxItem,
-                Item = select.BoxItem.Item
+                Item = select.BoxItem.Item,
+                Nubmer = 1
             });
+        }
+
+
+        public void OnClick_OK_All()
+        {
+            Gift_Item select = ItemList.Where(m => m.toggle.isOn).FirstOrDefault();
+
+            if (select == null)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请先选择一个道具", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+            //判断空格
+            int ic = GameProcessor.Inst.User.GetBagIdleCount(select.BoxItem.GetBagType());
+            if (ic < 10)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留10个对应的包裹格子", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
 
             this.gameObject.SetActive(false);
+
+            //选择第N个装备
+            GameProcessor.Inst.EventCenter.Raise(new SelectGiftEvent()
+            {
+                BoxItem = boxItem,
+                Item = select.BoxItem.Item,
+                Nubmer = boxItem.MagicNubmer.Data
+            });
+        }
+
+        public void OnClick_Query()
+        {
+            Gift_Item select = ItemList.Where(m => m.toggle.isOn).FirstOrDefault();
+            if (select == null)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请先选择一个道具", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+            if (select.BoxItem.Item.Type == ItemType.Exclusive)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowExclusiveCardEvent()
+                {
+                    boxItem = select.BoxItem,
+                    EquipPosition = -2,
+                    Type = ComBoxType.Gift,
+                });
+                return;
+            }
+            else if (select.BoxItem.Item.Type == ItemType.Equip)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
+                {
+                    boxItem = select.BoxItem,
+                    EquipPosition = -2,
+                    Type = ComBoxType.Gift,
+                });
+            }
+            else if (select.BoxItem.Item.Type == ItemType.Shengxiao)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowShengxiaoDetailEvent()
+                {
+                    boxItem = select.BoxItem,
+                    EquipPosition = -2,
+                    Type = ComBoxType.Gift,
+                });
+            }
+            else if (select.BoxItem.Item.Type == ItemType.Pet)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowPetDetailEvent()
+                {
+                    boxItem = select.BoxItem,
+                });
+            }
+            else
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
+                {
+                    boxItem = select.BoxItem,
+                    Type = ComBoxType.Gift,
+                });
+            }
         }
     }
 }

@@ -38,12 +38,34 @@ namespace Game
                 return;
             }
 
+            if (this.Config.RequireId > 0)
+            {
+                long rv = this.Config.RequireValue * phLevel;
+                double uv = user.AttributeBonus.GetTotalAttrDouble((AttributeEnum)(Config.RequireId));
+
+                if (uv < rv)
+                {
+                    string msg = string.Format("您的{0}不足{1},无法挑战", StringHelper.FormatAttrValueName(Config.RequireId), StringHelper.FormatAttrValueText(Config.RequireId, rv));
+                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = msg, ToastType = ToastTypeEnum.Failure });
+                    return;
+                }
+            }
+
+            GameProcessor.Inst.Phantom_Auto_Id = this.Config.Id;
+
             var vm = this.GetComponentInParent<ViewMore>();
             vm.SelectPhantomMap(ConfigId);
         }
 
         public void SetContent(PhantomConfig config, int level)
         {
+            User user = GameProcessor.Inst.User;
+            if (user.Cycle.Data < config.RequireCycle)
+            {
+                this.gameObject.SetActive(false);
+                return;
+            }
+
             this.ConfigId = config.Id;
             PhantomAttrConfig currentConfig = PhantomConfigCategory.Instance.GetAttrConfig(config.Id, level - 1);
 

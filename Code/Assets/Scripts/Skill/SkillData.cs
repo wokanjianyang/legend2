@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Game
@@ -21,6 +22,8 @@ namespace Game
 
         public bool Recovery { get; set; } = false;
 
+        public Dictionary<int, MagicData> DivineData = new Dictionary<int, MagicData>();
+
         [JsonIgnore]
         public SkillConfig SkillConfig { get; set; }
 
@@ -30,19 +33,19 @@ namespace Game
 
             long tempLevel = MagicLevel.Data;
 
-            if (tempLevel < 100)
+            if (tempLevel < 1000)
             {
-                rate = Math.Min(10, tempLevel + 5);
+                rate = 10;
             }
-            else if (tempLevel >= 100 && tempLevel < 150)
+            else if (tempLevel >= 1000 && tempLevel < 1500)
             {
                 rate = 20;
             }
-            else if (tempLevel >= 150 && tempLevel < 200)
+            else if (tempLevel >= 1500 && tempLevel < 2000)
             {
                 rate = 30;
             }
-            else if (tempLevel >= 200 && tempLevel < 250)
+            else if (tempLevel >= 2000 && tempLevel < 2500)
             {
                 rate = 40;
             }
@@ -78,6 +81,36 @@ namespace Game
                 this.MagicExp.Data -= upExp;
             }
         }
+
+        public long GetDivineItemLevel(int divinePart)
+        {
+            if (!DivineData.ContainsKey(divinePart))
+            {
+                DivineData[divinePart] = new MagicData();
+            }
+
+            return DivineData[divinePart].Data;
+        }
+
+        public void AddDivineItemLevel(int divinePart)
+        {
+            if (!DivineData.ContainsKey(divinePart))
+            {
+                DivineData[divinePart] = new MagicData();
+            }
+
+            DivineData[divinePart].Data++;
+        }
+
+        public long GetDivineLevel()
+        {
+            if (DivineData.Count == 10)
+            {
+                return DivineData.Select(m => m.Value.Data).Min();
+            }
+
+            return 0;
+        }
         //----------------
     }
 
@@ -90,6 +123,7 @@ namespace Game
         Shield = 5,//状态技能
         Expert = 6,//职业专精技能
         Yeman = 7,//野蛮
+        Passive = 8,//被动技能
     }
 
     public enum SkillStatus

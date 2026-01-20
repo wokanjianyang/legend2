@@ -16,7 +16,7 @@ namespace Game
             return true;
         }
 
-        public override void Do()
+        public override void Do(SkillRunType runType)
         {
             //如果还有附加特效
             this.skillGraphic?.PlayAnimation(SelfPlayer.Cell);
@@ -54,7 +54,7 @@ namespace Game
         {
 
             var tempCells = GameProcessor.Inst.MapData.AllCells.ToList();
-            var allPlayerCells = GameProcessor.Inst.PlayerManager.GetAllPlayers().Select(p => p.Cell).ToList();
+            var allPlayerCells = GameProcessor.Inst.PlayerManager.GetAllPlayers(true).Select(p => p.Cell).ToList();
             tempCells.RemoveAll(p => allPlayerCells.Contains(p));
 
             if (tempCells.Count > 0)

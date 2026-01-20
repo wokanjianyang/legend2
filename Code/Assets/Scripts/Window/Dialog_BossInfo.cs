@@ -13,22 +13,31 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
 
     public Text txt_boss_count;
     public Text txt_boss_time;
+    public Button Btn_Close;
 
+    public Text TxtRate;
     public Toggle toggle_Rate;
     public Toggle toggle_Auto;
     public Toggle toggle_Hide;
+    public Toggle toggle_Spe;
 
-    public List<Toggle> tgLevelList;
+    public Transform Tf_Layer;
+
+    private List<Toggle> tgLevelList;
     private int LevelCount = 35; //每个难度多少个
     private int ShowCount = 10; //隐藏的时候显示多少个
+    private int MaxCycle = 5; //现在多少个难度-1
 
     private int MaxLayer = -1;
     private int SelectLayer = -1;
+
+    private int Rate = 5;
 
     List<Com_BossInfoItem> items = new List<Com_BossInfoItem>();
 
     private void Awake()
     {
+        Btn_Close.onClick.AddListener(OnClick_Close);
         this.Init();
     }
 
@@ -45,6 +54,12 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
             GameProcessor.Inst.EquipCopySetting_Auto = isOn;
         });
 
+        toggle_Spe.onValueChanged.AddListener((isOn) =>
+        {
+            GameProcessor.Inst.EquipCopySetting_Spe = isOn;
+        });
+
+
         toggle_Hide.onValueChanged.AddListener((isOn) =>
         {
             this.Show();
@@ -58,6 +73,11 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
                 this.ChangeLevel(index);
             });
         }
+
+        User user = GameProcessor.Inst.User;
+        this.Rate = user.GetArtifactValue(ArtifactType.EquipBattleRate) + 5;
+
+        TxtRate.text = this.Rate + "倍挑战";
     }
 
     void OnEnable()
@@ -74,6 +94,8 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
     {
         ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Item/Item_BossInfo");
         GameProcessor.Inst.EventCenter.AddListener<BossInfoEvent>(this.OnBossInfoEvent);
+
+        tgLevelList = Tf_Layer.GetComponentsInChildren<Toggle>().ToList();
     }
 
     private void Init()
@@ -85,21 +107,19 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
             BuildItem(config);
         }
     }
+
     private void BuildItem(MapConfig config)
     {
-        BossConfig bossConfig = BossConfigCategory.Instance.Get(config.BoosId);
-
         var item = GameObject.Instantiate(ItemPrefab);
         var com = item.GetComponent<Com_BossInfoItem>();
 
-        com.SetContent(config, bossConfig);
+        com.SetContent(config);
 
         item.transform.SetParent(this.sr_Boss.content);
         item.transform.localScale = Vector3.one;
 
         items.Add(com);
     }
-
 
     private void ChangeLevel(int layer)
     {
@@ -114,13 +134,18 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
             item.gameObject.SetActive(false);
         }
 
-        int MapId = GameProcessor.Inst.User.MapId;
+        User user = GameProcessor.Inst.User;
+        bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
-        if (this.MaxLayer < 0)
+        int MapId = user.MapId;
+        int layer = (MapId - ConfigHelper.MapStartId) / 35;
+        layer = ac ? Math.Min(3, layer) : layer;
+        this.MaxLayer = layer;
+
+        if (this.SelectLayer < 0)
         {
-            this.MaxLayer = (MapId - ConfigHelper.MapStartId) / 35;
-            tgLevelList[MaxLayer].isOn = true;
-            this.SelectLayer = this.MaxLayer;
+            this.SelectLayer = Math.Min(this.MaxLayer, MaxCycle);
+            tgLevelList[SelectLayer].isOn = true;
         }
 
         for (int i = 0; i < tgLevelList.Count; i++)
@@ -184,10 +209,10 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
 
 
         int CopyTicketCd = ConfigHelper.CopyTicketCd - user.GetArtifactValue(ArtifactType.EquipTicketCd);
-        if (user.IsDz())
-        {
-            CopyTicketCd = CopyTicketCd / 5;
-        }
+        //if (user.IsDz())
+        //{
+        //    CopyTicketCd = CopyTicketCd / 5;
+        //}
         CopyTicketCd = Math.Max(CopyTicketCd, ConfigHelper.CopyTicketCdMin);
 
         if (dieTime >= CopyTicketCd)
@@ -195,7 +220,7 @@ public class Dialog_BossInfo : MonoBehaviour, IBattleLife
             int count = (int)(dieTime / CopyTicketCd);
             user.CopyTicketTime += count * CopyTicketCd;
 
-            if (count >= ConfigHelper.CopyTicketFirstCount)  //离线最高可以获取100次
+            if (count >= ConfigHelper.CopyTicketFirstCount * 10)  //离线最高可以获取100次
             {
                 count = ConfigHelper.CopyTicketFirstCount;
             }

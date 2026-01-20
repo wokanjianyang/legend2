@@ -28,10 +28,25 @@ namespace Game
         public Toggle Recovery;
 
         public Button Btn_UpLevel;
+        public Button Btn_Divine;
+        public Text Txt_Divine;
 
-        List<Text> runeList = new List<Text>();
-        List<Text> suitList = new List<Text>();
+        public Transform Tf_Rune;
+        public Transform Tf_Suit;
+
+        List<Item_Skill_Rune> rList = new List<Item_Skill_Rune>();
+        List<Item_Skill_Rune> sList = new List<Item_Skill_Rune>();
+
+        //List<Text> runeList = new List<Text>();
+        //List<Text> suitList = new List<Text>();
+
         public SkillPanel SkillPanel { get; private set; }
+
+        void Awake()
+        {
+            rList = Tf_Rune.GetComponentsInChildren<Item_Skill_Rune>().ToList();
+            sList = Tf_Suit.GetComponentsInChildren<Item_Skill_Rune>().ToList();
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -44,6 +59,7 @@ namespace Game
 
 
             this.Btn_UpLevel.onClick.AddListener(this.Click_UpLevel);
+            this.Btn_Divine.onClick.AddListener(this.OnClickDivine);
         }
 
         // Update is called once per frame
@@ -52,84 +68,92 @@ namespace Game
 
         }
 
-        private void Init()
-        {
-            if (runeList.Count > 0)
-            {
-                return;
-            }
-
-            for (int i = 1; i <= 8; i++)
-            {
-                Text text = this.transform.Find(string.Format("Txt_Rune{0}", i)).GetComponent<Text>();
-                if (text != null)
-                {
-                    runeList.Add(text);
-                }
-            }
-
-            for (int i = 1; i <= 4; i++)
-            {
-                Text text = this.transform.Find(string.Format("Txt_Suit{0}", i)).GetComponent<Text>();
-                if (text != null)
-                {
-                    suitList.Add(text);
-                }
-            }
-        }
-
         public void SetItem(SkillPanel skillPanel)
         {
-            this.Init();
             this.SkillPanel = skillPanel;
 
+            string name = "";
             if (SkillPanel.SkillData.SkillConfig.Name.Length > 2)
             {
-                this.tmp_Name.text = SkillPanel.SkillData.SkillConfig.Name.Insert(2, "\n");
+                name = SkillPanel.SkillData.SkillConfig.Name.Insert(2, "\n");
             }
             else
             {
-                this.tmp_Name.text = SkillPanel.SkillData.SkillConfig.Name;
+                name = SkillPanel.SkillData.SkillConfig.Name;
             }
 
-            for (int i = 0; i < runeList.Count; i++)
+            string color = skillPanel.DivineLevel > 0 ? "FF0000" : "000000";
+            this.tmp_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
+
+            if (skillPanel.DivineAttrConfig != null)
+            {
+                if (skillPanel.DivineAttrConfig.LevelRequire <= skillPanel.SkillData.MagicLevel.Data)
+                {
+                    this.Btn_Divine.gameObject.SetActive(true);
+                    this.Txt_Divine.gameObject.SetActive(false);
+                }
+                else
+                {
+                    this.Btn_Divine.gameObject.SetActive(false);
+                    this.Txt_Divine.gameObject.SetActive(true);
+
+                    this.Txt_Divine.text = "技能" + skillPanel.DivineAttrConfig.LevelRequire + "级解锁神技";
+                }
+            }
+            else
+            {
+                this.Btn_Divine.gameObject.SetActive(false);
+            }
+
+            if (skillPanel.SkillData.SkillConfig.UpItemId > 0)
+            {
+                this.Btn_UpLevel.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.Btn_UpLevel.gameObject.SetActive(false);
+            }
+
+
+            for (int i = 0; i < rList.Count; i++)
             {
                 if (i < skillPanel.RuneTextList.Count)
                 {
-                    runeList[i].gameObject.SetActive(true);
-                    runeList[i].text = formatText(skillPanel.RuneTextList[i]);
+                    rList[i].gameObject.SetActive(true);
+                    rList[i].SetRune(skillPanel.RuneTextList[i].Key, skillPanel.RuneTextList[i].Value);
                 }
                 else
                 {
-                    runeList[i].gameObject.SetActive(false);
+                    rList[i].gameObject.SetActive(false);
                 }
             }
 
-            for (int i = 0; i < suitList.Count; i++)
+            for (int i = 0; i < sList.Count; i++)
             {
                 if (i < skillPanel.SuitTextList.Count)
                 {
-                    suitList[i].gameObject.SetActive(true);
-                    suitList[i].text = formatText(skillPanel.SuitTextList[i]);
+                    sList[i].gameObject.SetActive(true);
+                    sList[i].SetSuit(skillPanel.SuitTextList[i].Key, skillPanel.SuitTextList[i].Value);
                 }
                 else
                 {
-                    suitList[i].gameObject.SetActive(false);
+                    sList[i].gameObject.SetActive(false);
                 }
             }
 
             User user = GameProcessor.Inst.User;
 
-            if (this.SkillPanel.SkillData.MagicLevel.Data >= user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig))
+            int limitLevel = user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig);
+            if (this.SkillPanel.SkillData.MagicLevel.Data >= limitLevel)
             {
                 this.Btn_UpLevel.gameObject.SetActive(false);
             }
 
             Recovery.isOn = skillPanel.SkillData.Recovery;
 
-            this.tmp_Level.text = string.Format("LV:{0}", SkillPanel.SkillData.MagicLevel.Data);
+            this.tmp_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
             this.tmp_CD.text = string.Format("CD：{0}秒", SkillPanel.CD);
-            this.txt_Dis.text = SkillPanel.Dis > 0 ? string.Format("施法距离：{0}格", SkillPanel.Dis) : "施法距离：无";
+            this.txt_Dis.text = SkillPanel.Dis > 0 ? string.Format("距离：{0}格", SkillPanel.Dis) : "施法距离：无";
             this.tmp_Des.text = SkillPanel.Desc;
 
             var expProgress = this.GetComponentInChildren<Com_Progress>();
@@ -220,6 +244,14 @@ namespace Game
 
 
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "消耗" + upCount + "个" + itemConfig.Name + "升级成功", ToastType = ToastTypeEnum.Success });
+
+            GameProcessor.Inst.SaveData();
+        }
+
+        public void OnClickDivine()
+        {
+
+            GameProcessor.Inst.EventCenter.Raise(new OpenDivineEvent() { SkillId = SkillPanel.SkillId });
         }
     }
 }

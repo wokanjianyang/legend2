@@ -7,7 +7,7 @@ namespace Game
 {
     public class Item
     {
-        public int Count { get; set; }
+        public long Count { get; set; }
 
         public bool IsLock { get; set; }
         public bool IsNew { get; set; } = true;
@@ -77,7 +77,7 @@ namespace Game
         /// <summary>
         /// 堆叠数量
         /// </summary>
-        public int MaxNum { get; set; }
+        public long MaxNum { get; set; }
 
         //[JsonIgnore]
         //public int BoxId { get; set; } = -1;
@@ -100,9 +100,17 @@ namespace Game
         GiftPackExclusive = 12,
         Fashion = 13,
         Halidom = 14,
-        Artifact = 18,
+        Material_Usable = 15,
+        Pet = 16,
+        Shengxiao = 17,
 
-        PetEgg = 100,
+        Artifact = 18,
+        Ring = 19,
+        GiftPackEquip = 20,
+        GiftPackPet = 21,
+        GiftPackShengxiao = 22,
+
+        Spirit = 30,
 
         Metal = 98,
         Ad = 99,

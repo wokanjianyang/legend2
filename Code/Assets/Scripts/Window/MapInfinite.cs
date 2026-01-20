@@ -11,6 +11,7 @@ public class MapInfinite : MonoBehaviour, IBattleLife
 
     public Text Txt_Level;
     public Text Txt_Count;
+    public Text Txt_Time;
 
     public ScrollRect sr_BattleMsg;
 
@@ -67,7 +68,6 @@ public class MapInfinite : MonoBehaviour, IBattleLife
         record.Count.Data--;
 
         Dictionary<string, object> param = new Dictionary<string, object>();
-        param.Add("progress", record.Progress.Data);
         param.Add("count", record.Count.Data);
 
         GameProcessor.Inst.DelayAction(0.1f, () =>
@@ -79,8 +79,20 @@ public class MapInfinite : MonoBehaviour, IBattleLife
 
     public void OnShowInfo(ShowInfiniteInfoEvent e)
     {
-        Txt_Level.text = "挑战波数：" + e.Count;
-        Txt_Count.text = "重生次数：" + e.PauseCount;
+        if (e.Count > 0)
+        {
+            Txt_Level.text = "挑战波数：" + e.Count;
+            Txt_Count.text = "重生次数：" + e.PauseCount;
+        }
+
+        if (e.Time > 0)
+        {
+            Txt_Time.text = e.Time + "S内过关可跳关";
+        }
+        else
+        {
+            Txt_Time.text = "跳关超时";
+        }
     }
 
     private void OnBattleMsgEvent(BattleMsgEvent e)
@@ -135,7 +147,9 @@ public class MapInfinite : MonoBehaviour, IBattleLife
     {
         GameProcessor.Inst.OnDestroy();
         this.gameObject.SetActive(false);
-        GameProcessor.Inst.EventCenter.Raise(new DefendEndEvent());
+
+        GameProcessor.Inst.EventCenter.Raise(new BattlerEndEvent() { Type = RuleType.Infinite });
+
         GameProcessor.Inst.SetGameOver(PlayerType.Hero);
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {

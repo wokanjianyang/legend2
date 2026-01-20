@@ -12,13 +12,15 @@ namespace Game
 
         private Dictionary<AttributeEnum, List<DefendBuffConfig>> BuffDict = new Dictionary<AttributeEnum, List<DefendBuffConfig>>();
 
+        private Dictionary<AttributeEnum, Dictionary<int, double>> SkillDict = new Dictionary<AttributeEnum, Dictionary<int, double>>();
+
         public AttributeBonus()
         {
             foreach (AttributeEnum item in Enum.GetValues(typeof(AttributeEnum)))
             {
                 AllAttrDict.Add(item, new Dictionary<int, double>());
+                SkillDict.Add(item, new Dictionary<int, double>());
             }
-
         }
 
         public void SetBuffList(List<DefendBuffConfig> list)
@@ -40,6 +42,12 @@ namespace Game
             }
         }
 
+        public void SetSkillAttr(AttributeEnum attrType, int attrKey, double attrValue)
+        {
+            int key = (int)attrKey;
+            SkillDict[attrType][key] = attrValue;
+        }
+
         public void SetAttr(AttributeEnum attrType, AttributeFrom attrKey, double attrValue)
         {
             int key = (int)attrKey;
@@ -54,7 +62,7 @@ namespace Game
 
         public void SetAttr(AttributeEnum attrType, AttributeFrom attrKey, int Position, double attrValue)
         {
-            int key = ((int)attrKey) * 9999 + Position;
+            int key = ((int)attrKey) * 99999 + Position;
             AllAttrDict[attrType][key] = attrValue;
         }
 
@@ -110,9 +118,20 @@ namespace Game
                     mr = 1 + CalMulTotal(haveBuff, AttributeEnum.MulDef) / 100;
                     total *= mr;
                     break;
+                case AttributeEnum.Strong:
+                    total = CalTotal(AttributeEnum.Strong, haveBuff);
+                    mr = 1 + CalMulTotal(haveBuff, AttributeEnum.StrongMul) / 100;
+                    total *= mr;
+                    break;
                 case AttributeEnum.PhyDamage:
                     total = 100 + CalTotal(AttributeEnum.PhyDamage, haveBuff);
                     total = total * (1 + CalMulTotal(haveBuff, AttributeEnum.MulPhyDamageRise) / 100) - 100;
+                    break;
+                case AttributeEnum.CritRate:
+                    total = CalTotal(attrType, haveBuff, AttributeEnum.CritFinal);
+                    break;
+                case AttributeEnum.Lucky:
+                    total = CalTotal(attrType, haveBuff, AttributeEnum.LuckyFinal);
                     break;
                 case AttributeEnum.MagicDamage:
                     total = 100 + CalTotal(AttributeEnum.MagicDamage, haveBuff);
@@ -130,6 +149,27 @@ namespace Game
                     break;
                 case AttributeEnum.SecondGold:
                     total = CalTotal(AttributeEnum.SecondGold, haveBuff, AttributeEnum.GoldIncrea);
+                    break;
+                case AttributeEnum.ExpIncrea:
+                    total = CalTotal(AttributeEnum.ExpIncrea, haveBuff, AttributeEnum.ExpFinal);
+                    break;
+                case AttributeEnum.GoldIncrea:
+                    total = CalTotal(AttributeEnum.GoldIncrea, haveBuff, AttributeEnum.GoldFinal);
+                    break;
+                case AttributeEnum.BurstIncrea:
+                    total = CalTotal(AttributeEnum.BurstIncrea, haveBuff, AttributeEnum.BurstFinal);
+                    break;
+                case AttributeEnum.QualityIncrea:
+                    total = CalTotal(AttributeEnum.QualityIncrea, haveBuff, AttributeEnum.QualityFinal);
+                    break;
+                case AttributeEnum.MythAttr:
+                    total = CalTotal(AttributeEnum.MythAttr, haveBuff) + CalTotal(AttributeEnum.MythAll, haveBuff);
+                    break;
+                case AttributeEnum.MythDef:
+                    total = CalTotal(AttributeEnum.MythDef, haveBuff) + CalTotal(AttributeEnum.MythAll, haveBuff);
+                    break;
+                case AttributeEnum.MythHp:
+                    total = CalTotal(AttributeEnum.MythHp, haveBuff) + CalTotal(AttributeEnum.MythAll, haveBuff);
                     break;
                 default:
                     if ((int)attrType < 2001)
@@ -163,7 +203,7 @@ namespace Game
         }
 
 
-        public string GetPower()
+        public double GetPower()
         {
             double p1 = GetTotalAttrDouble(AttributeEnum.PhyAtt);
             double p2 = GetTotalAttrDouble(AttributeEnum.MagicAtt);
@@ -186,30 +226,91 @@ namespace Game
             powerDamage *= CalPercent(AttributeEnum.AurasAttrIncrea);
             powerDamage *= CalPercent(AttributeEnum.DamageIncrea) * CalPercent(AttributeEnum.AurasDamageIncrea);
             powerDamage *= (1 + GetTotalAttrDouble(AttributeEnum.Lucky) * 0.1);
-            powerDamage *= Math.Min(GetTotalAttrDouble(AttributeEnum.CritRate), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamage) + 150) / 100;
+            powerDamage *= (1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRate), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamage) + 150) / 100);
 
-            //double roleDamageRise = DamageHelper.GetRoleDamageAttackRise(this, role, true);
-            //powerDamage *= (1 + roleDamageRise / 100);
+            double roleDamageRise = DamageHelper.GetRoleDamageAttackRise(this, role, true);
+            powerDamage *= (1 + roleDamageRise / 100);
 
             //增伤倍率
             double mdi = GetTotalAttrDouble(AttributeEnum.MulDamageIncrea);
             powerDamage *= (1 + mdi / 100);
+            //破刃倍率
+            double sdi = GetTotalAttrDouble(AttributeEnum.Shatter);
+            powerDamage *= (1 + sdi);
 
 
             double powerDef = GetTotalAttrDouble(AttributeEnum.HP) / 10 + GetTotalAttrDouble(AttributeEnum.Def) * 3;
-            powerDef *= CalPercent(AttributeEnum.DamageResist) * CalPercent(AttributeEnum.AurasDamageResist);
-            powerDamage *= Math.Min(GetTotalAttrDouble(AttributeEnum.CritRateResist), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamageResist) + 100) / 100;
-            powerDef *= CalPercent(AttributeEnum.Miss);
+            powerDef *= (1 + CalPercent(AttributeEnum.DamageResist) * CalPercent(AttributeEnum.AurasDamageResist));
+            powerDamage *= (1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRateResist), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamageResist) + 100) / 100);
+            powerDef *= (1 + CalPercent(AttributeEnum.Miss));
+            powerDef *= (1 + GetTotalAttrDouble(AttributeEnum.Strong));
 
             //减伤倍率
             double mdr = CalMulDamageResist(false);
             powerDef *= 1 / (1 - mdr / 100);
 
             double newPower = (powerDamage + powerDef) / 20;
+            return newPower;
+        }
 
-            //Debug.Log("New Power:" + StringHelper.FormatNumber(newPower));
+        public LargeNumber GetPowerNew()
+        {
+            double p1 = GetTotalAttrDouble(AttributeEnum.PhyAtt);
+            double p2 = GetTotalAttrDouble(AttributeEnum.MagicAtt);
+            double p3 = GetTotalAttrDouble(AttributeEnum.SpiritAtt);
 
-            return StringHelper.FormatNumber(newPower);
+            int role = 1;
+            double powerDamage = p1;
+
+            if (p2 > powerDamage)
+            {
+                role = 2;
+                powerDamage = p2;
+            }
+            if (p3 > powerDamage)
+            {
+                role = 3;
+                powerDamage = p3;
+            }
+
+            LargeNumber lg = new LargeNumber(powerDamage);
+
+            lg.Mul(CalPercent(AttributeEnum.AurasAttrIncrea));
+            lg.Mul(CalPercent(AttributeEnum.DamageIncrea) * CalPercent(AttributeEnum.AurasDamageIncrea));
+            lg.Mul((1 + GetTotalAttrDouble(AttributeEnum.Lucky) * 0.1));
+            lg.Mul((1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRate), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamage) + 150) / 100));
+    
+            double roleDamageRise = DamageHelper.GetRoleDamageAttackRise(this, role, true);
+            lg.Mul((1 + roleDamageRise / 100));
+
+            //增伤倍率
+            double mdi = GetTotalAttrDouble(AttributeEnum.MulDamageIncrea);
+            lg.Mul((1 + mdi / 100));
+            //破刃倍率
+            double sdi = GetTotalAttrDouble(AttributeEnum.Shatter);
+            lg.Mul((1 + sdi));
+            lg.Mul((1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRateResist), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamageResist) + 100) / 100));
+
+            double powerDef = GetTotalAttrDouble(AttributeEnum.HP) / 10 + GetTotalAttrDouble(AttributeEnum.Def) * 3;
+            powerDef *= (1 + CalPercent(AttributeEnum.DamageResist) * CalPercent(AttributeEnum.AurasDamageResist));
+            powerDef *= (1 + CalPercent(AttributeEnum.Miss));
+            powerDef *= (1 + GetTotalAttrDouble(AttributeEnum.Strong));
+
+            //减伤倍率
+            double mdr = CalMulDamageResist(false);
+            powerDef *= 1 / (1 - mdr / 100);
+
+            lg.add(powerDef);
+            lg.div(20);
+
+            return lg;
+        }
+
+        public string GetPowerText()
+        {
+            //return StringHelper.FormatNumber(GetPower());
+
+            return GetPowerNew().FormatUnit();
         }
 
         private double CalPercent(AttributeEnum type)
@@ -232,6 +333,14 @@ namespace Game
                 {
                     total += item.AttrValue;
                 }
+
+            }
+            if (haveBuff && SkillDict.ContainsKey(type))
+            {
+                foreach (var item in SkillDict[type])
+                {
+                    total += item.Value;
+                }
             }
 
             double percent = 0;
@@ -250,9 +359,16 @@ namespace Game
                     {
                         percent += item.AttrValue;
                     }
+
+                }
+                if (haveBuff && SkillDict.ContainsKey(percentType))
+                {
+                    foreach (var item in SkillDict[type])
+                    {
+                        total += item.Value;
+                    }
                 }
             }
-
             return total * (100.0 + percent) / 100.0;
         }
 
@@ -274,6 +390,14 @@ namespace Game
                     {
                         total *= (100.0 + item.AttrValue) / 100.0;
                     }
+
+                }
+                if (haveBuff && SkillDict.ContainsKey(percentType))
+                {
+                    foreach (var item in SkillDict[percentType])
+                    {
+                        total *= (100.0 + item.Value) / 100.0;
+                    }
                 }
             }
 
@@ -286,9 +410,10 @@ namespace Game
 
             AttributeEnum percentType = AttributeEnum.MulDamageResist;
 
+            long rmdr = GetTotalAttr(AttributeEnum.RealMulDamageResist); //是否使用迭代减伤
             foreach (double pc in AllAttrDict[percentType].Values)
             {
-                double fp = Math.Min(70.0, pc);
+                double fp = CalMulDamageResistLimit(pc, rmdr);
 
                 total *= (1 - fp / 100);
             }
@@ -301,6 +426,51 @@ namespace Game
 
                     total *= (1 - fp / 100);
                 }
+
+            }
+            if (haveBuff && SkillDict.ContainsKey(percentType))
+            {
+                foreach (var item in SkillDict[percentType])
+                {
+                    double fp = Math.Min(70.0, item.Value);
+
+                    total *= (1 - fp / 100);
+                }
+            }
+
+            total = (1 - total) * 100.0;
+
+            if (total >= 100)
+            {
+                total = 99.9999999999999;
+            }
+
+            return total;
+        }
+
+
+        public double CalMulDamageResistLimit(double pc, long rmdr)
+        {
+            //TODO
+            if (rmdr > 0)
+            {
+                return MathHelper.CalRealResist(pc);
+            }
+            else
+            {
+                return Math.Min(70.0, pc);
+            }
+        }
+
+        public double CalMulDamageResistAttack()
+        {
+            double total = 1;
+
+            AttributeEnum percentType = AttributeEnum.MulDamageResist;
+
+            foreach (double pc in AllAttrDict[percentType].Values)
+            {
+                total *= (1 - pc / 100);
             }
 
             return (1 - total) * 100;

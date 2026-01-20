@@ -45,7 +45,7 @@ public class Battle_Defend : ABattleRule
         this.Start = true;
     }
 
-    public override void DoMapLogic(int roundNum)
+    public override void DoMapLogic(int roundNum, double currentRoundTime)
     {
         if (!this.Over)
         {
@@ -63,17 +63,20 @@ public class Battle_Defend : ABattleRule
         {
             int si = (int)(this.Progress - 1) / 10 + 1;
 
-            if (!GameProcessor.Inst.User.DefendData.GetCurrentRecord().BuffDict.ContainsKey(si))
+            if (!GameProcessor.Inst.User.DefendData.GetCurrentRecord(this.Level).BuffDict.ContainsKey(si))
             {
                 GameProcessor.Inst.EventCenter.Raise(new DefendBuffSelectEvent() { Index = si, Level = this.Level });
             }
 
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "第" + this.Progress + "波发起了进攻" });
+            if (GameProcessor.Inst.User.InfoColor <= 1)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "第" + this.Progress + "波发起了进攻" });
+            }
 
             //Load All
             for (int i = 0; i < MonsterList.Length; i++)
             {
-                var enemy = new Monster_Defend(this.Progress, MonsterList[i], this.Level);
+                var enemy = new Monster_DefendNew(this.Level, this.Progress, MonsterList[i]);
                 GameProcessor.Inst.PlayerManager.LoadMonsterDefend(enemy);
             }
 
@@ -96,10 +99,12 @@ public class Battle_Defend : ABattleRule
                 user.MagicRecord[AchievementSourceType.Defend].Data = cp;
             }
 
+            this.BuildRewardNew();
+
             this.Start = true;
             this.Progress++;
 
-            DefendRecord record = user.DefendData.GetCurrentRecord();
+            DefendRecord record = user.DefendData.GetCurrentRecord(this.Level);
 
             record.Progress.Data = this.Progress;
             record.Hp.Data = (long)defendPlayer.HP;
@@ -107,15 +112,13 @@ public class Battle_Defend : ABattleRule
             return;
         }
 
-
-
         if (this.Progress > MaxProgress && this.Over)
         {
             this.Over = false;
 
             user.DefendData.Complete();
 
-            BuildReward();
+            //BuildReward();
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "守卫成功" });
 
@@ -125,23 +128,76 @@ public class Battle_Defend : ABattleRule
         }
     }
 
-    private void BuildReward()
+    private void BuildRewardNew()
     {
+        DefendConfig rewardConfig = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, (int)this.Progress);
+
         User user = GameProcessor.Inst.User;
 
-        List<Item> items = DropLimitHelper.Build((int)DropLimitType.Defend, 0, 1, 1, 1,1);
+        long exp = (long)rewardConfig.Exp;
+        long gold = (long)rewardConfig.Gold;
+
+        //增加经验,金币
+        user.AddExpAndGold(exp, gold);
+
+        List<KeyValuePair<double, DropConfig>> dropList = new List<KeyValuePair<double, DropConfig>>();
+
+        //掉落道具
+        int dropId = user.DefendData.GetDropId(this.Level, (int)this.Progress);
+        DropConfig dropConfig = DropConfigCategory.Instance.Get(dropId);
+
+        dropList.Add(new KeyValuePair<double, DropConfig>(1, dropConfig));
+
+        int seed = AppHelper.GetDeviceIdentifier().GetHashCode();
+        if (user != null && user.Account != null)
+        {
+            seed = user.Account.GetHashCode();
+        }
+        seed += TimeHelper.TodaySeed() + (int)this.Progress;
+
+        List<Item> items = DropHelper.BuildDropItem(dropList, seed);
+
+        DefendDropConfig defendDropConfig = DefendDropConfigCategory.Instance.GetConfig(this.Level, dropId);
+        if (defendDropConfig != null && defendDropConfig.Number > 1)
+        {
+            foreach (Item item in items)
+            {
+                item.Count = item.Count * defendDropConfig.Number;
+            }
+        }
 
         if (items.Count > 0)
         {
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
-        GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+        if (QualityConfigHelper.GetMaxColor(items) >= user.InfoColor)
         {
-            Type = RuleType.Defend,
-            Message = BattleMsgHelper.BuildRewardMessage("守卫成功奖励", 0, 0, items)
-        });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+            {
+                Type = RuleType.Defend,
+                Message = BattleMsgHelper.BuildRewardMessage("守卫沙城" + this.Progress + "奖励:", exp, gold, items)
+            });
+        }
     }
+
+    //private void BuildReward()
+    //{
+    //    User user = GameProcessor.Inst.User;
+
+    //    List<Item> items = DropLimitHelper.Build((int)DropLimitType.Defend, 0, 1, 1, 9999999, 1);
+
+    //    if (items.Count > 0)
+    //    {
+    //        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+    //    }
+
+    //    GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+    //    {
+    //        Type = RuleType.Defend,
+    //        Message = BattleMsgHelper.BuildRewardMessage("守卫成功奖励", 0, 0, items)
+    //    });
+    //}
 
     public override void CheckGameResult()
     {

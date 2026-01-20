@@ -1,5 +1,6 @@
 using Game;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,9 +25,33 @@ public class Panel_Refresh : MonoBehaviour
     public Button Btn_OK;
     public Button Btn_Cancle;
 
+
+    public Button Btn_Setting;
+    public Button Btn_Setting_OK;
+    public Transform Tf_Setting;
+    public Transform Tf_Setting_Item_List;
+    public InputField If_Max;
+    public Toggle Tg_Batch;
+    private List<Refresh_Setting_Item> ItemList = new List<Refresh_Setting_Item>();
+
+    public Button Btn_Auto;
+    public Button Btn_Auto_Close;
+    private int AutoCount = 0;
+    private int AutoMax = 200;
+    private int AutoBatch = 20;
+
+    private int RefreshCount = 0;
+    private int AutoSaveCount = 0;
+
     private const int MaxCount = 10; //10件装备
 
     Equip SelectEquip;
+
+    //自动强化
+    private bool Auto = false;
+    private int AutoTotal = 0;
+    private int AutoFrequency = 20;
+    private Dictionary<int, int> AutoAttrDict = new Dictionary<int, int>();
 
     // Start is called before the first frame update
     void Awake()
@@ -36,6 +61,12 @@ public class Panel_Refresh : MonoBehaviour
         this.Btn_Refesh.onClick.AddListener(OnClickReferesh);
         this.Btn_OK.onClick.AddListener(OnClickOK);
         this.Btn_Cancle.onClick.AddListener(OnClickCancle);
+
+        this.Btn_Setting.onClick.AddListener(OnOpenSetting);
+        this.Btn_Setting_OK.onClick.AddListener(OnClickSettingOK);
+
+        this.Btn_Auto.onClick.AddListener(OnClickAuto);
+        this.Btn_Auto_Close.onClick.AddListener(OnCloseAuto);
     }
 
     // Update is called once per frame
@@ -47,6 +78,69 @@ public class Panel_Refresh : MonoBehaviour
     void OnEnable()
     {
         this.Load();
+    }
+
+    private void Update()
+    {
+        if (Auto && SelectEquip != null)
+        {
+            AutoTotal++;
+            if (AutoTotal % AutoFrequency == 0)
+            {
+                int batch = Tg_Batch.isOn ? 20 : 1;
+
+                for (int i = 0; i < batch; i++)
+                {
+                    //自动洗练
+                    if (!DoFrefresh(5))
+                    {
+                        Auto = false;
+                        break;
+                    }
+
+                    //check
+                    bool check = true;
+
+                    List<KeyValuePair<int, long>> keyValues = SelectEquip.Data.GetAttrList();
+                    foreach (var kv in AutoAttrDict)
+                    {
+                        int n = keyValues.Where(m => m.Key == kv.Key).Count();
+                        if (n < kv.Value)
+                        {
+                            check = false;
+                            break;
+                        }
+                    }
+
+                    if (check)
+                    {
+                        //success
+                        Auto = false;
+
+                        this.Btn_Auto_Close.gameObject.SetActive(false);
+                        this.Btn_OK.gameObject.SetActive(true);
+                        this.Btn_Cancle.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        this.SelectEquip.Refesh(false);
+
+                        if (AutoCount >= AutoMax)
+                        {
+                            Auto = false;
+                            this.Btn_Auto_Close.gameObject.SetActive(false);
+                            this.Btn_Auto.gameObject.SetActive(true);
+
+                            this.ShowResult(5);
+                            return;
+                        }
+                    }
+                }
+
+                AutoCount++;
+                this.ShowResult(5);
+            }
+        }
     }
 
     public void Init()
@@ -64,6 +158,7 @@ public class Panel_Refresh : MonoBehaviour
     {
         //把之前的卸载
         this.SelectEquip = null;
+        this.Auto = false;
 
         foreach (ItemRefresh cb in items)
         {
@@ -103,6 +198,8 @@ public class Panel_Refresh : MonoBehaviour
         AttrOld.gameObject.SetActive(false);
         AttrNew.gameObject.SetActive(false);
 
+        this.Btn_Auto.gameObject.SetActive(false);
+        this.Btn_Auto_Close.gameObject.SetActive(false);
         this.Btn_Refesh.gameObject.SetActive(false);
         this.Btn_OK.gameObject.SetActive(false);
         this.Btn_Cancle.gameObject.SetActive(false);
@@ -128,6 +225,7 @@ public class Panel_Refresh : MonoBehaviour
     private void OnSelect(RefershSelectEvent e)
     {
         this.SelectEquip = e.Equip;
+
         this.Show();
     }
 
@@ -141,33 +239,74 @@ public class Panel_Refresh : MonoBehaviour
         this.Btn_Cancle.gameObject.SetActive(false);
 
         SelectEquip.CheckReFreshCount();
-        if (SelectEquip.RefreshCount > 0)
+        if (SelectEquip.AttrEntryList.Count > 0) //SelectEquip.RefreshCount > 0 && 
         {
-            this.Btn_Refesh.gameObject.SetActive(true);
+            if (this.AutoAttrDict.Count > 0)
+            {
+                this.Btn_Auto.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.Btn_Refesh.gameObject.SetActive(true);
+            }
         }
         else
         {
+            this.Btn_Auto.gameObject.SetActive(false);
             this.Btn_Refesh.gameObject.SetActive(false);
         }
 
-        this.txt_Total.text = "今日剩余洗练次数：" + SelectEquip.RefreshCount + "次";
+        User user = GameProcessor.Inst.User;
+        this.txt_Total.text = "今日洗练总次数：" + user.RedRefreshCount.Data + "次";
         int specialId = ItemHelper.SpecailEquipRefreshId;
-        int upCount = ItemHelper.SpecailEquipRefreshCount[SelectEquip.Layer - 1];
+        int upCount = GetUpCount();
 
         ItemConfig refreshConfig = ItemConfigCategory.Instance.Get(specialId);
         this.TxtCostName.text = refreshConfig.Name;
 
-        User user = GameProcessor.Inst.User;
+
         long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
 
         string color = stoneTotal >= upCount ? "#11FF11" : "#FF0000";
         this.TxtCostCount.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, upCount);
     }
 
+    private int GetUpCount()
+    {
+        long total = GameProcessor.Inst.User.RedRefreshCount.Data;
+        long layer = Math.Min(total / 200 + 1, 10);
+
+        return (int)(layer * 10);
+    }
+
     public void OnClickReferesh()
     {
+        if (SelectEquip == null)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请先选择一个装备", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        this.Btn_Refesh.gameObject.SetActive(false);
+
+        if (DoFrefresh(1))
+        {
+            this.ShowResult(1);
+
+            this.Btn_OK.gameObject.SetActive(true);
+            this.Btn_Cancle.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.Btn_Refesh.gameObject.SetActive(true);
+        }
+    }
+
+
+    private bool DoFrefresh(int type)
+    {
         int specialId = ItemHelper.SpecailEquipRefreshId;
-        int upCount = ItemHelper.SpecailEquipRefreshCount[SelectEquip.Layer - 1];
+        int upCount = GetUpCount();
 
         User user = GameProcessor.Inst.User;
 
@@ -175,12 +314,8 @@ public class Panel_Refresh : MonoBehaviour
         if (stoneTotal < upCount)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您的洗练石不足" + upCount + "个", ToastType = ToastTypeEnum.Failure });
-            return;
+            return false;
         }
-
-        this.Btn_Refesh.gameObject.SetActive(false);
-        this.Btn_OK.gameObject.SetActive(true);
-        this.Btn_Cancle.gameObject.SetActive(true);
 
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
@@ -189,41 +324,159 @@ public class Panel_Refresh : MonoBehaviour
             Quantity = upCount
         });
 
-        int tempSeed = AppHelper.RefreshSeed(SelectEquip.Seed);
-        int tempRuneSeed = AppHelper.RefreshSeed1(SelectEquip.RuneSeed);
-        int tempSuitSeed = AppHelper.RefreshSeed(SelectEquip.SuitSeed);
+        user.RedRefreshCount.Data++;
 
+        return true;
+    }
 
-        List<KeyValuePair<int, long>> keyValues = AttrEntryConfigCategory.Instance.Build(SelectEquip.Part, SelectEquip.Level, SelectEquip.Quality, SelectEquip.EquipConfig.Role, tempSeed);
+    private void ShowResult(int type)
+    {
+        User user = GameProcessor.Inst.User;
 
-        SkillRuneConfig runeConfig = SkillRuneHelper.RandomRune(tempSeed, tempRuneSeed, SelectEquip.EquipConfig.Role, 1, SelectEquip.Quality, SelectEquip.Level);
+        List<KeyValuePair<int, long>> keyValues = SelectEquip.Data.GetAttrList();
 
-        int suitId = SkillSuitHelper.RandomSuit(tempSuitSeed, runeConfig.SkillId).Id;
+        int runeId = SelectEquip.Data.GetRuneId();
+
+        int suitId = SelectEquip.Data.GetSuitId();
 
         AttrNew.gameObject.SetActive(true);
-        AttrNew.Show(keyValues, runeConfig.Id, suitId);
+        AttrNew.Show(keyValues, runeId, suitId);
 
-        SelectEquip.RefreshCount--;
-        this.txt_Total.text = "今日剩余洗练次数：" + SelectEquip.RefreshCount + "次";
+        this.txt_Total.text = "今日洗练总次数：" + user.RedRefreshCount.Data + "次";
 
-
-        stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
+        int specialId = ItemHelper.SpecailEquipRefreshId;
+        int upCount = GetUpCount();
+        long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
         string color = stoneTotal >= upCount ? "#11FF11" : "#FF0000";
         this.TxtCostCount.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, upCount);
+
+        RefreshCount++;
+        if (RefreshCount % (7 * type) == 6)
+        {
+            Debug.Log("Refresh save : " + RefreshCount);
+            GameProcessor.Inst.SaveData();
+        }
+        else
+        {
+            if ((RefreshCount - AutoSaveCount) > 10 && RandomHelper.RandomRate(1))
+            {
+                Debug.Log("Refresh save net: " + RefreshCount);
+                AutoSaveCount = RefreshCount;
+                GameProcessor.Inst.SaveNetData();
+            }
+        }
     }
 
     public void OnClickOK()
     {
-        this.SelectEquip.Refesh();
+        this.SelectEquip.Refesh(true);
 
         this.Show();
+
+        if (this.AutoAttrDict.Count > 0)
+        {
+            this.Btn_Auto.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.Btn_Refesh.gameObject.SetActive(true);
+        }
     }
 
     public void OnClickCancle()
     {
-        this.SelectEquip.RefreshSeed();
+        this.SelectEquip.Refesh(false);
 
         this.Show();
+
+        if (this.AutoAttrDict.Count > 0)
+        {
+            this.Btn_Auto.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.Btn_Refesh.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnOpenSetting()
+    {
+        if (ItemList.Count == 0)
+        {
+            var itemPrefab = Resources.Load<GameObject>("Prefab/Window/Forge/Refresh_Setting_Item");
+
+            List<AttrEntryConfig> attrs = AttrEntryConfigCategory.Instance.GetRedAttrList();
+            for (int i = 0; i < attrs.Count; i++)
+            {
+                var item = GameObject.Instantiate(itemPrefab);
+                item.transform.SetParent(Tf_Setting_Item_List);
+                item.transform.localScale = Vector3.one;
+                item.gameObject.SetActive(true);
+
+
+                var com = item.GetComponent<Refresh_Setting_Item>();
+                com.SetItem(attrs[i].AttrId);
+
+                ItemList.Add(com);
+            }
+        }
+
+        this.Tf_Setting.gameObject.SetActive(true);
+    }
+
+    private void OnClickSettingOK()
+    {
+        this.AutoAttrDict.Clear();
+
+        int total = 0;
+
+        for (int i = 0; i < ItemList.Count; i++)
+        {
+            int count = ItemList[i].GetCount();
+
+            if (count > 0)
+            {
+                AutoAttrDict[ItemList[i].AttrId] = count;
+                total += count;
+            }
+        }
+
+        if (total < 3 && total > 0)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "设置错误,保留词条总和，必须是3-6之间" });
+            return;
+        }
+
+        int.TryParse(If_Max.text, out int max);
+        this.AutoMax = max;
+
+        if (total > 0)
+        {
+            this.Btn_Auto.gameObject.SetActive(true);
+            this.Btn_Refesh.gameObject.SetActive(false);
+        }
+        else
+        {
+            this.Btn_Auto.gameObject.SetActive(false);
+            this.Btn_Refesh.gameObject.SetActive(true);
+        }
+
+        this.Tf_Setting.gameObject.SetActive(false);
+    }
+
+    private void OnClickAuto()
+    {
+        this.Auto = true;
+        this.AutoCount = 0;
+        this.Btn_Auto.gameObject.SetActive(false);
+        this.Btn_Auto_Close.gameObject.SetActive(true);
+    }
+
+    private void OnCloseAuto()
+    {
+        this.Auto = false;
+        this.Btn_Auto.gameObject.SetActive(true);
+        this.Btn_Auto_Close.gameObject.SetActive(false);
     }
 }
 

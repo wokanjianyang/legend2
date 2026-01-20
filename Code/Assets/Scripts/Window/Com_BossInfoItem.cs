@@ -15,8 +15,8 @@ public class Com_BossInfoItem : MonoBehaviour
     public Button btn_Start;
     public Text txt_Start;
 
-    public MapConfig mapConfig { get; set; }
-    private BossConfig bossConfig;
+    private int MapId;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +35,10 @@ public class Com_BossInfoItem : MonoBehaviour
 
     private void OnClick_NavigateMap()
     {
-        int ticket = GameProcessor.Inst.EquipCopySetting_Rate ? 5 : 1;
+        User user = GameProcessor.Inst.User;
+        int Rate = user.GetArtifactValue(ArtifactType.EquipBattleRate) + 5;
+
+        int ticket = GameProcessor.Inst.EquipCopySetting_Rate ? Rate : 1;
 
         if (GameProcessor.Inst.User.MagicCopyTikerCount.Data < ticket)
         {
@@ -44,13 +47,12 @@ public class Com_BossInfoItem : MonoBehaviour
         }
 
         var vm = this.GetComponentInParent<ViewMore>();
-        vm.SelectMap(mapConfig.Id, ticket);
+        vm.SelectMap(MapId, ticket);
     }
 
-    public void SetContent(MapConfig mapConfig, BossConfig bossConfig)
+    public void SetContent(MapConfig mapConfig)
     {
-        this.mapConfig = mapConfig;
-        this.bossConfig = bossConfig;
+        this.MapId = mapConfig.Id;
 
         txt_MapName.text = mapConfig.Name;
         if (mapConfig.Memo != "")
@@ -58,58 +60,6 @@ public class Com_BossInfoItem : MonoBehaviour
             txt_MapName.text += "(" + mapConfig.Memo + ")";
         }
 
-        txt_BossName.text = bossConfig.Name;
-
-        if (GameProcessor.Inst.isTimeError || GameProcessor.Inst.isCheckError)
-        {
-            btn_Start.gameObject.SetActive(false);
-            txt_Time.gameObject.SetActive(true);
-            txt_Time.text = "99:99:99";
-        }
-        else
-        {
-            txt_Start.text = "挑战";
-        }
-
-        //RefeshTime();
+        txt_BossName.text = mapConfig.LevelRequired + "";
     }
-
-    //public void SetKillTime(long killTime)
-    //{
-    //    this.killTime = killTime;
-
-    //    RefeshTime();
-    //}
-
-    //private void RefeshTime()
-    //{
-    //    if (GameProcessor.Inst.isTimeError)
-    //    {
-    //        txt_Time.text = "99:99:99";
-    //        btn_Start.gameObject.SetActive(false);
-    //        txt_Time.gameObject.SetActive(true);
-    //        return;
-    //    }
-
-    //    long dieTime = TimeHelper.ClientNowSeconds() - killTime;
-
-    //    long count = Math.Min(dieTime / (mapConfig.BossInterval * 60), 5);
-
-    //    txt_Start.text = "挑战(" + count + "次)";
-
-    //    if (count > 0)
-    //    {
-    //        btn_Start.gameObject.SetActive(true);
-    //        txt_Time.gameObject.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        //显示倒计时
-    //        long refeshTime = mapConfig.BossInterval * 60 - dieTime;
-    //        txt_Time.text = TimeSpan.FromSeconds(refeshTime).ToString(@"hh\:mm\:ss");
-
-    //        btn_Start.gameObject.SetActive(false);
-    //        txt_Time.gameObject.SetActive(true);
-    //    }
-    //}
 }

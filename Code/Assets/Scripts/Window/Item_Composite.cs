@@ -1,5 +1,6 @@
 using Game;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class Item_Composite : MonoBehaviour
     public Text CommissionCount;
 
     public Button Btn_Ok;
+    public Button Btn_Ok_All;
 
     private List<Text> TxtNameList = new List<Text>();
     private List<Text> TxtCountList = new List<Text>();
@@ -34,19 +36,7 @@ public class Item_Composite : MonoBehaviour
         TxtCountList.Add(CommissionCount);
 
         Btn_Ok.onClick.AddListener(OnClickOK);
-
-        GameProcessor.Inst.EventCenter.AddListener<CompositeUIFreshEvent>(this.OnUIFresh);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    void OnEnable()
-    {
-        this.Check();
+        Btn_Ok_All.onClick.AddListener(OnClickOKAll);
     }
 
     private void Init()
@@ -60,7 +50,7 @@ public class Item_Composite : MonoBehaviour
             if (Config.ItemTypeList[i] == (int)ItemType.Equip)
             {
                 EquipConfig equipConfig = EquipConfigCategory.Instance.Get(Config.ItemIdList[i]);
-                TxtNameList[i].text = string.Format("<color=#{0}>{1}</color>", color, equipConfig.Name); 
+                TxtNameList[i].text = string.Format("<color=#{0}>{1}</color>", color, equipConfig.Name);
             }
             else
             {
@@ -68,14 +58,25 @@ public class Item_Composite : MonoBehaviour
                 TxtNameList[i].text = itemConfig.Name;
             }
         }
+
+        if (this.Config.Id >= 500)
+        {
+            this.Btn_Ok_All.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.Btn_Ok_All.gameObject.SetActive(false);
+        }
     }
 
-    private void Check()
+    public void Check()
     {
         if (Config == null)
         {
             return;
         }
+
+        this.gameObject.SetActive(true);
 
         User user = GameProcessor.Inst.User;
 
@@ -84,9 +85,14 @@ public class Item_Composite : MonoBehaviour
         for (int i = 0; i < Config.ItemIdList.Length; i++)
         {
             int quality = Config.ItemQualityList[i];
-            int MaxCount = Config.ItemCountList[i];
+            long MaxCount = Config.ItemCountList[i];
 
             long count = user.Bags.Where(m => (int)m.Item.Type == Config.ItemTypeList[i] && m.Item.ConfigId == Config.ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
+
+            if (Config.TargetType == 2 && Config.AutoHide == 1 && count <= 0)
+            {
+                this.gameObject.SetActive(false); //没有主材料的，隐藏
+            }
 
             string color = "#00FF00";
 
@@ -96,7 +102,7 @@ public class Item_Composite : MonoBehaviour
                 this.check = false;
             }
 
-            TxtCountList[i].text = string.Format("<color={0}>({1}/{2})</color>", color, count, MaxCount);
+            TxtCountList[i].text = string.Format("<color={0}>({1}/{2})</color>", color, StringHelper.FormatNumber(count), StringHelper.FormatNumber(MaxCount));
         }
     }
 
@@ -123,12 +129,36 @@ public class Item_Composite : MonoBehaviour
             return;
         }
 
-        GameProcessor.Inst.EventCenter.Raise(new CompositeEvent() { Config = Config });
+        GameProcessor.Inst.EventCenter.Raise(new CompositeEvent() { Config = Config, Number = 1 });
     }
 
-    public void OnUIFresh(CompositeUIFreshEvent e)
+    public void OnClickOKAll()
     {
-        this.Check();
+        if (!check)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "材料不足", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        User user = GameProcessor.Inst.User;
+
+        long number = 99999999;
+
+        for (int i = 0; i < Config.ItemIdList.Length; i++)
+        {
+            long MaxCount = Config.ItemCountList[i];
+
+            long count = user.Bags.Where(m => (int)m.Item.Type == Config.ItemTypeList[i] && m.Item.ConfigId == Config.ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
+
+            number = Math.Min(number, count / MaxCount);
+        }
+
+        if (number > 0)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new CompositeEvent() { Config = Config, Number = number });
+        }
     }
+
+
 }
 

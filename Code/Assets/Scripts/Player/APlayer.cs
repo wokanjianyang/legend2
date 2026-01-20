@@ -18,6 +18,10 @@ namespace Game
         public string Title { get; set; }
 
         public long Level { get; set; }
+
+        public double SP { get; set; }
+
+        public double MaxSP { get; set; }
         public double HP { get; set; }
         public int Quality { get; set; }
 
@@ -28,22 +32,28 @@ namespace Game
         public float MoveSpeed { get; private set; } = 1;
         public float AttckSpeed { get; private set; } = 1;
 
-        public List<SkillData> SkillList { get; set; } = new List<SkillData>();
-
+        [JsonIgnore]
         public PlayerType Camp { get; set; }
 
         public MondelType ModelType { get; set; } = MondelType.Nomal;
 
         public RuleType RuleType = RuleType.Normal;
 
+        public int FashionId { get; set; } = 0;
+
         public int RingType { get; set; } = 0;
+
+        public bool IsFestive { get; set; } = false;
 
         public Vector3Int Cell { get; set; }
 
         public AttributeBonus AttributeBonus { get; set; }
 
+        [JsonIgnore]
         public Transform Transform { get; private set; }
 
+        [JsonIgnore]
+        public Logic Logic { get; private set; }
 
         [JsonIgnore]
         public int RoundCounter { get; set; }
@@ -51,12 +61,22 @@ namespace Game
         [JsonIgnore]
         public EventManager EventCenter { get; private set; }
 
-        public bool IsSurvice = true;
+        [JsonIgnore]
+        public bool IsSurvice
+        {
+            get
+            {
+                return this.Logic.IsSurvice && this.HP > 0;
+            }
+        }
 
         public List<SkillState> SelectSkillList { get; set; }
 
+        public List<OrbState> OrbList { get; set; }
+
         protected Dictionary<int, List<Effect>> EffectMap = new Dictionary<int, List<Effect>>();
 
+        //private Dictionary<int, int> SkillUseRoundCache = new Dictionary<int, int>();
 
         public void ChangeMaxHp(int fromId, double total)
         {
@@ -96,8 +116,6 @@ namespace Game
             }
         }
 
-        private PlayerUI UI;
-
         virtual public APlayer CalcEnemy()
         {
             if (_enemy != null && (_enemy.IsHide || !_enemy.IsSurvice))
@@ -124,32 +142,34 @@ namespace Game
             this.EventCenter = new EventManager();
             this.AttributeBonus = new AttributeBonus();
             this.SelectSkillList = new List<SkillState>();
-            this.IsSurvice = true;
+            this.OrbList = new List<OrbState>();
+
             //this.Load();
         }
 
+        [JsonIgnore]
+        public int UseSkillPosition { get; set; } = 0;
+
         virtual public void Load()
         {
-            string fabName = this.Camp == PlayerType.Hero ? "Hero" : "Monster";
-
-            var prefab = Resources.Load<GameObject>("Unit/" + fabName);
-
+            var prefab = Resources.Load<GameObject>("Prefab/Char/Model");
             this.Transform = GameObject.Instantiate(prefab).transform;
             this.Transform.SetParent(GameProcessor.Inst.PlayerRoot);
-
             var rect = this.Transform.GetComponent<RectTransform>();
             rect.sizeDelta = GameProcessor.Inst.MapData.CellSize;
             rect.localScale = UnityEngine.Vector3.one;
+            this.Logic = this.Transform.GetComponent<Logic>();
+            var coms = this.Transform.GetComponents<MonoBehaviour>();
+            foreach (var com in coms)
+            {
+                if (com is IPlayer _com)
+                {
+                    _com.SetParent(this);
+                }
+            }
 
-            this.UI = this.Transform.GetComponent<PlayerUI>();
-            this.UI.SetParent(this);
-
-            this.ShowUI(); //设置UI
-        }
-
-        public void ShowUI()
-        {
-            this.UI.Init();
+            //加载技能
+            //LoadSkill();
         }
 
         public void SetAttackSpeed(int SpeedPercent)
@@ -163,7 +183,7 @@ namespace Game
 
         public double GetRoleAttack(int role, bool haveBuff)
         {
-            return DamageHelper.GetRoleAttack(this.AttributeBonus, role);
+            return DamageHelper.GetRoleAttack(this.AttributeBonus, role, haveBuff);
         }
 
         public long GetRolePercent(int role)
@@ -182,11 +202,11 @@ namespace Game
             List<SkillState> list = SelectSkillList.Where(m => m.SkillPanel.SkillData.SkillConfig.Priority >= priority && m.SkillPanel.SkillId != 9001)
                 .OrderBy(m => m.UserCount * 1000 + m.Priority).ToList();
 
-            long now = TimeHelper.ClientNowSeconds();
+            //long now = TimeHelper.ClientNowSeconds();
 
             foreach (SkillState state in list)
             {
-                if (state.IsCanUse(now))
+                if (state.IsCanUse())
                 {
                     state.UserCount = state.UserCount + 1;
                     return state;
@@ -196,7 +216,7 @@ namespace Game
             if (priority == 0)
             {
                 SkillState normal = SelectSkillList.FirstOrDefault(m => m.SkillPanel.SkillId == 9001);
-                if (normal != null && normal.IsCanUse(now))
+                if (normal != null && normal.IsCanUse())
                 {
                     return normal;
                 }
@@ -205,17 +225,71 @@ namespace Game
             return null;
         }
 
+        private int state2012Count = 0;
+        private SkillState ss2012 = null;
+
+        public virtual void SetSkillAfter()
+        {
+            foreach (SkillState ss in SelectSkillList)
+            {
+                if (ss.SkillPanel.SkillId == 2012)
+                {
+                    state2012Count = 0;
+                    ss2012 = ss;
+
+
+                    //Debug.Log("init 2012:");
+                }
+            }
+        }
+
+        public void SkillAfter()
+        {
+            //Debug.Log("SkillAfter count:" + state2012Count);
+
+            if (ss2012 != null)
+            {
+                int state2012Max = ss2012.SkillPanel.EnemyMax;
+
+                if (state2012Count < ss2012.SkillPanel.Duration)
+                {
+                    state2012Count += state2012Max;
+                }
+
+                //Debug.Log("skill 2012 percent:" + ss2012.SkillPanel.Percent + " count:" + state2012Count + " total:" + ss2012.SkillPanel.Percent * state2012Count);
+
+                this.AttributeBonus.SetSkillAttr(AttributeEnum.MulAttrMagic, 2012, ss2012.SkillPanel.Percent * state2012Count);
+                this.AttributeBonus.SetSkillAttr(AttributeEnum.MulHp, 2012, ss2012.SkillPanel.Damage * state2012Count);
+            }
+        }
+
+
+        public SkillState GetSkillByPriority(int priority)
+        {
+            SkillState state = SelectSkillList.Where(m => m.SkillPanel.SkillData.SkillConfig.Priority == priority).FirstOrDefault();
+
+
+            if (state != null && state.IsCanUse())
+            {
+                state.UserCount = state.UserCount + 1;
+                return state;
+            }
+
+            return null;
+        }
+
+
         public bool GetIsPause()
         {
             foreach (List<Effect> list in EffectMap.Values)
             {
-                int mc = list.Where(m => m.Data.Config.Type == (int)EffectType.IgnorePause).Count();
+                int mc = list.Where(m => m.Data.Config.Type == (int)EffectType.IgnorePause && m.Active).Count();
                 if (mc > 0)
                 {
                     return false;
                 }
 
-                int count = list.Where(m => m.Data.Config.Type == (int)EffectType.Pause).Count();
+                int count = list.Where(m => m.Data.Config.Type == (int)EffectType.Pause && m.Active).Count();
                 if (count > 0)
                 {
                     return true;
@@ -225,24 +299,22 @@ namespace Game
             return false;
         }
 
+        public void DoCD(float time)
+        {
+            foreach (SkillState ss in this.SelectSkillList)
+            {
+                ss.RunCD(time);
+            }
+
+            foreach (OrbState os in this.OrbList)
+            {
+                os.RunCD(time);
+            }
+        }
+
         public void DoEffect(float time)
         {
             if (!this.IsSurvice) return;
-
-            //光环
-            //if (this.Camp == PlayerType.Hero)
-            //{
-            //    //Debug.Log("Hero Def:" + this.AttributeBonus.GetTotalAttr(AttributeEnum.Def));
-            //    //Debug.Log("Hero PhyDamage:" + this.AttributeBonus.GetAttackAttr(AttributeEnum.PhyDamage));
-
-            //    if (this.AurasList != null)
-            //    {
-            //        foreach (AAuras auras in this.AurasList)
-            //        {
-            //            auras.Do();
-            //        }
-            //    }
-            //}
 
             //计算buff
             foreach (List<Effect> list in EffectMap.Values)
@@ -296,6 +368,9 @@ namespace Game
             {
                 //Debug.Log("Player Use Prioriry Skill:" + skill.SkillPanel.SkillData.SkillConfig.Name);
                 skill.Do();
+
+                //行动结算
+
                 return AttckSpeed;
             }
 
@@ -313,6 +388,7 @@ namespace Game
                 if (skill != null)
                 {
                     skill.Do();
+
                     return AttckSpeed;
                 }
             }
@@ -325,6 +401,7 @@ namespace Game
                 if (skill != null)
                 {
                     skill.Do();
+
                     return AttckSpeed;
                 }
             }
@@ -484,46 +561,9 @@ namespace Game
             return enemys.GetRange(0, Math.Min(enemys.Count, 3));
         }
 
-        public float GetHpProgress()
-        {
-            double percent = this.HP / this.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
-
-            //Debug.Log("HP:" + this.HP);
-            //Debug.Log("MaxHP:" + this.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
-
-            percent = Math.Min(percent, 1);
-            percent = Math.Max(0, percent);
-
-            //Debug.Log("percent:" + percent);
-
-            return (float)percent;
-        }
-
         public virtual void OnHit(DamageResult dr)
         {
-            if (!IsSurvice)
-            {
-                return;
-            }
-
-            this.HP = Math.Max(0, this.HP - dr.Damage);
-            this.UI.SetHpProgress();
-
-            if (this.HP <= 0)
-            {
-                IsSurvice = false;
-
-                this.EventCenter.Raise(new DeadRewarddEvent
-                {
-                    FromId = dr.FromId,
-                    ToId = this.ID
-                });
-
-                if (this.Camp != PlayerType.Hero)
-                {
-                    this.UI.ClearPlayer();
-                }
-            }
+            this.Logic.OnDamage(dr);
         }
 
         public void OnRestore(int fromId, double hp)
@@ -532,6 +572,8 @@ namespace Game
             {
                 return;
             }
+
+            this.Logic.OnRestore(hp);
         }
 
         public void SetHP(double hp)
@@ -539,13 +581,42 @@ namespace Game
             this.HP = hp;
         }
 
+        public void AddSP(double sp)
+        {
+            this.MaxSP = sp;
+            this.SP = sp;
+        }
+        public void SetSP(double sp)
+        {
+            this.SP = sp;
+        }
+
+
+
         public void ShowMiss()
         {
-            this.EventCenter.Raise(new ShowMsgEvent()
+            if ((this.Camp == PlayerType.Enemy && GameProcessor.Inst.User.ShowMonsterDamage)
+              || (this.Camp != PlayerType.Enemy && GameProcessor.Inst.User.ShowPlayerEffect))
             {
-                Type = MsgType.Miss,
-                Content = "MISS"
-            });
+                this.EventCenter.Raise(new ShowMsgEvent()
+                {
+                    Type = MsgType.Miss,
+                    Content = "MISS"
+                });
+            }
+        }
+
+        public void ShowMiss2()
+        {
+            if ((this.Camp == PlayerType.Enemy && GameProcessor.Inst.User.ShowMonsterDamage)
+             || (this.Camp != PlayerType.Enemy && GameProcessor.Inst.User.ShowPlayerEffect))
+            {
+                this.EventCenter.Raise(new ShowMsgEvent()
+                {
+                    Type = MsgType.Miss,
+                    Content = "二次闪避"
+                });
+            }
         }
 
         public T GetComponent<T>()

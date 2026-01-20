@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Game
+{
+
+    public partial class CardConfigCategory
+    {
+        public CardConfig GetQualityRiseConfig(int quality)
+        {
+            return this.list.Where(m => m.RiseQualilty == quality).FirstOrDefault();
+        }
+    }
+
+    public partial class CardConfig
+    {
+
+        public long CalUpLevel(long currentLevel, long materialNubmer, long limitLevel, out long useNumber)
+        {
+            useNumber = 0;
+            long upLevel = 0;
+
+            while (materialNubmer > 0)
+            {
+                if (currentLevel + upLevel >= limitLevel)
+                {
+                    break;
+                }
+
+                long tempUpNumber = CalNewUpNumber(currentLevel + upLevel);
+
+                if (tempUpNumber <= materialNubmer)
+                {
+                    upLevel++;
+                    useNumber += tempUpNumber;
+                }
+
+
+                materialNubmer -= tempUpNumber;
+            }
+
+            return upLevel;
+        }
+
+        public long CalNewUpNumber(long currentLevel)
+        {
+            long rise = Math.Min(currentLevel / RiseLevel, 10);
+            rise = rise * RiseNumber + StartNubmer;
+            return rise;
+
+        }
+
+        public long GetCardRiseValue(long cardLevel, int groupLevel)
+        {
+            return cardLevel * this.AttrValue * groupLevel / 100;
+        }
+
+        //public long CalOldUpNumber(long currentLevel)
+        //{
+        //    long rise = currentLevel / RiseLevel;
+        //    rise = rise * RiseNumber + StartNubmer;
+        //    return rise;
+        //}
+
+        //public long CalReturnNumber(long currentLevel)
+        //{
+        //    long newTotal = 0;
+        //    long oldTotal = 0;
+
+        //    for (int i = 0; i < currentLevel; i++)
+        //    {
+        //        newTotal += CalNewUpNumber(i);
+        //        oldTotal += CalOldUpNumber(i);
+        //    }
+
+        //    return oldTotal - newTotal;
+        //}
+    }
+
+}

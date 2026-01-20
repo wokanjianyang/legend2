@@ -16,8 +16,14 @@ public class Panel_Grade : MonoBehaviour
     public List<Item_Metail_Need> metailList;
 
     public Button Btn_OK;
+    public Button Btn_Batch;
+    public Button Btn_Batch_Restore;
 
     private const int MaxCount = 10; //10件装备
+    private const int Quality = 6;
+
+    private const int StartPosition = 1;
+    private const int MaxLevel = 21;
 
     Equip SelectEquip;
 
@@ -27,6 +33,8 @@ public class Panel_Grade : MonoBehaviour
         this.Init();
 
         this.Btn_OK.onClick.AddListener(OnClickOK);
+        this.Btn_Batch.onClick.AddListener(OnClickBatch);
+        this.Btn_Batch_Restore.onClick.AddListener(OnClickBatchRestore);
     }
 
     // Update is called once per frame
@@ -72,7 +80,7 @@ public class Panel_Grade : MonoBehaviour
 
         for (int BoxId = 0; BoxId < MaxCount; BoxId++)
         {
-            int postion = BoxId + 1;
+            int postion = BoxId + StartPosition;
 
             var bagBox = this.sr_Panel.content.GetChild(BoxId);
             if (bagBox == null || !dict.ContainsKey(postion))
@@ -82,7 +90,7 @@ public class Panel_Grade : MonoBehaviour
 
             Equip equip = dict[postion];
 
-            if (equip.GetQuality() < 6 || equip.Layer >= 7)
+            if (equip.GetQuality() < 6)
             {
                 continue;
             }
@@ -120,29 +128,27 @@ public class Panel_Grade : MonoBehaviour
 
     private void OnSelect(GradeSelectEvent e)
     {
+        if (e.Equip.EquipConfig.Cycle != 2)
+        {
+            return;
+        }
+
         this.SelectEquip = e.Equip;
         this.Show();
     }
 
     private void Show()
     {
-        if (SelectEquip.Layer >= 7)
-        {
-            this.Btn_OK.gameObject.SetActive(false);
-        }
-        else
-        {
-            this.Btn_OK.gameObject.SetActive(true);
-        }
+        Btn_OK.gameObject.SetActive(true);
 
-        //
         int part = SelectEquip.Part;
         int layer = SelectEquip.Layer;
 
-        EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == part && m.Layer == layer).FirstOrDefault();
+        EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == part && m.Layer == layer && m.Quanlity == Quality).FirstOrDefault();
 
         if (config == null)
         {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满级了", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
@@ -155,13 +161,29 @@ public class Panel_Grade : MonoBehaviour
 
     public void OnClickOK()
     {
-        int part = SelectEquip.Part;
-        int layer = SelectEquip.Layer;
-        EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == part && m.Layer == layer).FirstOrDefault();
+        bool grade = Grade(SelectEquip);
+
+        if (!grade)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您的升阶材料不足", ToastType = ToastTypeEnum.Failure });
+        }
+        else
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "升阶成功", ToastType = ToastTypeEnum.Success });
+            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+            this.Load();
+        }
+    }
+
+    private bool Grade(Equip equip)
+    {
+        int part = equip.Part;
+        int layer = equip.Layer;
+        EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == part && m.Layer == layer && m.Quanlity == Quality).FirstOrDefault();
 
         if (config == null)
         {
-            return;
+            return false;
         }
 
         User user = GameProcessor.Inst.User;
@@ -177,8 +199,7 @@ public class Panel_Grade : MonoBehaviour
             long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
             if (stoneTotal < upCount)
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您的升阶材料不足", ToastType = ToastTypeEnum.Failure });
-                return;
+                return false;
             }
         }
 
@@ -195,9 +216,110 @@ public class Panel_Grade : MonoBehaviour
             });
         }
 
-        this.SelectEquip.Grade();
+        equip.Grade();
+
+        return true;
+    }
+
+    public void OnClickBatch()
+    {
+        GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("一键进阶消耗10京金币。是否确认？", true,
+        () =>
+        {
+            BatchGrade();
+        }, () =>
+        {
+
+        });
+    }
+
+    private void BatchGrade()
+    {
+        User user = GameProcessor.Inst.User;
+
+        if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 20)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足10京", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        user.SubGold(ConfigHelper.RestoreGold * 20);
+
+        IDictionary<int, Equip> dict = user.EquipPanelList[user.EquipPanelIndex];
+
+        for (int i = 0; i <= MaxLevel; i++)
+        {
+            foreach (Equip equip in dict.Values)
+            {
+                if (equip.GetQuality() == Quality)
+                {
+                    Grade(equip);
+                }
+            }
+        }
+
+        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
         this.Load();
     }
 
+
+    public void OnClickBatchRestore()
+    {
+        GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("一键重生消耗10京金币。是否确认？", true,
+        () =>
+        {
+            BatchRestore();
+        }, () =>
+        {
+
+        });
+    }
+
+    private void BatchRestore()
+    {
+        User user = GameProcessor.Inst.User;
+
+        if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 20)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足10京", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        IDictionary<int, Equip> dict = user.EquipPanelList[user.EquipPanelIndex];
+
+        Dictionary<int, int> mlist = new Dictionary<int, int>();
+
+        foreach (Equip equip in dict.Values)
+        {
+            equip.GetRestoreItems(mlist);
+        }
+
+        int haveCount = user.GetBagIdleCount(4);
+        if (haveCount < mlist.Count)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留" + mlist.Count + "个包裹空额", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        user.SubGold(ConfigHelper.RestoreGold * 20);
+
+        foreach (Equip equip in dict.Values)
+        {
+            equip.Layer = 1;
+            equip.HoneList = new Dictionary<int, int>();
+        }
+
+        List<Item> newList = new List<Item>();
+        foreach (var kp in mlist)
+        {
+            Item item = ItemHelper.BuildMaterial(kp.Key, kp.Value);
+            newList.Add(item);
+        }
+
+        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
+
+        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        this.Load();
+    }
 }
 

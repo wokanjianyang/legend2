@@ -7,10 +7,13 @@ namespace Game
     public class SkillState
     {
         public SkillPanel SkillPanel { get; set; }
+
+        public SkillPanel FromSkill { get; set; }
+
         public APlayer SelfPlayer { get; set; }
 
         public int Priority { get; }
-        public long LastUseTime { get; private set; } = 0;
+        //public long LastUseTime { get; private set; } = 0;
 
         public int UserCount { get; set; } = 0;
 
@@ -20,19 +23,37 @@ namespace Game
 
         public int Rate { get; private set; } = 0;
 
+        public float CD = 0;
 
-        public SkillState(APlayer player, SkillPanel skillPanel, int position, int useRound)
+        public SkillState(APlayer player, SkillPanel skillPanel, int position, int useRound) : this(player, skillPanel, null, position, useRound)
+        {
+
+        }
+
+        public SkillState(APlayer player, SkillPanel skillPanel, SkillPanel fromSkill, int position, int useRound)
         {
             this.SelfPlayer = player;
             this.SkillPanel = skillPanel;
-            this.Priority = position; // - skillPanel.SkillData.SkillConfig.Priority;
+            this.Priority = skillPanel.SkillData.SkillConfig.Priority; // - skillPanel.SkillData.SkillConfig.Priority;
             this.Position = position;
-            this.LastUseTime = useRound;
+            this.CD = 0;
+            this.Rate = skillPanel.Rate;
+            this.FromSkill = fromSkill;
 
             bool isShow = true;
-            if (player.Camp == PlayerType.Enemy && !GameProcessor.Inst.User.ShowMonsterSkill)
+            if (player.Camp == PlayerType.Enemy)
             {
-                isShow = false;
+                if (!GameProcessor.Inst.User.ShowMonsterSkill)
+                {
+                    isShow = false;
+                }
+            }
+            else
+            {
+                if (!GameProcessor.Inst.User.ShowPlayerEffect)
+                {
+                    isShow = false;
+                }
             }
 
             if (skillPanel.SkillId == 1010)
@@ -55,9 +76,44 @@ namespace Game
             {
                 this.skillLogic = new Skill_Yinshen(player, skillPanel, isShow);
             }
+            else if (skillPanel.SkillId == 4001)
+            {
+                this.skillLogic = new Skill_Ring_FQ(player, skillPanel, isShow);
+            }
+            else if (skillPanel.SkillId == 4002)
+            {
+                this.skillLogic = new Skill_Ring_HT(player, skillPanel, isShow);
+            }
+            else if (skillPanel.SkillId == 4003)
+            {
+                this.skillLogic = new Skill_Ring_FH(player, skillPanel, isShow);
+            }
+            else if (skillPanel.SkillId == 1012)
+            {
+                this.skillLogic = new Skill_Jian23(player, skillPanel, fromSkill, isShow);
+            }
+            else if (skillPanel.SkillId == 4004)
+            {
+                this.skillLogic = new Skill_Jufengpo(player, skillPanel, fromSkill, isShow);
+            }
             else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
             {
-                if (skillPanel.SkillData.SkillConfig.CastType == ((int)AttackCastType.Single))
+                if (this.SkillPanel.DivineLevel > 0)
+                {
+                    if (this.SkillPanel.DivineAttrConfig.DamageType == (int)DivineType.SingleRepeat)
+                    {
+                        this.skillLogic = new Skill_Attack_Single_Repeat(player, skillPanel, isShow);
+                    }
+                    else if (this.SkillPanel.DivineAttrConfig.DamageType == (int)DivineType.SingleEjection)
+                    {
+                        this.skillLogic = new Skill_Attack_Single_Rejection(player, skillPanel, isShow);
+                    }
+                    else if (this.SkillPanel.DivineAttrConfig.DamageType == (int)DivineType.DistanceRise)
+                    {
+                        this.skillLogic = new Skill_Attack_Distance_Rise(player, skillPanel, isShow);
+                    }
+                }
+                else if (skillPanel.SkillData.SkillConfig.CastType == ((int)AttackCastType.Single))
                 {
                     this.skillLogic = new Skill_Attack_Single(player, skillPanel, isShow);
                 }
@@ -90,37 +146,61 @@ namespace Game
             {
                 this.skillLogic = new Skill_Yeman(player, skillPanel, isShow);
             }
+            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Passive)
+            {
+                this.skillLogic = new Skill_Passive(player, skillPanel, isShow);
+            }
             else
             {
                 this.skillLogic = new Skill_Attack_Normal(player, skillPanel, isShow);
             }
         }
 
-        public bool IsCanUse(long Now)
+        public bool IsCanUse()
         {
-            return (this.LastUseTime == 0 || Now - this.LastUseTime >= this.SkillPanel.CD) && this.skillLogic.IsCanUse();
+            return (this.CD <= 0) && this.skillLogic.IsCanUse();
+        }
+
+        public void RunCD(float time)
+        {
+            this.CD -= time;
         }
 
         public void Do()
         {
-            this.LastUseTime = TimeHelper.ClientNowSeconds();
-            this.skillLogic.Do();
+            this.CD = SkillPanel.CD;
+            this.skillLogic.Do(SkillRunType.Normal);
+
+            //ÐÐ¶¯½áËã
+            this.SelfPlayer.SkillAfter();
         }
 
-        public void Do(double baseHp)
+        public void Do(SkillRunType runType)
         {
-            this.LastUseTime = TimeHelper.ClientNowSeconds();
-            this.skillLogic.Do(baseHp);
+            this.CD = SkillPanel.CD;
+            this.skillLogic.Do(runType);
         }
 
-        public void SetLastUseTime(long time)
+        public void Do(DamageResult baseDr)
         {
-            this.LastUseTime = time;
+            this.CD = SkillPanel.CD;
+            this.skillLogic.Do(baseDr);
         }
+
+        //public void SetLastUseTime(long time)
+        //{
+        //    this.LastUseTime = time;
+        //}
 
         public void AddRate(int rate)
         {
             this.Rate += rate;
         }
+    }
+
+    public enum SkillRunType
+    {
+        Normal = 1,
+        Double = 2,
     }
 }

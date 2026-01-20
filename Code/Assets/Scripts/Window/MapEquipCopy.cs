@@ -67,12 +67,9 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
         user.MagicCopyTikerCount.Data -= Math.Abs(rate);
 
         user.SetAchievementProgeress(AchievementSourceType.EquipCopy, rate);
+        AppHelper.CopyCount += rate;
 
-        long newData = user.MagicCopyTikerCount.Data;
-        if (newData >= oldData)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new CheckGameCheatEvent());
-        }
+        //GameProcessor.Inst.SaveData();
 
         MapConfig config = MapConfigCategory.Instance.Get(this.CopyMapId);
         txt_FloorName.text = config.Name;
@@ -81,7 +78,7 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
     public void OnStartCopy(StartCopyEvent e)
     {
         this.gameObject.SetActive(true);
-        if (GameProcessor.Inst.EquipBossFamily_Auto)
+        if (GameProcessor.Inst.EquipCopySetting_Auto)
         {
             txt_Stop.text = "自动中...";
         }
@@ -97,6 +94,8 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
         param.Add("MapId", e.MapId);
         param.Add("MapTime", MapTime);
         param.Add("MapRate", e.Rate);
+        param.Add("MonsterFaster", (int)GameProcessor.Inst.User.AttributeBonus.GetAttackAttr(AttributeEnum.MonsterFaster));
+
 
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {
@@ -114,7 +113,9 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
             return;
         }
 
-        int rate = GameProcessor.Inst.EquipCopySetting_Rate ? 5 : 1;
+        User user = GameProcessor.Inst.User;
+        int rl = user.GetArtifactValue(ArtifactType.EquipBattleRate);
+        int rate = GameProcessor.Inst.EquipCopySetting_Rate ? 5 + rl : 1;
 
         this.gameObject.SetActive(true);
         this.MapTime = TimeHelper.ClientNowSeconds();
@@ -123,6 +124,7 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
         param.Add("MapId", this.CopyMapId);
         param.Add("MapTime", MapTime);
         param.Add("MapRate", rate); //自动是1倍
+        param.Add("MonsterFaster", (int)GameProcessor.Inst.User.AttributeBonus.GetAttackAttr(AttributeEnum.MonsterFaster));
 
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {
@@ -219,7 +221,7 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
     {
         GameProcessor.Inst.OnDestroy();
         this.gameObject.SetActive(false);
-        GameProcessor.Inst.EventCenter.Raise(new EndCopyEvent());
+        GameProcessor.Inst.EventCenter.Raise(new BattlerEndEvent() { Type = RuleType.EquipCopy });
         GameProcessor.Inst.SetGameOver(PlayerType.Hero);
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {

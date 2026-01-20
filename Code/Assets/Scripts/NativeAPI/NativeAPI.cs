@@ -1,9 +1,10 @@
+using BestHTTP.JSON.LitJson;
+using SA.Android.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using Newtonsoft.Json;
 
 namespace Game
 {
@@ -28,7 +29,7 @@ namespace Game
                 List<string> tmp = new List<string>(param.Split(new char[] { '(' }));
                 string callbackName = tmp[0];//回调函数名称
                 string argsStr = tmp[1].Substring(0, tmp[1].Length - 2);//回调函数所有的参数
-                object[] args = JsonConvert.DeserializeObject<object[]>('[' + argsStr + ']');
+                object[] args = JsonMapper.ToObject<object[]>('[' + argsStr + ']');
                 object callBack;
                 if (callBacks.TryGetValue(callbackName, out callBack))
                 {

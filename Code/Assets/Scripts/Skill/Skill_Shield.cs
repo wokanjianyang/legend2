@@ -19,7 +19,7 @@ namespace Game
             return true;
         }
 
-        public override void Do()
+        public override void Do(SkillRunType runType)
         {
             //如果还有附加特效
             this.skillGraphic?.PlayAnimation(SelfPlayer.Cell);
@@ -33,6 +33,16 @@ namespace Game
 
                 DoEffect(this.SelfPlayer, this.SelfPlayer, 0, rolePercent, effect);
             }
+
+            //if (this.SkillPanel.DivineLevel > 0)
+            //{
+            //    int divineMax = (int)(SkillPanel.DivineLevel * SkillPanel.DivineAttrConfig.Param);
+
+            //    if (SkillPanel.SkillId == 3005)
+            //    {
+
+            //    }
+            //}
         }
     }
 }

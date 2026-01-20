@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace Game
     public class SkillRune
     {
         //生效数量
-        public int AvailableQuantity { get; }
+        public int AvailableQuantity { get; private set; }
 
         public SkillRuneConfig SkillRuneConfig { get; }
 
@@ -26,13 +27,18 @@ namespace Game
         public int AttrIncrea { get; } //攻击加成
         public int FinalIncrea { get; } //最终伤害加成
 
+        public int PercentRate { get; }
+
         public int InheritIncrea { get; }
         public int EffectId { get; } //
+
+        public int Accuracy { get; }
+        public int Miss { get; }
 
         public SkillRune(int runeId, int quantity)
         {
             this.SkillRuneConfig = SkillRuneConfigCategory.Instance.Get(runeId);
-            this.AvailableQuantity = Mathf.Min(quantity, SkillRuneConfig.Max);
+            this.AvailableQuantity = Math.Min(quantity, SkillRuneConfig.Max);
 
             this.Damage = SkillRuneConfig.Damage * AvailableQuantity;
             this.Percent = SkillRuneConfig.Percent * AvailableQuantity;
@@ -48,12 +54,20 @@ namespace Game
             this.CritRate = SkillRuneConfig.CritRate * AvailableQuantity;
             this.CritDamage = SkillRuneConfig.CritDamage * AvailableQuantity;
             this.DamageIncrea = SkillRuneConfig.DamageIncrea * AvailableQuantity;
+            this.PercentRate = SkillRuneConfig.PercentRate * AvailableQuantity;
 
             this.AttrIncrea = SkillRuneConfig.AttrIncrea;
             this.FinalIncrea = SkillRuneConfig.FinalIncrea;
             this.InheritIncrea = SkillRuneConfig.InheritIncrea;
 
             this.EffectId = SkillRuneConfig.EffectId;
+            this.Accuracy = SkillRuneConfig.Accuracy * AvailableQuantity;
+            this.Miss = SkillRuneConfig.Miss * AvailableQuantity;
+        }
+
+        public void AddCount(int count)
+        {
+            this.AvailableQuantity = Math.Min(AvailableQuantity + count, SkillRuneConfig.Max);
         }
     }
 }

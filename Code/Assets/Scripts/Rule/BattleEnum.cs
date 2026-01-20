@@ -35,6 +35,16 @@ namespace Game
         HeroPhantom,
         Mine,
         Infinite,
+        Legacy,
+        Pill,
+        Babel,
+        Myth,
+        World,
+        Pill2,
+        Pill3,
+        Festive,
+        Shengxiao,
+        Spirit,
     }
 
     public enum ComponentOrder
@@ -128,6 +138,8 @@ namespace Game
         Other = 5,
         SkillName = 6,
         Miss = 7,
+        SP = 8,
+        Ring = 9,
     }
 
     public enum TaskType
@@ -139,5 +151,6 @@ namespace Game
         Recovery = 5, //设置回收
         SkillBook = 6, //设置回收
         BindAccount = 7, //绑定帐号
+        Cycle = 8, //转生
     }
 }

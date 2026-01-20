@@ -87,44 +87,71 @@ namespace Game
 		/// <summary>Attr</summary>
 		[ProtoMember(4)]
 		public string Attr { get; set; }
-		/// <summary>RiseAttr</summary>
+		/// <summary>AttrRise</summary>
 		[ProtoMember(5)]
-		public string RiseAttr { get; set; }
+		public double AttrRise { get; set; }
 		/// <summary>Def</summary>
 		[ProtoMember(6)]
 		public string Def { get; set; }
-		/// <summary>RiseDef</summary>
+		/// <summary>DefRise</summary>
 		[ProtoMember(7)]
-		public string RiseDef { get; set; }
+		public double DefRise { get; set; }
 		/// <summary>HP</summary>
 		[ProtoMember(8)]
 		public string HP { get; set; }
-		/// <summary>RiseHp</summary>
+		/// <summary>HpRise</summary>
 		[ProtoMember(9)]
-		public string RiseHp { get; set; }
-		/// <summary>DamageIncrea</summary>
+		public double HpRise { get; set; }
+		/// <summary>DamageMul</summary>
 		[ProtoMember(10)]
+		public string DamageMul { get; set; }
+		/// <summary>MulRise</summary>
+		[ProtoMember(11)]
+		public double MulRise { get; set; }
+		/// <summary>Strong</summary>
+		[ProtoMember(12)]
+		public string Strong { get; set; }
+		/// <summary>StrongRise</summary>
+		[ProtoMember(13)]
+		public double StrongRise { get; set; }
+		/// <summary>Parry</summary>
+		[ProtoMember(14)]
+		public string Parry { get; set; }
+		/// <summary>ParrayRise</summary>
+		[ProtoMember(15)]
+		public double ParrayRise { get; set; }
+		/// <summary>Speed</summary>
+		[ProtoMember(16)]
+		public int Speed { get; set; }
+		/// <summary>DamageIncrea</summary>
+		[ProtoMember(17)]
 		public int DamageIncrea { get; set; }
 		/// <summary>DamageResist</summary>
-		[ProtoMember(11)]
+		[ProtoMember(18)]
 		public int DamageResist { get; set; }
 		/// <summary>CritRate</summary>
-		[ProtoMember(12)]
+		[ProtoMember(19)]
 		public int CritRate { get; set; }
 		/// <summary>CritDamage</summary>
-		[ProtoMember(13)]
+		[ProtoMember(20)]
 		public int CritDamage { get; set; }
 		/// <summary>Accuracy</summary>
-		[ProtoMember(14)]
+		[ProtoMember(21)]
 		public int Accuracy { get; set; }
+		/// <summary>Miss</summary>
+		[ProtoMember(22)]
+		public int Miss { get; set; }
 		/// <summary>MulDamageResist</summary>
-		[ProtoMember(15)]
-		public int MulDamageResist { get; set; }
+		[ProtoMember(23)]
+		public double MulDamageResist { get; set; }
+		/// <summary>Protect</summary>
+		[ProtoMember(24)]
+		public double Protect { get; set; }
 		/// <summary>Exp</summary>
-		[ProtoMember(16)]
+		[ProtoMember(25)]
 		public double Exp { get; set; }
 		/// <summary>Gold</summary>
-		[ProtoMember(17)]
+		[ProtoMember(26)]
 		public double Gold { get; set; }
 
 	}

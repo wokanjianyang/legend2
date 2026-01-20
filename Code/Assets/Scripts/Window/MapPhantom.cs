@@ -43,10 +43,36 @@ public class MapPhantom : MonoBehaviour, IBattleLife
         this.gameObject.SetActive(false);
     }
 
-
     public void OnPhantomStart(PhantomStartEvent e)
     {
         this.PhantomId = e.PhantomId;
+
+        PhantomAttrConfig attrConfig = PhantomAttrConfigCategory.Instance.Get(PhantomId);
+        //check
+        User user = GameProcessor.Inst.User;
+        user.PhantomRecord.TryGetValue(PhantomId, out int phLevel);
+        if (phLevel > attrConfig.EndLevel)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经通关了", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new BattlerEndEvent() { Type = RuleType.Phantom });
+            return;
+        }
+
+        if (attrConfig.RequireId > 0)
+        {
+            long rv = attrConfig.RequireValue * phLevel;
+            double uv = user.AttributeBonus.GetTotalAttrDouble((AttributeEnum)(attrConfig.RequireId));
+
+            if (uv < rv)
+            {
+                string msg = string.Format("您的{0}不足{1},无法挑战", StringHelper.FormatAttrValueName(attrConfig.RequireId), StringHelper.FormatAttrValueText(attrConfig.RequireId, rv));
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = msg, ToastType = ToastTypeEnum.Failure });
+                GameProcessor.Inst.EventCenter.Raise(new BattlerEndEvent() { Type = RuleType.Phantom });
+                return;
+            }
+        }
+
+
         this.gameObject.SetActive(true);
 
         this.MapTime = TimeHelper.ClientNowSeconds();
@@ -62,8 +88,7 @@ public class MapPhantom : MonoBehaviour, IBattleLife
         });
 
         PhantomConfig config = PhantomConfigCategory.Instance.Get(PhantomId);
-
-        Txt_Name.text = config.Name;
+        Txt_Name.text = config.Name + "(" + phLevel + "转)";
     }
 
     public void OnShowPhantomInfoEvent(ShowPhantomInfoEvent e)
@@ -123,7 +148,7 @@ public class MapPhantom : MonoBehaviour, IBattleLife
     {
         GameProcessor.Inst.OnDestroy();
         this.gameObject.SetActive(false);
-        GameProcessor.Inst.EventCenter.Raise(new PhantomEndEvent());
+        GameProcessor.Inst.EventCenter.Raise(new BattlerEndEvent() { Type = RuleType.Phantom });
         GameProcessor.Inst.SetGameOver(PlayerType.Hero);
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {

@@ -146,7 +146,7 @@ public class Map_Spirit : MonoBehaviour, IBattleLife
         GameProcessor.Inst.SetGameOver(PlayerType.Hero);
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {
-            var map = GameObject.Find("Canvas").GetComponentInChildren<ViewBattleProcessor>(true).transform;
+            var map = GameObject.Find("Canvas").GetComponentInChildren<ViewMap>(true).transform;
             GameProcessor.Inst.LoadMap(RuleType.Normal, map, null);
         });
     }

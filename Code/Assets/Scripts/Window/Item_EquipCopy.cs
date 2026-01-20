@@ -28,11 +28,7 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (Type == CopyType.装备副本)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new BossInfoEvent());
-            }
-            else if (Type == CopyType.幻影挑战)
+            if (Type == CopyType.幻影挑战)
             {
                 GameProcessor.Inst.EventCenter.Raise(new PhantomEvent());
             }

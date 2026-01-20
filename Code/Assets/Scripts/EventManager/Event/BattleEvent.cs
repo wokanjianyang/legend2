@@ -184,10 +184,6 @@ namespace Game
     {
         public bool IsOpen { get; set; }
     }
-    public class BossInfoEvent : SDD.Events.Event
-    {
-
-    }
 
     public class OpenBossFamilyEvent : SDD.Events.Event
     {

@@ -133,7 +133,7 @@ namespace Game
             paramDict.Add("divine", divineTotal + "");
 
             long copy = user.GetAchievementProgeress(AchievementSourceType.EquipCopy);
-            copy += user.GetTicketCount(ItemHelper.SpecialId_Copy_Ticket) + user.MagicCopyTikerCount.Data;
+            copy += user.GetTicketCount(ItemHelper.SpecialId_Copy_Ticket);
             paramDict.Add("equip", copy + "");
 
             long equip1 = 0;

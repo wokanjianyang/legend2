@@ -72,7 +72,6 @@ namespace Game
                     user.MagicTowerFloor.Data = 1;
                     user.MapId = ConfigHelper.MapStartId;
                     user.MagicGold.Data = 0;
-                    user.MagicCopyTikerCount.Data = ConfigHelper.CopyTicketFirstCount;
                     user.First_Create_Time = TimeHelper.ClientNowSeconds();
                 }
 

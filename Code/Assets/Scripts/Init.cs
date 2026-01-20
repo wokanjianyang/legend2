@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using SA.Android.App;
 using CodeStage.AntiCheat.Detectors;
 using System.Text;
+using UnityEngine.UI;
 
 public class Init : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Init : MonoBehaviour
 
     public GameProcessor Game;
 
+    public Text Txt_Loading;
     // public Transform MapRoot;
 
     public Transform Bottom;
@@ -54,20 +56,20 @@ public class Init : MonoBehaviour
                 "Window/View_TopStatu",
                 "Window/View_BottomNavBar",
 
-                "Window/Map/Map_EquipCopy",
-                "Window/Map/Map_Phantom",
-                "Window/Map/Map_BossFamily",
-                "Window/Map/Map_AnDian",
-                "Window/Map/Map_Defend",
-                "Window/Map/Map_HeroPhantom",
-                "Window/Map/Map_Infinite",
-                "Window/Map/Map_Legacy",
-                "Window/Map/Map_Pill",
-                "Window/Map/Map_Babel",
-                "Window/Map/Map_Myth",
-                "Window/Map/Map_World",
-                "Window/Map/Map_Festive",
-                "Window/Map/Map_Shengxiao",
+                "Map/Map_EquipCopy",
+                "Map/Map_Phantom",
+                "Map/Map_BossFamily",
+                "Map/Map_AnDian",
+                "Map/Map_Defend",
+                "Map/Map_HeroPhantom",
+                "Map/Map_Infinite",
+                "Map/Map_Legacy",
+                "Map/Map_Pill",
+                "Map/Map_Babel",
+                "Map/Map_Myth",
+                "Map/Map_World",
+                "Map/Map_Festive",
+                "Map/Map_Shengxiao",
                 "Window/Spirit/Map_Spirit",
 
                 "Window/Dialog_Detail_Select",
@@ -134,6 +136,8 @@ public class Init : MonoBehaviour
 
     private async Task AsyncStartAsync()
     {
+        this.Txt_Loading.gameObject.SetActive(true);
+
         long currentTimeSecond = 0;
 
         if (ConfigHelper.Channel == ConfigHelper.Channel_Tap)
@@ -171,7 +175,8 @@ public class Init : MonoBehaviour
 
     private IEnumerator AsyncLoadWindows(long currentTimeSecond)
     {
-        GameObject loadingPage = null;
+        //GameObject loadingPage = null;
+
         var layers = Enum.GetValues(typeof(UILayer));
         foreach (UILayer layer in layers)
         {
@@ -196,12 +201,12 @@ public class Init : MonoBehaviour
                             break;
                     }
                     win.transform.localPosition = Vector3.zero;
-                    var isLoading = winType == "Window/Loading";
-                    if (isLoading)
-                    {
-                        loadingPage = win;
-                    }
-                    win.gameObject.SetActive(isLoading);
+                    //var isLoading = winType == "Window/Loading";
+                    //if (isLoading)
+                    //{
+                    //    loadingPage = win;
+                    //}
+                    win.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -211,11 +216,14 @@ public class Init : MonoBehaviour
         }
 
         yield return null;
-        loadingPage.gameObject.SetActive(false);
+        //loadingPage.gameObject.SetActive(false);
+
+        this.Txt_Loading.gameObject.SetActive(false);
+
         Game.Init(currentTimeSecond);
 
         yield return null;
-        var mapRoot = GameObject.FindObjectOfType<ViewBattleProcessor>();
+        var mapRoot = GameObject.FindObjectOfType<ViewMap>();
 
         yield return new WaitForSeconds(1f);
         Game.LoadMap(RuleType.Normal, mapRoot.transform, null);

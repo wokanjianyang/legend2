@@ -36,15 +36,9 @@ namespace Game
 
             if (floor <= TowerConfigCategory.Instance.GetMaxFloor())
             {
-                long monsterQuantity = 1;
-                //if (floor > 10000)
-                //{
-                //    monsterQuantity = (floor % 10) + 1;
-                //}
-
-                for (int i = 0; i < monsterQuantity; i++)
+                for (int i = 1; i <= 5; i++)
                 {
-                    var enemy = new Monster_Tower(floor, i);
+                    var enemy = new Monster_Tower(floor, i, i);
                     monsters.Add(enemy);
                 }
             }

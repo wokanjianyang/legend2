@@ -62,10 +62,6 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
     {
         User user = GameProcessor.Inst.User;
 
-        long oldData = user.MagicCopyTikerCount.Data;
-
-        user.MagicCopyTikerCount.Data -= Math.Abs(rate);
-
         user.SetAchievementProgeress(AchievementSourceType.EquipCopy, rate);
         AppHelper.CopyCount += rate;
 
@@ -108,11 +104,6 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
 
     public void OnAutoStartCopyEvent(AutoStartCopyEvent e)
     {
-        if (GameProcessor.Inst.User.MagicCopyTikerCount.Data <= 0)
-        {
-            return;
-        }
-
         User user = GameProcessor.Inst.User;
         int rl = user.GetArtifactValue(ArtifactType.EquipBattleRate);
         int rate = GameProcessor.Inst.EquipCopySetting_Rate ? 5 + rl : 1;
@@ -225,7 +216,7 @@ public class MapEquipCopy : MonoBehaviour, IBattleLife
         GameProcessor.Inst.SetGameOver(PlayerType.Hero);
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {
-            var map = GameObject.Find("Canvas").GetComponentInChildren<ViewBattleProcessor>(true).transform;
+            var map = GameObject.Find("Canvas").GetComponentInChildren<ViewMap>(true).transform;
             GameProcessor.Inst.LoadMap(RuleType.Normal, map, null);
         });
     }

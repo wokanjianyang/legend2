@@ -152,7 +152,10 @@ namespace Game
 
         virtual public void Load()
         {
-            this.Transform = GameObject.Instantiate(PrefabHelper.Instance().GetPlayer(0)).transform;
+            Debug.Log("this.Qulaity" + this.Quality);
+            var prefab = PrefabHelper.Instance().GetPlayer(this.Quality);
+            this.Transform = GameObject.Instantiate(prefab).transform;
+
             this.Transform.SetParent(GameProcessor.Inst.PlayerRoot);
             var rect = this.Transform.GetComponent<RectTransform>();
             rect.sizeDelta = GameProcessor.Inst.MapData.CellSize;

@@ -27,27 +27,12 @@ public class Com_BossInfoItem : MonoBehaviour
         btn_Start.onClick.AddListener(OnClick_NavigateMap);
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    RefeshTime();
-    //}
-
     private void OnClick_NavigateMap()
     {
-        User user = GameProcessor.Inst.User;
-        int Rate = user.GetArtifactValue(ArtifactType.EquipBattleRate) + 5;
+        var vm = this.GetComponentInParent<ViewMap>();
+        vm.gameObject.SetActive(false);
 
-        int ticket = GameProcessor.Inst.EquipCopySetting_Rate ? Rate : 1;
-
-        if (GameProcessor.Inst.User.MagicCopyTikerCount.Data < ticket)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "挑战次数不够了", ToastType = ToastTypeEnum.Failure });
-            return;
-        }
-
-        var vm = this.GetComponentInParent<ViewMore>();
-        vm.SelectMap(MapId, ticket);
+        GameProcessor.Inst.EventCenter.Raise(new StartCopyEvent() { MapId = this.MapId });
     }
 
     public void SetContent(MapConfig mapConfig)

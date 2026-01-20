@@ -197,28 +197,11 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
                 }
                 else
                 {
-                    this.image_Background.sprite = PrefabHelper.Instance().GetMonster(index);
+                    //this.image_Background.sprite = PrefabHelper.Instance().GetMonster(index);
                     break;
                 }
         }
     }
-
-    //private void OnSetPlayerLevelEvent(SetPlayerLevelEvent e)
-    //{
-    //    string title = this.SelfPlayer.Title;
-    //    title = title == null ? "" : "(" + title + ")";
-
-    //    if (SelfPlayer is Monster_Phantom)
-    //    {
-    //        this.tmp_Info_Level.text = e.Level + "转";
-    //    }
-    //    else
-    //    {
-    //        this.tmp_Info_Level.text = "Lv." + e.Level + title;
-    //    }
-
-
-    //}
 
     private void OnSetPlayerHPEvent(SetPlayerHPEvent e)
     {

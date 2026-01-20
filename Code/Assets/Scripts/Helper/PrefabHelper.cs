@@ -14,10 +14,10 @@ namespace Game
         private GameObject BoxDropPrefab = null;
         private GameObject Message_Prefab = null;
 
-        private GameObject Hero_Prefab = null;
+        private List<GameObject> PlayerList = new List<GameObject>();
 
         private List<Sprite> BoxImageList = new List<Sprite>();
-        private List<Sprite> PlayerList = new List<Sprite>();
+        private List<Sprite> FashionList = new List<Sprite>();
         private List<Sprite> ValetList = new List<Sprite>();
         private List<Sprite> MonsterList = new List<Sprite>();
         private List<Sprite> MonsterWorldList = new List<Sprite>();
@@ -37,7 +37,12 @@ namespace Game
 
         public PrefabHelper()
         {
-            Hero_Prefab = Resources.Load<GameObject>("Prefab/Player/Hero");
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Hero"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_1"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_2"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_3"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_4"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_5"));
 
             ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_White"));
             ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_White"));
@@ -67,7 +72,7 @@ namespace Game
 
             for (int i = 1; i <= 24; i++)
             {
-                PlayerList.Add(Resources.Load<Sprite>("UI/Player/Fashion" + i));
+                FashionList.Add(Resources.Load<Sprite>("UI/Player/Fashion" + i));
             }
 
             ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet1"));
@@ -89,8 +94,9 @@ namespace Game
             MonsterDefend = Resources.Load<Sprite>("UI/Player/Player_Defend");
         }
 
-        public GameObject GetPlayer(int type) {
-            return Hero_Prefab;
+        public GameObject GetPlayer(int type)
+        {
+            return PlayerList[type];
         }
 
         public GameObject GetBoxPrefab(int quanlity)
@@ -163,7 +169,7 @@ namespace Game
 
         public Sprite GetFashion(int id)
         {
-            return PlayerList[id - 1];
+            return FashionList[id - 1];
         }
 
         public Sprite GetValet(int id)

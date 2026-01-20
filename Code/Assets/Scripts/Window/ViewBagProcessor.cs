@@ -1195,13 +1195,7 @@ namespace Game
 
             if (boxItem.Item.Type == ItemType.Ticket && boxItem.Item.ConfigId == ItemHelper.SpecialId_Copy_Ticket && e.Quantity == -1)
             {
-                if (user.MagicCopyTikerCount.Data >= ConfigHelper.CopyTicketMax)
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "次数已经满了", ToastType = ToastTypeEnum.Failure });
-                    return;
-                }
 
-                quantity = Math.Min(quantity, ConfigHelper.CopyTicketMax - user.MagicCopyTikerCount.Data);
             }
             else if (boxItem.Item.Type == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Level_Stone)
             {
@@ -1302,11 +1296,7 @@ namespace Game
             }
             else if (boxItem.Item.Type == ItemType.Ticket)
             {
-                if (boxItem.Item.ConfigId == ItemHelper.SpecialId_Copy_Ticket)
-                {
-                    user.MagicCopyTikerCount.Data += quantity;
-                }
-                else if (boxItem.Item.ConfigId == ItemHelper.SpecialId_Legacy_Ticket)
+                if (boxItem.Item.ConfigId == ItemHelper.SpecialId_Legacy_Ticket)
                 {
                     user.LegacyTikerCount.Data += quantity;
                 }

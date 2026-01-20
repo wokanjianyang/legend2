@@ -14,10 +14,11 @@ public class Monster_Tower : APlayer
     private bool isEquip = false;
     private bool isSepecialEquip = false;
 
-    public Monster_Tower(long floor, int index)
+    public Monster_Tower(long floor, int index,int quality)
     {
         this.Floor = floor;
         this.GroupId = 2;
+        this.Quality = quality;
         this.Index = index;
 
         if (floor % 1000 == 0)

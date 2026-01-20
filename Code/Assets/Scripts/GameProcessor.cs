@@ -904,10 +904,7 @@ namespace Game
                 int rate = 5 + rl;
 
                 //判断是否自动挑战
-                if (EquipCopySetting_Auto && User.MagicCopyTikerCount.Data >= rate)
-                {
-                    this.AutoStartMap(ruleType);
-                }
+                this.AutoStartMap(ruleType);
             }
             else if (ruleType == RuleType.BossFamily)
             {

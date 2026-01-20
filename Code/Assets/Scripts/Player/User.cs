@@ -294,10 +294,6 @@ namespace Game
 
         public long First_Create_Time { get; set; } = 0;
 
-        public MagicData MagicCopyTikerCount { get; } = new MagicData();
-
-        public Dictionary<int, long> MapBossTime { get; } = new Dictionary<int, long>();
-
         //幻神记录
         public Dictionary<int, int> PhantomRecord { get; } = new Dictionary<int, int>();
 

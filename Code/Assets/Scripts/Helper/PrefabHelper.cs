@@ -14,6 +14,8 @@ namespace Game
         private GameObject BoxDropPrefab = null;
         private GameObject Message_Prefab = null;
 
+        private GameObject Hero_Prefab = null;
+
         private List<Sprite> BoxImageList = new List<Sprite>();
         private List<Sprite> PlayerList = new List<Sprite>();
         private List<Sprite> ValetList = new List<Sprite>();
@@ -35,6 +37,8 @@ namespace Game
 
         public PrefabHelper()
         {
+            Hero_Prefab = Resources.Load<GameObject>("Prefab/Player/Hero");
+
             ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_White"));
             ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_White"));
             ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_Green"));
@@ -83,6 +87,10 @@ namespace Game
             MonsterWorldList.Add(Resources.Load<Sprite>("UI/Player/Player_World5"));
 
             MonsterDefend = Resources.Load<Sprite>("UI/Player/Player_Defend");
+        }
+
+        public GameObject GetPlayer(int type) {
+            return Hero_Prefab;
         }
 
         public GameObject GetBoxPrefab(int quanlity)

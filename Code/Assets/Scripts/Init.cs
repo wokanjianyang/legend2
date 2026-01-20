@@ -21,12 +21,10 @@ public class Init : MonoBehaviour
         Bottom,
     }
 
-    [LabelText("战斗模式")]
     public RuleType RuleType = RuleType.Normal;
 
-    [LabelText("加载界面")]
     // public Transform LoadingPage;
-    private const string BuglyAppIDForAndroid = "ff5ed4ccb9";
+    private const string BuglyAppIDForAndroid = "abc";
 
     public GameProcessor Game;
 
@@ -121,7 +119,7 @@ public class Init : MonoBehaviour
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Log.Debug("Demo Start()");
 
-        InitBuglySDK();
+        //InitBuglySDK();
         //Log.Debug("Init bugly sdk done");
         //BuglyAgent.SetScene(0);
 
@@ -146,14 +144,12 @@ public class Init : MonoBehaviour
         }
         else
         {
-            AN_Preloader.LockScreen("正在获取时间...");
 
             var timeTaks = TimeCheatingDetector.GetOnlineTimeTask("https://www.baidu.com/");
             await timeTaks;
             currentTimeSecond = (long)timeTaks.Result.onlineSecondsUtc;
             Log.Debug("net time:" + currentTimeSecond);
 
-            AN_Preloader.UnlockScreen();
         }
 
         AppHelper.StartTime = currentTimeSecond;

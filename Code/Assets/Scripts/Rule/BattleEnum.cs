@@ -30,7 +30,6 @@ namespace Game
 
         Phantom,
         BossFamily,
-        AnDian,
         Defend,
         HeroPhantom,
         Mine,

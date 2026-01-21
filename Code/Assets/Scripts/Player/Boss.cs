@@ -58,14 +58,8 @@ namespace Game
 
             this.SetAttr();  //设置属性值
 
-            if (this.Config.Layer <= 2)
-            {
-                this.SetSkill(); //设置技能
-            }
-            else
-            {
-                this.SetSkillNew();
-            }
+            this.SetSkill();
+
 
             base.Load();
             this.Logic.SetData(null); //设置UI
@@ -82,9 +76,6 @@ namespace Game
             double hp = StringHelper.StringToNumber(Config.HP);
             double attr = StringHelper.StringToNumber(Config.PhyAttr);
             double def = StringHelper.StringToNumber(Config.Def);
-            double strong = StringHelper.StringToNumber(Config.Strong);
-            double damageMul = StringHelper.StringToNumber(Config.DamageMul);
-            double parry = StringHelper.StringToNumber(Config.Parry);
 
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, (hp * hpModelRate));
             AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, (attr * attrModelRate));
@@ -99,11 +90,6 @@ namespace Game
 
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroBase, Config.Miss);
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroBase, Config.Accuracy);
-            AttributeBonus.SetAttr(AttributeEnum.Protect, AttributeFrom.HeroBase, Config.Protect);
-
-            AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroBase, strong);
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.HeroBase, damageMul);
-            AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.HeroBase, parry);
 
             this.SetAttackSpeed(Config.Speed);
             this.SetMoveSpeed(Config.Speed);
@@ -113,43 +99,6 @@ namespace Game
         }
 
         private void SetSkill()
-        {
-            //加载技能
-            List<SkillData> list = new List<SkillData>();
-
-            if (Config.ModelType == 0)
-            {
-                //random model
-                List<PlayerModel> models = PlayerModelCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.StartMapId == 0).ToList();
-                int index = RandomHelper.RandomNumber(0, models.Count);
-                PlayerModel model = models[index];
-
-                if (model.SkillList != null)
-                {
-                    for (int i = 0; i < model.SkillList.Length; i++)
-                    {
-                        list.Add(new SkillData(model.SkillList[i], i)); //增加默认技能
-                    }
-                }
-
-                this.Name = model.Name + "·" + Config.Name;
-            }
-
-            list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
-
-            foreach (SkillData skillData in list)
-            {
-                List<SkillRune> runeList = new List<SkillRune>();
-                List<SkillSuit> suitList = new List<SkillSuit>();
-
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, false);
-
-                SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                SelectSkillList.Add(skill);
-            }
-        }
-
-        private void SetSkillNew()
         {
             List<SkillData> list = new List<SkillData>();
 

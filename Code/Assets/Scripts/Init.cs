@@ -45,7 +45,6 @@ public class Init : MonoBehaviour
                 "Window/View_Map",
                 "Window/View_Bag",
                 "Window/View_Skill",
-                "Window/View_EndlessTower",
                 "Window/View_Forge",
                 "Window/View_More"
             }
@@ -59,7 +58,6 @@ public class Init : MonoBehaviour
                 "Map/Map_EquipCopy",
                 "Map/Map_Phantom",
                 "Map/Map_BossFamily",
-                "Map/Map_AnDian",
                 "Map/Map_Defend",
                 "Map/Map_HeroPhantom",
                 "Map/Map_Infinite",

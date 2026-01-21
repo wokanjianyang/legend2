@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class MonsterBaseCategory : ProtoObject, IMerge
+    public partial class PetEggConfigCategory : ProtoObject, IMerge
     {
-        public static MonsterBaseCategory Instance;
+        public static PetEggConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, MonsterBase> dict = new Dictionary<int, MonsterBase>();
+        private Dictionary<int, PetEggConfig> dict = new Dictionary<int, PetEggConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<MonsterBase> list = new List<MonsterBase>();
+        private List<PetEggConfig> list = new List<PetEggConfig>();
 		
-        public MonsterBaseCategory()
+        public PetEggConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            MonsterBaseCategory s = o as MonsterBaseCategory;
+            PetEggConfigCategory s = o as PetEggConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (MonsterBase config in list)
+            foreach (PetEggConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public MonsterBase Get(int id)
+        public PetEggConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out MonsterBase item);
+            this.dict.TryGetValue(id, out PetEggConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (MonsterBase)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (PetEggConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, MonsterBase> GetAll()
+        public Dictionary<int, PetEggConfig> GetAll()
         {
             return this.dict;
         }
 
-        public MonsterBase GetOne()
+        public PetEggConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,7 +73,7 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class MonsterBase: ProtoObject, IConfig
+	public partial class PetEggConfig: ProtoObject, IConfig
 	{
 		/// <summary>ID</summary>
 		[ProtoMember(1)]
@@ -87,42 +87,15 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(4)]
 		public string Name { get; set; }
-		/// <summary>Attr</summary>
+		/// <summary>PhyAttr</summary>
 		[ProtoMember(5)]
-		public string Attr { get; set; }
+		public string PhyAttr { get; set; }
 		/// <summary>Def</summary>
 		[ProtoMember(6)]
 		public string Def { get; set; }
 		/// <summary>HP</summary>
 		[ProtoMember(7)]
 		public string HP { get; set; }
-		/// <summary>DamageIncrea</summary>
-		[ProtoMember(8)]
-		public int DamageIncrea { get; set; }
-		/// <summary>DamageResist</summary>
-		[ProtoMember(9)]
-		public int DamageResist { get; set; }
-		/// <summary>CritRate</summary>
-		[ProtoMember(10)]
-		public int CritRate { get; set; }
-		/// <summary>CritDamage</summary>
-		[ProtoMember(11)]
-		public int CritDamage { get; set; }
-		/// <summary>Speed</summary>
-		[ProtoMember(12)]
-		public int Speed { get; set; }
-		/// <summary>Miss</summary>
-		[ProtoMember(13)]
-		public int Miss { get; set; }
-		/// <summary>Accuracy</summary>
-		[ProtoMember(14)]
-		public int Accuracy { get; set; }
-		/// <summary>Exp</summary>
-		[ProtoMember(15)]
-		public long Exp { get; set; }
-		/// <summary>Gold</summary>
-		[ProtoMember(16)]
-		public long Gold { get; set; }
 
 	}
 }

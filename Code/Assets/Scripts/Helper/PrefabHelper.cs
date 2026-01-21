@@ -12,7 +12,9 @@ namespace Game
         private List<GameObject> ComBoxList = new List<GameObject>();
         private GameObject BoxSelectPrefab = null;
         private GameObject BoxDropPrefab = null;
+
         private GameObject Message_Prefab = null;
+        private GameObject DropMessage_Prefab = null;
 
         private List<GameObject> PlayerList = new List<GameObject>();
 
@@ -60,6 +62,7 @@ namespace Game
             BoxDropPrefab = Resources.Load<GameObject>("Prefab/Window/GameItem/Box_Drop");
 
             Message_Prefab = Resources.Load<GameObject>("Prefab/Dialog/Msg");
+            DropMessage_Prefab = Resources.Load<GameObject>("Prefab/Window/Item/Item_DropMsg");
 
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box1"));
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box2"));
@@ -165,6 +168,11 @@ namespace Game
         public GameObject MessagePrefab()
         {
             return this.Message_Prefab;
+        }
+
+        public GameObject DropMessagePrefab()
+        {
+            return this.DropMessage_Prefab;
         }
 
         public Sprite GetFashion(int id)

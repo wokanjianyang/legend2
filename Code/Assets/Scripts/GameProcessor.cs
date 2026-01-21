@@ -450,9 +450,6 @@ namespace Game
                 case RuleType.BossFamily:
                     this.BattleRule = new Battle_BossFamily(param);
                     break;
-                case RuleType.AnDian:
-                    this.BattleRule = new Battle_AnDian(param);
-                    break;
                 case RuleType.Defend:
                     this.BattleRule = new Battle_Defend(param);
                     break;
@@ -975,7 +972,7 @@ namespace Game
 
         private void AutoRunMap(RuleType ruleType)
         {
-            this.EventCenter.Raise(new CopyViewCloseEvent());
+            //this.EventCenter.Raise(new CopyViewCloseEvent());
 
             //Debug.Log("auto type :" + ruleType);
 

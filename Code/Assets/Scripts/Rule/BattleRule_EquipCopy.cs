@@ -54,20 +54,6 @@ public class BattleRule_EquipCopy : ABattleRule
         {
             QualityList.Add(5);
         }
-
-        //‘ˆº””ÒÕ√
-        MapConfig mapConfig = MapConfigCategory.Instance.Get(MapId);
-
-        if (GameProcessor.Inst.EquipCopySetting_Spe)
-        {
-            List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.MapLevel == mapConfig.Level).ToList();
-            foreach (MonsterSpecialConfig config in configs)
-            {
-                GameProcessor.Inst.PlayerManager.LoadMonster(new Monster_Specail(config.Id, MapRate, RuleType.EquipCopy));
-            }
-        }
-
-        TaskHelper.CheckTask(TaskType.ToCopy, 1);
     }
 
     public override void DoMapLogic(int roundNum, double currentRoundTime)
@@ -99,8 +85,8 @@ public class BattleRule_EquipCopy : ABattleRule
                     }
                     else
                     {
-                        BossConfig bossConfig = BossConfigCategory.Instance.Get(mapConfig.BoosId);
-                        GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(mapConfig.BoosId, mapConfig.Id, RuleType.EquipCopy, MapRate, 0));
+                        BossConfig bossConfig = BossConfigCategory.Instance.Get(this.MapId);
+                        GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(this.MapId, mapConfig.Id, RuleType.EquipCopy, MapRate, 0));
                     }
                     QualityList.RemoveAt(0);
                 }

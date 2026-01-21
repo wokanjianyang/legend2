@@ -79,7 +79,7 @@ namespace Game
                 , "天", "地", "玄", "黄","宇","宙","洪","荒","日","月","盈","昃" ,"辰","宿","列","张","寒","来","暑","往"
                 ,"秋","收","冬","藏","闰","余","成","岁","律","吕","调","阳","云","腾","致","雨"}; // 露结为霜金生丽水
 
-        public const int MapStartId = 1000;
+        public const int MapStartId = 1;
 
         public const int DefendHp = 2000; //防守塔默认血量
         public const int DefendMaxLevel = 8; //守沙难度

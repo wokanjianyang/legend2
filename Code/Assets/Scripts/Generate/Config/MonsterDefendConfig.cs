@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class MonsterBaseCategory : ProtoObject, IMerge
+    public partial class MonsterDefendConfigCategory : ProtoObject, IMerge
     {
-        public static MonsterBaseCategory Instance;
+        public static MonsterDefendConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, MonsterBase> dict = new Dictionary<int, MonsterBase>();
+        private Dictionary<int, MonsterDefendConfig> dict = new Dictionary<int, MonsterDefendConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<MonsterBase> list = new List<MonsterBase>();
+        private List<MonsterDefendConfig> list = new List<MonsterDefendConfig>();
 		
-        public MonsterBaseCategory()
+        public MonsterDefendConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            MonsterBaseCategory s = o as MonsterBaseCategory;
+            MonsterDefendConfigCategory s = o as MonsterDefendConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (MonsterBase config in list)
+            foreach (MonsterDefendConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public MonsterBase Get(int id)
+        public MonsterDefendConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out MonsterBase item);
+            this.dict.TryGetValue(id, out MonsterDefendConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (MonsterBase)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (MonsterDefendConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, MonsterBase> GetAll()
+        public Dictionary<int, MonsterDefendConfig> GetAll()
         {
             return this.dict;
         }
 
-        public MonsterBase GetOne()
+        public MonsterDefendConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,56 +73,53 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class MonsterBase: ProtoObject, IConfig
+	public partial class MonsterDefendConfig: ProtoObject, IConfig
 	{
 		/// <summary>ID</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>MapId</summary>
+		/// <summary>所属地图</summary>
 		[ProtoMember(2)]
 		public int MapId { get; set; }
-		/// <summary>Layer</summary>
+		/// <summary>名称</summary>
 		[ProtoMember(3)]
-		public int Layer { get; set; }
-		/// <summary>Name</summary>
-		[ProtoMember(4)]
 		public string Name { get; set; }
-		/// <summary>Attr</summary>
+		/// <summary>攻击</summary>
+		[ProtoMember(4)]
+		public string PhyAttr { get; set; }
+		/// <summary>防御</summary>
 		[ProtoMember(5)]
-		public string Attr { get; set; }
-		/// <summary>Def</summary>
-		[ProtoMember(6)]
 		public string Def { get; set; }
-		/// <summary>HP</summary>
-		[ProtoMember(7)]
+		/// <summary>生命</summary>
+		[ProtoMember(6)]
 		public string HP { get; set; }
 		/// <summary>DamageIncrea</summary>
-		[ProtoMember(8)]
+		[ProtoMember(7)]
 		public int DamageIncrea { get; set; }
 		/// <summary>DamageResist</summary>
-		[ProtoMember(9)]
+		[ProtoMember(8)]
 		public int DamageResist { get; set; }
 		/// <summary>CritRate</summary>
-		[ProtoMember(10)]
+		[ProtoMember(9)]
 		public int CritRate { get; set; }
 		/// <summary>CritDamage</summary>
-		[ProtoMember(11)]
+		[ProtoMember(10)]
 		public int CritDamage { get; set; }
-		/// <summary>Speed</summary>
-		[ProtoMember(12)]
-		public int Speed { get; set; }
-		/// <summary>Miss</summary>
-		[ProtoMember(13)]
-		public int Miss { get; set; }
-		/// <summary>Accuracy</summary>
-		[ProtoMember(14)]
-		public int Accuracy { get; set; }
-		/// <summary>Exp</summary>
-		[ProtoMember(15)]
+		/// <summary>经验</summary>
+		[ProtoMember(11)]
 		public long Exp { get; set; }
-		/// <summary>Gold</summary>
-		[ProtoMember(16)]
+		/// <summary>掉落金币</summary>
+		[ProtoMember(12)]
 		public long Gold { get; set; }
+		/// <summary>地图Id掉落</summary>
+		[ProtoMember(13)]
+		public int[] DropIdList { get; set; }
+		/// <summary>掉落概率列表</summary>
+		[ProtoMember(14)]
+		public int[] DropRateList { get; set; }
+		/// <summary>模型</summary>
+		[ProtoMember(15)]
+		public int ModelType { get; set; }
 
 	}
 }

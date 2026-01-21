@@ -10,6 +10,8 @@ namespace Game
     public static class AppHelper
     {
         public static long StartTime = 0;
+        public static int CurrentMapId = 1;
+
 
         public static int DefendLevel = 0;
 

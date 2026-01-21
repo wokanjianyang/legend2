@@ -89,13 +89,13 @@ public class Com_Power : MonoBehaviour, IBattleLife
     public void OnBattleStart()
     {
 
-        GameProcessor.Inst.EventCenter.AddListener<ChangeMapEvent>(this.OnChangeMapEvent);
+        GameProcessor.Inst.EventCenter.AddListener<ChangeMainMapEvent>(this.OnChangeMapEvent);
 
     }
 
     public int Order => (int)ComponentOrder.Dialog;
 
-    private void OnChangeMapEvent(ChangeMapEvent e)
+    private void OnChangeMapEvent(ChangeMainMapEvent e)
     {
         MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
         Map.text = config.Name;

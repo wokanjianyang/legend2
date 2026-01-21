@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Game
 {
+
+
     public class ChangePageEvent : SDD.Events.Event
     {
         public ViewPageType Page { get; set; }
@@ -218,20 +220,6 @@ namespace Game
         public int Rate { get; set; }
     }
 
-    public class AnDianStartEvent : SDD.Events.Event
-    {
-
-    }
-    public class ShowAnDianInfoEvent : SDD.Events.Event
-    {
-        public int Count { get; set; }
-    }
-
-    public class AnDianChangeLevel : SDD.Events.Event
-    {
-        public int MapId { get; set; }
-    }
-
     public class OpenDefendEvent : SDD.Events.Event
     {
     }
@@ -259,10 +247,6 @@ namespace Game
         public long Time { get; set; }
     }
 
-    public class ChangeMapEvent : SDD.Events.Event
-    {
-        public int MapId { get; set; }
-    }
     public class OpenLegacyEvent : SDD.Events.Event
     {
     }

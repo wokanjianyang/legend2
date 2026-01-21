@@ -82,9 +82,7 @@ namespace Game
             double hp = StringHelper.StringToNumber(Config.HP);
             double attr = StringHelper.StringToNumber(Config.Attr);
             double def = StringHelper.StringToNumber(Config.Def);
-            double strong = StringHelper.StringToNumber(Config.Strong);
-            double damageMul = StringHelper.StringToNumber(Config.DamageMul);
-            double parry = StringHelper.StringToNumber(Config.Parry);
+
 
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, (hp * hpModelRate * QualityConfig.HpRate));
             AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, (attr * attrModelRate * QualityConfig.AttrRate));
@@ -94,16 +92,13 @@ namespace Game
 
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, Config.DamageIncrea);
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, Config.DamageResist);
+
             AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroBase, Config.CritRate);
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, Config.CritDamage);
 
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroBase, Config.Miss);
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroBase, Config.Accuracy);
-            AttributeBonus.SetAttr(AttributeEnum.Protect, AttributeFrom.HeroBase, Config.Protect);
 
-            AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroBase, strong);
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.HeroBase, damageMul);
-            AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.HeroBase, parry);
 
             this.SetAttackSpeed(Config.Speed);
             this.SetMoveSpeed(Config.Speed);

@@ -36,11 +36,6 @@ namespace Game
             {
                 GameProcessor.Inst.EventCenter.Raise(new OpenBossFamilyEvent());
             }
-            else if (Type == CopyType.AnDian)
-            {
-                var vm = this.GetComponentInParent<ViewMore>();
-                vm.StartAnDian();
-            }
             else if (Type == CopyType.Defend)
             {
                 GameProcessor.Inst.EventCenter.Raise(new OpenDefendEvent());

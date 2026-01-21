@@ -22,8 +22,6 @@ namespace Game
         public Text txt_MapName;
         public Text txt_Desc1;
 
-        private GameObject msgPrefab;
-
         void Start()
         {
             this.Btn_Map.onClick.AddListener(this.OnClick_Map);
@@ -41,11 +39,14 @@ namespace Game
         {
             base.OnBattleStart();
 
-            this.msgPrefab = Resources.Load<GameObject>("Prefab/Window/Item/Item_DropMsg");
-
             GameProcessor.Inst.EventCenter.AddListener<BattleMsgEvent>(this.OnBattleMsgEvent);
- 
-            ShowName();
+            GameProcessor.Inst.EventCenter.AddListener<ChangeMainMapEvent>(this.OnChangeMap);
+        }
+
+        private void OnChangeMap(ChangeMainMapEvent e)
+        {
+            MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
+            this.txt_MapName.text = config.Name;
         }
 
         private List<Text> msgPool = new List<Text>();
@@ -67,12 +68,12 @@ namespace Game
             }
             else
             {
-                var msg = GameObject.Instantiate(this.msgPrefab);
+                var msg = GameObject.Instantiate(PrefabHelper.Instance().DropMessagePrefab());
                 msg.transform.SetParent(this.sr_BattleMsg.content);
                 msg.transform.localScale = Vector3.one;
 
                 var m = msg.GetComponent<Text>();
-                
+
 
                 txt_msg = m;
             }
@@ -83,28 +84,17 @@ namespace Game
             this.sr_BattleMsg.normalizedPosition = new Vector2(0, 0);
         }
 
-        private void ShowName()
-        {
-            User user = GameProcessor.Inst.User;
-
-            if (user != null)
-            {
-                txt_MapName.text = user.MagicTowerFloor.Data + "层";
-            }
-
-        }
-
         private void OnClick_Map()
         {
             BossInfo.gameObject.SetActive(true);
         }
         private void OnClick_Info()
         {
-      
+
         }
         private void OnClick_Achievement()
         {
-         
+
         }
     }
 }

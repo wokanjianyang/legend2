@@ -9,106 +9,62 @@ namespace Game
 {
     public class BattleRule_Normal : ABattleRule
     {
+        private int Count = 1;
         private bool start = false;
 
         protected override RuleType ruleType => RuleType.Normal;
 
         public override void DoMapLogic(int roundNum, double currentRoundTime)
         {
-            var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
-
-            if (start)
-            {
-                if (enemys.Count == 0)
-                {
-                    start = false;
-                    MakeReward();
-
-                    Hero hero = GameProcessor.Inst.PlayerManager.GetHero();
-                    hero.Resurrection();
-
-                    GameProcessor.Inst.EventCenter.Raise(new ChangeFloorEvent() { });
-                }
-            }
-            else
-            {
-                if (roundNum % 4 != 0)
-                {
-                    return;
-                }
-
-                NewFloor();
-            }
-        }
-
-        private void NewFloor()
-        {
-            User user = GameProcessor.Inst.User;
-            var monsters = MonsterTowerHelper.BuildMonster(user.MagicTowerFloor.Data);
-            if (monsters != null && monsters.Count > 0)
-            {
-                monsters.ForEach(enemy =>
-                {
-                    GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
-                });
-                start = true;
-            }
-        }
-
-        protected void MakeReward()
-        {
-            //Log.Info("Tower Success");
-            User user = GameProcessor.Inst.User;
-
-            if (user.MagicTowerFloor.Data >= ConfigHelper.Max_Floor)
+            if (roundNum % 2 != 0)
             {
                 return;
             }
 
-            TowerConfig config = TowerConfigCategory.Instance.GetByFloor(user.MagicTowerFloor.Data);
-
-            int floorRate = ConfigHelper.GetFloorRate(user.MagicTowerFloor.Data) * user.GetDzRate();
-
-            MonsterTowerHelper.GetTowerSecond(user.MagicTowerFloor.Data, out long secondExp, out long secondGold);
-
-            user.AttributeBonus.SetAttr(AttributeEnum.SecondExp, AttributeFrom.Tower, secondExp);
-            user.AttributeBonus.SetAttr(AttributeEnum.SecondGold, AttributeFrom.Tower, secondGold);
-
-            int equipLevel = Math.Max(10, (user.MapId - ConfigHelper.MapStartId) * 10);
-
-            List<Item> items = new List<Item>();
-
-            for (int i = 0; i < floorRate; i++)
+            var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
+            if (enemys.Count >= 20)
             {
-                items.AddRange(DropHelper.TowerEquip(user.MagicTowerFloor.Data + i, equipLevel));
+                return;
             }
 
-            if (items.Count > 0)
+            MapConfig mapConfig = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
+
+            if (Count % 500 != 0)
             {
-                user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                int quality = 1;
+                if (Count % 100 == 0)
+                {
+                    quality = 4;
+                }
+                else if (Count % 30 == 0)
+                {
+                    quality = 3;
+                }
+                else if (Count % 10 == 0)
+                {
+                    quality = 2;
+                }
+
+                var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, quality, 1, 1, RuleType.Normal);
+                GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
+            }
+            else
+            {
+                GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(AppHelper.CurrentMapId, mapConfig.Id, RuleType.Normal, 1, 1));
             }
 
-            long exp = config.Exp;
-            long gold = config.Gold;
-            user.AddExpAndGold(exp, gold);
-
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+            //Specail
+            List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.BuildRate < Count).ToList();
+            foreach (MonsterSpecialConfig config in configs)
             {
-                Message = BattleMsgHelper.BuildTowerSuccessMessage(config.RiseExp, config.RiseGold, exp, gold, user.MagicTowerFloor.Data, items),
-                Type = RuleType.Normal
-            });
-
-            user.MagicTowerFloor.Data += floorRate;
-
-            //自动回收
-            if (items.Count > 0)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new AutoRecoveryEvent() { RuleType = RuleType.Normal });
+                if (RandomHelper.RandomNumber(1, config.BuildRate) <= 1)
+                {
+                    GameProcessor.Inst.PlayerManager.LoadMonster(new Monster_Specail(config.Id, 1, RuleType.Normal));
+                }
             }
 
-            //判断任务
-            TaskHelper.CheckTask(TaskType.Tower, user.MagicTowerFloor.Data);
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Count = Count });
+            Count++;
         }
-
     }
 }

@@ -25,7 +25,7 @@ public class Dialog_BossInfo : MonoBehaviour
     private int MaxLayer = -1;
     private int SelectLayer = -1;
 
-    List<Com_BossInfoItem> items = new List<Com_BossInfoItem>();
+    List<Item_MainMap> items = new List<Item_MainMap>();
 
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class Dialog_BossInfo : MonoBehaviour
 
     private void Init()
     {
-        ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Item/Item_BossInfo");
+        ItemPrefab = Resources.Load<GameObject>("Prefab/Map/Item_MainMap");
 
         List<MapConfig> list = MapConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
@@ -81,7 +81,7 @@ public class Dialog_BossInfo : MonoBehaviour
     private void BuildItem(MapConfig config)
     {
         var item = GameObject.Instantiate(ItemPrefab);
-        var com = item.GetComponent<Com_BossInfoItem>();
+        var com = item.GetComponent<Item_MainMap>();
 
         com.SetContent(config);
 
@@ -106,11 +106,11 @@ public class Dialog_BossInfo : MonoBehaviour
         }
 
         User user = GameProcessor.Inst.User;
-        bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
+        //bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
         int MapId = user.MapId;
         int layer = (MapId - ConfigHelper.MapStartId) / 35;
-        layer = ac ? Math.Min(3, layer) : layer;
+        //layer = ac ? Math.Min(3, layer) : layer;
         this.MaxLayer = layer;
 
         if (this.SelectLayer < 0)
@@ -150,8 +150,6 @@ public class Dialog_BossInfo : MonoBehaviour
             j++;
         }
     }
-
-    public int Order => (int)ComponentOrder.Dialog;
 
     public void OnClick_Close()
     {

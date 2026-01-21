@@ -45,8 +45,6 @@ namespace Game
 
         public MagicDouble MagicUpExp { get; } = new MagicDouble();
 
-        public MagicData MagicTowerFloor { get; } = new MagicData();
-
         public MagicData BabelData { get; } = new MagicData();
         public MagicData BabelCount { get; } = new MagicData();
 
@@ -664,17 +662,6 @@ namespace Game
                         AttributeBonus.SetAttr((AttributeEnum)attrCardSpeicalId, AttributeFrom.CardSpeical, sp.Key, attrCardSpeicalValue);
                     }
                 }
-            }
-
-            //无尽塔属性
-            if (this.MagicTowerFloor.Data > 1)
-            {
-                long secondExp = 0;
-                long secondGold = 0;
-                MonsterTowerHelper.GetTowerSecond(this.MagicTowerFloor.Data - 1, out secondExp, out secondGold);
-
-                AttributeBonus.SetAttr(AttributeEnum.SecondExp, AttributeFrom.Tower, secondExp);
-                AttributeBonus.SetAttr(AttributeEnum.SecondGold, AttributeFrom.Tower, secondGold);
             }
 
             //幻神属性

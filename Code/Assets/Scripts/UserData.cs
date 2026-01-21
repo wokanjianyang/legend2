@@ -69,7 +69,6 @@ namespace Game
                     user.MagicLevel.Data = 1;
                     user.MagicExp.Data = 0;
                     user.Name = "传奇";
-                    user.MagicTowerFloor.Data = 1;
                     user.MapId = ConfigHelper.MapStartId;
                     user.MagicGold.Data = 0;
                     user.First_Create_Time = TimeHelper.ClientNowSeconds();

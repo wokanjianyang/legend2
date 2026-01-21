@@ -164,7 +164,6 @@ namespace Game
             base.OnBattleStart();
 
             GameProcessor.Inst.EventCenter.AddListener<CloseViewMoreEvent>(this.OnClose);
-            GameProcessor.Inst.EventCenter.AddListener<CopyViewCloseEvent>(this.OnCopyViewClose);
 
             GameProcessor.Inst.EventCenter.AddListener<OpenLegacyEvent>(this.OpenLegacy);
             GameProcessor.Inst.EventCenter.AddListener<OpenPillEvent>(this.OpenPill);
@@ -213,11 +212,11 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new PhantomStartEvent() { PhantomId = configId });
         }
 
-        public void OnCopyViewClose(CopyViewCloseEvent e)
-        {
-            scrollRect.gameObject.SetActive(false);
-            Phantom.gameObject.SetActive(false);
-        }
+        //public void OnCopyViewClose(CopyViewCloseEvent e)
+        //{
+        //    scrollRect.gameObject.SetActive(false);
+        //    Phantom.gameObject.SetActive(false);
+        //}
 
         public void StartBossFamily(int level, int rate)
         {
@@ -254,13 +253,6 @@ namespace Game
         public void OnBattlerEnd(BattlerEndEvent e)
         {
             scrollRect.gameObject.SetActive(true);
-        }
-
-        public void StartAnDian()
-        {
-            scrollRect.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new AnDianStartEvent() { });
         }
 
         public void StartDefend(int level)

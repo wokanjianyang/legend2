@@ -42,19 +42,7 @@ namespace Game
             //设置名称
             SelfPlayer.EventCenter.Raise(new SetPlayerNameEvent
             {
-                Name = SelfPlayer.Name
             });
-
-            //设置等级
-
-            SelfPlayer.EventCenter.Raise(new SetPlayerLevelEvent
-            {
-                Level = SelfPlayer.Level
-            });
-
-            //设置血量
-            //this.SelfPlayer.SetHP(SelfPlayer.AttributeBonus.GetTotalAttr(AttributeEnum.HP));
-
 
             this.SelfPlayer.EventCenter.Raise(new SetPlayerHPEvent { });
         }

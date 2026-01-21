@@ -19,8 +19,8 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
     [LabelText("信息")]
     public Transform tran_Info;
 
-    [LabelText("名称")]
-    public Text tmp_Info_Name;
+    //[LabelText("名称")]
+    //public Text tmp_Info_Name;
 
     //[LabelText("等级")]
     //public Text tmp_Info_Level;
@@ -156,16 +156,6 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 
     private void OnSetNameEvent(SetPlayerNameEvent e)
     {
-        if (SelfPlayer.Quality > 1 && SelfPlayer.Quality < 5)
-        {
-            string color = QualityConfigHelper.GetQualityColor(SelfPlayer.Quality);
-            this.tmp_Info_Name.text = string.Format("<color=#{0}>{1}</color>", color, e.Name);
-        }
-        else
-        {
-            this.tmp_Info_Name.text = e.Name;
-        }
-
         switch (SelfPlayer.Camp)
         {
             case PlayerType.Hero:

@@ -55,7 +55,7 @@ public class Init : MonoBehaviour
                 "Window/View_TopStatu",
                 "Window/View_BottomNavBar",
 
-                "Map/Map_EquipCopy",
+                "Map/Map_MainStage",
                 "Map/Map_Phantom",
                 "Map/Map_BossFamily",
                 "Map/Map_Defend",

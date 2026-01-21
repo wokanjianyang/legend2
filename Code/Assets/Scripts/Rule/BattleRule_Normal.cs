@@ -45,12 +45,12 @@ namespace Game
                     quality = 2;
                 }
 
-                var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, quality, 1, 1, RuleType.Normal);
+                var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, quality, RuleType.Normal);
                 GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
             }
             else
             {
-                GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(AppHelper.CurrentMapId, mapConfig.Id, RuleType.Normal, 1, 1));
+                GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(mapConfig.Id, RuleType.Normal));
             }
 
             //Specail

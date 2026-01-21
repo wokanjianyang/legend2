@@ -69,17 +69,11 @@ namespace Game
         private GameObject barragePrefab;
 
         private Coroutine ie_autoExitKey = null;
-        private Coroutine ie_autoStartCopy = null;
-        private Coroutine ie_autoBossFamily = null;
-        private Coroutine ie_autoPhatom = null;
         private Coroutine ie_AutoResurrection = null;
 
         private Coroutine ie_autoStartMap = null;
 
         //副本临时设置
-        public bool EquipCopySetting_Rate = false;
-        public bool EquipCopySetting_Auto = false;
-        public bool EquipCopySetting_Spe = true;
         public bool EquipBossFamily_Auto = false;
         public bool Babel_Auto = false;
         public bool Phantom_Auto = false;
@@ -138,9 +132,6 @@ namespace Game
             {
                 return;
             }
-
-            //计算泡点经验
-            SecondRewarod();
 
             //每分钟存档一次
             long ct = TimeHelper.ClientNowSeconds();
@@ -362,56 +353,6 @@ namespace Game
             this.User.AdData.Check();
         }
 
-        private void SecondRewarod()
-        {
-            if (User == null)
-            {
-                return;
-            }
-
-            if (isTimeError)
-            {
-                return;
-            }
-
-            int interval = 5;
-            if (User.SecondExpTick == 0)
-            {
-                if (!isTimeError)
-                {
-                    User.SecondExpTick = TimeHelper.ClientNowSeconds();
-                }
-            }
-            else
-            {
-                if (TimeHelper.ClientNowSeconds() < (User.SecondExpTick - 60 * 2))
-                {
-                    isTimeError = true;
-                    return;
-                }
-
-                long tempTime = Math.Min(TimeHelper.ClientNowSeconds() - User.SecondExpTick, ConfigHelper.MaxOfflineTime);
-                long calTk = (tempTime) / interval;
-                if (calTk >= 1)
-                {
-                    //5秒计算一次经验,金币
-                    User.SecondExpTick += interval * calTk;
-                    long exp = User.AttributeBonus.GetTotalAttr(AttributeEnum.SecondExp) * calTk;
-                    long gold = User.AttributeBonus.GetTotalAttr(AttributeEnum.SecondGold) * calTk;
-                    if (exp > 0 || gold > 0)
-                    {
-                        User.AddExpAndGold(exp, gold);
-
-                        this.EventCenter.Raise(new BattleMsgEvent()
-                        {
-                            Message = BattleMsgHelper.BuildSecondExpMessage(exp, gold)
-                        });
-                    }
-                }
-            }
-
-        }
-
         public void LoadMin()
         {
             this.MineRule = new BattleRule_Mine();
@@ -438,11 +379,8 @@ namespace Game
                 case RuleType.Normal:
                     this.BattleRule = new BattleRule_Normal();
                     break;
-                case RuleType.Survivors:
-                    this.BattleRule = new BattleRule_Survivors();
-                    break;
-                case RuleType.EquipCopy:
-                    this.BattleRule = new BattleRule_EquipCopy(param);
+                case RuleType.MainStage:
+                    this.BattleRule = new BattleRule_MainStage(param);
                     break;
                 case RuleType.Phantom:
                     this.BattleRule = new BattleRule_Phantom(param);
@@ -757,7 +695,7 @@ namespace Game
             switch (ruleType)
             {
 
-                case RuleType.EquipCopy:
+                case RuleType.MainStage:
                 case RuleType.BossFamily:
                 case RuleType.HeroPhantom:
                 case RuleType.Phantom:
@@ -895,15 +833,7 @@ namespace Game
             }
             this.EventCenter.Raise(new BattleLoseEvent() { Type = ruleType, Time = time });
 
-            if (ruleType == RuleType.EquipCopy)
-            {
-                int rl = User.GetArtifactValue(ArtifactType.EquipBattleRate);
-                int rate = 5 + rl;
-
-                //判断是否自动挑战
-                this.AutoStartMap(ruleType);
-            }
-            else if (ruleType == RuleType.BossFamily)
+            if (ruleType == RuleType.BossFamily)
             {
                 long bossTicket = User.GetMaterialCount(ItemHelper.SpecialId_Boss_Ticket);
                 int rl = User.GetArtifactValue(ArtifactType.BossBattleRate);
@@ -990,8 +920,8 @@ namespace Game
                 case RuleType.BossFamily:
                     this.EventCenter.Raise(new AutoStartBossFamily());
                     break;
-                case RuleType.EquipCopy:
-                    this.EventCenter.Raise(new AutoStartCopyEvent());
+                    //case RuleType.EquipCopy:
+                    //    this.EventCenter.Raise(new AutoStartCopyEvent());
                     break;
                 case RuleType.Shengxiao:
                     this.EventCenter.Raise(new ShengxiaoStartEvent() { Id = AppHelper.Shengxiao_Id });

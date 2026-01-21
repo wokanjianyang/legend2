@@ -5,44 +5,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class BattleRule_EquipCopy : ABattleRule
+public class BattleRule_MainStage : ABattleRule
 {
     private bool Start = false;
 
     private int MapId = 0;
-    private int MapRate = 1;
     private long MapTime = 0;
 
     private List<int> QualityList;
 
-    private const int MaxQuanlity = 20; //最多数量
-    private int MaxFreshQuanlity = 1; //最多刷新数量
-    protected override RuleType ruleType => RuleType.EquipCopy;
+    private const int MaxQuanlity = 30; //最多数量
+    private int MaxFreshQuanlity = 5; //最多刷新数量
+    protected override RuleType ruleType => RuleType.MainStage;
 
-    public BattleRule_EquipCopy(Dictionary<string, object> param)
+    public BattleRule_MainStage(Dictionary<string, object> param)
     {
         param.TryGetValue("MapId", out object mapId);
-        param.TryGetValue("MapTime", out object mapTime);
-        param.TryGetValue("MapRate", out object mapRate);
-        param.TryGetValue("MonsterFaster", out object monsterFaster);
 
         this.MapId = (int)mapId;
-        this.MapTime = (long)mapTime;
-        this.MapRate = (int)mapRate;
         this.Start = true;
-        this.MaxFreshQuanlity += (int)monsterFaster;
 
         QualityList = new List<int>();
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 5; i++)
         {
             QualityList.Add(1);
         }
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 5; i++)
         {
             QualityList.Add(2);
         }
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
             QualityList.Add(3);
         }
@@ -80,13 +73,13 @@ public class BattleRule_EquipCopy : ABattleRule
                 {
                     if (QualityList[0] < 5)
                     {
-                        var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, QualityList[0], MapRate, 0, RuleType.EquipCopy);
+                        var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, QualityList[0], RuleType.MainStage);
                         GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
                     }
                     else
                     {
                         BossConfig bossConfig = BossConfigCategory.Instance.Get(this.MapId);
-                        GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(this.MapId, mapConfig.Id, RuleType.EquipCopy, MapRate, 0));
+                        GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(this.MapId, RuleType.MainStage));
                     }
                     QualityList.RemoveAt(0);
                 }
@@ -103,14 +96,14 @@ public class BattleRule_EquipCopy : ABattleRule
                 //闯关成功
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                 {
-                    Message = BattleMsgHelper.BuildCopySuccessMessage(),
-                    Type = RuleType.EquipCopy
+                    Message = $"<color=white>挑战副本成功,已自动解锁下一个副本</color>",
+                    Type = RuleType.MainStage
                 });
 
                 user.MapId = mapConfig.Id + 1;
             }
 
-            GameProcessor.Inst.HeroDie(RuleType.EquipCopy, MapTime);
+            GameProcessor.Inst.HeroDie(RuleType.MainStage, MapTime);
         }
     }
 
@@ -120,7 +113,7 @@ public class BattleRule_EquipCopy : ABattleRule
         if (heroCamp.HP == 0)
         {
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.EquipCopy, MapTime);
+            GameProcessor.Inst.HeroDie(RuleType.MainStage, MapTime);
         }
     }
 }

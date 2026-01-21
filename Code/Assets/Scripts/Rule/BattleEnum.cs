@@ -19,14 +19,8 @@ namespace Game
 
     public enum RuleType
     {
-        [LabelText("常规")]
-        Normal = 0,
-
-        [LabelText("幸存者")]
-        Survivors,
-
-        [LabelText("装备副本")]
-        EquipCopy,
+        Normal = 0, //默认地图
+        MainStage, //关卡boss
 
         Phantom,
         BossFamily,

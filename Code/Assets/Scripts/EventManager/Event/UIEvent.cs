@@ -8,18 +8,16 @@ namespace Game
         public Color Color { get; set; }
     }
 
-    public class SetPlayerNameEvent : SDD.Events.Event
-    {
-        public string Name { get; set; }
-    }
-
     public class SetPlayerLevelEvent : SDD.Events.Event
     {
         public long Cycle { get; set; }
         public long Level { get; set; }
     }
 
-
+    public class SetPlayerNameEvent : SDD.Events.Event
+    {
+        public string Name { get; set; }
+    }
     public class SetPlayerHPEvent : SDD.Events.Event
     {
     }

@@ -395,8 +395,6 @@ namespace Game
         [JsonIgnore]
         public int SkillNumber = 0;
 
-        private bool isDingzhi = false;
-
         //private string[] DingzhiUserId = new string[] { "7B97AC4A45", "0AF588B5A9", "A99597B885", "495FD8195B" }; //
         //private string[] DingzhiAccount = new string[] { "lucky1500", "154940963" };
 

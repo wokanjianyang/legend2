@@ -6,32 +6,6 @@ namespace Game
 {
     public class BattleMsgHelper
     {
-        //public static string BuildMonsterDeadMessage(APlayer monster, long exp, long gold, List<Item> Drops)
-        //{
-        //    string drops = "";
-        //    if (exp > 0)
-        //    {
-        //        drops += ",经验增加:" + StringHelper.FormatNumber(exp);
-        //    }
-
-        //    if (gold > 0)
-        //    {
-        //        drops += ",金币增加:" + StringHelper.FormatNumber(gold);
-        //    }
-
-        //    if (Drops != null && Drops.Count > 0)
-        //    {
-        //        drops += ",掉落";
-        //        foreach (var drop in Drops)
-        //        {
-        //            drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>";
-        //        }
-        //    }
-
-        //    string message = $"<color=#{QualityConfigHelper.GetQualityColor(monster.Quality)}>[{monster.Name}]</color><color=white>死亡{drops}</color>";
-
-        //    return message;
-        //}
         public static string BuildMonsterDeadMessage(APlayer monster, double exp, double gold, List<Item> Drops, int burstMul)
         {
             return BuildMonsterDeadMessage(monster, exp, gold, Drops, burstMul, 0, 0);
@@ -157,51 +131,6 @@ namespace Game
             }
 
             return message + "</color>";
-        }
-
-
-        public static string BuildSecondExpMessage(long exp, long gold)
-        {
-            return $"获得经验收益{StringHelper.FormatNumber(exp)}，金币收益{StringHelper.FormatNumber(gold)}";
-        }
-
-        public static string BuildOfflineMessage(long time, long floor, long exp, long gold, long itemCount)
-        {
-            return $"离线时间{time}S,闯关{floor}层 \n获得总经验{StringHelper.FormatNumber(exp)}，总金币{StringHelper.FormatNumber(gold)} \n装备{itemCount}件,金币经验收益提升";
-        }
-
-        public static string BuildTowerSuccessMessage(long riseExp, long riseGold, long exp, long gold, long floor, List<Item> items)
-        {
-            string message = $"闯关成功,奖励";
-
-            foreach (var drop in items)
-            {
-                message += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>";
-            }
-            return message + $",经验:{ StringHelper.FormatNumber(exp)},金币奖励: { StringHelper.FormatNumber(gold)},收益提升";
-        }
-
-        public static string BuildCopySuccessMessage()
-        {
-            return $"<color=white>挑战副本成功,已自动解锁下一个副本</color>";
-        }
-
-
-        public static string BuildGiftPackMessage(List<Item> items)
-        {
-            string message = "礼包获取:";
-            foreach (var drop in items)
-            {
-                message += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>";
-            }
-
-            return message;
-        }
-
-        public static string BuildTimeErrorMessage()
-        {
-            string message = $"时间不正确,没有收益，请校准自己的时间 ";
-            return message;
         }
     }
 }

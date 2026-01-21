@@ -7,11 +7,9 @@ namespace Game
 
     public partial class MonsterBaseCategory
     {
-        public Monster BuildMonster(MapConfig mapConfig, int quality, int rate, int modelId, RuleType ruleType)
+        public Monster BuildMonster(MapConfig mapConfig, int quality,  RuleType ruleType)
         {
-            MonsterBase config = this.GetByMapId(mapConfig.Id);
-
-            Monster enemy = new Monster(mapConfig.Id, config.Id, quality, rate, modelId, ruleType);
+            Monster enemy = new Monster(mapConfig.Id, quality, ruleType);
             return enemy;
         }
 

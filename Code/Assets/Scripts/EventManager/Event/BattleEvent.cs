@@ -319,11 +319,6 @@ namespace Game
         public int MapId { get; set; }
     }
 
-    public class AutoStartCopyEvent : SDD.Events.Event
-    {
-
-    }
-
     public class AutoStartBossFamily : SDD.Events.Event
     {
 

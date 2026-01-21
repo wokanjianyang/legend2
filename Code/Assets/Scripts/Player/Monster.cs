@@ -12,34 +12,17 @@ namespace Game
         MonsterBase Config { get; set; }
         QualityConfig QualityConfig { get; set; }
 
-        MonsterModelConfig ModelConfig { get; set; }
-
-        public int GoldRate;
-        public long Gold;
-        public int AttTyp;
-        public float Att;
-        public float Def;
-        public long Exp;
-        public int range;
-
-        private int RewardRate;
-
-        public Monster(int mapId, int monsterId, int quality, int rewarRate, int modelId, RuleType ruleType) : base()
+        public Monster(int mapId, int quality, RuleType ruleType) : base()
         {
             this.MapId = mapId;
-            this.MonsterId = monsterId;
+            this.MonsterId = mapId;
             this.GroupId = 2;
             this.Quality = quality;
 
-            this.RewardRate = rewarRate;
             this.RuleType = ruleType;
 
             this.Config = MonsterBaseCategory.Instance.Get(MonsterId);
             this.QualityConfig = QualityConfigCategory.Instance.Get(Quality);
-            if (modelId > 0)
-            {
-                ModelConfig = MonsterModelConfigCategory.Instance.Get(modelId);
-            }
 
             this.Init();
             this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
@@ -52,8 +35,6 @@ namespace Game
             this.Name = Config.Name;
 
             this.Level = (Config.MapId - 999) * 100;
-            this.Exp = Config.Exp * QualityConfig.ExpRate;
-            this.Gold = Config.Gold * QualityConfig.GoldRate;
 
 
             this.SetAttr();  //设置属性值
@@ -75,14 +56,13 @@ namespace Game
         {
             this.AttributeBonus = new AttributeBonus();
 
-            double hpModelRate = ModelConfig == null ? 1 : ModelConfig.HpRate;
-            double attrModelRate = ModelConfig == null ? 1 : ModelConfig.AttrRate;
-            double defModelRate = ModelConfig == null ? 1 : ModelConfig.DefRate;
+            double hpModelRate = 1;
+            double attrModelRate = 1;
+            double defModelRate = 1;
 
             double hp = StringHelper.StringToNumber(Config.HP);
             double attr = StringHelper.StringToNumber(Config.Attr);
             double def = StringHelper.StringToNumber(Config.Def);
-
 
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, (hp * hpModelRate * QualityConfig.HpRate));
             AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, (attr * attrModelRate * QualityConfig.AttrRate));
@@ -112,8 +92,6 @@ namespace Game
             //加载技能
             List<SkillData> list = new List<SkillData>();
             list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
-
-
 
             foreach (SkillData skillData in list)
             {
@@ -187,12 +165,10 @@ namespace Game
         private void MakeReward(DeadRewarddEvent dead)
         {
             //Log.Info("Monster :" + this.ToString() + " dead");
-
-            for (int i = 0; i < RewardRate; i++)
+            if (RuleType != RuleType.MainStage)
             {
                 BuildReword();
             }
-
             //存档
             //UserData.Save();
         }
@@ -201,21 +177,16 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            double rewardModelRate = ModelConfig == null ? 1 : ModelConfig.RewardRate;
-            double dropModelRate = ModelConfig == null ? 1 : ModelConfig.DropRate;
-            double countModelRate = ModelConfig == null ? 1 : ModelConfig.CountRate;
-
-            double exp = (this.Exp * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.ExpIncrea)) / 100 * rewardModelRate);
-            double gold = (this.Gold * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.GoldIncrea)) / 100 * rewardModelRate);
+            double exp = (Config.Exp * QualityConfig.ExpRate * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.ExpIncrea)) / 100);
+            double gold = (Config.Gold * QualityConfig.GoldRate * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.GoldIncrea)) / 100);
 
             QualityConfig qualityConfig = QualityConfigCategory.Instance.Get(Quality);
 
             //user.AddStartRate(this.MapId, qualityConfig.CountRate * countModelRate);
 
             double dropRate = user.GetRealDropRate();
-            double modelRate = dropModelRate * qualityConfig.DropRate;
-            double countRate = countModelRate * qualityConfig.CountRate;
-            int soulPercent = (int)user.AttributeBonus.GetTotalAttr(AttributeEnum.SoulPercent);
+            double modelRate = qualityConfig.DropRate;
+            double countRate = qualityConfig.CountRate;
             //Debug.Log("dropRate:" + dropRate);
 
             List<Item> items = new List<Item>();
@@ -233,24 +204,13 @@ namespace Game
             items.AddRange(DropLimitHelper.Build((int)DropLimitType.Normal, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
             items.AddRange(DropLimitHelper.Build((int)DropLimitType.Map, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
 
-            if (this.RuleType == RuleType.EquipCopy || this.RuleType == RuleType.BossFamily)
-            {
-                items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
-                //items.AddRange(DropLimitHelper.Build((int)DropLimitType.JieRi, this.MapId, dropRate, modelRate, limit, countRate));
-            }
+            items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
 
             int qualityRate = qualityConfig.QualityRate * user.GetRealQualityRate();
             items.AddRange(DropHelper.BuildDropItem(dropList, qualityRate, RuleType.Normal, 0));
 
             double rs = user.AttributeBonus.GetTotalAttr(AttributeEnum.BurstMul);
             int itemCount = MathHelper.RandomBurstMul(rs);
-
-            int soulRise = 0;
-            if (soulPercent > 0)
-            {
-                soulRise = user.SoulRingNumber + user.GetArtifactValue(ArtifactType.SoulStone);
-                soulRise = (int)(soulRise * soulPercent * dropModelRate / 100);
-            }
 
             int newRate = user.Cycle.Data <= 0 ? 2 : 1;
             bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;
@@ -259,7 +219,7 @@ namespace Game
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                 {
                     Type = RuleType,
-                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, soulRise, newRate)
+                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, 0, newRate)
                 });
             }
 
@@ -268,11 +228,6 @@ namespace Game
                 exp += exp * itemCount;
                 gold += gold * itemCount;
                 items.AddRange(ItemHelper.BurstMul(items, itemCount, qualityRate, RuleType.Normal));
-            }
-
-            if (soulRise > 0)
-            {
-                items.Add(ItemHelper.BuildSoulRingShard(soulRise));
             }
 
             //先回收

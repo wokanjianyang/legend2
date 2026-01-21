@@ -11,11 +11,13 @@ namespace Game
         Exp = -2, //经验值
         Power = -1, //战力
         CurrentHp = 0, //当前生命
+
         HP = 1, //生命值
         PhyAtt = 2, //物理攻击
         MagicAtt = 3,//魔法攻击
         SpiritAtt = 4, //道术攻击
         Def = 5, //防御
+
         Speed = 6, //攻速
         Lucky = 7, //幸运
         CritRate = 8, //暴击率

@@ -431,11 +431,11 @@ namespace Game
             long Level = MagicLevel.Data;
             long levelAttr = LevelConfigCategory.GetLevelAttr(Level);
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, levelAttr * 10 + 40);
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, levelAttr * 10 + 100);
             AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, levelAttr + 10);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, levelAttr + 10);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, levelAttr + 10);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, levelAttr / 5 + 1);
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, levelAttr / 5 + 10);
 
             //AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 1000000000);
             //AttributeBonus.SetAttr(AttributeEnum.MulAttr, AttributeFrom.Test + 1, 100000);
@@ -1039,12 +1039,6 @@ namespace Game
             }
 
             this.SuitMax = Math.Max(this.SuitMax, ConfigHelper.SkillSuitMin);
-
-            //更新面板
-            if (GameProcessor.Inst.PlayerInfo != null)
-            {
-                GameProcessor.Inst.PlayerInfo.UpdateAttrInfo(this);
-            }
         }
 
         public int CalStone(Equip equip)

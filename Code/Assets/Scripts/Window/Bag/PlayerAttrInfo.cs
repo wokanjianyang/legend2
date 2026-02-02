@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class PlayerInfo : MonoBehaviour
+    public class PlayerAttrInfo : MonoBehaviour
     {
         [LabelText("HP")]
         public Text HP;

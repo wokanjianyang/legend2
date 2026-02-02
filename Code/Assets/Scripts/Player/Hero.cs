@@ -397,11 +397,16 @@ namespace Game
             }
 
             //6 尝试更改攻击目标
-            if (_enemy != null)
+            if (_enemy == null)
             {
-                _enemy.EventCenter.Raise(new ShowAttackIcon { NeedShow = false });
+                _enemy = this.FindNearestEnemy();
+                if (_enemy != null)
+                {
+                    GameProcessor.Inst.EventCenter.Raise(new ShowAttackIcon { NeedShow = true, Player = _enemy });
+                }
             }
-            _enemy = this.FindNearestEnemy();
+
+            
             if (_enemy != null)
             {
                 //如果有新目标
@@ -449,7 +454,10 @@ namespace Game
         {
             var ret = base.CalcEnemy();
 
-            ret?.EventCenter.Raise(new ShowAttackIcon { NeedShow = true });
+            if (ret != null)
+            {
+                //GameProcessor.Inst.EventCenter.Raise(new ShowAttackIcon { NeedShow = true, Player = ret });
+            }
 
             return ret;
         }

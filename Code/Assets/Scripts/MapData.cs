@@ -12,11 +12,9 @@ namespace Game
 
     public class MapData : MonoBehaviour
     {
-        [LabelText("列数")]
-        public int ColCount = 1;
+        private const int ColCount = 8;
 
-        [LabelText("行数")]
-        public int RowCount = 1;
+        private const int RowCount = 11;
 
         private const int minX = 0;
         private const int minY = 0;
@@ -88,12 +86,12 @@ namespace Game
 
         private void CreateAStar()
         {
-            AStarBattleGrid = new Grid(this.ColCount, this.RowCount, 1f);
+            AStarBattleGrid = new Grid(ColCount, RowCount, 1f);
             AllCells = new List<Vector3Int>();
             MapCells = new List<MapCell>();
-            for (var i = 0; i < this.ColCount; i++)
+            for (var i = 0; i < ColCount; i++)
             {
-                for (var j = 0; j < this.RowCount; j++)
+                for (var j = 0; j < RowCount; j++)
                 {
                     Vector3Int cell = new Vector3Int(i, j);
                     AllCells.Add(cell);

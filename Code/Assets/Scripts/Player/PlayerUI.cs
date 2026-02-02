@@ -36,7 +36,7 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
     public HP_Progress hp_Progress;
 
     [LabelText("护盾")]
-    public SP_Progress sp_Progress;
+    public HP_Progress sp_Progress;
 
     [LabelText("魂环")]
     public Transform SourRingEffect;
@@ -122,7 +122,7 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
         //this.SelfPlayer.EventCenter.AddListener<SetPlayerLevelEvent>(OnSetPlayerLevelEvent);
         this.SelfPlayer.EventCenter.AddListener<SetPlayerHPEvent>(OnSetPlayerHPEvent);
         this.SelfPlayer.EventCenter.AddListener<ShowMsgEvent>(OnShowMsgEvent);
-        this.SelfPlayer.EventCenter.AddListener<ShowAttackIcon>(OnShowAttackIcon);
+        //this.SelfPlayer.EventCenter.AddListener<ShowAttackIcon>(OnShowAttackIcon);
 
         this.SelfPlayer.EventCenter.AddListener<ShowHideEvent>(OnShowHide);
 
@@ -195,19 +195,21 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 
     private void OnSetPlayerHPEvent(SetPlayerHPEvent e)
     {
-        if (SelfPlayer.SP > 0 && SelfPlayer.MaxSP > 0)
+        if (SelfPlayer.MaxSP > 0)
         {
             this.sp_Progress.gameObject.SetActive(true);
             this.sp_Progress.SetProgress(this.SelfPlayer.SP, SelfPlayer.MaxSP);
-
-            this.hp_Progress.HideTitle();
         }
         else
         {
             this.sp_Progress.gameObject.SetActive(false);
+        }
 
-            this.hp_Progress.ShowTitle();
-            this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+        this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+
+        if (this.SelfPlayer.Info != null)
+        {
+            this.SelfPlayer.Info.SetPlayerHP();
         }
     }
 
@@ -260,13 +262,14 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
         }
     }
 
-    private void OnShowAttackIcon(ShowAttackIcon e)
-    {
-        if (this.tran_Attack != null)
-        {
-            this.tran_Attack.localScale = e.NeedShow ? Vector3.one : Vector3.zero;
-        }
-    }
+    //private void OnShowAttackIcon(ShowAttackIcon e)
+    //{
+    //    if (this.tran_Attack != null)
+    //    {
+    //        this.tran_Attack.localScale = e.NeedShow ? Vector3.one : Vector3.zero;
+    //    }
+    //}
+
     private void OnShowHide(ShowHideEvent e)
     {
         if (this.image_Background != null)
@@ -284,12 +287,8 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 
         if (this.SelfPlayer.GroupId != hero.GroupId)
         {
-            if (hero.Enemy != null)
-            {
-                hero.Enemy.EventCenter.Raise(new ShowAttackIcon { NeedShow = false });
-            }
             hero.UpdateEnemy(this.SelfPlayer);
-            this.SelfPlayer.EventCenter.Raise(new ShowAttackIcon { NeedShow = true });
+            GameProcessor.Inst.EventCenter.Raise(new ShowAttackIcon { NeedShow = true, Player = this.SelfPlayer });
         }
     }
 }

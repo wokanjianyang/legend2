@@ -49,19 +49,14 @@ namespace Game
 
         public AttributeBonus AttributeBonus { get; set; }
 
-        [JsonIgnore]
         public Transform Transform { get; private set; }
 
-        [JsonIgnore]
         public Logic Logic { get; private set; }
 
-        [JsonIgnore]
         public int RoundCounter { get; set; }
 
-        [JsonIgnore]
         public EventManager EventCenter { get; private set; }
 
-        [JsonIgnore]
         public bool IsSurvice
         {
             get
@@ -76,6 +71,8 @@ namespace Game
 
         protected Dictionary<int, List<Effect>> EffectMap = new Dictionary<int, List<Effect>>();
 
+
+        public PlayerInfo Info = null;
         //private Dictionary<int, int> SkillUseRoundCache = new Dictionary<int, int>();
 
         public void ChangeMaxHp(int fromId, double total)

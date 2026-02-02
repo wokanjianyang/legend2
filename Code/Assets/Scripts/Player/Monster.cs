@@ -212,14 +212,13 @@ namespace Game
             double rs = user.AttributeBonus.GetTotalAttr(AttributeEnum.BurstMul);
             int itemCount = MathHelper.RandomBurstMul(rs);
 
-            int newRate = user.Cycle.Data <= 0 ? 2 : 1;
             bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;
             if (showMessage)
             {
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                 {
                     Type = RuleType,
-                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, 0, newRate)
+                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, 0, 0)
                 });
             }
 
@@ -242,7 +241,7 @@ namespace Game
             }
 
             //增加经验,金币
-            user.AddExpAndGold(exp * newRate, gold + recoveryGold);
+            user.AddExpAndGold(exp, gold + recoveryGold);
             if (items.Count > 0)
             {
                 user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });

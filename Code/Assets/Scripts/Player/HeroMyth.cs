@@ -279,7 +279,7 @@ namespace Game
             //6 尝试更改攻击目标
             if (_enemy != null)
             {
-                _enemy.EventCenter.Raise(new ShowAttackIcon { NeedShow = false });
+                GameProcessor.Inst.EventCenter.Raise(new ShowAttackIcon { NeedShow = true, Player = _enemy });
             }
             _enemy = this.FindNearestEnemy();
             if (_enemy != null)

@@ -13,22 +13,13 @@ namespace Game
         [LabelText("进度文本")]
         public Text tmp_Progress;
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public int Order => (int)ComponentOrder.Progress;
-
         public void SetProgress(double current, double total)
         {
+            if (total <= 0)
+            {
+                total = 1;
+            }
+
             double value = current / total;
             if (value > 1)
             {

@@ -29,7 +29,7 @@ public class Init : MonoBehaviour
 
     public GameProcessor Game;
 
-    public Text Txt_Loading;
+    public Transform Tran_Loading;
     // public Transform MapRoot;
 
     public Transform Bottom;
@@ -98,6 +98,7 @@ public class Init : MonoBehaviour
         {
             UILayer.Top,  new List<string>()
             {
+                "Player/Player_Info",
                 "Window/Festive/Dialog_FloatButtons",
                 "Window/Loading",
                 "Window/Dialog_Drop",
@@ -134,7 +135,7 @@ public class Init : MonoBehaviour
 
     private async Task AsyncStartAsync()
     {
-        this.Txt_Loading.gameObject.SetActive(true);
+        this.Tran_Loading.gameObject.SetActive(true);
 
         long currentTimeSecond = 0;
 
@@ -216,7 +217,7 @@ public class Init : MonoBehaviour
         yield return null;
         //loadingPage.gameObject.SetActive(false);
 
-        this.Txt_Loading.gameObject.SetActive(false);
+        this.Tran_Loading.gameObject.SetActive(false);
 
         Game.Init(currentTimeSecond);
 

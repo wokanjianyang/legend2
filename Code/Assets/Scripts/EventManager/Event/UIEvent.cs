@@ -105,6 +105,8 @@ namespace Game
     public class ShowAttackIcon : SDD.Events.Event
     {
         public bool NeedShow { get; set; }
+
+        public APlayer Player { get; set; }
     }
 
     public class ShowHideEvent : SDD.Events.Event

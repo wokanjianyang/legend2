@@ -24,6 +24,8 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
 
     public int Order => (int)ComponentOrder.Dialog;
 
+    private bool isShow = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +48,7 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
     {
         if (e.NeedShow)
         {
-            this.gameObject.SetActive(true);
+            this.gameObject.SetActive(isShow);
             this.SelfPlayer = e.Player;
             this.SelfPlayer.Info = this;
             this.Init();
@@ -56,6 +58,17 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
             this.gameObject.SetActive(false);
         }
     }
+
+    public void SetShow(bool show)
+    {
+        Debug.Log("change player info show:" + show);
+
+        this.isShow = show;
+
+
+        this.gameObject.SetActive(isShow);
+    }
+
 
 
     public void OnDestroy()
@@ -83,6 +96,11 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
 
     public void SetPlayerHP()
     {
+        if (!this.isShow)
+        {
+            return;
+        }
+
         if (SelfPlayer.SP <= 0 && SelfPlayer.HP <= 0)
         {
             this.gameObject.SetActive(false);

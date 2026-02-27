@@ -23,7 +23,7 @@ namespace Game
 
         public Vector3 MapStartPos { get; private set; } = Vector3.zero;
 
-        public Vector3 CellSize = Vector3.zero;
+        private Vector3 CellSize = new Vector3(AppHelper.Map_Cell_Size_X, AppHelper.Map_Cell_Size_Y, 0);
 
         public List<Vector3Int> AllCells { get; private set; }
 
@@ -49,7 +49,7 @@ namespace Game
             var gridWidth = mapWidth / ColCount;
             var gridHeight = mapHeight / RowCount;
             var startX = mapWidth * -0.5f;
-            var startY = mapHeight * -0.5f;
+            var startY = mapHeight * -0.5f - gridHeight;
             this.MapStartPos = new Vector3(startX, startY);
             //this.CellSize = new Vector3(gridWidth, gridHeight);
         }

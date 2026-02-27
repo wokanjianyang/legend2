@@ -21,7 +21,7 @@ namespace Game
         IEnumerator IE_Attack(Vector3Int cell)
         {
             var distance = cell - this.SelfPlayer.Cell;
-            Vector3 offset = new Vector3(distance.x * 0.2f, distance.y * 0.2f) * GameProcessor.Inst.MapData.CellSize.x;
+            Vector3 offset = new Vector3(distance.x * 0.2f, distance.y * 0.2f) * AppHelper.Map_Cell_Size_X;
             var targetPos = GameProcessor.Inst.MapData.GetWorldPosition(this.SelfPlayer.Cell);
             this.SelfPlayer.Transform.DOLocalMove(targetPos + offset, speed);
 

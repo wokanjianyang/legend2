@@ -6,36 +6,24 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class BottomNav : MonoBehaviour,IBattleLife
+    public class View_Nav : MonoBehaviour,IBattleLife
     {
-        [Title("底部导航")]
-        [LabelText("包裹")]
-        public Button btn_Bag;
 
-        [LabelText("战斗")]
         public Button btn_Battle;
-
-        [LabelText("世界地图")]
-        public Button btn_Map;
-
-        [LabelText("无尽塔")]
-        public Button btn_Tower;
-
-        [LabelText("技能")]
-        public Button btn_Skill;
-
-        [LabelText("锻造")]
+        public Button btn_Bag;
         public Button btn_Forge;
-        
+        public Button btn_Skill;
+        public Button btn_More;
+
+
         // Start is called before the first frame update
         void Start()
         {
-            this.btn_Bag.onClick.AddListener(this.OnClick_Bag);
             this.btn_Battle.onClick.AddListener(this.OnClick_Battle);
-            this.btn_Map.onClick.AddListener(this.OnClick_Map);
-            this.btn_Tower.onClick.AddListener(this.OnClick_Tower);
-            this.btn_Skill.onClick.AddListener(this.OnClick_Skill);
+            this.btn_Bag.onClick.AddListener(this.OnClick_Bag);
             this.btn_Forge.onClick.AddListener(this.OnClick_Forge);
+            this.btn_Skill.onClick.AddListener(this.OnClick_Skill);
+            this.btn_More.onClick.AddListener(this.OnClick_More);
         }
 
         // Update is called once per frame
@@ -59,11 +47,8 @@ namespace Game
         {
             this.ChangePage(ViewPageType.View_Battle);
         }
-        private void OnClick_Map()
-        {
-            this.ChangePage(ViewPageType.View_Map);
-        }
-        private void OnClick_Tower()
+
+        private void OnClick_More()
         {
             this.ChangePage(ViewPageType.View_More);
         }

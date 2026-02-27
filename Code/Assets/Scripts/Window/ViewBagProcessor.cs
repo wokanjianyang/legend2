@@ -15,13 +15,18 @@ namespace Game
     public class ViewBagProcessor : AViewPage
     {
         [Title("包裹")]
-        public List<Toggle> Toggle_Bag_List = new List<Toggle>();
+        public Transform Tran_Bag_List;
+        private List<Toggle> Toggle_Bag_List = new List<Toggle>();
+
         public List<ScrollRect> Bag_List = new List<ScrollRect>();
         public Button Btn_Reset;
 
         [Title("方案")]
+
         public List<Toggle> Toggle_Plan_List = new List<Toggle>();
+
         public List<RectTransform> Equip_Plan_List = new List<RectTransform>();
+
         public RectTransform EquipInfoSpecial;
         public Button Btn_ReName;
         public Transform Tran_Plan;
@@ -75,6 +80,8 @@ namespace Game
 
         private void Awake()
         {
+            Toggle_Bag_List = Tran_Bag_List.GetComponentsInChildren<Toggle>().ToList();
+
             for (int i = 0; i < Toggle_Bag_List.Count; i++)
             {
                 int index = i;

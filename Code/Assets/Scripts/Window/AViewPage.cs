@@ -14,6 +14,16 @@ namespace Game
         {
             this.gameObject.SetActive(this.CheckPageType(e.Page));
 
+            if (e.Page == ViewPageType.View_Battle)
+            {
+                GameProcessor.Inst.PlayerInfo?.SetShow(true);
+            }
+            else
+            {
+                GameProcessor.Inst.PlayerInfo?.SetShow(false);
+            }
+
+
             if (this.CheckPageType(e.Page))
             {
                 if (!isInit)
@@ -51,15 +61,15 @@ namespace Game
                 return (int)ComponentOrder.ViewPage;
             }
         }
-        
+
         virtual public void OnInit()
         {
-            
+
         }
 
         virtual public void OnOpen()
         {
-            
+
         }
     }
 }

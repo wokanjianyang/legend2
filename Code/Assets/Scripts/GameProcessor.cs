@@ -441,6 +441,11 @@ namespace Game
 
             isLoadMap = true;
 
+            if (ruleType != RuleType.Normal)
+            {
+                this.PlayerInfo.SetShow(true);
+            }
+
             this.StartGame();
         }
 
@@ -793,6 +798,7 @@ namespace Game
 
         public void SetGameOver(PlayerType winCamp)
         {
+            this.PlayerInfo.SetShow(false);
             this.isGameOver = true;
             this.winCamp = winCamp;
         }

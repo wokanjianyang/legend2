@@ -104,9 +104,7 @@ namespace Game
     {
         View_Bag = 0,
         View_Battle,
-        View_Map,
         View_Skill,
-        View_Tower,
         View_Forge,
         View_More,
     }

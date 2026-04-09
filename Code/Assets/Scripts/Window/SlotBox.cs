@@ -2,19 +2,15 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game
 {
     public class SlotBox : MonoBehaviour
     {
-        [Title("插槽")]
-        [LabelText("类型")]
-        public SlotType SlotType;
+        public Image Img_Bg;
 
         private Com_Box equip;
-
-        private Com_Box baseInfo;
-
         public int Part = 0;
         public string Name = "";
 
@@ -32,30 +28,28 @@ namespace Game
 
         public void Init(GameObject prefab)
         {
-            var box = GameObject.Instantiate(prefab, this.transform);
-            baseInfo = box.GetComponent<Com_Box>();
-            baseInfo.tmp_Title.text = this.SlotType.ToString();
+            //var box = GameObject.Instantiate(prefab, this.transform);
+            //baseInfo = box.GetComponent<Com_Box>();
         }
 
-        public void Init(GameObject prefab, int type)
+        public void Init(int part)
         {
-            this.SlotType = (SlotType)(type);
-            this.Init(prefab);
+            this.Part = part;
+            this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(part);
         }
 
         public void SetPart(int part, string name)
         {
             this.Part = part;
             this.Name = name;
-
-            baseInfo.tmp_Title.text = this.Name;
         }
 
 
         public void Equip(Com_Box equip)
         {
             this.equip = equip;
-            baseInfo.gameObject.SetActive(false);
+
+            Img_Bg.gameObject.SetActive(false);
         }
         public void UnEquip()
         {
@@ -65,7 +59,8 @@ namespace Game
                 this.equip = null;
                 GameObject.Destroy(comItem.gameObject);
             }
-            baseInfo.gameObject.SetActive(true);
+
+            Img_Bg.gameObject.SetActive(true);
         }
         public Com_Box GetEquip()
         {

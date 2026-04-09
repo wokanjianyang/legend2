@@ -55,7 +55,9 @@ namespace Game
             GameProcessor.Inst.World_Auto_Id = this.Config.Id;
 
             var vm = this.GetComponentInParent<ViewMore>();
-            vm.StartWorld(Config.Id);
+            vm.HideItem();
+
+            GameProcessor.Inst.EventCenter.Raise(new WorldStartEvent() { Id = Config.Id });
         }
 
         public void Show()

@@ -132,10 +132,18 @@ public class Map_Dialog_Babel : MonoBehaviour
             return;
         }
 
+        if (user.BabelData.Data >= ConfigHelper.BabelMax)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "你已经通关了，请等待开放上限", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
         this.gameObject.SetActive(false);
 
         var vm = this.GetComponentInParent<ViewMore>();
-        vm.StartBabel();
+        vm.HideItem();
+
+        GameProcessor.Inst.EventCenter.Raise(new BabelStartEvent() { });
     }
 
     public void OnClick_Close()

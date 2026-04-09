@@ -47,7 +47,9 @@ public class Map_Shengxiao_Item : MonoBehaviour
         dialog.gameObject.SetActive(false);
 
         var vm = this.GetComponentInParent<ViewMore>();
-        vm.StartShengxiao(Config.Id);
+        vm.HideItem();
+
+        GameProcessor.Inst.EventCenter.Raise(new ShengxiaoStartEvent() { Id = Config.Id });
     }
 
 

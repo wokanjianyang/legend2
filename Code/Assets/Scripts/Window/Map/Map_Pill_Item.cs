@@ -35,7 +35,9 @@ public class Map_Pill_Item : MonoBehaviour
         dialog.gameObject.SetActive(false);
 
         var vm = this.GetComponentInParent<ViewMore>();
-        vm.StartPill(Config.Layer, Config.Type);
+        vm.HideItem();
+
+        GameProcessor.Inst.EventCenter.Raise(new PillStartEvent() { Layer = Config.Layer, Type = Config.Type });
     }
 
     public void SetContent(MonsterPillConfig config)

@@ -23,6 +23,10 @@ namespace Game
         private List<Sprite> ValetList = new List<Sprite>();
         private List<Sprite> MonsterList = new List<Sprite>();
         private List<Sprite> MonsterWorldList = new List<Sprite>();
+
+        private Dictionary<int, Sprite> EquipBgList = new Dictionary<int, Sprite>();
+
+
         private Sprite MonsterDefend = null;
 
         private static PrefabHelper instance = null;
@@ -46,16 +50,31 @@ namespace Game
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_4"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_5"));
 
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_White"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_White"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_Green"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_Blue"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_Pink"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box_Orange"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box6"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box7"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box8"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Box9"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box_Empty"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box1"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box2"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box3"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box4"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box5"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box6"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box7"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box8"));
+            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box9"));
+
+            for (int i = 1; i <= 14; i++)
+            {
+                EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip" + i));
+            }
+
+            for (int i = 21; i <= 50; i++)
+            {
+                EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip1"));
+            }
+
+            for (int i = 15; i <= 20; i++)
+            {
+                EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip1"));
+            }
 
             BoxSelectPrefab = Resources.Load<GameObject>("Prefab/Window/GameItem/BoxSelect");
 
@@ -203,6 +222,18 @@ namespace Game
         public Sprite GetDefend()
         {
             return MonsterDefend;
+        }
+
+        public Sprite GetEquipBg(int part)
+        {
+            if (EquipBgList.ContainsKey(part))
+            {
+                return EquipBgList[part];
+            }
+            else
+            {
+                return EquipBgList[1];
+            }
         }
     }
 }

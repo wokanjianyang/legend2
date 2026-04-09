@@ -57,7 +57,7 @@ public class Item_MainMap : MonoBehaviour
 
     private void OnClick_Change()
     {
-        var dialog = this.GetComponentInParent<Dialog_BossInfo>();
+        var dialog = this.GetComponentInParent<Map_Dialog_Main>();
         dialog.gameObject.SetActive(false);
 
         AppHelper.CurrentMapId = this.MapId;
@@ -67,7 +67,7 @@ public class Item_MainMap : MonoBehaviour
 
     private void OnClick_Start()
     {
-        var dialog = this.GetComponentInParent<Dialog_BossInfo>();
+        var dialog = this.GetComponentInParent<Map_Dialog_Main>();
         dialog.gameObject.SetActive(false);
 
         GameProcessor.Inst.EventCenter.Raise(new StartCopyEvent() { MapId = this.MapId });

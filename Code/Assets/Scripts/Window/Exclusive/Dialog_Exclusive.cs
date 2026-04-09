@@ -70,13 +70,13 @@ namespace Game
 
             GameProcessor.Inst.EventCenter.AddListener<ShowExclusiveEvent>(this.OnShowExclusive);
 
-            var prefab = Resources.Load<GameObject>("Prefab/Window/Box_Info");
 
             SlotBox[] items = this.GetComponentsInChildren<SlotBox>();
 
+            //TODO
             for (int i = 0; i < items.Length; i++)
             {
-                items[i].Init(prefab);
+                items[i].Init(15 + i);
             }
 
             this.InitPlanName();

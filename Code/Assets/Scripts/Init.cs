@@ -42,18 +42,18 @@ public class Init : MonoBehaviour
         {
             UILayer.Bottom, new List<string>()
             {
-                "Window/View_Map",
-                "Window/View_Bag",
-                "Window/View_Skill",
-                "Window/View_Forge",
-                "Window/View_More"
+                "Home/View_Battle",
+                "Home/View_Bag",
+                "Home/View_Skill",
+                "Home/View_Forge",
+                "Home/View_More"
             }
         },
         {
             UILayer.Center, new List<string>()
             {
-                "Window/View_TopStatu",
-                "Window/View_BottomNavBar",
+                "Home/View_TopStatu",
+                "Home/View_BottomNavBar",
 
                 "Map/Map_MainStage",
                 "Map/Map_Phantom",
@@ -222,7 +222,7 @@ public class Init : MonoBehaviour
         Game.Init(currentTimeSecond);
 
         yield return null;
-        var mapRoot = GameObject.FindObjectOfType<ViewMap>();
+        var mapRoot = GameObject.FindObjectOfType<View_Battle>();
 
         yield return new WaitForSeconds(1f);
         Game.LoadMap(RuleType.Normal, mapRoot.transform, null);

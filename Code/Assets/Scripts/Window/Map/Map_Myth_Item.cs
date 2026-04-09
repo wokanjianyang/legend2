@@ -53,7 +53,9 @@ public class Map_Myth_Item : MonoBehaviour
         dialog.gameObject.SetActive(false);
 
         var vm = this.GetComponentInParent<ViewMore>();
-        vm.StartMyth(Config.Id);
+        vm.HideItem();
+
+        GameProcessor.Inst.EventCenter.Raise(new MythStartEvent() { Id = Config.Id });
     }
 
     public void SetContent(MythConfig config)

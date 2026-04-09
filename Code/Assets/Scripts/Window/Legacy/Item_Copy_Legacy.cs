@@ -89,7 +89,9 @@ namespace Game
             dialogLegacy.gameObject.SetActive(false);
 
             var vm = this.GetComponentInParent<ViewMore>();
-            vm.StartLegacy(Config.Id, (int)Layer);
+            vm.HideItem();
+
+            GameProcessor.Inst.EventCenter.Raise(new LegacyStartEvent() { MapId = Config.Id, Layer = (int)this.Layer });
         }
 
     }

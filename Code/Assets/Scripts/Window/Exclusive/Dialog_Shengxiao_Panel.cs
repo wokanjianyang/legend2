@@ -23,11 +23,9 @@ namespace Game
 
         void Start()
         {
-            var prefab = Resources.Load<GameObject>("Prefab/Window/Box_Info");
-
             for (int i = 0; i < ItemList.Count; i++)
             {
-                ItemList[i].Init(prefab);
+                ItemList[i].Init(1001 + i);
             }
 
             this.Show();

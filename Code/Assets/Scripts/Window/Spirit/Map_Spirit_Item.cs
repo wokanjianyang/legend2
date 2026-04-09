@@ -47,7 +47,9 @@ public class Map_Spirit_Item : MonoBehaviour
         dialog.gameObject.SetActive(false);
 
         var vm = this.GetComponentInParent<ViewMore>();
-        vm.StartSpirit(Config.Id);
+        vm.HideItem();
+
+        GameProcessor.Inst.EventCenter.Raise(new SpiritStartEvent() { Id = Config.Id });
     }
 
 

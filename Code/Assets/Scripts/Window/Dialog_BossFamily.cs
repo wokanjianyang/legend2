@@ -91,8 +91,11 @@ public class Dialog_BossFamily : MonoBehaviour, IBattleLife
     {
         int rate = toggle_Rate.isOn ? this.Rate : 1;
 
-        var vm = this.GetComponentInParent<ViewMore>();
-        vm.StartBossFamily(index, rate);
+        ViewMore vm = this.GetComponentInParent<ViewMore>();
+        vm.HideItem();
+
+        //Start
+        GameProcessor.Inst.EventCenter.Raise(new BossFamilyStartEvent() { Level = index, Rate = rate });
     }
 
     public void OnClick_Close()

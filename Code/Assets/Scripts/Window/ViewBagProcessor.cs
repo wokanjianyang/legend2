@@ -15,20 +15,23 @@ namespace Game
     public class ViewBagProcessor : AViewPage
     {
         [Title("包裹")]
-        public Transform Tran_Bag_List;
-        private List<Toggle> Toggle_Bag_List = new List<Toggle>();
-
-        public List<ScrollRect> Bag_List = new List<ScrollRect>();
+        public Transform Tran_Bag_Nav_List;
+        private List<Toggle> Toggle_Bag_Nav_List = new List<Toggle>();
         public Button Btn_Reset;
 
+        public Transform Tran_Bag_List;
+        private List<ScrollRect> Bag_List = new List<ScrollRect>();
+
+
         [Title("方案")]
+        public Transform Tran_Plan_List;
+        private List<Toggle> Toggle_Plan_List = new List<Toggle>();
+        public Button Btn_ReName;
 
-        public List<Toggle> Toggle_Plan_List = new List<Toggle>();
-
-        public List<RectTransform> Equip_Plan_List = new List<RectTransform>();
+        public Transform Tran_Equip_List;
+        private List<Equip_Panel> Equip_Plan_List = new List<Equip_Panel>();
 
         public RectTransform EquipInfoSpecial;
-        public Button Btn_ReName;
         public Transform Tran_Plan;
         public InputField If_Name;
         public Button Btn_Ok;
@@ -80,12 +83,16 @@ namespace Game
 
         private void Awake()
         {
-            Toggle_Bag_List = Tran_Bag_List.GetComponentsInChildren<Toggle>().ToList();
+            Toggle_Bag_Nav_List = Tran_Bag_Nav_List.GetComponentsInChildren<Toggle>().ToList();
+            Toggle_Plan_List = Tran_Plan_List.GetComponentsInChildren<Toggle>().ToList();
+            Bag_List = Tran_Bag_List.GetComponentsInChildren<ScrollRect>(true).ToList();
 
-            for (int i = 0; i < Toggle_Bag_List.Count; i++)
+            Equip_Plan_List = Tran_Equip_List.GetComponentsInChildren<Equip_Panel>(true).ToList();
+
+            for (int i = 0; i < Toggle_Bag_Nav_List.Count; i++)
             {
                 int index = i;
-                Toggle_Bag_List[i].onValueChanged.AddListener((isOn) =>
+                Toggle_Bag_Nav_List[i].onValueChanged.AddListener((isOn) =>
                 {
                     if (isOn)
                     {
@@ -126,96 +133,6 @@ namespace Game
         void Start()
         {
             ShowEquipPanel();
-
-            User user = GameProcessor.Inst.User;
-            bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
-
-            string account = user.Account;
-
-            if (account.Length > 0 || user.GetLimitId() >= 1030)
-            {
-                this.Btn_Cycle.gameObject.SetActive(true);
-                this.Btn_Cycle.onClick.AddListener(this.OnClick_Cycle);
-            }
-
-            if (user.Cycle.Data <= 0 && user.MagicLevel.Data < ConfigHelper.Max_Level - 10000)
-            {
-                this.Btn_Cycle.gameObject.SetActive(false);
-            }
-
-            if (user.Cycle.Data > 0)
-            {
-                this.btn_Pill.gameObject.SetActive(true);
-                this.btn_Talent.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Pill.gameObject.SetActive(false);
-                this.btn_Talent.gameObject.SetActive(false);
-            }
-
-            if (user.Cycle.Data >= 4)
-            {
-                this.btn_Relic.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Relic.gameObject.SetActive(false);
-            }
-
-            if (user.MapId >= 1051)
-            {
-                this.btn_Halidom.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Halidom.gameObject.SetActive(false);
-            }
-
-            if (user.MapId >= 1104)
-            {
-                this.btn_Equip_Golden.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Equip_Golden.gameObject.SetActive(false);
-            }
-
-            if (user.MapId >= 1139 && !ac)
-            {
-                this.btn_Equip_Dark_Gold.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Equip_Dark_Gold.gameObject.SetActive(false);
-            }
-
-            if (user.MapId >= 1174 && !ac)
-            {
-                this.btn_Equip_Hundun.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Equip_Hundun.gameObject.SetActive(false);
-            }
-
-            if (user.Cycle.Data > 0 || user.MagicLevel.Data >= 50000 || user.PetList.Count > 0)
-            {
-                this.btn_Pet.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Pet.gameObject.SetActive(false);
-            }
-
-            if (user.Cycle.Data >= 10)
-            {
-                this.btn_Shengxiao.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.btn_Shengxiao.gameObject.SetActive(false);
-            }
         }
 
         // Update is called once per frame
@@ -280,40 +197,41 @@ namespace Game
             for (int i = 0; i < Equip_Plan_List.Count; i++)
             {
                 var EquipInfo = Equip_Plan_List[i];
-                foreach (var slotBox in EquipInfo.GetComponentsInChildren<SlotBox>())
+                var slots = EquipInfo.GetComponentsInChildren<SlotBox>();
+
+                for (int p = 0; p < slots.Count(); p++)
                 {
-                    slotBox.Init(prefab);
-                    //yield return null;
+                    slots[p].Init(p + 1);
                 }
             }
 
-            foreach (var slotBox in EquipInfoSpecial.GetComponentsInChildren<SlotBox>())
+            List<SlotBox> sps = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().ToList();
+            for (int i = 0; i < sps.Count; i++)
             {
-                slotBox.Init(prefab);
+                sps[i].Init(11 + i);
                 yield return null;
             }
 
             List<SlotBox> gds = DialogEquipGolden.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < gds.Count; i++)
             {
-                gds[i].Init(prefab, 21 + i);
+                gds[i].Init( 21 + i);
                 yield return null;
             }
 
             List<SlotBox> dgds = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < dgds.Count; i++)
             {
-                dgds[i].Init(prefab, 31 + i);
+                dgds[i].Init( 31 + i);
                 yield return null;
             }
 
             List<SlotBox> hunduns = DialogEquipHundun.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < dgds.Count; i++)
             {
-                hunduns[i].Init(prefab, 41 + i);
+                hunduns[i].Init( 41 + i);
                 yield return null;
             }
-
 
             foreach (var kvEp in user.EquipPanelList)
             {
@@ -358,7 +276,7 @@ namespace Game
             //    this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
             //}
 
-            var emptyPrefab = Resources.Load<GameObject>("Prefab/Window/Box_Empty");
+            var emptyPrefab = PrefabHelper.Instance().GetBoxPrefab(0); ;
             yield return null;
 
             for (int k = 0; k < Bag_List.Count; k++)
@@ -1497,23 +1415,23 @@ namespace Game
 
                 if (Position <= 10)
                 {
-                    slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == Position).First();
+                    slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
                 else if (Position >= 11 && Position <= 14)
                 {
-                    slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == Position).First();
+                    slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
                 else if (Position >= 21 && Position <= 30)
                 {
-                    slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == Position).First();
+                    slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
                 else if (Position >= 31 && Position <= 40)
                 {
-                    slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == Position).First();
+                    slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
                 else if (Position >= 41 && Position <= 50)
                 {
-                    slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == Position).First();
+                    slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
 
                 slot.UnEquip();
@@ -1641,11 +1559,11 @@ namespace Game
                 int pi = GameProcessor.Inst.User.EquipPanelIndex;
 
                 var EquipInfo = Equip_Plan_List[pi];
-                slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 11 && position <= 14)
             {
-                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 15 && position <= 20)
             {
@@ -1653,15 +1571,15 @@ namespace Game
             }
             else if (position >= 21 && position <= 30)
             {
-                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 31 && position <= 40)
             {
-                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 41 && position <= 50)
             {
-                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
 
             return slot;
@@ -1675,11 +1593,11 @@ namespace Game
             if (position <= 10)
             {
                 var EquipInfo = Equip_Plan_List[pi];
-                slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 11 && position <= 14)
             {
-                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).FirstOrDefault();
+                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).FirstOrDefault();
             }
             else if ((position >= 15 && position <= 20) || position > 1000)
             {
@@ -1693,15 +1611,15 @@ namespace Game
             }
             else if (position >= 21 && position <= 30)
             {
-                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 31 && position <= 40)
             {
-                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 41 && position <= 50)
             {
-                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
 
             if (slot.GetEquip() != null) //防止叠加，无限刷道具
@@ -1736,11 +1654,11 @@ namespace Game
 
             if (position <= 10)
             {
-                slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 11 && position <= 14)
             {
-                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 15 && position <= 20)
             {
@@ -1748,15 +1666,15 @@ namespace Game
             }
             else if (position >= 21 && position <= 30)
             {
-                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 31 && position <= 40)
             {
-                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 41 && position <= 50)
             {
-                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => (int)s.SlotType == position).First();
+                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
 
             slot.UnEquip();

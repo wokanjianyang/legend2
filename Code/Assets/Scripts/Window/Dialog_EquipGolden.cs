@@ -29,13 +29,11 @@ namespace Game
 
         public void Init()
         {
-            var prefab = Resources.Load<GameObject>("Prefab/Window/Box_Info");
-
             SlotBox[] items = this.GetComponentsInChildren<SlotBox>();
 
             for (int i = 0; i < items.Length; i++)
             {
-                items[i].Init(prefab);
+                items[i].Init(21+i);
             }
 
             for (int i = 0; i < Toggle_Plan_List.Count; i++)

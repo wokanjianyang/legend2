@@ -18,8 +18,9 @@ namespace Game
         public Text tmp_Count;
 
         public GameObject go_Lock;
+        public GameObject img_Tag;
 
-        public Text Tag;
+        //public Text Tag;
         public Text Layer;
 
         public BoxItem BoxItem { get; private set; }
@@ -113,7 +114,8 @@ namespace Game
             if (this.BoxItem == null) return;
 
             this.BoxItem.Item.IsNew = false;
-            this.Tag.gameObject.SetActive(false);
+            this.img_Tag.gameObject.SetActive(false);
+
 
             if (this.BoxItem.Item.Type == ItemType.GiftPack)
             {
@@ -212,8 +214,7 @@ namespace Game
                     }
                 }
 
-                this.Tag.gameObject.SetActive(true);
-                this.Tag.text = $"<color=#{QualityConfigHelper.GetEquipTagColor(item.Item.IsKeep)}>New</color>";
+                this.img_Tag.gameObject.SetActive(true);
             }
 
             this.ShowName();

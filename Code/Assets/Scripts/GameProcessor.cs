@@ -286,7 +286,7 @@ namespace Game
                 isTimeError = true;
             }
 
-            if (!isTimeError && !isCheckError && !isVersionError && User.SecondExpTick > 0)
+            if (!isTimeError && !isCheckError && !isVersionError && User.SecondExpTick >= 0)
             {
                 Dialog_OfflineExp offlineExp = Canvas.FindObjectOfType<Dialog_OfflineExp>(true);
                 offlineExp.ShowOffline();

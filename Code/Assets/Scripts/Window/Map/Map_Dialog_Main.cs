@@ -23,7 +23,7 @@ public class Map_Dialog_Main : MonoBehaviour
     private int MaxLayer = -1;
     private int SelectLayer = -1;
 
-    List<Item_MainMap> items = new List<Item_MainMap>();
+    List<Main_Map_Group> items = new List<Main_Map_Group>();
 
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class Map_Dialog_Main : MonoBehaviour
 
     private void Init()
     {
-        ItemPrefab = Resources.Load<GameObject>("Prefab/Map/Item_MainMap");
+        ItemPrefab = Resources.Load<GameObject>("Prefab/Map/Main_Map_Group");
 
         List<MapConfig> list = MapConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
@@ -74,7 +74,7 @@ public class Map_Dialog_Main : MonoBehaviour
     private void BuildItem(MapConfig config)
     {
         var item = GameObject.Instantiate(ItemPrefab);
-        var com = item.GetComponent<Item_MainMap>();
+        var com = item.GetComponent<Main_Map_Group>();
 
         com.SetContent(config);
 

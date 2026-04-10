@@ -43,8 +43,6 @@ namespace Game
         {
             List<Item> items = new List<Item>();
 
-            user.MapId = 1;
-
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Legacy_Ticket, 300)); //传世卷
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Copy_Ticket, 6000)); //装备卷
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Boss_Ticket, 300)); //BOSS卷

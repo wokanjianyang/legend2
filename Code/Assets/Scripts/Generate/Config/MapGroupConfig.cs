@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class MapConfigCategory : ProtoObject, IMerge
+    public partial class MapGroupConfigCategory : ProtoObject, IMerge
     {
-        public static MapConfigCategory Instance;
+        public static MapGroupConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, MapConfig> dict = new Dictionary<int, MapConfig>();
+        private Dictionary<int, MapGroupConfig> dict = new Dictionary<int, MapGroupConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<MapConfig> list = new List<MapConfig>();
+        private List<MapGroupConfig> list = new List<MapGroupConfig>();
 		
-        public MapConfigCategory()
+        public MapGroupConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            MapConfigCategory s = o as MapConfigCategory;
+            MapGroupConfigCategory s = o as MapGroupConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (MapConfig config in list)
+            foreach (MapGroupConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public MapConfig Get(int id)
+        public MapGroupConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out MapConfig item);
+            this.dict.TryGetValue(id, out MapGroupConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (MapConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (MapGroupConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, MapConfig> GetAll()
+        public Dictionary<int, MapGroupConfig> GetAll()
         {
             return this.dict;
         }
 
-        public MapConfig GetOne()
+        public MapGroupConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,7 +73,7 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class MapConfig: ProtoObject, IConfig
+	public partial class MapGroupConfig: ProtoObject, IConfig
 	{
 		/// <summary>_Id</summary>
 		[ProtoMember(1)]
@@ -81,21 +81,12 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>GroupId</summary>
+		/// <summary>Layer</summary>
 		[ProtoMember(3)]
-		public int GroupId { get; set; }
-		/// <summary>BossId</summary>
+		public int Layer { get; set; }
+		/// <summary>Memo</summary>
 		[ProtoMember(4)]
-		public int BossId { get; set; }
-		/// <summary>DropLevel</summary>
-		[ProtoMember(5)]
-		public int DropLevel { get; set; }
-		/// <summary>地图Id掉落</summary>
-		[ProtoMember(6)]
-		public int[] DropIdList { get; set; }
-		/// <summary>DropRateList</summary>
-		[ProtoMember(7)]
-		public int[] DropRateList { get; set; }
+		public string Memo { get; set; }
 
 	}
 }

@@ -9,8 +9,8 @@ namespace Game
 {
     public class BattleRule_Normal : ABattleRule
     {
-        private int Count = 1;
-        private bool start = false;
+        private double MapTime = 0;
+        private int Total = 0;
 
         protected override RuleType ruleType => RuleType.Normal;
 
@@ -21,30 +21,24 @@ namespace Game
                 return;
             }
 
+            MapTime += currentRoundTime;
+
+
+
             var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
             if (enemys.Count >= 20)
             {
                 return;
             }
 
+
+
             MapConfig mapConfig = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
 
-            if (Count % 500 != 0)
-            {
-                int quality = 1;
-                if (Count % 100 == 0)
-                {
-                    quality = 4;
-                }
-                else if (Count % 30 == 0)
-                {
-                    quality = 3;
-                }
-                else if (Count % 10 == 0)
-                {
-                    quality = 2;
-                }
+            int quality = BuildQuality();
 
+            if (quality <= 4)
+            {
                 var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, quality, RuleType.Normal);
                 GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
             }
@@ -53,8 +47,9 @@ namespace Game
                 GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(mapConfig.Id, RuleType.Normal));
             }
 
+
             //Specail
-            List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.BuildRate < Count).ToList();
+            List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.BuildRate < Total).ToList();
             foreach (MonsterSpecialConfig config in configs)
             {
                 if (RandomHelper.RandomNumber(1, config.BuildRate) <= 1)
@@ -63,8 +58,33 @@ namespace Game
                 }
             }
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Count = Count });
-            Count++;
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Time = (int)MapTime, Count = Math.Max(0, Total - enemys.Count) });
+            Total++;
+        }
+
+        private int BuildQuality()
+        {
+            int rd = RandomHelper.RandomNumber(1, 1801);
+            if (rd < 1)
+            {
+                return 5;
+            }
+            else if (rd < 6)
+            {
+                return 4;
+            }
+            else if (rd < 30)
+            {
+                return 3;
+            }
+            else if (rd < 180)
+            {
+                return 2;
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 }

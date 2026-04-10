@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class Com_Power : MonoBehaviour, IBattleLife
+public class Com_Power : MonoBehaviour
 {
     public Slider Slider;
 
@@ -17,6 +17,8 @@ public class Com_Power : MonoBehaviour, IBattleLife
 
     private int minute;
     private int day;
+
+    public int Order => (int)ComponentOrder.Dialog;
 
     // Start is called before the first frame update
     void Start()
@@ -86,21 +88,6 @@ public class Com_Power : MonoBehaviour, IBattleLife
         return weekStr;
     }
 
-    public void OnBattleStart()
-    {
-
-        GameProcessor.Inst.EventCenter.AddListener<ChangeMainMapEvent>(this.OnChangeMapEvent);
-
-    }
-
-    public int Order => (int)ComponentOrder.Dialog;
-
-    private void OnChangeMapEvent(ChangeMainMapEvent e)
-    {
-        MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
-        Map.text = config.Name;
-    }
-
     public void Open()
     {
         this.gameObject.SetActive(true);
@@ -109,10 +96,8 @@ public class Com_Power : MonoBehaviour, IBattleLife
         User user = GameProcessor.Inst.User;
         if (user != null)
         {
-            //int MapNo = Math.Max(user.MapId - 1, ConfigHelper.MapStartId);
-
-            //MapConfig config = MapConfigCategory.Instance.Get(MapNo);
-            Map.text = "挂机中...";
+            MapConfig config = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
+            Map.text = config.Name;
         }
     }
 

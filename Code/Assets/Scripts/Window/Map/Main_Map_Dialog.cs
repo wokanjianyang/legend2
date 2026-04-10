@@ -6,7 +6,7 @@ using Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Map_Dialog_Main : MonoBehaviour
+public class Main_Map_Dialog : MonoBehaviour
 {
     public ScrollRect sr_Boss;
     private GameObject ItemPrefab;
@@ -16,9 +16,7 @@ public class Map_Dialog_Main : MonoBehaviour
     public Transform Tf_Layer;
 
     private List<Toggle> tgLevelList;
-    private int LevelCount = 35; //每个难度多少个
-    private int ShowCount = 10; //隐藏的时候显示多少个
-    private int MaxCycle = 5; //现在多少个难度-1
+    private int LevelCount = 12; //每个难度多少个
 
     private int MaxLayer = -1;
     private int SelectLayer = -1;
@@ -45,33 +43,26 @@ public class Map_Dialog_Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         this.ChangeLevel(0);
     }
 
     void OnEnable()
     {
-
+        this.Show();
     }
-
-    void Update()
-    {
-
-    }
-
     private void Init()
     {
         ItemPrefab = Resources.Load<GameObject>("Prefab/Map/Main_Map_Group");
 
-        List<MapConfig> list = MapConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
+        List<MapGroupConfig> list = MapGroupConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
-        foreach (MapConfig config in list)
+        foreach (MapGroupConfig config in list)
         {
             BuildItem(config);
         }
     }
 
-    private void BuildItem(MapConfig config)
+    private void BuildItem(MapGroupConfig config)
     {
         var item = GameObject.Instantiate(ItemPrefab);
         var com = item.GetComponent<Main_Map_Group>();
@@ -99,16 +90,16 @@ public class Map_Dialog_Main : MonoBehaviour
         }
 
         User user = GameProcessor.Inst.User;
-        //bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
+        bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
-        int MapId = user.MapId;
-        int layer = (MapId - ConfigHelper.MapStartId) / 35 + 5;
-        //layer = ac ? Math.Min(3, layer) : layer;
+        int goupId = (user.MapId - ConfigHelper.MapStartId) / 6 + 1;
+
+        int layer = goupId / 12;
         this.MaxLayer = layer;
 
         if (this.SelectLayer < 0)
         {
-            this.SelectLayer = Math.Min(this.MaxLayer, MaxCycle);
+            this.SelectLayer = Math.Min(this.MaxLayer, tgLevelList.Count - 1);
             tgLevelList[SelectLayer].isOn = true;
         }
 
@@ -124,15 +115,17 @@ public class Map_Dialog_Main : MonoBehaviour
             }
         }
 
-        int count = MapConfigCategory.Instance.GetAll().Where(m => m.Value.Id <= MapId).Count();
+        int count = MapGroupConfigCategory.Instance.GetAll().Where(m => m.Value.Id <= goupId).Count();
 
         int startIndex = this.SelectLayer * LevelCount;
         int endIndex = startIndex + Math.Min(LevelCount, count - startIndex) - 1;
 
-        int j = 0;
-        for (int i = endIndex; i >= startIndex; i--)
+        Debug.Log("goupId:" + goupId + "SelectLayer: " + SelectLayer);
+        Debug.Log("startIndex:" + startIndex + "endIndex: " + endIndex);
+
+        for (int i = 0; i < items.Count; i++)
         {
-            if (j < ShowCount)
+            if (i >= startIndex && i <= endIndex)
             {
                 items[i].gameObject.SetActive(true);
             }
@@ -140,7 +133,6 @@ public class Map_Dialog_Main : MonoBehaviour
             {
                 items[i].gameObject.SetActive(true);
             }
-            j++;
         }
     }
 

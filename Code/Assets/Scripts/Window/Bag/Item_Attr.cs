@@ -26,8 +26,18 @@ namespace Game
 
         public void SetContent(int attrId, double attrValue)
         {
-            Txt_Name.text = StringHelper.FormatAttrValueName(attrId);
-            Txt_Value.text = StringHelper.FormatAttrValueText(attrId,attrValue);
+            string name = StringHelper.FormatAttrValueName(attrId);
+            if (name.Length == 2)
+            {
+                name = name.Insert(1, "    ");
+            }
+            else if (name.Length == 3)
+            {
+                name = name.Insert(1, " ").Insert(3, " ");
+            }
+
+            Txt_Name.text = name + "£º";
+            Txt_Value.text = StringHelper.FormatAttrValueText(attrId, (long)attrValue);
         }
     }
 }

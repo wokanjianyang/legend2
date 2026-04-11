@@ -236,7 +236,7 @@ namespace Game
 
             if (isPlayer)
             {
-                Desc = string.Format(SkillData.SkillConfig.Des, EnemyMax, (int)Percent, Duration, Row, Column, (int)Damage);
+                Desc = string.Format(SkillData.SkillConfig.Des, (int)Percent, (int)Damage, Duration, EnemyMax, Row, Column);
             }
 
             //技能的特效

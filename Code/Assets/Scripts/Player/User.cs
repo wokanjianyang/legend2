@@ -431,13 +431,16 @@ namespace Game
             this.AttributeBonus = new AttributeBonus();
 
             long Level = MagicLevel.Data;
-            long levelAttr = LevelConfigCategory.GetLevelAttr(Level);
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, levelAttr * 10 + 100);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, levelAttr + 10);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, levelAttr + 10);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, levelAttr + 10);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, levelAttr / 5 + 10);
+            //基础属性，攻击10，防御0，生命1000
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, 1000);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, 10);
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, 10);
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, 10);
+
+            //等级属性,攻击倍率，生命倍率，等级*1%
+            AttributeBonus.SetAttr(AttributeEnum.MulAttr, AttributeFrom.HeroBase, Level * 1);
+            AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.HeroBase, Level * 1);
 
             //AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 1000000000);
             //AttributeBonus.SetAttr(AttributeEnum.MulAttr, AttributeFrom.Test + 1, 100000);

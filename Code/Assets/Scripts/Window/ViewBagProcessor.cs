@@ -14,6 +14,10 @@ namespace Game
 {
     public class ViewBagProcessor : AViewPage
     {
+        [Title("人物属性")]
+        public Transform Tf_Attr;
+        private List<Item_Attr> Attr_List;
+
         [Title("包裹")]
         public Transform Tran_Bag_Nav_List;
         private List<Toggle> Toggle_Bag_Nav_List = new List<Toggle>();
@@ -86,6 +90,7 @@ namespace Game
             Toggle_Bag_Nav_List = Tran_Bag_Nav_List.GetComponentsInChildren<Toggle>().ToList();
             Toggle_Plan_List = Tran_Plan_List.GetComponentsInChildren<Toggle>().ToList();
             Bag_List = Tran_Bag_List.GetComponentsInChildren<ScrollRect>(true).ToList();
+            Attr_List = Tf_Attr.GetComponentsInChildren<Item_Attr>(true).ToList();
 
             Equip_Plan_List = Tran_Equip_List.GetComponentsInChildren<Equip_Panel>(true).ToList();
 
@@ -180,9 +185,46 @@ namespace Game
                 });
             }
 
+            this.InitAttr();
+
             GameProcessor.Inst.StartCoroutine(LoadBox());
         }
 
+        private void InitAttr()
+        {
+            User user = GameProcessor.Inst.User;
+            if (user == null)
+            {
+                return;
+            }
+
+            AttributeEnum[] list = new AttributeEnum[] {
+            AttributeEnum.HP, AttributeEnum.Def
+            ,AttributeEnum.PhyAtt,  AttributeEnum.MagicAtt
+            ,AttributeEnum.SpiritAtt, AttributeEnum.Lucky
+            ,AttributeEnum.DamageIncrea,   AttributeEnum.DamageResist
+            ,AttributeEnum.CritRate,  AttributeEnum.CritDamage
+            ,AttributeEnum.Speed,AttributeEnum.MoveSpeed
+            ,AttributeEnum.Accuracy,AttributeEnum.Miss
+
+        };
+
+            for (int i = 0; i < Attr_List.Count; i++)
+            {
+                Item_Attr item = Attr_List[i];
+                if (i < list.Length)
+                {
+                    item.gameObject.SetActive(true);
+
+                    AttributeEnum attrId = list[i];
+                    item.SetContent((int)attrId, user.AttributeBonus.GetTotalAttrDouble(attrId));
+                }
+                else
+                {
+                    item.gameObject.SetActive(false);
+                }
+            }
+        }
 
         private IEnumerator LoadBox()
         {
@@ -215,21 +257,21 @@ namespace Game
             List<SlotBox> gds = DialogEquipGolden.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < gds.Count; i++)
             {
-                gds[i].Init( 21 + i);
+                gds[i].Init(21 + i);
                 yield return null;
             }
 
             List<SlotBox> dgds = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < dgds.Count; i++)
             {
-                dgds[i].Init( 31 + i);
+                dgds[i].Init(31 + i);
                 yield return null;
             }
 
             List<SlotBox> hunduns = DialogEquipHundun.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < dgds.Count; i++)
             {
-                hunduns[i].Init( 41 + i);
+                hunduns[i].Init(41 + i);
                 yield return null;
             }
 
@@ -652,6 +694,8 @@ namespace Game
 
             GameProcessor.Inst.User.EventCenter.Raise(new SkillChangePlanEvent());
             GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+
+            this.InitAttr();
         }
 
         private void ShowEquipPanel()

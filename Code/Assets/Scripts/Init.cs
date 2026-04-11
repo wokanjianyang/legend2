@@ -91,7 +91,7 @@ public class Init : MonoBehaviour
 
                 "Window/More/Dialog_Mine",
 
-                "Window/Skill/Dialog_Divine",
+                "Skill/Dialog_Divine",
 
             }
         },

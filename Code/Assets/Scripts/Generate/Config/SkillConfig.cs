@@ -111,39 +111,39 @@ namespace Game
 		/// <summary>冷却时间</summary>
 		[ProtoMember(12)]
 		public int CD { get; set; }
-		/// <summary>施法类型</summary>
+		/// <summary>持续时间</summary>
 		[ProtoMember(13)]
+		public int Duration { get; set; }
+		/// <summary>施法类型</summary>
+		[ProtoMember(14)]
 		public int CastType { get; set; }
 		/// <summary>职业</summary>
-		[ProtoMember(14)]
-		public int Role { get; set; }
-		/// <summary>技能等级</summary>
 		[ProtoMember(15)]
-		public int MaxLevel { get; set; }
-		/// <summary>RiseMaxLevel</summary>
+		public int Role { get; set; }
+		/// <summary>最大等级</summary>
 		[ProtoMember(16)]
-		public double RiseMaxLevel { get; set; }
-		/// <summary>MythRate</summary>
+		public int MaxLevel { get; set; }
+		/// <summary>伤害比例</summary>
 		[ProtoMember(17)]
-		public int MythRate { get; set; }
-		/// <summary>等级成长</summary>
+		public int Percent { get; set; }
+		/// <summary>固定伤害</summary>
 		[ProtoMember(18)]
-		public int LevelPercent { get; set; }
+		public int Damage { get; set; }
 		/// <summary>等级成长</summary>
 		[ProtoMember(19)]
+		public int LevelPercent { get; set; }
+		/// <summary>等级成长</summary>
+		[ProtoMember(20)]
 		public int LevelDamage { get; set; }
 		/// <summary>攻击距离</summary>
-		[ProtoMember(20)]
+		[ProtoMember(21)]
 		public int Dis { get; set; }
 		/// <summary>中心目标</summary>
-		[ProtoMember(21)]
+		[ProtoMember(22)]
 		public string Center { get; set; }
 		/// <summary>攻击区域</summary>
-		[ProtoMember(22)]
-		public string Area { get; set; }
-		/// <summary>持续时间</summary>
 		[ProtoMember(23)]
-		public int Duration { get; set; }
+		public string Area { get; set; }
 		/// <summary>最大敌人数量</summary>
 		[ProtoMember(24)]
 		public int EnemyMax { get; set; }
@@ -153,36 +153,24 @@ namespace Game
 		/// <summary>列</summary>
 		[ProtoMember(26)]
 		public int Column { get; set; }
-		/// <summary>伤害比例</summary>
-		[ProtoMember(27)]
-		public int Percent { get; set; }
-		/// <summary>固定伤害</summary>
-		[ProtoMember(28)]
-		public int Damage { get; set; }
 		/// <summary>无视防御</summary>
-		[ProtoMember(29)]
+		[ProtoMember(27)]
 		public int IgnoreDef { get; set; }
 		/// <summary>暴击率</summary>
-		[ProtoMember(30)]
+		[ProtoMember(28)]
 		public int CritRate { get; set; }
 		/// <summary>暴击倍率</summary>
-		[ProtoMember(31)]
+		[ProtoMember(29)]
 		public int CritDamage { get; set; }
 		/// <summary>伤害加成</summary>
-		[ProtoMember(32)]
+		[ProtoMember(30)]
 		public int DamageIncrea { get; set; }
-		/// <summary>继承加成</summary>
-		[ProtoMember(33)]
-		public int InheritIncrea { get; set; }
 		/// <summary>附带效果</summary>
-		[ProtoMember(34)]
+		[ProtoMember(31)]
 		public string[] EffectList { get; set; }
 		/// <summary>升级经验</summary>
-		[ProtoMember(35)]
+		[ProtoMember(32)]
 		public int Exp { get; set; }
-		/// <summary>UpItemId</summary>
-		[ProtoMember(36)]
-		public int UpItemId { get; set; }
 
 	}
 }

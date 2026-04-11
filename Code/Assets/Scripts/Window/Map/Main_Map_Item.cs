@@ -42,7 +42,7 @@ public class Main_Map_Item : MonoBehaviour
     private void Show()
     {
         User user = GameProcessor.Inst.User;
-        if (user == null)
+        if (user == null || this.Config == null)
         {
             return;
         }

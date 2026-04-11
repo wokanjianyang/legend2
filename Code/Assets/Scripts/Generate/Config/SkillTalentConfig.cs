@@ -1,0 +1,179 @@
+using System;
+using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
+using ProtoBuf;
+
+namespace Game
+{
+    [ProtoContract]
+    [Config]
+    public partial class SkillTalentConfigCategory : ProtoObject, IMerge
+    {
+        public static SkillTalentConfigCategory Instance;
+		
+        [ProtoIgnore]
+        [BsonIgnore]
+        private Dictionary<int, SkillTalentConfig> dict = new Dictionary<int, SkillTalentConfig>();
+		
+        [BsonElement]
+        [ProtoMember(1)]
+        private List<SkillTalentConfig> list = new List<SkillTalentConfig>();
+		
+        public SkillTalentConfigCategory()
+        {
+            Instance = this;
+        }
+        
+        public void Merge(object o)
+        {
+            SkillTalentConfigCategory s = o as SkillTalentConfigCategory;
+            this.list.AddRange(s.list);
+        }
+		
+        public override void EndInit()
+        {
+            foreach (SkillTalentConfig config in list)
+            {
+                config.EndInit();
+                this.dict.Add(config.Id, config);
+            }            
+            this.AfterEndInit();
+        }
+		
+        public SkillTalentConfig Get(int id)
+        {
+            this.dict.TryGetValue(id, out SkillTalentConfig item);
+
+            if (item == null)
+            {
+                throw new Exception($"配置找不到，配置表名: {nameof (SkillTalentConfig)}，配置id: {id}");
+            }
+
+            return item;
+        }
+		
+        public bool Contain(int id)
+        {
+            return this.dict.ContainsKey(id);
+        }
+
+        public Dictionary<int, SkillTalentConfig> GetAll()
+        {
+            return this.dict;
+        }
+
+        public SkillTalentConfig GetOne()
+        {
+            if (this.dict == null || this.dict.Count <= 0)
+            {
+                return null;
+            }
+            return this.dict.Values.GetEnumerator().Current;
+        }
+    }
+
+    [ProtoContract]
+	public partial class SkillTalentConfig: ProtoObject, IConfig
+	{
+		/// <summary>_ID</summary>
+		[ProtoMember(1)]
+		public int Id { get; set; }
+		/// <summary>Type</summary>
+		[ProtoMember(2)]
+		public int Type { get; set; }
+		/// <summary>EquipRate</summary>
+		[ProtoMember(3)]
+		public int EquipRate { get; set; }
+		/// <summary>ExclusiveRate</summary>
+		[ProtoMember(4)]
+		public int ExclusiveRate { get; set; }
+		/// <summary>Role</summary>
+		[ProtoMember(5)]
+		public int Role { get; set; }
+		/// <summary>技能ID</summary>
+		[ProtoMember(6)]
+		public int SkillId { get; set; }
+		/// <summary>StartQuality</summary>
+		[ProtoMember(7)]
+		public int StartQuality { get; set; }
+		/// <summary>EndQuality</summary>
+		[ProtoMember(8)]
+		public int EndQuality { get; set; }
+		/// <summary>词条名字</summary>
+		[ProtoMember(9)]
+		public string Name { get; set; }
+		/// <summary>技能描述</summary>
+		[ProtoMember(10)]
+		public string Des { get; set; }
+		/// <summary>词条叠加数量</summary>
+		[ProtoMember(11)]
+		public int Max { get; set; }
+		/// <summary>减少冷却时间</summary>
+		[ProtoMember(12)]
+		public int CD { get; set; }
+		/// <summary>修改施法类型</summary>
+		[ProtoMember(13)]
+		public int CastType { get; set; }
+		/// <summary>增加攻击距离</summary>
+		[ProtoMember(14)]
+		public int Dis { get; set; }
+		/// <summary>修改攻击区域</summary>
+		[ProtoMember(15)]
+		public string Area { get; set; }
+		/// <summary>持续时间</summary>
+		[ProtoMember(16)]
+		public int Duration { get; set; }
+		/// <summary>增加最大敌人数量</summary>
+		[ProtoMember(17)]
+		public int EnemyMax { get; set; }
+		/// <summary>行</summary>
+		[ProtoMember(18)]
+		public int Row { get; set; }
+		/// <summary>列</summary>
+		[ProtoMember(19)]
+		public int Column { get; set; }
+		/// <summary>增加伤害比例</summary>
+		[ProtoMember(20)]
+		public int Percent { get; set; }
+		/// <summary>固定伤害</summary>
+		[ProtoMember(21)]
+		public int Damage { get; set; }
+		/// <summary>无视防御</summary>
+		[ProtoMember(22)]
+		public int IgnoreDef { get; set; }
+		/// <summary>暴击率</summary>
+		[ProtoMember(23)]
+		public int CritRate { get; set; }
+		/// <summary>暴击倍率</summary>
+		[ProtoMember(24)]
+		public int CritDamage { get; set; }
+		/// <summary>伤害加成</summary>
+		[ProtoMember(25)]
+		public int DamageIncrea { get; set; }
+		/// <summary>攻击加成</summary>
+		[ProtoMember(26)]
+		public int AttrIncrea { get; set; }
+		/// <summary>最终加成</summary>
+		[ProtoMember(27)]
+		public int FinalIncrea { get; set; }
+		/// <summary>继承加成</summary>
+		[ProtoMember(28)]
+		public int InheritIncrea { get; set; }
+		/// <summary>附带效果</summary>
+		[ProtoMember(29)]
+		public int EffectId { get; set; }
+		/// <summary>系数倍率</summary>
+		[ProtoMember(30)]
+		public int PercentRate { get; set; }
+		/// <summary>SkillLayer</summary>
+		[ProtoMember(31)]
+		public int SkillLayer { get; set; }
+		/// <summary>命中</summary>
+		[ProtoMember(32)]
+		public int Accuracy { get; set; }
+		/// <summary>闪避</summary>
+		[ProtoMember(33)]
+		public int Miss { get; set; }
+
+	}
+}

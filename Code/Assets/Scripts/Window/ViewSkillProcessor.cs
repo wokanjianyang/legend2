@@ -18,10 +18,12 @@ namespace Game
 
         //public List<Button> PlanList;
 
-        public List<Toggle> Toggle_Plan_List = new List<Toggle>();
+        public Transform Tf_Plan;
+        private List<Toggle> Toggle_Plan_List = new List<Toggle>();
 
         private int SelectRole = 1;
-        public List<Toggle> Toggle_Role_List = new List<Toggle>();
+        public Transform Tf_Role;
+        private List<Toggle> Toggle_Role_List = new List<Toggle>();
 
         private Com_Skill[] AllEquipSkills;
 
@@ -31,6 +33,8 @@ namespace Game
 
         void Awake()
         {
+            Toggle_Plan_List = Tf_Plan.GetComponentsInChildren<Toggle>().ToList();
+            Toggle_Role_List = Tf_Role.GetComponentsInChildren<Toggle>().ToList();
         }
 
         public override void OnBattleStart()
@@ -48,7 +52,7 @@ namespace Game
             user.EventCenter.AddListener<SkillChangePlanEvent>(OnSkillChangePlan);
 
 
-            bookPrefab = Resources.Load<GameObject>("Prefab/Window/Skill/Item_Skill");
+            bookPrefab = Resources.Load<GameObject>("Prefab/Skill/Item_Skill");
 
             this.AllEquipSkills = this.tran_EquipSkills.GetComponentsInChildren<Com_Skill>();
 

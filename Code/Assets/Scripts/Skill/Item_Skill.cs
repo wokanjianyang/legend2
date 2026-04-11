@@ -9,31 +9,24 @@ namespace Game
 {
     public class Item_Skill : MonoBehaviour, IPointerClickHandler
     {
-        [Title("物品")]
-        [LabelText("名称")]
-        public Text tmp_Name;
+        [Title("基础")]
+        public Text Txt_Name;
+        public Text Txt_Level;
+        public Text Txt_CD;
+        public Text Txt_Des;
+        public Text Txt_Dis;
+        public Toggle Tg_Recovery;
+        public Image Img_Icon;
+        //public Button Btn_UpLevel;
+        //public Button Btn_Divine;
+        //public Text Txt_Divine;
 
-        [LabelText("等级")]
-        public Text tmp_Level;
-
-        [LabelText("冷却")]
-        public Text tmp_CD;
-
-        [LabelText("距离")]
-        public Text txt_Dis;
-
-        [LabelText("描述")]
-        public Text tmp_Des;
-
-        public Toggle Recovery;
-
-        public Button Btn_UpLevel;
-        public Button Btn_Divine;
-        public Text Txt_Divine;
-
+        [Title("词条")]
+        public Transform Tf_Talent;
         public Transform Tf_Rune;
         public Transform Tf_Suit;
 
+        List<Item_Skill_Rune> tList = new List<Item_Skill_Rune>();
         List<Item_Skill_Rune> rList = new List<Item_Skill_Rune>();
         List<Item_Skill_Rune> sList = new List<Item_Skill_Rune>();
 
@@ -52,14 +45,14 @@ namespace Game
         void Start()
         {
 
-            Recovery.onValueChanged.AddListener((isOn) =>
+            Tg_Recovery.onValueChanged.AddListener((isOn) =>
             {
                 this.SkillPanel.SkillData.Recovery = isOn;
             });
 
 
-            this.Btn_UpLevel.onClick.AddListener(this.Click_UpLevel);
-            this.Btn_Divine.onClick.AddListener(this.OnClickDivine);
+            //this.Btn_UpLevel.onClick.AddListener(this.Click_UpLevel);
+            //this.Btn_Divine.onClick.AddListener(this.OnClickDivine);
         }
 
         // Update is called once per frame
@@ -72,47 +65,48 @@ namespace Game
         {
             this.SkillPanel = skillPanel;
 
-            string name = "";
-            if (SkillPanel.SkillData.SkillConfig.Name.Length > 2)
-            {
-                name = SkillPanel.SkillData.SkillConfig.Name.Insert(2, "\n");
-            }
-            else
-            {
-                name = SkillPanel.SkillData.SkillConfig.Name;
-            }
+            string name = SkillPanel.SkillData.SkillConfig.Name;
+            //if (SkillPanel.SkillData.SkillConfig.Name.Length > 2)
+            //{
+            //    name = SkillPanel.SkillData.SkillConfig.Name.Insert(2, "\n");
+            //}
+            //else
+            //{
+            //    name = SkillPanel.SkillData.SkillConfig.Name;
+            //}
 
-            string color = skillPanel.DivineLevel > 0 ? "FF0000" : "000000";
-            this.tmp_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
+            //string color = skillPanel.DivineLevel > 0 ? "FFFFFF" : "000000";
+            string color = "FFFFFF";
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
 
-            if (skillPanel.DivineAttrConfig != null)
-            {
-                if (skillPanel.DivineAttrConfig.LevelRequire <= skillPanel.SkillData.MagicLevel.Data)
-                {
-                    this.Btn_Divine.gameObject.SetActive(true);
-                    this.Txt_Divine.gameObject.SetActive(false);
-                }
-                else
-                {
-                    this.Btn_Divine.gameObject.SetActive(false);
-                    this.Txt_Divine.gameObject.SetActive(true);
+            //if (skillPanel.DivineAttrConfig != null)
+            //{
+            //    if (skillPanel.DivineAttrConfig.LevelRequire <= skillPanel.SkillData.MagicLevel.Data)
+            //    {
+            //        this.Btn_Divine.gameObject.SetActive(true);
+            //        this.Txt_Divine.gameObject.SetActive(false);
+            //    }
+            //    else
+            //    {
+            //        this.Btn_Divine.gameObject.SetActive(false);
+            //        this.Txt_Divine.gameObject.SetActive(true);
 
-                    this.Txt_Divine.text = "技能" + skillPanel.DivineAttrConfig.LevelRequire + "级解锁神技";
-                }
-            }
-            else
-            {
-                this.Btn_Divine.gameObject.SetActive(false);
-            }
+            //        this.Txt_Divine.text = "技能" + skillPanel.DivineAttrConfig.LevelRequire + "级解锁神技";
+            //    }
+            //}
+            //else
+            //{
+            //    this.Btn_Divine.gameObject.SetActive(false);
+            //}
 
-            if (skillPanel.SkillData.SkillConfig.UpItemId > 0)
-            {
-                this.Btn_UpLevel.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.Btn_UpLevel.gameObject.SetActive(false);
-            }
+            //if (skillPanel.SkillData.SkillConfig.UpItemId > 0)
+            //{
+            //    this.Btn_UpLevel.gameObject.SetActive(true);
+            //}
+            //else
+            //{
+            //    this.Btn_UpLevel.gameObject.SetActive(false);
+            //}
 
 
             for (int i = 0; i < rList.Count; i++)
@@ -144,17 +138,17 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
             int limitLevel = user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig);
-            if (this.SkillPanel.SkillData.MagicLevel.Data >= limitLevel)
-            {
-                this.Btn_UpLevel.gameObject.SetActive(false);
-            }
+            //if (this.SkillPanel.SkillData.MagicLevel.Data >= limitLevel)
+            //{
+            //    this.Btn_UpLevel.gameObject.SetActive(false);
+            //}
 
-            Recovery.isOn = skillPanel.SkillData.Recovery;
+            Tg_Recovery.isOn = skillPanel.SkillData.Recovery;
 
-            this.tmp_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
-            this.tmp_CD.text = string.Format("CD：{0}秒", SkillPanel.CD);
-            this.txt_Dis.text = SkillPanel.Dis > 0 ? string.Format("距离：{0}格", SkillPanel.Dis) : "施法距离：无";
-            this.tmp_Des.text = SkillPanel.Desc;
+            this.Txt_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
+            this.Txt_CD.text = string.Format("CD：{0}秒", SkillPanel.CD);
+            this.Txt_Dis.text = string.Format("距离：{0}", SkillPanel.Dis);
+            this.Txt_Des.text = SkillPanel.Desc;
 
             var expProgress = this.GetComponentInChildren<Com_Progress>();
             expProgress.SetProgress(SkillPanel.SkillData.MagicExp.Data, SkillPanel.SkillData.GetLevelUpExp());
@@ -205,53 +199,53 @@ namespace Game
             GameProcessor.Inst.User.EventCenter.Raise(new SkillUpEvent());
         }
 
-        public void Click_UpLevel()
-        {
-            int upCount = 20;
+        //public void Click_UpLevel()
+        //{
+        //    int upCount = 20;
 
-            int metailId = this.SkillPanel.SkillData.SkillConfig.UpItemId;
-            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(metailId);
+        //    int metailId = this.SkillPanel.SkillData.SkillConfig.UpItemId;
+        //    ItemConfig itemConfig = ItemConfigCategory.Instance.Get(metailId);
 
-            User user = GameProcessor.Inst.User;
-            long total = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == metailId).Select(m => m.MagicNubmer.Data).Sum();
+        //    User user = GameProcessor.Inst.User;
+        //    long total = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == metailId).Select(m => m.MagicNubmer.Data).Sum();
 
-            //Debug.Log("max skill level:" + user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig));
+        //    //Debug.Log("max skill level:" + user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig));
 
-            if (total < upCount)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = itemConfig.Name + "数量不足" + upCount + "个", ToastType = ToastTypeEnum.Failure });
-                return;
-            }
+        //    if (total < upCount)
+        //    {
+        //        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = itemConfig.Name + "数量不足" + upCount + "个", ToastType = ToastTypeEnum.Failure });
+        //        return;
+        //    }
 
-            SkillData skill = this.SkillPanel.SkillData;
+        //    SkillData skill = this.SkillPanel.SkillData;
 
-            if (skill.MagicLevel.Data >= user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig))
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "技能已经满级了" });
-                return;
-            }
+        //    if (skill.MagicLevel.Data >= user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig))
+        //    {
+        //        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "技能已经满级了" });
+        //        return;
+        //    }
 
-            GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
-            {
-                Type = ItemType.Material,
-                ItemId = metailId,
-                Quantity = upCount
-            });
+        //    GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+        //    {
+        //        Type = ItemType.Material,
+        //        ItemId = metailId,
+        //        Quantity = upCount
+        //    });
 
-            skill.MagicLevel.Data++;
-            SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId, null), user.GetSuitList(skill.SkillId), true);
-            this.SetItem(skillPanel);
+        //    skill.MagicLevel.Data++;
+        //    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId, null), user.GetSuitList(skill.SkillId), true);
+        //    this.SetItem(skillPanel);
 
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "消耗" + upCount + "个" + itemConfig.Name + "升级成功", ToastType = ToastTypeEnum.Success });
+        //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "消耗" + upCount + "个" + itemConfig.Name + "升级成功", ToastType = ToastTypeEnum.Success });
 
-            GameProcessor.Inst.SaveData();
-        }
+        //    GameProcessor.Inst.SaveData();
+        //}
 
-        public void OnClickDivine()
-        {
+        //public void OnClickDivine()
+        //{
 
-            GameProcessor.Inst.EventCenter.Raise(new OpenDivineEvent() { SkillId = SkillPanel.SkillId });
-        }
+        //    GameProcessor.Inst.EventCenter.Raise(new OpenDivineEvent() { SkillId = SkillPanel.SkillId });
+        //}
     }
 }

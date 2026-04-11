@@ -71,7 +71,6 @@ namespace Game
             this.SkillId = skillData.SkillId;
 
             this.DivineAttrConfig = SkillDivineAttrConfigCategory.Instance.GetBySkillId(SkillId);
-            int mythRate = skillData.SkillConfig.MythRate;
 
             if (runeList == null)
             {
@@ -223,7 +222,7 @@ namespace Game
             this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea + divineAttrList[1];
             this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea + divineAttrList[2];
 
-            this.InheritIncrea = skillData.SkillConfig.InheritIncrea + runeInheritIncrea + suitInheritIncrea;
+            this.InheritIncrea = runeInheritIncrea + suitInheritIncrea;
 
             //施法范围
             this.Area = EnumHelper.FromString<AttackGeometryType>(skillData.SkillConfig.Area);
@@ -234,14 +233,6 @@ namespace Game
             //        this.CenterType = suit.Center;
             //    }
             //}
-            if (ruleType == RuleType.Myth)
-            {
-                //this.Percent = Math.Max(this.Percent / mythRate, this.Percent > 0 ? 1 : 0);
-                //this.Damage = Math.Max(this.Damage / mythRate, this.Damage > 0 ? 1 : 0);
-
-                this.Percent = this.Percent / mythRate;
-                this.Damage = this.Damage / mythRate;
-            }
 
             if (isPlayer)
             {

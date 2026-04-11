@@ -131,7 +131,7 @@ public class Main_Map_Dialog : MonoBehaviour
             }
             else
             {
-                items[i].gameObject.SetActive(true);
+                items[i].gameObject.SetActive(false);
             }
         }
     }

@@ -109,7 +109,6 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritDamageResist));
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageIncrea));
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageResist));
-            AttributeBonus.SetAttr(AttributeEnum.InheritIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.InheritIncrea));
             AttributeBonus.SetAttr(AttributeEnum.RestoreHp, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RestoreHp));
             AttributeBonus.SetAttr(AttributeEnum.RestoreHpPercent, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RestoreHpPercent));
             AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Strong));
@@ -260,38 +259,6 @@ namespace Game
                         AttributeBonus.SetAttr(AttributeEnum.WarlockSkillDamage, attrKey, skillPanel.Damage);
                     }
                 }
-                else if (skillData.SkillId == 1011)
-                {
-                    AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.Skill, skillPanel.Percent);
-                    AttributeBonus.SetAttr(AttributeEnum.MulAttrPhy, AttributeFrom.Skill, skillPanel.Damage);
-                }
-                else if (skillData.SkillId == 2011)
-                {
-                    AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.Skill, skillPanel.Percent);
-                    AttributeBonus.SetAttr(AttributeEnum.MulAttrMagic, AttributeFrom.Skill, skillPanel.Damage);
-                }
-                else if (skillData.SkillId == 3011)
-                {
-                    AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.Skill, skillPanel.Percent);
-                    AttributeBonus.SetAttr(AttributeEnum.MulAttrSpirit, AttributeFrom.Skill, skillPanel.Damage);
-                }
-                else if (skillData.SkillId == 2010)
-                {
-                    if (skillPanel.DivineLevel > 0)
-                    {
-                        AttributeBonus.SetAttr(AttributeEnum.SkillDivine2010, AttributeFrom.Skill, skillPanel.DivineAttrConfig.Param * skillPanel.DivineLevel);
-                    }
-                }
-                else if (skillData.SkillId == 3010)
-                {
-                    AttributeBonus.SetAttr(AttributeEnum.InheritAdvance, AttributeFrom.Skill, skillPanel.Percent);
-                    AttributeBonus.SetAttr(AttributeEnum.SkillValetHp, AttributeFrom.Skill, skillPanel.Damage);
-
-                    if (skillPanel.DivineLevel > 0)
-                    {
-                        AttributeBonus.SetAttr(AttributeEnum.SkillDivine3010, AttributeFrom.Skill, skillPanel.DivineAttrConfig.Param * skillPanel.DivineLevel);
-                    }
-                }
             }
 
             InitDoubleHitSkill(user);
@@ -406,7 +373,7 @@ namespace Game
                 }
             }
 
-            
+
             if (_enemy != null)
             {
                 //如果有新目标

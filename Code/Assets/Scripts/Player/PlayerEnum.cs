@@ -4,85 +4,152 @@ namespace Game
 {
     public enum AttributeEnum
     {
-        SkillDamage = -6,
-        Color = -5,
-        Name = -4,
-        Level = -3,
-        Exp = -2, //经验值
-        Power = -1, //战力
-        CurrentHp = 0, //当前生命
+
+
+        //------------------减益------------------------------
+        decreMulHp = -10001, //生命减少倍率
+        decreMulDef = -10002, //防御减少倍率
+        decreMulAtk = -10003, //攻击减少倍率
+
+        decreExtraDamage = -10029, //额外承伤倍率
+
+        decreHp = -1, //灼烧流血伤害
+        //------------------基础------------------------------
 
         HP = 1, //生命值
-        PhyAtt = 2, //物理攻击
-        MagicAtt = 3,//魔法攻击
-        SpiritAtt = 4, //道术攻击
-        Def = 5, //防御
+        Def = 2, //防御
 
-        Speed = 6, //攻速
-        Lucky = 7, //幸运
-        CritRate = 8, //暴击率
-        CritDamage = 9, //暴害增加
-        CritRateResist = 10, //抗暴
-        CritDamageResist = 11, //爆伤减免
-        DamageIncrea = 12, //伤害增加
-        DamageResist = 13, //伤害减少
-        AttIncrea = 14, //攻击加成
-        HpIncrea = 15, //生命加成
-        DefIncrea = 16,//防御加成
-        InheritIncrea = 17, //继承加成
-        ExpIncrea = 18, //经验加成
-        BurstIncrea = 19, //爆率加成
-        GoldIncrea = 20, //金币加成
-        SecondExp = 21, //每秒经验收益
-        RestoreHp = 22, //固定回血数值
-        RestoreHpPercent = 23,//百分比回血数值
-        QualityIncrea = 24,//品质加成
-        SecondGold = 25, //每秒金币收益
-        PhyAttIncrea = 26, //物攻加成
-        MagicAttIncrea = 27, //魔法加成
-        SpiritAttIncrea = 28, //道术加成
-        MoveSpeed = 29,//移动速度
-        DefIgnore = 30,//无视防御
-        Miss = 31, //闪避
-        Accuracy = 32, //命中
-        PhyDamage = 33, //物伤加成
-        MagicDamage = 34,//魔伤加成
-        SpiritDamage = 35, //道伤加成
-        InheritAdvance = 36, //高级继承
-        Protect = 37,//免疫
-        BurstMul = 38,//连爆
-        Miss2 = 39,//二次闪避
-        Strong = 40,//韧性
+        Attr = 3, //全系攻
+        PhyAtt = 4, //物理攻击
+        MagicAtt = 5,//魔法攻击
+        SpiritAtt = 6, //道术攻击
 
-        WarriorSkillPercent = 41, //战士技能百分比系数
-        WarriorSkillDamage = 42, //战士技能固定系数
-        MageSkillPercent = 43, //法师技能百分比系数
-        MageSkillDamage = 44, //法师技能固定系数
-        WarlockSkillPercent = 45, //道士技能百分比系数
-        WarlockSkillDamage = 46, //道士技能固定系数
+        Speed = 11, //攻速
+        MoveSpeed = 12, //移动速度
+        Lucky = 13, //幸运
+        Accuracy = 14, //命中
+        Miss = 15, //闪避
 
-        ExpFinal = 50, //经验增幅
-        GoldFinal = 51, //金币增幅
-        BurstFinal = 52, //爆率增幅
-        QualityFinal = 53, //品质增幅
-        CritFinal = 54,//暴击增幅
-        LuckyFinal = 55,//幸运增幅
-        CritDamageFinal = 56, //爆伤增幅
+        CritRate = 21, //暴击率
+        CritDamage = 22, //暴害增加
+        DeadlyRate = 23, //致命率加成
+        DeadlyDamage = 24, //致命伤害加成
+        CritRateResist = 25, //抗暴
+        CritDamageResist = 26, //爆伤减免
+        DamageIncrea = 27, //伤害增加
+        DamageResist = 28, //伤害减少
+        ExtraDamage = 29,//易伤额外伤害
 
-        Parry = 60,//格挡
+        Strong = 41,//韧性
+        Shatter = 42, //破韧
+        Parry = 43,//格挡
+
+        DefIgnore = 51,//无视防御
+        Protect = 52,//免疫
+        BurstMul = 53,//连爆
+        Miss2 = 54,//二次闪避
 
 
-        MythAttr = 91,  //神话攻击加成
-        MythDef = 92,  //神话防御加成
-        MythHp = 93,  //神话生命加成
-        MythAll = 94, //神话全属性
+        SecondExp = 61, //每秒经验收益
+        SecondGold = 62, //每秒金币收益
+        RestoreHp = 63, //固定回血数值
+        RestoreHpPercent = 64,//百分比回血数值
+
+
+        WarriorSkillPercent = 71, //战士技能百分比系数
+        WarriorSkillDamage = 72, //战士技能固定系数
+        MageSkillPercent = 73, //法师技能百分比系数
+        MageSkillDamage = 74, //法师技能固定系数
+        WarlockSkillPercent = 75, //道士技能百分比系数
+        WarlockSkillDamage = 76, //道士技能固定系数
+        SkillDeadlyRate = 77,  //技能致命率
+        SkillDeadlyDamage = 78, //技能致命伤害
+        SkillFinalDamage = 79, //技能终伤
+
+        ExpIncrea = 81, //经验加成
+        GoldIncrea = 82, //金币加成
+        BurstIncrea = 83, //爆率加成
+        QualityIncrea = 84,//品质加成
+
         SpiritAll = 95,//英灵全属性
         EquipBaseIncrea = 101, //装备基础属性百分比
         EquipRandomIncrea = 102, //装备随机属性百分比
         EquipStrengthIncrea = 103, //装备强化属性百分比
 
+        //------------------加成------------------------------
+        HpIncrea = 1001, //生命加成
+        DefIncrea = 1002,//防御加成
+
+        AttIncrea = 1003, //攻击加成
+        PhyAttIncrea = 1004, //物理攻击加成
+        MagicAttIncrea = 1005,//魔法攻击加成
+        SpiritAttIncrea = 1006, //道术攻击加成
+
+        PhyDamage = 1007, //物伤加成
+        MagicDamage = 1008,//魔伤加成
+        SpiritDamage = 1009, //道伤加成
+
+        IncreaLucky = 1013,//幸运加成
+        //IncreaAccuracy = 1014, //命中加成
+        //IncreaMiss = 1015, //闪避加成
+
+        IncreaCrit = 2021,//暴击加成
+        IncreaDamage = 2022, //爆伤加成
+        IncreaDeadly = 2023, //致命率加成
+        IncreaDeadlyDamage = 2024, //致命伤害加成
+
+        //------------------增幅------------------------------
+        RateHp = 2001, //生命增幅
+        RateDef = 2002,//防御增幅
+        RateaAtk = 2003, //攻击增幅
+
+        RatePhyAtk = 2004, //物理攻击增幅
+        RateMagicAtkIncrea = 2005,//魔法攻击增幅
+        RateSpiritAtkIncrea = 2006, //道术攻击增幅
+
+        RatePhyDamage = 2007, //物伤增幅
+        RateMagicDamage = 2008,//魔伤增幅
+        RateSpiritDamage = 2009, //道伤增幅
+
+        RateLucky = 2013, //幸运增幅
+        //RateAccuracy = 2014, //命中增幅
+        //RateMiss = 2015, //闪避增幅
+
+        RateCrit = 2021,//暴击增幅
+        RateCritDamage = 2022, //爆伤增幅
+        RateDeadly = 2023, //致命率增幅
+        RateDeadlyDamage = 2024, //致命伤害增幅
+
+        //RateDamageIncrea = 27, //伤害增加增幅
+        //RateDamageResist = 28, //伤害减少增幅
+
+        RateExp = 2081, //经验增幅
+        RateGold = 2082, //金币增幅
+        RateBurst = 2083, //爆率增幅
+        RateQuality = 2084, //品质增幅
+
+
+        //------------------倍率------------------------------
+        MulHp = 10001,  //生命倍率
+        MulDef = 10002,  //防御倍率
+        MulAttr = 10003,  //攻击倍率
+
+        MulAttrPhy = 10004, //物攻倍率
+        MulAttrMagic = 10005,  //法功倍率
+        MulAttrSpirit = 10006,  //道术倍率
+
+        MulPhyDamageRise = 10007, //物伤倍率
+        MulMagicDamageRise = 10008, //法伤倍率
+        MulSpiritDamageRise = 10009, //魔伤倍率
+
+        MulDamageIncrea = 10027,  //增伤倍率
+        MulDamageResist = 10028, //减伤倍率
+
+        StrongMul = 10041,//韧性倍率
+        //ShatterMul = 10042,//破韧倍率
+
+        //--废弃
         MonsterFaster = 107,//副刷新速度加快
-        DropFinal = 108, //稀有爆率增幅
         MetailFinal = 109, //挖矿
         SoulPercent = 110, //炼魂夺魄
         Talent = 111, //天赋点
@@ -97,7 +164,6 @@ namespace Game
         Relic4 = 120, //神器2
         Relic5 = 121, //神器2
         RelicRise = 122, //所有神器等级+1
-
 
         AurasDamageResist = 201, //光环减伤
         AurasDamageIncrea = 202, //光环增伤
@@ -115,7 +181,6 @@ namespace Game
         SkillDivine2010 = 12010, //分身神技
         SkillDivine3010 = 13010, //无极神技
 
-        ExtraDamage = 401,//额外伤害
 
         PanelHp = 1001, //面板生命
         PanelPhyAtt = 1002, //面板物攻
@@ -124,21 +189,7 @@ namespace Game
         PanelDef = 1005, //面板防御
         PanelAtt = 1006,//面板攻击
 
-        MulAttr = 2001,  //攻击倍率
-        MulDef = 2002,  //防御倍率
-        MulHp = 2003,  //生命倍率
-        MulAttrPhy = 2004, //物攻倍率
-        MulAttrMagic = 2005,  //法功倍率
-        MulAttrSpirit = 2006,  //道术倍率
 
-        MulPhyDamageRise = 2007,
-        MulMagicDamageRise = 2008,
-        MulSpiritDamageRise = 2009,
-
-        MulDamageIncrea = 2010,  //增伤倍率
-        MulDamageResist = 2011, //减伤倍率
-        StrongMul = 2012,//韧性倍率
-        Shatter = 2013,//破韧倍率
     }
 
     /// <summary>

@@ -180,7 +180,7 @@ namespace Game
 
             // Debug.Log("count Rate:" + countRate);
 
-            double dropFinal = (100 + user.AttributeBonus.GetBaseAttr(AttributeEnum.DropFinal)) / 100;
+            double dropFinal = 1;
 
             //Debug.Log("dropFinal:" + dropFinal);
 

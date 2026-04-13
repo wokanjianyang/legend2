@@ -432,11 +432,13 @@ namespace Game
 
             long Level = MagicLevel.Data;
 
-            //基础属性，攻击10，防御0，生命1000
+            //基础属性，攻击10，防御0，生命1000，爆伤150，致命伤害150
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, 1000);
             AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, 10);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, 10);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, 10);
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, 150);
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroBase, 150);
 
             //等级属性,攻击倍率，生命倍率，等级*1%
             AttributeBonus.SetAttr(AttributeEnum.MulAttr, AttributeFrom.HeroBase, Level * 1);
@@ -448,25 +450,6 @@ namespace Game
             //设置升级属性
             SetUpExp();
 
-            //转生属性
-            if (Cycle.Data > 0)
-            {
-                int maxType = (int)((Cycle.Data - 1) / 10);
-                for (int cc = 0; cc < maxType; cc++)
-                {
-                    CycleConfig ccConfig = CycleConfigCategory.Instance.GetByCycle(cc, (cc + 1) * 10);
-                    for (int i = 0; i < ccConfig.AttrIdList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)ccConfig.AttrIdList[i], AttributeFrom.Cycle, cc * 100 + i, ccConfig.AttrValueList[i]);
-                    }
-                }
-
-                CycleConfig cycleConfig = CycleConfigCategory.Instance.GetByCycle(maxType, Cycle.Data);
-                for (int i = 0; i < cycleConfig.AttrIdList.Length; i++)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)cycleConfig.AttrIdList[i], AttributeFrom.Cycle, maxType * 100 + i, cycleConfig.AttrValueList[i]);
-                }
-            }
 
             //装备属性-普通装备
             foreach (KeyValuePair<int, Equip> kvp in EquipPanelList[EquipPanelIndex])
@@ -478,6 +461,8 @@ namespace Game
                     AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
                 }
             }
+
+
             //装备属性-四格装备
             foreach (KeyValuePair<int, Equip> kvp in EquipPanelSpecial)
             {
@@ -486,108 +471,17 @@ namespace Game
                     AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
                 }
             }
-            //装备属性-金色装备
-            foreach (KeyValuePair<int, Equip> kvp in EquipPanelGoldenList[EquipGoldenIndex])
-            {
-                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList(0))
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
-                }
-            }
-
-            //装备属性-暗金色装备
-            foreach (KeyValuePair<int, Equip> kvp in EquipPanelDarkGoldList[EquipDarkGoldIndex])
-            {
-                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList(0))
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
-                }
-            }
-
-            //装备属性-混沌装备
-            foreach (KeyValuePair<int, Equip> kvp in EquipPanelHundunList[EquipHundunIndex])
-            {
-                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList(0))
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
-                }
-            }
-
-            //装备属性-生肖
-            foreach (KeyValuePair<int, Shengxiao> kvp in ShengxiaoList)
-            {
-                foreach (KeyValuePair<int, long> a in kvp.Value.GetTotalAttrList())
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.Shengxiao, kvp.Key, a.Value);
-                }
-            }
-
-            //生肖-套装
-            ShengxiaoGroup shengxiaoGroup = this.GetShengxiaoGroup();
-            foreach (ShengxiaoGroupItem sp in shengxiaoGroup.List)
-            {
-                if (sp.Count >= sp.Config.Count)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)sp.Config.AttrId, AttributeFrom.Shengxiao, 100 + sp.Config.Id, sp.Config.AttrValue);
-                }
-            }
-
-            //英灵
-            foreach (var sp in SpiritRecord)
-            {
-                SpiritConfig spiritConfig = SpiritConfigCategory.Instance.Get(sp.Key);
-                long splevel = sp.Value.Level.Data;
-                if (splevel > 0)
-                {
-                    for (int i = 0; i < spiritConfig.AttrIdList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)spiritConfig.AttrIdList[i], AttributeFrom.Spirit, spiritConfig.Id, spiritConfig.AttrValueList[i] * splevel);
-                    }
-                }
-            }
-
 
             //套装属性
-            List<EquipGroupConfig> suitList = GetEquipGroups();
-            foreach (EquipGroupConfig item in suitList)
-            {
-                for (int i = 0; i < item.AttrIdList.Length; i++)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)item.AttrIdList[i], AttributeFrom.EquipSuit, item.Position, item.AttrValueList[i]);
-                }
-            }
+            //List<EquipGroupConfig> suitList = GetEquipGroups();
+            //foreach (EquipGroupConfig item in suitList)
+            //{
+            //    for (int i = 0; i < item.AttrIdList.Length; i++)
+            //    {
+            //        AttributeBonus.SetAttr((AttributeEnum)item.AttrIdList[i], AttributeFrom.EquipSuit, item.Position, item.AttrValueList[i]);
+            //    }
+            //}
 
-            //装备红色属性
-            for (int role = 1; role <= 3; role++)
-            {
-                EquipRedSuit red6 = GetEquipRedConfig(role, 6);
-                foreach (EquipRedItem redItem in red6.List)
-                {
-                    if (redItem.Level > 0)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)(redItem.Config.AttrId), AttributeFrom.EquipRed, 60 + role, redItem.Config.AttrValue + redItem.Config.AttrRise * (redItem.Level - 1));
-                    }
-                }
-
-                EquipRedSuit red7 = GetEquipRedConfig(role, 7);
-                foreach (EquipRedItem redItem in red7.List)
-                {
-                    if (redItem.Level > 0)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)(redItem.Config.AttrId), AttributeFrom.EquipRed, 70 + role, redItem.Config.AttrValue + redItem.Config.AttrRise * (redItem.Level - 1));
-                    }
-                }
-
-
-                EquipRedSuit red8 = GetEquipRedConfig(role, 8);
-                foreach (EquipRedItem redItem in red8.List)
-                {
-                    if (redItem.Level > 0)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)(redItem.Config.AttrId), AttributeFrom.EquipRed, 80 + role, redItem.Config.AttrValue + redItem.Config.AttrRise * (redItem.Level - 1));
-                    }
-                }
-            }
 
             //强化属性
             foreach (var sp in this.MagicEquipStrength)
@@ -619,429 +513,15 @@ namespace Game
                 }
             }
 
-            //专属属性
-            foreach (var sp in this.ExclusivePanelList[ExclusiveIndex])
-            {
-                foreach (var a in sp.Value.GetTotalAttrList())
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.Exclusive, sp.Key, a.Value);
-                }
-            }
-
-            //图鉴属性
-            int cardGroupLevel = GetCardSpecialGroupLevel();
-            foreach (var sp in this.CardData)
-            {
-                if (sp.Value.Data > 0)
-                {
-                    CardConfig cardConfig = CardConfigCategory.Instance.Get(sp.Key);
-
-                    long cardLevel = sp.Value.Data;
-                    long riseLevel = GetCardRiseLevel(cardConfig.Quality, cardLevel, cardGroupLevel);
-
-                    long totalLevel = cardLevel + riseLevel;
-
-                    long val = cardConfig.AttrValue * totalLevel;
-
-                    long riseValue = cardConfig.GetCardRiseValue(totalLevel, cardGroupLevel);
-
-                    AttributeBonus.SetAttr((AttributeEnum)cardConfig.AttrId, AttributeFrom.Card, sp.Key, val + riseValue);
-                }
-            }
-
-            foreach (var sp in this.CardSpecialData)
-            {
-                if (sp.Value.Data > 0)
-                {
-                    CardSpecialConfig cardSpecialConfig = CardSpecialConfigCategory.Instance.Get(sp.Key);
-
-                    int cardSpecialLevel = (int)sp.Value.Data;
-
-                    for (int i = 0; i < cardSpecialConfig.AttrIdList.Length; i++)
-                    {
-                        int attrCardSpeicalId = cardSpecialConfig.AttrIdList[i];
-                        double attrCardSpeicalValue = cardSpecialConfig.GetAttrValue(i, cardSpecialLevel);
-
-                        AttributeBonus.SetAttr((AttributeEnum)attrCardSpeicalId, AttributeFrom.CardSpeical, sp.Key, attrCardSpeicalValue);
-                    }
-                }
-            }
-
-            //幻神属性
-            foreach (var sp in PhantomRecord)
-            {
-                int phLevel = sp.Value - 1;
-                if (phLevel > 0)
-                {
-                    PhantomAttrConfig phantomAttrConfig = PhantomConfigCategory.Instance.GetAttrConfig(sp.Key, phLevel);
-                    int phAttr = phantomAttrConfig.GetRewardAttr(phLevel);
-                    AttributeBonus.SetAttr((AttributeEnum)phantomAttrConfig.RewardId, AttributeFrom.Phantom, phAttr);
-                }
-            }
-
-            //魂环
-            foreach (var sl in SoulRingData)
-            {
-                if (sl.Value.Data > 0)
-                {
-                    int sid = sl.Key;
-                    long srLevel = sl.Value.Data;
-
-                    SoulRingAttrConfig ringConfig = SoulRingConfigCategory.Instance.GetAttrConfig(sid, srLevel);
-                    for (int i = 0; i < ringConfig.AttrIdList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)ringConfig.AttrIdList[i], AttributeFrom.SoulRing, sid, ringConfig.GetAttr(i, srLevel));
-                    }
-
-                    long sbLevel = GetSoulBoneLevel(sid);
-                    if (sbLevel > 0)
-                    {
-                        SoulBoneConfig boneConfig = SoulBoneConfigCategory.Instance.GetConfig(sid, sbLevel);
-                        //SoulBoneConfig boneConfig = SoulBoneConfigCategory.Instance.Get(sid);
-                        for (int i = 0; i < boneConfig.AttrIdList.Length; i++)
-                        {
-                            AttributeBonus.SetAttr((AttributeEnum)boneConfig.AttrIdList[i], AttributeFrom.SoulBone, sid, boneConfig.AttrValueList[i] * sbLevel * srLevel);
-                        }
-                    }
-                }
-            }
-
-            //神器
-            long relicRecord = GetRecordMax((int)AbcType.Relic);
-            long relicMax = AbcHelper.GetRecord((int)AbcType.Relic);
-            int relicRise = GetRelicRise();
-            foreach (var rl in RelicData)
-            {
-                int rid = rl.Key;
-                int level = (int)rl.Value.Data;
-                if (level > 0 && relicRecord < relicMax)
-                {
-                    RelicConfig relicConfig = RelicConfigCategory.Instance.Get(rid);
-                    for (int i = 0; i < relicConfig.AttrIdList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)relicConfig.AttrIdList[i], AttributeFrom.Relic, rid, relicConfig.GetAttrValue(i, level + relicRise));
-                    }
-                }
-            }
-
-            //神器套装
-            List<RelicGroupConfig> relicGroups = RelicGroupConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
-            foreach (var relicGroupConfig in relicGroups)
-            {
-                int groupLevel = GetRelicGroupLevel(relicGroupConfig.Id);
-                if (groupLevel > 0 && relicRecord < relicMax)
-                {
-                    double groupValue = relicGroupConfig.GetAttrValue(groupLevel);
-                    AttributeBonus.SetAttr((AttributeEnum)relicGroupConfig.AttrId, AttributeFrom.Relic, 999, groupValue);
-                }
-            }
-
-            //宝石
-            long stoneRecord = GetRecordMax((int)AbcType.Stone);
-            long stoneMax = AbcHelper.GetRecord((int)AbcType.Stone);
-
-            foreach (var sp in StoneData)
-            {
-                int ps = sp.Key;
-
-                foreach (var ss in sp.Value.List)
-                {
-                    StoneSet sd = ss.Value;
-
-                    int stoneId = sd.StoneId;
-                    int stoneLevel = (int)sd.StoneLevel.Data;
-
-                    StoneConfig stoneConfig = StoneConfigCategory.Instance.Get(stoneId);
-                    int attrValue = stoneConfig.GetAttr(stoneLevel);
-
-                    if (stoneLevel > 0 && stoneRecord < stoneMax)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)stoneConfig.AttrId, AttributeFrom.Stone, ps * 10 + ss.Key, attrValue);
-                    }
-                }
-            }
-
-            //神宠
-            for (int id = 1; id <= 3; id++)
-            {
-                int layer = GetPetSpeicalLayer(id);
-                int level = GetPetSpeicalLevel(id);
-
-                List<PetSpeicalAttrConfig> configs = PetSpeicalAttrConfigCategory.Instance.GetList(id, layer);
 
 
-                for (int i = 0; i < configs.Count; i++)
-                {
-                    PetSpeicalAttrConfig config = configs[i];
-                    double attrValue = config.AttrValue * level;
 
-                    AttributeBonus.SetAttr((AttributeEnum)config.AttrId, AttributeFrom.PetSpeical, id, attrValue);
-                }
-
-            }
-
-            for (int type = 1; type <= 1; type++)
-            {
-                long level = GetFestiveAttrLevel(type);
-                List<FestiveAttrConfig> configs = FestiveAttrConfigCategory.Instance.GetList(type, level);
-
-                for (int i = 0; i < configs.Count; i++)
-                {
-                    FestiveAttrConfig config = configs[i];
-                    double attrValue = config.AttrValue * level;
-
-                    AttributeBonus.SetAttr((AttributeEnum)config.AttrId, AttributeFrom.Festive, type, attrValue);
-                }
-            }
-
-            //宠物
-            for (int i = 0; i < PetList.Count; i++)
-            {
-                Pet pet = PetList[i];
-                var attrList = pet.GetBaseAttr();
-
-                foreach (var sp in attrList)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)sp.Key, AttributeFrom.Pet, i, sp.Value);
-                }
-            }
-
-            //翅膀
-            long wingLevel = WingData.Data;
-            if (wingLevel > 0)
-            {
-                WingConfig wingConfig = WingConfigCategory.Instance.GetByLevel(wingLevel);
-                for (int i = 0; i < wingConfig.AttrIdList.Length; i++)
-                {
-                    long wingValue = wingConfig.GetAttr(i, wingLevel);
-                    AttributeBonus.SetAttr((AttributeEnum)wingConfig.AttrIdList[i], AttributeFrom.Wing, wingValue);
-                }
-            }
-
-            //矿石
-            foreach (var kv in MetalData)
-            {
-                long level = kv.Value.Data;
-
-                if (level > 0 && kv.Key > 0)
-                {
-                    MetalConfig metalConfig = MetalConfigCategory.Instance.Get(kv.Key);
-                    long percent = GetMetalQualityLevel(metalConfig.Quality);
-                    long riseLevel = level * percent / 100;
-                    riseLevel = Math.Max(riseLevel, percent);
-
-                    AttributeBonus.SetAttr((AttributeEnum)metalConfig.AttrId, AttributeFrom.Metal, kv.Key, metalConfig.GetAttr(level + riseLevel));
-                }
-            }
-
-            //fashion
-            foreach (var kv in FashionData)
-            {
-                int suitId = kv.Key;
-
-                foreach (var fashionItem in kv.Value)
-                {
-                    long itemLevel = fashionItem.Value.Data;
-                    if (itemLevel > 0)
-                    {
-                        int part = fashionItem.Key;
-                        FashionConfig fashionConfig = FashionConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.SuitId == suitId && m.Part == part).FirstOrDefault();
-
-                        for (int i = 0; i < fashionConfig.AttrIdList.Length; i++)
-                        {
-                            long itemValue = fashionConfig.AttrValueList[i] + (itemLevel - 1) * fashionConfig.AttrRiseList[i];
-
-                            AttributeBonus.SetAttr((AttributeEnum)fashionConfig.AttrIdList[i], AttributeFrom.Fashion, suitId * 100 + part, itemValue);
-                        }
-                    }
-                }
-
-                long suitLevel = kv.Value.Select(m => m.Value.Data).Min();
-                if (suitLevel > 0)
-                {
-                    FashionSuitConfig suitConfig = FashionSuitConfigCategory.Instance.Get(suitId);
-
-                    for (int i = 0; i < suitConfig.AttrIdList.Length; i++)
-                    {
-                        long suitValue = suitConfig.GetAttrValue(i, suitLevel);
-                        AttributeBonus.SetAttr((AttributeEnum)suitConfig.AttrIdList[i], AttributeFrom.Fashion, suitId * 10 + i, suitValue);
-                    }
-                }
-            }
-
-            //fashion-special
-            foreach (var sp in FashionSpecialData)
-            {
-                int fsId = sp.Key;
-                long fsLevel = sp.Value.Data;
-                if (fsLevel > 0)
-                {
-                    FashionSpecialConfig fashionSpecialConfig = FashionSpecialConfigCategory.Instance.Get(fsId);
-
-                    for (int i = 0; i < fashionSpecialConfig.AttrIdList.Length; i++)
-                    {
-                        long fsValue = fashionSpecialConfig.AttrValueList[i];
-                        AttributeBonus.SetAttr((AttributeEnum)fashionSpecialConfig.AttrIdList[i], AttributeFrom.FashionSpeical, fsId, fsValue);
-                    }
-
-                    if (fsId == FashionUpId)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)fashionSpecialConfig.UpAttrId, AttributeFrom.FashionSpeical, 0, fashionSpecialConfig.UpAttrValue);
-                    }
-
-                }
-            }
-
-            //Halidom
-            foreach (var sp in this.HalidomData)
-            {
-                if (sp.Value.Data > 0)
-                {
-                    HalidomConfig halidomConfig = HalidomConfigCategory.Instance.Get(sp.Key);
-                    long halidomAttr = halidomConfig.AttrValue + (sp.Value.Data - 1) * halidomConfig.RiseAttr;
-                    AttributeBonus.SetAttr((AttributeEnum)halidomConfig.AttrId, AttributeFrom.Halidom, sp.Key, halidomAttr);
-                }
-            }
-
-            //Legacy
-            List<LegacyConfig> legacyConfigs = LegacyConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
-            foreach (LegacyConfig config in legacyConfigs)
-            {
-                long layer = GetLegacyLayer(config.Id);
-                if (layer > 0)
-                {
-                    for (int i = 0; i < config.LayerIdList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)config.LayerIdList[i], AttributeFrom.Legacy, 100 + config.Id, config.GetLayerAttr(i, layer));
-                    }
-                }
-
-                long level = GetLegacyLevel(config.Id);
-                if (level > 0)
-                {
-                    for (int i = 0; i < config.AttrIdList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)config.AttrIdList[i], AttributeFrom.Legacy, config.Id, config.GetLevelAttr(i, level));
-                    }
-                }
-            }
-
-            //Ring
-            foreach (var sp in this.RingData)
-            {
-                if (sp.Value.Data > 0)
-                {
-                    RingConfig ringConfig = RingConfigCategory.Instance.Get(sp.Key);
-                    for (int i = 0; i < ringConfig.AttrIdList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)ringConfig.AttrIdList[i], AttributeFrom.Ring, sp.Key, ringConfig.GetAttr(i, sp.Value.Data));
-                    }
-                }
-            }
-
-            //修炼
-            Dictionary<int, long> attrDict = PillConfigCategory.Instance.ParseLevel(PillData.Data);
-            foreach (var kv in attrDict)
-            {
-                if (kv.Value > 0)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)kv.Key, AttributeFrom.Pill, kv.Value);
-                }
-            }
-
-            Dictionary<int, double> pillDict2 = PillConfig2Category.Instance.ParseLevel(PillData2.Data);
-            foreach (var kv in pillDict2)
-            {
-                if (kv.Value > 0)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)kv.Key, AttributeFrom.Pill2, kv.Value);
-                }
-            }
-
-            Dictionary<int, double> pillDict3 = PillConfig3Category.Instance.ParseLevel(PillData3.Data);
-            foreach (var kv in pillDict3)
-            {
-                if (kv.Value > 0)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)kv.Key, AttributeFrom.Pill3, kv.Value);
-                }
-            }
-
-            //天赋
-            //神器
-            long talentRecord = GetRecordMax((int)AbcType.Talent);
-            long talentMax = AbcHelper.GetRecord((int)AbcType.Talent);
-            foreach (var sp in this.TalentData)
-            {
-                if (sp.Value.Data > 0 && talentRecord < talentMax)
-                {
-                    TalentConfig talentConfig = TalentConfigCategory.Instance.Get(sp.Key);
-                    AttributeBonus.SetAttr((AttributeEnum)talentConfig.AttrId, AttributeFrom.Talent, sp.Key, talentConfig.GetAttrValue(sp.Value.Data));
-                }
-            }
-
-            //光环
-            foreach (var ar in GetAurasList())
-            {
-                AurasAttrConfig aurasAttrConfig = AurasAttrConfigCategory.Instance.GetConfig(ar.Key);
-                AurasAttrConfig config = AurasAttrConfigCategory.Instance.Get(ar.Key);
-                AttributeBonus.SetAttr((AttributeEnum)config.AttrId, AttributeFrom.Auras, aurasAttrConfig.GetAttr(ar.Value));
-            }
 
             this.SuitMax = ConfigHelper.SkillSuitMax;
             this.StoneNumber = 0;
             this.SoulRingNumber = 0;
             this.TowerNumber = 0;
             this.SkillNumber = ConfigHelper.SkillNumber;
-
-            //专属
-            if (this.ExclusivePanelList[ExclusiveIndex].Select(m => m.Key <= 6).Count() >= 6)
-            {
-                this.SkillNumber += 1;
-            }
-
-            List<ExclusiveSuitConfig> exclusiveSuits = ExclusiveSuitConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
-            for (int i = 0; i < exclusiveSuits.Count; i++)
-            {
-                ExclusiveSuitConfig exclusiveSuit = exclusiveSuits[i];
-                int esc = this.ExclusivePanelList[ExclusiveIndex].Where(m => exclusiveSuit.StartPart <= m.Key && m.Key <= exclusiveSuit.EndPart).Count();
-                //Debug.Log("exclusive suit " + i + " " + esc);
-                if (esc >= 6)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)exclusiveSuit.AttrId, AttributeFrom.Exclusive, 100, exclusiveSuit.AttrValue);
-                }
-            }
-
-
-            //成就
-            foreach (int aid in AchievementData.Keys)
-            {
-                AchievementConfig achievementConfig = AchievementConfigCategory.Instance.Get(aid);
-                if (achievementConfig.RewardType == (int)AchievementRewardType.Attr)
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)achievementConfig.AttrId, AttributeFrom.Achivement, achievementConfig.Id, achievementConfig.AttrValue);
-                }
-                else if (achievementConfig.RewardType == (int)AchievementRewardType.Suit)
-                {
-                    this.SuitMax--;
-                }
-                else if (achievementConfig.RewardType == (int)AchievementRewardType.Stone)
-                {
-                    this.StoneNumber += achievementConfig.AttrValue;
-                }
-                else if (achievementConfig.RewardType == (int)AchievementRewardType.SoulRing)
-                {
-                    this.SoulRingNumber += achievementConfig.AttrValue;
-                }
-                else if (achievementConfig.RewardType == (int)AchievementRewardType.Tower)
-                {
-                    this.TowerNumber += achievementConfig.AttrValue;
-                }
-                else if (achievementConfig.RewardType == (int)AchievementRewardType.Skill)
-                {
-                    this.SkillNumber += achievementConfig.AttrValue;
-                }
-            }
 
             this.SuitMax = Math.Max(this.SuitMax, ConfigHelper.SkillSuitMin);
         }

@@ -128,10 +128,10 @@ namespace Game
                     total = total * (1 + CalMulTotal(haveBuff, AttributeEnum.MulPhyDamageRise) / 100) - 100;
                     break;
                 case AttributeEnum.CritRate:
-                    total = CalTotal(attrType, haveBuff, AttributeEnum.CritFinal);
+                    total = CalTotal(attrType, haveBuff, AttributeEnum.RateCrit);
                     break;
                 case AttributeEnum.Lucky:
-                    total = CalTotal(attrType, haveBuff, AttributeEnum.LuckyFinal);
+                    total = CalTotal(attrType, haveBuff, AttributeEnum.RateLucky);
                     break;
                 case AttributeEnum.MagicDamage:
                     total = 100 + CalTotal(AttributeEnum.MagicDamage, haveBuff);
@@ -151,25 +151,16 @@ namespace Game
                     total = CalTotal(AttributeEnum.SecondGold, haveBuff, AttributeEnum.GoldIncrea);
                     break;
                 case AttributeEnum.ExpIncrea:
-                    total = CalTotal(AttributeEnum.ExpIncrea, haveBuff, AttributeEnum.ExpFinal);
+                    total = CalTotal(AttributeEnum.ExpIncrea, haveBuff, AttributeEnum.RateExp);
                     break;
                 case AttributeEnum.GoldIncrea:
-                    total = CalTotal(AttributeEnum.GoldIncrea, haveBuff, AttributeEnum.GoldFinal);
+                    total = CalTotal(AttributeEnum.GoldIncrea, haveBuff, AttributeEnum.RateGold);
                     break;
                 case AttributeEnum.BurstIncrea:
-                    total = CalTotal(AttributeEnum.BurstIncrea, haveBuff, AttributeEnum.BurstFinal);
+                    total = CalTotal(AttributeEnum.BurstIncrea, haveBuff, AttributeEnum.RateBurst);
                     break;
                 case AttributeEnum.QualityIncrea:
-                    total = CalTotal(AttributeEnum.QualityIncrea, haveBuff, AttributeEnum.QualityFinal);
-                    break;
-                case AttributeEnum.MythAttr:
-                    total = CalTotal(AttributeEnum.MythAttr, haveBuff) + CalTotal(AttributeEnum.MythAll, haveBuff);
-                    break;
-                case AttributeEnum.MythDef:
-                    total = CalTotal(AttributeEnum.MythDef, haveBuff) + CalTotal(AttributeEnum.MythAll, haveBuff);
-                    break;
-                case AttributeEnum.MythHp:
-                    total = CalTotal(AttributeEnum.MythHp, haveBuff) + CalTotal(AttributeEnum.MythAll, haveBuff);
+                    total = CalTotal(AttributeEnum.QualityIncrea, haveBuff, AttributeEnum.RateQuality);
                     break;
                 default:
                     if ((int)attrType < 2001)
@@ -279,7 +270,7 @@ namespace Game
             lg.Mul(CalPercent(AttributeEnum.DamageIncrea) * CalPercent(AttributeEnum.AurasDamageIncrea));
             lg.Mul((1 + GetTotalAttrDouble(AttributeEnum.Lucky) * 0.1));
             lg.Mul((1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRate), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamage) + 150) / 100));
-    
+
             double roleDamageRise = DamageHelper.GetRoleDamageAttackRise(this, role, true);
             lg.Mul((1 + roleDamageRise / 100));
 

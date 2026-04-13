@@ -38,110 +38,15 @@ namespace Game
             this.FashionId = ModelConfig.ModelType;
             this.Name = ModelConfig.Name + "(" + Master.Name + ")";
 
-            if (this.SkillPanel.SkillId == 3012)
-            {
-                //白虎新继承
-                this.SetAttr12();
-                this.SetSkill();
-            }
-            else
-            {
-                this.SetAttr();  //设置属性值
-                this.SetSkill(); //设置技能
-            }
+
+            //白虎新继承
+            this.SetAttr12();
+            this.SetSkill();
 
             base.Load();
             this.Logic.SetData(null); //设置UI
         }
 
-        private void SetAttr()
-        {
-            int sp = (int)this.Master.AttributeBonus.GetAttackAttr(AttributeEnum.SkillValetSpeed);
-
-            this.SetAttackSpeed(ModelConfig.SpeedRate + sp);
-
-            int role = SkillPanel.SkillData.SkillConfig.Role;
-
-            double roleAttr = Master.GetRoleAttack(role, false) * (100.0 + SkillPanel.AttrIncrea) / 100.0; //职业攻击
-
-            double InheritIncrea = (SkillPanel.InheritIncrea + ModelConfig.AdvanceRate) / 100.0;
-            double InheritAdvance = this.Master.AttributeBonus.GetAttackAttr(AttributeEnum.InheritAdvance) / 100.0;
-            double valteHp = 1 + this.Master.AttributeBonus.GetAttackAttr(AttributeEnum.SkillValetHp) / 100.0;
-
-            double maxInheritIncrea = Math.Min(InheritIncrea, 1);
-            double MaxInheritAdvance = Math.Min(InheritAdvance, 1);
-
-            //Debug.Log("valet InheritIncrea:" + InheritIncrea);
-            //Debug.Log("valet InheritAdvance:" + InheritAdvance);
-
-            //技能系数
-            double baseAttr = roleAttr * (SkillPanel.Percent + Master.GetRolePercent(role) + InheritIncrea) / 100 + SkillPanel.Damage + Master.GetRoleDamage(role);  // *百分比系数 + 固定数值
-
-            double pr = RuleType == RuleType.HeroPhantom ? ConfigHelper.PvpRate : 1;
-
-            this.AttributeBonus = new AttributeBonus();
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, baseAttr * ModelConfig.HpRate * pr * valteHp / 100.0);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroPanel, baseAttr * ModelConfig.AttrRate / 100.0);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroPanel, baseAttr * ModelConfig.AttrRate / 100.0);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroPanel, baseAttr * ModelConfig.AttrRate / 100.0);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, baseAttr * ModelConfig.DefRate / 100.0); //降低50%继承
-
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageIncrea, false) * InheritIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageResist, false) * InheritIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritDamage, false) * InheritIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritDamageResist, false) * InheritIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritRate, false) * maxInheritIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritRateResist, false) * InheritIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Lucky, false) * InheritIncrea);
-
-            if (ModelConfig.RestorePercent > 0)
-            {
-                AttributeBonus.SetAttr(AttributeEnum.RestoreHpPercent, AttributeFrom.HeroPanel, ModelConfig.RestorePercent);
-            }
-
-            //队友的光环
-            AttributeBonus.SetAttr(AttributeEnum.AurasDamageIncrea, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.AurasDamageIncrea, false));
-            AttributeBonus.SetAttr(AttributeEnum.AurasDamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.AurasDamageResist, false));
-
-            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Miss) * MaxInheritAdvance);
-            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Accuracy) * MaxInheritAdvance);
-
-            AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.PhyDamage) * InheritAdvance);
-            AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MagicDamage) * InheritAdvance);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritDamage) * InheritAdvance);
-
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MulDamageIncrea) * InheritAdvance);
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MulDamageResist) * MaxInheritAdvance);
-
-            double sd = Master.AttributeBonus.GetAttackAttr(AttributeEnum.SkillDivine3010);
-            if (sd > 0)
-            {
-                sd = sd / 100.0;
-
-                AttributeBonus.SetAttr(AttributeEnum.DefIgnore, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefIgnore) * sd);
-                AttributeBonus.SetAttr(AttributeEnum.DefendRate, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefendRate) * sd);
-                AttributeBonus.SetAttr(AttributeEnum.SpRate, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpRate) * sd);
-                AttributeBonus.SetAttr(AttributeEnum.RealHpDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealHpDamage) * sd);
-                AttributeBonus.SetAttr(AttributeEnum.RealCritRate, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealCritRate) * sd);
-                AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Strong) * sd);
-
-                AttributeBonus.SetAttr(AttributeEnum.LuckyHit, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.LuckyHit) * sd * 0.01);
-                AttributeBonus.SetAttr(AttributeEnum.Relic3, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic3) * sd * 0.01);
-                AttributeBonus.SetAttr(AttributeEnum.Relic4, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic4) * sd * 0.01);
-                AttributeBonus.SetAttr(AttributeEnum.Relic5, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic5) * sd * 0.01);
-                //Debug.Log("lucky hit:" + AttributeBonus.GetTotalAttrDouble(AttributeEnum.LuckyHit) * AttributeBonus.GetAttackDoubleAttr(AttributeEnum.Lucky));
-            }
-
-            //回满当前血量
-            SetHP(AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
-
-            //if (this.RuleType == RuleType.Myth || 1 == 1)
-            //{
-            //    Debug.Log("dupulication myth RealHpDamage:" + AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealHpDamage));
-            //    Debug.Log("dupulication myth SpRate:" + AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpRate));
-            //    Debug.Log("dupulication myth RealCritRate:" + AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealCritRate));
-            //}
-        }
 
         private void SetAttr12()
         {
@@ -158,8 +63,8 @@ namespace Game
 
             //Debug.Log("base attr " + roleAttr + " roleHp" + roleHp + "def " + roleDef);
 
-            double InheritIncrea = 1 + this.Master.AttributeBonus.GetAttackAttr(AttributeEnum.InheritIncrea) / 100.0;
-            double InheritAdvance = 1 + this.Master.AttributeBonus.GetAttackAttr(AttributeEnum.InheritAdvance) / 100.0;
+            double InheritIncrea = 1 ;
+            double InheritAdvance = 1;
             double valteHp = 1 + this.Master.AttributeBonus.GetAttackAttr(AttributeEnum.SkillValetHp) / 100.0; //无极属性
 
             double skillRate = 1 + SkillPanel.Percent / 100;

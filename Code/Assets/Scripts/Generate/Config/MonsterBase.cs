@@ -90,9 +90,9 @@ namespace Game
 		/// <summary>ModelId</summary>
 		[ProtoMember(5)]
 		public int ModelId { get; set; }
-		/// <summary>Attr</summary>
+		/// <summary>Atk</summary>
 		[ProtoMember(6)]
-		public string Attr { get; set; }
+		public string Atk { get; set; }
 		/// <summary>Def</summary>
 		[ProtoMember(7)]
 		public string Def { get; set; }
@@ -111,20 +111,32 @@ namespace Game
 		/// <summary>CritDamage</summary>
 		[ProtoMember(12)]
 		public int CritDamage { get; set; }
-		/// <summary>Speed</summary>
+		/// <summary>CritRateResist</summary>
 		[ProtoMember(13)]
-		public int Speed { get; set; }
-		/// <summary>Miss</summary>
-		[ProtoMember(14)]
-		public int Miss { get; set; }
+		public int CritRateResist { get; set; }
 		/// <summary>Accuracy</summary>
-		[ProtoMember(15)]
+		[ProtoMember(14)]
 		public int Accuracy { get; set; }
-		/// <summary>Exp</summary>
+		/// <summary>Miss</summary>
+		[ProtoMember(15)]
+		public int Miss { get; set; }
+		/// <summary>Speed</summary>
 		[ProtoMember(16)]
+		public int Speed { get; set; }
+		/// <summary>MoveSpeed</summary>
+		[ProtoMember(17)]
+		public int MoveSpeed { get; set; }
+		/// <summary>Lucky</summary>
+		[ProtoMember(18)]
+		public int Lucky { get; set; }
+		/// <summary>Curse</summary>
+		[ProtoMember(19)]
+		public int Curse { get; set; }
+		/// <summary>Exp</summary>
+		[ProtoMember(20)]
 		public long Exp { get; set; }
 		/// <summary>Gold</summary>
-		[ProtoMember(17)]
+		[ProtoMember(21)]
 		public long Gold { get; set; }
 
 	}

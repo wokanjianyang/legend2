@@ -59,7 +59,7 @@ namespace Game
             AttributeBonus attributeBonus = new AttributeBonus();
 
             attributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp);
-            attributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, attr);
+            attributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, attr);
             attributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, attr);
             attributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, attr);
             attributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, def);

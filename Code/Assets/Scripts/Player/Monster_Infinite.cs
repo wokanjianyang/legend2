@@ -79,7 +79,7 @@ namespace Game
             //Debug.Log("Infinit " + this.Progress + " Attr:" + StringHelper.FormatNumber(attr));
 
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp * HpRate[Quality - 1]);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, attr * AttrRate[Quality - 1]);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, attr * AttrRate[Quality - 1]);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, attr * AttrRate[Quality - 1]);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, attr * AttrRate[Quality - 1]);
             AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, def * DefRate[Quality - 1]);

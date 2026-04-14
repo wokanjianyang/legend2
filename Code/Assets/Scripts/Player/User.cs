@@ -434,7 +434,7 @@ namespace Game
 
             //基础属性，攻击10，防御0，生命1000，爆伤150，致命伤害150
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, 1000);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, 10);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 10);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, 10);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, 10);
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, 150);
@@ -635,11 +635,6 @@ namespace Game
             //混沌词条
             skillList.AddRange(this.EquipPanelHundunList[EquipHundunIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList());
 
-            //暗金词条
-            if (skillLayer > 0)
-            {
-                skillList.AddRange(this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillLayer == skillLayer).Select(m => m.Value.SkillRuneConfig.Id).ToList());
-            }
 
             //buff 词条
             if (buffList != null)
@@ -685,12 +680,6 @@ namespace Game
 
             //混沌套装
             skillList.AddRange(this.EquipPanelHundunList[EquipHundunIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SkillSuitConfig.SkillId == skillId).Select(m => m.Value.SkillSuitConfig).ToList());
-
-            //暗金词条
-            if (skillLayer > 0)
-            {
-                skillList.AddRange(this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SkillSuitConfig.SkillLayer == skillLayer).Select(m => m.Value.SkillSuitConfig).ToList());
-            }
 
             foreach (var ex in this.ExclusivePanelList[ExclusiveIndex].Values)
             {

@@ -28,7 +28,7 @@ namespace Game
 
             //double power = user.AttributeBonus.GetPower();
             //double scale = Math.Log10(power) - 9;
-            double scale = user.AttributeBonus.GetPowerNew().GetMythScale();
+            double scale = 1;
             this.Scale = (int)scale;
 
             this.SetAttr(user);  //…Ë÷√ Ù–‘÷µ

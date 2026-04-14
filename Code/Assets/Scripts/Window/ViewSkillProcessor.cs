@@ -110,7 +110,6 @@ namespace Game
         {
             GameProcessor.Inst.User.SkillPanelIndex = index;
             this.ShowSkillBattle();
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroUpdateSkillEvent());
         }
 
         private void ChangeRole()
@@ -204,25 +203,21 @@ namespace Game
         private void OnSkillShow(SkillShowEvent e)
         {
             this.ShowSkillPanel();
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroUpdateSkillEvent());
         }
 
         private void OnSkillUp(SkillUpEvent e)
         {
             this.ShowSkillBattle();
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroUpdateSkillEvent());
         }
 
         private void OnSkillDown(SkillDownEvent e)
         {
             this.ShowSkillBattle();
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroUpdateSkillEvent());
         }
         private void OnSkillChangePlan(SkillChangePlanEvent e)
         {
             this.ShowSkillBattle();
             this.ShowSkillPanel();
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroUpdateSkillEvent());
         }
 
         protected override bool CheckPageType(ViewPageType page)

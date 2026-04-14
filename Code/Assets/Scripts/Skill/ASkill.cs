@@ -43,7 +43,7 @@ namespace Game
         {
             EffectConfig config = data.Config;
 
-            var effectTarget = config.TargetType == 1 ? this.SelfPlayer : enemy; //1 为作用自己 2 为作用敌人
+            var effectTarget = config.TargetType == "Self" ? this.SelfPlayer : enemy; //1 为作用自己 2 为作用敌人
 
             if (data.Duration > 0)
             {  //持续Buff

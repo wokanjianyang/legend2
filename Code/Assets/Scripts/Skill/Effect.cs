@@ -99,10 +99,10 @@ namespace Game
         {
             double m = Data.Percent;
 
-            if (Data.Config.ExpertRise > 0)
-            {
-                m += RolePercent * Data.Config.ExpertRise / 100;
-            }
+            //if (Data.Config.ExpertRise > 0)
+            //{
+            //    m += RolePercent * Data.Config.ExpertRise / 100;
+            //}
 
             if (Data.Config.SourceAttr == -1)
             {
@@ -124,44 +124,44 @@ namespace Game
         {
             double hp = CalBaseValue();
 
-            if (Data.Config.CalType > 0) //回血
-            {
-                SelfPlayer.OnRestore(0, hp);
-            }
-            else //伤害
-            {
-                SelfPlayer.OnHit(new DamageResult(0, hp, MsgType.Damage, RoleType.All));
-            }
+            //if (Data.Config.CalType > 0) //回血
+            //{
+            //    SelfPlayer.OnRestore(0, hp);
+            //}
+            //else //伤害
+            //{
+            //    SelfPlayer.OnHit(new DamageResult(0, hp, MsgType.Damage, RoleType.All));
+            //}
         }
 
         private void ChangeAttr()
         {
-            double attr = CalBaseValue() * Data.Config.CalType;
+            //double attr = CalBaseValue() * Data.Config.CalType;
 
-            if (RunCount == 1) //第一次增加属性
-            {
-                //Debug.Log("Skill" + Data.Config.Id + " attr:" + attr);
+            //if (RunCount == 1) //第一次增加属性
+            //{
+            //    //Debug.Log("Skill" + Data.Config.Id + " attr:" + attr);
 
-                if (Data.Config.TargetAttr == (int)AttributeEnum.PanelHp)
-                {
-                    this.SelfPlayer.ChangeMaxHp(FromId, attr);
-                }
-                else
-                {
-                    SelfPlayer.AttributeBonus.SetAttr((AttributeEnum)Data.Config.TargetAttr, UID, attr);
-                }
-            }
-            else if (!Active) //最后一次，移除属性
-            {
-                if (Data.Config.TargetAttr == (int)AttributeEnum.PanelHp)
-                {
-                    this.SelfPlayer.ChangeMaxHp(FromId, 0);
-                }
-                else
-                {
-                    SelfPlayer.AttributeBonus.SetAttr((AttributeEnum)Data.Config.TargetAttr, UID, 0);
-                }
-            }
+            //    if (Data.Config.TargetAttr == (int)AttributeEnum.PanelHp)
+            //    {
+            //        this.SelfPlayer.ChangeMaxHp(FromId, attr);
+            //    }
+            //    else
+            //    {
+            //        SelfPlayer.AttributeBonus.SetAttr((AttributeEnum)Data.Config.TargetAttr, UID, attr);
+            //    }
+            //}
+            //else if (!Active) //最后一次，移除属性
+            //{
+            //    if (Data.Config.TargetAttr == (int)AttributeEnum.PanelHp)
+            //    {
+            //        this.SelfPlayer.ChangeMaxHp(FromId, 0);
+            //    }
+            //    else
+            //    {
+            //        SelfPlayer.AttributeBonus.SetAttr((AttributeEnum)Data.Config.TargetAttr, UID, 0);
+            //    }
+            //}
         }
 
         public void Clear()

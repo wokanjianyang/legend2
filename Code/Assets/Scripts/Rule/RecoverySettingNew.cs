@@ -113,7 +113,7 @@ namespace Game
                 bool keepSkill = false;
                 if (equip.SkillSuitConfig != null)
                 {
-                    keepSkill = GameProcessor.Inst.User.CheckKeepSkill(equip.SkillRuneConfig.SkillId, equip.SkillRuneConfig.SkillLayer);
+                    //keepSkill = GameProcessor.Inst.User.CheckKeepSkill(equip.SkillRuneConfig.SkillId, equip.SkillRuneConfig.SkillLayer);
                 }
 
                 if (cycle == 0)
@@ -331,7 +331,7 @@ namespace Game
                 bool keepSkill = false;
                 if (exclusive.SkillSuitConfig != null)
                 {
-                    keepSkill = GameProcessor.Inst.User.CheckKeepSkill(exclusive.SkillSuitConfig.SkillId, exclusive.SkillSuitConfig.SkillLayer);
+                    //keepSkill = GameProcessor.Inst.User.CheckKeepSkill(exclusive.SkillSuitConfig.SkillId, exclusive.SkillSuitConfig.SkillLayer);
                 }
 
                 if (cycle == 1)

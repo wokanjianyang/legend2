@@ -111,7 +111,7 @@ namespace Game
                         //先行特效
                         foreach (EffectData effect in SkillPanel.EffectIdList.Values)
                         {
-                            if (effect.Config.Priority < 0)
+                            if (effect.Config.RunType == "Before")
                             {
                                 DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
                             }
@@ -121,7 +121,7 @@ namespace Game
                         {
                             foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
                             {
-                                if (effect.Config.Priority < 0)
+                                if (effect.Config.RunType == "Before")
                                 {
                                     DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
                                     //Debug.Log("Run Ring Effect:" + effect.Config.Name);
@@ -141,7 +141,7 @@ namespace Game
                         //后行特效
                         foreach (EffectData effect in SkillPanel.EffectIdList.Values)
                         {
-                            if (effect.Config.Priority >= 0)
+                            if (effect.Config.RunType == "After")
                             {
                                 double total = dr.Damage * effect.Percent / 100;
                                 //Debug.Log("restor:" + total);
@@ -154,7 +154,7 @@ namespace Game
                         {
                             foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
                             {
-                                if (effect.Config.Priority >= 0)
+                                if (effect.Config.RunType == "After")
                                 {
                                     double total = dr.Damage * effect.Percent / 100;
                                     //Debug.Log("restor:" + total);

@@ -86,7 +86,7 @@ namespace Game
                 double spRate = this.SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpRate);
                 if (spRate > 0)
                 {
-                    double maxHp = this.SelfPlayer.AttributeBonus.GetBaseAttr(AttributeEnum.HP);
+                    double maxHp = this.SelfPlayer.AttributeBonus.CalBaseAttr(AttributeEnum.HP);
                     double maxSpDamge = maxHp * (100 - spRate) / 100;
 
                     spDamge = Math.Min(spDamge, maxSpDamge);

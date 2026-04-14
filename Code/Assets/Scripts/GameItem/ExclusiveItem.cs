@@ -160,7 +160,7 @@ namespace Game
         public void GetRuneListByLayer(int skillLayer, Dictionary<int, int> dict)
         {
 
-            if (SkillRuneConfig != null && SkillRuneConfig.SkillLayer == skillLayer)
+            if (SkillRuneConfig != null )
             {
                 int runeId = SkillRuneConfig.Id;
 
@@ -172,20 +172,20 @@ namespace Game
                 dict[runeId] += 1;
             }
 
-            for (int i = 0; i < RuneConfigIdList.Count; i++)
-            {
-                int runeId = RuneConfigIdList[i];
-                SkillRuneConfig config = SkillRuneConfigCategory.Instance.Get(runeId);
+            //for (int i = 0; i < RuneConfigIdList.Count; i++)
+            //{
+            //    int runeId = RuneConfigIdList[i];
+            //    SkillRuneConfig config = SkillRuneConfigCategory.Instance.Get(runeId);
 
-                if (config.SkillLayer == skillLayer)
-                {
-                    if (!dict.ContainsKey(runeId))
-                    {
-                        dict[runeId] = 0;
-                    }
-                    dict[runeId] += 1;
-                }
-            }
+            //    if (config.SkillLayer == skillLayer)
+            //    {
+            //        if (!dict.ContainsKey(runeId))
+            //        {
+            //            dict[runeId] = 0;
+            //        }
+            //        dict[runeId] += 1;
+            //    }
+            //}
         }
 
         public List<SkillSuitConfig> GetSuitList(int skillId)
@@ -213,19 +213,19 @@ namespace Game
         {
             List<SkillSuitConfig> list = new List<SkillSuitConfig>();
 
-            if (SkillSuitConfig != null && SkillSuitConfig.SkillLayer == skillLayer)
-            {
-                list.Add(SkillSuitConfig);
-            }
+            //if (SkillSuitConfig != null && SkillSuitConfig.SkillLayer == skillLayer)
+            //{
+            //    list.Add(SkillSuitConfig);
+            //}
 
-            for (int i = 0; i < SuitConfigIdList.Count; i++)
-            {
-                SkillSuitConfig config = SkillSuitConfigCategory.Instance.Get(SuitConfigIdList[i]);
-                if (config.SkillLayer == skillLayer)
-                {
-                    list.Add(config);
-                }
-            }
+            //for (int i = 0; i < SuitConfigIdList.Count; i++)
+            //{
+            //    SkillSuitConfig config = SkillSuitConfigCategory.Instance.Get(SuitConfigIdList[i]);
+            //    if (config.SkillLayer == skillLayer)
+            //    {
+            //        list.Add(config);
+            //    }
+            //}
 
             return list;
         }

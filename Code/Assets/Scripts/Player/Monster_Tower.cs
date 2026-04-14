@@ -110,7 +110,7 @@ public class Monster_Tower : APlayer
         long def = config.StartDef + (long)(rise * config.RiseDef);
 
         AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp);
-        AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, attr);
+        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, def);

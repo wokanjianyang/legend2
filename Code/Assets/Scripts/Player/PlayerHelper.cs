@@ -10,14 +10,16 @@ namespace Game
         {
 
             {nameof(AttributeEnum.HP), "生命值" },
-            {nameof(AttributeEnum.PhyAtt), "物理攻击" },
+            {nameof(AttributeEnum.Def), "防御" },
+            {nameof(AttributeEnum.PhyAtk), "物理攻击" },
             {nameof(AttributeEnum.MagicAtt),"魔法攻击" },
             {nameof(AttributeEnum.SpiritAtt), "道术攻击" },
-            {nameof(AttributeEnum.Def), "防御" },
+
             {nameof(AttributeEnum.DefIgnore), "忽视防御" },
             {nameof(AttributeEnum.Speed), "攻速" },
             {nameof(AttributeEnum.MoveSpeed), "移动速度" },
             {nameof(AttributeEnum.Lucky), "幸运" },
+            {nameof(AttributeEnum.Curse), "诅咒" },
             {nameof(AttributeEnum.CritRate), "暴击率" },
             {nameof(AttributeEnum.CritDamage), "暴伤加成" },
             {nameof(AttributeEnum.CritRateResist), "抗暴率" },
@@ -73,6 +75,16 @@ namespace Game
             {nameof(AttributeEnum.AurasDamageIncrea), "最终增伤" },
             {nameof(AttributeEnum.AurasDamageResist), "最终减伤" },
             {nameof(AttributeEnum.AurasAttrIncrea), "最终攻击" },
+
+            {nameof(AttributeEnum.RateHp), "生命增幅" },
+            {nameof(AttributeEnum.RateDef), "防御增幅" },
+            {nameof(AttributeEnum.RateaAtk), "攻击增幅" },
+            {nameof(AttributeEnum.RatePhyAtk), "物攻增幅" },
+            {nameof(AttributeEnum.RateMagicAtk), "魔击增幅" },
+            {nameof(AttributeEnum.RateSpiritAtk), "道攻增幅" },
+            {nameof(AttributeEnum.RatePhyDamage), "物伤增幅" },
+            {nameof(AttributeEnum.RateMagicDamage), "魔伤增幅" },
+            {nameof(AttributeEnum.RateSpiritDamage), "道伤增幅" },
 
             //{nameof(AttributeEnum.PanelAtt), "最终攻击" },
             //{nameof(AttributeEnum.PanelDef),"最终防御" },

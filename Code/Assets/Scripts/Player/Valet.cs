@@ -22,10 +22,6 @@ namespace Game
             this.RuleType = player.RuleType;
 
             this.Init();
-
-            User user = GameProcessor.Inst.User;
-
-            user.EventCenter.AddListener<HeroUpdateSkillEvent>(OnHeroUpdateAllSkillEvent);
         }
 
         private void Init()
@@ -63,7 +59,7 @@ namespace Game
 
             //Debug.Log("base attr " + roleAttr + " roleHp" + roleHp + "def " + roleDef);
 
-            double InheritIncrea = 1 ;
+            double InheritIncrea = 1;
             double InheritAdvance = 1;
             double valteHp = 1 + this.Master.AttributeBonus.GetAttackAttr(AttributeEnum.SkillValetHp) / 100.0; //无极属性
 
@@ -81,7 +77,7 @@ namespace Game
 
             this.AttributeBonus = new AttributeBonus();
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, roleHp * valteHp * InheritIncrea * InheritAdvance * skillRate * ModelConfig.HpRate / 100.0);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroPanel, roleAttr * InheritIncrea * InheritAdvance * skillRate * ModelConfig.AttrRate / 100.0);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroPanel, roleAttr * InheritIncrea * InheritAdvance * skillRate * ModelConfig.AttrRate / 100.0);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroPanel, roleAttr * InheritIncrea * InheritAdvance * skillRate * ModelConfig.AttrRate / 100.0);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroPanel, roleAttr * InheritIncrea * InheritAdvance * skillRate * ModelConfig.AttrRate / 100.0);
             AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, roleDef * ModelConfig.DefRate / 100.0); //降低50%继承
@@ -111,7 +107,6 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritDamage));
 
             AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MulDamageIncrea) * InheritAdvance); //白虎增伤继承无极倍率
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.CalMulDamageResistAttack());
 
             AttributeBonus.SetAttr(AttributeEnum.DefIgnore, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefIgnore));
             AttributeBonus.SetAttr(AttributeEnum.DefendRate, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefendRate));
@@ -273,15 +268,7 @@ namespace Game
             }
         }
 
-        private void SetSkill12()
-        {
 
-        }
-
-        private void OnHeroUpdateAllSkillEvent(HeroUpdateSkillEvent e)
-        {
-            this.SetSkill();
-        }
 
         //public override APlayer CalcEnemy()
         //{

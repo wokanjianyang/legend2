@@ -34,25 +34,24 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
             AttributeEnum.AttIncrea, AttributeEnum.HpIncrea, AttributeEnum.DefIncrea,
             AttributeEnum.PhyAttIncrea, AttributeEnum.MagicAttIncrea, AttributeEnum.SpiritAttIncrea,
             AttributeEnum.MoveSpeed, AttributeEnum.DefIgnore,
-            AttributeEnum.AurasDamageIncrea,   AttributeEnum.AurasDamageResist,AttributeEnum.AurasAttrIncrea,
 
             //AttributeEnum.PanelHp, AttributeEnum.PanelAtt, AttributeEnum.PanelDef,
-            AttributeEnum.PhyDamage,  AttributeEnum.MulPhyDamageRise,
-            AttributeEnum.MagicDamage,AttributeEnum.MulMagicDamageRise,
-            AttributeEnum.SpiritDamage,AttributeEnum.MulSpiritDamageRise,
+            //AttributeEnum.PhyDamage,  AttributeEnum.MulPhyDamageRise,
+            //AttributeEnum.MagicDamage,AttributeEnum.MulMagicDamageRise,
+            //AttributeEnum.SpiritDamage,AttributeEnum.MulSpiritDamageRise,
 
-            AttributeEnum.MulAttr, AttributeEnum.MulHp, AttributeEnum.MulDef,
-            AttributeEnum.MulAttrPhy, AttributeEnum.MulAttrMagic, AttributeEnum.MulAttrSpirit,
+            //AttributeEnum.MulAttr, AttributeEnum.MulHp, AttributeEnum.MulDef,
+            //AttributeEnum.MulAttrPhy, AttributeEnum.MulAttrMagic, AttributeEnum.MulAttrSpirit,
 
-            AttributeEnum.MulDamageIncrea, AttributeEnum.MulDamageResist,
+            //AttributeEnum.MulDamageIncrea, AttributeEnum.MulDamageResist,
 
-            AttributeEnum.BurstMul, AttributeEnum.RateExp, AttributeEnum.RateGold,
-            AttributeEnum.RateBurst, AttributeEnum.RateQuality,
+            //AttributeEnum.BurstMul, AttributeEnum.RateExp, AttributeEnum.RateGold,
+            //AttributeEnum.RateBurst, AttributeEnum.RateQuality,
 
-            AttributeEnum.Strong,AttributeEnum.StrongMul,
-            AttributeEnum.SecondExp,AttributeEnum.SecondExp,
-            AttributeEnum.CritDamage,AttributeEnum.CritRateResist,
-            AttributeEnum.Shatter,  AttributeEnum.SpiritAll,
+            //AttributeEnum.Strong,AttributeEnum.StrongMul,
+            //AttributeEnum.SecondExp,AttributeEnum.SecondExp,
+            //AttributeEnum.CritDamage,AttributeEnum.CritRateResist,
+            //AttributeEnum.Shatter,  AttributeEnum.SpiritAll,
         };
 
         for (int i = 0; i < items.Length; i++)
@@ -63,7 +62,7 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
                 item.gameObject.SetActive(true);
 
                 AttributeEnum attrId = list[i];
-                item.SetContent((int)attrId, user.AttributeBonus.GetBaseAttr(attrId));
+                item.SetContent((int)attrId, user.AttributeBonus.CalBaseAttr(attrId));
             }
             else
             {

@@ -78,10 +78,10 @@ namespace Game
                     runeConfig = SkillRuneConfigCategory.Instance.Get(runeId);
                 }
 
-                if (suitId <= 0 && quality >= 4)
-                {
-                    suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
-                }
+                //if (suitId <= 0 && quality >= 4)
+                //{
+                //    suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
+                //}
             }
 
             int dhId = 0;
@@ -110,11 +110,11 @@ namespace Game
 
             SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.GetExclusiveRune(quality, seed);
 
-            if (runeConfig != null)
-            {
-                runeId = runeConfig.Id;
-                suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
-            }
+            //if (runeConfig != null)
+            //{
+            //    runeId = runeConfig.Id;
+            //    suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
+            //}
 
             //if (quality == 7)
             //{
@@ -150,14 +150,14 @@ namespace Game
             {
                 runeId = runeConfig.Id;
 
-                if (runeConfig.SkillId == 0)
-                {
-                    suitId = SkillSuitConfigCategory.Instance.GetSuitIdBySkillLayer(runeConfig.SkillLayer);
-                }
-                else
-                {
-                    suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
-                }
+                //if (runeConfig.SkillId == 0)
+                //{
+                //    suitId = SkillSuitConfigCategory.Instance.GetSuitIdBySkillLayer(runeConfig.SkillLayer);
+                //}
+                //else
+                //{
+                //    suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
+                //}
             }
 
             //if (quality == 7)

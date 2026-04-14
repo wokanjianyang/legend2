@@ -200,7 +200,7 @@ namespace Game
 
             AttributeEnum[] list = new AttributeEnum[] {
             AttributeEnum.HP, AttributeEnum.Def
-            ,AttributeEnum.PhyAtt,  AttributeEnum.MagicAtt
+            ,AttributeEnum.PhyAtk,  AttributeEnum.MagicAtt
             ,AttributeEnum.SpiritAtt, AttributeEnum.Lucky
             ,AttributeEnum.DamageIncrea,   AttributeEnum.DamageResist
             ,AttributeEnum.CritRate,  AttributeEnum.CritDamage
@@ -890,29 +890,29 @@ namespace Game
                     newList.Add(item);
                 }
 
-                foreach (var kv in oldExclusive.LevelDict)
-                {
-                    int runeId = kv.Key;
-                    int runeLevel = kv.Value;
-                    SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.Get(runeId);
-                    int suitId = SkillSuitHelper.RandomSuit(0, runeConfig.SkillId, runeConfig.Type).Id;
+                //foreach (var kv in oldExclusive.LevelDict)
+                //{
+                //    int runeId = kv.Key;
+                //    int runeLevel = kv.Value;
+                //    SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.Get(runeId);
+                //    int suitId = SkillSuitHelper.RandomSuit(0, runeConfig.SkillId, runeConfig.Type).Id;
 
-                    for (int i = 0; i < runeLevel; i++)
-                    {
-                        ExclusiveItem item = new ExclusiveItem(oldExclusive.ConfigId, runeId, suitId, oldExclusive.Quality, oldExclusive.DoubleHitId);
-                        item.Count = 1;
-                        newList.Add(item);
-                    }
+                //    for (int i = 0; i < runeLevel; i++)
+                //    {
+                //        ExclusiveItem item = new ExclusiveItem(oldExclusive.ConfigId, runeId, suitId, oldExclusive.Quality, oldExclusive.DoubleHitId);
+                //        item.Count = 1;
+                //        newList.Add(item);
+                //    }
 
-                    int[] ItemIdList = new int[] { ItemHelper.SpecialId_Exclusive_Stone, ItemHelper.SpecialId_Exclusive_Heart };
-                    int[] ItemCountList = new int[] { 50, 5 };
+                //    int[] ItemIdList = new int[] { ItemHelper.SpecialId_Exclusive_Stone, ItemHelper.SpecialId_Exclusive_Heart };
+                //    int[] ItemCountList = new int[] { 50, 5 };
 
-                    for (int i = 0; i < ItemIdList.Length; i++)
-                    {
-                        Item item = ItemHelper.BuildMaterial(ItemIdList[i], ItemCountList[i] * runeLevel);
-                        newList.Add(item);
-                    }
-                }
+                //    for (int i = 0; i < ItemIdList.Length; i++)
+                //    {
+                //        Item item = ItemHelper.BuildMaterial(ItemIdList[i], ItemCountList[i] * runeLevel);
+                //        newList.Add(item);
+                //    }
+                //}
 
                 if (haveCount < newList.Count)
                 {

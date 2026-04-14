@@ -60,7 +60,7 @@ namespace Game
             this.SetMoveSpeed((int)(Master.AttributeBonus.GetTotalAttr(AttributeEnum.MoveSpeed)));
 
             double magicAtt = Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MagicAtt);
-            double phyAtt = Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.PhyAtt);
+            double phyAtt = Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.PhyAtk);
             double spiritAtt = Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritAtt);
 
             if (this.RuleType == RuleType.Myth)
@@ -70,7 +70,7 @@ namespace Game
 
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, Master.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
 
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroPanel, phyAtt * 0.5);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroPanel, phyAtt * 0.5);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroPanel, magicAtt * rate);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroPanel, spiritAtt * 0.5);
 

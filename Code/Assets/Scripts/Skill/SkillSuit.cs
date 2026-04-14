@@ -46,21 +46,21 @@ namespace Game
             this.Row = SkillSuitConfig.Row;
             this.Column = SkillSuitConfig.Column;
 
-            this.IgnoreDef = SkillSuitConfig.IgnoreDef;
-            this.CritRate = SkillSuitConfig.CritRate;
-            this.CritDamage = SkillSuitConfig.CritDamage;
-            this.DamageIncrea = SkillSuitConfig.DamageIncrea;
+            //this.IgnoreDef = SkillSuitConfig.IgnoreDef;
+            //this.CritRate = SkillSuitConfig.CritRate;
+            //this.CritDamage = SkillSuitConfig.CritDamage;
+            //this.DamageIncrea = SkillSuitConfig.DamageIncrea;
 
-            this.AttrIncrea = SkillSuitConfig.AttrIncrea;
-            this.FinalIncrea = SkillSuitConfig.FinalIncrea;
-            this.InheritIncrea = SkillSuitConfig.InheritIncrea;
+            //this.AttrIncrea = SkillSuitConfig.AttrIncrea;
+            //this.FinalIncrea = SkillSuitConfig.FinalIncrea;
+            //this.InheritIncrea = SkillSuitConfig.InheritIncrea;
 
-            this.PercentRate = SkillSuitConfig.PercentRate;
-            //this.Center = SkillSuitConfig.Center;
+            //this.PercentRate = SkillSuitConfig.PercentRate;
+            ////this.Center = SkillSuitConfig.Center;
 
-            this.EffectId = SkillSuitConfig.EffectId;
-            this.Accuracy = SkillSuitConfig.Accuracy;
-            this.Miss = SkillSuitConfig.Miss;
+            //this.EffectId = SkillSuitConfig.EffectId;
+            //this.Accuracy = SkillSuitConfig.Accuracy;
+            //this.Miss = SkillSuitConfig.Miss;
         }
     }
 }

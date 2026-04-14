@@ -33,6 +33,10 @@ namespace Game
 
         public int CritRate { get; } //暴击率
         public int CritDamage { get; } //暴击倍率
+
+        public int DeadlyRate { get; } //致命率
+        public int DeadlyDamage { get; } //致命倍率
+
         public int DamageIncrea { get; } //伤害加成
         public int AttrIncrea { get; } //攻击加成
 
@@ -206,7 +210,7 @@ namespace Game
             this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis;
             this.EnemyMax += skillData.SkillConfig.EnemyMax + runeEnemyMax + suitEnemyMax;
             this.CD += Math.Max(skillData.SkillConfig.CD - runeCD - suitCD, 0);
-            this.Rate = skillData.SkillConfig.Rate;
+            this.Rate = 1;
             this.Duration = skillData.SkillConfig.Duration + runeDuration + suitDuration;
 
             this.Row = skillData.SkillConfig.Row + runeRow + suitRow;
@@ -270,11 +274,7 @@ namespace Game
 
                     EffectConfig effectConfig = EffectConfigCategory.Instance.Get(effectId);
 
-                    if (effectConfig.LevelRise > 0)
-                    {
-                        percent += this.Percent;
-                        duration += this.Duration;
-                    }
+
 
                     if (effectId > 0 && !EffectIdList.ContainsKey(effectId)) //不能叠加
                     {

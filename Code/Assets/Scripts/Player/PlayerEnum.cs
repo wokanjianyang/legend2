@@ -1,4 +1,4 @@
-using Sirenix.OdinInspector;
+ï»¿using Sirenix.OdinInspector;
 
 namespace Game
 {
@@ -6,228 +6,230 @@ namespace Game
     {
 
 
-        //------------------¼õÒæ------------------------------
-        decreMulHp = -10001, //ÉúÃü¼õÉÙ±¶ÂÊ
-        decreMulDef = -10002, //·ÀÓù¼õÉÙ±¶ÂÊ
-        decreMulAtk = -10003, //¹¥»÷¼õÉÙ±¶ÂÊ
+        //------------------å‡ç›Š------------------------------
+        decreMulHp = -10001, //ç”Ÿå‘½å‡å°‘å€ç‡
+        decreMulDef = -10002, //é˜²å¾¡å‡å°‘å€ç‡
+        decreMulAtk = -10003, //æ”»å‡»å‡å°‘å€ç‡
 
-        decreExtraDamage = -10029, //¶îÍâ³ĞÉË±¶ÂÊ
+        decreExtraDamage = -10029, //é¢å¤–æ‰¿ä¼¤å€ç‡
 
-        decreHp = -1, //×ÆÉÕÁ÷ÑªÉËº¦
-        //------------------»ù´¡------------------------------
+        decreHp = -1, //ç¼çƒ§æµè¡€ä¼¤å®³
+        //------------------åŸºç¡€------------------------------
 
-        HP = 1, //ÉúÃüÖµ
-        Def = 2, //·ÀÓù
+        HP = 1, //ç”Ÿå‘½å€¼
+        Def = 2, //é˜²å¾¡
 
-        Attr = 3, //È«Ïµ¹¥
-        PhyAtt = 4, //ÎïÀí¹¥»÷
-        MagicAtt = 5,//Ä§·¨¹¥»÷
-        SpiritAtt = 6, //µÀÊõ¹¥»÷
+        Attr = 3, //å…¨ç³»æ”»
+        PhyAtk = 4, //ç‰©ç†æ”»å‡»
+        MagicAtt = 5,//é­”æ³•æ”»å‡»
+        SpiritAtt = 6, //é“æœ¯æ”»å‡»
 
-        Speed = 11, //¹¥ËÙ
-        MoveSpeed = 12, //ÒÆ¶¯ËÙ¶È
-        Lucky = 13, //ĞÒÔË
-        Accuracy = 14, //ÃüÖĞ
-        Miss = 15, //ÉÁ±Ü
+        Speed = 11, //æ”»é€Ÿ
+        MoveSpeed = 12, //ç§»åŠ¨é€Ÿåº¦
+        Lucky = 13, //å¹¸è¿
+        Curseâ€Œ = 14, //è¯…å’’
+        Accuracy = 15, //å‘½ä¸­
+        Miss = 16, //é—ªé¿
 
-        CritRate = 21, //±©»÷ÂÊ
-        CritDamage = 22, //±©º¦Ôö¼Ó
-        DeadlyRate = 23, //ÖÂÃüÂÊ¼Ó³É
-        DeadlyDamage = 24, //ÖÂÃüÉËº¦¼Ó³É
-        CritRateResist = 25, //¿¹±©
-        CritDamageResist = 26, //±¬ÉË¼õÃâ
-        DamageIncrea = 27, //ÉËº¦Ôö¼Ó
-        DamageResist = 28, //ÉËº¦¼õÉÙ
-        ExtraDamage = 29,//Ò×ÉË¶îÍâÉËº¦
+        CritRate = 21, //æš´å‡»ç‡
+        CritDamage = 22, //æš´å®³å¢åŠ 
+        DeadlyRate = 23, //è‡´å‘½ç‡åŠ æˆ
+        DeadlyDamage = 24, //è‡´å‘½ä¼¤å®³åŠ æˆ
+        CritRateResist = 25, //æŠ—æš´
+        CritDamageResist = 26, //çˆ†ä¼¤å‡å…
+        DamageIncrea = 27, //ä¼¤å®³å¢åŠ 
+        DamageResist = 28, //ä¼¤å®³å‡å°‘
+        ExtraDamage = 29,//æ˜“ä¼¤é¢å¤–ä¼¤å®³
 
-        Strong = 41,//ÈÍĞÔ
-        Shatter = 42, //ÆÆÈÍ
-        Parry = 43,//¸ñµ²
-
-        DefIgnore = 51,//ÎŞÊÓ·ÀÓù
-        Protect = 52,//ÃâÒß
-        BurstMul = 53,//Á¬±¬
-        Miss2 = 54,//¶ş´ÎÉÁ±Ü
+        PhyDamage = 31, //ç‰©ä¼¤åŠ æˆ
+        MagicDamage = 32,//é­”ä¼¤åŠ æˆ
+        SpiritDamage = 33, //é“ä¼¤åŠ æˆ
 
 
-        SecondExp = 61, //Ã¿Ãë¾­ÑéÊÕÒæ
-        SecondGold = 62, //Ã¿Ãë½ğ±ÒÊÕÒæ
-        RestoreHp = 63, //¹Ì¶¨»ØÑªÊıÖµ
-        RestoreHpPercent = 64,//°Ù·Ö±È»ØÑªÊıÖµ
+        Strong = 41,//éŸ§æ€§
+        Shatter = 42, //ç ´éŸ§
+        Parry = 43,//æ ¼æŒ¡
+
+        DefIgnore = 51,//æ— è§†é˜²å¾¡
+        Protect = 52,//å…ç–«
+        BurstMul = 53,//è¿çˆ†
+        Miss2 = 54,//äºŒæ¬¡é—ªé¿
 
 
-        WarriorSkillPercent = 71, //Õ½Ê¿¼¼ÄÜ°Ù·Ö±ÈÏµÊı
-        WarriorSkillDamage = 72, //Õ½Ê¿¼¼ÄÜ¹Ì¶¨ÏµÊı
-        MageSkillPercent = 73, //·¨Ê¦¼¼ÄÜ°Ù·Ö±ÈÏµÊı
-        MageSkillDamage = 74, //·¨Ê¦¼¼ÄÜ¹Ì¶¨ÏµÊı
-        WarlockSkillPercent = 75, //µÀÊ¿¼¼ÄÜ°Ù·Ö±ÈÏµÊı
-        WarlockSkillDamage = 76, //µÀÊ¿¼¼ÄÜ¹Ì¶¨ÏµÊı
-        SkillDeadlyRate = 77,  //¼¼ÄÜÖÂÃüÂÊ
-        SkillDeadlyDamage = 78, //¼¼ÄÜÖÂÃüÉËº¦
-        SkillFinalDamage = 79, //¼¼ÄÜÖÕÉË
-
-        ExpIncrea = 81, //¾­Ñé¼Ó³É
-        GoldIncrea = 82, //½ğ±Ò¼Ó³É
-        BurstIncrea = 83, //±¬ÂÊ¼Ó³É
-        QualityIncrea = 84,//Æ·ÖÊ¼Ó³É
-
-        SpiritAll = 95,//Ó¢ÁéÈ«ÊôĞÔ
-        EquipBaseIncrea = 101, //×°±¸»ù´¡ÊôĞÔ°Ù·Ö±È
-        EquipRandomIncrea = 102, //×°±¸Ëæ»úÊôĞÔ°Ù·Ö±È
-        EquipStrengthIncrea = 103, //×°±¸Ç¿»¯ÊôĞÔ°Ù·Ö±È
-
-        //------------------¼Ó³É------------------------------
-        HpIncrea = 1001, //ÉúÃü¼Ó³É
-        DefIncrea = 1002,//·ÀÓù¼Ó³É
-
-        AttIncrea = 1003, //¹¥»÷¼Ó³É
-        PhyAttIncrea = 1004, //ÎïÀí¹¥»÷¼Ó³É
-        MagicAttIncrea = 1005,//Ä§·¨¹¥»÷¼Ó³É
-        SpiritAttIncrea = 1006, //µÀÊõ¹¥»÷¼Ó³É
-
-        PhyDamage = 1007, //ÎïÉË¼Ó³É
-        MagicDamage = 1008,//Ä§ÉË¼Ó³É
-        SpiritDamage = 1009, //µÀÉË¼Ó³É
-
-        IncreaLucky = 1013,//ĞÒÔË¼Ó³É
-        //IncreaAccuracy = 1014, //ÃüÖĞ¼Ó³É
-        //IncreaMiss = 1015, //ÉÁ±Ü¼Ó³É
-
-        IncreaCrit = 2021,//±©»÷¼Ó³É
-        IncreaDamage = 2022, //±¬ÉË¼Ó³É
-        IncreaDeadly = 2023, //ÖÂÃüÂÊ¼Ó³É
-        IncreaDeadlyDamage = 2024, //ÖÂÃüÉËº¦¼Ó³É
-
-        //------------------Ôö·ù------------------------------
-        RateHp = 2001, //ÉúÃüÔö·ù
-        RateDef = 2002,//·ÀÓùÔö·ù
-        RateaAtk = 2003, //¹¥»÷Ôö·ù
-
-        RatePhyAtk = 2004, //ÎïÀí¹¥»÷Ôö·ù
-        RateMagicAtkIncrea = 2005,//Ä§·¨¹¥»÷Ôö·ù
-        RateSpiritAtkIncrea = 2006, //µÀÊõ¹¥»÷Ôö·ù
-
-        RatePhyDamage = 2007, //ÎïÉËÔö·ù
-        RateMagicDamage = 2008,//Ä§ÉËÔö·ù
-        RateSpiritDamage = 2009, //µÀÉËÔö·ù
-
-        RateLucky = 2013, //ĞÒÔËÔö·ù
-        //RateAccuracy = 2014, //ÃüÖĞÔö·ù
-        //RateMiss = 2015, //ÉÁ±ÜÔö·ù
-
-        RateCrit = 2021,//±©»÷Ôö·ù
-        RateCritDamage = 2022, //±¬ÉËÔö·ù
-        RateDeadly = 2023, //ÖÂÃüÂÊÔö·ù
-        RateDeadlyDamage = 2024, //ÖÂÃüÉËº¦Ôö·ù
-
-        //RateDamageIncrea = 27, //ÉËº¦Ôö¼ÓÔö·ù
-        //RateDamageResist = 28, //ÉËº¦¼õÉÙÔö·ù
-
-        RateExp = 2081, //¾­ÑéÔö·ù
-        RateGold = 2082, //½ğ±ÒÔö·ù
-        RateBurst = 2083, //±¬ÂÊÔö·ù
-        RateQuality = 2084, //Æ·ÖÊÔö·ù
+        SecondExp = 61, //æ¯ç§’ç»éªŒæ”¶ç›Š
+        SecondGold = 62, //æ¯ç§’é‡‘å¸æ”¶ç›Š
+        RestoreHp = 63, //å›ºå®šå›è¡€æ•°å€¼
+        RestoreHpPercent = 64,//ç™¾åˆ†æ¯”å›è¡€æ•°å€¼
 
 
-        //------------------±¶ÂÊ------------------------------
-        MulHp = 10001,  //ÉúÃü±¶ÂÊ
-        MulDef = 10002,  //·ÀÓù±¶ÂÊ
-        MulAttr = 10003,  //¹¥»÷±¶ÂÊ
+        WarriorSkillPercent = 71, //æˆ˜å£«æŠ€èƒ½ç™¾åˆ†æ¯”ç³»æ•°
+        WarriorSkillDamage = 72, //æˆ˜å£«æŠ€èƒ½å›ºå®šç³»æ•°
+        MageSkillPercent = 73, //æ³•å¸ˆæŠ€èƒ½ç™¾åˆ†æ¯”ç³»æ•°
+        MageSkillDamage = 74, //æ³•å¸ˆæŠ€èƒ½å›ºå®šç³»æ•°
+        WarlockSkillPercent = 75, //é“å£«æŠ€èƒ½ç™¾åˆ†æ¯”ç³»æ•°
+        WarlockSkillDamage = 76, //é“å£«æŠ€èƒ½å›ºå®šç³»æ•°
+        SkillDeadlyRate = 77,  //æŠ€èƒ½è‡´å‘½ç‡
+        SkillDeadlyDamage = 78, //æŠ€èƒ½è‡´å‘½ä¼¤å®³
+        SkillFinalDamage = 79, //æŠ€èƒ½ç»ˆä¼¤
 
-        MulAttrPhy = 10004, //Îï¹¥±¶ÂÊ
-        MulAttrMagic = 10005,  //·¨¹¦±¶ÂÊ
-        MulAttrSpirit = 10006,  //µÀÊõ±¶ÂÊ
+        ExpIncrea = 81, //ç»éªŒåŠ æˆ
+        GoldIncrea = 82, //é‡‘å¸åŠ æˆ
+        BurstIncrea = 83, //çˆ†ç‡åŠ æˆ
+        QualityIncrea = 84,//å“è´¨åŠ æˆ
 
-        MulPhyDamageRise = 10007, //ÎïÉË±¶ÂÊ
-        MulMagicDamageRise = 10008, //·¨ÉË±¶ÂÊ
-        MulSpiritDamageRise = 10009, //Ä§ÉË±¶ÂÊ
+        SpiritAll = 95,//è‹±çµå…¨å±æ€§
+        EquipBaseIncrea = 101, //è£…å¤‡åŸºç¡€å±æ€§ç™¾åˆ†æ¯”
+        EquipRandomIncrea = 102, //è£…å¤‡éšæœºå±æ€§ç™¾åˆ†æ¯”
+        EquipStrengthIncrea = 103, //è£…å¤‡å¼ºåŒ–å±æ€§ç™¾åˆ†æ¯”
 
-        MulDamageIncrea = 10027,  //ÔöÉË±¶ÂÊ
-        MulDamageResist = 10028, //¼õÉË±¶ÂÊ
+        //------------------åŠ æˆ------------------------------
+        HpIncrea = 1001, //ç”Ÿå‘½åŠ æˆ
+        DefIncrea = 1002,//é˜²å¾¡åŠ æˆ
 
-        StrongMul = 10041,//ÈÍĞÔ±¶ÂÊ
-        //ShatterMul = 10042,//ÆÆÈÍ±¶ÂÊ
+        AttIncrea = 1003, //æ”»å‡»åŠ æˆ
+        PhyAttIncrea = 1004, //ç‰©ç†æ”»å‡»åŠ æˆ
+        MagicAttIncrea = 1005,//é­”æ³•æ”»å‡»åŠ æˆ
+        SpiritAttIncrea = 1006, //é“æœ¯æ”»å‡»åŠ æˆ
 
-        //--·ÏÆú
-        MonsterFaster = 107,//¸±Ë¢ĞÂËÙ¶È¼Ó¿ì
-        MetailFinal = 109, //ÍÚ¿ó
-        SoulPercent = 110, //Á¶»ê¶áÆÇ
-        Talent = 111, //Ìì¸³µã
-        DefendRate = 112, //·ÀÓùÏµÊı
-        SpRate = 113,//»¤¶Ü¹Ì·À
-        RealHpDamage = 114,//ÕæÊµÑªÁ¿ÉËº¦
-        RealMulDamageResist = 115, //Òç³ö¼õÉËµü´ú¼ÆËã
-        RealCritRate = 116,//Òç³ö±©»÷×ªÎªÉËº¦¼Ó³É
-        LuckyHit = 117, //ÇàÁúÖ®Á¦-ĞÒÔËÒ»»÷
-        Relic2 = 118, //ÉñÆ÷2
-        Relic3 = 119, //ÉñÆ÷2
-        Relic4 = 120, //ÉñÆ÷2
-        Relic5 = 121, //ÉñÆ÷2
-        RelicRise = 122, //ËùÓĞÉñÆ÷µÈ¼¶+1
+        IncreaLucky = 1013,//å¹¸è¿åŠ æˆ
+        //IncreaAccuracy = 1014, //å‘½ä¸­åŠ æˆ
+        //IncreaMiss = 1015, //é—ªé¿åŠ æˆ
 
-        AurasDamageResist = 201, //¹â»·¼õÉË
-        AurasDamageIncrea = 202, //¹â»·ÔöÉË
+        IncreaCrit = 1021,//æš´å‡»åŠ æˆ
+        IncreaDamage = 1022, //çˆ†ä¼¤åŠ æˆ
+        IncreaDeadly = 1023, //è‡´å‘½ç‡åŠ æˆ
+        IncreaDeadlyDamage = 1024, //è‡´å‘½ä¼¤å®³åŠ æˆ
+
+        //------------------å¢å¹…------------------------------
+        RateHp = 2001, //ç”Ÿå‘½å¢å¹…
+        RateDef = 2002,//é˜²å¾¡å¢å¹…
+        RateaAtk = 2003, //æ”»å‡»å¢å¹…
+
+        RatePhyAtk = 2004, //ç‰©ç†æ”»å‡»å¢å¹…
+        RateMagicAtk = 2005,//é­”æ³•æ”»å‡»å¢å¹…
+        RateSpiritAtk = 2006, //é“æœ¯æ”»å‡»å¢å¹…
+
+        RatePhyDamage = 2007, //ç‰©ä¼¤å¢å¹…
+        RateMagicDamage = 2008,//é­”ä¼¤å¢å¹…
+        RateSpiritDamage = 2009, //é“ä¼¤å¢å¹…
+
+        RateLucky = 2013, //å¹¸è¿å¢å¹…
+        //RateAccuracy = 2014, //å‘½ä¸­å¢å¹…
+        //RateMiss = 2015, //é—ªé¿å¢å¹…
+
+        RateCrit = 2021,//æš´å‡»å¢å¹…
+        RateCritDamage = 2022, //çˆ†ä¼¤å¢å¹…
+        RateDeadly = 2023, //è‡´å‘½ç‡å¢å¹…
+        RateDeadlyDamage = 2024, //è‡´å‘½ä¼¤å®³å¢å¹…
+
+        //RateDamageIncrea = 27, //ä¼¤å®³å¢åŠ å¢å¹…
+        //RateDamageResist = 28, //ä¼¤å®³å‡å°‘å¢å¹…
+
+        RateExp = 2081, //ç»éªŒå¢å¹…
+        RateGold = 2082, //é‡‘å¸å¢å¹…
+        RateBurst = 2083, //çˆ†ç‡å¢å¹…
+        RateQuality = 2084, //å“è´¨å¢å¹…
+
+
+        //------------------å€ç‡------------------------------
+        MulHp = 10001,  //ç”Ÿå‘½å€ç‡
+        MulDef = 10002,  //é˜²å¾¡å€ç‡
+        MulAttr = 10003,  //æ”»å‡»å€ç‡
+
+        MulAttrPhy = 10004, //ç‰©æ”»å€ç‡
+        MulAttrMagic = 10005,  //æ³•åŠŸå€ç‡
+        MulAttrSpirit = 10006,  //é“æœ¯å€ç‡
+
+        MulPhyDamageRise = 10007, //ç‰©ä¼¤å€ç‡
+        MulMagicDamageRise = 10008, //æ³•ä¼¤å€ç‡
+        MulSpiritDamageRise = 10009, //é­”ä¼¤å€ç‡
+
+        MulDamageIncrea = 10027,  //å¢ä¼¤å€ç‡
+        MulDamageResist = 10028, //å‡ä¼¤å€ç‡
+
+        StrongMul = 10041,//éŸ§æ€§å€ç‡
+        //ShatterMul = 10042,//ç ´éŸ§å€ç‡
+
+        //--åºŸå¼ƒ
+        MonsterFaster = 107,//å‰¯åˆ·æ–°é€Ÿåº¦åŠ å¿«
+        MetailFinal = 109, //æŒ–çŸ¿
+        SoulPercent = 110, //ç‚¼é­‚å¤ºé­„
+        Talent = 111, //å¤©èµ‹ç‚¹
+        DefendRate = 112, //é˜²å¾¡ç³»æ•°
+        SpRate = 113,//æŠ¤ç›¾å›ºé˜²
+        RealHpDamage = 114,//çœŸå®è¡€é‡ä¼¤å®³
+        RealMulDamageResist = 115, //æº¢å‡ºå‡ä¼¤è¿­ä»£è®¡ç®—
+        RealCritRate = 116,//æº¢å‡ºæš´å‡»è½¬ä¸ºä¼¤å®³åŠ æˆ
+        LuckyHit = 117, //é’é¾™ä¹‹åŠ›-å¹¸è¿ä¸€å‡»
+        Relic2 = 118, //ç¥å™¨2
+        Relic3 = 119, //ç¥å™¨2
+        Relic4 = 120, //ç¥å™¨2
+        Relic5 = 121, //ç¥å™¨2
+        RelicRise = 122, //æ‰€æœ‰ç¥å™¨ç­‰çº§+1
+
+        AurasDamageResist = 201, //å…‰ç¯å‡ä¼¤
+        AurasDamageIncrea = 202, //å…‰ç¯å¢ä¼¤
         AurasAttrIncrea = 203,//
 
-        SkillUpCount = 301, //¼¼ÄÜÀ¸³öÕ½ÊıÁ¿
-        SkillPhyDamage = 302, //ÎïÀíÉËº¦
-        SkillMagicDamage = 303,//Ä§·¨ÉËº¦
-        SkillSpiritDamage = 304, //µÀÊõÉËº¦
-        SkillAllDamage = 305, //ËùÓĞÉËº¦¼Ó³É
-        SkillValetCount = 306, //ÕÙ»½ÊıÁ¿+1
-        SkillValetSpeed = 307, //¹¥»÷ËÙ¶È
-        SkillValetHp = 308, //ÉúÃü¼Ó³É
+        SkillUpCount = 301, //æŠ€èƒ½æ å‡ºæˆ˜æ•°é‡
+        SkillPhyDamage = 302, //ç‰©ç†ä¼¤å®³
+        SkillMagicDamage = 303,//é­”æ³•ä¼¤å®³
+        SkillSpiritDamage = 304, //é“æœ¯ä¼¤å®³
+        SkillAllDamage = 305, //æ‰€æœ‰ä¼¤å®³åŠ æˆ
+        SkillValetCount = 306, //å¬å”¤æ•°é‡+1
+        SkillValetSpeed = 307, //æ”»å‡»é€Ÿåº¦
+        SkillValetHp = 308, //ç”Ÿå‘½åŠ æˆ
 
-        SkillDivine2010 = 12010, //·ÖÉíÉñ¼¼
-        SkillDivine3010 = 13010, //ÎŞ¼«Éñ¼¼
+        SkillDivine2010 = 12010, //åˆ†èº«ç¥æŠ€
+        SkillDivine3010 = 13010, //æ— æç¥æŠ€
 
 
-        PanelHp = 1001, //Ãæ°åÉúÃü
-        PanelPhyAtt = 1002, //Ãæ°åÎï¹¥
-        PanelMagicAtt = 1003, //Ãæ°åÄ§·¨
-        PanelSpiritAtt = 1004, //Ãæ°åµÀÊõ
-        PanelDef = 1005, //Ãæ°å·ÀÓù
-        PanelAtt = 1006,//Ãæ°å¹¥»÷
+        PanelHp = 11001, //é¢æ¿ç”Ÿå‘½
+        PanelPhyAtt = 11002, //é¢æ¿ç‰©æ”»
+        PanelMagicAtt = 11003, //é¢æ¿é­”æ³•
+        PanelSpiritAtt = 11004, //é¢æ¿é“æœ¯
+        PanelDef = 11005, //é¢æ¿é˜²å¾¡
+        PanelAtt = 11006,//é¢æ¿æ”»å‡»
 
 
     }
 
     /// <summary>
-    /// ÊôĞÔÀ´Ô´
+    /// å±æ€§æ¥æº
     /// </summary>
     public enum AttributeFrom
     {
-        HeroPanel = 0, //ÈËÎïÃæ°å×ÜÊôĞÔ
-        HeroBase = 1, //ÈËÎïÉı¼¶ÊôĞÔ
-        EquipBase = 2, //×°±¸»ù´¡ÊôĞÔ
-        EquiStrong = 3, //×°±¸Ç¿»¯ÊôĞÔ
-        Skill = 4,//¼¼ÄÜÔö·ù
-        Tower = 5,//ÎŞ¾¡Ëş
-        Phantom = 6,//»ÃÉñ
-        EquipSuit = 7, //×°±¸Ì××°
-        SoulRing = 8, //»ê»·
-        Auras = 9, //¹â»·
-        Achivement = 10, //³É¾Í
-        Exclusive = 11, //×¨Êô
-        Card = 12,//Í¼¼ø
-        Wing = 13, //³á°ò
-        Fashion = 14, //Ê±×°
-        EquipRed = 15, //×°±¸Ì××°
-        Halidom = 16, //ÒÅÎï
-        Metal = 17,//¿óÊ¯
-        Legacy = 18,//´«ÊÀ
-        Ring = 19,//ÌØ½ä
-        Cycle = 20,//×ªÉú
-        Pill = 21,//ĞŞÁ¶
-        SoulBone = 22, //»ê¹Ç
-        Talent = 23, //Ìì¸³
-        EquipReform = 24, //¸ÄÔì
-        Pet = 25,//³èÎï
-        Relic = 26,//ÉñÆ÷
-        Stone = 27,//±¦Ê¯
+        HeroPanel = 0, //äººç‰©é¢æ¿æ€»å±æ€§
+        HeroBase = 1, //äººç‰©å‡çº§å±æ€§
+        EquipBase = 2, //è£…å¤‡åŸºç¡€å±æ€§
+        EquiStrong = 3, //è£…å¤‡å¼ºåŒ–å±æ€§
+        Skill = 4,//æŠ€èƒ½å¢å¹…
+        Tower = 5,//æ— å°½å¡”
+        Phantom = 6,//å¹»ç¥
+        EquipSuit = 7, //è£…å¤‡å¥—è£…
+        SoulRing = 8, //é­‚ç¯
+        Auras = 9, //å…‰ç¯
+        Achivement = 10, //æˆå°±
+        Exclusive = 11, //ä¸“å±
+        Card = 12,//å›¾é‰´
+        Wing = 13, //ç¿…è†€
+        Fashion = 14, //æ—¶è£…
+        EquipRed = 15, //è£…å¤‡å¥—è£…
+        Halidom = 16, //é—ç‰©
+        Metal = 17,//çŸ¿çŸ³
+        Legacy = 18,//ä¼ ä¸–
+        Ring = 19,//ç‰¹æˆ’
+        Cycle = 20,//è½¬ç”Ÿ
+        Pill = 21,//ä¿®ç‚¼
+        SoulBone = 22, //é­‚éª¨
+        Talent = 23, //å¤©èµ‹
+        EquipReform = 24, //æ”¹é€ 
+        Pet = 25,//å® ç‰©
+        Relic = 26,//ç¥å™¨
+        Stone = 27,//å®çŸ³
         Pill2 = 28,
-        CardSpeical = 29,//°µ½ğÍ¼¼ø
-        FashionSpeical = 30,//°µ½ğÊ±×°
+        CardSpeical = 29,//æš—é‡‘å›¾é‰´
+        FashionSpeical = 30,//æš—é‡‘æ—¶è£…
         Pill3 = 31,
         PetSpeical = 32,
         Shengxiao = 33,
@@ -236,7 +238,7 @@ namespace Game
 
         Dingzhi = 98,
         /// <summary>
-        /// ²âÊÔÊôĞÔ
+        /// æµ‹è¯•å±æ€§
         /// </summary>
         Test = 99,
     }
@@ -260,129 +262,129 @@ namespace Game
 
     public enum SlotType
     {
-        [LabelText("ÎäÆ÷")]
-        ÎäÆ÷ = 1,
-        [LabelText("ÒÂ·ş")]
-        ÒÂ·ş = 2,
-        [LabelText("ÏîÁ´")]
-        ÏîÁ´ = 3,
-        [LabelText("Í·¿ø")]
-        Í·¿ø = 4,
-        [LabelText("×óÊÖïí")]
-        ×óÊÖïí = 5,
-        [LabelText("ÓÒÊÖïí")]
-        ÓÒÊÖïí = 6,
-        [LabelText("×ó½äÖ¸")]
-        ×ó½äÖ¸ = 7,
-        [LabelText("ÓÒ½äÖ¸")]
-        ÓÒ½äÖ¸ = 8,
-        [LabelText("Ñü´ø")]
-        Ñü´ø = 9,
-        [LabelText("Ğ¬×Ó")]
-        Ğ¬×Ó = 10,
-        [LabelText("¶·óÒ")]
-        ¶·óÒ = 11,
-        [LabelText("»¤¶Ü")]
-        »¤¶Ü = 12,
-        [LabelText("Éñ·û")]
-        Éñ·û = 13,
-        [LabelText("Ä§Ê¯")]
-        Ä§Ê¯ = 14,
+        [LabelText("æ­¦å™¨")]
+        æ­¦å™¨ = 1,
+        [LabelText("è¡£æœ")]
+        è¡£æœ = 2,
+        [LabelText("é¡¹é“¾")]
+        é¡¹é“¾ = 3,
+        [LabelText("å¤´ç›”")]
+        å¤´ç›” = 4,
+        [LabelText("å·¦æ‰‹é•¯")]
+        å·¦æ‰‹é•¯ = 5,
+        [LabelText("å³æ‰‹é•¯")]
+        å³æ‰‹é•¯ = 6,
+        [LabelText("å·¦æˆ’æŒ‡")]
+        å·¦æˆ’æŒ‡ = 7,
+        [LabelText("å³æˆ’æŒ‡")]
+        å³æˆ’æŒ‡ = 8,
+        [LabelText("è…°å¸¦")]
+        è…°å¸¦ = 9,
+        [LabelText("é‹å­")]
+        é‹å­ = 10,
+        [LabelText("æ–—ç¬ ")]
+        æ–—ç¬  = 11,
+        [LabelText("æŠ¤ç›¾")]
+        æŠ¤ç›¾ = 12,
+        [LabelText("ç¥ç¬¦")]
+        ç¥ç¬¦ = 13,
+        [LabelText("é­”çŸ³")]
+        é­”çŸ³ = 14,
 
-        [LabelText("×¨Êô1")]
-        ÉñÊ¥Å­Õ¶ = 15,
-        [LabelText("×¨Êô2")]
-        ÉñÊ¥ÊÉ»ê = 16,
-        [LabelText("×¨Êô3")]
-        ÉñÊ¥ÑªÒû = 17,
-        [LabelText("×¨Êô4")]
-        ÉñÊ¥ÍÀÁú = 18,
-        [LabelText("×¨Êô5")]
-        ÉñÊ¥ÒĞÌì = 19,
-        [LabelText("×¨Êô6")]
-        ÉñÊ¥ÃüÔË = 20,
+        [LabelText("ä¸“å±1")]
+        ç¥åœ£æ€’æ–© = 15,
+        [LabelText("ä¸“å±2")]
+        ç¥åœ£å™¬é­‚ = 16,
+        [LabelText("ä¸“å±3")]
+        ç¥åœ£è¡€é¥® = 17,
+        [LabelText("ä¸“å±4")]
+        ç¥åœ£å± é¾™ = 18,
+        [LabelText("ä¸“å±5")]
+        ç¥åœ£å€šå¤© = 19,
+        [LabelText("ä¸“å±6")]
+        ç¥åœ£å‘½è¿ = 20,
 
-        [LabelText("½ğÎäÆ÷")]
-        ½ğÎäÆ÷ = 21,
-        [LabelText("½ğÒÂ·ş")]
-        ½ğÒÂ·ş = 22,
-        [LabelText("½ğÏîÁ´")]
-        ½ğÏîÁ´ = 23,
-        [LabelText("½ğÍ·¿ø")]
-        ½ğÍ·¿ø = 24,
-        [LabelText("½ğ×óïí")]
-        ½ğ×óïí = 25,
-        [LabelText("½ğÓÒïí")]
-        ½ğÓÒïí = 26,
-        [LabelText("½ğ×ó½ä")]
-        ½ğ×ó½ä = 27,
-        [LabelText("½ğÓÒ½ä")]
-        ½ğÓÒ½ä = 28,
-        [LabelText("½ğÑü´ø")]
-        ½ğÑü´ø = 29,
-        [LabelText("½ğĞ¬×Ó")]
-        ½ğĞ¬×Ó = 30,
+        [LabelText("é‡‘æ­¦å™¨")]
+        é‡‘æ­¦å™¨ = 21,
+        [LabelText("é‡‘è¡£æœ")]
+        é‡‘è¡£æœ = 22,
+        [LabelText("é‡‘é¡¹é“¾")]
+        é‡‘é¡¹é“¾ = 23,
+        [LabelText("é‡‘å¤´ç›”")]
+        é‡‘å¤´ç›” = 24,
+        [LabelText("é‡‘å·¦é•¯")]
+        é‡‘å·¦é•¯ = 25,
+        [LabelText("é‡‘å³é•¯")]
+        é‡‘å³é•¯ = 26,
+        [LabelText("é‡‘å·¦æˆ’")]
+        é‡‘å·¦æˆ’ = 27,
+        [LabelText("é‡‘å³æˆ’")]
+        é‡‘å³æˆ’ = 28,
+        [LabelText("é‡‘è…°å¸¦")]
+        é‡‘è…°å¸¦ = 29,
+        [LabelText("é‡‘é‹å­")]
+        é‡‘é‹å­ = 30,
 
-        [LabelText("°µ½ğÎäÆ÷")]
-        °µ½ğÎäÆ÷ = 31,
-        [LabelText("°µ½ğÒÂ·ş")]
-        °µ½ğÒÂ·ş = 32,
-        [LabelText("°µ½ğÏîÁ´")]
-        °µ½ğÏîÁ´ = 33,
-        [LabelText("°µ½ğÍ·¿ø")]
-        °µ½ğÍ·¿ø = 34,
-        [LabelText("°µ½ğ×óïí")]
-        °µ½ğ×óïí = 35,
-        [LabelText("°µ½ğÓÒïí")]
-        °µ½ğÓÒïí = 36,
-        [LabelText("°µ½ğ×ó½ä")]
-        °µ½ğ×ó½ä = 37,
-        [LabelText("°µ½ğÓÒ½ä")]
-        °µ½ğÓÒ½ä = 38,
-        [LabelText("°µ½ğÑü´ø")]
-        °µ½ğÑü´ø = 39,
-        [LabelText("°µ½ğĞ¬×Ó")]
-        °µ½ğĞ¬×Ó = 40,
+        [LabelText("æš—é‡‘æ­¦å™¨")]
+        æš—é‡‘æ­¦å™¨ = 31,
+        [LabelText("æš—é‡‘è¡£æœ")]
+        æš—é‡‘è¡£æœ = 32,
+        [LabelText("æš—é‡‘é¡¹é“¾")]
+        æš—é‡‘é¡¹é“¾ = 33,
+        [LabelText("æš—é‡‘å¤´ç›”")]
+        æš—é‡‘å¤´ç›” = 34,
+        [LabelText("æš—é‡‘å·¦é•¯")]
+        æš—é‡‘å·¦é•¯ = 35,
+        [LabelText("æš—é‡‘å³é•¯")]
+        æš—é‡‘å³é•¯ = 36,
+        [LabelText("æš—é‡‘å·¦æˆ’")]
+        æš—é‡‘å·¦æˆ’ = 37,
+        [LabelText("æš—é‡‘å³æˆ’")]
+        æš—é‡‘å³æˆ’ = 38,
+        [LabelText("æš—é‡‘è…°å¸¦")]
+        æš—é‡‘è…°å¸¦ = 39,
+        [LabelText("æš—é‡‘é‹å­")]
+        æš—é‡‘é‹å­ = 40,
 
-        »ìãçÎäÆ÷ = 41,
-        »ìãçÒÂ·ş = 42,
-        »ìãçÏîÁ´ = 43,
-        »ìãçÍ·¿ø = 44,
-        »ìãç×óïí = 45,
-        »ìãçÓÒïí = 46,
-        »ìãç×ó½ä = 47,
-        »ìãçÓÒ½ä = 48,
-        »ìãçÑü´ø = 49,
-        »ìãçĞ¬×Ó = 50,
+        æ··æ²Œæ­¦å™¨ = 41,
+        æ··æ²Œè¡£æœ = 42,
+        æ··æ²Œé¡¹é“¾ = 43,
+        æ··æ²Œå¤´ç›” = 44,
+        æ··æ²Œå·¦é•¯ = 45,
+        æ··æ²Œå³é•¯ = 46,
+        æ··æ²Œå·¦æˆ’ = 47,
+        æ··æ²Œå³æˆ’ = 48,
+        æ··æ²Œè…°å¸¦ = 49,
+        æ··æ²Œé‹å­ = 50,
 
-        [LabelText("Ö÷×¨Êô")]
-        Ö÷×¨Êô = 101,
-        [LabelText("¸±×¨Êô")]
-        ¸±×¨Êô = 102,
+        [LabelText("ä¸»ä¸“å±")]
+        ä¸»ä¸“å± = 101,
+        [LabelText("å‰¯ä¸“å±")]
+        å‰¯ä¸“å± = 102,
     }
     public enum ProgressType
     {
-        [LabelText("½ÇÉ«¾­Ñé")]
+        [LabelText("è§’è‰²ç»éªŒ")]
         PlayerExp = 0,
 
-        [LabelText("¼¼ÄÜ¾­Ñé")]
+        [LabelText("æŠ€èƒ½ç»éªŒ")]
         SkillExp = 1,
 
-        [LabelText("½ÇÉ«¾­Ñé")]
+        [LabelText("è§’è‰²ç»éªŒ")]
         PlayerHP = 2,
     }
 
     public enum CopyType
     {
-        [LabelText("×°±¸¸±±¾")]
-        ×°±¸¸±±¾ = 1,
-        [LabelText("»ÃÓ°ÌôÕ½")]
-        »ÃÓ°ÌôÕ½ = 2,
-        [LabelText("BOSSÖ®¼Ò")]
+        [LabelText("è£…å¤‡å‰¯æœ¬")]
+        è£…å¤‡å‰¯æœ¬ = 1,
+        [LabelText("å¹»å½±æŒ‘æˆ˜")]
+        å¹»å½±æŒ‘æˆ˜ = 2,
+        [LabelText("BOSSä¹‹å®¶")]
         BossFamily = 3,
-        [LabelText("Î´Öª°µµî")]
+        [LabelText("æœªçŸ¥æš—æ®¿")]
         AnDian = 4,
-        [LabelText("ÊØÎÀÉ³³Ç")]
+        [LabelText("å®ˆå«æ²™åŸ")]
         Defend = 5,
         HeorPhantom = 6,
         Mine = 7,
@@ -395,9 +397,9 @@ namespace Game
 
     public enum RoleType
     {
-        Warrior = 1, //Õ½Ê¿
-        Mage = 2, //·¨Ê¦
-        Warlock = 3, //µÀÊ¿
+        Warrior = 1, //æˆ˜å£«
+        Mage = 2, //æ³•å¸ˆ
+        Warlock = 3, //é“å£«
         All = 99,
     }
 }

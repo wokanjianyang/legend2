@@ -51,18 +51,18 @@ namespace Game
 
             this.IgnoreDef = SkillRuneConfig.IgnoreDef * AvailableQuantity;
 
-            this.CritRate = SkillRuneConfig.CritRate * AvailableQuantity;
-            this.CritDamage = SkillRuneConfig.CritDamage * AvailableQuantity;
-            this.DamageIncrea = SkillRuneConfig.DamageIncrea * AvailableQuantity;
-            this.PercentRate = SkillRuneConfig.PercentRate * AvailableQuantity;
+            //this.CritRate = SkillRuneConfig.CritRate * AvailableQuantity;
+            //this.CritDamage = SkillRuneConfig.CritDamage * AvailableQuantity;
+            //this.DamageIncrea = SkillRuneConfig.DamageIncrea * AvailableQuantity;
+            //this.PercentRate = SkillRuneConfig.PercentRate * AvailableQuantity;
 
-            this.AttrIncrea = SkillRuneConfig.AttrIncrea;
-            this.FinalIncrea = SkillRuneConfig.FinalIncrea;
-            this.InheritIncrea = SkillRuneConfig.InheritIncrea;
+            //this.AttrIncrea = SkillRuneConfig.AttrIncrea;
+            //this.FinalIncrea = SkillRuneConfig.FinalIncrea;
+            //this.InheritIncrea = SkillRuneConfig.InheritIncrea;
 
-            this.EffectId = SkillRuneConfig.EffectId;
-            this.Accuracy = SkillRuneConfig.Accuracy * AvailableQuantity;
-            this.Miss = SkillRuneConfig.Miss * AvailableQuantity;
+            //this.EffectId = SkillRuneConfig.EffectId;
+            //this.Accuracy = SkillRuneConfig.Accuracy * AvailableQuantity;
+            //this.Miss = SkillRuneConfig.Miss * AvailableQuantity;
         }
 
         public void AddCount(int count)

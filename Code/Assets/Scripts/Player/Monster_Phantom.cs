@@ -134,7 +134,7 @@ public class Monster_Phantom : APlayer
         int speed = attrConfig.Speed + (int)(Layer * attrConfig.SpeedRise);
 
         AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp);
-        AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroBase, attr);
+        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, def);

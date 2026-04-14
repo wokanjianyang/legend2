@@ -28,10 +28,6 @@ namespace Game
             this.EventCenter.AddListener<HeroLevelUp>(LevelUp);
             this.EventCenter.AddListener<HeroAttrChangeEvent>(HeroAttrChange);
             this.EventCenter.AddListener<HeroBuffChangeEvent>(OnHeroBuffChange);
-
-            User user = GameProcessor.Inst.User;
-            user.EventCenter.AddListener<HeroUpdateSkillEvent>(OnHeroUpdateAllSkillEvent);
-
         }
 
         private void LevelUp(HeroLevelUp e)
@@ -49,10 +45,6 @@ namespace Game
             this.SetAttr(user);  //设置属性值
         }
 
-        private void OnHeroUpdateAllSkillEvent(HeroUpdateSkillEvent e)
-        {
-            this.UpdateSkills();
-        }
 
         private void Init()
         {
@@ -76,83 +68,49 @@ namespace Game
         {
             this.AttributeBonus = new AttributeBonus();
 
-            //计算Buff
-            if (RuleType == RuleType.Defend)
-            {
-                List<DefendBuffConfig> buffList = user.DefendData.GetBuffList();
+            ////计算Buff
+            //if (RuleType == RuleType.Defend)
+            //{
+            //    List<DefendBuffConfig> buffList = user.DefendData.GetBuffList();
 
-                this.AttributeBonus.SetBuffList(buffList);
-            }
+            //    this.AttributeBonus.SetBuffList(buffList);
+            //}
 
-            //把用户面板属性，当做战斗的基本属性
-
-            if (RuleType == RuleType.HeroPhantom)
-            {
-                AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.HeroPanel, ConfigHelper.PvpRate * 100);
-            }
-
-            double relic2 = 1 + user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic2) * user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageResist) / 100;
-
-            //Debug.Log("relic2:" + relic2);
-
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP) * relic2);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtt, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.PhyAtt));
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Def));
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.PhyAtk));
             AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MagicAtt));
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritAtt));
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Def));
+
             AttributeBonus.SetAttr(AttributeEnum.Speed, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Speed));
             AttributeBonus.SetAttr(AttributeEnum.MoveSpeed, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MoveSpeed));
             AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Lucky));
+            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Curse));
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Accuracy));
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Miss));
+
             AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritRate));
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritDamage));
-            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritRateResist));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DeadlyRate));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DeadlyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritRateResist));
             AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritDamageResist));
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageIncrea));
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageResist));
-            AttributeBonus.SetAttr(AttributeEnum.RestoreHp, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RestoreHp));
-            AttributeBonus.SetAttr(AttributeEnum.RestoreHpPercent, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RestoreHpPercent));
+            AttributeBonus.SetAttr(AttributeEnum.ExtraDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.ExtraDamage));
+
             AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Strong));
             AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Shatter));
-
-            AttributeBonus.SetAttr(AttributeEnum.DefIgnore, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefIgnore));
-            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Miss));
-            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Accuracy));
-            AttributeBonus.SetAttr(AttributeEnum.AurasDamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.AurasDamageIncrea));
-            AttributeBonus.SetAttr(AttributeEnum.AurasDamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.AurasDamageResist));
+            AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Parry));
 
             AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.PhyDamage));
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritDamage));
 
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MulDamageIncrea));
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.MulDamageResist));
 
-            AttributeBonus.SetAttr(AttributeEnum.SkillValetCount, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SkillValetCount));
-            AttributeBonus.SetAttr(AttributeEnum.SkillValetSpeed, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SkillValetSpeed));
-
-            AttributeBonus.SetAttr(AttributeEnum.DefendRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DefendRate));
-            AttributeBonus.SetAttr(AttributeEnum.SpRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpRate));
-            AttributeBonus.SetAttr(AttributeEnum.RealHpDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealHpDamage));
-            AttributeBonus.SetAttr(AttributeEnum.RealCritRate, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.RealCritRate));
-            AttributeBonus.SetAttr(AttributeEnum.LuckyHit, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.LuckyHit));
-            AttributeBonus.SetAttr(AttributeEnum.Relic3, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic3));
-            AttributeBonus.SetAttr(AttributeEnum.Relic4, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic4));
-            AttributeBonus.SetAttr(AttributeEnum.Relic5, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Relic5));
-            //this.AurasList = new List<AAuras>();
-            //foreach (var ac in user.GetAurasList())
-            //{
-            //    AAuras auras = AurasFactory.BuildAuras(this, ac.Key, ac.Value);
-            //    this.AurasList.Add(auras);
-            //}
-
-            if (user.SoulRingData.Count > 0)
-            {
-                this.RingType = 1;
-            }
-
+            double maxHP = AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
+            SetHP(maxHP);
             //回满当前血量
-            this.SetAttackSpeed((int)AttributeBonus.GetTotalAttrDouble(AttributeEnum.Speed));
-            this.SetMoveSpeed((int)AttributeBonus.GetTotalAttrDouble(AttributeEnum.MoveSpeed));
 
             //Debug.Log("Hero Hp:" + StringHelper.FormatNumber(maxHP));
         }
@@ -160,15 +118,15 @@ namespace Game
         private void OnHeroBuffChange(HeroBuffChangeEvent e)
         {
             //计算Buff
-            if (RuleType == RuleType.Defend)
-            {
-                List<DefendBuffConfig> buffList = GameProcessor.Inst.User.DefendData.GetBuffList();
-                this.AttributeBonus.SetBuffList(buffList);
+            //if (RuleType == RuleType.Defend)
+            //{
+            //    List<DefendBuffConfig> buffList = GameProcessor.Inst.User.DefendData.GetBuffList();
+            //    this.AttributeBonus.SetBuffList(buffList);
 
-                double maxHP = AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
-                SetHP(maxHP);
-                //Debug.Log("Hero Hp:" + StringHelper.FormatNumber(maxHP));
-            }
+            //    double maxHP = AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
+            //    SetHP(maxHP);
+            //    //Debug.Log("Hero Hp:" + StringHelper.FormatNumber(maxHP));
+            //}
         }
 
         private void SetSkill(User user)

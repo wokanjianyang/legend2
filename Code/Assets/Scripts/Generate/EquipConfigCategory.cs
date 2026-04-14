@@ -88,14 +88,14 @@ namespace Game
 
                 if (suitId == 0 && quality > 3)  //随机生成套装
                 {
-                    if (quality == 8)
-                    {
-                        suitId = SkillSuitConfigCategory.Instance.GetSuitIdBySkillLayer(runeConfig.SkillLayer);
-                    }
-                    else
-                    {
-                        suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
-                    }
+                    //if (quality == 8)
+                    //{
+                    //    suitId = SkillSuitConfigCategory.Instance.GetSuitIdBySkillLayer(runeConfig.SkillLayer);
+                    //}
+                    //else
+                    //{
+                    //    suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
+                    //}
                 }
             }
 
@@ -128,7 +128,7 @@ namespace Game
 
                 runeId = runeConfig.Id;
 
-                suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
+                //suitId = SkillSuitHelper.RandomSuit(seed, runeConfig.SkillId, runeConfig.Type).Id;
             }
 
             Equip equip = new Equip(config.Id, runeId, suitId, quality);

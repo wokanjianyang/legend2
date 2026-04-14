@@ -182,7 +182,7 @@ namespace Game
 
         public double GetRoleAttack(int role, bool haveBuff)
         {
-            return DamageHelper.GetRoleAttack(this.AttributeBonus, role, haveBuff);
+            return DamageHelper.GetRoleAtk(this.AttributeBonus, role);
         }
 
         public long GetRolePercent(int role)
@@ -466,10 +466,10 @@ namespace Game
             list.Add(effect);
 
             // 立即运行类型，立即使用
-            if (effect.Data.Config.RunType == 0)
-            {
-                effect.Do(1f);
-            }
+            //if (effect.Data.Config.RunType == 0)
+            //{
+            //    effect.Do(1f);
+            //}
         }
 
         public void Move(Vector3Int cell)

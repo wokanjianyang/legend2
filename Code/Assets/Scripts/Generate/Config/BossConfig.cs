@@ -92,7 +92,7 @@ namespace Game
 		public int ModelId { get; set; }
 		/// <summary>攻击</summary>
 		[ProtoMember(6)]
-		public string PhyAttr { get; set; }
+		public string Atk { get; set; }
 		/// <summary>防御</summary>
 		[ProtoMember(7)]
 		public string Def { get; set; }
@@ -111,20 +111,32 @@ namespace Game
 		/// <summary>CritDamage</summary>
 		[ProtoMember(12)]
 		public int CritDamage { get; set; }
-		/// <summary>Speed</summary>
+		/// <summary>Accuracy</summary>
 		[ProtoMember(13)]
-		public int Speed { get; set; }
+		public int Accuracy { get; set; }
 		/// <summary>Miss</summary>
 		[ProtoMember(14)]
 		public int Miss { get; set; }
-		/// <summary>Accuracy</summary>
+		/// <summary>CritRateResist</summary>
 		[ProtoMember(15)]
-		public int Accuracy { get; set; }
-		/// <summary>经验</summary>
+		public int CritRateResist { get; set; }
+		/// <summary>Speed</summary>
 		[ProtoMember(16)]
+		public int Speed { get; set; }
+		/// <summary>MoveSpeed</summary>
+		[ProtoMember(17)]
+		public int MoveSpeed { get; set; }
+		/// <summary>Lucky</summary>
+		[ProtoMember(18)]
+		public int Lucky { get; set; }
+		/// <summary>Curse</summary>
+		[ProtoMember(19)]
+		public int Curse { get; set; }
+		/// <summary>经验</summary>
+		[ProtoMember(20)]
 		public long Exp { get; set; }
 		/// <summary>掉落金币</summary>
-		[ProtoMember(17)]
+		[ProtoMember(21)]
 		public long Gold { get; set; }
 
 	}

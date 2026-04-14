@@ -78,38 +78,26 @@ namespace Game
 		/// <summary>_Id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>技能名字</summary>
+		/// <summary>Buff名称</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>类型</summary>
+		/// <summary>计算顺序</summary>
 		[ProtoMember(3)]
-		public int Type { get; set; }
-		/// <summary>计算类型</summary>
+		public string RunType { get; set; }
+		/// <summary>类型</summary>
 		[ProtoMember(4)]
-		public int CalType { get; set; }
+		public int Type { get; set; }
 		/// <summary>来源属性</summary>
 		[ProtoMember(5)]
 		public int SourceAttr { get; set; }
-		/// <summary>优先度</summary>
-		[ProtoMember(6)]
-		public int Priority { get; set; }
 		/// <summary>施法目标</summary>
-		[ProtoMember(7)]
-		public int TargetType { get; set; }
-		/// <summary>运行类型</summary>
-		[ProtoMember(8)]
-		public int RunType { get; set; }
+		[ProtoMember(6)]
+		public string TargetType { get; set; }
 		/// <summary>目标属性</summary>
-		[ProtoMember(9)]
+		[ProtoMember(7)]
 		public int TargetAttr { get; set; }
-		/// <summary>精通技能增益</summary>
-		[ProtoMember(10)]
-		public long ExpertRise { get; set; }
-		/// <summary>等级增益</summary>
-		[ProtoMember(11)]
-		public int LevelRise { get; set; }
 		/// <summary>备注</summary>
-		[ProtoMember(12)]
+		[ProtoMember(8)]
 		public string Des { get; set; }
 
 	}

@@ -29,7 +29,7 @@ namespace Game
 
                 //Debug.Log("Effect " + effect.Config.Id + " _Percetn:" + total);
 
-                if (effect.Config.TargetType == (int)EffectTarget.Valet)
+                if (effect.Config.TargetType == "Valet")
                 {
                     var valets = GameProcessor.Inst.PlayerManager.GetValets(this.SelfPlayer);
                     //Debug.Log("valets count:" + valets.Count);

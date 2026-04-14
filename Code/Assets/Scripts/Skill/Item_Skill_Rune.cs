@@ -68,5 +68,21 @@ namespace Game
 
             Txt_Desc.text = config.Des;
         }
+
+        public void SetTalent(int tid, int count)
+        {
+            SkillTalentConfig config = SkillTalentConfigCategory.Instance.Get(tid);
+
+            string name = config.Name;
+            if (name.Contains("·"))
+            {
+                name = name.Substring(name.IndexOf("·") + 1);
+            }
+            Txt_Name.text = name + "：";
+
+            Txt_Count.text = count > 0 ? "+" + count + "" : "无";
+
+            Txt_Desc.text = config.Des;
+        }
     }
 }

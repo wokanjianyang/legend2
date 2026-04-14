@@ -59,6 +59,7 @@ namespace Game
 
         public string CenterType { get; }
 
+        public List<KeyValuePair<int, int>> TalentTextList { get; } = new List<KeyValuePair<int, int>>();
         public List<KeyValuePair<int, int>> RuneTextList { get; } = new List<KeyValuePair<int, int>>();
         public List<KeyValuePair<int, int>> SuitTextList { get; } = new List<KeyValuePair<int, int>>();
 
@@ -87,9 +88,19 @@ namespace Game
                 suitList = new List<SkillSuit>();
             }
 
+            List<SkillTalent> talentList = new List<SkillTalent>();
+
             long riseLevel = 0;
             if (isPlayer)
             {
+
+                List<SkillTalentConfig> skillTalentConfigs = SkillTalentConfigCategory.Instance.GetSkillAllConfigs(SkillId);
+                foreach (SkillTalentConfig config in skillTalentConfigs)
+                {
+                    int count = talentList.Where(m => m.Config.Id == config.Id).Count();
+                    TalentTextList.Add(new KeyValuePair<int, int>(config.Id, count));
+                }
+
                 List<SkillRuneConfig> skillRuneConfigs = SkillRuneConfigCategory.Instance.GetSkillAllConfigs(SkillId, skillData.SkillConfig.SkillLayer);
 
                 foreach (SkillRuneConfig config in skillRuneConfigs)

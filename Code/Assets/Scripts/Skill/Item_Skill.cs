@@ -37,6 +37,7 @@ namespace Game
 
         void Awake()
         {
+            tList = Tf_Talent.GetComponentsInChildren<Item_Skill_Rune>().ToList();
             rList = Tf_Rune.GetComponentsInChildren<Item_Skill_Rune>().ToList();
             sList = Tf_Suit.GetComponentsInChildren<Item_Skill_Rune>().ToList();
         }
@@ -107,6 +108,19 @@ namespace Game
             //{
             //    this.Btn_UpLevel.gameObject.SetActive(false);
             //}
+
+            for (int i = 0; i < tList.Count; i++)
+            {
+                if (i < skillPanel.TalentTextList.Count)
+                {
+                    tList[i].gameObject.SetActive(true);
+                    tList[i].SetTalent(skillPanel.TalentTextList[i].Key, skillPanel.TalentTextList[i].Value);
+                }
+                else
+                {
+                    tList[i].gameObject.SetActive(false);
+                }
+            }
 
 
             for (int i = 0; i < rList.Count; i++)

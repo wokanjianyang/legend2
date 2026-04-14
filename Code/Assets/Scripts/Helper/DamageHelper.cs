@@ -25,6 +25,12 @@ namespace Game
                 atk = attcher.CalBattleRoleAtk(role);
             }
 
+            //技能百分比
+            atk = atk * skill.Percent / 100.0;
+
+            //技能攻击加成
+            atk *= (1 + skill.AttrIncrea / 100.0);
+
             //防御减伤为 攻击/防御*0.75
             double def = enemy.CalBattleTotalAttr(AttributeEnum.Def);
 
@@ -41,6 +47,7 @@ namespace Game
                 atk = atk / (def * ConfigHelper.Def_Rate);
             }
 
+
             //技能固伤不受防御影响
             atk += skill.Damage;
 
@@ -53,8 +60,7 @@ namespace Game
                 atk *= luckyRate;
             }
 
-            //技能攻击加成
-            atk *= (1 + skill.AttrIncrea / 100.0);
+
 
             //技能终伤
             atk *= (1 + skill.FinalIncrea / 100.0);

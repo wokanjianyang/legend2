@@ -103,14 +103,42 @@ namespace Game
                     total = CalBattleSingleAttr(AttributeEnum.SpiritDamage);
                     total *= (1 + CalBattleSingleAttr(AttributeEnum.RateSpiritDamage) / 100.0);
                     break;
+                case AttributeEnum.DamageIncrea:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.DamageResist:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.ExtraDamage:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
                 case AttributeEnum.CritRate:
                     total = CalBattleSingleAttr(attrType);
                     break;
+                case AttributeEnum.CritDamage:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.CritRateResist:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.CritDamageResist:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.DeadlyRate:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.DeadlyDamage:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
                 case AttributeEnum.Lucky:
+                case AttributeEnum.Curse:
+                case AttributeEnum.Accuracy:
+                case AttributeEnum.Miss:
+                case AttributeEnum.Miss2:
                     total = CalBattleSingleAttr(attrType);
                     break;
                 default:
-                    Debug.LogError("not implete");
+                    Debug.LogError("not implete type:" + attrType.ToString());
                     throw new Exception();
                     break;
 
@@ -211,7 +239,7 @@ namespace Game
         }
 
         //获取最终面板属性
-        public double CalBaseTotalAttr(AttributeEnum attrType)
+        public double CalPanelTotalAttr(AttributeEnum attrType)
         {
             double total = 0;
 
@@ -273,8 +301,7 @@ namespace Game
                     total = CalBattleSingleAttr(attrType);
                     break;
                 default:
-                    Debug.LogError("not implete");
-                    throw new Exception();
+                    total = CalPanelSingleAttr(attrType);
                     break;
 
             }
@@ -283,7 +310,7 @@ namespace Game
         }
 
         //获取单项面板属性
-        public double CalBaseSingleAttr(AttributeEnum type, params AttributeEnum[] increaTypes)
+        public double CalPanelSingleAttr(AttributeEnum type, params AttributeEnum[] increaTypes)
         {
             double total = 0;
 
@@ -309,7 +336,7 @@ namespace Game
         }
 
         //获取单项面板倍率
-        public double CalBaseSingleMul(AttributeEnum type)
+        public double CalPanelSingleMul(AttributeEnum type)
         {
             double total = 100;
 
@@ -324,6 +351,7 @@ namespace Game
             return total - 100;
         }
 
+        //获取（物攻，魔法，道术）的战斗属性，技能伤害用
         public double CalBattleRoleAtk(int role)
         {
             double attack = 0;
@@ -349,6 +377,33 @@ namespace Game
             return attack;
         }
 
+        //获取（物攻，魔法，道术）的面本属性，召唤用
+        public double CalBaseRoleAtk(int role)
+        {
+            double attack = 0;
+            switch (role)
+            {
+                case (int)RoleType.Warrior:
+                    {
+                        attack = CalPanelTotalAttr(AttributeEnum.PhyAtk);
+                        break;
+                    }
+                case (int)RoleType.Mage:
+                    {
+                        attack = CalPanelTotalAttr(AttributeEnum.MagicAtt);
+                        break;
+                    }
+                case (int)RoleType.Warlock:
+                    {
+                        attack = CalPanelTotalAttr(AttributeEnum.SpiritAtt);
+                        break;
+                    }
+            }
+
+            return attack;
+        }
+
+        //获取（物攻，魔法，道术）的战斗属性中的最大值，普攻技能用
         public double CalBattleMaxAtk()
         {
             double atk = 0;
@@ -362,157 +417,27 @@ namespace Game
             return atk;
         }
 
-
-        public long GetTotalAttr(AttributeEnum attrType)
+        //获取（物攻，魔法，道术）的战斗属性中的最大值，计算战力用
+        public double CalBaseMaxAtk()
         {
-            return (long)GetTotalAttrDouble(attrType);
-        }
+            double atk = 0;
 
-        public long GetAttackAttr(AttributeEnum attrType)
-        {
-            return (long)GetTotalAttrDouble(attrType);
-        }
+            atk = Math.Max(atk, CalPanelTotalAttr(AttributeEnum.PhyAtk));
 
-        public double GetAttackDoubleAttr(AttributeEnum attrType)
-        {
-            return GetTotalAttrDouble(attrType);
-        }
+            atk = Math.Max(atk, CalPanelTotalAttr(AttributeEnum.MagicAtt));
 
-        public double GetTotalAttrDouble(AttributeEnum attrType)
-        {
-            return GetTotalAttrDouble(attrType, true);
-        }
+            atk = Math.Max(atk, CalPanelTotalAttr(AttributeEnum.SpiritAtt));
 
-        public double GetTotalAttrDouble(AttributeEnum attrType, bool haveBuff)
-        {
-            double total = 0;
-            double mr = 1;
-
-            switch (attrType)
-            {
-                case AttributeEnum.HP:
-                    total = CalTotal(AttributeEnum.HP, haveBuff, AttributeEnum.HpIncrea) * (CalTotal(AttributeEnum.PanelHp, haveBuff) + 100) / 100;
-                    mr = 1 + CalMulTotal(haveBuff, AttributeEnum.MulHp) / 100;
-                    total *= mr;
-                    break;
-                case AttributeEnum.PhyAtk:
-                    total = CalTotal(AttributeEnum.PhyAtk, haveBuff, AttributeEnum.AttIncrea, AttributeEnum.PhyAttIncrea) * (CalTotal(AttributeEnum.PanelPhyAtt, haveBuff) + 100) / 100;
-                    mr = 1 + CalMulTotal(haveBuff, AttributeEnum.MulAttr, AttributeEnum.MulAttrPhy) / 100;
-                    total *= mr;
-                    break;
-                case AttributeEnum.MagicAtt:
-                    total = CalTotal(AttributeEnum.MagicAtt, haveBuff, AttributeEnum.AttIncrea, AttributeEnum.MagicAttIncrea) * (CalTotal(AttributeEnum.PanelMagicAtt, haveBuff) + 100) / 100;
-                    mr = 1 + CalMulTotal(haveBuff, AttributeEnum.MulAttr, AttributeEnum.MulAttrMagic) / 100;
-                    total *= mr;
-                    break;
-                case AttributeEnum.SpiritAtt:
-                    total = CalTotal(AttributeEnum.SpiritAtt, haveBuff, AttributeEnum.AttIncrea, AttributeEnum.SpiritAttIncrea) * (CalTotal(AttributeEnum.PanelSpiritAtt, haveBuff) + 100) / 100;
-                    mr = 1 + CalMulTotal(haveBuff, AttributeEnum.MulAttr, AttributeEnum.MulAttrSpirit) / 100;
-                    total *= mr;
-                    break;
-                case AttributeEnum.Def:
-                    total = CalTotal(AttributeEnum.Def, haveBuff, AttributeEnum.DefIncrea) * (CalTotal(AttributeEnum.PanelDef, haveBuff) + 100) / 100;
-                    mr = 1 + CalMulTotal(haveBuff, AttributeEnum.MulDef) / 100;
-                    total *= mr;
-                    break;
-                case AttributeEnum.Strong:
-                    total = CalTotal(AttributeEnum.Strong, haveBuff);
-                    mr = 1 + CalMulTotal(haveBuff, AttributeEnum.StrongMul) / 100;
-                    total *= mr;
-                    break;
-                case AttributeEnum.PhyDamage:
-                    total = 100 + CalTotal(AttributeEnum.PhyDamage, haveBuff);
-                    total = total * (1 + CalMulTotal(haveBuff, AttributeEnum.MulPhyDamageRise) / 100) - 100;
-                    break;
-                case AttributeEnum.CritRate:
-                    total = CalTotal(attrType, haveBuff, AttributeEnum.RateCrit);
-                    break;
-                case AttributeEnum.Lucky:
-                    total = CalTotal(attrType, haveBuff, AttributeEnum.RateLucky);
-                    break;
-                case AttributeEnum.MagicDamage:
-                    total = 100 + CalTotal(AttributeEnum.MagicDamage, haveBuff);
-                    total = total * (1 + CalMulTotal(haveBuff, AttributeEnum.MulMagicDamageRise) / 100) - 100;
-                    break;
-                case AttributeEnum.SpiritDamage:
-                    total = 100 + CalTotal(AttributeEnum.SpiritDamage, haveBuff);
-                    total = total * (1 + CalMulTotal(haveBuff, AttributeEnum.MulSpiritDamageRise) / 100) - 100;
-                    break;
-                case AttributeEnum.SecondExp:
-                    total = CalTotal(AttributeEnum.SecondExp, haveBuff, AttributeEnum.ExpIncrea);
-                    break;
-                case AttributeEnum.SecondGold:
-                    total = CalTotal(AttributeEnum.SecondGold, haveBuff, AttributeEnum.GoldIncrea);
-                    break;
-                case AttributeEnum.ExpIncrea:
-                    total = CalTotal(AttributeEnum.ExpIncrea, haveBuff, AttributeEnum.RateExp);
-                    break;
-                case AttributeEnum.GoldIncrea:
-                    total = CalTotal(AttributeEnum.GoldIncrea, haveBuff, AttributeEnum.RateGold);
-                    break;
-                case AttributeEnum.BurstIncrea:
-                    total = CalTotal(AttributeEnum.BurstIncrea, haveBuff, AttributeEnum.RateBurst);
-                    break;
-                case AttributeEnum.QualityIncrea:
-                    total = CalTotal(AttributeEnum.QualityIncrea, haveBuff, AttributeEnum.RateQuality);
-                    break;
-                default:
-                    if ((int)attrType < 2001)
-                    {
-                        total = CalTotal(attrType, haveBuff);
-                    }
-                    else
-                    {
-                        total = CalMulTotal(haveBuff, attrType);
-                    }
-                    break;
-            }
-
-            return total;
+            return atk;
         }
 
         public double GetPower()
         {
-            double p1 = GetTotalAttrDouble(AttributeEnum.PhyAtk);
-            double p2 = GetTotalAttrDouble(AttributeEnum.MagicAtt);
-            double p3 = GetTotalAttrDouble(AttributeEnum.SpiritAtt);
-
-            int role = 1;
-            double powerDamage = p1;
-
-            if (p2 > powerDamage)
-            {
-                role = 2;
-                powerDamage = p2;
-            }
-            if (p3 > powerDamage)
-            {
-                role = 3;
-                powerDamage = p3;
-            }
-
-            powerDamage *= CalPercent(AttributeEnum.AurasAttrIncrea);
-            powerDamage *= CalPercent(AttributeEnum.DamageIncrea) * CalPercent(AttributeEnum.AurasDamageIncrea);
-            powerDamage *= (1 + GetTotalAttrDouble(AttributeEnum.Lucky) * 0.1);
-            powerDamage *= (1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRate), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamage) + 150) / 100);
-
-            //增伤倍率
-            double mdi = GetTotalAttrDouble(AttributeEnum.MulDamageIncrea);
-            powerDamage *= (1 + mdi / 100);
-            //破刃倍率
-            double sdi = GetTotalAttrDouble(AttributeEnum.Shatter);
-            powerDamage *= (1 + sdi);
+            double atk = CalBaseMaxAtk();
 
 
-            double powerDef = GetTotalAttrDouble(AttributeEnum.HP) / 10 + GetTotalAttrDouble(AttributeEnum.Def) * 3;
-            powerDef *= (1 + CalPercent(AttributeEnum.DamageResist) * CalPercent(AttributeEnum.AurasDamageResist));
-            powerDamage *= (1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRateResist), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamageResist) + 100) / 100);
-            powerDef *= (1 + CalPercent(AttributeEnum.Miss));
-            powerDef *= (1 + GetTotalAttrDouble(AttributeEnum.Strong));
 
-
-            double newPower = (powerDamage + powerDef) / 20;
-            return newPower;
+            return atk;
         }
 
         public string GetPowerText()
@@ -522,10 +447,6 @@ namespace Game
             //return GetPowerNew().FormatUnit();
         }
 
-        private double CalPercent(AttributeEnum type)
-        {
-            return (100 + GetTotalAttrDouble(type)) / 100;
-        }
 
         private double CalTotal(AttributeEnum type, bool haveBuff, params AttributeEnum[] increaTypes)
         {

@@ -110,7 +110,7 @@ namespace Game
             return message;
         }
 
-        public static string BuildGiftPackMessage(string src, long exp, long gold, List<Item> items)
+        public static string BuildGiftPackMessage(string src, double exp, double gold, List<Item> items)
         {
             string message = $"<color=#{QualityConfigHelper.GetQualityColor(4)}> {src}";
             if (exp > 0)

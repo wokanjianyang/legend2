@@ -27,7 +27,7 @@ namespace Game
                 Content = SkillPanel.SkillData.SkillConfig.Name
             });
 
-            bool isLoss = this.SelfPlayer.HP < this.SelfPlayer.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP); //是否损失了血量
+            bool isLoss = this.SelfPlayer.HP < this.SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP); //是否损失了血量
 
             //是否被控制？
             if (this.SelfPlayer.GetIsPause() || isLoss)
@@ -42,7 +42,7 @@ namespace Game
             //对自己加属性Buff
             foreach (EffectData effect in SkillPanel.EffectIdList.Values)
             {
-                long rolePercent = DamageHelper.GetRolePercent(this.SelfPlayer.AttributeBonus, SkillPanel.SkillData.SkillConfig.Role);
+                long rolePercent = 1;
 
                 //Debug.Log("Effect " + effect.Config.Id + " _Percetn:" + total);
 

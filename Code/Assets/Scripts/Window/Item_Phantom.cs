@@ -41,7 +41,7 @@ namespace Game
             if (this.Config.RequireId > 0)
             {
                 long rv = this.Config.RequireValue * phLevel;
-                double uv = user.AttributeBonus.GetTotalAttrDouble((AttributeEnum)(Config.RequireId));
+                double uv = user.AttributeBonus.CalPanelTotalAttr((AttributeEnum)(Config.RequireId));
 
                 if (uv < rv)
                 {

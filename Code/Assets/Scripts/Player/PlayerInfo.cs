@@ -91,7 +91,7 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
         {
             this.sp_Progress.gameObject.SetActive(false);
         }
-        this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+        this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
     }
 
     public void SetPlayerHP()
@@ -116,7 +116,7 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
         {
             this.sp_Progress.gameObject.SetActive(false);
         }
-        this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+        this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
 
 
         //this.hp_Progress.HideTitle();

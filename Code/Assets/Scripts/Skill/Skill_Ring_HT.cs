@@ -26,7 +26,7 @@ namespace Game
 
             double percent = this.SkillPanel.Percent;
 
-            double maxHp = this.SelfPlayer.AttributeBonus.CalBaseSingleAttr(AttributeEnum.HP);
+            double maxHp = this.SelfPlayer.AttributeBonus.CalPanelSingleAttr(AttributeEnum.HP);
             double sp = maxHp * percent / 100.0;
 
             //Debug.Log("maxHp:" + maxHp + " sp:" + sp);

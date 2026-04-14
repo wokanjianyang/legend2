@@ -415,8 +415,8 @@ public class Com_AD : MonoBehaviour, IBattleLife
         User user = GameProcessor.Inst.User;
 
         //发放奖励
-        long gold = user.AttributeBonus.GetTotalAttr(AttributeEnum.SecondGold);
-        long exp = user.AttributeBonus.GetTotalAttr(AttributeEnum.SecondExp);
+        double gold = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondGold);
+        double exp = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondExp);
 
         int atRate = user.GetArtifactValue(ArtifactType.ExpGoldAd);
 

@@ -16,12 +16,13 @@ namespace Game
 
             if (role == 0)
             {
-                //普攻,取最大3系最大攻击
-                atk = attcher.CalBattleRoleAtk(role);
+                //职业攻击，取对应攻击
+                atk = attcher.CalBattleMaxAtk();
             }
             else
             {
-                atk = attcher.CalBattleMaxAtk();
+                //普攻,取最大3系最大攻击
+                atk = attcher.CalBattleRoleAtk(role);
             }
 
             //防御减伤为 攻击/防御*0.75
@@ -90,7 +91,7 @@ namespace Game
             //Debug.Log("attack:" + StringHelper.FormatNumber(attack));
 
             //强制最少1点伤害
-            return new DamageResult(Math.Max(1, atk), 1, MsgType.Normal, (RoleType)role, skill.SkillId); //
+            return new DamageResult(Math.Max(1, atk), 0, MsgType.Damage, (RoleType)role, skill.SkillId); //
         }
 
         public static double CalLuckyRate(int lucky)
@@ -112,8 +113,8 @@ namespace Game
 
         public static bool IsMiss(APlayer self, APlayer enemy, double skillAccuracy)
         {
-            double accuracy = self.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Accuracy) + skillAccuracy;
-            double miss = enemy.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Miss);
+            double accuracy = self.AttributeBonus.CalBattleTotalAttr(AttributeEnum.Accuracy) + skillAccuracy;
+            double miss = enemy.AttributeBonus.CalBattleTotalAttr(AttributeEnum.Miss);
 
             double rate = 100 + accuracy - miss;
 
@@ -126,7 +127,7 @@ namespace Game
 
         public static bool IsMiss2(APlayer self, APlayer enemy)
         {
-            double miss = enemy.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Miss2);
+            double miss = enemy.AttributeBonus.CalBattleTotalAttr(AttributeEnum.Miss2);
 
             double rate = Math.Min(miss, 95); //闪避最高95%
 
@@ -135,76 +136,14 @@ namespace Game
             return RandomHelper.RandomRate((int)rate);
         }
 
-
-        public static long GetRolePercent(AttributeBonus attributeBonus, int role)
-        {
-            long attack = 0;
-            switch (role)
-            {
-                case (int)RoleType.Warrior:
-                    {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarriorSkillPercent);
-                        break;
-                    }
-                case (int)RoleType.Mage:
-                    {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.MageSkillPercent);
-                        break;
-                    }
-                case (int)RoleType.Warlock:
-                    {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarlockSkillPercent);
-                        break;
-                    }
-            }
-
-            return attack;
-        }
-
-        public static long GetRoleDamage(AttributeBonus attributeBonus, int role)
-        {
-            long attack = 0;
-            switch (role)
-            {
-                case (int)RoleType.Warrior:
-                    {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarriorSkillDamage);
-                        break;
-                    }
-                case (int)RoleType.Mage:
-                    {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.MageSkillDamage);
-                        break;
-                    }
-                case (int)RoleType.Warlock:
-                    {
-                        attack = attributeBonus.GetAttackAttr(AttributeEnum.WarlockSkillDamage);
-                        break;
-                    }
-            }
-
-            return attack;
-        }
-
-        internal static int CalcAttackRound(AttributeBonus attacker, AttributeBonus enemy, SkillPanel offlineSkill)
-        {
-            var dr = CalcDamage(attacker, enemy, offlineSkill);
-
-            long hp = enemy.GetAttackAttr(AttributeEnum.HP);
-
-            int rd = dr.Damage > 0 ? Math.Min((int)(hp / dr.Damage), 9999999) : 0;
-
-            return Math.Max(rd, 1);
-        }
-
         public static double GetEffectFromTotal(AttributeBonus attacker, SkillPanel skillPanel, EffectData effect)
         {
             int srcAttr = effect.Config.SourceAttr;
 
-            //按照某个属性，计算百分比+固定值得来的
+            //按照某个属性，计算百分比+固定值得来的，
             if (srcAttr == -2)
             {
-                double total = attacker.GetTotalAttr((AttributeEnum)effect.Config.SourceAttr);
+                double total = attacker.CalBattleTotalAttr((AttributeEnum)effect.Config.SourceAttr);
 
                 //Debug.Log("Shield Base Total:" + total);
 

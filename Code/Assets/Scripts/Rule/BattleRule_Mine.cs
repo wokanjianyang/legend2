@@ -35,7 +35,7 @@ public class BattleRule_Mine
 
         long nt = TimeHelper.ClientNowSeconds();
 
-        long runTime = (long)(ConfigHelper.Mine_Time * 100 / (100 + user.AttributeBonus.CalBaseSingleAttr(AttributeEnum.MetailFinal)));
+        long runTime = (long)(ConfigHelper.Mine_Time * 100 / (100 + user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MetailFinal)));
 
         runTime = Math.Max(runTime, 6);
 

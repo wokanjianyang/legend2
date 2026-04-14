@@ -61,7 +61,7 @@ namespace Game
             double roleAttr = SelfPlayer.AttributeBonus.CalBattleRoleAtk(role) * (100 + SkillPanel.AttrIncrea) / 100;  //职业攻击
 
             //技能系数
-            double attack = roleAttr * (SkillPanel.Percent + SelfPlayer.GetRolePercent(role)) / 100 + SkillPanel.Damage + SelfPlayer.GetRoleDamage(role);  // *百分比系数 + 固定数值
+            double attack = roleAttr * (SkillPanel.Percent + SelfPlayer.GetRolePercent(role)) / 100 + SkillPanel.Damage;  // *百分比系数 + 固定数值
 
             return attack;
         }
@@ -88,11 +88,11 @@ namespace Game
             }
 
             //按损失血量排序
-            teamList = teamList.OrderBy(m => m.HP / m.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP)).ToList();
+            teamList = teamList.OrderBy(m => m.HP / m.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP)).ToList();
 
             foreach (var teamer in teamList)
             {
-                if (teamer.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP) > teamer.HP)
+                if (teamer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP) > teamer.HP)
                 {
                     attackDatas.Add(new AttackData()
                     {

@@ -167,17 +167,16 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
 
-            double exp = (this.Exp * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.ExpIncrea)) / 100);
-            double gold = (this.Gold * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.GoldIncrea)) / 100);
+            double exp = (this.Exp * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea)) / 100);
+            double gold = (this.Gold * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea)) / 100);
 
             QualityConfig qualityConfig = QualityConfigCategory.Instance.Get(Quality);
 
             //user.AddStartRate(this.MapId, qualityConfig.CountRate * countModelRate);
 
-            double dropRate = user.GetRealDropRate();
+            double dropRate = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea);
             double modelRate = qualityConfig.DropRate;
             double countRate = qualityConfig.CountRate / 2;
-            int soulPercent = (int)user.AttributeBonus.GetTotalAttr(AttributeEnum.SoulPercent);
 
             List<Item> items = new List<Item>();
             //生成道具奖励 ,爆率 = 人物爆率*怪物类型爆率*怪物品质爆率
@@ -196,7 +195,7 @@ namespace Game
 
             items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
 
-            int qualityRate = qualityConfig.QualityRate * user.GetRealQualityRate();
+            int qualityRate = qualityConfig.QualityRate;
             items.AddRange(DropHelper.BuildDropItem(dropList, qualityRate, RuleType.BossFamily, 0));
 
             int mapIndex = Config.MapId - ConfigHelper.MapStartId;
@@ -204,7 +203,7 @@ namespace Game
 
             items.Add(ItemHelper.BuildSoulRingShard(quantity * 2));
 
-            double rs = user.AttributeBonus.GetTotalAttr(AttributeEnum.BurstMul);
+            double rs = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstMul);
             int itemCount = MathHelper.RandomBurstMul(rs);
 
 

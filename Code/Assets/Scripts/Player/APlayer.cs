@@ -77,21 +77,21 @@ namespace Game
 
         public void ChangeMaxHp(int fromId, double total)
         {
-            double PreMaxHp = this.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
-            //Debug.Log("PreMaxHp:" + PreMaxHp);
-            double rate = this.HP * 1f / PreMaxHp;
-            //Debug.Log("rate:" + rate);
-            //Debug.Log("effect maxHp Rate:" + total);
+            //double PreMaxHp = this.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
+            ////Debug.Log("PreMaxHp:" + PreMaxHp);
+            //double rate = this.HP * 1f / PreMaxHp;
+            ////Debug.Log("rate:" + rate);
+            ////Debug.Log("effect maxHp Rate:" + total);
 
-            this.AttributeBonus.SetAttr(AttributeEnum.PanelHp, fromId, total);
+            //this.AttributeBonus.SetAttr(AttributeEnum.PanelHp, fromId, total);
 
-            double CurrentMaxHp = this.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
-            //Debug.Log("CurrentMaxHp:" + CurrentMaxHp);
-            double currentHp = CurrentMaxHp * rate;
-            //Debug.Log("effect MaxHp:" + StringHelper.FormatNumber(currentHp));
-            this.HP = currentHp;
+            //double CurrentMaxHp = this.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
+            ////Debug.Log("CurrentMaxHp:" + CurrentMaxHp);
+            //double currentHp = CurrentMaxHp * rate;
+            ////Debug.Log("effect MaxHp:" + StringHelper.FormatNumber(currentHp));
+            //this.HP = currentHp;
 
-            this.EventCenter.Raise(new SetPlayerHPEvent { });
+            //this.EventCenter.Raise(new SetPlayerHPEvent { });
         }
 
         [JsonIgnore]
@@ -171,6 +171,10 @@ namespace Game
             //LoadSkill();
         }
 
+        virtual public void Reset()
+        {
+        }
+
         public void SetAttackSpeed(int SpeedPercent)
         {
             this.AttckSpeed = Mathf.Max(0.2f, 100f / (100 + SpeedPercent));
@@ -182,12 +186,7 @@ namespace Game
 
         public long GetRolePercent(int role)
         {
-            return DamageHelper.GetRolePercent(this.AttributeBonus, role);
-        }
-
-        public long GetRoleDamage(int role)
-        {
-            return DamageHelper.GetRoleDamage(this.AttributeBonus, role);
+            return 1;
         }
 
 
@@ -219,42 +218,14 @@ namespace Game
             return null;
         }
 
-        private int state2012Count = 0;
-        private SkillState ss2012 = null;
 
         public virtual void SetSkillAfter()
         {
-            foreach (SkillState ss in SelectSkillList)
-            {
-                if (ss.SkillPanel.SkillId == 2012)
-                {
-                    state2012Count = 0;
-                    ss2012 = ss;
 
-
-                    //Debug.Log("init 2012:");
-                }
-            }
         }
 
         public void SkillAfter()
         {
-            //Debug.Log("SkillAfter count:" + state2012Count);
-
-            if (ss2012 != null)
-            {
-                int state2012Max = ss2012.SkillPanel.EnemyMax;
-
-                if (state2012Count < ss2012.SkillPanel.Duration)
-                {
-                    state2012Count += state2012Max;
-                }
-
-                //Debug.Log("skill 2012 percent:" + ss2012.SkillPanel.Percent + " count:" + state2012Count + " total:" + ss2012.SkillPanel.Percent * state2012Count);
-
-                this.AttributeBonus.SetSkillAttr(AttributeEnum.MulAttrMagic, 2012, ss2012.SkillPanel.Percent * state2012Count);
-                this.AttributeBonus.SetSkillAttr(AttributeEnum.MulHp, 2012, ss2012.SkillPanel.Damage * state2012Count);
-            }
         }
 
 
@@ -318,17 +289,6 @@ namespace Game
                     effect.Do(time);
                 }
                 list.RemoveAll(m => !m.Active);//移除已结束的
-            }
-        }
-
-        public void AutoRestore()
-        {
-            //回血
-            double restoreHp = AttributeBonus.GetAttackAttr(AttributeEnum.RestoreHp) +
-                 AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP) / 100.0 * AttributeBonus.GetAttackAttr(AttributeEnum.RestoreHpPercent);
-            if (restoreHp > 0)
-            {
-                this.OnRestore(this.ID, restoreHp);
             }
         }
 

@@ -11,7 +11,7 @@ namespace Game
         public Skill_Valet(APlayer player, SkillPanel skillPanel, bool isShow) : base(player, skillPanel)
         {
             this.skillGraphic = null;
-            MaxValet = skillPanel.EnemyMax + (int)SelfPlayer.AttributeBonus.GetAttackAttr(AttributeEnum.SkillValetCount);
+            MaxValet = skillPanel.EnemyMax;
         }
 
         public override bool IsCanUse()

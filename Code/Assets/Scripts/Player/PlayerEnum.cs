@@ -153,7 +153,6 @@ namespace Game
         //--废弃
         MonsterFaster = 107,//副刷新速度加快
         MetailFinal = 109, //挖矿
-        SoulPercent = 110, //炼魂夺魄
         Talent = 111, //天赋点
         DefendRate = 112, //防御系数
         SpRate = 113,//护盾固防

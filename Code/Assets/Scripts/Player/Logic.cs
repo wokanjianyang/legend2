@@ -59,8 +59,7 @@ namespace Game
 
             //BattleAttributeMap.Clear();
 
-            SelfPlayer.HP = SelfPlayer.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
-            this.SelfPlayer.EventCenter.Raise(new SetPlayerHPEvent { });
+            SelfPlayer.Reset();
             //this.SelfPlayer.SetPosition(GameProcessor.Inst.PlayerManager.RandomCell(this.SelfPlayer.Cell));
         }
 
@@ -83,10 +82,10 @@ namespace Game
             {
                 double spDamge = totalDamage;
 
-                double spRate = this.SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.SpRate);
+                double spRate = this.SelfPlayer.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpRate);  //用默认属性不受buff和技能影响
                 if (spRate > 0)
                 {
-                    double maxHp = this.SelfPlayer.AttributeBonus.CalBaseSingleAttr(AttributeEnum.HP);
+                    double maxHp = this.SelfPlayer.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP); //用默认属性，不受buff和技能影响
                     double maxSpDamge = maxHp * (100 - spRate) / 100;
 
                     spDamge = Math.Min(spDamge, maxSpDamge);
@@ -195,7 +194,7 @@ namespace Game
                 return;
             }
 
-            double maxHp = this.SelfPlayer.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
+            double maxHp = this.SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
 
             if (maxHp <= currentHP)
             {

@@ -61,7 +61,7 @@ public class MapPhantom : MonoBehaviour, IBattleLife
         if (attrConfig.RequireId > 0)
         {
             long rv = attrConfig.RequireValue * phLevel;
-            double uv = user.AttributeBonus.GetTotalAttrDouble((AttributeEnum)(attrConfig.RequireId));
+            double uv = user.AttributeBonus.CalPanelTotalAttr((AttributeEnum)(attrConfig.RequireId));
 
             if (uv < rv)
             {

@@ -1220,26 +1220,6 @@ namespace Game
             }
         }
 
-        public double GetRealDropRate()
-        {
-            long dropRate = this.AttributeBonus.GetTotalAttr(AttributeEnum.BurstIncrea);
-
-            double realRate = MathHelper.ConvertionDropRate(dropRate, 100);
-            //Debug.Log("realRate:" + realRate);
-
-            return 1 + realRate;
-        }
-
-        public int GetRealQualityRate()
-        {
-            long baseRate = this.AttributeBonus.GetTotalAttr(AttributeEnum.QualityIncrea);
-
-            double realRate = MathHelper.ConvertionDropRate(baseRate, 50);
-            //Debug.Log("realRate:" + realRate);
-
-            return 1 + (int)realRate;
-        }
-
         public double GetKillRecord(int dropId)
         {
             if (!KillRecord.ContainsKey(dropId))

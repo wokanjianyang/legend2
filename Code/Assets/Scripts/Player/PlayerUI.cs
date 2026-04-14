@@ -107,11 +107,11 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
             this.ShowNextToast();
         }
 
-        if (this.restoreTime >= 1f)
-        {
-            this.restoreTime = 0;
-            this.SelfPlayer.AutoRestore();
-        }
+        //if (this.restoreTime >= 1f)
+        //{
+        //    this.restoreTime = 0;
+        //    this.SelfPlayer.AutoRestore();
+        //}
     }
 
     public void SetParent(APlayer player)
@@ -205,7 +205,7 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
             this.sp_Progress.gameObject.SetActive(false);
         }
 
-        this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+        this.hp_Progress.SetProgress(this.SelfPlayer.HP, SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
 
         if (this.SelfPlayer.Info != null)
         {

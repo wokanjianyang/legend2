@@ -114,7 +114,7 @@ namespace Game
             }
             else if (Data.Config.SourceAttr >= 1)
             {
-                m = m * SelfPlayer.AttributeBonus.GetTotalAttr((AttributeEnum)Data.Config.SourceAttr) / 100;
+                m = m * SelfPlayer.AttributeBonus.CalBattleTotalAttr((AttributeEnum)Data.Config.SourceAttr) / 100;
             }
 
             return m;

@@ -23,15 +23,14 @@ namespace Game
 
             MapTime += currentRoundTime;
 
-
-
             var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
+
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Time = (int)MapTime, Count = Math.Max(0, Total - enemys.Count) });
+
             if (enemys.Count >= 20)
             {
                 return;
             }
-
-
 
             MapConfig mapConfig = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
 
@@ -58,7 +57,6 @@ namespace Game
                 }
             }
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Time = (int)MapTime, Count = Math.Max(0, Total - enemys.Count) });
             Total++;
         }
 

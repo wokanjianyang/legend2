@@ -54,7 +54,6 @@ namespace Game
             {nameof(AttributeEnum.Shatter), "破韧倍率" },
 
             {nameof(AttributeEnum.SpiritAll), "英灵攻防血" },
-            {nameof(AttributeEnum.SoulPercent), "炼魂" },
             {nameof(AttributeEnum.SpRate), "护盾固防" },
             {nameof(AttributeEnum.RealMulDamageResist), "完全减伤" },
             {nameof(AttributeEnum.RealHpDamage), "血量真伤" },
@@ -91,7 +90,6 @@ namespace Game
             //{nameof(AttributeEnum.PanelHp), "最终生命" },
             //{nameof(AttributeEnum.PanelPhyAtt), "最终物攻" },
             //{nameof(AttributeEnum.PanelMagicAtt),"最终魔法" },
-            {nameof(AttributeEnum.SkillValetCount), "召唤数量" },
             {nameof(AttributeEnum.SkillValetSpeed), "宠物攻速" },
 
             {nameof(AttributeEnum.MulAttr), "攻击倍率" },

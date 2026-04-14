@@ -179,14 +179,14 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            double exp = (Config.Exp * QualityConfig.ExpRate * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.ExpIncrea)) / 100);
-            double gold = (Config.Gold * QualityConfig.GoldRate * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.GoldIncrea)) / 100);
+            double exp = (Config.Exp * QualityConfig.ExpRate * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea)) / 100);
+            double gold = (Config.Gold * QualityConfig.GoldRate * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea)) / 100);
 
             QualityConfig qualityConfig = QualityConfigCategory.Instance.Get(Quality);
 
             //user.AddStartRate(this.MapId, qualityConfig.CountRate * countModelRate);
 
-            double dropRate = user.GetRealDropRate();
+            double dropRate = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea);
             double modelRate = qualityConfig.DropRate;
             double countRate = qualityConfig.CountRate;
             //Debug.Log("dropRate:" + dropRate);
@@ -208,10 +208,10 @@ namespace Game
 
             items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
 
-            int qualityRate = qualityConfig.QualityRate * user.GetRealQualityRate();
+            int qualityRate = qualityConfig.QualityRate;
             items.AddRange(DropHelper.BuildDropItem(dropList, qualityRate, RuleType.Normal, 0));
 
-            double rs = user.AttributeBonus.GetTotalAttr(AttributeEnum.BurstMul);
+            double rs = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstMul);
             int itemCount = MathHelper.RandomBurstMul(rs);
 
             bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;

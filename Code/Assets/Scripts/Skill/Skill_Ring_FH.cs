@@ -30,7 +30,7 @@ namespace Game
             }
 
             double percent = this.SkillPanel.Percent;
-            double maxHp = this.SelfPlayer.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP);
+            double maxHp = this.SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
             double hp = maxHp * percent / 100.0;
 
             this.SelfPlayer.SetHP(hp);

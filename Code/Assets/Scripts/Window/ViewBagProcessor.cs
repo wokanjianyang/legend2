@@ -217,7 +217,7 @@ namespace Game
                     item.gameObject.SetActive(true);
 
                     AttributeEnum attrId = list[i];
-                    item.SetContent((int)attrId, user.AttributeBonus.GetTotalAttrDouble(attrId));
+                    item.SetContent((int)attrId, user.AttributeBonus.CalPanelSingleAttr(attrId));
                 }
                 else
                 {
@@ -1219,7 +1219,7 @@ namespace Game
             }
             else if (boxItem.Item.Type == ItemType.ExpPack)
             {
-                long exp = user.AttributeBonus.GetTotalAttr(AttributeEnum.SecondExp);
+                long exp = (long)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondExp));
 
                 ItemConfig config = ItemConfigCategory.Instance.Get(boxItem.Item.ConfigId);
 
@@ -1233,7 +1233,7 @@ namespace Game
             }
             else if (boxItem.Item.Type == ItemType.GoldPack)
             {
-                long gold = user.AttributeBonus.GetTotalAttr(AttributeEnum.SecondGold);
+                long gold = (long)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondGold));
 
                 ItemConfig config = ItemConfigCategory.Instance.Get(boxItem.Item.ConfigId);
 

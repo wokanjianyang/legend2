@@ -25,7 +25,7 @@ namespace Game
             //对自己加属性Buff
             foreach (EffectData effect in SkillPanel.EffectIdList.Values)
             {
-                long rolePercent = DamageHelper.GetRolePercent(this.SelfPlayer.AttributeBonus, SkillPanel.SkillData.SkillConfig.Role);
+                long rolePercent = 1;
 
                 //Debug.Log("Effect " + effect.Config.Id + " _Percetn:" + total);
 

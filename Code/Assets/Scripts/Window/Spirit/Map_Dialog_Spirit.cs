@@ -55,7 +55,7 @@ public class Map_Dialog_Spirit : MonoBehaviour
             return;
         }
 
-        long total = user.AttributeBonus.GetTotalAttr(AttributeEnum.SpiritAll);
+        double total = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritAll);
 
         Debug.Log("total:" + total);
 
@@ -65,7 +65,7 @@ public class Map_Dialog_Spirit : MonoBehaviour
 
         for (int i = 0; i < items.Count; i++)
         {
-            items[i].SetMax(total);
+            items[i].SetMax((long)total);
         }
     }
 

@@ -200,8 +200,8 @@ namespace Game
 
             AttributeEnum[] list = new AttributeEnum[] {
             AttributeEnum.HP, AttributeEnum.Def
-            ,AttributeEnum.PhyAtk,  AttributeEnum.MagicAtt
-            ,AttributeEnum.SpiritAtt, AttributeEnum.Lucky
+            ,AttributeEnum.PhyAtk,  AttributeEnum.MagicAtk
+            ,AttributeEnum.SpiritAtk, AttributeEnum.Lucky
             ,AttributeEnum.DamageIncrea,   AttributeEnum.DamageResist
             ,AttributeEnum.CritRate,  AttributeEnum.CritDamage
             ,AttributeEnum.Speed,AttributeEnum.MoveSpeed
@@ -217,7 +217,7 @@ namespace Game
                     item.gameObject.SetActive(true);
 
                     AttributeEnum attrId = list[i];
-                    item.SetContent((int)attrId, user.AttributeBonus.CalPanelSingleAttr(attrId));
+                    item.SetContent((int)attrId, user.AttributeBonus.CalPanelTotalAttr(attrId));
                 }
                 else
                 {

@@ -58,19 +58,6 @@ namespace Game
 
                     //Debug.Log("base .damage：" + dr.Damage);
 
-                    if (FromSkill != null && FromSkill.DivineLevel > 0)
-                    {
-                        double disPercent = this.FromSkill.Dis * this.FromSkill.DivineLevel * this.FromSkill.DivineAttrConfig.Param;
-
-                        if (SelfPlayer.RuleType == RuleType.Myth)
-                        {
-                            disPercent = disPercent * 1 / 3; //如果是神话之路，削弱为1/3
-                        }
-                        //Debug.Log("DivineLevel.Percent：" + disPercent);
-
-                        dr.Damage = dr.Damage * (100 + disPercent) / 100;
-                    }
-
                     dr.Damage = dr.Damage * (100 + SkillPanel.Percent) / 100;
 
                     //Debug.Log("SkillPanel.Percent：" + SkillPanel.Percent);

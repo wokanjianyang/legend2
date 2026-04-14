@@ -19,17 +19,17 @@ namespace Game
         HP = 1, //生命值
         Def = 2, //防御
 
-        Attr = 3, //全系攻
+        Atk = 3, //全系攻
         PhyAtk = 4, //物理攻击
-        MagicAtt = 5,//魔法攻击
-        SpiritAtt = 6, //道术攻击
+        MagicAtk = 5,//魔法攻击
+        SpiritAtk = 6, //道术攻击
+        Lucky = 7, //幸运
+        Curse‌ = 8, //诅咒
 
         Speed = 11, //攻速
         MoveSpeed = 12, //移动速度
-        Lucky = 13, //幸运
-        Curse‌ = 14, //诅咒
-        Accuracy = 15, //命中
-        Miss = 16, //闪避
+        Accuracy = 13, //命中
+        Miss = 14, //闪避
 
         CritRate = 21, //暴击率
         CritDamage = 22, //暴害增加
@@ -83,13 +83,13 @@ namespace Game
         EquipStrengthIncrea = 103, //装备强化属性百分比
 
         //------------------加成------------------------------
-        HpIncrea = 1001, //生命加成
-        DefIncrea = 1002,//防御加成
+        IncreaHp = 1001, //生命加成
+        IncreaDef = 1002,//防御加成
 
-        AttIncrea = 1003, //攻击加成
-        PhyAttIncrea = 1004, //物理攻击加成
-        MagicAttIncrea = 1005,//魔法攻击加成
-        SpiritAttIncrea = 1006, //道术攻击加成
+        IncreaAtk = 1003, //攻击加成
+        IncreaPhyAtk = 1004, //物理攻击加成
+        IncreaMagicAtk = 1005,//魔法攻击加成
+        IncreaSpiritAtk = 1006, //道术攻击加成
 
         IncreaLucky = 1013,//幸运加成
         //IncreaAccuracy = 1014, //命中加成
@@ -103,7 +103,7 @@ namespace Game
         //------------------增幅------------------------------
         RateHp = 2001, //生命增幅
         RateDef = 2002,//防御增幅
-        RateaAtk = 2003, //攻击增幅
+        RateAtk = 2003, //攻击增幅
 
         RatePhyAtk = 2004, //物理攻击增幅
         RateMagicAtk = 2005,//魔法攻击增幅
@@ -134,11 +134,11 @@ namespace Game
         //------------------倍率------------------------------
         MulHp = 10001,  //生命倍率
         MulDef = 10002,  //防御倍率
-        MulAttr = 10003,  //攻击倍率
+        MulAtk = 10003,  //攻击倍率
 
-        MulAttrPhy = 10004, //物攻倍率
-        MulAttrMagic = 10005,  //法功倍率
-        MulAttrSpirit = 10006,  //道术倍率
+        MulPhyAtk = 10004, //物攻倍率
+        MulMagicAtk = 10005,  //法功倍率
+        MulSpiritAtk = 10006,  //道术倍率
 
         MulPhyDamageRise = 10007, //物伤倍率
         MulMagicDamageRise = 10008, //法伤倍率
@@ -147,7 +147,7 @@ namespace Game
         MulDamageIncrea = 10027,  //增伤倍率
         MulDamageResist = 10028, //减伤倍率
 
-        StrongMul = 10041,//韧性倍率
+        MulStrong = 10041,//韧性倍率
         //ShatterMul = 10042,//破韧倍率
 
         //--废弃

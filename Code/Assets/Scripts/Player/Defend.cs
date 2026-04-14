@@ -35,8 +35,8 @@ public class Defend : APlayer
     {
         AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, ConfigHelper.DefendHp);
         AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 0);
-        AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, 0);
-        AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, 0);
+        AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 0);
+        AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 0);
         AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, 0);
 
         SetHP(hp);

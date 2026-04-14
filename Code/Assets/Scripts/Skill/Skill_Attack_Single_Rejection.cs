@@ -30,50 +30,50 @@ namespace Game
                 });
             }
 
-            long divineMax = SkillPanel.DivineLevel * SkillPanel.DivineAttrConfig.Param;
-            //Debug.Log("divineMax:" + divineMax);
+            //long divineMax = SkillPanel.DivineLevel * SkillPanel.DivineAttrConfig.Param;
+            ////Debug.Log("divineMax:" + divineMax);
 
 
-            //施法中心为自己
-            //APlayer target = SelfPlayer;
-            Vector3Int from = SelfPlayer.Cell;
-            Vector3Int to = SelfPlayer.Enemy.Cell;
+            ////施法中心为自己
+            ////APlayer target = SelfPlayer;
+            //Vector3Int from = SelfPlayer.Cell;
+            //Vector3Int to = SelfPlayer.Enemy.Cell;
 
-            for (int i = 0; i < divineMax; i++)
-            {
-                List<Vector3Int> allAttackCells = GameProcessor.Inst.MapData.GetAttackRangeCell(from, to, SkillPanel);
-                allAttackCells.RemoveAll(m => enmeyCells.Contains(m));
+            //for (int i = 0; i < divineMax; i++)
+            //{
+            //    List<Vector3Int> allAttackCells = GameProcessor.Inst.MapData.GetAttackRangeCell(from, to, SkillPanel);
+            //    allAttackCells.RemoveAll(m => enmeyCells.Contains(m));
 
-                if (allAttackCells.Count <= 0)
-                {
-                    break;
-                }
+            //    if (allAttackCells.Count <= 0)
+            //    {
+            //        break;
+            //    }
 
-                //排序，从进到远
-                allAttackCells = allAttackCells.OrderBy(m => Mathf.Abs(m.x - to.x) + Mathf.Abs(m.y - to.y) + Mathf.Abs(m.z - to.z)).ToList();
+            //    //排序，从进到远
+            //    allAttackCells = allAttackCells.OrderBy(m => Mathf.Abs(m.x - to.x) + Mathf.Abs(m.y - to.y) + Mathf.Abs(m.z - to.z)).ToList();
 
-                foreach (var cell in allAttackCells)
-                {
-                    if (attackDatas.Count > divineMax)
-                    {
-                        break;
-                    }
+            //    foreach (var cell in allAttackCells)
+            //    {
+            //        if (attackDatas.Count > divineMax)
+            //        {
+            //            break;
+            //        }
 
-                    var enemy = GameProcessor.Inst.PlayerManager.GetPlayer(cell);
-                    if (enemy != null && enemy.IsSurvice && enemy.GroupId != SelfPlayer.GroupId) //不会攻击同组成员
-                    {
-                        attackDatas.Add(new AttackData()
-                        {
-                            Tid = enemy.ID,
-                            Cell = cell,
-                            Ratio = 0
-                        });
+            //        var enemy = GameProcessor.Inst.PlayerManager.GetPlayer(cell);
+            //        if (enemy != null && enemy.IsSurvice && enemy.GroupId != SelfPlayer.GroupId) //不会攻击同组成员
+            //        {
+            //            attackDatas.Add(new AttackData()
+            //            {
+            //                Tid = enemy.ID,
+            //                Cell = cell,
+            //                Ratio = 0
+            //            });
 
-                        from = cell;
-                        enmeyCells.Add(cell);
-                    }
-                }
-            }
+            //            from = cell;
+            //            enmeyCells.Add(cell);
+            //        }
+            //    }
+            //}
 
             return attackDatas;
         }

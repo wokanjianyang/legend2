@@ -60,14 +60,13 @@ namespace Game
 
 
                     int distance = this.CalDistance(SelfPlayer.Cell, enemy.Cell);
-                    double percent = distance * this.SkillPanel.DivineLevel * this.SkillPanel.DivineAttrConfig.Param;
                     //Debug.Log("distance:" + distance + " rise percent:" + percent);
 
                     var dr = DamageHelper.CalcDamage(SelfPlayer.AttributeBonus, enemy.AttributeBonus, SkillPanel);
 
                     //Debug.Log("base damage:" + dr.Damage);
 
-                    dr.Damage = dr.Damage * (100 + percent) / 100;
+                    dr.Damage = dr.Damage;
 
                     dr.FromId = attackData.Tid;
                     enemy.OnHit(dr);

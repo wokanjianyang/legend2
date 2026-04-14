@@ -89,7 +89,7 @@ namespace Game
             }
 
             int ac = 0;
-            long repeatMax = SkillPanel.DivineLevel * SkillPanel.DivineAttrConfig.Param;
+            long repeatMax = 1;
 
             for (int i = 0; i < repeatMax; i++)
             {

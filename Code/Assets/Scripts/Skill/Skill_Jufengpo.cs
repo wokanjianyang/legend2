@@ -59,15 +59,6 @@ namespace Game
 
                     //Debug.Log("base .damage：" + dr.Damage);
 
-                    if (FromSkill != null && FromSkill.DivineLevel > 0)
-                    {
-                        double disPercent = this.FromSkill.DivineLevel * 30; //30为了和刺杀剑术的神技一样生效
-
-                        //Debug.Log("DivineLevel.Percent：" + disPercent);
-
-                        dr.Damage = dr.Damage * (100 + disPercent) / 100;
-                    }
-
                     dr.Damage = dr.Damage * (100 + SkillPanel.Percent) / 100;
 
                     //Debug.Log("SkillPanel.Percent：" + SkillPanel.Percent);

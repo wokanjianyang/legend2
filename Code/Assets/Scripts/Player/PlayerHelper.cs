@@ -11,9 +11,10 @@ namespace Game
 
             {nameof(AttributeEnum.HP), "生命值" },
             {nameof(AttributeEnum.Def), "防御" },
+            {nameof(AttributeEnum.Atk), "攻击" },
             {nameof(AttributeEnum.PhyAtk), "物理攻击" },
-            {nameof(AttributeEnum.MagicAtt),"魔法攻击" },
-            {nameof(AttributeEnum.SpiritAtt), "道术攻击" },
+            {nameof(AttributeEnum.MagicAtk),"魔法攻击" },
+            {nameof(AttributeEnum.SpiritAtk), "道术攻击" },
 
             {nameof(AttributeEnum.DefIgnore), "忽视防御" },
             {nameof(AttributeEnum.Speed), "攻速" },
@@ -26,9 +27,9 @@ namespace Game
             {nameof(AttributeEnum.CritDamageResist), "爆伤减免" },
             {nameof(AttributeEnum.DamageIncrea), "伤害增加" },
             {nameof(AttributeEnum.DamageResist), "伤害减少" },
-            {nameof(AttributeEnum.AttIncrea), "攻击加成" },
-            {nameof(AttributeEnum.HpIncrea), "生命加成" },
-            {nameof(AttributeEnum.DefIncrea), "防御加成" },
+            {nameof(AttributeEnum.IncreaAtk), "攻击加成" },
+            {nameof(AttributeEnum.IncreaHp), "生命加成" },
+            {nameof(AttributeEnum.IncreaDef), "防御加成" },
             {nameof(AttributeEnum.ExpIncrea), "经验加成" },
             {nameof(AttributeEnum.BurstIncrea), "爆率加成" },
             {nameof(AttributeEnum.GoldIncrea), "金币加成" },
@@ -63,9 +64,9 @@ namespace Game
             {nameof(AttributeEnum.MagicDamage),"魔伤加成" },
             {nameof(AttributeEnum.SpiritDamage), "道伤加成" },
 
-            {nameof(AttributeEnum.PhyAttIncrea), "物攻加成" },
-            {nameof(AttributeEnum.MagicAttIncrea),"魔法加成" },
-            {nameof(AttributeEnum.SpiritAttIncrea), "道术加成" },
+            {nameof(AttributeEnum.IncreaPhyAtk), "物攻加成" },
+            {nameof(AttributeEnum.IncreaMagicAtk),"魔法加成" },
+            {nameof(AttributeEnum.IncreaSpiritAtk), "道术加成" },
 
             {nameof(AttributeEnum.EquipBaseIncrea), "装备基础属性" },
             {nameof(AttributeEnum.EquipRandomIncrea), "装备随机属性" },
@@ -77,7 +78,7 @@ namespace Game
 
             {nameof(AttributeEnum.RateHp), "生命增幅" },
             {nameof(AttributeEnum.RateDef), "防御增幅" },
-            {nameof(AttributeEnum.RateaAtk), "攻击增幅" },
+            {nameof(AttributeEnum.RateAtk), "攻击增幅" },
             {nameof(AttributeEnum.RatePhyAtk), "物攻增幅" },
             {nameof(AttributeEnum.RateMagicAtk), "魔击增幅" },
             {nameof(AttributeEnum.RateSpiritAtk), "道攻增幅" },
@@ -92,18 +93,18 @@ namespace Game
             //{nameof(AttributeEnum.PanelMagicAtt),"最终魔法" },
             {nameof(AttributeEnum.SkillValetSpeed), "宠物攻速" },
 
-            {nameof(AttributeEnum.MulAttr), "攻击倍率" },
+            {nameof(AttributeEnum.MulAtk), "攻击倍率" },
             {nameof(AttributeEnum.MulDef),"防御倍率" },
             {nameof(AttributeEnum.MulHp), "生命倍率" },
-            {nameof(AttributeEnum.MulAttrPhy), "物攻倍率" },
-            {nameof(AttributeEnum.MulAttrMagic),"魔法倍率" },
-            {nameof(AttributeEnum.MulAttrSpirit), "道术倍率" },
+            {nameof(AttributeEnum.MulPhyAtk), "物攻倍率" },
+            {nameof(AttributeEnum.MulMagicAtk),"魔法倍率" },
+            {nameof(AttributeEnum.MulSpiritAtk), "道术倍率" },
             {nameof(AttributeEnum.MulPhyDamageRise), "物伤倍率" },
             {nameof(AttributeEnum.MulMagicDamageRise),"魔伤倍率" },
             {nameof(AttributeEnum.MulSpiritDamageRise), "道伤倍率" },
             {nameof(AttributeEnum.MulDamageIncrea), "增伤倍率" },
             {nameof(AttributeEnum.MulDamageResist),"减伤倍率" },
-            {nameof(AttributeEnum.StrongMul),"韧性倍率" },
+            {nameof(AttributeEnum.MulStrong),"韧性倍率" },
         };
     }
 }

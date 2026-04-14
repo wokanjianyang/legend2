@@ -62,8 +62,8 @@ namespace Game
             this.AttributeBonus = new AttributeBonus();
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, mHp);
             AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroPanel, mAtk);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroPanel, mAtk);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroPanel, mAtk);
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroPanel, mAtk);
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroPanel, mAtk);
             AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, mDef); //降低50%继承
 
             AttributeBonus.SetAttr(AttributeEnum.Speed, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed));
@@ -170,30 +170,6 @@ namespace Game
                 }
             }
 
-            if (Master.Camp == PlayerType.Hero) //继承神技-道力盾
-            {
-                User user = GameProcessor.Inst.User;
-
-                SkillData skillData = user.SkillList.Where(m => m.SkillConfig.Id == 3005).FirstOrDefault();
-                if (skillData != null)
-                {
-                    List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
-                    List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
-
-                    SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, false, RuleType, 0);
-
-                    if (skillPanel.DivineLevel > 0)
-                    {
-                        //Debug.Log("dld Percent:" + skillPanel.Percent);
-                        int dp = (int)(skillPanel.DivineAttrConfig.Param * skillPanel.DivineLevel);
-                        //Debug.Log("dld dp:" + dp);
-                        skillPanel.Percent = skillPanel.Percent * dp / 100;
-                        //Debug.Log("dld Percent:" + skillPanel.Percent);
-                        SkillState skill = new SkillState(this, skillPanel, 0, 0);
-                        SelectSkillList.Insert(0, skill);
-                    }
-                }
-            }
 
             if (Master.Camp == PlayerType.Hero) //继承护体戒指
             {

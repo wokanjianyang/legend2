@@ -62,10 +62,11 @@ namespace Game
         public List<KeyValuePair<int, int>> RuneTextList { get; } = new List<KeyValuePair<int, int>>();
         public List<KeyValuePair<int, int>> SuitTextList { get; } = new List<KeyValuePair<int, int>>();
 
-        public string Desc { get; set; }
+        public List<int> AttrIdList = new List<int>();
 
-        public long DivineLevel = 0;
-        public SkillDivineAttrConfig DivineAttrConfig;
+        public List<double> AttrValueList = new List<double>();
+
+        public string Desc { get; set; }
 
         public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, bool isPlayer) : this(skillData, runeList, suitList, isPlayer, RuleType.Normal, 0)
         {
@@ -76,8 +77,6 @@ namespace Game
         {
             this.SkillData = skillData;
             this.SkillId = skillData.SkillId;
-
-            this.DivineAttrConfig = SkillDivineAttrConfigCategory.Instance.GetBySkillId(SkillId);
 
             if (runeList == null)
             {
@@ -180,23 +179,6 @@ namespace Game
             int runeMiss = baseRuneList.Select(m => m.Miss).Sum();
             int suitMiss = baseSuitList.Select(m => m.Miss).Sum();
 
-            int[] divineAttrList = new int[] { 0, 0, 0 };
-
-            foreach (KeyValuePair<int, Data.MagicData> v in skillData.DivineData)
-            {
-                int dil = (int)v.Value.Data;
-                if (dil > 0 && DivineAttrConfig != null)
-                {
-                    SkillDivineConfig divineConfig = SkillDivineConfigCategory.Instance.GetConfig(v.Key, dil);
-                    int dal = divineConfig.SkillAttrValue * dil;
-                    if (ruleType == RuleType.Myth)
-                    {
-                        dal = dal / DivineAttrConfig.PercentRate;
-                    }
-                    divineAttrList[divineConfig.SkillAttrId - 1] += dal;
-                }
-            }
-
             this.Damage += skillData.SkillConfig.Damage + runeDamage + suitDamage + levelDamage;
 
             if (SkillData.SkillConfig.SkillLayer >= 11)
@@ -207,7 +189,6 @@ namespace Game
             this.Percent += skillData.SkillConfig.Percent + runePercent + suitPercent + levelPercent;
             //系数倍率
             this.Percent = this.Percent * (100 + runePercentRate + suitPercentRate + petRate) / 100;
-            this.Percent = this.Percent * (100 + divineAttrList[0]) / 100;
 
             this.IgnoreDef += skillData.SkillConfig.IgnoreDef + runeIgnoreDef + suitIgnoreDef;
             this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis;
@@ -226,8 +207,8 @@ namespace Game
             this.Accuracy = runeAc + suitAc;
             this.Miss = runeMiss + suitMiss;
 
-            this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea + divineAttrList[1];
-            this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea + divineAttrList[2];
+            this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea;
+            this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea;
 
             this.InheritIncrea = runeInheritIncrea + suitInheritIncrea;
 
@@ -240,6 +221,31 @@ namespace Game
             //        this.CenterType = suit.Center;
             //    }
             //}
+            //技能属性
+            if (SkillId == 1001)
+            {
+                AttrIdList.Add((int)AttributeEnum.PhyAtk);
+                AttrValueList.Add(Damage);
+
+                AttrIdList.Add((int)AttributeEnum.IncreaPhyAtk);
+                AttrValueList.Add(Percent);
+            }
+            else if (SkillId == 2001)
+            {
+                AttrIdList.Add((int)AttributeEnum.MagicAtk);
+                AttrValueList.Add(Damage);
+
+                AttrIdList.Add((int)AttributeEnum.IncreaMagicAtk);
+                AttrValueList.Add(Percent);
+            }
+            else if (SkillId == 3001)
+            {
+                AttrIdList.Add((int)AttributeEnum.SpiritAtk);
+                AttrValueList.Add(Damage);
+
+                AttrIdList.Add((int)AttributeEnum.IncreaSpiritAtk);
+                AttrValueList.Add(Percent);
+            }
 
             if (isPlayer)
             {
@@ -319,50 +325,9 @@ namespace Game
                 this.DefinitelyCrit = false;
             }
 
-            this.DivineLevel = skillData.GetDivineLevel(); ;
 
-            //护盾神技
-            if (DivineLevel > 0 && DivineAttrConfig != null)
-            {
-                int divineMax = (int)(DivineLevel * DivineAttrConfig.Param);
-                int effectDivine = divineMax / DivineAttrConfig.ParamRate;
-                if (SkillId == 1005)
-                {
-                    EffectIdList[18] = new EffectData(18, 1005, divineMax, 0, Duration, 0);
-                }
-                else if (SkillId == 2005)
-                {
-                    EffectIdList[19] = new EffectData(19, 2005, divineMax, 0, Duration, 0);
-                }
-                else if (SkillId == 1008)
-                {
-                    EffectIdList[22] = new EffectData(22, 1008, effectDivine, 0, 360, 6);
-                }
-                else if (SkillId == 2008)
-                {
-                    EffectIdList[24] = new EffectData(24, 2008, effectDivine, 0, 360, 6);
-                }
-                else if (SkillId == 3008)
-                {
-                    EffectIdList[223008] = new EffectData(22, 3008, effectDivine, 0, 360, 6);
-                    EffectIdList[25] = new EffectData(25, 3008, effectDivine, 0, 360, 6);
+            //技能附加的属性
 
-                    EffectIdList[28] = new EffectData(28, 3008, effectDivine, 0, 360, 6);
-                    EffectIdList[31] = new EffectData(31, 3008, effectDivine, 0, 360, 6);
-                }
-                else if (SkillId == 1010)
-                {
-                    this.Rate += divineMax;
-                }
-                else if (SkillId == 2010)
-                {
-
-                }
-                else if (SkillId == 3010)
-                {
-
-                }
-            }
 
             //TEST skill
             //this.CD = 0;

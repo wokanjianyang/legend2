@@ -47,66 +47,67 @@ namespace Game
             AllAttrDict[attrType][key] = attrValue;
         }
 
-        public double GetBattleAttr(AttributeEnum attrType)
+        //获取最终战斗属性
+        public double CalBattleTotalAttr(AttributeEnum attrType)
         {
             double total = 0;
 
             switch (attrType)
             {
                 case AttributeEnum.HP:
-                    total = CalBattleAttr(AttributeEnum.HP);
-                    total *= (1 + CalBattleAttr(AttributeEnum.HpIncrea) / 100.0);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RateHp) / 100.0);
-                    total *= CalBattleMul(AttributeEnum.MulHp);
+                    total = CalBattleSingleAttr(AttributeEnum.HP);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.HpIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateHp) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulHp);
                     break;
                 case AttributeEnum.PhyAtk:
-                    total = CalBattleAttr(AttributeEnum.PhyAtk);
-                    total *= (1 + CalBattleAttr(AttributeEnum.AttIncrea, AttributeEnum.PhyAttIncrea) / 100.0);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RateaAtk, AttributeEnum.RatePhyAtk) / 100.0);
-                    total *= CalBattleMul(AttributeEnum.MulAttr);
-                    total *= CalBattleMul(AttributeEnum.MulAttrPhy);
+                    total = CalBattleSingleAttr(AttributeEnum.PhyAtk);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.AttIncrea, AttributeEnum.PhyAttIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateaAtk, AttributeEnum.RatePhyAtk) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttr);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttrPhy);
                     break;
                 case AttributeEnum.MagicAtt:
-                    total = CalBattleAttr(AttributeEnum.MagicAtt);
-                    total *= (1 + CalBattleAttr(AttributeEnum.AttIncrea, AttributeEnum.MagicAttIncrea) / 100.0);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RateaAtk, AttributeEnum.RateMagicAtk) / 100.0);
-                    total *= CalBattleMul(AttributeEnum.MulAttr);
-                    total *= CalBattleMul(AttributeEnum.MulAttrMagic);
+                    total = CalBattleSingleAttr(AttributeEnum.MagicAtt);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.AttIncrea, AttributeEnum.MagicAttIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateaAtk, AttributeEnum.RateMagicAtk) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttr);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttrMagic);
                     break;
                 case AttributeEnum.SpiritAtt:
-                    total = CalBattleAttr(AttributeEnum.PhyAtk);
-                    total *= (1 + CalBattleAttr(AttributeEnum.AttIncrea, AttributeEnum.SpiritAttIncrea) / 100.0);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RateaAtk, AttributeEnum.RateSpiritAtk) / 100.0);
-                    total *= CalBattleMul(AttributeEnum.MulAttr);
-                    total *= CalBattleMul(AttributeEnum.MulAttrSpirit);
+                    total = CalBattleSingleAttr(AttributeEnum.PhyAtk);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.AttIncrea, AttributeEnum.SpiritAttIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateaAtk, AttributeEnum.RateSpiritAtk) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttr);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttrSpirit);
                     break;
                 case AttributeEnum.Def:
-                    total = CalBattleAttr(AttributeEnum.Def);
-                    total *= (1 + CalBattleAttr(AttributeEnum.DefIncrea) / 100.0);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RateDef) / 100.0);
-                    total *= CalBattleMul(AttributeEnum.MulDef);
+                    total = CalBattleSingleAttr(AttributeEnum.Def);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.DefIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateDef) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulDef);
                     break;
                 case AttributeEnum.Strong:
-                    total = CalBattleAttr(AttributeEnum.Strong);
-                    total *= CalBattleMul(AttributeEnum.StrongMul);
+                    total = CalBattleSingleAttr(AttributeEnum.Strong);
+                    total *= CalBattleSingleMul(AttributeEnum.StrongMul);
                     break;
                 case AttributeEnum.PhyDamage:
-                    total = CalBattleAttr(AttributeEnum.PhyDamage);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RatePhyDamage) / 100.0);
+                    total = CalBattleSingleAttr(AttributeEnum.PhyDamage);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RatePhyDamage) / 100.0);
                     break;
                 case AttributeEnum.MagicDamage:
-                    total = CalBattleAttr(AttributeEnum.MagicDamage);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RateMagicDamage) / 100.0);
+                    total = CalBattleSingleAttr(AttributeEnum.MagicDamage);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateMagicDamage) / 100.0);
                     break;
                 case AttributeEnum.SpiritDamage:
-                    total = CalBattleAttr(AttributeEnum.SpiritDamage);
-                    total *= (1 + CalBattleAttr(AttributeEnum.RateSpiritDamage) / 100.0);
+                    total = CalBattleSingleAttr(AttributeEnum.SpiritDamage);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateSpiritDamage) / 100.0);
                     break;
                 case AttributeEnum.CritRate:
-                    total = CalBattleAttr(attrType);
+                    total = CalBattleSingleAttr(attrType);
                     break;
                 case AttributeEnum.Lucky:
-                    total = CalBattleAttr(attrType);
+                    total = CalBattleSingleAttr(attrType);
                     break;
                 default:
                     Debug.LogError("not implete");
@@ -118,7 +119,8 @@ namespace Game
             return total;
         }
 
-        private double CalBattleAttr(AttributeEnum type, params AttributeEnum[] increaTypes)
+        //获取单项战斗属性
+        private double CalBattleSingleAttr(AttributeEnum type, params AttributeEnum[] increaTypes)
         {
             double total = 0;
 
@@ -176,7 +178,8 @@ namespace Game
             return total;
         }
 
-        public double CalBattleMul(AttributeEnum type)
+        //获取单项战斗倍率
+        public double CalBattleSingleMul(AttributeEnum type)
         {
             double total = 1;
 
@@ -207,7 +210,80 @@ namespace Game
             return total;
         }
 
-        public double CalBaseAttr(AttributeEnum type, params AttributeEnum[] increaTypes)
+        //获取最终面板属性
+        public double CalBaseTotalAttr(AttributeEnum attrType)
+        {
+            double total = 0;
+
+            switch (attrType)
+            {
+                case AttributeEnum.HP:
+                    total = CalBattleSingleAttr(AttributeEnum.HP);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.HpIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateHp) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulHp);
+                    break;
+                case AttributeEnum.PhyAtk:
+                    total = CalBattleSingleAttr(AttributeEnum.PhyAtk);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.AttIncrea, AttributeEnum.PhyAttIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateaAtk, AttributeEnum.RatePhyAtk) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttr);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttrPhy);
+                    break;
+                case AttributeEnum.MagicAtt:
+                    total = CalBattleSingleAttr(AttributeEnum.MagicAtt);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.AttIncrea, AttributeEnum.MagicAttIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateaAtk, AttributeEnum.RateMagicAtk) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttr);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttrMagic);
+                    break;
+                case AttributeEnum.SpiritAtt:
+                    total = CalBattleSingleAttr(AttributeEnum.PhyAtk);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.AttIncrea, AttributeEnum.SpiritAttIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateaAtk, AttributeEnum.RateSpiritAtk) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttr);
+                    total *= CalBattleSingleMul(AttributeEnum.MulAttrSpirit);
+                    break;
+                case AttributeEnum.Def:
+                    total = CalBattleSingleAttr(AttributeEnum.Def);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.DefIncrea) / 100.0);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateDef) / 100.0);
+                    total *= CalBattleSingleMul(AttributeEnum.MulDef);
+                    break;
+                case AttributeEnum.Strong:
+                    total = CalBattleSingleAttr(AttributeEnum.Strong);
+                    total *= CalBattleSingleMul(AttributeEnum.StrongMul);
+                    break;
+                case AttributeEnum.PhyDamage:
+                    total = CalBattleSingleAttr(AttributeEnum.PhyDamage);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RatePhyDamage) / 100.0);
+                    break;
+                case AttributeEnum.MagicDamage:
+                    total = CalBattleSingleAttr(AttributeEnum.MagicDamage);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateMagicDamage) / 100.0);
+                    break;
+                case AttributeEnum.SpiritDamage:
+                    total = CalBattleSingleAttr(AttributeEnum.SpiritDamage);
+                    total *= (1 + CalBattleSingleAttr(AttributeEnum.RateSpiritDamage) / 100.0);
+                    break;
+                case AttributeEnum.CritRate:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.Lucky:
+                    total = CalBattleSingleAttr(attrType);
+                    break;
+                default:
+                    Debug.LogError("not implete");
+                    throw new Exception();
+                    break;
+
+            }
+
+            return total;
+        }
+
+        //获取单项面板属性
+        public double CalBaseSingleAttr(AttributeEnum type, params AttributeEnum[] increaTypes)
         {
             double total = 0;
 
@@ -232,7 +308,8 @@ namespace Game
             return total;
         }
 
-        public double CalBaseMul(AttributeEnum type)
+        //获取单项面板倍率
+        public double CalBaseSingleMul(AttributeEnum type)
         {
             double total = 100;
 
@@ -245,6 +322,44 @@ namespace Game
             }
 
             return total - 100;
+        }
+
+        public double CalBattleRoleAtk(int role)
+        {
+            double attack = 0;
+            switch (role)
+            {
+                case (int)RoleType.Warrior:
+                    {
+                        attack = CalBattleTotalAttr(AttributeEnum.PhyAtk);
+                        break;
+                    }
+                case (int)RoleType.Mage:
+                    {
+                        attack = CalBattleTotalAttr(AttributeEnum.MagicAtt);
+                        break;
+                    }
+                case (int)RoleType.Warlock:
+                    {
+                        attack = CalBattleTotalAttr(AttributeEnum.SpiritAtt);
+                        break;
+                    }
+            }
+
+            return attack;
+        }
+
+        public double CalBattleMaxAtk()
+        {
+            double atk = 0;
+
+            atk = Math.Max(atk, CalBattleTotalAttr(AttributeEnum.PhyAtk));
+
+            atk = Math.Max(atk, CalBattleTotalAttr(AttributeEnum.MagicAtt));
+
+            atk = Math.Max(atk, CalBattleTotalAttr(AttributeEnum.SpiritAtt));
+
+            return atk;
         }
 
 
@@ -380,9 +495,6 @@ namespace Game
             powerDamage *= CalPercent(AttributeEnum.DamageIncrea) * CalPercent(AttributeEnum.AurasDamageIncrea);
             powerDamage *= (1 + GetTotalAttrDouble(AttributeEnum.Lucky) * 0.1);
             powerDamage *= (1 + Math.Min(GetTotalAttrDouble(AttributeEnum.CritRate), 1) * (GetTotalAttrDouble(AttributeEnum.CritDamage) + 150) / 100);
-
-            double roleDamageRise = DamageHelper.GetRoleDamageAttackRise(this, role, true);
-            powerDamage *= (1 + roleDamageRise / 100);
 
             //增伤倍率
             double mdi = GetTotalAttrDouble(AttributeEnum.MulDamageIncrea);

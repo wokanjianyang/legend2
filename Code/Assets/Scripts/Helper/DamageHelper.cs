@@ -17,20 +17,20 @@ namespace Game
             if (role == 0)
             {
                 //普攻,取最大3系最大攻击
-                atk = GetRoleAtk(attcher, role);
+                atk = attcher.CalBattleRoleAtk(role);
             }
             else
             {
-                atk = GetMaxAtk(attcher);
+                atk = attcher.CalBattleMaxAtk();
             }
 
             //防御减伤为 攻击/防御*0.75
-            double def = enemy.GetBattleAttr(AttributeEnum.Def);
+            double def = enemy.CalBattleTotalAttr(AttributeEnum.Def);
 
             if (def >= 1)
             {
                 //诅咒对防御的影响
-                double curse = attcher.GetBattleAttr(AttributeEnum.Curse) - enemy.GetBattleAttr(AttributeEnum.Lucky);
+                double curse = attcher.CalBattleTotalAttr(AttributeEnum.Curse) - enemy.CalBattleTotalAttr(AttributeEnum.Lucky);
                 if (curse > 0)
                 {
                     double curseRate = CalLuckyRate((int)curse);
@@ -44,7 +44,7 @@ namespace Game
             atk += skill.Damage;
 
             //lucky
-            double lucky = attcher.GetBattleAttr(AttributeEnum.Lucky) - enemy.GetBattleAttr(AttributeEnum.Curse);
+            double lucky = attcher.CalBattleTotalAttr(AttributeEnum.Lucky) - enemy.CalBattleTotalAttr(AttributeEnum.Curse);
             if (lucky > 0)
             {
                 double luckyRate = CalLuckyRate((int)lucky);
@@ -59,29 +59,29 @@ namespace Game
             atk *= (1 + skill.FinalIncrea / 100.0);
 
             //致命
-            int deadlyRate = (int)((attcher.GetBattleAttr(AttributeEnum.DeadlyRate) + skill.DeadlyRate));
+            int deadlyRate = (int)((attcher.CalBattleTotalAttr(AttributeEnum.DeadlyRate) + skill.DeadlyRate));
             if (RandomHelper.RandomRate(deadlyRate))
             {
-                int deadlyDamage = (int)(attcher.GetBattleAttr(AttributeEnum.DeadlyDamage) + skill.DeadlyDamage);
+                int deadlyDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.DeadlyDamage) + skill.DeadlyDamage);
                 atk *= (1 + deadlyDamage / 100.0);
             }
 
             //暴击
-            int critRate = (int)(attcher.GetBattleAttr(AttributeEnum.CritRate) + skill.CritRate - enemy.GetBattleAttr(AttributeEnum.CritRateResist));
+            int critRate = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritRate) + skill.CritRate - enemy.CalBattleTotalAttr(AttributeEnum.CritRateResist));
             if (RandomHelper.RandomRate(critRate))
             {
-                long critDamage = (int)(attcher.GetBattleAttr(AttributeEnum.CritDamage) + skill.CritDamage - enemy.GetBattleAttr(AttributeEnum.CritDamageResist));
+                long critDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritDamage) + skill.CritDamage - enemy.CalBattleTotalAttr(AttributeEnum.CritDamageResist));
                 atk *= (1 + critDamage / 100.0);
             }
 
             //增伤
-            atk *= (1 + attcher.GetBattleAttr(AttributeEnum.DamageIncrea) / 100.0);
+            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.DamageIncrea) / 100.0);
 
             //减伤
-            atk = atk / (1 + attcher.GetBattleAttr(AttributeEnum.DamageResist) / 100.0);
+            atk = atk / (1 + attcher.CalBattleTotalAttr(AttributeEnum.DamageResist) / 100.0);
 
             //承受者的易伤
-            double extraDamage = enemy.GetBattleAttr(AttributeEnum.ExtraDamage);
+            double extraDamage = enemy.CalBattleTotalAttr(AttributeEnum.ExtraDamage);
             if (extraDamage > 0)
             {
                 atk *= 1 + extraDamage / 100.0;
@@ -91,46 +91,6 @@ namespace Game
 
             //强制最少1点伤害
             return new DamageResult(Math.Max(1, atk), 1, MsgType.Normal, (RoleType)role, skill.SkillId); //
-        }
-
-        public static double GetRoleAtk(AttributeBonus attributeBonus, int role)
-        {
-            double attack = 0;
-            switch (role)
-            {
-                case (int)RoleType.Warrior:
-                    {
-                        attack = attributeBonus.GetBattleAttr(AttributeEnum.PhyAtk);
-                        break;
-                    }
-                case (int)RoleType.Mage:
-                    {
-                        attack = attributeBonus.GetBattleAttr(AttributeEnum.MagicAtt);
-                        break;
-                    }
-                case (int)RoleType.Warlock:
-                    {
-                        attack = attributeBonus.GetBattleAttr(AttributeEnum.SpiritAtt);
-                        break;
-                    }
-            }
-
-            return attack;
-        }
-
-        public static double GetMaxAtk(AttributeBonus attributeBonus)
-        {
-            double atk = 0;
-
-            atk = Math.Max(atk, attributeBonus.GetBattleAttr(AttributeEnum.PhyAtk));
-
-
-            atk = Math.Max(atk, attributeBonus.GetBattleAttr(AttributeEnum.MagicAtt));
-
-
-            atk = Math.Max(atk, attributeBonus.GetBattleAttr(AttributeEnum.SpiritAtt));
-
-            return atk;
         }
 
         public static double CalLuckyRate(int lucky)
@@ -175,53 +135,6 @@ namespace Game
             return RandomHelper.RandomRate((int)rate);
         }
 
-        public static long GetSkillDamage(AttributeBonus attributeBonus, int role)
-        {
-            long attack = 100;
-            switch (role)
-            {
-                case (int)RoleType.Warrior:
-                    {
-                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillPhyDamage);
-                        break;
-                    }
-                case (int)RoleType.Mage:
-                    {
-                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillMagicDamage);
-                        break;
-                    }
-                case (int)RoleType.Warlock:
-                    {
-                        attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillSpiritDamage);
-                        break;
-                    }
-            }
-
-            attack += attributeBonus.GetAttackAttr(AttributeEnum.SkillAllDamage);
-
-            return attack;
-        }
-
-        public static double GetRoleDamageAttackRise(AttributeBonus attributeBonus, int role, bool haveBuff)
-        {
-            switch (role)
-            {
-                case (int)RoleType.Warrior:
-                    {
-                        return attributeBonus.GetTotalAttrDouble(AttributeEnum.PhyDamage, haveBuff);
-                    }
-                case (int)RoleType.Mage:
-                    {
-                        return attributeBonus.GetTotalAttrDouble(AttributeEnum.MagicDamage, haveBuff);
-                    }
-                case (int)RoleType.Warlock:
-                    {
-                        return attributeBonus.GetTotalAttrDouble(AttributeEnum.SpiritDamage, haveBuff);
-                    }
-            }
-
-            return 1;
-        }
 
         public static long GetRolePercent(AttributeBonus attributeBonus, int role)
         {
@@ -331,9 +244,6 @@ namespace Game
 
             return 0;
         }
-
-
-
 
     }
 

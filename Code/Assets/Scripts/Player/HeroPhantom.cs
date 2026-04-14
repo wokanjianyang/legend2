@@ -22,253 +22,253 @@ namespace Game
 
             this.Scale = scale;
 
-            this.Init();
+            //this.Init();
         }
 
-        private void Init()
-        {
-            User user = GameProcessor.Inst.User;
-            this.Camp = PlayerType.HeroPhatom;
+    //    private void Init()
+    //    {
+    //        User user = GameProcessor.Inst.User;
+    //        this.Camp = PlayerType.HeroPhatom;
 
-            int configId = GameProcessor.Inst.User.HeroPhatomData.Current.ConfigId;
+    //        int configId = GameProcessor.Inst.User.HeroPhatomData.Current.ConfigId;
 
-            if (configId > 0)
-            {
-                HeroPhatomConfig heroPhatomConfig = HeroPhatomConfigCategory.Instance.Get(configId);
-                this.Name = heroPhatomConfig.Name;
-            }
-            else
-            {
-                this.Name = "镜像-" + user.Name;
-            }
+    //        if (configId > 0)
+    //        {
+    //            HeroPhatomConfig heroPhatomConfig = HeroPhatomConfigCategory.Instance.Get(configId);
+    //            this.Name = heroPhatomConfig.Name;
+    //        }
+    //        else
+    //        {
+    //            this.Name = "镜像-" + user.Name;
+    //        }
 
-            this.Level = user.MagicLevel.Data;
+    //        this.Level = user.MagicLevel.Data;
 
-            this.SetAttr(user);  //设置属性值
-            this.SetSkill(user); //设置技能
+    //        this.SetAttr(user);  //设置属性值
+    //        this.SetSkill(user); //设置技能
 
-            base.Load();
-            this.Logic.SetData(null); //设置UI
-        }
+    //        base.Load();
+    //        this.Logic.SetData(null); //设置UI
+    //    }
 
-        private void SetAttr(User user)
-        {
-            this.AttributeBonus = new AttributeBonus();
+    //    private void SetAttr(User user)
+    //    {
+    //        this.AttributeBonus = new AttributeBonus();
 
-            SetHP(AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
-        }
+    //        SetHP(AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
+    //    }
 
-        private List<SkillRune> RandomSkillRuneList(int skillId)
-        {
-            List<SkillRune> runeList = new List<SkillRune>();
+    //    private List<SkillRune> RandomSkillRuneList(int skillId)
+    //    {
+    //        List<SkillRune> runeList = new List<SkillRune>();
 
-            if (this.Scale <= 5)
-            {
-                return runeList;
-            }
+    //        if (this.Scale <= 5)
+    //        {
+    //            return runeList;
+    //        }
 
-            runeList = SkillRuneConfigCategory.Instance.GetAllRune(skillId, 4);
+    //        runeList = SkillRuneConfigCategory.Instance.GetAllRune(skillId, 4);
 
-            return runeList;
-        }
+    //        return runeList;
+    //    }
 
-        private List<SkillSuit> RandomSkillSuitList(int skillId)
-        {
-            List<SkillSuit> suitList = new List<SkillSuit>();
+    //    private List<SkillSuit> RandomSkillSuitList(int skillId)
+    //    {
+    //        List<SkillSuit> suitList = new List<SkillSuit>();
 
-            if (this.Scale <= 3)
-            {
-                return suitList;
-            }
+    //        if (this.Scale <= 3)
+    //        {
+    //            return suitList;
+    //        }
 
-            suitList = SkillSuitHelper.GetAllSuit(skillId, 4);
+    //        suitList = SkillSuitHelper.GetAllSuit(skillId, 4);
 
-            return suitList;
-        }
+    //        return suitList;
+    //    }
 
-        private void SetSkill(User user)
-        {
-            SelectSkillList = new List<SkillState>();
+    //    private void SetSkill(User user)
+    //    {
+    //        SelectSkillList = new List<SkillState>();
 
-            List<int> skillIdList = GameProcessor.Inst.User.HeroPhatomData.Current.SkillIdList;
+    //        List<int> skillIdList = GameProcessor.Inst.User.HeroPhatomData.Current.SkillIdList;
 
-            //Debug.Log("Hero Phantom  " + JsonConvert.SerializeObject(skillIdList));
+    //        //Debug.Log("Hero Phantom  " + JsonConvert.SerializeObject(skillIdList));
 
-            List<SkillData> list = new List<SkillData>();
-            for (int i = 0; i < skillIdList.Count; i++)
-            {
-                SkillData skillData = new SkillData(skillIdList[i], i);
-                skillData.MagicLevel.Data = user.GetSkillLimit(skillData.SkillConfig) * Scale / 10;
-                list.Add(skillData);
-            }
-            list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
+    //        List<SkillData> list = new List<SkillData>();
+    //        for (int i = 0; i < skillIdList.Count; i++)
+    //        {
+    //            SkillData skillData = new SkillData(skillIdList[i], i);
+    //            skillData.MagicLevel.Data = user.GetSkillLimit(skillData.SkillConfig) * Scale / 10;
+    //            list.Add(skillData);
+    //        }
+    //        list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
 
-            foreach (SkillData skillData in list)
-            {
+    //        foreach (SkillData skillData in list)
+    //        {
 
-                List<SkillRune> runeList = RandomSkillRuneList(skillData.SkillId);
-                List<SkillSuit> suitList = RandomSkillSuitList(skillData.SkillId);
+    //            List<SkillRune> runeList = RandomSkillRuneList(skillData.SkillId);
+    //            List<SkillSuit> suitList = RandomSkillSuitList(skillData.SkillId);
 
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, true);
+    //            SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, true);
 
-                SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                SelectSkillList.Add(skill);
+    //            SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
+    //            SelectSkillList.Add(skill);
 
-                //职业专精技能的属性
-                if (skillData.SkillConfig.Type == (int)SkillType.Expert)
-                {
-                    int attrKey = (int)AttributeFrom.Skill * 10000 + skillData.SkillId;
+    //            //职业专精技能的属性
+    //            if (skillData.SkillConfig.Type == (int)SkillType.Expert)
+    //            {
+    //                int attrKey = (int)AttributeFrom.Skill * 10000 + skillData.SkillId;
 
-                    if (skillData.SkillConfig.Role == (int)RoleType.Warrior)
-                    {
-                        AttributeBonus.SetAttr(AttributeEnum.WarriorSkillPercent, attrKey, skillPanel.Percent);
-                        AttributeBonus.SetAttr(AttributeEnum.WarriorSkillDamage, attrKey, skillPanel.Damage);
-                    }
-                    else if (skillData.SkillConfig.Role == (int)RoleType.Mage)
-                    {
-                        AttributeBonus.SetAttr(AttributeEnum.MageSkillPercent, attrKey, skillPanel.Percent);
-                        AttributeBonus.SetAttr(AttributeEnum.MageSkillDamage, attrKey, skillPanel.Damage);
-                    }
-                    else if (skillData.SkillConfig.Role == (int)RoleType.Warlock)
-                    {
-                        AttributeBonus.SetAttr(AttributeEnum.WarlockSkillPercent, attrKey, skillPanel.Percent);
-                        AttributeBonus.SetAttr(AttributeEnum.WarlockSkillDamage, attrKey, skillPanel.Damage);
-                    }
-                }
-            }
+    //                if (skillData.SkillConfig.Role == (int)RoleType.Warrior)
+    //                {
+    //                    AttributeBonus.SetAttr(AttributeEnum.WarriorSkillPercent, attrKey, skillPanel.Percent);
+    //                    AttributeBonus.SetAttr(AttributeEnum.WarriorSkillDamage, attrKey, skillPanel.Damage);
+    //                }
+    //                else if (skillData.SkillConfig.Role == (int)RoleType.Mage)
+    //                {
+    //                    AttributeBonus.SetAttr(AttributeEnum.MageSkillPercent, attrKey, skillPanel.Percent);
+    //                    AttributeBonus.SetAttr(AttributeEnum.MageSkillDamage, attrKey, skillPanel.Damage);
+    //                }
+    //                else if (skillData.SkillConfig.Role == (int)RoleType.Warlock)
+    //                {
+    //                    AttributeBonus.SetAttr(AttributeEnum.WarlockSkillPercent, attrKey, skillPanel.Percent);
+    //                    AttributeBonus.SetAttr(AttributeEnum.WarlockSkillDamage, attrKey, skillPanel.Damage);
+    //                }
+    //            }
+    //        }
 
-            InitDoubleHitSkill(user);
+    //        InitDoubleHitSkill(user);
 
-            base.SetSkillAfter();
-        }
+    //        base.SetSkillAfter();
+    //    }
 
-        private void InitDoubleHitSkill(User user)
-        {
-            DoubleHitSkillList.Clear();
+    //    private void InitDoubleHitSkill(User user)
+    //    {
+    //        DoubleHitSkillList.Clear();
 
-            foreach (var kv in user.ExclusivePanelList[user.ExclusiveIndex])
-            {
-                ExclusiveItem exclusive = kv.Value;
+    //        foreach (var kv in user.ExclusivePanelList[user.ExclusiveIndex])
+    //        {
+    //            ExclusiveItem exclusive = kv.Value;
 
-                if (exclusive.DoubleHitId > 0)
-                {
-                    int skillId = exclusive.DoubleHitConfig.SkillId;
+    //            if (exclusive.DoubleHitId > 0)
+    //            {
+    //                int skillId = exclusive.DoubleHitConfig.SkillId;
 
-                    SkillData skillData = user.SkillList.Where(m => m.SkillId == skillId).FirstOrDefault();
+    //                SkillData skillData = user.SkillList.Where(m => m.SkillId == skillId).FirstOrDefault();
 
-                    if (skillData == null)
-                    {
-                        break;
-                    }
+    //                if (skillData == null)
+    //                {
+    //                    break;
+    //                }
 
-                    List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
-                    List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
+    //                List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
+    //                List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
 
-                    SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, true);
+    //                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, true);
 
-                    SkillState skill = DoubleHitSkillList.Where(m => m.SkillPanel.SkillId == skillId).FirstOrDefault();
+    //                SkillState skill = DoubleHitSkillList.Where(m => m.SkillPanel.SkillId == skillId).FirstOrDefault();
 
-                    if (skill == null)
-                    {
-                        skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                        DoubleHitSkillList.Add(skill);
-                    }
-                    skill.AddRate(exclusive.DoubleHitConfig.Rate);
-                }
-            }
-        }
+    //                if (skill == null)
+    //                {
+    //                    skill = new SkillState(this, skillPanel, skillData.Position, 0);
+    //                    DoubleHitSkillList.Add(skill);
+    //                }
+    //                skill.AddRate(exclusive.DoubleHitConfig.Rate);
+    //            }
+    //        }
+    //    }
 
 
-        public override float AttackLogic()
-        {
-            //Debug.Log("生命:" + AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP));
-            //Debug.Log("减伤:"+AttributeBonus.GetAttackAttr(AttributeEnum.DamageResist)+" 增伤:"+ AttributeBonus.GetAttackAttr(AttributeEnum.DamageIncrea));
+    //    public override float AttackLogic()
+    //    {
+    //        //Debug.Log("生命:" + AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP));
+    //        //Debug.Log("减伤:"+AttributeBonus.GetAttackAttr(AttributeEnum.DamageResist)+" 增伤:"+ AttributeBonus.GetAttackAttr(AttributeEnum.DamageIncrea));
 
-            //Debug.Log("瞬移魔法伤害:" + AttributeBonus.GetAttackAttr(AttributeEnum.MagicDamage));
+    //        //Debug.Log("瞬移魔法伤害:" + AttributeBonus.GetAttackAttr(AttributeEnum.MagicDamage));
 
-            //0 优先攻击英雄
-            _enemy = GameProcessor.Inst.PlayerManager.GetHero();
+    //        //0 优先攻击英雄
+    //        _enemy = GameProcessor.Inst.PlayerManager.GetHero();
 
-            //1. 控制前计算高优级技能
-            SkillState skill;
+    //        //1. 控制前计算高优级技能
+    //        SkillState skill;
 
-            //3.寻找目标
-            _enemy = this.CalcEnemy();
+    //        //3.寻找目标
+    //        _enemy = this.CalcEnemy();
 
-            //4 尝试攻击优先目标
-            skill = this.GetSkill(0);
-            if (skill != null)
-            {  //使用技能
-                //Debug.Log($"{(this.Name)}使用技能:{(skill.SkillPanel.SkillData.SkillConfig.Name)},攻击:" + targets.Count + "个");
-                skill.Do();
-                //this.EventCenter.Raise(new ShowAttackIcon ());
+    //        //4 尝试攻击优先目标
+    //        skill = this.GetSkill(0);
+    //        if (skill != null)
+    //        {  //使用技能
+    //            //Debug.Log($"{(this.Name)}使用技能:{(skill.SkillPanel.SkillData.SkillConfig.Name)},攻击:" + targets.Count + "个");
+    //            skill.Do();
+    //            //this.EventCenter.Raise(new ShowAttackIcon ());
 
-                if (skill.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
-                {
-                    this.DoubleHit();
-                }
+    //            if (skill.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
+    //            {
+    //                this.DoubleHit();
+    //            }
 
-                return AttckSpeed;
-            }
+    //            return AttckSpeed;
+    //        }
 
-            //5.朝目标移动
-            if (_enemy != null)
-            {
-                var endPos = GameProcessor.Inst.MapData.GetPath(this.Cell, _enemy.Cell);
-                if (GameProcessor.Inst.PlayerManager.IsCellCanMove(endPos))
-                {
-                    this.Move(endPos);
-                    return MoveSpeed;
-                }
-            }
+    //        //5.朝目标移动
+    //        if (_enemy != null)
+    //        {
+    //            var endPos = GameProcessor.Inst.MapData.GetPath(this.Cell, _enemy.Cell);
+    //            if (GameProcessor.Inst.PlayerManager.IsCellCanMove(endPos))
+    //            {
+    //                this.Move(endPos);
+    //                return MoveSpeed;
+    //            }
+    //        }
 
-            //6 尝试更改攻击目标
-            if (_enemy != null)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowAttackIcon { NeedShow = true, Player = _enemy });
-            }
-            _enemy = this.FindNearestEnemy();
-            if (_enemy != null)
-            {
-                //如果有新目标
-                skill = this.GetSkill(0);
+    //        //6 尝试更改攻击目标
+    //        if (_enemy != null)
+    //        {
+    //            GameProcessor.Inst.EventCenter.Raise(new ShowAttackIcon { NeedShow = true, Player = _enemy });
+    //        }
+    //        _enemy = this.FindNearestEnemy();
+    //        if (_enemy != null)
+    //        {
+    //            //如果有新目标
+    //            skill = this.GetSkill(0);
 
-                //6.1 先攻击新目标
-                if (skill != null)
-                {
-                    skill.Do();
-                    if (skill.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
-                    {
-                        this.DoubleHit();
-                    }
-                    return AttckSpeed;
-                }
-                else
-                {
-                    //攻击不到，则移动过去
-                    var endPos = GameProcessor.Inst.MapData.GetPath(this.Cell, _enemy.Cell);
-                    if (GameProcessor.Inst.PlayerManager.IsCellCanMove(endPos))
-                    {
-                        this.Move(endPos);
-                        return MoveSpeed;
-                    }
-                }
-            }
+    //            //6.1 先攻击新目标
+    //            if (skill != null)
+    //            {
+    //                skill.Do();
+    //                if (skill.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
+    //                {
+    //                    this.DoubleHit();
+    //                }
+    //                return AttckSpeed;
+    //            }
+    //            else
+    //            {
+    //                //攻击不到，则移动过去
+    //                var endPos = GameProcessor.Inst.MapData.GetPath(this.Cell, _enemy.Cell);
+    //                if (GameProcessor.Inst.PlayerManager.IsCellCanMove(endPos))
+    //                {
+    //                    this.Move(endPos);
+    //                    return MoveSpeed;
+    //                }
+    //            }
+    //        }
 
-            return AttckSpeed;
-        }
+    //        return AttckSpeed;
+    //    }
 
-        private void DoubleHit()
-        {
-            foreach (SkillState skill in this.DoubleHitSkillList)
-            {
-                if (RandomHelper.RandomRate(skill.Rate))
-                {
-                    skill.Do(SkillRunType.Double);
-                    //Debug.Log(" Double Hit " + skill.SkillPanel.SkillData.SkillConfig.Name);
-                    return;
-                }
-            }
-        }
+    //    private void DoubleHit()
+    //    {
+    //        foreach (SkillState skill in this.DoubleHitSkillList)
+    //        {
+    //            if (RandomHelper.RandomRate(skill.Rate))
+    //            {
+    //                skill.Do(SkillRunType.Double);
+    //                //Debug.Log(" Double Hit " + skill.SkillPanel.SkillData.SkillConfig.Name);
+    //                return;
+    //            }
+    //        }
+    //    }
     }
 }

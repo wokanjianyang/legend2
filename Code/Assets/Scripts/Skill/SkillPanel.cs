@@ -37,6 +37,9 @@ namespace Game
         public int DeadlyRate { get; } //致命率
         public int DeadlyDamage { get; } //致命倍率
 
+        public int Speed { get; }
+
+
         public int DamageIncrea { get; } //伤害加成
         public int AttrIncrea { get; } //攻击加成
 

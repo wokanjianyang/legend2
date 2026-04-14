@@ -97,7 +97,6 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.CritDamageResist));
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageIncrea));
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.DamageResist));
-            AttributeBonus.SetAttr(AttributeEnum.ExtraDamage, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.ExtraDamage));
 
             AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Strong));
             AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.HeroPanel, user.AttributeBonus.GetTotalAttrDouble(AttributeEnum.Shatter));

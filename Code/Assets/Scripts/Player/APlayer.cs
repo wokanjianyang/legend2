@@ -180,11 +180,6 @@ namespace Game
             this.MoveSpeed = Mathf.Max(0.2f, 100f / (100 + SpeedPercent));
         }
 
-        public double GetRoleAttack(int role, bool haveBuff)
-        {
-            return DamageHelper.GetRoleAtk(this.AttributeBonus, role);
-        }
-
         public long GetRolePercent(int role)
         {
             return DamageHelper.GetRolePercent(this.AttributeBonus, role);

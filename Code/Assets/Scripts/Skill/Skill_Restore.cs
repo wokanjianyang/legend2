@@ -58,7 +58,7 @@ namespace Game
             //恢复不计暴击增伤幸运等
             int role = SkillPanel.SkillData.SkillConfig.Role;
 
-            double roleAttr = SelfPlayer.GetRoleAttack(role, true) * (100 + SkillPanel.AttrIncrea) / 100;  //职业攻击
+            double roleAttr = SelfPlayer.AttributeBonus.CalBattleRoleAtk(role) * (100 + SkillPanel.AttrIncrea) / 100;  //职业攻击
 
             //技能系数
             double attack = roleAttr * (SkillPanel.Percent + SelfPlayer.GetRolePercent(role)) / 100 + SkillPanel.Damage + SelfPlayer.GetRoleDamage(role);  // *百分比系数 + 固定数值

@@ -92,7 +92,7 @@ namespace Game
             this.SetMoveSpeed(Config.MoveSpeed);
 
             //回满当前血量
-            SetHP(AttributeBonus.GetBattleAttr(AttributeEnum.HP));
+            SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
         }
 
         private void SetSkill()

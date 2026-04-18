@@ -219,7 +219,7 @@ public class Panel_Pet_Speical : MonoBehaviour
         user.AddPetSpeicalLayer(this.SelectId);
         user.AddPetSpeicalLevel(this.SelectId);
 
-        user.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         Show();
     }
@@ -248,7 +248,7 @@ public class Panel_Pet_Speical : MonoBehaviour
 
         user.AddPetSpeicalLevel(this.SelectId);
 
-        user.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         this.Show();
     }
@@ -288,7 +288,7 @@ public class Panel_Pet_Speical : MonoBehaviour
 
         user.AddPetSpeicalLayer(this.SelectId);
 
-        user.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         this.Show();
     }

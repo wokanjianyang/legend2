@@ -112,7 +112,7 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
             user.AchievementData.Add(e.Id, 1);
-            user.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
             //
             var com = currentItems.Where(m => m.Config.Id == e.Id).FirstOrDefault();

@@ -130,7 +130,7 @@ public class Item_Fashion_Special : MonoBehaviour
 
         GameProcessor.Inst.EventCenter.Raise(new FashionUIFreshEvent() { });
 
-        user.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
     }
 
@@ -156,7 +156,7 @@ public class Item_Fashion_Special : MonoBehaviour
 
         GameProcessor.Inst.EventCenter.Raise(new FashionUIFreshEvent() { });
 
-        user.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
     }
 }
 

@@ -269,7 +269,7 @@ public class Panel_Fashion : MonoBehaviour
         fs[currentItem.Part].Data++;
 
         this.ShowItem(currentItem);
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
     }
 
     private void OnClick_Batch()
@@ -303,7 +303,7 @@ public class Panel_Fashion : MonoBehaviour
 
         }
 
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         this.ShowSuit(CurrentSuit);
     }
 }

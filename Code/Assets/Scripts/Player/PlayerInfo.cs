@@ -61,7 +61,7 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
 
     public void SetShow(bool show)
     {
-        Debug.Log("change player info show:" + show);
+        //Debug.Log("change player info show:" + show);
 
         this.isShow = show;
 

@@ -78,7 +78,7 @@ public class BattleRule_HeroPhantom : ABattleRule
 
         if (items.Count > 0)
         {
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()

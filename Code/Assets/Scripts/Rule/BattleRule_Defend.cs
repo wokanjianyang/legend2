@@ -168,7 +168,7 @@ public class Battle_Defend : ABattleRule
 
         if (items.Count > 0)
         {
-            user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
         if (QualityConfigHelper.GetMaxColor(items) >= user.InfoColor)

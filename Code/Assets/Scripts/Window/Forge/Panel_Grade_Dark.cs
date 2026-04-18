@@ -165,7 +165,7 @@ public class Panel_Grade_Dark : MonoBehaviour
         else
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "Éý½×³É¹¦", ToastType = ToastTypeEnum.Success });
-            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
             this.Load();
         }
     }
@@ -253,7 +253,7 @@ public class Panel_Grade_Dark : MonoBehaviour
             }
         }
 
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         this.Load();
     }
 
@@ -311,9 +311,9 @@ public class Panel_Grade_Dark : MonoBehaviour
             newList.Add(item);
         }
 
-        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
 
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         this.Load();
     }
 

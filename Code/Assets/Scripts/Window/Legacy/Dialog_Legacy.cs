@@ -233,7 +233,7 @@ public class Dialog_Legacy : MonoBehaviour, IBattleLife
         user.SaveLegacyLevel(config.Id);
 
         this.ShowItem(currentItem);
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         GameProcessor.Inst.SaveData();
     }
@@ -282,7 +282,7 @@ public class Dialog_Legacy : MonoBehaviour, IBattleLife
         user.SaveLegacyLayer(config.Id, (int)(currentLayer + 1));
 
         this.ShowItem(currentItem);
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         GameProcessor.Inst.SaveData();
     }

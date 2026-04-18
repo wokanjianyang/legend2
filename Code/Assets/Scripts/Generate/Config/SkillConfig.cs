@@ -111,30 +111,30 @@ namespace Game
 		/// <summary>持续时间</summary>
 		[ProtoMember(12)]
 		public int Duration { get; set; }
-		/// <summary>施法类型</summary>
-		[ProtoMember(13)]
-		public int CastType { get; set; }
 		/// <summary>职业</summary>
-		[ProtoMember(14)]
+		[ProtoMember(13)]
 		public int Role { get; set; }
 		/// <summary>最大等级</summary>
-		[ProtoMember(15)]
+		[ProtoMember(14)]
 		public int MaxLevel { get; set; }
 		/// <summary>伤害比例</summary>
-		[ProtoMember(16)]
+		[ProtoMember(15)]
 		public int Percent { get; set; }
 		/// <summary>固定伤害</summary>
-		[ProtoMember(17)]
+		[ProtoMember(16)]
 		public int Damage { get; set; }
 		/// <summary>等级成长</summary>
-		[ProtoMember(18)]
+		[ProtoMember(17)]
 		public int LevelPercent { get; set; }
 		/// <summary>等级成长</summary>
-		[ProtoMember(19)]
+		[ProtoMember(18)]
 		public int LevelDamage { get; set; }
 		/// <summary>攻击距离</summary>
-		[ProtoMember(20)]
+		[ProtoMember(19)]
 		public int Dis { get; set; }
+		/// <summary>施法类型</summary>
+		[ProtoMember(20)]
+		public int CastType { get; set; }
 		/// <summary>中心目标</summary>
 		[ProtoMember(21)]
 		public string Center { get; set; }

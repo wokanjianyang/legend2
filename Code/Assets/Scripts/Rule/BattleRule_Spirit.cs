@@ -261,7 +261,7 @@ public class BattleRule_Spirit : ABattleRule
 
         if (items.Count > 0)
         {
-            user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
         if (!user.SpiritOfflineFlag && stage >= 4)

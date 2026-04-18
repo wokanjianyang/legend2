@@ -107,7 +107,7 @@ public class BattleRule_World : ABattleRule
             Message = BattleMsgHelper.BuildRewardMessage(Config.MapName + layer + "ÂÖ½±Àø:", 0, 0, items)
         });
 
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
     }
 
     public override void CheckGameResult()

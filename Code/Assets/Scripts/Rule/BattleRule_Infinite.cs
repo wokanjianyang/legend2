@@ -178,7 +178,7 @@ public class BattleRule_Infinite : ABattleRule
 
         if (items.Count > 0)
         {
-            user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
         if (dropId >= 220101 && dropId <= 220110)

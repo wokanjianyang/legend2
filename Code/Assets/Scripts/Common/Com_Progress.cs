@@ -41,7 +41,7 @@ namespace Game
             {
                 case ProgressType.PlayerExp:
                     this.OnHeroInfoUpdateEvent(null);
-                    user.EventCenter.AddListener<UserInfoUpdateEvent>(this.OnHeroInfoUpdateEvent);
+                    GameProcessor.Inst.EventCenter.AddListener<UserInfoUpdateEvent>(this.OnHeroInfoUpdateEvent);
                     break;
                 case ProgressType.SkillExp:
                     break;

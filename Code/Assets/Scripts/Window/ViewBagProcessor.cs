@@ -164,7 +164,7 @@ namespace Game
             GameProcessor.Inst.EventCenter.AddListener<SelectGiftEvent>(this.OnSelectGift);
             GameProcessor.Inst.EventCenter.AddListener<EquipLockEvent>(this.OnEquipLockEvent);
             GameProcessor.Inst.EventCenter.AddListener<ExchangeEvent>(this.OnExchangeEvent);
-            //GameProcessor.Inst.EventCenter.AddListener<ChangeExclusiveEvent>(this.OnChangeExclusiveEvent);
+            GameProcessor.Inst.EventCenter.AddListener<UpdateBagPanelUserAttr>(this.UpdateUserAttr);
             GameProcessor.Inst.EventCenter.AddListener<ChangeEquipPlanEvent>(this.OnChangeEquipPlanEvent);
 
             GameProcessor.Inst.EventCenter.AddListener<PetBattleUpEvent>(this.PetBattleUp);
@@ -226,10 +226,17 @@ namespace Game
             }
         }
 
+        private void UpdateUserAttr(UpdateBagPanelUserAttr e)
+        {
+            Debug.Log("UpdateBagPanelUserAttr");
+
+            this.InitAttr();
+        }
+
         private IEnumerator LoadBox()
         {
             User user = GameProcessor.Inst.User;
-            user.EventCenter.AddListener<HeroBagUpdateEvent>(this.OnHeroBagUpdateEvent);
+            GameProcessor.Inst.EventCenter.AddListener<HeroBagUpdateEvent>(this.OnHeroBagUpdateEvent);
 
             this.items = new List<Com_Box>();
 
@@ -520,7 +527,7 @@ namespace Game
             List<Item> list = new List<Item>();
             Item item = ItemHelper.BuildItem((ItemType)Config.TargetType, Config.TargetId, 5, 1);
             list.Add(item);
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = list });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = list });
 
             GameProcessor.Inst.EventCenter.Raise(new ExchangeUIFreshEvent());
         }
@@ -587,7 +594,7 @@ namespace Game
                 e.Item.Count *= e.Nubmer;
 
                 items.Add(e.Item);
-                GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
         }
 
@@ -692,10 +699,8 @@ namespace Game
 
             ShowEquipPanel();
 
-            GameProcessor.Inst.User.EventCenter.Raise(new SkillChangePlanEvent());
-            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
-
-            this.InitAttr();
+            GameProcessor.Inst.EventCenter.Raise(new SkillChangePlanEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         }
 
         private void ShowEquipPanel()
@@ -806,7 +811,7 @@ namespace Game
             user.PetList.Add(pet);
 
             //通知英雄更新属性
-            user.EventCenter.Raise(new HeroUseEquipEvent { });
+            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
 
@@ -818,7 +823,7 @@ namespace Game
 
             if (UseBoxItem(e.BoxItem, 1))
             {
-                user.EventCenter.Raise(new HeroUseSkillBookEvent
+                GameProcessor.Inst.EventCenter.Raise(new HeroUseSkillBookEvent
                 {
                     IsLearn = true,
                     BoxItem = e.BoxItem,
@@ -1034,7 +1039,7 @@ namespace Game
                 GameObject.Destroy(boxUI.gameObject);
 
                 //生成新的
-                user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
             }
         }
 
@@ -1200,7 +1205,7 @@ namespace Game
                 }
 
                 user.MagicLevel.Data += quantity;
-                user.EventCenter.Raise(new SetPlayerLevelEvent { Cycle = user.Cycle.Data, Level = user.MagicLevel.Data });
+                GameProcessor.Inst.EventCenter.Raise(new SetPlayerLevelEvent { Cycle = user.Cycle.Data, Level = user.MagicLevel.Data });
             }
             else if (boxItem.Item.Type == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Talent_Book)
             {
@@ -1210,7 +1215,7 @@ namespace Game
             }
             else if (boxItem.Item.Type == ItemType.SkillBox)
             {
-                user.EventCenter.Raise(new HeroUseSkillBookEvent
+                GameProcessor.Inst.EventCenter.Raise(new HeroUseSkillBookEvent
                 {
                     IsLearn = false,
                     BoxItem = boxItem,
@@ -1261,7 +1266,7 @@ namespace Game
                 {
                     Message = BattleMsgHelper.BuildGiftPackMessage("礼包奖励:", 0, 0, items)
                 });
-                user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
             else if (boxItem.Item.Type == ItemType.Ticket)
             {
@@ -1285,7 +1290,7 @@ namespace Game
                 Item item = PetConfigCategory.Instance.BuildPet(boxItem.Item.ConfigId, 5);
                 items.Add(item);
 
-                user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
         }
 
@@ -1490,7 +1495,7 @@ namespace Game
             ep[Position] = equip;
 
             //通知英雄更新属性
-            user.EventCenter.Raise(new HeroUseEquipEvent { });
+            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
         private IDictionary<int, ExclusiveItem> GetExclusivePanel(ExclusiveItem exclusive)
@@ -1549,7 +1554,7 @@ namespace Game
             ep[Position] = exclusive;
 
             //通知英雄更新属性
-            user.EventCenter.Raise(new HeroUseEquipEvent { });
+            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
         public void WearShengxiao(BoxItem boxItem)
@@ -1585,7 +1590,7 @@ namespace Game
             ep[Position] = exclusive;
 
             //通知英雄更新属性
-            user.EventCenter.Raise(new HeroUseEquipEvent { });
+            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
         private void ClearEquipPanelItem(int position)
@@ -1754,7 +1759,7 @@ namespace Game
             }
 
             //通知英雄更新属性
-            user.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
 
             //UserData.Save();
         }
@@ -1781,7 +1786,7 @@ namespace Game
             ep.Remove(position);
 
             //通知英雄更新属性
-            user.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
         }
 
         private void RemoveShengxiao(BoxItem boxItem)
@@ -1806,7 +1811,7 @@ namespace Game
             ep.Remove(position);
 
             //通知英雄更新属性
-            user.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
         }
 
         private void OnHeroBagUpdateEvent(HeroBagUpdateEvent e)
@@ -1945,6 +1950,16 @@ namespace Game
         public void OpenFashion()
         {
             GameProcessor.Inst.EventCenter.Raise(new OpenFashionDialogEvent());
+        }
+
+        public override void OnOpen()
+        {
+            base.OnOpen();
+
+            Debug.Log("open view bag");
+
+            //重新计算人物属性
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         }
     }
 }

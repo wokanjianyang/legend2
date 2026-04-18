@@ -90,7 +90,7 @@ public class BattleRule_Myth : ABattleRule
             items.Add(ItemHelper.BuildItem((ItemType)mythConfig.ItemType[i], mythConfig.ItemIdList[i], 1, mythConfig.ItemQuantity[i]));
         }
 
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         string message = "神话之路" + mythConfig.MapName + "通关奖励";
         GameProcessor.Inst.EventCenter.Raise(new ShowDropEvent() { Message = message, Items = items });

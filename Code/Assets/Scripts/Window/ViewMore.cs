@@ -101,6 +101,9 @@ namespace Game
         public override void OnOpen()
         {
             base.OnOpen();
+
+            Debug.Log("open view more");
+
             scrollRect.gameObject.SetActive(true);
         }
     }

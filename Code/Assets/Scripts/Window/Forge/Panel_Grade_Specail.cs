@@ -151,7 +151,7 @@ public class Panel_Grade_Specail : MonoBehaviour
         else
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "Éý½×³É¹¦", ToastType = ToastTypeEnum.Success });
-            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
             this.Load();
         }

@@ -123,6 +123,6 @@ namespace Game
 
         public const double MaxNumber = 1E300;
 
-        public const double PetKillPercent = 10.0;  //为了符合小数值，杀怪加属性削弱十倍
+        public const double PetKillPercent = 100.0;  //为了符合小数值，杀怪加属性削弱十倍
     }
 }

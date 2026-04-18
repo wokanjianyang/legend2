@@ -245,7 +245,7 @@ public class Panel_Hone : MonoBehaviour
 
         SelectEquip.Hone(SelectAttrIndex);
 
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         this.Show();
         this.ShowAttr();
@@ -315,7 +315,7 @@ public class Panel_Hone : MonoBehaviour
             }
         }
 
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         this.Load();
     }
 }

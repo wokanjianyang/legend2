@@ -134,8 +134,8 @@ namespace Game
             this.Show();
             //GameProcessor.Inst.EventCenter.Raise(new ChangeExclusiveEvent() { Index = i });
 
-            GameProcessor.Inst.User.EventCenter.Raise(new SkillChangePlanEvent());
-            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.EventCenter.Raise(new SkillChangePlanEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         }
 
         private void ChangeCycle(int i)

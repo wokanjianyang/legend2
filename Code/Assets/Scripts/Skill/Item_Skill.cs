@@ -210,7 +210,7 @@ namespace Game
             }
 
             list.Add(this.SkillPanel.SkillId);
-            GameProcessor.Inst.User.EventCenter.Raise(new SkillUpEvent());
+            GameProcessor.Inst.EventCenter.Raise(new SkillUpEvent());
         }
 
         //public void Click_UpLevel()

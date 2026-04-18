@@ -443,7 +443,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
 
         List<Item> items = new List<Item>();
         items.Add(ItemHelper.BuildItem(ItemType.Material_Usable, ItemHelper.SpecialId_Level_Stone, 1, number));
-        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
@@ -468,7 +468,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
         List<Item> items = new List<Item>();
         items.Add(item);
 
-        user.EventCenter.Raise(new HeroBagUpdateEvent()
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent()
         {
             ItemList = items
         });
@@ -493,7 +493,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
 
         List<Item> items = new List<Item>();
         items.Add(ItemHelper.BuildItem(ItemType.Ticket, ItemHelper.SpecialId_Copy_Ticket, 1, number));
-        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
@@ -530,7 +530,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
             items.Add(itemLegacy);
         }
 
-        user.EventCenter.Raise(new HeroBagUpdateEvent()
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent()
         {
             ItemList = items
         });

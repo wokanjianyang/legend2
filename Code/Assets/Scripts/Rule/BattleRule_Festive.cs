@@ -114,7 +114,7 @@ public class BattleRule_Festive : ABattleRule
         user.FestiveMapData01.Record = mapId;
         user.FestiveMapData01.Number.Data -= 1;
 
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         string message = "节日副本" + config.MapName + "首通奖励";
         GameProcessor.Inst.EventCenter.Raise(new ShowDropEvent() { Message = message, Items = items });

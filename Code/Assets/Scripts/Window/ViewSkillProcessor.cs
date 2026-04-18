@@ -46,10 +46,10 @@ namespace Game
 
             var user = GameProcessor.Inst.User;
 
-            user.EventCenter.AddListener<SkillShowEvent>(OnSkillShow);
-            user.EventCenter.AddListener<SkillUpEvent>(OnSkillUp);
-            user.EventCenter.AddListener<SkillDownEvent>(OnSkillDown);
-            user.EventCenter.AddListener<SkillChangePlanEvent>(OnSkillChangePlan);
+            GameProcessor.Inst.EventCenter.AddListener<SkillShowEvent>(OnSkillShow);
+            GameProcessor.Inst.EventCenter.AddListener<SkillUpEvent>(OnSkillUp);
+            GameProcessor.Inst.EventCenter.AddListener<SkillDownEvent>(OnSkillDown);
+            GameProcessor.Inst.EventCenter.AddListener<SkillChangePlanEvent>(OnSkillChangePlan);
 
 
             bookPrefab = Resources.Load<GameObject>("Prefab/Skill/Item_Skill");

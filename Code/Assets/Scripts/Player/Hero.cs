@@ -28,6 +28,7 @@ namespace Game
             this.EventCenter.AddListener<HeroLevelUp>(LevelUp);
             this.EventCenter.AddListener<HeroAttrChangeEvent>(HeroAttrChange);
             this.EventCenter.AddListener<HeroBuffChangeEvent>(OnHeroBuffChange);
+            this.EventCenter.AddListener<HeroUpdateSkillEvent>(OnHeroUpdateAllSkillEvent);
         }
 
         public override void Reset()
@@ -50,7 +51,12 @@ namespace Game
 
         public void HeroAttrChange(HeroAttrChangeEvent e)
         {
+
+
             User user = GameProcessor.Inst.User;
+
+            Debug.Log("HeroAttrChangeEvent atk:" + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyAtk));
+
             this.SetAttr(user);  //设置属性值
         }
 
@@ -65,6 +71,9 @@ namespace Game
 
             this.SetSkill(user); //设置技能,先设置技能，因为技能会影响属性
             this.SetAttr(user);  //设置属性值
+
+            double maxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
+            SetHP(maxHP);
 
             base.Load();
             this.Logic.SetData(null); //设置UI
@@ -112,12 +121,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
 
-
-            double maxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
-            SetHP(maxHP);
-            //回满当前血量
-
-            //Debug.Log("Hero Hp:" + StringHelper.FormatNumber(maxHP));
+            //此处不能回血，因为会修改人物属性之类的
         }
 
         private void OnHeroBuffChange(HeroBuffChangeEvent e)
@@ -181,9 +185,11 @@ namespace Game
 
                 List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
 
+                List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
+
                 int petRate = user.GetPetSkillRate(skillData.SkillConfig.Role);
 
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, null, true, RuleType, petRate);
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, true, RuleType, petRate);
 
                 SkillPanel from = null;
                 if (skillPanel.SkillData.SkillConfig.FromId > 0)
@@ -224,45 +230,13 @@ namespace Game
                 }
             }
 
-            InitDoubleHitSkill(user);
-
             base.SetSkillAfter();
         }
 
-        private void InitDoubleHitSkill(User user)
+
+        private void OnHeroUpdateAllSkillEvent(HeroUpdateSkillEvent e)
         {
-            DoubleHitSkillList.Clear();
-
-            foreach (var kv in user.ExclusivePanelList[user.ExclusiveIndex])
-            {
-                ExclusiveItem exclusive = kv.Value;
-
-                if (exclusive.DoubleHitId > 0)
-                {
-                    int skillId = exclusive.DoubleHitConfig.SkillId;
-
-                    SkillData skillData = user.SkillList.Where(m => m.SkillId == skillId).FirstOrDefault();
-
-                    if (skillData == null)
-                    {
-                        break;
-                    }
-
-                    List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
-                    List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
-
-                    SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, null, true);
-
-                    SkillState skill = DoubleHitSkillList.Where(m => m.SkillPanel.SkillId == skillId).FirstOrDefault();
-
-                    if (skill == null)
-                    {
-                        skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                        DoubleHitSkillList.Add(skill);
-                    }
-                    skill.AddRate(exclusive.DoubleHitConfig.Rate);
-                }
-            }
+            this.UpdateSkills();
         }
 
         private void UpdateSkills()

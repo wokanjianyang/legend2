@@ -4,6 +4,15 @@ using UnityEngine;
 
 namespace Game
 {
+    //new------------
+
+    public class UpdateBagPanelUserAttr : SDD.Events.Event
+    {
+
+    }
+
+
+    //--------------old
 
 
     public class ChangePageEvent : SDD.Events.Event

@@ -87,7 +87,7 @@ public class Map_Festive_Item : MonoBehaviour
 
         user.FestiveMapData01.Number.Data -= 1;
 
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         string message = "节日副本" + mythConfig.MapName + "扫荡奖励";
         GameProcessor.Inst.EventCenter.Raise(new ShowDropEvent() { Message = message, Items = items });

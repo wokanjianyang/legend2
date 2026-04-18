@@ -443,9 +443,9 @@ public class Panel_Stone : MonoBehaviour
         }
 
         record.List.Clear();
-        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
 
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         ShowForgeItem();
     }

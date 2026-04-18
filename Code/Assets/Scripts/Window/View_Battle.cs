@@ -116,5 +116,15 @@ namespace Game
         {
 
         }
+
+        public override void OnOpen()
+        {
+            base.OnOpen();
+
+            Debug.Log("open view battle");
+
+            //重新计算人物属性
+            GameProcessor.Inst.UpdateInfo();
+        }
     }
 }

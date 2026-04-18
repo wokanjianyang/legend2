@@ -235,7 +235,7 @@ public class Panel_Shengxiao_Up : MonoBehaviour
 
         this.ShowMain();
 
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         GameProcessor.Inst.SaveData();
     }
 }

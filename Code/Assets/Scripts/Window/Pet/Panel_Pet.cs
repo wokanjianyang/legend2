@@ -62,10 +62,10 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
         items.Add(pet);
         if (items.Count > 0)
         {
-            GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
-        user.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+        GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
     }
 
     private void OpenPetForge(OpenPetForgeEvent e)

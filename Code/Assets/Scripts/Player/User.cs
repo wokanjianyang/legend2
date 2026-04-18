@@ -69,11 +69,7 @@ namespace Game
 
         public IDictionary<int, IDictionary<int, ExclusiveItem>> ExclusivePanelList { get; set; } = new Dictionary<int, IDictionary<int, ExclusiveItem>>();
 
-        public IDictionary<int, IDictionary<int, ExclusiveItem>> ExclusivePanelGoldenList { get; set; } = new Dictionary<int, IDictionary<int, ExclusiveItem>>();
 
-        public IDictionary<int, IDictionary<int, ExclusiveItem>> ExclusivePanelDarkList { get; set; } = new Dictionary<int, IDictionary<int, ExclusiveItem>>();
-
-        public IDictionary<int, ExclusiveItem> ExclusiveList { get; set; } = new Dictionary<int, ExclusiveItem>();
 
         public IDictionary<int, Shengxiao> ShengxiaoList { get; set; } = new Dictionary<int, Shengxiao>();
 
@@ -381,9 +377,6 @@ namespace Game
         public IDictionary<int, int> EquipRecord { get; set; } = new Dictionary<int, int>();
 
         [JsonIgnore]
-        public EventManager EventCenter { get; private set; }
-
-        [JsonIgnore]
         public AttributeBonus AttributeBonus { get; set; }
 
         [JsonIgnore]
@@ -397,13 +390,12 @@ namespace Game
 
         public User()
         {
-            this.EventCenter = new EventManager();
 
-            this.EventCenter.AddListener<HeroChangeEvent>(HeroChange);
-            this.EventCenter.AddListener<HeroUseEquipEvent>(HeroUseEquip);
-            this.EventCenter.AddListener<HeroUnUseEquipEvent>(HeroUnUseEquip);
-            this.EventCenter.AddListener<HeroUseSkillBookEvent>(HeroUseSkillBook);
-            this.EventCenter.AddListener<UserAttrChangeEvent>(UserAttrChange);
+            GameProcessor.Inst.EventCenter.AddListener<HeroChangeEvent>(HeroChange);
+            GameProcessor.Inst.EventCenter.AddListener<HeroUseEquipEvent>(HeroUseEquip);
+            GameProcessor.Inst.EventCenter.AddListener<HeroUnUseEquipEvent>(HeroUnUseEquip);
+            GameProcessor.Inst.EventCenter.AddListener<HeroUseSkillBookEvent>(HeroUseSkillBook);
+            GameProcessor.Inst.EventCenter.AddListener<UserAttrChangeEvent>(UserAttrChange);
         }
 
         public void Init()
@@ -514,12 +506,27 @@ namespace Game
                 }
             }
 
+            //宠物属性
+            foreach (var sp in this.PetList)
+            {
+                int attrKey = 1;
+                Dictionary<int, double> attrList = sp.GetBaseAttr();
+                foreach (var al in attrList)
+                {
+                    AttributeBonus.SetAttr((AttributeEnum)(al.Key), AttributeFrom.Pet, attrKey++, al.Value);
+                }
+            }
+
             this.SuitMax = ConfigHelper.SkillSuitMax;
             this.StoneNumber = 0;
             this.SoulRingNumber = 0;
             this.SkillNumber = ConfigHelper.SkillNumber;
 
             this.SuitMax = Math.Max(this.SuitMax, ConfigHelper.SkillSuitMin);
+
+
+            //更新属性面版
+            GameProcessor.Inst.EventCenter.Raise(new UpdateBagPanelUserAttr());
         }
 
         public int CalStone(Equip equip)
@@ -560,7 +567,7 @@ namespace Game
             GameProcessor.Inst.UpdateInfo();
 
             //更新技能描述
-            this.EventCenter.Raise(new SkillShowEvent());
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
         }
 
         private void HeroUnUseEquip(HeroUnUseEquipEvent e)
@@ -569,7 +576,7 @@ namespace Game
             GameProcessor.Inst.UpdateInfo();
 
             //更新技能描述
-            this.EventCenter.Raise(new SkillShowEvent());
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
         }
 
         private void HeroUseSkillBook(HeroUseSkillBookEvent e)
@@ -596,7 +603,7 @@ namespace Game
                 skillData.AddExp(Book.ItemConfig.UseParam * e.Quantity);
             }
 
-            this.EventCenter.Raise(new SkillShowEvent());
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
         }
 
         private void UserAttrChange(UserAttrChangeEvent e)
@@ -991,6 +998,13 @@ namespace Game
             return progress;
         }
 
+        public void KillMonsterEnvent(int rate)
+        {
+            foreach (Pet sp in PetList)
+            {
+                sp.AddKillCount(rate);
+            }
+        }
 
         public void AddExpAndGold(double exp, double gold)
         {
@@ -1017,7 +1031,7 @@ namespace Game
                 this.MagicGold.Data += gold;
             }
 
-            EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
+            GameProcessor.Inst.EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
 
             if (MagicExp.Data >= MagicUpExp.Data)
             {
@@ -1034,7 +1048,7 @@ namespace Game
             }
             this.MagicExp.Data -= exp;
 
-            EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
+            GameProcessor.Inst.EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
         }
 
         public void SubGold(double gold)
@@ -1047,7 +1061,7 @@ namespace Game
 
             this.MagicGold.Data -= gold;
 
-            EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
+            GameProcessor.Inst.EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
         }
 
         IEnumerator LevelUp()
@@ -1060,8 +1074,8 @@ namespace Game
 
                 SetUpExp();
 
-                EventCenter.Raise(new UserInfoUpdateEvent());
-                EventCenter.Raise(new SetPlayerLevelEvent { Cycle = this.Cycle.Data, Level = this.MagicLevel.Data });
+                GameProcessor.Inst.EventCenter.Raise(new UserInfoUpdateEvent());
+                GameProcessor.Inst.EventCenter.Raise(new SetPlayerLevelEvent { Cycle = this.Cycle.Data, Level = this.MagicLevel.Data });
                 yield return new WaitForSeconds(0.2f);
             }
             yield return null;
@@ -1069,7 +1083,7 @@ namespace Game
 
             if (this.MagicLevel.Data < 10000 && this.Cycle.Data <= 0)
             {
-                EventCenter.Raise(new UserAttrChangeEvent());
+                GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
             }
 
             TaskHelper.CheckTask(TaskType.Cycle, this.Cycle.Data);

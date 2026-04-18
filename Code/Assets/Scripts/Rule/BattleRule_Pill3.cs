@@ -84,7 +84,7 @@ public class BattleRule_Pill3 : ABattleRule
 
         items.Add(ItemHelper.BuildItem(ItemType.Material, ItemHelper.SpecialId_Pill3, 1, count));
 
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         string message = "练气秘境" + Layer + "层通关奖励";
         GameProcessor.Inst.EventCenter.Raise(new ShowDropEvent() { Message = message, Items = items });

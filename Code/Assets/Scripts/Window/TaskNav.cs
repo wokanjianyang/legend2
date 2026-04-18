@@ -95,7 +95,7 @@ namespace Game
                         items.Add(item);
                     }
                 }
-                user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()

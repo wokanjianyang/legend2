@@ -29,7 +29,7 @@ namespace Game
 
         public override int GetQuality()
         {
-            return Flairs.Count + 4;
+            return Quality;
         }
 
         public Pet(int role)
@@ -44,15 +44,20 @@ namespace Game
             Dictionary<int, double> attrs = new Dictionary<int, double>();
 
             long level = PetLevel.Data;
-            long riseRate = level / 10;
+            long riseRate = 1 + level / 10;
 
             foreach (var sp in this.Flairs)
             {
                 PetConfig config = PetConfigCategory.Instance.Get(sp.Key);
                 int attrId = config.AttrId;
 
+                if (!attrs.ContainsKey(attrId))
+                {
+                    attrs[attrId] = 0;
+                }
+
                 double attrValue = (sp.Value.Data * KillCount.Data / ConfigHelper.PetKillPercent) * riseRate;
-                attrs[attrId] = attrValue;
+                attrs[attrId] += attrValue;
             }
 
             return attrs;
@@ -74,6 +79,11 @@ namespace Game
         public long GetSkillPercent()
         {
             return 1;
+        }
+
+        public void AddKillCount(int rate)
+        {
+            this.KillCount.Data += rate;
         }
     }
 }

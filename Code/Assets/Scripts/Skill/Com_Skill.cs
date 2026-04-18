@@ -39,7 +39,7 @@ namespace Game
             List<int> list = user.GetCurrentSkillList();
             list.Remove(this.SkillData.SkillId);
 
-            GameProcessor.Inst.User.EventCenter.Raise(new SkillDownEvent());
+            GameProcessor.Inst.EventCenter.Raise(new SkillDownEvent());
         }
 
         public void SetItem(SkillData skillData)

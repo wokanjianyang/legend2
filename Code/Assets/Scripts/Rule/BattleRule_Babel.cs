@@ -126,7 +126,7 @@ public class BattleRule_Babel : ABattleRule
             Message = BattleMsgHelper.BuildRewardMessage("Í¨ÌìËþ½±Àø:" + progress + "½±Àø:", 0, 0, items)
         });
 
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
         if (AppHelper.BabelRecord > 0 && progress >= AppHelper.BabelRecord + 10)
         {

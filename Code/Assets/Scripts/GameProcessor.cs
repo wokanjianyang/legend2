@@ -481,11 +481,12 @@ namespace Game
         {
             if (this.User != null)
             {
-                this.User.EventCenter.Raise(new UserAttrChangeEvent());
+                this.EventCenter.Raise(new UserAttrChangeEvent());
             }
 
             if (this.PlayerManager != null && this.PlayerManager.GetHero() != null)
             {
+                this.PlayerManager.GetHero().EventCenter.Raise(new HeroUpdateSkillEvent());
                 this.PlayerManager.GetHero().EventCenter.Raise(new HeroAttrChangeEvent());
             }
         }

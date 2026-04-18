@@ -170,7 +170,7 @@ public class Item_Festive : MonoBehaviour
 
         List<Item> list = new List<Item>();
         list.Add(item);
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = list });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = list });
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
@@ -225,7 +225,7 @@ public class Item_Festive : MonoBehaviour
 
         List<Item> list = new List<Item>();
         list.Add(item);
-        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = list });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = list });
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {

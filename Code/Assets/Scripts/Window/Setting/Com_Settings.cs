@@ -54,7 +54,7 @@ namespace Game
             GameProcessor.Inst.User.Name = name;
             GameProcessor.Inst.SaveData();
             //设置名称
-            GameProcessor.Inst.User.EventCenter.Raise(new SetPlayerNameEvent
+            GameProcessor.Inst.EventCenter.Raise(new SetPlayerNameEvent
             {
                 Name = name
             });
@@ -172,7 +172,7 @@ namespace Game
                 }
             }
 
-            user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
             user.GiftListNew[code] = true;
         }
@@ -238,7 +238,7 @@ namespace Game
                     }
                 }
 
-                user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
 
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "兑换成功", ToastType = ToastTypeEnum.Success });

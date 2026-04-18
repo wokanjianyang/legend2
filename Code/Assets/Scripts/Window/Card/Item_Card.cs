@@ -58,7 +58,7 @@ namespace Game
                 this.Show();
 
 
-                GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+                GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
             }
             else
             {

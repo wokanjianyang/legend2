@@ -18,7 +18,7 @@ namespace Game
 
         public int SuitConfigId { get; set; }
 
-        public int Quality { get; set; }
+        //public int Quality { get; set; }
         public int Layer { get; set; } = 1;
         public int RuneSeed { get; set; }
         public int SuitSeed { get; set; }
@@ -409,7 +409,8 @@ namespace Game
 
             }
 
-            if (full == this.AttrEntryList.Count) {
+            if (full == this.AttrEntryList.Count)
+            {
                 return 1;
             }
 

@@ -124,7 +124,7 @@ public class Panel_Pill3 : MonoBehaviour
 
         Show();
 
-        user.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
         //GameProcessor.Inst.SaveData();
     }
@@ -173,6 +173,6 @@ public class Panel_Pill3 : MonoBehaviour
 
         Show();
 
-        user.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
     }
 }

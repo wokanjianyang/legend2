@@ -120,7 +120,7 @@ public class Dialog_Halidom : MonoBehaviour
             Item item = ItemHelper.BuildMaterial(ItemHelper.SpecialId_Halidom_Chip, total);
             newList.Add(item);
 
-            user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
 
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "重生一共获得遗物粉尘" + total + "个", ToastType = ToastTypeEnum.Success });
 
@@ -129,7 +129,7 @@ public class Dialog_Halidom : MonoBehaviour
                 items[i].Refresh();
             }
 
-            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         }, () =>
         {
         });

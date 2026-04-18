@@ -214,8 +214,8 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
         skillData.AddDivineItemLevel(config.Id);
 
         this.ShowItem(currentItem);
-        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
-        GameProcessor.Inst.User.EventCenter.Raise(new SkillShowEvent());
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
 
         GameProcessor.Inst.SaveData();
     }
@@ -274,7 +274,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
         user.SubGold(ConfigHelper.RestoreGold);
 
         //生成新的
-        user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
+        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
 
         this.Show();
     }
@@ -323,8 +323,8 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
         if (count > 0)
         {
             user.SubGold(ConfigHelper.RestoreGold * 2);
-            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
-            GameProcessor.Inst.User.EventCenter.Raise(new SkillShowEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
             this.Show();
         }
         else

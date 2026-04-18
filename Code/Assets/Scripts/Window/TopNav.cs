@@ -41,10 +41,10 @@ namespace Game
             this.tmp_Level.text = formatLevel(user.Cycle.Data, user.MagicLevel.Data);
             this.tmp_BattlePower.text = $"战力：{user.AttributeBonus.GetPowerText()}";
 
-            user.EventCenter.AddListener<SetPlayerLevelEvent>(this.OnSetPlayerLevelEvent);
-            user.EventCenter.AddListener<UserInfoUpdateEvent>(this.OnHeroInfoUpdateEvent);
-            user.EventCenter.AddListener<SetPlayerNameEvent>(this.OnSetPlayerNameEvent);
-            user.EventCenter.AddListener<UserAttrChangeEvent>(this.OnShowPower);
+            GameProcessor.Inst.EventCenter.AddListener<SetPlayerLevelEvent>(this.OnSetPlayerLevelEvent);
+            GameProcessor.Inst.EventCenter.AddListener<UserInfoUpdateEvent>(this.OnHeroInfoUpdateEvent);
+            GameProcessor.Inst.EventCenter.AddListener<SetPlayerNameEvent>(this.OnSetPlayerNameEvent);
+            GameProcessor.Inst.EventCenter.AddListener<UserAttrChangeEvent>(this.OnShowPower);
         }
 
         public void OnClick_Setting()

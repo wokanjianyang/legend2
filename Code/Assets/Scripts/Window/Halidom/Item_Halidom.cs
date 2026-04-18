@@ -80,7 +80,7 @@ namespace Game
 
                             halidomData.Data++;
                             this.SetContent(this.Config, halidomData.Data);
-                            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+                            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
                         }, () =>
                         {
                         });
@@ -103,7 +103,7 @@ namespace Game
 
                     halidomData.Data++;
                     this.SetContent(this.Config, halidomData.Data);
-                    GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+                    GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
                     GameProcessor.Inst.SaveData();
                 }
@@ -136,7 +136,7 @@ namespace Game
 
                     halidomData.Data++;
                     this.SetContent(this.Config, halidomData.Data);
-                    GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+                    GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
                     //}, () =>
                     //{
                     //});

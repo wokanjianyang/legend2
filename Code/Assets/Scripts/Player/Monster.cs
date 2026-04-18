@@ -179,6 +179,9 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
+            //增加宠物经验，神器经验
+            user.KillMonsterEnvent(1);
+
             double exp = (Config.Exp * QualityConfig.ExpRate * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea)) / 100);
             double gold = (Config.Gold * QualityConfig.GoldRate * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea)) / 100);
 
@@ -246,7 +249,7 @@ namespace Game
             user.AddExpAndGold(exp, gold + recoveryGold);
             if (items.Count > 0)
             {
-                user.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
         }
     }

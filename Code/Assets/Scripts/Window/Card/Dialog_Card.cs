@@ -100,7 +100,7 @@ public class Dialog_Card : MonoBehaviour
         if (totalUp > 0)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "一键升级成功，总共提高" + totalUp + "级", ToastType = ToastTypeEnum.Success });
-            GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
             this.panel1.Show(this.SelectStage);
         }

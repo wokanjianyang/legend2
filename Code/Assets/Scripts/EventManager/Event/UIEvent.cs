@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Game
 {
+    //new-user
+
+
+
+    //--------------------------old--------------------------- 
+
     public class SetBackgroundColorEvent : SDD.Events.Event
     {
         public Color Color { get; set; }

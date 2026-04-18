@@ -505,7 +505,7 @@ namespace Game
             {
                 if (sd.SkillId == 1001 || sd.SkillId == 2001 || sd.SkillId == 3001)
                 {
-                    SkillPanel sp = new SkillPanel(sd, null, null, false);
+                    SkillPanel sp = new SkillPanel(sd, null, null, null, false);
 
                     for (int i = 0; i < sp.AttrIdList.Count; i++)
                     {
@@ -697,6 +697,30 @@ namespace Game
                     list.Add(suit);
                 }
             }
+
+            return list;
+        }
+
+        public List<SkillTalent> GetTalentList(int skillId)
+        {
+            List<SkillTalent> list = new List<SkillTalent>();
+
+            foreach (var ex in this.PetList)
+            {
+                foreach (var sp in ex.Talents)
+                {
+                    SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(sp);
+                    if (talentConfig.SkillId == skillId)
+                    {
+                        SkillTalent talent = new SkillTalent(talentConfig.Id);
+
+                        list.Add(talent);
+                    }
+                }
+            }
+
+            //TODO 专属
+
 
             return list;
         }

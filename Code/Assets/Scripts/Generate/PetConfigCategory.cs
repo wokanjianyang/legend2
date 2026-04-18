@@ -41,11 +41,14 @@ namespace Game
                 pet.Skills.Add(new KeyValuePair<int, MagicData>(skillId, skillLevel));
             }
 
-            //技能天赋，红色以下，单条天赋，红色2天赋，金色3天赋（天赋必属于自带技能当中）
-            List<int> talents = BuildPetTalents(skills.Select(m => m.Key).ToList(), pet.Quality);
-            foreach (var telent in talents)
+            //技能天赋，紫色橙色1条天赋，红色2条天赋，金色3条天赋（天赋必属于自带技能当中）
+            if (quality >= 4)
             {
-                pet.Talents.Add(telent);
+                List<int> talents = BuildPetTalents(skills.Select(m => m.Key).ToList(), pet.Quality);
+                foreach (var telent in talents)
+                {
+                    pet.Talents.Add(telent);
+                }
             }
 
             return pet;
@@ -105,7 +108,7 @@ namespace Game
 
                 PetConfig config = temps[index];
 
-                int attrValue = RandomHelper.RandomNumber(config.MinValue, config.MaxValue + 1);
+                int attrValue = RandomHelper.RandomSerialNumber(config.MinValue, config.MaxValue);
 
                 flairs.Add(new KeyValuePair<int, int>(config.Id, attrValue));
             }
@@ -149,7 +152,7 @@ namespace Game
 
                 SkillConfig config = temps[index - 1];
 
-                int level = RandomHelper.RandomNumber(0, 5) + quality;
+                int level = 11 - RandomHelper.RandomPowNumber(1, 10) + quality / 2;
 
                 skills.Add(new KeyValuePair<int, int>(config.SkillId, level));
                 ids.Add(config.SkillId);
@@ -169,7 +172,7 @@ namespace Game
 
             for (int i = 1; i <= count; i++)
             {
-                List<SkillTalentConfig> temps = configs.Where(m => !ids.Contains(m.SkillId) && skills.Contains(m.SkillId)).ToList();
+                List<SkillTalentConfig> temps = configs.Where(m => !ids.Contains(m.Id) && skills.Contains(m.SkillId)).ToList();
                 int index = RandomHelper.RandomNumber(1, temps.Count + 1);
 
                 SkillTalentConfig config = temps[index - 1];
@@ -181,11 +184,6 @@ namespace Game
             return talents;
         }
 
-
-        public PetConfig GetByAttrId(int attrId)
-        {
-            return this.list.Where(m => m.AttrId == attrId).FirstOrDefault();
-        }
 
         public long GetPetFee(long level)
         {

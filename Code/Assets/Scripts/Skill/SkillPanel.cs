@@ -67,12 +67,13 @@ namespace Game
 
         public string Desc { get; set; }
 
-        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, bool isPlayer) : this(skillData, runeList, suitList, isPlayer, RuleType.Normal, 0)
+        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer)
+            : this(skillData, runeList, suitList, talentList, isPlayer, RuleType.Normal, 0)
         {
 
         }
 
-        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, bool isPlayer, RuleType ruleType, int petRate)
+        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer, RuleType ruleType, int petRate)
         {
             this.SkillData = skillData;
             this.SkillId = skillData.SkillId;
@@ -86,7 +87,10 @@ namespace Game
                 suitList = new List<SkillSuit>();
             }
 
-            List<SkillTalent> talentList = new List<SkillTalent>();
+            if (talentList == null)
+            {
+                talentList = new List<SkillTalent>();
+            }
 
             long riseLevel = 0;
             if (isPlayer)
@@ -114,13 +118,13 @@ namespace Game
                     SuitTextList.Add(new KeyValuePair<int, int>(config.Id, count));
                 }
 
-                User user = GameProcessor.Inst.User;
-                RingConfig ringConfig = RingConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.SkillId == SkillId).FirstOrDefault();
-                if (ringConfig != null)
-                {
-                    long ringLevel = user.GetRingLevel(ringConfig.Id);
-                    riseLevel = ringLevel * ringConfig.RiseSkillLevel;
-                }
+                //User user = GameProcessor.Inst.User;
+                //RingConfig ringConfig = RingConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.SkillId == SkillId).FirstOrDefault();
+                //if (ringConfig != null)
+                //{
+                //    long ringLevel = user.GetRingLevel(ringConfig.Id);
+                //    riseLevel = ringLevel * ringConfig.RiseSkillLevel;
+                //}
             }
 
             List<SkillRune> baseRuneList = runeList.Where(m => m.EffectId == 0).ToList();
@@ -136,69 +140,81 @@ namespace Game
 
             long runeDamage = baseRuneList.Select(m => m.Damage).Sum() * skillData.MagicLevel.Data;
             long suitDamage = baseSuitList.Select(m => m.Damage).Sum() * skillData.MagicLevel.Data;
+            long talentDamage = talentList.Select(m => m.Damage).Sum();
 
             int runePercent = baseRuneList.Select(m => m.Percent).Sum();
             int suitPercent = baseSuitList.Select(m => m.Percent).Sum();
-
+            int talentPercent = talentList.Select(m => m.Percent).Sum();
 
             int runeIgnoreDef = baseRuneList.Select(m => m.IgnoreDef).Sum();
             int suitIgnoreDef = baseSuitList.Select(m => m.IgnoreDef).Sum();
+            int talentIgnoreDef = talentList.Select(m => m.IgnoreDef).Sum();
 
             int runeDis = baseRuneList.Select(m => m.Dis).Sum();
             int suitDis = baseSuitList.Select(m => m.Dis).Sum();
+            int talentDis = talentList.Select(m => m.Dis).Sum();
 
             int runeEnemyMax = baseRuneList.Select(m => m.EnemyMax).Sum();
             int suitEnemyMax = baseSuitList.Select(m => m.EnemyMax).Sum();
+            int talentEnemyMax = talentList.Select(m => m.EnemyMax).Sum();
 
             int runeCD = baseRuneList.Select(m => m.CD).Sum();
             int suitCD = baseSuitList.Select(m => m.CD).Sum();
+            int talentCD = talentList.Select(m => m.CD).Sum();
 
             int runeDuration = baseRuneList.Select(m => m.Duration).Sum();
             int suitDuration = baseSuitList.Select(m => m.Duration).Sum();
+            int talentDuration = talentList.Select(m => m.Duration).Sum();
 
             int runeCritRate = baseRuneList.Select(m => m.CritRate).Sum();
             int suitCritRate = baseSuitList.Select(m => m.CritRate).Sum();
+            int talentCritRate = talentList.Select(m => m.CritRate).Sum();
 
             int runeCritDamage = baseRuneList.Select(m => m.CritDamage).Sum();
             int suitCritDamage = baseSuitList.Select(m => m.CritDamage).Sum();
-
+            int talentCritDamage = talentList.Select(m => m.CritDamage).Sum();
 
             int runeAttrIncrea = baseRuneList.Select(m => m.AttrIncrea).Sum();
             int suitAttrIncrea = baseSuitList.Select(m => m.AttrIncrea).Sum();
+            int talentAttrIncrea = talentList.Select(m => m.AttrIncrea).Sum();
 
             int runeFinalIncrea = baseRuneList.Select(m => m.FinalIncrea).Sum();
             int suitFinalIncrea = baseSuitList.Select(m => m.FinalIncrea).Sum();
+            int talentFinalIncrea = talentList.Select(m => m.FinalIncrea).Sum();
 
             int runeRow = baseRuneList.Select(m => m.Row).Sum();
             int suitRow = baseSuitList.Select(m => m.Row).Sum();
+            int talentRow = talentList.Select(m => m.Row).Sum();
 
             int runeColumn = baseRuneList.Select(m => m.Column).Sum();
             int suitColumn = baseSuitList.Select(m => m.Column).Sum();
+            int talentColumn = talentList.Select(m => m.Column).Sum();
 
             int runeAc = baseRuneList.Select(m => m.Accuracy).Sum();
             int suitAc = baseSuitList.Select(m => m.Accuracy).Sum();
+            int talentAc = talentList.Select(m => m.Accuracy).Sum();
 
-            this.Damage += skillData.SkillConfig.Damage + runeDamage + suitDamage + levelDamage;
+            this.Damage += skillData.SkillConfig.Damage + runeDamage + suitDamage + talentDamage + levelDamage;
 
-            this.Percent += skillData.SkillConfig.Percent + runePercent + suitPercent + levelPercent;
+            this.Percent += skillData.SkillConfig.Percent + runePercent + suitPercent + talentPercent + levelPercent;
 
-            this.IgnoreDef += skillData.SkillConfig.IgnoreDef + runeIgnoreDef + suitIgnoreDef;
-            this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis;
-            this.EnemyMax += skillData.SkillConfig.EnemyMax + runeEnemyMax + suitEnemyMax;
-            this.CD += Math.Max(skillData.SkillConfig.CD - runeCD - suitCD, 0);
+            this.IgnoreDef += skillData.SkillConfig.IgnoreDef + runeIgnoreDef + suitIgnoreDef + talentIgnoreDef;
+            this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis + talentDis;
+            this.EnemyMax += skillData.SkillConfig.EnemyMax + runeEnemyMax + suitEnemyMax + talentEnemyMax;
+            this.CD += Math.Max(skillData.SkillConfig.CD - runeCD - suitCD - talentCD, 0);
             this.Rate = 1;
-            this.Duration = skillData.SkillConfig.Duration + runeDuration + suitDuration;
+            this.Duration = skillData.SkillConfig.Duration + runeDuration + suitDuration + talentDuration;
 
-            this.Row = skillData.SkillConfig.Row + runeRow + suitRow;
-            this.Column = skillData.SkillConfig.Column + runeColumn + suitColumn;
+            this.Row = skillData.SkillConfig.Row + runeRow + suitRow + talentRow;
+            this.Column = skillData.SkillConfig.Column + runeColumn + suitColumn + talentColumn;
 
-            this.CritRate = skillData.SkillConfig.CritRate + runeCritRate + suitCritRate;
-            this.CritDamage = skillData.SkillConfig.CritDamage + runeCritDamage + suitCritDamage;
+            this.CritRate = skillData.SkillConfig.CritRate + runeCritRate + suitCritRate + talentCritRate;
+            this.CritDamage = skillData.SkillConfig.CritDamage + runeCritDamage + suitCritDamage + talentCritDamage;
 
-            this.Accuracy = runeAc + suitAc;
+            this.Accuracy = runeAc + suitAc + talentAc;
 
-            this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea;
-            this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea;
+            this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea + talentAttrIncrea;
+            this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea + talentFinalIncrea;
 
             //技能属性
             if (SkillId == 1001)
@@ -225,8 +241,6 @@ namespace Game
                 AttrIdList.Add((int)AttributeEnum.IncreaSpiritAtk);
                 AttrValueList.Add(Percent);
             }
-
-
 
             if (isPlayer)
             {

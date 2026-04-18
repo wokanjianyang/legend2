@@ -141,7 +141,8 @@ namespace Game
             {
                 int petRate = user.GetPetSkillRate(skill.SkillConfig.Role);
 
-                SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId, null), user.GetSuitList(skill.SkillId), true, RuleType.Normal, user.GetPetSkillRate(skill.SkillConfig.Role));
+                SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId, null), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId)
+                    , true, RuleType.Normal, user.GetPetSkillRate(skill.SkillConfig.Role));
 
                 ShowSkillPanelItem(skillPanel);
             }

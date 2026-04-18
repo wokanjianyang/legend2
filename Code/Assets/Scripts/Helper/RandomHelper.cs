@@ -138,6 +138,39 @@ namespace Game
             return value;
         }
 
+        /// <summary>
+        /// 按指数级概率生成随机数
+        /// </summary>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <returns></returns>
+        public static int RandomPowNumber(int lower, int upper)
+        {
+            int max = (int)Math.Pow(2, upper);
+            int value = random.Next(lower, max);
+
+            int p = (int)Math.Log(value, 2) + 1;
+            return p;
+        }
+
+        public static int RandomSerialNumber(int lower, int upper)
+        {
+            int max = upper * (upper + 1) / 2;
+            int value = random.Next(lower, max + 1);
+
+            for (int i = 1; i < upper; i++)
+            {
+                int m = i * (i + 1) / 2;
+                if (value <= m)
+                {
+                    return i;
+                }
+            }
+
+            return upper;
+        }
+
+
         public static int RandomNumber(int seed, int lower, int upper)
         {
             if (seed <= 0)

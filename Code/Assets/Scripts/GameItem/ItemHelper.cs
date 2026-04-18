@@ -65,7 +65,7 @@ namespace Game
             }
             else if (type == ItemType.Pet)
             {
-                item = PetConfigCategory.Instance.BuildPet(configId);
+                item = PetConfigCategory.Instance.BuildPet(configId, 5);
             }
             else
             {
@@ -180,7 +180,7 @@ namespace Game
         public static int SpecialId_Card_Stone = 4101;
 
         public static int SpecialId_Chunjie = 4111;
-  
+
 
         public static int SpecialId_Shuye1 = 4006; //书页
         public static int SpecialId_Shuye2 = 4102; //高级书页

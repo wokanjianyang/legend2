@@ -86,7 +86,7 @@ public class Init : MonoBehaviour
                 "Window/Dialog_Attr",
                 "Window/Legacy/Dialog_Legacy",
                 "Window/Pet/Dialog_Pet",
-                "Window/Dialog_Detail_Pet",
+                "Window/Pet/Dialog_Detail_Pet",
                 "Window/GameItem/Dialog_Shengxiao",
 
                 "Window/More/Dialog_Mine",

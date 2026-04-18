@@ -114,27 +114,51 @@ namespace Game
 		/// <summary>增加伤害比例</summary>
 		[ProtoMember(13)]
 		public int Percent { get; set; }
-		/// <summary>致命率</summary>
+		/// <summary>无视防御</summary>
 		[ProtoMember(14)]
+		public int IgnoreDef { get; set; }
+		/// <summary>暴击率</summary>
+		[ProtoMember(15)]
+		public int CritRate { get; set; }
+		/// <summary>暴击倍率</summary>
+		[ProtoMember(16)]
+		public int CritDamage { get; set; }
+		/// <summary>致命率</summary>
+		[ProtoMember(17)]
 		public int DeadlyRate { get; set; }
 		/// <summary>致命伤害</summary>
-		[ProtoMember(15)]
-		public int DeadlyDamage { get; set; }
-		/// <summary>攻击加成</summary>
-		[ProtoMember(16)]
-		public int AttrIncrea { get; set; }
-		/// <summary>最终加成</summary>
-		[ProtoMember(17)]
-		public int FinalIncrea { get; set; }
-		/// <summary>无视防御</summary>
 		[ProtoMember(18)]
-		public int IgnoreDef { get; set; }
+		public int DeadlyDamage { get; set; }
 		/// <summary>伤害加成</summary>
 		[ProtoMember(19)]
-		public int DamageIncrea { get; set; }
-		/// <summary>附带效果</summary>
+		public int RateDamage { get; set; }
+		/// <summary>攻击加成</summary>
 		[ProtoMember(20)]
+		public int AttrIncrea { get; set; }
+		/// <summary>最终加成</summary>
+		[ProtoMember(21)]
+		public int FinalIncrea { get; set; }
+		/// <summary>Accuracy</summary>
+		[ProtoMember(22)]
+		public int Accuracy { get; set; }
+		/// <summary>Speed</summary>
+		[ProtoMember(23)]
+		public int Speed { get; set; }
+		/// <summary>附加属性</summary>
+		[ProtoMember(24)]
+		public int AttrId { get; set; }
+		/// <summary>属性值</summary>
+		[ProtoMember(25)]
+		public double AttrValue { get; set; }
+		/// <summary>附带效果</summary>
+		[ProtoMember(26)]
 		public int EffectId { get; set; }
+		/// <summary></summary>
+		[ProtoMember(27)]
+		public int EffectValue { get; set; }
+		/// <summary></summary>
+		[ProtoMember(28)]
+		public int EffectMax { get; set; }
 
 	}
 }

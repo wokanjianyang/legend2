@@ -6,7 +6,7 @@ namespace Game
 {
     public class SkillSuit
     {
-        public SkillSuitConfig SkillSuitConfig { get; }
+        public SkillSuitConfig Config { get; }
 
         public long Damage { get; }
         public int Percent { get; }
@@ -20,47 +20,66 @@ namespace Game
         public int IgnoreDef { get; } //无视防御
         public int CritRate { get; } //暴击率
         public int CritDamage { get; } //暴击倍率
-        public int DamageIncrea { get; } //伤害加成
+
+        public int DeadlyRate { get; } //暴击率
+        public int DeadlyDamage { get; } //暴击倍率
+
+        public int RateDamage { get; } //增伤倍率
         public int AttrIncrea { get; } //攻击加成
         public int FinalIncrea { get; } //最终伤害加成
 
-        public int PercentRate { get; }
-
-        public int InheritIncrea { get; }
-        public int EffectId { get; } //
+        public int Speed { get; }
 
         public int Accuracy { get; }
-        public int Miss { get; }
-        //public string Center { get; }
+
+        public int EffectId { get; } //
+
+        public double EffectValue { get; }
+
+        public int EffectMax { get; } //
+
+        public int AttrId { get; }
+
+        public double AttrValue { get; }
 
         public SkillSuit(int suitId)
         {
-            this.SkillSuitConfig = SkillSuitConfigCategory.Instance.Get(suitId);
+            this.Config = SkillSuitConfigCategory.Instance.Get(suitId);
 
-            this.Damage = SkillSuitConfig.Damage;
-            this.Percent = SkillSuitConfig.Percent;
-            this.Dis = SkillSuitConfig.Dis;
-            this.Duration = SkillSuitConfig.Duration;
-            this.EnemyMax = SkillSuitConfig.EnemyMax;
-            this.CD = SkillSuitConfig.CD;
-            this.Row = SkillSuitConfig.Row;
-            this.Column = SkillSuitConfig.Column;
+            this.CD = Config.CD;
+            this.Duration = Config.Duration;
+            this.Dis = Config.Dis;
+            this.EnemyMax = Config.EnemyMax;
+            this.Row = Config.Row;
+            this.Column = Config.Column;
 
-            //this.IgnoreDef = SkillSuitConfig.IgnoreDef;
-            //this.CritRate = SkillSuitConfig.CritRate;
-            //this.CritDamage = SkillSuitConfig.CritDamage;
-            //this.DamageIncrea = SkillSuitConfig.DamageIncrea;
+            this.Damage = Config.Damage;
+            this.Percent = Config.Percent;
+            this.IgnoreDef = Config.IgnoreDef;
 
-            //this.AttrIncrea = SkillSuitConfig.AttrIncrea;
-            //this.FinalIncrea = SkillSuitConfig.FinalIncrea;
-            //this.InheritIncrea = SkillSuitConfig.InheritIncrea;
+            this.CritRate = Config.CritRate;
+            this.CritDamage = Config.CritDamage;
+            this.DeadlyRate = Config.DeadlyRate;
+            this.DeadlyDamage = Config.DeadlyDamage;
 
-            //this.PercentRate = SkillSuitConfig.PercentRate;
-            ////this.Center = SkillSuitConfig.Center;
+            this.RateDamage = Config.RateDamage;
+            this.AttrIncrea = Config.AttrIncrea;
+            this.FinalIncrea = Config.FinalIncrea;
+            this.Speed = Config.Speed;
+            this.Accuracy = Config.Accuracy;
 
-            //this.EffectId = SkillSuitConfig.EffectId;
-            //this.Accuracy = SkillSuitConfig.Accuracy;
-            //this.Miss = SkillSuitConfig.Miss;
+            if (Config.EffectId > 0)
+            {
+                this.EffectId = Config.EffectId;
+                this.EffectValue = Config.EffectValue;
+                this.EffectMax = Config.EffectMax;
+            }
+
+            if (Config.AttrId > 0)
+            {
+                this.AttrId = Config.AttrId;
+                this.AttrValue = Config.AttrValue;
+            }
         }
     }
 }

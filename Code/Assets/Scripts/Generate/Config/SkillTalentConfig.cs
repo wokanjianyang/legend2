@@ -123,38 +123,47 @@ namespace Game
 		/// <summary>暴击倍率</summary>
 		[ProtoMember(16)]
 		public int CritDamage { get; set; }
-		/// <summary>伤害加成</summary>
+		/// <summary>致命率</summary>
 		[ProtoMember(17)]
-		public int DamageIncrea { get; set; }
-		/// <summary>攻击加成</summary>
+		public int DeadlyRate { get; set; }
+		/// <summary>致命伤害</summary>
 		[ProtoMember(18)]
+		public int DeadlyDamage { get; set; }
+		/// <summary>伤害加成</summary>
+		[ProtoMember(19)]
+		public int RateDamage { get; set; }
+		/// <summary>攻击加成</summary>
+		[ProtoMember(20)]
 		public int AttrIncrea { get; set; }
 		/// <summary>最终加成</summary>
-		[ProtoMember(19)]
+		[ProtoMember(21)]
 		public int FinalIncrea { get; set; }
+		/// <summary>Accuracy</summary>
+		[ProtoMember(22)]
+		public int Accuracy { get; set; }
 		/// <summary>Speed</summary>
-		[ProtoMember(20)]
+		[ProtoMember(23)]
 		public int Speed { get; set; }
 		/// <summary>附加属性</summary>
-		[ProtoMember(21)]
+		[ProtoMember(24)]
 		public int AttrId { get; set; }
 		/// <summary>属性值</summary>
-		[ProtoMember(22)]
+		[ProtoMember(25)]
 		public double AttrValue { get; set; }
 		/// <summary>附带效果</summary>
-		[ProtoMember(23)]
+		[ProtoMember(26)]
 		public int EffectId { get; set; }
 		/// <summary></summary>
-		[ProtoMember(24)]
+		[ProtoMember(27)]
 		public int EffectValue { get; set; }
 		/// <summary></summary>
-		[ProtoMember(25)]
+		[ProtoMember(28)]
 		public int EffectMax { get; set; }
 		/// <summary>StartQuality</summary>
-		[ProtoMember(26)]
+		[ProtoMember(29)]
 		public int StartQuality { get; set; }
 		/// <summary>EndQuality</summary>
-		[ProtoMember(27)]
+		[ProtoMember(30)]
 		public int EndQuality { get; set; }
 
 	}

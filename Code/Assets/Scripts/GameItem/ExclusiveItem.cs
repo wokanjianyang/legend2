@@ -272,7 +272,7 @@ namespace Game
         {
             if (SkillRuneConfig != null && SkillRuneConfig.SkillId == skillId)
             {
-                SkillRune rune = runeList.Where(m => m.SkillRuneConfig.Id == SkillRuneConfig.Id).FirstOrDefault();
+                SkillRune rune = runeList.Where(m => m.Config.Id == SkillRuneConfig.Id).FirstOrDefault();
                 if (rune == null)
                 {
                     rune = new SkillRune(SkillRuneConfig.Id, 0);
@@ -285,7 +285,7 @@ namespace Game
                 SkillRuneConfig config = SkillRuneConfigCategory.Instance.Get(RuneConfigIdList[i]);
                 if (config.SkillId == skillId)
                 {
-                    SkillRune rune = runeList.Where(m => m.SkillRuneConfig.Id == SkillRuneConfig.Id).FirstOrDefault();
+                    SkillRune rune = runeList.Where(m => m.Config.Id == SkillRuneConfig.Id).FirstOrDefault();
                     if (rune == null)
                     {
                         rune = new SkillRune(SkillRuneConfig.Id, 0);
@@ -299,7 +299,7 @@ namespace Game
                 SkillRuneConfig config = SkillRuneConfigCategory.Instance.Get(kp.Key);
                 if (config.SkillId == skillId)
                 {
-                    SkillRune rune = runeList.Where(m => m.SkillRuneConfig.Id == SkillRuneConfig.Id).FirstOrDefault();
+                    SkillRune rune = runeList.Where(m => m.Config.Id == SkillRuneConfig.Id).FirstOrDefault();
                     if (rune == null)
                     {
                         rune = new SkillRune(SkillRuneConfig.Id, 0);

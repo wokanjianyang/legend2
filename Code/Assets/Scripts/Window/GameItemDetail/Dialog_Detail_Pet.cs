@@ -12,8 +12,8 @@ namespace Game
 {
     public class Dialog_Detail_Pet : MonoBehaviour, IBattleLife
     {
-        [LabelText("容器")]
-        public RectTransform rect_Content;
+        //[LabelText("容器")]
+        //public RectTransform rect_Content;
 
         //[Title("背景图片")]
         //public Image img_Background;
@@ -25,15 +25,16 @@ namespace Game
         public Text TxtLayer;
 
         [LabelText("资质")]
-        public Transform tran_BaseAttribute;
+        public Transform Tf_Flair;
+        private List<Pet_Flair> FlairList;
 
-        [LabelText("属性")]
-        public Transform tran_FinalAttribute;
+        [LabelText("天赋")]
+        public Transform Tf_Talent;
+        private List<Pet_Talent> TalentList;
 
         [LabelText("技能")]
-        public Transform tran_SkillAttribute;
-        public Text TxtSkillName;
-        public Text TxtSkillDes;
+        public Transform Tf_Skill;
+        private List<Pet_Skill> SkillList;
 
         [Title("导航")]
         public Button btn_Equip;
@@ -48,10 +49,10 @@ namespace Game
 
         private BoxItem boxItem;
 
-        private RectTransform rectTransform;
+        //private RectTransform rectTransform;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             this.btn_Equip.onClick.AddListener(this.OnEquip);
             //this.btn_UnEquip.onClick.AddListener(this.OnUnEquip);
@@ -64,6 +65,10 @@ namespace Game
             this.btn_Unlock.onClick.AddListener(this.OnClick_Unlock);
 
             this.Btn_Close.onClick.AddListener(this.OnClick_Close);
+
+            FlairList = Tf_Flair.GetComponentsInChildren<Pet_Flair>().ToList();
+            TalentList = Tf_Talent.GetComponentsInChildren<Pet_Talent>().ToList();
+            SkillList = Tf_Skill.GetComponentsInChildren<Pet_Skill>().ToList();
         }
 
         // Update is called once per frame
@@ -78,16 +83,16 @@ namespace Game
             this.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.AddListener<ShowPetDetailEvent>(this.OnShowEvent);
-            this.rectTransform = this.transform.GetComponent<RectTransform>();
+            //this.rectTransform = this.transform.GetComponent<RectTransform>();
         }
 
         private void OnShowEvent(ShowPetDetailEvent e)
         {
             this.gameObject.SetActive(true);
 
-            tran_BaseAttribute.gameObject.SetActive(false);
-            tran_FinalAttribute.gameObject.SetActive(false);
-            tran_SkillAttribute.gameObject.SetActive(false);
+            Tf_Flair.gameObject.SetActive(false);
+            Tf_Talent.gameObject.SetActive(false);
+            Tf_Skill.gameObject.SetActive(false);
 
             this.btn_Equip.gameObject.SetActive(false);
             this.btn_UnEquip.gameObject.SetActive(false);
@@ -106,35 +111,19 @@ namespace Game
             this.TxtLevel.text = pet.PetLevel.Data + "";
             this.TxtLayer.text = pet.PetLayer.Data + "";
 
-            List<KeyValuePair<int, long>> flairs = pet.GetTotalFlairs().ToList();
+            var flairs = pet.Flairs;
 
             if (flairs != null && flairs.Count > 0)
             {
-                tran_BaseAttribute.gameObject.SetActive(true);
-                Transform gridBase = tran_BaseAttribute.Find("Grid_Base");
+                Tf_Flair.gameObject.SetActive(true);
 
-                for (int index = 0; index < 10; index++)
+                for (int i = 0; i < FlairList.Count; i++)
                 {
-                    var child = gridBase.Find(string.Format("Attribute_{0}", index));
+                    Pet_Flair child = FlairList[i];
 
-                    if (index < flairs.Count())
+                    if (i < flairs.Count())
                     {
-                        child.GetComponent<Text>().text = StringHelper.FormatAttrValueName(flairs[index].Key) + "：" + flairs[index].Value;
-                        child.gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        child.gameObject.SetActive(false);
-                    }
-                }
-
-                int fc = pet.GetDevourCount();
-                for (int index = 0; index < 2; index++)
-                {
-                    var child = gridBase.Find(string.Format("Attribute_{0}", 10 + index));
-                    if (index < pet.DevourFlairs.Count() && fc <= index)
-                    {
-                        child.GetComponent<Text>().text = StringHelper.FormatAttrValueName(pet.DevourFlairs[index].Key) + "：" + pet.DevourFlairs[index].Value.Data;
+                        child.SetContent(flairs[i].Key, flairs[i].Value.Data, pet.KillCount.Data);
                         child.gameObject.SetActive(true);
                     }
                     else
@@ -144,21 +133,18 @@ namespace Game
                 }
             }
 
-
-            List<KeyValuePair<int, double>> attrList = pet.GetBaseAttr().ToList();
-
-            if (attrList.Count > 0)
+            var talents = pet.Talents;
+            if (talents != null && talents.Count > 0)
             {
-                tran_FinalAttribute.gameObject.SetActive(true);
-                Transform gridBase = tran_FinalAttribute.Find("Grid_Base");
+                Tf_Talent.gameObject.SetActive(true);
 
-                for (int index = 0; index < 10; index++)
+                for (int i = 0; i < TalentList.Count; i++)
                 {
-                    var child = gridBase.Find(string.Format("Attribute_{0}", index));
+                    Pet_Talent child = TalentList[i];
 
-                    if (index < attrList.Count())
+                    if (i < talents.Count())
                     {
-                        child.GetComponent<Text>().text = StringHelper.FormatAttrText(attrList[index].Key, attrList[index].Value);
+                        child.SetContent(talents[i]);
                         child.gameObject.SetActive(true);
                     }
                     else
@@ -168,12 +154,25 @@ namespace Game
                 }
             }
 
-            if (pet.Role > 0)
+            var skills = pet.Skills;
+            if (skills != null && skills.Count > 0)
             {
-                tran_SkillAttribute.gameObject.SetActive(true);
+                Tf_Skill.gameObject.SetActive(true);
 
-                TxtSkillName.text = ConfigHelper.RoleName[pet.Role - 1] + "所有技能：";
-                TxtSkillDes.text = "系数增幅" + pet.GetSkillPercent() + "%";
+                for (int i = 0; i < SkillList.Count; i++)
+                {
+                    Pet_Skill child = SkillList[i];
+
+                    if (i < skills.Count())
+                    {
+                        child.SetContent(skills[i].Key, skills[i].Value.Data);
+                        child.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
             }
 
             this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);

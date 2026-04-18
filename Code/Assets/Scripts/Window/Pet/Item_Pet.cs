@@ -59,11 +59,11 @@ namespace Game
 
         private void OnDown()
         {
-            if (pet.RunMapId > 0)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "巡游中不可以下阵", ToastType = ToastTypeEnum.Failure });
-                return;
-            }
+            //if (pet.RunMapId > 0)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "巡游中不可以下阵", ToastType = ToastTypeEnum.Failure });
+            //    return;
+            //}
 
             this.gameObject.gameObject.SetActive(false);
 
@@ -100,15 +100,6 @@ namespace Game
             Txt_Layer.color = ColorHelper.GetColorByQuality(pet.GetQuality());
 
             this.image_Background.sprite = list_Backgrounds[pet.Role - 1];
-
-            if (pet.GetQuality() >= 7 && pet.DevourFlairs.Count == 0 && pet.PetLayer.Data >= 10)
-            {
-                this.Btn_Devour.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.Btn_Devour.gameObject.SetActive(false);
-            }
         }
     }
 }

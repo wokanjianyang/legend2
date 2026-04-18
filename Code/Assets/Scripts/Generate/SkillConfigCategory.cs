@@ -30,6 +30,11 @@ namespace Game
 
             return rdList;
         }
+
+        public List<SkillConfig> GetAllByRole(int role)
+        {
+            return this.list.Where(m => m.Role == role).ToList();
+        }
     }
 
     //public partial class SkillConfig

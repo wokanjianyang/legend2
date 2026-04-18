@@ -9,40 +9,18 @@ namespace Game
 
     public partial class PetConfigCategory
     {
-        public Pet BuildByPack(int configId)
+        public Pet BuildPet(int role, int quality)
         {
-
-            GiftPackPet packPet = GiftPackPetCategory.Instance.Get(configId);
-
-            Pet pet = new Pet(packPet.Role);
-
-            pet.PetLevel.Data = 1;
-            pet.PetLayer.Data = 1;
-
-
-            for (int i = 0; i < packPet.AttrIdList.Length; i++)
-            {
-                int attrId = packPet.AttrIdList[i];
-                MagicData attrValue = new MagicData();
-                attrValue.Data = packPet.AttrValueList[i];
-
-                pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
-            }
-
-            return pet;
-        }
-
-        public Pet BuildPet(int configId)
-        {
-
-            int role = RandomHelper.RandomNumber(1, 4);
             Pet pet = new Pet(role);
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
+            pet.Name = "测试宠物";
+            pet.Quality = quality;
 
-            List<KeyValuePair<int, int>> flairs = BuildPetAttr(configId, role);
+            List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, quality);
 
+            //杀敌资质
             foreach (var flair in flairs)
             {
                 int attrId = flair.Key;
@@ -52,39 +30,157 @@ namespace Game
                 pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
             }
 
+            //自带技能红色以下，单技能，红色2技能，金色3技能
+            List<KeyValuePair<int, int>> skills = BuildPetSkill(role, pet.Quality);
+            foreach (var skill in skills)
+            {
+                int skillId = skill.Key;
+                MagicData skillLevel = new MagicData();
+                skillLevel.Data = skill.Value;
+
+                pet.Skills.Add(new KeyValuePair<int, MagicData>(skillId, skillLevel));
+            }
+
+            //技能天赋，红色以下，单条天赋，红色2天赋，金色3天赋（天赋必属于自带技能当中）
+            List<int> talents = BuildPetTalents(skills.Select(m => m.Key).ToList(), pet.Quality);
+            foreach (var telent in talents)
+            {
+                pet.Talents.Add(telent);
+            }
+
             return pet;
         }
 
-        private List<KeyValuePair<int, int>> BuildPetAttr(int configId, int role)
+        public Pet BuildByPack(int configId)
         {
-            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(configId);
 
-            int quality = itemConfig.Quality;
+            GiftPackPet packPet = GiftPackPetCategory.Instance.Get(configId);
+
+            Pet pet = new Pet(packPet.Role);
+
+            pet.PetLevel.Data = 1;
+            pet.PetLayer.Data = 1;
+            pet.Name = "测试宠物";
+            pet.Quality = packPet.AttrIdList.Length;
+
+
+            //杀敌资质
+            for (int i = 0; i < packPet.AttrIdList.Length; i++)
+            {
+                int attrId = packPet.AttrIdList[i];
+                MagicData attrValue = new MagicData();
+                attrValue.Data = packPet.AttrValueList[i];
+
+                pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
+            }
+
+            //技能天赋
+
+
+            //自带技能
+
+
+            return pet;
+        }
+
+        private int GetFlairCount(int quality)
+        {
+            return Math.Max(1, quality - 4);
+        }
+
+        private List<KeyValuePair<int, int>> BuildPetFlair(int role, int quality)
+        {
+            List<PetConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
 
             List<KeyValuePair<int, int>> flairs = new List<KeyValuePair<int, int>>();
 
-            int total = quality * 30;
+            int count = GetFlairCount(quality);
 
-            int tempTotal = 0;
-
-            for (int i = 1; i <= quality; i++)
+            for (int i = 1; i <= count; i++)
             {
-                List<PetConfig> temps = this.list.Where(m => m.StartQuality <= i && i <= m.EndQuality && (role == m.Role || m.Role == 0)).ToList();
-                int index = RandomHelper.RandomNumber(1, temps.Count + 1);
+                List<int> excludeList = GetExcludeList(configs, flairs);
 
-                PetConfig config = temps[index - 1];
+                List<PetConfig> temps = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
+                int index = RandomHelper.RandomNumber(0, temps.Count);
 
-                int avg = (total - tempTotal) / (quality - i + 1);
+                PetConfig config = temps[index];
 
-                int attrValue = RandomHelper.RandomNumber(Math.Max(10, avg - 15), Math.Min(50, avg + 15));
+                int attrValue = RandomHelper.RandomNumber(config.MinValue, config.MaxValue + 1);
 
-                flairs.Add(new KeyValuePair<int, int>(config.AttrId, Math.Min(50, attrValue + quality)));
-
-                tempTotal += attrValue;
+                flairs.Add(new KeyValuePair<int, int>(config.Id, attrValue));
             }
 
             return flairs;
         }
+
+        private List<int> GetExcludeList(List<PetConfig> configs, List<KeyValuePair<int, int>> rsList)
+        {
+            List<int> excludeList = new List<int>();
+
+            foreach (PetConfig config in configs)
+            {
+                int count = rsList.Where(m => m.Key == config.Id).Count();
+
+                if (count >= config.MaxCount)
+                {
+                    excludeList.Add(config.Id);
+
+                    //Debug.Log("Exclued id :" + config.Id + " count:" + count);
+                }
+            }
+            return excludeList;
+        }
+
+        private List<KeyValuePair<int, int>> BuildPetSkill(int role, int quality)
+        {
+            List<SkillConfig> configs = SkillConfigCategory.Instance.GetAllByRole(role);
+
+            int count = GetFlairCount(quality);
+
+            List<KeyValuePair<int, int>> skills = new List<KeyValuePair<int, int>>();
+            List<int> ids = new List<int>();
+
+
+            for (int i = 1; i <= count; i++)
+            {
+                List<SkillConfig> temps = configs.Where(m => !ids.Contains(m.SkillId)).ToList();
+
+                int index = RandomHelper.RandomNumber(1, temps.Count + 1);
+
+                SkillConfig config = temps[index - 1];
+
+                int level = RandomHelper.RandomNumber(0, 5) + quality;
+
+                skills.Add(new KeyValuePair<int, int>(config.SkillId, level));
+                ids.Add(config.SkillId);
+            }
+
+            return skills;
+        }
+
+        private List<int> BuildPetTalents(List<int> skills, int quality)
+        {
+            List<SkillTalentConfig> configs = SkillTalentConfigCategory.Instance.GetSkillAllConfigs(skills);
+
+            int count = GetFlairCount(quality);
+
+            List<int> talents = new List<int>();
+            List<int> ids = new List<int>();
+
+            for (int i = 1; i <= count; i++)
+            {
+                List<SkillTalentConfig> temps = configs.Where(m => !ids.Contains(m.SkillId) && skills.Contains(m.SkillId)).ToList();
+                int index = RandomHelper.RandomNumber(1, temps.Count + 1);
+
+                SkillTalentConfig config = temps[index - 1];
+
+                talents.Add(config.Id);
+                ids.Add(config.Id);
+            }
+
+            return talents;
+        }
+
 
         public PetConfig GetByAttrId(int attrId)
         {

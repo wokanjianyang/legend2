@@ -8,9 +8,9 @@ namespace Game.Data
 
     public class MagicData
     {
-        private const long MagicRate = 3;
+        private const long MagicRate = 7;
 
-        private const long MagicOff = 10211;
+        private const long MagicOff = 70211;
 
         private long data;
 

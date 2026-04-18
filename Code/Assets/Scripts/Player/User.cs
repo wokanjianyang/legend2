@@ -1756,10 +1756,6 @@ namespace Game
                 {
                     dict[ItemHelper.Specail_Pet_Layer[quality - 5]] = 1;
                 }
-                if (pet.DevourFlairs.Count > 0)
-                {
-                    dict[ItemHelper.Specail_Pet_Layer[quality - 5]] += pet.DevourFlairs.Count;
-                }
             }
             else if (item.Type == ItemType.Shengxiao)
             {

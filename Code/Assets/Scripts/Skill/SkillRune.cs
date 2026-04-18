@@ -10,11 +10,12 @@ namespace Game
         //生效数量
         public int AvailableQuantity { get; private set; }
 
-        public SkillRuneConfig SkillRuneConfig { get; }
+        public SkillRuneConfig Config { get; }
 
         public long Damage { get; }
         public int Percent { get; }
         public int Dis { get; }
+
         public int Duration { get; }
         public int EnemyMax { get; }
         public int CD { get; }
@@ -23,51 +24,72 @@ namespace Game
         public int IgnoreDef { get; } //无视防御
         public int CritRate { get; } //暴击率
         public int CritDamage { get; } //暴击倍率
-        public int DamageIncrea { get; } //伤害加成
+
+        public int DeadlyRate { get; } //暴击率
+        public int DeadlyDamage { get; } //暴击倍率
+
+        public int RateDamage { get; } //增伤倍率
         public int AttrIncrea { get; } //攻击加成
         public int FinalIncrea { get; } //最终伤害加成
 
-        public int PercentRate { get; }
-
-        public int InheritIncrea { get; }
-        public int EffectId { get; } //
+        public int Speed { get; }
 
         public int Accuracy { get; }
-        public int Miss { get; }
+
+        public int EffectId { get; } //
+
+        public double EffectValue { get; }
+
+        public int EffectMax { get; } //
+
+        public int AttrId { get; }
+
+        public double AttrValue { get; }
 
         public SkillRune(int runeId, int quantity)
         {
-            this.SkillRuneConfig = SkillRuneConfigCategory.Instance.Get(runeId);
-            this.AvailableQuantity = Math.Min(quantity, SkillRuneConfig.Max);
+            this.Config = SkillRuneConfigCategory.Instance.Get(runeId);
+            this.AvailableQuantity = Math.Min(quantity, Config.Max);
 
-            this.Damage = SkillRuneConfig.Damage * AvailableQuantity;
-            this.Percent = SkillRuneConfig.Percent * AvailableQuantity;
-            this.Dis = SkillRuneConfig.Dis * AvailableQuantity;
-            this.EnemyMax = SkillRuneConfig.EnemyMax * AvailableQuantity;
-            this.Duration = SkillRuneConfig.Duration * AvailableQuantity;
-            this.CD = SkillRuneConfig.CD * AvailableQuantity;
-            this.Row = SkillRuneConfig.Row * AvailableQuantity;
-            this.Column = SkillRuneConfig.Column * AvailableQuantity;
+            this.CD = Config.CD;
+            this.Duration = Config.Duration;
+            this.Dis = Config.Dis;
+            this.EnemyMax = Config.EnemyMax;
+            this.Row = Config.Row;
+            this.Column = Config.Column;
 
-            this.IgnoreDef = SkillRuneConfig.IgnoreDef * AvailableQuantity;
+            this.Damage = Config.Damage;
+            this.Percent = Config.Percent;
+            this.IgnoreDef = Config.IgnoreDef;
 
-            //this.CritRate = SkillRuneConfig.CritRate * AvailableQuantity;
-            //this.CritDamage = SkillRuneConfig.CritDamage * AvailableQuantity;
-            //this.DamageIncrea = SkillRuneConfig.DamageIncrea * AvailableQuantity;
-            //this.PercentRate = SkillRuneConfig.PercentRate * AvailableQuantity;
+            this.CritRate = Config.CritRate;
+            this.CritDamage = Config.CritDamage;
+            this.DeadlyRate = Config.DeadlyRate;
+            this.DeadlyDamage = Config.DeadlyDamage;
 
-            //this.AttrIncrea = SkillRuneConfig.AttrIncrea;
-            //this.FinalIncrea = SkillRuneConfig.FinalIncrea;
-            //this.InheritIncrea = SkillRuneConfig.InheritIncrea;
+            this.RateDamage = Config.RateDamage;
+            this.AttrIncrea = Config.AttrIncrea;
+            this.FinalIncrea = Config.FinalIncrea;
+            this.Speed = Config.Speed;
+            this.Accuracy = Config.Accuracy;
 
-            //this.EffectId = SkillRuneConfig.EffectId;
-            //this.Accuracy = SkillRuneConfig.Accuracy * AvailableQuantity;
-            //this.Miss = SkillRuneConfig.Miss * AvailableQuantity;
+            if (Config.EffectId > 0)
+            {
+                this.EffectId = Config.EffectId;
+                this.EffectValue = Config.EffectValue;
+                this.EffectMax = Config.EffectMax;
+            }
+
+            if (Config.AttrId > 0)
+            {
+                this.AttrId = Config.AttrId;
+                this.AttrValue = Config.AttrValue;
+            }
         }
 
         public void AddCount(int count)
         {
-            this.AvailableQuantity = Math.Min(AvailableQuantity + count, SkillRuneConfig.Max);
+            this.AvailableQuantity = Math.Min(AvailableQuantity + count, Config.Max);
         }
     }
 }

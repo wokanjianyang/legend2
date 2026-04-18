@@ -16,6 +16,11 @@ namespace Game
 
         }
 
+        public List<SkillTalentConfig> GetSkillAllConfigs(List<int> ids)
+        {
+            return this.list.Where(m => ids.Contains(m.SkillId)).ToList();
+
+        }
     }
 
 

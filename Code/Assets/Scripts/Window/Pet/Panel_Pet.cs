@@ -74,13 +74,13 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
         {
             DialogPetForge.Open(e.Item.pet);
         }
-        else if (e.Type == 2)
-        {
-            DialogPetTravel.Open(e.Item.pet);
-        }
-        else if (e.Type == 3) {
-            DialogPetDevour.Open(e.Item.pet);
-        }
+        //else if (e.Type == 2)
+        //{
+        //    DialogPetTravel.Open(e.Item.pet);
+        //}
+        //else if (e.Type == 3) {
+        //    DialogPetDevour.Open(e.Item.pet);
+        //}
     }
 
 

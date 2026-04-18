@@ -7,7 +7,15 @@ namespace Game
 {
     public class Item
     {
+        public int ConfigId
+        {
+            get;
+            set;
+        }
         public long Count { get; set; }
+        public int Quality { get; set; }
+
+        public long UUID { get; set; }
 
         public bool IsLock { get; set; }
         public bool IsNew { get; set; } = true;
@@ -33,23 +41,19 @@ namespace Game
             this.Count = 1;
         }
 
-        public int ConfigId
-        {
-            get;
-            set;
-        }
-
-        public void RefreshSeed()
-        {
-            this.Seed = AppHelper.RefreshSeed(this.Seed);
-        }
-
         [JsonIgnore]
         public ItemConfig ItemConfig { get; set; }
 
         virtual public int GetQuality()
         {
-            return ItemConfig.Quality;
+            if (ItemConfig != null)
+            {
+                return ItemConfig.Quality;
+            }
+            else
+            {
+                return Quality;
+            }
         }
 
         [JsonIgnore]

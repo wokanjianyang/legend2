@@ -47,8 +47,6 @@ namespace Game
 
         public int InheritIncrea { get; } //召唤物高级属性继承
 
-        public bool DefinitelyCrit { get; } //必定暴击
-
         public int Level { get; } //面板等级
 
         public Dictionary<int, EffectData> EffectIdList { get; } = new Dictionary<int, EffectData>(); //特殊效果 
@@ -105,14 +103,14 @@ namespace Game
 
                 foreach (SkillRuneConfig config in skillRuneConfigs)
                 {
-                    int count = runeList.Where(m => m.SkillRuneConfig.Id == config.Id).Select(m => m.AvailableQuantity).Sum();
+                    int count = runeList.Where(m => m.Config.Id == config.Id).Select(m => m.AvailableQuantity).Sum();
                     RuneTextList.Add(new KeyValuePair<int, int>(config.Id, count));
                 }
 
                 List<SkillSuitConfig> skillSuitConfigs = SkillSuitConfigCategory.Instance.GetSkillAllConfigs(SkillId, skillData.SkillConfig.SkillLayer);
                 foreach (SkillSuitConfig config in skillSuitConfigs)
                 {
-                    int count = suitList.Where(m => m.SkillSuitConfig.Id == config.Id).Count();
+                    int count = suitList.Where(m => m.Config.Id == config.Id).Count();
                     SuitTextList.Add(new KeyValuePair<int, int>(config.Id, count));
                 }
 
@@ -142,8 +140,6 @@ namespace Game
             int runePercent = baseRuneList.Select(m => m.Percent).Sum();
             int suitPercent = baseSuitList.Select(m => m.Percent).Sum();
 
-            int runePercentRate = baseRuneList.Select(m => m.PercentRate).Sum();
-            int suitPercentRate = baseSuitList.Select(m => m.PercentRate).Sum();
 
             int runeIgnoreDef = baseRuneList.Select(m => m.IgnoreDef).Sum();
             int suitIgnoreDef = baseSuitList.Select(m => m.IgnoreDef).Sum();
@@ -166,8 +162,6 @@ namespace Game
             int runeCritDamage = baseRuneList.Select(m => m.CritDamage).Sum();
             int suitCritDamage = baseSuitList.Select(m => m.CritDamage).Sum();
 
-            int runeDamageIncrea = baseRuneList.Select(m => m.DamageIncrea).Sum();
-            int suitDamageIncrea = baseSuitList.Select(m => m.DamageIncrea).Sum();
 
             int runeAttrIncrea = baseRuneList.Select(m => m.AttrIncrea).Sum();
             int suitAttrIncrea = baseSuitList.Select(m => m.AttrIncrea).Sum();
@@ -181,25 +175,12 @@ namespace Game
             int runeColumn = baseRuneList.Select(m => m.Column).Sum();
             int suitColumn = baseSuitList.Select(m => m.Column).Sum();
 
-            int runeInheritIncrea = baseRuneList.Select(m => m.InheritIncrea).Sum();
-            int suitInheritIncrea = baseSuitList.Select(m => m.InheritIncrea).Sum();
-
             int runeAc = baseRuneList.Select(m => m.Accuracy).Sum();
             int suitAc = baseSuitList.Select(m => m.Accuracy).Sum();
 
-            int runeMiss = baseRuneList.Select(m => m.Miss).Sum();
-            int suitMiss = baseSuitList.Select(m => m.Miss).Sum();
-
             this.Damage += skillData.SkillConfig.Damage + runeDamage + suitDamage + levelDamage;
 
-            if (SkillData.SkillConfig.SkillLayer >= 11)
-            {
-                this.Damage = this.Damage * (100 + runePercentRate + suitPercentRate + petRate) / 100;
-            }
-
             this.Percent += skillData.SkillConfig.Percent + runePercent + suitPercent + levelPercent;
-            //系数倍率
-            this.Percent = this.Percent * (100 + runePercentRate + suitPercentRate + petRate) / 100;
 
             this.IgnoreDef += skillData.SkillConfig.IgnoreDef + runeIgnoreDef + suitIgnoreDef;
             this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis;
@@ -213,25 +194,12 @@ namespace Game
 
             this.CritRate = skillData.SkillConfig.CritRate + runeCritRate + suitCritRate;
             this.CritDamage = skillData.SkillConfig.CritDamage + runeCritDamage + suitCritDamage;
-            this.DamageIncrea = skillData.SkillConfig.DamageIncrea + runeDamageIncrea + suitDamageIncrea;
 
             this.Accuracy = runeAc + suitAc;
-            this.Miss = runeMiss + suitMiss;
 
             this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea;
             this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea;
 
-            this.InheritIncrea = runeInheritIncrea + suitInheritIncrea;
-
-            //施法范围
-            this.Area = EnumHelper.FromString<AttackGeometryType>(skillData.SkillConfig.Area);
-            this.CastType = (AttackCastType)skillData.SkillConfig.CastType;
-
-            //foreach(SkillSuit suit in suitList) {
-            //    if (suit.Center != "") {
-            //        this.CenterType = suit.Center;
-            //    }
-            //}
             //技能属性
             if (SkillId == 1001)
             {
@@ -257,6 +225,8 @@ namespace Game
                 AttrIdList.Add((int)AttributeEnum.IncreaSpiritAtk);
                 AttrValueList.Add(Percent);
             }
+
+
 
             if (isPlayer)
             {
@@ -324,27 +294,6 @@ namespace Game
                     EffectIdList[suit.EffectId] = new EffectData(suit.EffectId, fromId, suit.Percent, suit.Damage, suit.Duration, suit.EnemyMax);
                 }
             }
-
-            //special
-            if (EffectIdList.ContainsKey((int)EffectSpecialId.DefinitelyCrit))
-            {
-                this.DefinitelyCrit = true;
-                EffectIdList.Remove((int)EffectSpecialId.DefinitelyCrit);
-            }
-            else
-            {
-                this.DefinitelyCrit = false;
-            }
-
-
-            //技能附加的属性
-
-
-            //TEST skill
-            //this.CD = 0;
-            //this.Row = 2;
-            //this.Column = 2;
-            //this.Duration = 3;
         }
 
         private int GetFromId(int effectId)

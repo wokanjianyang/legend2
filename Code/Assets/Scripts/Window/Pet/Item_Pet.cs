@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Game
 {
@@ -15,8 +16,8 @@ namespace Game
 
         public Button Btn_Down;
         public Button Btn_Up_Level;
-        public Button Btn_Travel;
-        public Button Btn_Devour;
+        public Button Btn_Run;
+        public Button Btn_Stop;
 
         public Button Btn_Image;
         public Image image_Background;
@@ -30,8 +31,8 @@ namespace Game
             this.Btn_Image.onClick.AddListener(ShowDetail);
             this.Btn_Down.onClick.AddListener(OnDown);
             this.Btn_Up_Level.onClick.AddListener(OnUpLevel);
-            this.Btn_Travel.onClick.AddListener(OnTravel);
-            this.Btn_Devour.onClick.AddListener(OnDevour);
+            this.Btn_Run.onClick.AddListener(OnRun);
+            this.Btn_Stop.onClick.AddListener(OnStop);
         }
 
         // Update is called once per frame
@@ -78,19 +79,45 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new OpenPetForgeEvent() { Type = 1, Item = this });
         }
 
-        private void OnTravel()
+        private void OnRun()
         {
-            GameProcessor.Inst.EventCenter.Raise(new OpenPetForgeEvent() { Type = 2, Item = this });
+            Btn_Run.gameObject.SetActive(false);
+
+            User user = GameProcessor.Inst.User;
+            int count = user.PetList.Where(m => m.Status == 1).Count();
+
+            if (count >= 1)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "只能出站一个", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+            pet.Status = 1;
+            Btn_Stop.gameObject.SetActive(true);
         }
 
-        private void OnDevour()
+        private void OnStop()
         {
-            GameProcessor.Inst.EventCenter.Raise(new OpenPetForgeEvent() { Type = 3, Item = this });
+            Btn_Stop.gameObject.SetActive(false);
+
+
+            pet.Status = 0;
+            Btn_Run.gameObject.SetActive(true);
         }
 
         public void Init(Pet pet)
         {
             this.pet = pet;
+
+            if (pet.Status == 0)
+            {
+                Btn_Run.gameObject.SetActive(true);
+                Btn_Stop.gameObject.SetActive(false);
+            }
+            else {
+                Btn_Run.gameObject.SetActive(false);
+                Btn_Stop.gameObject.SetActive(true);
+            }
 
             Txt_Name.text = pet.Name;
             Txt_Level.text = pet.PetLevel.Data + "级";

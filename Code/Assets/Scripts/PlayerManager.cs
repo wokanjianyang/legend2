@@ -19,6 +19,7 @@ namespace Game
         }
 
         private Hero hero;
+        private Hero_Pet heroPet;
         private Defend defend;
 
         private int playerId = 0;
@@ -62,6 +63,39 @@ namespace Game
             var bornCell = tempCells[index];
             hero.SetPosition(bornCell, true);
             this.AddPlayer(hero);
+
+            //º”‘ÿ≥ËŒÔ
+
+            User user = GameProcessor.Inst.User;
+            List<Pet> pets = user.PetList.Where(m => m.Status == 1).ToList();
+            foreach (Pet pet in pets)
+            {
+                LoadPet(pet);
+            }
+        }
+
+        public void LoadPet(Pet pet)
+        {
+            heroPet = new Hero_Pet(hero, pet);
+
+            var coms = heroPet.Transform.GetComponents<MonoBehaviour>();
+            foreach (var com in coms)
+            {
+                if (com is IPlayer _com)
+                {
+                    _com.SetParent(heroPet);
+                }
+            }
+
+            var tempCells = GameProcessor.Inst.MapData.AllCells.ToList();
+            var allPlayerCells = GameProcessor.Inst.PlayerManager.GetAllPlayers(true).Select(p => p.Cell).ToList();
+            tempCells.RemoveAll(p => allPlayerCells.Contains(p));
+
+
+            var index = RandomHelper.RandomNumber(0, tempCells.Count);
+            var bornCell = tempCells[index];
+            heroPet.SetPosition(bornCell, true);
+            this.AddPlayer(heroPet);
         }
 
         public void LoadHeroPvp(RuleType ruleType)

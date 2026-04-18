@@ -1,0 +1,146 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Newtonsoft.Json;
+using System.Linq;
+
+namespace Game
+{
+    public class Hero_Pet : APlayer
+    {
+        public APlayer Master { get; set; }
+        private Pet Self { get; set; }
+
+
+        private int Life = 0;
+
+        public Hero_Pet(APlayer master, Pet pet) : base()
+        {
+            this.GroupId = master.GroupId;
+
+            this.Master = master;
+            this.Self = pet;
+
+            this.Init();
+        }
+
+        private void Init()
+        {
+            this.Level = Self.PetLevel.Data;
+
+            this.ModelType = Master.ModelType;
+            this.FashionId = Master.FashionId;
+
+            this.Name = Self.Name;
+
+            this.SetAttr();  //设置属性值
+            this.SetSkill(); //设置技能
+
+            base.Load();
+            this.Logic.SetData(null); //设置UI
+        }
+
+        private void SetAttr()
+        {
+            this.AttributeBonus = new AttributeBonus();
+
+            double asp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Speed);
+            double msp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MoveSpeed);
+
+            this.SetAttackSpeed((int)asp);
+            this.SetMoveSpeed((int)msp);
+
+            int role = Self.Role;
+
+            double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role); //职业攻击
+
+            double mHp = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP);
+            double mDef = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Def);
+
+            this.AttributeBonus = new AttributeBonus();
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, mHp);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroPanel, mAtk);
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroPanel, mAtk);
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroPanel, mAtk);
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, mDef); //降低50%继承
+
+            AttributeBonus.SetAttr(AttributeEnum.Speed, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed));
+            AttributeBonus.SetAttr(AttributeEnum.MoveSpeed, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed));
+            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Lucky));
+            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Curse));
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Accuracy));
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Miss));
+
+            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRate));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamage));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyRate));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamageResist));
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageIncrea));
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageResist));
+
+            AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Strong));
+            AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Shatter));
+            AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Parry));
+
+            AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
+            AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
+
+            SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
+        }
+
+        private void SetSkill()
+        {
+            User user = GameProcessor.Inst.User;
+
+            //加载技能
+            for (int i = 0; i < Self.Skills.Count; i++)
+            {
+                SkillData skillData = new SkillData(Self.Skills[i].Key, i);
+                skillData.MagicLevel.Data = Self.Skills[i].Value.Data;
+
+                List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
+
+                List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
+
+                List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
+
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false, RuleType, 1);
+
+                SkillState skill = new SkillState(this, skillPanel, null, i, 0);
+                SelectSkillList.Add(skill);
+            }
+        }
+
+        //public override float DoEvent()
+        //{
+        //    long now = TimeHelper.ClientNowSeconds();
+        //    long lf = now - BirthDay;
+        //    //Debug.Log("life:" + lf);
+        //    if (lf >= Life) //auto dead
+        //    {
+        //        this.HP = 0;
+
+        //        GameProcessor.Inst.PlayerManager.RemoveDeadPlayers(this);
+
+        //        return 999f;
+        //    }
+        //    else
+        //    {
+        //        return base.DoEvent();
+        //    }
+        //}
+
+        //public override void OnHit(DamageResult dr)
+        //{
+        //    //if (this.GroupId == 1 && dr.Damage > 200000000)
+        //    //{
+        //    //    Debug.Log("duplication player hit damage:" + StringHelper.FormatNumber(dr.Damage));
+        //    //}
+
+        //    base.OnHit(dr);
+        //}
+    }
+}

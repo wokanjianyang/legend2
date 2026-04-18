@@ -27,6 +27,8 @@ namespace Game
 
         public int Role { get; set; }
 
+        public int Status { get; set; } = 0;
+
         public override int GetQuality()
         {
             return Quality;

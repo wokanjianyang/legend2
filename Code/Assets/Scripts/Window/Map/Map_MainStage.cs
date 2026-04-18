@@ -53,7 +53,7 @@ public class Map_MainStage : MonoBehaviour, IBattleLife
     {
         this.gameObject.SetActive(true);
 
-        Debug.Log("start stage ");
+        //Debug.Log("start stage ");
 
         User user = GameProcessor.Inst.User;
 

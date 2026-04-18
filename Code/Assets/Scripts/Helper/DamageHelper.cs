@@ -44,7 +44,7 @@ namespace Game
                     def *= curseRate;
                 }
 
-                atk = atk / (def * ConfigHelper.Def_Rate);
+                atk = Math.Max(1, atk - def * ConfigHelper.Def_Rate);
             }
 
 

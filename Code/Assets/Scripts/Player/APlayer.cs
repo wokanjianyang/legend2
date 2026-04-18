@@ -555,7 +555,7 @@ namespace Game
                 this.EventCenter.Raise(new ShowMsgEvent()
                 {
                     Type = MsgType.Miss,
-                    Content = "MISS"
+                    Content = "闪避"
                 });
             }
         }
@@ -568,7 +568,7 @@ namespace Game
                 this.EventCenter.Raise(new ShowMsgEvent()
                 {
                     Type = MsgType.Miss,
-                    Content = "二次闪避"
+                    Content = "躲闪"
                 });
             }
         }

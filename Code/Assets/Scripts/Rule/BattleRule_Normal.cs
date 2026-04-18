@@ -48,14 +48,14 @@ namespace Game
 
 
             //Specail
-            List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.BuildRate < Total).ToList();
-            foreach (MonsterSpecialConfig config in configs)
-            {
-                if (RandomHelper.RandomNumber(1, config.BuildRate) <= 1)
-                {
-                    GameProcessor.Inst.PlayerManager.LoadMonster(new Monster_Specail(config.Id, 1, RuleType.Normal));
-                }
-            }
+            //List<MonsterSpecialConfig> configs = MonsterSpecialConfigCategory.Instance.GetAll().Values.Where(m => m.BuildRate < Total).ToList();
+            //foreach (MonsterSpecialConfig config in configs)
+            //{
+            //    if (RandomHelper.RandomNumber(1, config.BuildRate) <= 1)
+            //    {
+            //        GameProcessor.Inst.PlayerManager.LoadMonster(new Monster_Specail(config.Id, 1, RuleType.Normal));
+            //    }
+            //}
 
             Total++;
         }

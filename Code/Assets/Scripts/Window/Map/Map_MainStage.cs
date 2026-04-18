@@ -22,7 +22,7 @@ public class Map_MainStage : MonoBehaviour, IBattleLife
     private List<Text> msgPool = new List<Text>();
     private int msgId = 0;
 
-    private int CopyMapId = 0;
+    private int MapId = 0;
     private long MapTime = 0;
 
     public int Order => (int)ComponentOrder.BattleRule;
@@ -36,32 +36,33 @@ public class Map_MainStage : MonoBehaviour, IBattleLife
     public void OnBattleStart()
     {
         GameProcessor.Inst.EventCenter.AddListener<BattleMsgEvent>(this.OnBattleMsgEvent);
-        GameProcessor.Inst.EventCenter.AddListener<StartCopyEvent>(this.OnStartCopy);
-        GameProcessor.Inst.EventCenter.AddListener<ShowCopyInfoEvent>(this.OnShowCopyInfoEvent);
+        GameProcessor.Inst.EventCenter.AddListener<StartStageEvent>(this.OnStart);
+        GameProcessor.Inst.EventCenter.AddListener<ShowStageInfoEvent>(this.OnShowCopyInfoEvent);
         GameProcessor.Inst.EventCenter.AddListener<BattleLoseEvent>(this.OnBattleLoseEvent);
 
         //ShowMapInfo();
         this.gameObject.SetActive(false);
     }
-    private void ShowMapInfo(int rate)
+    private void ShowMapInfo()
     {
-        MapConfig config = MapConfigCategory.Instance.Get(this.CopyMapId);
-        txt_Name.text = config.Name;
+        MapConfig config = MapConfigCategory.Instance.Get(this.MapId);
+        txt_Name.text = config.Name + "-πÿø®ÃÙ’Ω";
     }
 
-    public void OnStartCopy(StartCopyEvent e)
+    public void OnStart(StartStageEvent e)
     {
         this.gameObject.SetActive(true);
 
-        Debug.Log("start copy");
+        Debug.Log("start stage ");
 
-        this.CopyMapId = e.MapId;
+        User user = GameProcessor.Inst.User;
+
+        this.MapId = user.MapId;
         this.MapTime = TimeHelper.ClientNowSeconds();
 
         Dictionary<string, object> param = new Dictionary<string, object>();
-        param.Add("MapId", e.MapId);
+        param.Add("MapId", MapId);
         param.Add("MapTime", MapTime);
-        param.Add("MapRate", e.Rate);
 
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {
@@ -69,10 +70,10 @@ public class Map_MainStage : MonoBehaviour, IBattleLife
             GameProcessor.Inst.LoadMap(RuleType.MainStage, this.transform, param);
         });
 
-        ShowMapInfo(e.Rate);
+        ShowMapInfo();
     }
 
-    public void OnShowCopyInfoEvent(ShowCopyInfoEvent e)
+    public void OnShowCopyInfoEvent(ShowStageInfoEvent e)
     {
         TxtMc1.text = " £”‡–°π÷£∫" + e.Mc1;
         TxtMc2.text = " £”‡æ´”¢£∫" + e.Mc2;

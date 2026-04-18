@@ -28,6 +28,7 @@ namespace Game
             this.Btn_Map.onClick.AddListener(this.OnClick_Map);
             this.Btn_Info.onClick.AddListener(this.OnClick_Info);
             this.Btn_Achievement.onClick.AddListener(this.OnClick_Achievement);
+            this.Btn_Stage.onClick.AddListener(this.OnClick_ToStage);
 
             this.Init();
         }
@@ -117,11 +118,28 @@ namespace Game
 
         }
 
+        private void OnClick_ToStage()
+        {
+            User user = GameProcessor.Inst.User;
+
+            int maxId = MapConfigCategory.Instance.GetMaxMapId();
+
+            if (AppHelper.CurrentMapId > user.MapId)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您已经超神通关了，请等待开放后续关卡", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+            else
+            {
+                GameProcessor.Inst.EventCenter.Raise(new StartStageEvent());
+            }
+        }
+
         public override void OnOpen()
         {
             base.OnOpen();
 
-            Debug.Log("open view battle");
+            //Debug.Log("open view battle");
 
             //重新计算人物属性
             GameProcessor.Inst.UpdateInfo();

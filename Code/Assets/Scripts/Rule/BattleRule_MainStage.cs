@@ -21,8 +21,10 @@ public class BattleRule_MainStage : ABattleRule
     public BattleRule_MainStage(Dictionary<string, object> param)
     {
         param.TryGetValue("MapId", out object mapId);
+        param.TryGetValue("MapTime", out object mapTime);
 
         this.MapId = (int)mapId;
+        this.MapTime = (long)mapTime;
         this.Start = true;
 
         QualityList = new List<int>();
@@ -61,7 +63,7 @@ public class BattleRule_MainStage : ABattleRule
         int mc4 = QualityList.Where(m => m == 4).Count() + enemys.Where(m => m.Quality == 4).Count();
         int mc5 = QualityList.Where(m => m == 5).Count() + enemys.Where(m => m.Quality == 5).Count();
 
-        GameProcessor.Inst.EventCenter.Raise(new ShowCopyInfoEvent() { Mc1 = mc1, Mc2 = mc2, Mc3 = mc3, Mc4 = mc4, Mc5 = mc5 });
+        GameProcessor.Inst.EventCenter.Raise(new ShowStageInfoEvent() { Mc1 = mc1, Mc2 = mc2, Mc3 = mc3, Mc4 = mc4, Mc5 = mc5 });
 
         if (enemys.Count < MaxQuanlity && QualityList.Count > 0)
         {
@@ -96,7 +98,7 @@ public class BattleRule_MainStage : ABattleRule
                 //闯关成功
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                 {
-                    Message = $"<color=white>挑战副本成功,已自动解锁下一个副本</color>",
+                    Message = $"<color=white>挑战主线关卡成功,已自动解锁下一个地图</color>",
                     Type = RuleType.MainStage
                 });
 

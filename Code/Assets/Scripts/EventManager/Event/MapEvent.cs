@@ -14,4 +14,21 @@ namespace Game
         public int Count { get; set; }
         public int Time { get; set; }
     }
+
+
+    //Ö÷Ïß¹Ø¿¨
+
+    public class StartStageEvent : SDD.Events.Event
+    {
+
+    }
+
+    public class ShowStageInfoEvent : SDD.Events.Event
+    {
+        public int Mc1 { get; set; }
+        public int Mc2 { get; set; }
+        public int Mc3 { get; set; }
+        public int Mc4 { get; set; }
+        public int Mc5 { get; set; }
+    }
 }

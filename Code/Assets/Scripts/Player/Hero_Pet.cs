@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Linq;
+using Game.Data;
 
 namespace Game
 {
@@ -95,6 +96,12 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
+            MagicData dl = new MagicData();
+            dl.Data = Level;
+
+            KeyValuePair<int, MagicData> ds = new KeyValuePair<int, MagicData>(9001, dl);
+            Self.Skills.Add(ds);
+
             //加载技能
             for (int i = 0; i < Self.Skills.Count; i++)
             {
@@ -112,6 +119,9 @@ namespace Game
                 SkillState skill = new SkillState(this, skillPanel, null, i, 0);
                 SelectSkillList.Add(skill);
             }
+
+            //加载默认普通攻击
+
         }
 
         //public override float DoEvent()

@@ -35,6 +35,7 @@ namespace Game
             this.Name = Config.Name;
 
             this.Level = (Config.MapId - 999) * 100;
+            this.FashionId = Config.ModelId;
 
 
             this.SetAttr();  //…Ë÷√ Ù–‘÷µ

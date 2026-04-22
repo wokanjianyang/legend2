@@ -21,7 +21,7 @@ namespace Game
         private List<Sprite> BoxImageList = new List<Sprite>();
         private List<Sprite> FashionList = new List<Sprite>();
         private List<Sprite> ValetList = new List<Sprite>();
-        private List<Sprite> MonsterList = new List<Sprite>();
+        private Dictionary<int, Sprite> MonsterList = new Dictionary<int, Sprite>();
         private List<Sprite> MonsterWorldList = new List<Sprite>();
 
         private Dictionary<int, Sprite> EquipBgList = new Dictionary<int, Sprite>();
@@ -100,12 +100,6 @@ namespace Game
             ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet1"));
             ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet2"));
             ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet3"));
-
-            MonsterList.Add(Resources.Load<Sprite>("UI/Player/Player_Monster1"));
-            MonsterList.Add(Resources.Load<Sprite>("UI/Player/Player_Monster2"));
-            MonsterList.Add(Resources.Load<Sprite>("UI/Player/Player_Monster3"));
-            MonsterList.Add(Resources.Load<Sprite>("UI/Player/Player_Monster4"));
-            MonsterList.Add(Resources.Load<Sprite>("UI/Player/Player_Monster5"));
 
             MonsterWorldList.Add(Resources.Load<Sprite>("UI/Player/Player_World1"));
             MonsterWorldList.Add(Resources.Load<Sprite>("UI/Player/Player_World2"));
@@ -204,14 +198,15 @@ namespace Game
             return ValetList[id - 1];
         }
 
+
         public Sprite GetMonster(int id)
         {
-            if (id < 1 || id > 6)
+            if (!MonsterList.ContainsKey(id))
             {
-                id = 1;
+                MonsterList[id] = Resources.Load<Sprite>("UI/Player/Monster/Monster" + id);
             }
 
-            return MonsterList[id - 1];
+            return MonsterList[id];
         }
 
         public Sprite GetMonsterWorld(int id)

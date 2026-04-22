@@ -177,8 +177,6 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
                 this.image_Background.sprite = PrefabHelper.Instance().GetDefend();
                 break;
             case PlayerType.Enemy:
-                int index = this.SelfPlayer.Quality;
-
                 if (SelfPlayer.RuleType == RuleType.World)
                 {
                     this.image_Background.rectTransform.sizeDelta = new Vector2(300, 300);
@@ -187,7 +185,7 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
                 }
                 else
                 {
-                    //this.image_Background.sprite = PrefabHelper.Instance().GetMonster(index);
+                    this.image_Background.sprite = PrefabHelper.Instance().GetMonster(SelfPlayer.FashionId);
                     break;
                 }
         }

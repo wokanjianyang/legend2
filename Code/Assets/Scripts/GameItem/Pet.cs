@@ -18,6 +18,8 @@ namespace Game
 
         public MagicData KillCount { get; set; } = new MagicData();
 
+        public MagicData InheritCount { get; set; } = new MagicData();
+
         //public MagicData LayerExp { get; set; } = new MagicData();
         public List<KeyValuePair<int, MagicData>> Flairs { get; set; } = new List<KeyValuePair<int, MagicData>>();
 
@@ -58,11 +60,16 @@ namespace Game
                     attrs[attrId] = 0;
                 }
 
-                double attrValue = (sp.Value.Data * KillCount.Data / ConfigHelper.PetKillPercent) * riseRate;
+                double attrValue = (sp.Value.Data * GetTotalKillCount() / ConfigHelper.PetKillPercent) * riseRate;
                 attrs[attrId] += attrValue;
             }
 
             return attrs;
+        }
+
+        public long GetTotalKillCount()
+        {
+            return this.KillCount.Data + (int)(InheritCount.Data * 0.8);
         }
 
         public void AddExp(long exp)

@@ -116,14 +116,15 @@ namespace Game
 
     public enum SkillType
     {
-        Attack = 1,  //直接攻击技能
-        Valet = 2, //召唤技能
-        Map = 3,  //场景技能（比如火墙）
-        Restore = 4,//恢复技能
-        Shield = 5,//状态技能
-        Expert = 6,//职业专精技能
-        Yeman = 7,//野蛮
-        Passive = 8,//被动技能
+        Passive = 1,//被动技能
+        Single_Attack = 2,  //单体攻击技能
+        Mutil_Attack = 3, //范围攻击技能
+        Valet = 4, //召唤技能
+        Map = 5,  //场景技能（比如火墙）
+        Shield = 6,//护盾技能
+        Expert = 7,//专精技能
+        Restore = 8, //恢复技能
+        Row_Attack = 9, //直线攻击
     }
 
     public enum SkillStatus

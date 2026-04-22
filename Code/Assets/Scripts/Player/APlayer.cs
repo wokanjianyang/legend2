@@ -549,26 +549,26 @@ namespace Game
 
         public void ShowMiss()
         {
-            if ((this.Camp == PlayerType.Enemy && GameProcessor.Inst.User.ShowMonsterDamage)
-              || (this.Camp != PlayerType.Enemy && GameProcessor.Inst.User.ShowPlayerEffect))
+            if ((this.Camp == PlayerType.Enemy && AppHelper.ShowMonsterDamage)
+              || (this.Camp != PlayerType.Enemy && AppHelper.ShowPlayerEffect))
             {
                 this.EventCenter.Raise(new ShowMsgEvent()
                 {
                     Type = MsgType.Miss,
-                    Content = "闪避"
+                    Content = "闪"
                 });
             }
         }
 
         public void ShowMiss2()
         {
-            if ((this.Camp == PlayerType.Enemy && GameProcessor.Inst.User.ShowMonsterDamage)
-             || (this.Camp != PlayerType.Enemy && GameProcessor.Inst.User.ShowPlayerEffect))
+            if ((this.Camp == PlayerType.Enemy && AppHelper.ShowMonsterDamage)
+             || (this.Camp != PlayerType.Enemy && AppHelper.ShowPlayerEffect))
             {
                 this.EventCenter.Raise(new ShowMsgEvent()
                 {
                     Type = MsgType.Miss,
-                    Content = "躲闪"
+                    Content = "躲"
                 });
             }
         }

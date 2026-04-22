@@ -123,7 +123,7 @@ namespace Game
 
                     if (i < flairs.Count())
                     {
-                        child.SetContent(flairs[i].Key, flairs[i].Value.Data, pet.KillCount.Data);
+                        child.SetContent(flairs[i].Key, flairs[i].Value.Data, pet.GetTotalKillCount());
                         child.gameObject.SetActive(true);
                     }
                     else

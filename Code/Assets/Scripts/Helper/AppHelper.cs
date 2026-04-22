@@ -43,6 +43,13 @@ namespace Game
 
         public static bool Spirit_Auto = false;
         public static int Spirit_Id = 1;
+
+        //-------设置
+        public static bool ShowPlayerEffect = true; //是否显示技能效果
+        public static bool ShowMonsterDamage = true; //是否显示怪物伤害
+        public static bool ShowMonsterSkill = true; //是否显示怪物技能
+        public static int InfoColor = 1; //掉落信息显示颜色
+
         public static int GetLossQuality()
         {
             //如果次数少于500次，则品质-1

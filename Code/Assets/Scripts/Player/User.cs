@@ -114,11 +114,7 @@ namespace Game
 
         public RecoverySettingNew RecoveryNew { get; set; } = new RecoverySettingNew();
 
-        public bool ShowMonsterSkill { get; set; } = true;
 
-        public bool ShowMonsterDamage { get; set; } = true;
-
-        public bool ShowPlayerEffect { get; set; } = true;
 
         public int InfoColor { get; set; } = 1;
 

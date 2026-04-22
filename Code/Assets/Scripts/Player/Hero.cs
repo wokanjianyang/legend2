@@ -281,11 +281,6 @@ namespace Game
                 skill.Do();
                 //this.EventCenter.Raise(new ShowAttackIcon ());
 
-                if (skill.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
-                {
-                    //this.DoubleHit();
-                }
-
                 return AttckSpeed;
             }
 
@@ -320,10 +315,6 @@ namespace Game
                 if (skill != null)
                 {
                     skill.Do();
-                    if (skill.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Attack)
-                    {
-                        this.DoubleHit();
-                    }
                     return AttckSpeed;
                 }
                 else
@@ -339,19 +330,6 @@ namespace Game
             }
 
             return AttckSpeed;
-        }
-
-        private void DoubleHit()
-        {
-            foreach (SkillState skill in this.DoubleHitSkillList)
-            {
-                if (RandomHelper.RandomRate(skill.Rate))
-                {
-                    skill.Do(SkillRunType.Double);
-                    //Debug.Log(" Double Hit " + skill.SkillPanel.SkillData.SkillConfig.Name);
-                    return;
-                }
-            }
         }
 
         public override APlayer CalcEnemy()

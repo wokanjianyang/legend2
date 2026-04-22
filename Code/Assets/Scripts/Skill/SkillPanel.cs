@@ -49,13 +49,10 @@ namespace Game
 
         public int Level { get; } //面板等级
 
+        public AttackGeometryType Area {get;set;}
+
         public Dictionary<int, EffectData> EffectIdList { get; } = new Dictionary<int, EffectData>(); //特殊效果 
 
-        public AttackGeometryType Area { get; }
-
-        public AttackCastType CastType { get; }
-
-        public string CenterType { get; }
 
         public List<KeyValuePair<int, int>> TalentTextList { get; } = new List<KeyValuePair<int, int>>();
         public List<KeyValuePair<int, int>> RuneTextList { get; } = new List<KeyValuePair<int, int>>();
@@ -215,6 +212,8 @@ namespace Game
 
             this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea + talentAttrIncrea;
             this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea + talentFinalIncrea;
+
+            this.Area = EnumHelper.FromString<AttackGeometryType>(skillData.SkillConfig.Area);
 
             //技能属性
             if (SkillId == 1001)

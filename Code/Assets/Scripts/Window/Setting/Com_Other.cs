@@ -169,9 +169,9 @@ namespace Game
             Debug.Log("Other init");
             User user = GameProcessor.Inst.User;
 
-            tog_Monster_Skill.isOn = user.ShowMonsterSkill;
-            tog_Monster_Damage.isOn = user.ShowMonsterDamage;
-            tog_Player.isOn = user.ShowPlayerEffect;
+            tog_Monster_Skill.isOn = AppHelper.ShowMonsterSkill;
+            tog_Monster_Damage.isOn = AppHelper.ShowMonsterDamage;
+            tog_Player.isOn = AppHelper.ShowPlayerEffect;
             dp_InfoColor.value = user.InfoColor - 1;
 
             string account = user.Account;
@@ -217,16 +217,17 @@ namespace Game
 
         public void ShowSkill(bool show)
         {
-            GameProcessor.Inst.User.ShowMonsterSkill = show;
+            AppHelper.ShowMonsterSkill = show;
         }
         public void ShowDamage(bool show)
         {
-            GameProcessor.Inst.User.ShowMonsterDamage = show;
+            AppHelper.ShowMonsterDamage = show;
         }
 
         public void ShowPlayerEffect(bool show)
         {
-            GameProcessor.Inst.User.ShowPlayerEffect = show;
+            AppHelper.ShowPlayerEffect = show;
+            //保存到本地设置
         }
 
         public void OnClick_Change()

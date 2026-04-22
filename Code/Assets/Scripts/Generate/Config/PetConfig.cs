@@ -93,17 +93,20 @@ namespace Game
 		/// <summary>MaxValue</summary>
 		[ProtoMember(6)]
 		public int MaxValue { get; set; }
-		/// <summary>Percent</summary>
+		/// <summary>QualitRise</summary>
 		[ProtoMember(7)]
+		public int QualitRise { get; set; }
+		/// <summary>Percent</summary>
+		[ProtoMember(8)]
 		public int Percent { get; set; }
 		/// <summary>StartQuality</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int StartQuality { get; set; }
 		/// <summary>EndQuality</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int EndQuality { get; set; }
 		/// <summary>MaxCount</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public int MaxCount { get; set; }
 
 	}

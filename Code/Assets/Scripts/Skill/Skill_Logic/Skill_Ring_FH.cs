@@ -24,10 +24,8 @@ namespace Game
                 Content = SkillPanel.SkillData.SkillConfig.Name
             });
 
-            foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-            {
-                DoEffect(this.SelfPlayer, this.SelfPlayer, 0, 0, effect);
-            }
+            //先行特效
+            SkillPanel.RunBefore(this.SelfPlayer, null);
 
             double percent = this.SkillPanel.Percent;
             double maxHp = this.SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);

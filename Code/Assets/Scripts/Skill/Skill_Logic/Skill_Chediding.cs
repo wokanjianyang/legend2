@@ -45,13 +45,7 @@ namespace Game
                     }
 
                     //先行特效
-                    foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                    {
-                        if (effect.Config.RunType == "Before")
-                        {
-                            DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
-                        }
-                    }
+                    SkillPanel.RunBefore(this.SelfPlayer, enemy);
 
                     double dm = baseDr.Damage * 0.2 * SkillPanel.Percent;
                     double edm = baseDr.ExtendDamage * 0.2 * SkillPanel.Percent;
@@ -63,15 +57,7 @@ namespace Game
                     enemy.OnHit(dr);
 
                     //后行特效
-                    foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                    {
-                        if (effect.Config.RunType == "After")
-                        {
-                            double total = dr.Damage * effect.Percent / 100;
-                            //Debug.Log("restor:" + total);
-                            DoEffect(enemy, this.SelfPlayer, total, 0, effect);
-                        }
-                    }
+                    SkillPanel.RunAfter(this.SelfPlayer, enemy, dr);
                 }
             }
         }

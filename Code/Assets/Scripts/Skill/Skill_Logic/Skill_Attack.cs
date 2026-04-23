@@ -49,8 +49,6 @@ namespace Game
             List<Vector3Int> playCells = GetPlayCells();
             this.skillGraphic?.PlayAnimation(playCells);
 
-            SkillState orbState = this.SelfPlayer.GetSkillByPriority(-100);
-
             List<AttackData> attackDataCache = GetAllTargets();
             foreach (var attackData in attackDataCache)
             {
@@ -71,25 +69,7 @@ namespace Game
                     }
 
                     //先行特效
-                    foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                    {
-                        if (effect.Config.RunType == "Before")
-                        {
-                            DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
-                        }
-                    }
-
-                    if (orbState != null)
-                    {
-                        foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
-                        {
-                            if (effect.Config.RunType == "After")
-                            {
-                                DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
-                                //Debug.Log("Run Ring Effect:" + effect.Config.Name);
-                            }
-                        }
-                    }
+                    SkillPanel.RunBefore(this.SelfPlayer, enemy);
 
                     var dr = DamageHelper.CalcDamage(SelfPlayer.AttributeBonus, enemy.AttributeBonus, SkillPanel);
                     dr.FromId = attackData.Tid;
@@ -100,45 +80,9 @@ namespace Game
                         baseDr = dr;
                     }
 
-                    //if (this.SelfPlayer.Camp == PlayerType.Valet)
-                    //{
-                    //    Debug.Log(SkillPanel.SkillData.SkillConfig.Name + ":" + dr.Damage);
-                    //}
-
-                    //if (this.SkillPanel.SkillId < 4000)
-                    //{ Debug.Log(SkillPanel.SkillData.SkillConfig.Name + ":" + dr.Damage); }
-
                     //后行特效
-                    foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                    {
-                        if (effect.Config.RunType == "Before")
-                        {
-                            double total = dr.Damage * effect.Percent / 100;
-                            //Debug.Log("restor:" + total);
-                            DoEffect(enemy, this.SelfPlayer, total, 0, effect);
-                        }
-                    }
-
-                    //法球
-                    if (orbState != null)
-                    {
-                        foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
-                        {
-                            if (effect.Config.RunType == "After")
-                            {
-                                double total = dr.Damage * effect.Percent / 100;
-                                //Debug.Log("restor:" + total);
-                                DoEffect(enemy, this.SelfPlayer, total, 0, effect);
-                                //Debug.Log("Run Ring Effect:" + effect.Config.Name);
-                            }
-                        }
-                    }
+                    SkillPanel.RunAfter(this.SelfPlayer, enemy, dr);
                 }
-            }
-
-            if (orbState != null)
-            {
-                orbState.Do();
             }
 
             DoChediding(runType, baseDr);

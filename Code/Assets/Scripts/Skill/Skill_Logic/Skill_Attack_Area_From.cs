@@ -66,13 +66,7 @@ namespace Game
                     }
 
                     //先行特效
-                    foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                    {
-                        if (effect.Config.RunType == "Before")
-                        {
-                            DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
-                        }
-                    }
+                    SkillPanel.RunBefore(this.SelfPlayer, enemy);
 
                     //Debug.Log("dm:" + StringHelper.FormatNumber(dm) + "  edm:" + StringHelper.FormatNumber(edm));
                     var dr = DamageHelper.CalcDamage(SelfPlayer.AttributeBonus, enemy.AttributeBonus, FromSkill != null ? FromSkill : SkillPanel);
@@ -87,15 +81,7 @@ namespace Game
                     enemy.OnHit(dr);
 
                     //后行特效
-                    foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                    {
-                        if (effect.Config.RunType == "After")
-                        {
-                            double total = dr.Damage * effect.Percent / 100;
-                            //Debug.Log("restor:" + total);
-                            DoEffect(enemy, this.SelfPlayer, total, 0, effect);
-                        }
-                    }
+                    SkillPanel.RunAfter(this.SelfPlayer, enemy, dr);
                 }
             }
         }

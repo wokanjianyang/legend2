@@ -109,25 +109,7 @@ namespace Game
                         }
 
                         //先行特效
-                        foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                        {
-                            if (effect.Config.RunType == "Before")
-                            {
-                                DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
-                            }
-                        }
-
-                        if (orbState != null)
-                        {
-                            foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
-                            {
-                                if (effect.Config.RunType == "Before")
-                                {
-                                    DoEffect(enemy, this.SelfPlayer, 0, 0, effect);
-                                    //Debug.Log("Run Ring Effect:" + effect.Config.Name);
-                                }
-                            }
-                        }
+                        SkillPanel.RunBefore(this.SelfPlayer, enemy);
 
                         var dr = DamageHelper.CalcDamage(SelfPlayer.AttributeBonus, enemy.AttributeBonus, SkillPanel);
                         dr.FromId = attackData.Tid;
@@ -139,30 +121,7 @@ namespace Game
                         }
 
                         //后行特效
-                        foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                        {
-                            if (effect.Config.RunType == "After")
-                            {
-                                double total = dr.Damage * effect.Percent / 100;
-                                //Debug.Log("restor:" + total);
-                                DoEffect(enemy, this.SelfPlayer, total, 0, effect);
-                            }
-                        }
-
-                        //法球
-                        if (orbState != null)
-                        {
-                            foreach (EffectData effect in orbState.SkillPanel.EffectIdList.Values)
-                            {
-                                if (effect.Config.RunType == "After")
-                                {
-                                    double total = dr.Damage * effect.Percent / 100;
-                                    //Debug.Log("restor:" + total);
-                                    DoEffect(enemy, this.SelfPlayer, total, 0, effect);
-                                    //Debug.Log("Run Ring Effect:" + effect.Config.Name);
-                                }
-                            }
-                        }
+                        SkillPanel.RunAfter(this.SelfPlayer, enemy, dr);
                     }
 
                     ac++;

@@ -22,27 +22,8 @@ namespace Game
             //如果还有附加特效
             this.skillGraphic?.PlayAnimation(SelfPlayer.Cell);
 
-            //对自己加属性Buff
-            foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-            {
-                long rolePercent = 1;
-
-                //Debug.Log("Effect " + effect.Config.Id + " _Percetn:" + total);
-
-                if (effect.Config.TargetType == "Valet")
-                {
-                    var valets = GameProcessor.Inst.PlayerManager.GetValets(this.SelfPlayer);
-                    //Debug.Log("valets count:" + valets.Count);
-                    foreach (Valet valet in valets)
-                    {
-                        DoEffect(valet, this.SelfPlayer, 0, rolePercent, effect);
-                    }
-                }
-                else
-                {
-                    DoEffect(this.SelfPlayer, this.SelfPlayer, 0, rolePercent, effect);
-                }
-            }
+            //先行特效
+            SkillPanel.RunBefore(this.SelfPlayer, null);
         }
 
         private void ToHide()

@@ -24,25 +24,8 @@ namespace Game
             //如果还有附加特效
             this.skillGraphic?.PlayAnimation(SelfPlayer.Cell);
 
-            //对自己加属性Buff
-            foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-            {
-                long rolePercent = 1;
-
-                //Debug.Log("Effect_Id:" + effect.Config.Id + " Effect_Percent:" + effect.Percent);
-
-                DoEffect(this.SelfPlayer, this.SelfPlayer, 0, rolePercent, effect);
-            }
-
-            //if (this.SkillPanel.DivineLevel > 0)
-            //{
-            //    int divineMax = (int)(SkillPanel.DivineLevel * SkillPanel.DivineAttrConfig.Param);
-
-            //    if (SkillPanel.SkillId == 3005)
-            //    {
-
-            //    }
-            //}
+            //先行特效
+            SkillPanel.RunBefore(this.SelfPlayer, null);
         }
     }
 }

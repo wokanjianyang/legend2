@@ -92,7 +92,7 @@ namespace Game
 		public int SourceAttr { get; set; }
 		/// <summary>施法目标</summary>
 		[ProtoMember(6)]
-		public string TargetType { get; set; }
+		public int TargetType { get; set; }
 		/// <summary>目标属性</summary>
 		[ProtoMember(7)]
 		public int TargetAttr { get; set; }

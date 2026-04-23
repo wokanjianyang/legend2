@@ -141,55 +141,6 @@ namespace Game
 
             return RandomHelper.RandomRate((int)rate);
         }
-
-        public static double GetEffectFromTotal(AttributeBonus attacker, SkillPanel skillPanel, EffectData effect)
-        {
-            int srcAttr = effect.Config.SourceAttr;
-
-            //按照某个属性，计算百分比+固定值得来的，
-            if (srcAttr == -2)
-            {
-                double total = attacker.CalBattleTotalAttr((AttributeEnum)effect.Config.SourceAttr);
-
-                //Debug.Log("Shield Base Total:" + total);
-
-                //int role = skillPanel.SkillData.SkillConfig.Role;
-
-                //double percent = effect.Percent;
-                //if (effect.Config.ExpertRise > 0) //享受其他增强收益
-                //{
-                //    //Debug.Log("Shield Skill-Percent:" + skillPanel.Percent);
-                //    //Debug.Log("Shield Role-Percent:" + GetRolePercent(attacker, role));
-
-                //    //技能系数
-                //    percent += GetRolePercent(attacker, role) * effect.Config.ExpertRise / 100;
-                //}
-
-                //long damage = effect.Damage;
-                //if (effect.Config.ExpertRise > 0)
-                //{
-                //    damage += GetRoleDamage(attacker, role) * effect.Config.ExpertRise / 100;
-                //    //Debug.Log("Shield Damage:" + damage);
-                //}
-
-                ////Debug.Log("Shield Percent:" + percent);
-
-                //total = total * percent / 100 + damage;   // *百分比系数 + 固定数值
-
-                //Debug.Log("Shield Gain Total :" + total);
-
-                return total;
-            }
-            //配置来源的数值
-            else if (srcAttr == 0)
-            {
-                double total = effect.Percent;
-                return total;
-            }
-
-            return 0;
-        }
-
     }
 
     public class DamageResult

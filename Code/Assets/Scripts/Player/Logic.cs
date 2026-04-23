@@ -7,13 +7,6 @@ namespace Game
 {
     public class Logic : MonoBehaviour, IPlayer
     {
-        /// <summary>
-        /// 角色属性
-        /// </summary>
-        //private Dictionary<AttributeEnum, object> BaseAttributeMap = new Dictionary<AttributeEnum, object>();
-        //private Dictionary<AttributeEnum, object> BattleAttributeMap = new Dictionary<AttributeEnum, object>();
-
-        private Dictionary<int, Effect> EffectMap = new Dictionary<int, Effect>();
 
         public bool IsSurvice { get; private set; } = true;
 

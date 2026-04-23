@@ -24,15 +24,8 @@ namespace Game
             //如果还有附加特效
             this.skillGraphic?.PlayAnimation(SelfPlayer.Cell);
 
-            //对自己加属性Buff
-            foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-            {
-                long rolePercent = 1;
-
-                //Debug.Log("Effect " + effect.Config.Id + " _Percetn:" + total);
-
-                DoEffect(this.SelfPlayer, this.SelfPlayer, 0, rolePercent, effect);
-            }
+            //先行特效
+            SkillPanel.RunBefore(this.SelfPlayer, null);
         }
     }
 }

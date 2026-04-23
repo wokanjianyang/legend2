@@ -39,7 +39,6 @@ namespace Game
 
         public int Speed { get; }
 
-
         public int DamageIncrea { get; } //伤害加成
         public int AttrIncrea { get; } //攻击加成
 
@@ -49,10 +48,7 @@ namespace Game
 
         public int Level { get; } //面板等级
 
-        public AttackGeometryType Area {get;set;}
-
-        public Dictionary<int, EffectData> EffectIdList { get; } = new Dictionary<int, EffectData>(); //特殊效果 
-
+        public AttackGeometryType Area { get; set; }
 
         public List<KeyValuePair<int, int>> TalentTextList { get; } = new List<KeyValuePair<int, int>>();
         public List<KeyValuePair<int, int>> RuneTextList { get; } = new List<KeyValuePair<int, int>>();
@@ -61,6 +57,8 @@ namespace Game
         public List<int> AttrIdList = new List<int>();
 
         public List<double> AttrValueList = new List<double>();
+
+        public Dictionary<int, Effect_Compent> EffectList { get; } = new Dictionary<int, Effect_Compent>(); //特殊效果 
 
         public string Desc { get; set; }
 
@@ -253,74 +251,104 @@ namespace Game
                 foreach (string skillEffect in skilEffectList)
                 {
                     int[] effectParams = StringHelper.ConvertSkillParams(skillEffect);
+
                     int effectId = effectParams[0];
                     int duration = effectParams[1];
                     int max = effectParams[2];
                     double percent = effectParams[3];
 
-                    List<SkillSuit> itemSuitList = effectSuitList.Where(m => m.EffectId == effectId).ToList();
-
-                    if (itemSuitList.Count > 0)
-                    {
-                        duration += itemSuitList.Select(m => m.Duration).Sum();
-                        max += itemSuitList.Select(m => m.EnemyMax).Sum();
-                        percent += itemSuitList.Select(m => m.Percent).Sum();
-                    }
-
-                    List<SkillRune> itemRuneList = effectRuneList.Where(m => m.EffectId == effectId).ToList();
-                    if (itemRuneList.Count > 0)
-                    {
-                        duration += itemRuneList.Select(m => m.Duration).Sum();
-                        max += itemRuneList.Select(m => m.EnemyMax).Sum();
-                        percent += itemRuneList.Select(m => m.Percent).Sum();
-                    }
-
-                    EffectConfig effectConfig = EffectConfigCategory.Instance.Get(effectId);
-
-
-
-                    if (effectId > 0 && !EffectIdList.ContainsKey(effectId)) //不能叠加
-                    {
-                        int fromId = GetFromId(effectId);
-                        EffectIdList[effectId] = new EffectData(effectId, fromId, percent, 0, duration, max);
-                    }
-
-                    //Remove
-                    effectSuitList.RemoveAll(m => m.EffectId == effectId);
-                    effectRuneList.RemoveAll(m => m.EffectId == effectId);
-
-                    if (effectConfig.Des != "")
-                    {
-                        Desc += "," + string.Format(effectConfig.Des, percent, max, duration);
-                    }
+                    AddEffect(effectId, percent, duration, max);
                 }
             }
-
-            //rune effect 暂无
 
             //suit effect
             foreach (SkillSuit suit in effectSuitList)
             {
-                if (suit.EffectId > 0 && !EffectIdList.ContainsKey(suit.EffectId))
+                if (suit.EffectId > 0)
                 {
-                    int fromId = GetFromId(suit.EffectId);
-                    EffectIdList[suit.EffectId] = new EffectData(suit.EffectId, fromId, suit.Percent, suit.Damage, suit.Duration, suit.EnemyMax);
+                    AddEffect(suit.EffectId, suit.Percent, suit.Duration, suit.EnemyMax);
                 }
             }
+
+            //talent effect
+            foreach (SkillTalent sp in talentList)
+            {
+                if (sp.EffectId > 0)
+                {
+                    AddEffect(sp.EffectId, sp.EffectValue, 0, sp.EffectMax);
+                }
+            }
+
+            //rune effect 暂无
+            foreach (var effect in EffectList)
+            {
+                int effectId = effect.Key;
+                EffectConfig effectConfig = EffectConfigCategory.Instance.Get(effectId);
+                Effect_Compent compent = effect.Value;
+
+
+                if (effectConfig.Des != "")
+                {
+                    Desc += "," + string.Format(effectConfig.Des, compent.Percent, compent.Max, compent.Duration);
+                }
+            }
+
+
+        }
+
+        private void AddEffect(int effectId, double percent, int duration, int max)
+        {
+            if (!EffectList.ContainsKey(effectId)) //如果已经存在，就叠加其他参数
+            {
+                int fromId = GetFromId(effectId);
+                Effect_Compent compent = new Effect_Compent(effectId, fromId, percent, 0, duration, max);
+                EffectList.Add(effectId, compent);
+            }
+            else
+            {
+                EffectList[effectId].Add(percent, 0, duration, max);
+            }
+
         }
 
         private int GetFromId(int effectId)
         {
-            return (int)AttributeFrom.Skill * 100000 + effectId * 10;
+            return (int)AttributeFrom.Skill * 100000 + this.SkillId * 1000 + effectId * 10;
         }
 
+        /// <summary>
+        /// 运行先行效果
+        /// </summary>
+        public void RunBefore(APlayer self, APlayer enemy)
+        {
+            foreach (var sp in EffectList)
+            {
+                Effect_Compent com = sp.Value;
+
+                if (com.Config.RunType == "Before")
+                {
+                    com.Do(self, enemy, 0);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 运行后行效果
+        /// </summary>
+        public void RunAfter(APlayer self, APlayer enemy, DamageResult res)
+        {
+            foreach (var sp in EffectList)
+            {
+                Effect_Compent com = sp.Value;
+
+                if (com.Config.RunType == "Afer")
+                {
+                    com.Do(self, enemy, res.Damage);
+                }
+            }
+        }
 
     }
 
-    public enum DivineType
-    {
-        SingleRepeat = 1,
-        DistanceRise = 2,
-        SingleEjection = 3,
-    }
+
 }

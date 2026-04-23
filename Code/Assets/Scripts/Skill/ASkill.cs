@@ -39,21 +39,6 @@ namespace Game
             return Math.Abs(from.x - to.x) + Math.Abs(from.y - to.y);
         }
 
-        public void DoEffect(APlayer enemy, APlayer self, double damage, long rolePercent, EffectData data)
-        {
-            EffectConfig config = data.Config;
-
-            var effectTarget = config.TargetType == "Self" ? this.SelfPlayer : enemy; //1 为作用自己 2 为作用敌人
-
-            if (data.Duration > 0)
-            {  //持续Buff
-                effectTarget.AddEffect(effectTarget, data, damage, rolePercent);
-            }
-            else
-            {
-                effectTarget.RunEffect(effectTarget, data, damage, rolePercent);
-            }
-        }
         public void SetParent(APlayer player)
         {
             this.SelfPlayer = player;

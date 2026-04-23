@@ -42,14 +42,8 @@ namespace Game
                 //Debug.Log(this.SelfPlayer.Name + "(" + SelfPlayer.ID + ")" + " Restore to +" + teamer.Name + "(" + teamer.ID + ")" + " :" + hp);
 
                 //Buff
-                foreach (EffectData effect in SkillPanel.EffectIdList.Values)
-                {
-                    //Debug.Log("Restore Effect Percent:" + effect.Percent);
-                    double total = hp * effect.Percent / 100;
-                    //Debug.Log("Restore Effect :" + total);
-
-                    DoEffect(this.SelfPlayer, this.SelfPlayer, total, 0, effect);
-                }
+                //先行特效
+                SkillPanel.RunBefore(this.SelfPlayer, teamer);
             }
         }
 

@@ -67,9 +67,11 @@ namespace Game
 
         public List<SkillState> SelectSkillList { get; set; }
 
-        public List<OrbState> OrbList { get; set; }
+        public Effect_Manager EffectManager;
 
-        protected Dictionary<int, List<Effect>> EffectMap = new Dictionary<int, List<Effect>>();
+        //public List<Effect_State> EffectStateList { get; set; }
+
+        //protected Dictionary<int, List<Effect>> EffectMap = new Dictionary<int, List<Effect>>();
 
 
         public PlayerInfo Info = null;
@@ -139,7 +141,8 @@ namespace Game
             this.EventCenter = new EventManager();
             this.AttributeBonus = new AttributeBonus();
             this.SelectSkillList = new List<SkillState>();
-            this.OrbList = new List<OrbState>();
+
+            this.EffectManager = new Effect_Manager(this);
 
             //this.Load();
         }
@@ -246,22 +249,7 @@ namespace Game
 
         public bool GetIsPause()
         {
-            foreach (List<Effect> list in EffectMap.Values)
-            {
-                int mc = list.Where(m => m.Data.Config.Type == (int)EffectType.IgnorePause && m.Active).Count();
-                if (mc > 0)
-                {
-                    return false;
-                }
-
-                int count = list.Where(m => m.Data.Config.Type == (int)EffectType.Pause && m.Active).Count();
-                if (count > 0)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return EffectManager.isPause();
         }
 
         public void DoCD(float time)
@@ -271,25 +259,14 @@ namespace Game
                 ss.RunCD(time);
             }
 
-            foreach (OrbState os in this.OrbList)
-            {
-                os.RunCD(time);
-            }
+            this.EffectManager.RunCD(time);
         }
 
         public void DoEffect(float time)
         {
             if (!this.IsSurvice) return;
 
-            //计算buff
-            foreach (List<Effect> list in EffectMap.Values)
-            {
-                foreach (Effect effect in list)
-                {
-                    effect.Do(time);
-                }
-                list.RemoveAll(m => !m.Active);//移除已结束的
-            }
+            EffectManager.RunCD(time);
         }
 
         public virtual float DoEvent()
@@ -384,47 +361,9 @@ namespace Game
             return 1f;
         }
 
-        public void RunEffect(APlayer attchPlayer, EffectData effectData, double damage, long rolePercent)
+        public void AddEffect(Effect_Compent compent, Effect_Buff buff)
         {
-            Effect effect = new Effect(this, effectData, damage, rolePercent, 0);
-            effect.Do(1f);
-        }
-        public void AddEffect(APlayer attchPlayer, EffectData effectData, double damage, long rolePercent)
-        {
-            if (!EffectMap.TryGetValue(effectData.FromId, out List<Effect> list))
-            {
-                list = new List<Effect>();
-                EffectMap[effectData.FromId] = list;
-            }
-
-            if (list.Count > 0 && list.Count >= effectData.Max)
-            {
-                //移除旧的
-                int RemoveCount = list.Count - Math.Max(0, effectData.Max - 1);
-
-                for (int i = 0; i < RemoveCount; i++)
-                {
-                    //effectData.Layer = list[i].Data.Layer; //使用旧的FromId
-
-                    list[i].Clear();
-                }
-                list.RemoveRange(0, RemoveCount);
-            }
-
-            int layer = 0;
-            if (list.Count > 0)
-            {
-                layer = (list[list.Count - 1].Layer + 1) % effectData.Max; //每叠加一层，FromId+1
-            }
-
-            Effect effect = new Effect(this, effectData, damage, rolePercent, layer);
-            list.Add(effect);
-
-            // 立即运行类型，立即使用
-            //if (effect.Data.Config.RunType == 0)
-            //{
-            //    effect.Do(1f);
-            //}
+            EffectManager.AddEffect(compent, buff);
         }
 
         public void Move(Vector3Int cell)

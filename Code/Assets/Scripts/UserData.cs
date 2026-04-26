@@ -118,17 +118,6 @@ namespace Game
                     }
                 }
 
-                if (user.ExclusivePanelList.Count < 7)
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        if (!user.ExclusivePanelList.ContainsKey(i))
-                        {
-                            user.ExclusivePanelList[i] = new Dictionary<int, ExclusiveItem>();
-                        }
-                    }
-                }
-
                 if (user.DefendData == null)
                 {
                     user.DefendData = new DefendData();

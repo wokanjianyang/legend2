@@ -377,7 +377,14 @@ namespace Game
             switch (ruleType)
             {
                 case RuleType.Normal:
-                    this.BattleRule = new BattleRule_Normal();
+                    if (ConfigHelper.EnvTest)
+                    {
+                        this.BattleRule = new BattleRule_Test();
+                    }
+                    else
+                    {
+                        this.BattleRule = new BattleRule_Normal();
+                    }
                     break;
                 case RuleType.MainStage:
                     this.BattleRule = new BattleRule_MainStage(param);

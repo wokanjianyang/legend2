@@ -87,15 +87,18 @@ namespace Game
 		/// <summary>BossId</summary>
 		[ProtoMember(4)]
 		public int BossId { get; set; }
-		/// <summary>DropLevel</summary>
-		[ProtoMember(5)]
-		public int DropLevel { get; set; }
 		/// <summary>地图Id掉落</summary>
-		[ProtoMember(6)]
+		[ProtoMember(5)]
 		public int[] DropIdList { get; set; }
 		/// <summary>DropRateList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(6)]
 		public int[] DropRateList { get; set; }
+		/// <summary>BaseIdList</summary>
+		[ProtoMember(7)]
+		public int[] BaseIdList { get; set; }
+		/// <summary>BaseRateList</summary>
+		[ProtoMember(8)]
+		public int[] BaseRateList { get; set; }
 
 	}
 }

@@ -166,7 +166,8 @@ public class BattleRule_Infinite : ABattleRule
         }
         seed += TimeHelper.TodaySeed() + (int)level;
 
-        List<Item> items = DropHelper.BuildDropItem(dropList, seed);
+        List<Item> items = new List<Item>();
+        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, seed));
 
         if (infiniteDropConfig != null && infiniteDropConfig.Number > 1)
         {

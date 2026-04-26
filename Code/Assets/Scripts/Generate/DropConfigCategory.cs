@@ -27,115 +27,112 @@ namespace Game
 
             return list;
         }
-    }
 
-    public class DropHelper
-    {
-        public static List<Item> TowerEquip(long fl, int equipLevel)
+        public List<Item> BuildDropItem(int mapId, double burstRise, double qualityRise)
         {
-            List<Item> items = new List<Item>();
+            MapConfig mapConfig = MapConfigCategory.Instance.Get(mapId);
 
-            if (fl % 20000 == 0)
-            {
-                //2w层掉落当前等级橙装
-                items.AddRange(DropHelper.RandomLevelEquip((int)fl, equipLevel, 5));
-            }
-            if (fl % 1500 == 0)
-            {
-                //2000层掉落当前等级紫装
-                items.AddRange(DropHelper.RandomLevelEquip((int)fl, equipLevel, 4));
-            }
-            if (fl % 1000 == 0)
-            {
-                int fourLevel = 1;
-                if (fl > 500000)  //50w以上，掉落2级四格,以下掉落3级4格
-                {
-                    fourLevel = 2;
-                }
-                int rd = RandomHelper.RandomNumber(1, 5);
-                items.Add(ItemHelper.BuildEquip(rd * 100 + fourLevel, 1, 1, -1));
-            }
-
-            if (fl % 30 == 0)
-            {
-                //每30层掉落当前等级随机装备
-                items.AddRange(DropHelper.RandomLevelEquip((int)fl, equipLevel, 0));
-            }
-            return items;
-        }
-
-        public static List<Item> RandomLevelEquip(int seed, int equipLevel, int quality)
-        {
             List<Item> list = new List<Item>();
 
-            List<DropConfig> drops = DropConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Level == equipLevel && m.ItemType == 2).ToList(); //获取当前等级的装备
-            if (drops.Count > 0)
+            for (int i = 0; i < mapConfig.BaseIdList.Length; i++)
             {
-                int[] ids = drops[0].ItemIdList;
-                if (ids != null && ids.Length > 0)
+                int realRate = (int)(mapConfig.BaseRateList[i] / burstRise);
+                if (RandomHelper.RandomRate(realRate))
                 {
-                    int index = RandomHelper.RandomNumber(0, ids.Length);
-
-                    Item item = ItemHelper.BuildEquip(ids[index], quality, 1, AppHelper.RefreshSeed(seed));  //固定词条
-                    list.Add(item);
+                    list.Add(BuildByDropBaseId(mapConfig.BaseIdList[i], (int)qualityRise, 0));
                 }
             }
+
+            for (int i = 0; i < mapConfig.DropIdList.Length; i++)
+            {
+                int realRate = (int)(mapConfig.DropRateList[i] / burstRise);
+                if (RandomHelper.RandomRate(realRate))
+                {
+                    list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise));
+                }
+            }
+
             return list;
         }
 
-        public static List<Item> BuildDropItem(List<KeyValuePair<double, DropConfig>> dropList, int seed)
+        public Item BuildByDropBaseId(int baseId, int qualityRise, int seed)
         {
-            return BuildDropItem(dropList, 1, RuleType.Normal, seed);
-        }
+            DropBaseConfig config = DropBaseConfigCategory.Instance.Get(baseId);
+            int itemIndex = RandomHelper.RandomNumber(0, config.ItemIdList.Length, seed);
 
-        public static List<Item> BuildDropItem(List<KeyValuePair<double, DropConfig>> dropList)
-        {
-            return BuildDropItem(dropList, 1, RuleType.Normal, 0);
+            return ItemHelper.BuildItem((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, 1);
         }
-
-        public static List<Item> BuildDropItem(List<KeyValuePair<double, DropConfig>> dropList, int qualityRate, RuleType ruleType, int seed)
+        public List<Item> BuildByDropBaseIdList(List<int> idList, int qualityRise, int seed)
         {
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < idList.Count; i++)
+            {
+                int baseId = idList[i];
+                if (!dict.ContainsKey(baseId))
+                {
+                    dict[baseId] = 0;
+                }
+
+                dict[baseId]++;
+            }
+
             List<Item> list = new List<Item>();
 
-            for (int i = 0; i < dropList.Count; i++)
+            foreach (var sp in dict)
             {
-                double rate = dropList[i].Key;
-                DropConfig config = dropList[i].Value;
+                int baseId = sp.Key;
 
-                if (RandomHelper.RandomResult(rate))
-                {
-                    int index = RandomHelper.RandomNumber(seed, 0, config.ItemIdList.Length);
-                    int configId = config.ItemIdList[index];
+                DropBaseConfig config = DropBaseConfigCategory.Instance.Get(baseId);
+                int itemIndex = RandomHelper.RandomNumber(0, config.ItemIdList.Length, seed);
 
-                    Item item = ItemHelper.BuildItem((ItemType)config.ItemType, configId, qualityRate, config.Quantity, ruleType);
-                    list.Add(item);
-                }
+                list.Add(ItemHelper.BuildItem((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, sp.Value));
+
             }
+
             return list;
         }
 
-        public static List<Item> BuildDropItem(List<int> dropIdList)
+        public Item BuildByDropId(int dropId, int qualityRise)
         {
-            Dictionary<int, Item> dict = new Dictionary<int, Item>();
+            DropConfig config = DropConfigCategory.Instance.Get(dropId);
 
-            foreach (int dropId in dropIdList)
+            int index = RandomDropIndex(config, 0);
+
+            int baseId = config.BaseIdList[index];
+
+            return BuildByDropBaseId(baseId, qualityRise, 0);
+        }
+
+
+        public int RandomDropIndex(DropConfig config, int seed)
+        {
+
+            if (config.BaseRateList != null && config.BaseRateList.Length > 0)
             {
-                DropConfig config = DropConfigCategory.Instance.Get(dropId);
+                int[] RateList = config.BaseRateList;
 
-                int index = RandomHelper.RandomNumber(0, config.ItemIdList.Length);
-                int itemId = config.ItemIdList[index];
+                int total = RateList.Select(m => m).Sum();
 
-                if (!dict.ContainsKey(itemId))
+                int rd = RandomHelper.RandomNumber(seed, 1, total + 1);
+
+                int endRate = 0;
+                for (int i = 0; i < RateList.Length; i++)
                 {
-                    dict[itemId] = ItemHelper.BuildItem((ItemType)config.ItemType, itemId, 1, config.Quantity); ;
+                    endRate += RateList[i];
+
+                    if (rd <= endRate)
+                    {
+                        return i;
+                    }
                 }
-                else
-                {
-                    dict[itemId].Count += config.Quantity;
-                }
+
+                return 0;
             }
-
-            return dict.Select(m => m.Value).OrderBy(m => m.ConfigId).ToList();
+            else
+            {
+                int index = RandomHelper.RandomNumber(0, config.BaseIdList.Length);
+                return index;
+            }
         }
     }
 }

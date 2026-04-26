@@ -121,7 +121,7 @@ namespace Game
 
                 List<int> dropIdList = user.DefendData.GetDropIdList(this.Level);
 
-                List<Item> items = DropHelper.BuildDropItem(dropIdList);
+                List<Item> items = DropConfigCategory.Instance.BuildByDropBaseIdList(dropIdList, 1, 0);
 
                 if (items.Count > 0)
                 {

@@ -64,46 +64,46 @@ public class Dialog_Card : MonoBehaviour
 
     private void OnClick_Batch()
     {
-        User user = GameProcessor.Inst.User;
+        //User user = GameProcessor.Inst.User;
 
-        long totalUp = 0;
+        //long totalUp = 0;
 
-        foreach (var cardItem in user.CardData)
-        {
-            int cardId = cardItem.Key;
-            long cardLevel = cardItem.Value.Data;
+        //foreach (var cardItem in user.CardData)
+        //{
+        //    int cardId = cardItem.Key;
+        //    long cardLevel = cardItem.Value.Data;
 
-            if (cardId == 1999998 && toggle_Skip.isOn)
-            {
-                continue;
-            }
+        //    if (cardId == 1999998 && toggle_Skip.isOn)
+        //    {
+        //        continue;
+        //    }
 
-            CardConfig config = CardConfigCategory.Instance.Get(cardId);
-            int itemId = config.RiseId;
+        //    CardConfig config = CardConfigCategory.Instance.Get(cardId);
+        //    int itemId = config.RiseId;
 
-            long limitLevel = user.GetCardLimit(config);
+        //    long limitLevel = user.GetCardLimit(config);
 
-            long total = user.GetItemMeterialCount(itemId);
+        //    long total = user.GetItemMeterialCount(itemId);
 
-            long upLevel = config.CalUpLevel(cardLevel, total, limitLevel, out long useNumber);
+        //    long upLevel = config.CalUpLevel(cardLevel, total, limitLevel, out long useNumber);
 
-            if (upLevel > 0)
-            {
-                user.UseItemMeterialCount(itemId, useNumber);
-                user.SaveCardLevel(cardId, upLevel);
+        //    if (upLevel > 0)
+        //    {
+        //        user.UseItemMeterialCount(itemId, useNumber);
+        //        user.SaveCardLevel(cardId, upLevel);
 
-                totalUp += upLevel;
-                //GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = config.Name + "使用" + useNumber + "个材料成功提升" + upLevel + "级", ToastType = ToastTypeEnum.Success });
-            }
-        }
+        //        totalUp += upLevel;
+        //        //GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = config.Name + "使用" + useNumber + "个材料成功提升" + upLevel + "级", ToastType = ToastTypeEnum.Success });
+        //    }
+        //}
 
-        if (totalUp > 0)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "一键升级成功，总共提高" + totalUp + "级", ToastType = ToastTypeEnum.Success });
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        //if (totalUp > 0)
+        //{
+        //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "一键升级成功，总共提高" + totalUp + "级", ToastType = ToastTypeEnum.Success });
+        //    GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
-            this.panel1.Show(this.SelectStage);
-        }
+        //    this.panel1.Show(this.SelectStage);
+        //}
     }
 
     public void OnClick_Close()

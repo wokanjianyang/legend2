@@ -183,40 +183,29 @@ namespace Game
             //增加宠物经验，神器经验
             user.KillMonsterEnvent(1);
 
-            double exp = (Config.Exp * QualityConfig.ExpRate * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea)) / 100);
-            double gold = (Config.Gold * QualityConfig.GoldRate * (100.0 + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea)) / 100);
+            double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
+            double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0; ;
+            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0; ;
+            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
 
-            QualityConfig qualityConfig = QualityConfigCategory.Instance.Get(Quality);
+            double exp = Config.Exp * QualityConfig.ExpRate * expRise;
+            double gold = Config.Gold * QualityConfig.GoldRate * goldRise;
 
-            //user.AddStartRate(this.MapId, qualityConfig.CountRate * countModelRate);
-
-            double dropRate = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea);
-            double modelRate = qualityConfig.DropRate;
-            double countRate = qualityConfig.CountRate;
-            //Debug.Log("dropRate:" + dropRate);
 
             List<Item> items = new List<Item>();
+
             //生成道具奖励
-            List<KeyValuePair<double, DropConfig>> dropList = DropConfigCategory.Instance.GetByMapLevel(Config.MapId, dropRate * modelRate);
+            items.AddRange(DropConfigCategory.Instance.BuildDropItem(MapId, burstRise, qualityRise));
 
-            //Debug.Log("count Rate:" + countRate);
-
-            double dropFinal = 1;
-
-            //Debug.Log("dropFinal:" + dropFinal);
 
             //限时奖励
-            int limit = user.GetLimitId();
-            items.AddRange(DropLimitHelper.Build((int)DropLimitType.Normal, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
-            items.AddRange(DropLimitHelper.Build((int)DropLimitType.Map, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
+            //items.AddRange(DropLimitHelper.Build((int)DropLimitType.Normal, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
+            //items.AddRange(DropLimitHelper.Build((int)DropLimitType.Map, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
+            //items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
 
-            items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
-
-            int qualityRate = qualityConfig.QualityRate;
-            items.AddRange(DropHelper.BuildDropItem(dropList, qualityRate, RuleType.Normal, 0));
-
-            double rs = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstMul);
-            int itemCount = MathHelper.RandomBurstMul(rs);
+            //double rs = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstMul);
+            //int itemCount = MathHelper.RandomBurstMul(rs);
+            int itemCount = 0;
 
             bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;
             if (showMessage)
@@ -232,7 +221,7 @@ namespace Game
             {
                 exp += exp * itemCount;
                 gold += gold * itemCount;
-                items.AddRange(ItemHelper.BurstMul(items, itemCount, qualityRate, RuleType.Normal));
+                items.AddRange(ItemHelper.BurstMul(items, itemCount, qualityRise, RuleType.Normal));
             }
 
             //先回收

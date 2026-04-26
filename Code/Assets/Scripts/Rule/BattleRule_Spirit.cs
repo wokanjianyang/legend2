@@ -197,85 +197,85 @@ public class BattleRule_Spirit : ABattleRule
 
     private void BuildReward()
     {
-        this.Start = false;
+        //this.Start = false;
 
-        int stage = this.CurrentLayer - 1;
+        //int stage = this.CurrentLayer - 1;
 
-        if (stage <= 0)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-            {
-                Type = RuleType.Spirit,
-                Message = BattleMsgHelper.BuildRewardMessage("挑战失败，没通关第一阶段，无奖励。", 0, 0, null),
-            });
-            return;
-        }
+        //if (stage <= 0)
+        //{
+        //    GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+        //    {
+        //        Type = RuleType.Spirit,
+        //        Message = BattleMsgHelper.BuildRewardMessage("挑战失败，没通关第一阶段，无奖励。", 0, 0, null),
+        //    });
+        //    return;
+        //}
 
-        User user = GameProcessor.Inst.User;
+        //User user = GameProcessor.Inst.User;
 
-        List<Item> items = new List<Item>();
+        //List<Item> items = new List<Item>();
 
-        SpiritCopyConfig config = SpiritCopyConfigCategory.Instance.Get(this.MapId);
+        //SpiritCopyConfig config = SpiritCopyConfigCategory.Instance.Get(this.MapId);
 
-        List<SpiritDropConfig> dropList = SpiritDropConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.MapId == this.MapId && m.Stage <= stage).ToList();
+        //List<SpiritDropConfig> dropList = SpiritDropConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.MapId == this.MapId && m.Stage <= stage).ToList();
 
-        //Debug.Log("spirit drop list :" + dropList.Count);
+        ////Debug.Log("spirit drop list :" + dropList.Count);
 
-        IDictionary<int, int> dropDict = new Dictionary<int, int>();
+        //IDictionary<int, int> dropDict = new Dictionary<int, int>();
 
-        int rate = 1 + Math.Min(4, this.total / 500);
-        for (int i = 0; i < rate; i++)
-        {
-            foreach (SpiritDropConfig sdpConfig in dropList)
-            {
-                if (RandomHelper.RandomRate(sdpConfig.DropRate))
-                {
-                    DropConfig dropConfig = DropConfigCategory.Instance.Get(sdpConfig.DropId);
-                    int index = RandomHelper.RandomNumber(0, dropConfig.ItemIdList.Length);
-                    int dropId = dropConfig.ItemIdList[index];
-                    if (!dropDict.ContainsKey(dropId))
-                    {
-                        dropDict[dropId] = 0;
-                    }
+        //int rate = 1 + Math.Min(4, this.total / 500);
+        //for (int i = 0; i < rate; i++)
+        //{
+        //    foreach (SpiritDropConfig sdpConfig in dropList)
+        //    {
+        //        if (RandomHelper.RandomRate(sdpConfig.DropRate))
+        //        {
+        //            DropConfig dropConfig = DropConfigCategory.Instance.Get(sdpConfig.DropId);
+        //            int index = RandomHelper.RandomNumber(0, dropConfig.ItemIdList.Length);
+        //            int dropId = dropConfig.ItemIdList[index];
+        //            if (!dropDict.ContainsKey(dropId))
+        //            {
+        //                dropDict[dropId] = 0;
+        //            }
 
-                    dropDict[dropId]++;
-                }
-            }
-        }
+        //            dropDict[dropId]++;
+        //        }
+        //    }
+        //}
 
-        dropDict.OrderBy(m => m.Key);
+        //dropDict.OrderBy(m => m.Key);
 
-        foreach (var sp in dropDict)
-        {
-            items.Add(ItemHelper.BuildItem(ItemType.Spirit, sp.Key, 0, sp.Value));
-        }
+        //foreach (var sp in dropDict)
+        //{
+        //    items.Add(ItemHelper.BuildItem(ItemType.Spirit, sp.Key, 0, sp.Value));
+        //}
 
-        string message = stage >= 4 ? "挑战通关" : "通过第" + stage + "阶段";
-        message += ",累计积分" + total + "，获取" + rate + "倍奖励";
+        //string message = stage >= 4 ? "挑战通关" : "通过第" + stage + "阶段";
+        //message += ",累计积分" + total + "，获取" + rate + "倍奖励";
 
-        GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-        {
-            Type = RuleType.Spirit,
-            Message = BattleMsgHelper.BuildRewardMessage(message, 0, 0, items),
-        });
+        //GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+        //{
+        //    Type = RuleType.Spirit,
+        //    Message = BattleMsgHelper.BuildRewardMessage(message, 0, 0, items),
+        //});
 
-        if (items.Count > 0)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-        }
+        //if (items.Count > 0)
+        //{
+        //    GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        //}
 
-        if (!user.SpiritOfflineFlag && stage >= 4)
-        {  //没有启用的时候，刷新记录
-            user.SpiritOfflineLog[1] = MapId;
-            user.SpiritOfflineLog[2] = (int)MapTime;
-            user.SpiritOfflineLog[3] = total;
+        //if (!user.SpiritOfflineFlag && stage >= 4)
+        //{  //没有启用的时候，刷新记录
+        //    user.SpiritOfflineLog[1] = MapId;
+        //    user.SpiritOfflineLog[2] = (int)MapTime;
+        //    user.SpiritOfflineLog[3] = total;
 
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-            {
-                Type = RuleType.Spirit,
-                Message = BattleMsgHelper.BuildRewardMessage("已刷新通关记录", 0, 0, null),
-            });
-        }
+        //    GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+        //    {
+        //        Type = RuleType.Spirit,
+        //        Message = BattleMsgHelper.BuildRewardMessage("已刷新通关记录", 0, 0, null),
+        //    });
+        //}
     }
 
     public override void CheckGameResult()

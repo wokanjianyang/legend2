@@ -65,8 +65,9 @@ namespace Game
         {
             if (this.Item.Type == ItemType.Equip)
             {
-                var config = (this.Item as Equip).EquipConfig;
-                return config.Part * 10000 + config.LevelRequired + config.Quality;
+                Equip equip = this.Item as Equip;
+                var config = equip.EquipConfig;
+                return config.Part * 10000 + config.LevelRequired + equip.GetQuality();
             }
 
             return this.Item.ConfigId;

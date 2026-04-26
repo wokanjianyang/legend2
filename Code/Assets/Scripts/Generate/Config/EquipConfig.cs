@@ -95,31 +95,28 @@ namespace Game
 		public int[] Position { get; set; }
 		/// <summary>基础属性列表</summary>
 		[ProtoMember(7)]
-		public int[] BaseArray { get; set; }
+		public int[] AttrIdList { get; set; }
 		/// <summary>基础属性值</summary>
 		[ProtoMember(8)]
-		public long[] AttributeBase { get; set; }
-		/// <summary>随机属性</summary>
-		[ProtoMember(9)]
-		public int RandomAttr { get; set; }
-		/// <summary>品质</summary>
-		[ProtoMember(10)]
-		public int Quality { get; set; }
-		/// <summary>词条</summary>
-		[ProtoMember(11)]
-		public int RuneId { get; set; }
-		/// <summary>套装</summary>
-		[ProtoMember(12)]
-		public int SuitId { get; set; }
+		public long[] AttrValueList { get; set; }
 		/// <summary>Price</summary>
-		[ProtoMember(13)]
+		[ProtoMember(9)]
 		public long Price { get; set; }
 		/// <summary>Role</summary>
-		[ProtoMember(14)]
+		[ProtoMember(10)]
 		public int Role { get; set; }
 		/// <summary>RecoveryItemId</summary>
-		[ProtoMember(15)]
+		[ProtoMember(11)]
 		public int RecoveryItemId { get; set; }
+		/// <summary>CardGroupId</summary>
+		[ProtoMember(12)]
+		public int CardGroupId { get; set; }
+		/// <summary>CardAttr</summary>
+		[ProtoMember(13)]
+		public int CardAttr { get; set; }
+		/// <summary>CardValue</summary>
+		[ProtoMember(14)]
+		public int CardValue { get; set; }
 
 	}
 }

@@ -67,10 +67,6 @@ namespace Game
 
         public Dictionary<int, long> RecordMax = new Dictionary<int, long>();
 
-        public IDictionary<int, IDictionary<int, ExclusiveItem>> ExclusivePanelList { get; set; } = new Dictionary<int, IDictionary<int, ExclusiveItem>>();
-
-
-
         public IDictionary<int, Shengxiao> ShengxiaoList { get; set; } = new Dictionary<int, Shengxiao>();
 
         public int EquipPanelIndex { get; set; } = 0;
@@ -241,11 +237,7 @@ namespace Game
 
         public int GetCardLimit(CardConfig cardConfig)
         {
-            long limit = cardConfig.RiseLevel * (GetLimitLevel() + GetArtifactValue(ArtifactType.CardBaseLimit));
-
-            limit = limit * (100 + GetArtifactValue(ArtifactType.CardLimit)) / 100;
-
-            return (int)limit;
+            return 1;
         }
 
         public int GetLimitMineCount()
@@ -616,15 +608,6 @@ namespace Game
             //专属词条
             Dictionary<int, int> skillDict = new Dictionary<int, int>();
 
-            foreach (var ex in this.ExclusivePanelList[ExclusiveIndex].Values)
-            {
-                ex.GetRuneList(skillId, skillDict);
-
-                if (skillLayer > 0)
-                {
-                    ex.GetRuneListByLayer(skillLayer, skillDict);
-                }
-            }
             //计算装备的词条加成
             List<int> skillList = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList();
 
@@ -680,16 +663,6 @@ namespace Game
             //混沌套装
             skillList.AddRange(this.EquipPanelHundunList[EquipHundunIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SkillSuitConfig.SkillId == skillId).Select(m => m.Value.SkillSuitConfig).ToList());
 
-            foreach (var ex in this.ExclusivePanelList[ExclusiveIndex].Values)
-            {
-                skillList.AddRange(ex.GetSuitList(skillId));
-
-                if (skillLayer > 0)
-                {
-                    skillList.AddRange(ex.GetSuitListByLayer(skillLayer));
-                }
-            }
-
             var suitGroup = skillList.GroupBy(m => m.Id);
 
             foreach (var suitItem in suitGroup)
@@ -731,7 +704,6 @@ namespace Game
         public int GetSuitCount(int suitId)
         {
             int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
-            count += this.ExclusivePanelList[ExclusiveIndex].Select(m => m.Value.GetSuitCount(suitId)).Sum();
             count += this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
             count += this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
             count += this.EquipPanelHundunList[EquipHundunIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
@@ -874,37 +846,6 @@ namespace Game
             EquipGroupConfig groupConfig = EquipGroupConfigCategory.Instance.GetByLevelAndPart(config.LevelRequired, Math.Min(config.Part, gc.Part));
 
             suit.Config = groupConfig;
-
-            return suit;
-        }
-
-
-        public ExclusiveSuit GetExclusiveSuit(ExclusiveConfig config)
-        {
-            ExclusiveSuit suit = new ExclusiveSuit(config.Cycle);
-            suit.ActiveCount = 0;
-            suit.Active = true;
-
-            //suit.Self = new ExclusiveSuitItem(config.Id, config.Name, true);
-
-            List<ExclusiveConfig> configs = ExclusiveConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Cycle == config.Cycle).ToList();
-
-            foreach (ExclusiveConfig item in configs)
-            {
-                ExclusiveSuitItem target = new ExclusiveSuitItem(item.Id, item.Name, false);
-
-                if (this.ExclusivePanelList[ExclusiveIndex].ContainsKey(item.Part))
-                {
-                    target.Active = true;
-                    suit.ActiveCount++;
-                }
-                else
-                {
-                    suit.Active = false;
-                }
-
-                suit.ItemList.Add(target);
-            }
 
             return suit;
         }
@@ -1762,23 +1703,6 @@ namespace Game
                 }
 
                 recoveryGold += equip.EquipConfig.Price;
-            }
-            else if (item.Type == ItemType.Exclusive)
-            {
-                ExclusiveItem exclusive = item as ExclusiveItem;
-
-                if (exclusive.ExclusiveConfig.Cycle >= 2 && exclusive.GetQuality() == 7)
-                {
-                    dict[ItemHelper.SpecialId_Exclusive_Golden] = 1;
-                }
-                else if (exclusive.ExclusiveConfig.Cycle >= 3 && exclusive.GetQuality() == 8)
-                {
-                    dict[ItemHelper.SpecialId_Exclusive_Dark] = 1;
-                }
-                else
-                {
-                    dict[ItemHelper.SpecialId_Exclusive_Stone] = item.GetQuality() * 1;
-                }
             }
             else if (item.Type == ItemType.Pet)
             {

@@ -54,34 +54,7 @@ namespace Game
         {
             if (this.BoxItem != null)
             {
-                if (BoxItem.Item.Type == ItemType.Exclusive)
-                {
-                    ExclusiveItem exclusive = BoxItem.Item as ExclusiveItem;
-
-                    if (exclusive.GetLayer() <= 1 && exclusive.GetLevel() <= 0)
-                    {
-                        if (exclusive.SkillRuneConfig != null && exclusive.SkillRuneConfig.Name.Length >= 2)
-                        {
-                            string txt = exclusive.SkillRuneConfig.Name.Replace("阶·专精", "专");
-                            this.tmp_Count.text = txt.Substring(0, 2);
-                            this.tmp_Count.gameObject.SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        if (exclusive.GetLayer() > 1)
-                        {
-                            this.Layer.text = ConfigHelper.LayerChinaList[(exclusive.GetLayer() - 1)] + "阶"; ;
-                            this.Layer.gameObject.SetActive(true);
-                        }
-                        if (exclusive.GetLevel() > 0)
-                        {
-                            this.tmp_Count.text = exclusive.GetLevel() + "级";
-                            this.tmp_Count.gameObject.SetActive(true);
-                        }
-                    }
-                }
-                else if (BoxItem.Item.Type == ItemType.Equip)
+               if (BoxItem.Item.Type == ItemType.Equip)
                 {
                     Equip equip = BoxItem.Item as Equip;
                     if (equip.GetQuality() > 5 && (equip.Part <= 10 || equip.Part >= 21))

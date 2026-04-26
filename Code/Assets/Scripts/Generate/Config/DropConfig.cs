@@ -78,21 +78,21 @@ namespace Game
 		/// <summary>_id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>等级</summary>
-		[ProtoMember(2)]
-		public int Level { get; set; }
 		/// <summary>掉落名称</summary>
-		[ProtoMember(3)]
+		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>掉落数量</summary>
-		[ProtoMember(4)]
-		public int Quantity { get; set; }
 		/// <summary>道具类型</summary>
-		[ProtoMember(5)]
+		[ProtoMember(3)]
 		public int ItemType { get; set; }
+		/// <summary>DropLayer</summary>
+		[ProtoMember(4)]
+		public int DropLayer { get; set; }
+		/// <summary>掉率比例</summary>
+		[ProtoMember(5)]
+		public int[] BaseRateList { get; set; }
 		/// <summary>掉落Id列表</summary>
 		[ProtoMember(6)]
-		public int[] ItemIdList { get; set; }
+		public int[] BaseIdList { get; set; }
 
 	}
 }

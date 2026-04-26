@@ -90,11 +90,6 @@ namespace Game
         public Equip Equip { get; set; }
     }
 
-    public class ExclusiveUpEvent : SDD.Events.Event
-    {
-        public ExclusiveItem Exclusive { get; set; }
-    }
-
     public class GradeSelectEvent : SDD.Events.Event
     {
         public Equip Equip { get; set; }
@@ -370,10 +365,6 @@ namespace Game
     public class ShowAchievementEvent : SDD.Events.Event
     {
 
-    }
-
-    public class ShowExclusiveEvent : SDD.Events.Event
-    {
     }
 
     public class ShowFestiveDialogEvent : SDD.Events.Event

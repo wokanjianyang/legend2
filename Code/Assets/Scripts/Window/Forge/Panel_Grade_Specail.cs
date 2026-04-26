@@ -123,21 +123,21 @@ public class Panel_Grade_Specail : MonoBehaviour
 
     private void Show()
     {
-        Btn_OK.gameObject.SetActive(true);
+        //Btn_OK.gameObject.SetActive(true);
 
-        int layer = SelectEquip.Layer;
-        int itemId = SelectEquip.ConfigId;
+        //int layer = SelectEquip.Layer;
+        //int itemId = SelectEquip.ConfigId;
 
-        EquipSpeicalConfig config = EquipSpeicalConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ItemId == itemId && m.Layer == layer).FirstOrDefault();
+        //EquipSpeicalConfig config = EquipSpeicalConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ItemId == itemId && m.Layer == layer).FirstOrDefault();
 
-        if (config == null)
-        {
-            metailFee.SetContent("已经满级");
-        }
-        else
-        {
-            metailFee.SetContent(config.FeeItemId, config.Fee);
-        }
+        //if (config == null)
+        //{
+        //    metailFee.SetContent("已经满级");
+        //}
+        //else
+        //{
+        //    metailFee.SetContent(config.FeeItemId, config.Fee);
+        //}
     }
 
     public void OnClickOK()
@@ -159,35 +159,35 @@ public class Panel_Grade_Specail : MonoBehaviour
 
     private bool Grade(Equip equip)
     {
-        int layer = equip.Layer;
-        int itemId = equip.ConfigId;
+        //int layer = equip.Layer;
+        //int itemId = equip.ConfigId;
 
-        EquipSpeicalConfig config = EquipSpeicalConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ItemId == itemId && m.Layer == layer).FirstOrDefault();
+        //EquipSpeicalConfig config = EquipSpeicalConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ItemId == itemId && m.Layer == layer).FirstOrDefault();
 
-        if (config == null)
-        {
-            return false;
-        }
+        //if (config == null)
+        //{
+        //    return false;
+        //}
 
-        User user = GameProcessor.Inst.User;
+        //User user = GameProcessor.Inst.User;
 
-        int specialId = config.FeeItemId;
-        long upCount = config.Fee;
+        //int specialId = config.FeeItemId;
+        //long upCount = config.Fee;
 
-        long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
-        if (stoneTotal < upCount)
-        {
-            return false;
-        }
+        //long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
+        //if (stoneTotal < upCount)
+        //{
+        //    return false;
+        //}
 
-        GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
-        {
-            Type = ItemType.Material,
-            ItemId = specialId,
-            Quantity = upCount
-        });
+        //GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+        //{
+        //    Type = ItemType.Material,
+        //    ItemId = specialId,
+        //    Quantity = upCount
+        //});
 
-        equip.Grade();
+        //equip.Grade();
 
         return true;
     }

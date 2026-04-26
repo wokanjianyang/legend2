@@ -70,7 +70,7 @@ namespace Game
 
 
         [Title("功能框")]
-        public Dialog_Exclusive ExclusiveDialog;
+        public Dialog_Exclusive DialogExclusive;
         public Dialog_Card DialogCard;
         public Dialog_Wing DialogWing;
         public Dialog_Halidom DialogHalidom;
@@ -501,7 +501,7 @@ namespace Game
                 if (i == 0)
                 {
                     User user = GameProcessor.Inst.User;
-                    BoxItem boxItem = user.Bags.Where(m => m.Item.Type == ItemType.Exclusive && m.Item.GetQuality() == 5 && !m.Item.IsLock && (m.Item as ExclusiveItem).GetLevel() < 1 && (m.Item as ExclusiveItem).GetLayer() <= 1).FirstOrDefault();
+                    BoxItem boxItem = user.Bags.Where(m => m.Item.Type == ItemType.Exclusive && m.Item.GetQuality() == 5 && !m.Item.IsLock).FirstOrDefault();
 
                     if (boxItem == null)
                     {
@@ -751,11 +751,7 @@ namespace Game
 
             if (e.IsWear)
             {
-                if (e.BoxItem.Item.Type == ItemType.Exclusive)
-                {
-                    this.WearExclusive(e.BoxItem);
-                }
-                else if (e.BoxItem.Item.Type == ItemType.Shengxiao)
+                if (e.BoxItem.Item.Type == ItemType.Shengxiao)
                 {
                     this.WearShengxiao(e.BoxItem);
                 }
@@ -766,11 +762,7 @@ namespace Game
             }
             else
             {
-                if (e.BoxItem.Item.Type == ItemType.Exclusive)
-                {
-                    this.RmoveExclusive(e.BoxItem);
-                }
-                else if (e.BoxItem.Item.Type == ItemType.Shengxiao)
+                if (e.BoxItem.Item.Type == ItemType.Shengxiao)
                 {
                     this.RemoveShengxiao(e.BoxItem);
                 }
@@ -873,59 +865,7 @@ namespace Game
 
             List<Item> newList = new List<Item>();
 
-            if (boxItem.Item.Type == ItemType.Exclusive)
-            {
-                ExclusiveItem oldExclusive = boxItem.Item as ExclusiveItem;
-
-                ExclusiveItem exclusive = new ExclusiveItem(oldExclusive.ConfigId, oldExclusive.RuneConfigId, oldExclusive.SuitConfigId, oldExclusive.Quality, oldExclusive.DoubleHitId);
-                exclusive.Count = 1;
-                newList.Add(exclusive);
-                for (int i = 0; i < oldExclusive.RuneConfigIdList.Count; i++)
-                {
-                    ExclusiveItem item = new ExclusiveItem(oldExclusive.ConfigId, oldExclusive.RuneConfigIdList[i], oldExclusive.SuitConfigIdList[i], oldExclusive.Quality, oldExclusive.DoubleHitId);
-                    item.Count = 1;
-                    newList.Add(item);
-                }
-
-                Dictionary<int, int> useMeterial = ExclusiveDevourConfigCategory.Instance.GetUseList(oldExclusive.ExclusiveConfig.Cycle, oldExclusive.GetLayer(), oldExclusive.ExclusiveLevel);
-                foreach (KeyValuePair<int, int> kv in useMeterial)
-                {
-                    //int mc = Math.Max(1, (int)(kv.Value * 0.8));
-                    Item item = ItemHelper.BuildMaterial(kv.Key, kv.Value);
-                    newList.Add(item);
-                }
-
-                //foreach (var kv in oldExclusive.LevelDict)
-                //{
-                //    int runeId = kv.Key;
-                //    int runeLevel = kv.Value;
-                //    SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.Get(runeId);
-                //    int suitId = SkillSuitHelper.RandomSuit(0, runeConfig.SkillId, runeConfig.Type).Id;
-
-                //    for (int i = 0; i < runeLevel; i++)
-                //    {
-                //        ExclusiveItem item = new ExclusiveItem(oldExclusive.ConfigId, runeId, suitId, oldExclusive.Quality, oldExclusive.DoubleHitId);
-                //        item.Count = 1;
-                //        newList.Add(item);
-                //    }
-
-                //    int[] ItemIdList = new int[] { ItemHelper.SpecialId_Exclusive_Stone, ItemHelper.SpecialId_Exclusive_Heart };
-                //    int[] ItemCountList = new int[] { 50, 5 };
-
-                //    for (int i = 0; i < ItemIdList.Length; i++)
-                //    {
-                //        Item item = ItemHelper.BuildMaterial(ItemIdList[i], ItemCountList[i] * runeLevel);
-                //        newList.Add(item);
-                //    }
-                //}
-
-                if (haveCount < newList.Count)
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留" + newList.Count + "个包裹空额", ToastType = ToastTypeEnum.Failure });
-                    return;
-                }
-            }
-            else if (boxItem.Item.Type == ItemType.Equip)
+            if (boxItem.Item.Type == ItemType.Equip)
             {
                 Equip equip = boxItem.Item as Equip;
                 int layer = equip.Layer;
@@ -1498,64 +1438,6 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
-        private IDictionary<int, ExclusiveItem> GetExclusivePanel(ExclusiveItem exclusive)
-        {
-            User user = GameProcessor.Inst.User;
-
-            return user.ExclusivePanelList[user.ExclusiveIndex];
-
-            //if (exclusive.ExclusiveConfig.Cycle == 1)
-            //{
-            //    return user.ExclusivePanelList[user.ExclusiveIndex];
-            //}
-            //else if (exclusive.ExclusiveConfig.Cycle == 2)
-            //{
-            //    return user.ExclusivePanelList[user.ExclusiveIndex];
-
-            //}
-            //else if (exclusive.ExclusiveConfig.Cycle == 3)
-            //{
-            //    return user.ExclusivePanelList[user.ExclusiveIndex];
-            //}
-
-            //return null;
-        }
-
-        public void WearExclusive(BoxItem boxItem)
-        {
-            User user = GameProcessor.Inst.User;
-
-            var exclusive = boxItem.Item as ExclusiveItem;
-
-            IDictionary<int, ExclusiveItem> ep = GetExclusivePanel(exclusive);
-            int Position = exclusive.Part;
-
-            //从包袱移除
-            UseBoxItem(boxItem, 1);
-
-            //如果存在旧装备，增加到包裹
-            if (ep.ContainsKey(Position))
-            {
-                //装备栏卸载
-                SlotBox slot = ExclusiveDialog.ItemList.Where(s => s.Part == Position).FirstOrDefault();
-
-                if (slot != null)
-                {
-                    slot.UnEquip();
-                }
-
-                AddBoxItem(ep[Position]);
-            }
-
-            //穿戴到格子上
-            ExclusiveDialog.Wear(exclusive);
-            //this.CreateEquipPanelItem(-1, Position, exclusive);
-
-            ep[Position] = exclusive;
-
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
-        }
 
         public void WearShengxiao(BoxItem boxItem)
         {
@@ -1709,10 +1591,6 @@ namespace Game
             {
                 slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
-            else if (position >= 15 && position <= 20)
-            {
-                slot = ExclusiveDialog.ItemList.Where(s => s.Part == position).First();
-            }
             else if (position >= 21 && position <= 30)
             {
                 slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
@@ -1764,30 +1642,6 @@ namespace Game
             //UserData.Save();
         }
 
-        private void RmoveExclusive(BoxItem boxItem)
-        {
-            User user = GameProcessor.Inst.User;
-
-            var exclusive = boxItem.Item as ExclusiveItem;
-            int position = exclusive.Part;
-
-            //装备栏卸载
-            SlotBox slot = ExclusiveDialog.ItemList.Where(s => s.Part == position).First();
-            if (slot != null)
-            {
-                slot.UnEquip();
-            }
-
-            //装备移动到包裹里面
-            AddBoxItem(exclusive);
-
-            var ep = GetExclusivePanel(exclusive);
-
-            ep.Remove(position);
-
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
-        }
 
         private void RemoveShengxiao(BoxItem boxItem)
         {
@@ -1878,7 +1732,7 @@ namespace Game
         }
         public void OnExclusive()
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowExclusiveEvent());
+           this.DialogExclusive.gameObject.SetActive(true);
         }
 
         public void OnOpenCard()

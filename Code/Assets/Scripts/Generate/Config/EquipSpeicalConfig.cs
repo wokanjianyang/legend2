@@ -75,30 +75,30 @@ namespace Game
     [ProtoContract]
 	public partial class EquipSpeicalConfig: ProtoObject, IConfig
 	{
-		/// <summary>_id</summary>
+		/// <summary>ID</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>Layer</summary>
+		/// <summary>Sid</summary>
 		[ProtoMember(2)]
-		public int Layer { get; set; }
-		/// <summary>ItemId</summary>
+		public int Sid { get; set; }
+		/// <summary>Name</summary>
 		[ProtoMember(3)]
-		public int ItemId { get; set; }
-		/// <summary>基础属性列表</summary>
+		public string Name { get; set; }
+		/// <summary>StartLayer</summary>
 		[ProtoMember(4)]
-		public int[] BaseArray { get; set; }
-		/// <summary>基础属性值</summary>
+		public int StartLayer { get; set; }
+		/// <summary>EndLayer</summary>
 		[ProtoMember(5)]
-		public long[] AttributeBase { get; set; }
-		/// <summary>品质</summary>
+		public int EndLayer { get; set; }
+		/// <summary>AttrIdList</summary>
 		[ProtoMember(6)]
-		public int Quality { get; set; }
-		/// <summary>Fee</summary>
+		public int[] AttrIdList { get; set; }
+		/// <summary>AttrValueList</summary>
 		[ProtoMember(7)]
-		public long Fee { get; set; }
-		/// <summary>FeeItemId</summary>
+		public double[] AttrValueList { get; set; }
+		/// <summary>AttrRiseList</summary>
 		[ProtoMember(8)]
-		public int FeeItemId { get; set; }
+		public double[] AttrRiseList { get; set; }
 
 	}
 }

@@ -3,7 +3,7 @@
 {"_t":"EffectConfig","_id":2,"Name":"降低敌人护甲倍率","RunType":"Before","Type":1,"SourceAttr":0,"TargetType":2,"TargetAttr":-10002,"Des":"削减敌人护甲倍率，比如扣掉20%护甲","Des":"削减敌人护甲倍率，比如扣掉20%护甲"},
 {"_t":"EffectConfig","_id":3,"Name":"伤害百分比吸血","RunType":"Afer","Type":2,"SourceAttr":1,"TargetType":1,"TargetAttr":1,"Des":"吸血1%","Des":"吸血1%"},
 {"_t":"EffectConfig","_id":4,"Name":"减少敌人攻击速度","RunType":"Before","Type":1,"SourceAttr":0,"TargetType":2,"TargetAttr":11,"Des":"降低敌人20%的攻击速度","Des":"降低敌人20%的攻击速度"},
-{"_t":"EffectConfig","_id":5,"Name":"持续掉血","RunType":"Before","Type":1,"SourceAttr":1,"TargetType":2,"TargetAttr":-1,"Des":"按伤害持续掉血，比如流血20%伤害，灼烧10%伤害","Des":"按伤害持续掉血，比如流血20%伤害，灼烧10%伤害"},
+{"_t":"EffectConfig","_id":5,"Name":"持续掉血","RunType":"Afer","Type":5,"SourceAttr":1,"TargetType":2,"TargetAttr":-1,"Des":"按伤害持续掉血，比如流血20%伤害，灼烧10%伤害","Des":"按伤害持续掉血，比如流血20%伤害，灼烧10%伤害"},
 {"_t":"EffectConfig","_id":6,"Name":"给敌人附加易伤","RunType":"Before","Type":1,"SourceAttr":0,"TargetType":2,"TargetAttr":-10029,"Des":"敌人附加一个额外承受10%伤害的状态，最高3层","Des":"敌人附加一个额外承受10%伤害的状态，最高3层"},
 {"_t":"EffectConfig","_id":7,"Name":"给自己附加增伤","RunType":"Before","Type":1,"SourceAttr":0,"TargetType":1,"TargetAttr":10027,"Des":"自己附加一个额外增加5%伤害的状态，最高3层","Des":"自己附加一个额外增加5%伤害的状态，最高3层"},
 {"_t":"EffectConfig","_id":8,"Name":"增加自己固定护甲","RunType":"Before","Type":1,"SourceAttr":0,"TargetType":1,"TargetAttr":2,"Des":"削减敌人固定护甲值，比如100点","Des":"削减敌人固定护甲值，比如100点"},

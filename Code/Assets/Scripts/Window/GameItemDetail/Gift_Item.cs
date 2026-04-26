@@ -65,21 +65,7 @@ namespace Game
 
             if (this.BoxItem != null)
             {
-                if (BoxItem.Item.Type == ItemType.Exclusive)
-                {
-                    ExclusiveItem exclusive = BoxItem.Item as ExclusiveItem;
-                    if (exclusive.GetLayer() > 1)
-                    {
-                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[(exclusive.GetLayer() - 1)] + "½×"; ;
-                        this.Txt_Layer.gameObject.SetActive(true);
-                    }
-                    if (exclusive.GetLevel() > 1)
-                    {
-                        this.Txt_Level.text = exclusive.GetLevel() + "¼¶";
-                        this.Txt_Level.gameObject.SetActive(true);
-                    }
-                }
-                else if (BoxItem.Item.Type == ItemType.Equip)
+                if (BoxItem.Item.Type == ItemType.Equip)
                 {
                     Equip equip = BoxItem.Item as Equip;
                     if (equip.GetQuality() > 5 && equip.Part <= 10)

@@ -9,7 +9,7 @@ namespace Game
     {
         public CardConfig GetQualityRiseConfig(int quality)
         {
-            return this.list.Where(m => m.RiseQualilty == quality).FirstOrDefault();
+            return this.list.FirstOrDefault();
         }
     }
 
@@ -45,15 +45,13 @@ namespace Game
 
         public long CalNewUpNumber(long currentLevel)
         {
-            long rise = Math.Min(currentLevel / RiseLevel, 10);
-            rise = rise * RiseNumber + StartNubmer;
-            return rise;
+            return 0;
 
         }
 
         public long GetCardRiseValue(long cardLevel, int groupLevel)
         {
-            return cardLevel * this.AttrValue * groupLevel / 100;
+            return 0;
         }
 
         //public long CalOldUpNumber(long currentLevel)

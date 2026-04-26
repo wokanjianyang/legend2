@@ -41,11 +41,6 @@ namespace Game
         DamageResist = 28, //伤害减少
         ExtraDamage = 29,//易伤额外伤害
 
-        PhyDamage = 31, //物伤加成
-        MagicDamage = 32,//魔伤加成
-        SpiritDamage = 33, //道伤加成
-
-
         Strong = 41,//韧性
         Shatter = 42, //破韧
         Parry = 43,//格挡
@@ -85,11 +80,14 @@ namespace Game
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成
         IncreaDef = 1002,//防御加成
-
         IncreaAtk = 1003, //攻击加成
         IncreaPhyAtk = 1004, //物理攻击加成
         IncreaMagicAtk = 1005,//魔法攻击加成
         IncreaSpiritAtk = 1006, //道术攻击加成
+
+        PhyDamage = 1007, //物伤加成
+        MagicDamage = 1008,//魔伤加成
+        SpiritDamage = 1009, //道伤加成
 
         IncreaLucky = 1013,//幸运加成
         //IncreaAccuracy = 1014, //命中加成

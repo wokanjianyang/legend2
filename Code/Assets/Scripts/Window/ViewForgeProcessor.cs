@@ -49,21 +49,6 @@ public class ViewForgeProcessor : AViewPage
     public Toggle toggle_Exchange;
     public Panel_Exchange PanelExchange;
 
-    public Toggle toggle_Devour;
-    public Panel_Devour PanelDevour;
-
-    public Toggle toggle_ExclusiveUp;
-    public Panel_Exclusive_Up PanelExclusiveUp;
-
-    public Toggle toggle_ExclusiveUpGolden;
-    public Panel_Exclusive_Up_Golden PanelExclusiveUpGolden;
-
-    public Toggle toggle_ExclusiveGold;
-    public Panel_Devour_Golden PanelDevourGolden;
-
-    public Toggle toggle_ExclusiveDark;
-    public Panel_Devour_Dark PanelDevourDark;
-
     public Toggle toggle_GradeSpecail;
     public Panel_Grade_Specail PanelGradeSpecail;
 
@@ -118,11 +103,6 @@ public class ViewForgeProcessor : AViewPage
             PanelExchange.gameObject.SetActive(isOn);
         });
 
-        this.toggle_Devour.onValueChanged.AddListener((isOn) =>
-        {
-            PanelDevour.gameObject.SetActive(isOn);
-        });
-
         this.toggle_Refresh.onValueChanged.AddListener((isOn) =>
         {
             PanelRefresh.gameObject.SetActive(isOn);
@@ -153,27 +133,6 @@ public class ViewForgeProcessor : AViewPage
         {
             PanelHone.gameObject.SetActive(isOn);
         });
-
-        this.toggle_ExclusiveUp.onValueChanged.AddListener((isOn) =>
-        {
-            PanelExclusiveUp.gameObject.SetActive(isOn);
-        });
-
-        this.toggle_ExclusiveUpGolden.onValueChanged.AddListener((isOn) =>
-        {
-            PanelExclusiveUpGolden.gameObject.SetActive(isOn);
-        });
-
-        this.toggle_ExclusiveGold.onValueChanged.AddListener((isOn) =>
-        {
-            PanelDevourGolden.gameObject.SetActive(isOn);
-        });
-
-        this.toggle_ExclusiveDark.onValueChanged.AddListener((isOn) =>
-        {
-            PanelDevourDark.gameObject.SetActive(isOn);
-        });
-
 
         this.toggle_GradeSpecail.onValueChanged.AddListener((isOn) =>
         {
@@ -237,27 +196,6 @@ public class ViewForgeProcessor : AViewPage
         {
             toggle_Other.gameObject.SetActive(false);
             toggle_Stone.gameObject.SetActive(false);
-        }
-
-
-        if (user.MapId >= 1130)
-        {
-            toggle_ExclusiveGold.gameObject.SetActive(true);
-            toggle_ExclusiveUpGolden.gameObject.SetActive(true);
-        }
-        else
-        {
-            toggle_ExclusiveGold.gameObject.SetActive(false);
-            toggle_ExclusiveUpGolden.gameObject.SetActive(false);
-        }
-
-        if (user.MapId >= 1169)
-        {
-            toggle_ExclusiveDark.gameObject.SetActive(true);
-        }
-        else
-        {
-            toggle_ExclusiveDark.gameObject.SetActive(false);
         }
 
         if (user.MapId >= 1175)

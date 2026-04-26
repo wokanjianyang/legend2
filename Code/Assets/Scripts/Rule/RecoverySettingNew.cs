@@ -316,64 +316,6 @@ namespace Game
                     }
                 }
             }
-            else if (item.Type == ItemType.Exclusive)
-            {
-                ExclusiveItem exclusive = item as ExclusiveItem;
-
-                if (exclusive.GetLayer() > 1 || exclusive.GetLevel() > 1)
-                {
-                    return false;
-                }
-
-                int cycle = exclusive.ExclusiveConfig.Cycle;
-                int quality = exclusive.GetQuality();
-
-                bool keepSkill = false;
-                if (exclusive.SkillSuitConfig != null)
-                {
-                    //keepSkill = GameProcessor.Inst.User.CheckKeepSkill(exclusive.SkillSuitConfig.SkillId, exclusive.SkillSuitConfig.SkillLayer);
-                }
-
-                if (cycle == 1)
-                {
-                    if (Exclusive_Keep > 0 && quality >= Exclusive_Keep + KeepStartQuality && keepSkill)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    if (Exclusive_Recovery > 0 && quality <= Exclusive_Recovery)
-                    {
-                        return true;
-                    }
-                }
-                else if (cycle == 2)
-                {
-                    if (Exclusive_Keep_Golden > 0 && quality >= Exclusive_Keep_Golden + KeepStartQuality && keepSkill)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    if (Exclusive_Recovery_Golden > 0 && quality <= Exclusive_Recovery_Golden)
-                    {
-                        return true;
-                    }
-                }
-                else if (cycle == 3)
-                {
-                    if (Exclusive_Keep_Dark > 0 && quality >= Exclusive_Keep_Dark + KeepStartQuality && keepSkill)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    if (Exclusive_Recovery_Dark > 0 && quality <= Exclusive_Recovery_Dark)
-                    {
-                        return true;
-                    }
-                }
-            }
             else if (item.Type == ItemType.Halidom && type == RecoveryType.Drop)
             {
                 if (item.ConfigId >= 40000051 && item.ConfigId <= 41000000 && item.ItemConfig.UseParam < HalidomLevel)

@@ -118,9 +118,9 @@ namespace Game
         public IDictionary<int, double> GetBaseAttrList()
         {
             IDictionary<int, double> BaseAttrList = new Dictionary<int, double>();
-            for (int i = 0; i < EquipConfig.AttributeBase.Length; i++)
+            for (int i = 0; i < EquipConfig.AttrIdList.Length; i++)
             {
-                long AttributeBase = EquipConfig.AttributeBase[i];
+                long AttributeBase = EquipConfig.AttrValueList[i];
 
                 if (EquipConfig.Cycle == 1)
                 {
@@ -172,7 +172,7 @@ namespace Game
                 //    }
                 //}
 
-                BaseAttrList.Add(EquipConfig.BaseArray[i], AttributeBase);
+                BaseAttrList.Add(EquipConfig.AttrIdList[i], AttributeBase);
             }
 
             return BaseAttrList;
@@ -233,10 +233,8 @@ namespace Game
         public void Init(int seed)
         {
             //根据品质,生成随机属性
-            if (EquipConfig.RandomAttr == 0 && (Part <= 10 || Part >= 20))
-            {
-                this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role, seed));
-            }
+
+            this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role, seed));
 
             if (this.Part <= 10 && this.Quality >= 6)
             {

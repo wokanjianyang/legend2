@@ -8,28 +8,28 @@ namespace Game
 {
     public class ItemHelper
     {
-        public static Equip BuildEquip(int configId, int staticQuality, int qualityRate, int seed)
+        public static Equip BuildEquip(int configId, int staticQuality, double qualityRate, int seed)
         {
-            return EquipHelper.BuildEquip(configId, staticQuality, qualityRate, seed, RuleType.Normal);
+            return EquipConfigCategory.Instance.BuildEquip(configId, staticQuality, qualityRate, seed, RuleType.Normal);
         }
 
-        public static Item BuildItem(ItemType type, int configId, int qualityRate, long number)
+        public static Item BuildItem(ItemType type, int configId, double qualityRate, long number)
         {
             return BuildItem(type, configId, qualityRate, number, -1, RuleType.Normal);
         }
 
-        public static Item BuildItem(ItemType type, int configId, int qualityRate, long number, RuleType ruleType)
+        public static Item BuildItem(ItemType type, int configId, double qualityRate, long number, RuleType ruleType)
         {
             return BuildItem(type, configId, qualityRate, number, -1, ruleType);
         }
 
-        public static Item BuildItem(ItemType type, int configId, int qualityRate, long number, int seed, RuleType ruleType)
+        public static Item BuildItem(ItemType type, int configId, double qualityRate, long number, int seed, RuleType ruleType)
         {
             Item item = null;
 
             if (type == ItemType.Equip)
             {
-                item = EquipHelper.BuildEquip(configId, 0, qualityRate, seed, ruleType);
+                item = EquipConfigCategory.Instance.BuildEquip(configId, 0, qualityRate, seed, ruleType);
             }
             else if (type == ItemType.SkillBox)
             {
@@ -43,17 +43,9 @@ namespace Game
             {
                 item = BuildMaterial(configId, number);
             }
-            else if (type == ItemType.Exclusive)
-            {
-                item = ExclusiveHelper.Build(configId, qualityRate, seed);
-            }
-            else if (type == ItemType.GiftPackExclusive)
-            {
-                item = ExclusiveHelper.BuildByPack(configId);
-            }
             else if (type == ItemType.GiftPackEquip)
             {
-                item = EquipHelper.BuildByPack(configId);
+                item = EquipConfigCategory.Instance.BuildByPack(configId);
             }
             else if (type == ItemType.GiftPackPet)
             {
@@ -101,14 +93,14 @@ namespace Game
             return item;
         }
 
-        public static IEnumerable<Item> BurstMul(List<Item> items, int count, int qualityRate, RuleType ruleType)
+        public static IEnumerable<Item> BurstMul(List<Item> items, int count, double qualityRise, RuleType ruleType)
         {
             List<Item> newList = new List<Item>();
             for (int c = 0; c < count; c++)
             {
                 for (int i = 0; i < items.Count; i++)
                 {
-                    Item newItem = ItemHelper.BuildItem(items[i].Type, items[i].ConfigId, qualityRate, items[i].Count, ruleType);
+                    Item newItem = ItemHelper.BuildItem(items[i].Type, items[i].ConfigId, qualityRise, items[i].Count, ruleType);
 
                     newList.Add(newItem);
                 }

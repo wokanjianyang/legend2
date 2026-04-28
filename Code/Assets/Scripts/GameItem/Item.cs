@@ -53,7 +53,7 @@ namespace Game
         }
 
 
-        public ItemType GetItemType()
+        public virtual ItemType GetItemType()
         {
             return this.Type;
         }

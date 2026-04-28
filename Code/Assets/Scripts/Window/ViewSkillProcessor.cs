@@ -25,10 +25,10 @@ namespace Game
         public Transform Tf_Role;
         private List<Toggle> Toggle_Role_List = new List<Toggle>();
 
-        private Com_Skill[] AllEquipSkills;
+        private Item_Skill_Selected[] AllEquipSkills;
 
         private List<Item_Skill> learnSkills;
-        private List<Com_Skill> equipSkills;
+        private List<Item_Skill_Selected> equipSkills;
         private GameObject bookPrefab;
 
         void Awake()
@@ -42,7 +42,7 @@ namespace Game
             base.OnBattleStart();
 
             this.learnSkills = new List<Item_Skill>();
-            this.equipSkills = new List<Com_Skill>();
+            this.equipSkills = new List<Item_Skill_Selected>();
 
             var user = GameProcessor.Inst.User;
 
@@ -54,7 +54,7 @@ namespace Game
 
             bookPrefab = Resources.Load<GameObject>("Prefab/Skill/Item_Skill");
 
-            this.AllEquipSkills = this.tran_EquipSkills.GetComponentsInChildren<Com_Skill>();
+            this.AllEquipSkills = this.tran_EquipSkills.GetComponentsInChildren<Item_Skill_Selected>();
 
             this.ShowSkillPanel();
             this.ShowSkillBattle();

@@ -49,11 +49,6 @@ namespace Game
         /// </summary>
         public IDictionary<int, long> QualityAttrList { get; set; }
 
-        [JsonIgnore]
-        /// <summary>
-        /// 套装属性
-        /// </summary>
-        public IDictionary<int, long> GroupAttrList { get; set; }
 
         [JsonIgnore]
         /// <summary>
@@ -80,12 +75,7 @@ namespace Game
 
                 if (qualityConfig.AttrIdList != null)
                 {
-                    int qualityRate = Level / 200 + 1;
-                    if (quality >= 7)
-                    {
-                        qualityRate = 1;
-                    }
-
+                    int qualityRate = Level / 10 + 1;
                     for (int i = 0; i < qualityConfig.AttrIdList.Length; i++)
                     {
                         QualityAttrList.Add(qualityConfig.AttrIdList[i], qualityConfig.AttrValueList[i] * qualityRate);
@@ -113,53 +103,8 @@ namespace Game
 
                 if (Config.Cycle == 1)
                 {
-                    if (Quality <= 4)
-                    {
-                        AttributeBase = AttributeBase * (Quality * 20 + 20) / 100;
-                    }
-                    else if (Quality == 5)
-                    {
-                        AttributeBase = AttributeBase * 2;
-                    }
+                    AttributeBase = AttributeBase * (Quality * 10 + 90) / 100;
                 }
-                else if (Config.Cycle == 2 || Config.Cycle == 3)
-                { //红色，金色
-                    AttributeBase = AttributeBase * GetLayerRate(Layer);
-                }
-                else if (Config.Cycle == 4)
-                {
-                    //暗金，有倍率，所以最高2的7次方基础属性
-                    AttributeBase = AttributeBase * GetLayerRate(Math.Min(Layer, 7));
-                }
-                else if (Config.Cycle == 5)
-                {
-                    AttributeBase = AttributeBase * Quality * Layer;
-                }
-
-
-                //if (this.Part <= 10 || (this.Part >= 21))
-                //{
-                //    if (Quality <= 4)
-                //    {
-                //        AttributeBase = AttributeBase * (Quality * 20 + 20) / 100;
-                //    }
-                //    else if (Quality == 5)
-                //    {
-                //        AttributeBase = AttributeBase * 2;
-                //    }
-                //    else if (Quality == 6)
-                //    {
-                //        AttributeBase = AttributeBase * GetLayerRate(Layer);
-                //    }
-                //    else if (Quality == 7)
-                //    {
-                //        AttributeBase = AttributeBase * GetLayerRate(Layer);
-                //    }
-                //    else if (Quality == 8)
-                //    {
-                //        AttributeBase = AttributeBase * GetLayerRate(Layer);
-                //    }
-                //}
 
                 BaseAttrList.Add(Config.AttrIdList[i], AttributeBase);
             }
@@ -167,15 +112,15 @@ namespace Game
             return BaseAttrList;
         }
 
-        private int GetLayerRate(int layer)
-        {
-            int b = 1;
-            for (int i = 1; i < layer; i++)
-            {
-                b = b * 2;
-            }
-            return b;
-        }
+        //private int GetLayerRate(int layer)
+        //{
+        //    int b = 1;
+        //    for (int i = 1; i < layer; i++)
+        //    {
+        //        b = b * 2;
+        //    }
+        //    return 1;
+        //}
 
         public void CheckReFreshCount()
         {
@@ -406,6 +351,10 @@ namespace Game
 
 
         //--------------ovveride
+        public override int GetQuality()
+        {
+            return this.Quality;
+        }
 
         public override string GetName()
         {

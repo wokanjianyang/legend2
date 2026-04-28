@@ -80,6 +80,8 @@ namespace Game
             string color = "FFFFFF";
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
 
+            this.Img_Icon.sprite = PrefabHelper.Instance().GetSkillLog(skillPanel.SkillId);
+
             //if (skillPanel.DivineAttrConfig != null)
             //{
             //    if (skillPanel.DivineAttrConfig.LevelRequire <= skillPanel.SkillData.MagicLevel.Data)
@@ -190,6 +192,12 @@ namespace Game
 
             if (this.SkillPanel == null || this.SkillPanel.SkillData == null || skillList.Count >= user.SkillNumber)
             {
+                return;
+            }
+
+            if (this.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Passive)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "被动技能无需上阵", ToastType = ToastTypeEnum.Failure });
                 return;
             }
 

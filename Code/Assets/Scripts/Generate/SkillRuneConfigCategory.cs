@@ -8,86 +8,37 @@ namespace Game
 
     public partial class SkillRuneConfigCategory
     {
-        public SkillRuneConfig Random7(int type, int role)
+        public SkillRuneConfig RandomEquipRuneId(int quality, int role, int seed)
         {
-            //List<SkillRuneConfig> list = this.list.Where(m => m.Type == type && m.Role == role).ToList(); //选择金色词条
+            List<SkillRuneConfig> tempList = this.list.Where(m => (m.Role == role) && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
 
-            //int maxRate = list.Select(m => m.EquipRate).Sum();
-            //int rd = RandomHelper.RandomNumber(1, maxRate + 1);
+            if (tempList.Count == 0)
+            {
+                return null;
+            }
 
-            //int tempRate = 0;
-            //for (int i = 0; i < list.Count; i++)
-            //{
-            //    tempRate += list[i].EquipRate;
+            if (tempList.Count == 1)
+            {
+                return tempList[0];
+            }
 
-            //    if (rd <= tempRate)
-            //    {
-            //        return list[i];
-            //    }
-            //}
+            int maxRate = tempList.Select(m => m.EquipRate).Sum();
+            int rd = RandomHelper.RandomNumber(seed, 1, maxRate + 1);
+
+            int tempRate = 0;
+            for (int i = 0; i < tempList.Count; i++)
+            {
+                tempRate += tempList[i].EquipRate;
+
+                if (rd <= tempRate)
+                {
+                    return tempList[i];
+                }
+            }
 
             return null;
         }
 
-        public SkillRuneConfig RandomRune(int seed, int indexSeed, int role, int type, int quality, int level)
-        {
-            int skillId = role * 1000;
-
-            int[] RuneRate;
-            if (type == 1)
-            {
-                RuneRate = ConfigHelper.RuneRate;
-
-                if (quality == 7)
-                {
-                    return Random7(2, role);
-                }
-                else if (quality == 8)
-                {
-                    return Random7(3, 0);
-                }
-                else if (quality >= 5)
-                {
-                    if (level <= 300)
-                    {
-                        RuneRate = ConfigHelper.RuneRate1;
-                    }
-                    else if (level <= 650)
-                    {
-                        RuneRate = ConfigHelper.RuneRate2;
-                    }
-                    else
-                    {
-                        RuneRate = ConfigHelper.RuneRate3;
-                    }
-                }
-            }
-            else
-            {
-                RuneRate = ConfigHelper.RuneRate99;
-            }
-
-            int mx = RuneRate[RuneRate.Length - 1];
-            int index = RandomHelper.RandomNumber(seed, 0, mx);
-
-            for (int i = 0; i < RuneRate.Length; i++)
-            {
-                if (index < RuneRate[i])
-                {
-                    skillId = skillId + (RuneRate.Length - i);
-
-                    break;
-                }
-            }
-
-            //seed = AppHelper.RefreshSeed(seed);
-
-            List<SkillRuneConfig> list = this.list.Where(m => m.SkillId == skillId).ToList();
-
-            index = RandomHelper.RandomNumber(indexSeed, 0, list.Count);
-
-            return list[index];
-        }
 
         public List<SkillRune> GetAllRune(int skillId, int runeCount)
         {
@@ -106,18 +57,9 @@ namespace Game
         public List<SkillRuneConfig> GetSkillAllConfigs(int skillId, int skillLayer)
         {
             return this.list.Where(m => (m.SkillId == skillId)).ToList();
-
         }
 
-        public SkillRuneConfig GetExclusiveRune(int quality, int seed)
-        {
-            return null;
-        }
 
-        public SkillRuneConfig GeEquipRuneCycle5(int quality, int role, int seed)
-        {
-            return null;
-        }
     }
 
 

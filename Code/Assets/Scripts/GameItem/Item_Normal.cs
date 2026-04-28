@@ -18,6 +18,11 @@ namespace Game
             Config = ItemConfigCategory.Instance.Get(configId);
         }
 
+        public override ItemType GetItemType()
+        {
+            return (ItemType)this.Config.Type;
+        }
+
         public override string GetDes()
         {
             return this.Config.Des;

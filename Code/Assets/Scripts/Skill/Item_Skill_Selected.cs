@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class Com_Skill : MonoBehaviour
+    public class Item_Skill_Selected : MonoBehaviour
     {
         [Title("技能")]
         [LabelText("技能")]
@@ -15,6 +15,8 @@ namespace Game
 
         [LabelText("移除")]
         public Button btn_Skill;
+
+        public Image Img_Icon;
 
         public SkillData SkillData { get; private set; }
 
@@ -45,7 +47,7 @@ namespace Game
         public void SetItem(SkillData skillData)
         {
             this.SkillData = skillData;
-
+            this.Img_Icon.sprite = PrefabHelper.Instance().GetSkillLog(skillData.SkillId);
             this.tran_Skill.gameObject.SetActive(true);
         }
 

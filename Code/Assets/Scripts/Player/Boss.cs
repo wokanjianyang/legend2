@@ -142,7 +142,7 @@ namespace Game
 
                     if (model.Suit > 0)
                     {
-                        suitList = SkillSuitHelper.GetAllSuit(skillData.SkillId, model.Suit);
+                        suitList = SkillSuitConfigCategory.Instance.GetAllSuit(skillData.SkillId, model.Suit);
                     }
                 }
 

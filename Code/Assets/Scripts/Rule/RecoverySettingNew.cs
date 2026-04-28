@@ -330,6 +330,14 @@ namespace Game
             //        return true;
             //    }
             //}
+            else if (item.GetItemType() == ItemType.EquipSpeical)
+            {
+                //四格回收
+                if (item.Layer < SpecailLevel)
+                {
+                    return true;
+                }
+            }
             else if (item.GetItemType() == ItemType.Pet)
             {
                 Pet pet = item as Pet;

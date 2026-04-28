@@ -8,9 +8,9 @@ namespace Game
 {
     public class ItemHelper
     {
-        public static Item BuildEquip(int configId, int staticQuality, double qualityRate, int seed)
+        public static Item BuildEquip(int configId, double qualityRise, int seed)
         {
-            return EquipConfigCategory.Instance.BuildEquip(configId, staticQuality, qualityRate, seed, RuleType.Normal);
+            return EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, seed);
         }
 
         public static Item BuildItem(ItemType type, int configId, double qualityRate, long number)
@@ -23,13 +23,13 @@ namespace Game
             return BuildItem(type, configId, qualityRate, number, -1, ruleType);
         }
 
-        public static Item BuildItem(ItemType type, int configId, double qualityRate, long number, int seed, RuleType ruleType)
+        public static Item BuildItem(ItemType type, int configId, double qualityRise, long number, int seed, RuleType ruleType)
         {
             Item item = null;
 
             if (type == ItemType.Equip)
             {
-                item = EquipConfigCategory.Instance.BuildEquip(configId, 0, qualityRate, seed, ruleType);
+                item = EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, seed);
             }
             else if (type == ItemType.EquipSpeical)
             {

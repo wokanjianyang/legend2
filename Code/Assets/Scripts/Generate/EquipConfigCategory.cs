@@ -9,9 +9,28 @@ namespace Game
 
     public partial class EquipConfigCategory
     {
-        public Item BuildEquip(int configId, int staticQuality, double qualityRise, int seed, RuleType ruleType)
+        public Item BuildEquip(int configId, double qualityRise, int seed)
         {
-            Item item = new Equip(configId, 0, 0, 5);
+            int quality = RandomQuanlity(qualityRise);
+
+            EquipConfig config = EquipConfigCategory.Instance.Get(configId);
+
+            int runeId = 0;
+            int suitId = 0;
+
+            if (quality >= 3)
+            {
+                SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, seed);
+
+                runeId = runeConfig.Id;
+
+                if (quality >= 4)
+                {
+                    suitId = SkillSuitConfigCategory.Instance.RandomSuit(runeConfig.SkillId, quality, seed).Id;
+                }
+            }
+
+            Item item = new Equip(configId, runeId, suitId, quality);
 
             Item_Component component = new Item_Com_Equip(configId, qualityRise);
 
@@ -39,6 +58,27 @@ namespace Game
 
             item.Count = 1;
             return item;
+        }
+
+        private static int RandomQuanlity(double qualityRise)
+        {
+            int start = 0;
+
+            int[] rates = { 1, 10, 100, 500, 2500 };
+
+            int r = RandomHelper.RandomNumber(0, rates[rates.Length - 1]);
+
+            r = (int)(r / qualityRise);
+
+            for (int i = 0; i < rates.Length; i++)
+            {
+                if (r < rates[i])
+                {
+                    return 5 - i - start;
+                }
+            }
+
+            return 1;
         }
     }
 

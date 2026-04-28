@@ -26,6 +26,7 @@ namespace Game
 
         private Dictionary<int, Sprite> EquipBgList = new Dictionary<int, Sprite>();
 
+        private Dictionary<int, Sprite> SkillLogoList = new Dictionary<int, Sprite>();
 
         private Sprite MonsterDefend = null;
 
@@ -207,6 +208,16 @@ namespace Game
             }
 
             return MonsterList[id];
+        }
+
+        public Sprite GetSkillLog(int skillId)
+        {
+            if (!SkillLogoList.ContainsKey(skillId))
+            {
+                SkillLogoList[skillId] = Resources.Load<Sprite>("UI/Skill/Logo/" + skillId);
+            }
+
+            return SkillLogoList[skillId];
         }
 
         public Sprite GetMonsterWorld(int id)

@@ -766,41 +766,41 @@ namespace Game
             return red;
         }
 
-        public EquipRedSuit GetEquipRedConfig(int role, int quality)
+        public EquipSetSuit GetEquipSet(int role, int cycle)
         {
             List<Equip> equips = null;
-            if (quality == 6)
+            if (cycle == 1)
             {
-                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
+                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Config.Role == role).ToList();
             }
-            else if (quality == 7)
-            {
-                equips = this.EquipPanelGoldenList[EquipGoldenIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
-            }
-            else if (quality == 8)
-            {
-                equips = this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
-            }
-            else if (quality == 9)
-            {
-                equips = this.EquipPanelHundunList[EquipHundunIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
-            }
+            //else if (cycle == 2)
+            //{
+            //    equips = this.EquipPanelGoldenList[EquipGoldenIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
+            //}
+            //else if (cycle == 3)
+            //{
+            //    equips = this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
+            //}
+            //else if (cycle == 4)
+            //{
+            //    equips = this.EquipPanelHundunList[EquipHundunIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
+            //}
 
-            List<int> layers = equips.Select(m => m.Layer).OrderByDescending(m => m).ToList();
+            List<int> layers = equips.Select(m => m.Level).OrderByDescending(m => m).ToList();
 
             //Debug.Log("red layers:" + layers.ListToString());
 
-            List<EquipRedConfig> list = EquipRedConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Role == role && m.Quality == quality).ToList();
+            List<EquipSetConfig> list = EquipSetConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Role == role && m.Cycle == cycle).ToList();
 
-            List<EquipRedItem> redList = new List<EquipRedItem>();
+            List<EquipSetItem> redList = new List<EquipSetItem>();
 
             for (int i = 0; i < list.Count; i++)
             {
-                EquipRedConfig config = list[i];
+                EquipSetConfig config = list[i];
 
                 int redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
 
-                EquipRedItem redItem = new EquipRedItem();
+                EquipSetItem redItem = new EquipSetItem();
                 redItem.Level = redLevel;
                 redItem.Count = layers.Where(m => m >= redLevel).Count();
                 redItem.Config = config;
@@ -808,7 +808,7 @@ namespace Game
                 redList.Add(redItem);
             }
 
-            EquipRedSuit red = new EquipRedSuit();
+            EquipSetSuit red = new EquipSetSuit();
             red.List = redList;
 
             return red;

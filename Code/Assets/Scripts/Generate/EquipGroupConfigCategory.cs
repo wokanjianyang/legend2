@@ -39,17 +39,17 @@ namespace Game
         public List<EquipSuitItem> ItemList = new List<EquipSuitItem>();
     }
 
-    public class EquipRedSuit
+    public class EquipSetSuit
     {
-        public List<EquipRedItem> List;
+        public List<EquipSetItem> List;
     }
 
-    public class EquipRedItem
+    public class EquipSetItem
     {
         public int Level;
 
         public int Count;
 
-        public EquipRedConfig Config;
+        public EquipSetConfig Config;
     }
 }

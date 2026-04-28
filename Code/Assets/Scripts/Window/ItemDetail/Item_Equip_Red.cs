@@ -13,14 +13,19 @@ namespace Game
         public Text Txt_Name;
         public Text Txt_Des;
 
-        public void SetContent(EquipRedItem redItem, int quality)
+        public void SetContent(EquipSetItem redItem, int quality)
         {
             string color = redItem.Count >= redItem.Config.Count ? QualityConfigHelper.GetQualityColor(quality) : "CCCCCC";
 
             int showLevel = Math.Max(1, redItem.Level);
 
-            string qn = "红装";
-            if (quality == 7)
+            string qn = "橙装";
+
+            if (quality == 6)
+            {
+                qn = "红装";
+            }
+            else if (quality == 7)
             {
                 qn = "金装";
             }
@@ -33,7 +38,7 @@ namespace Game
                 qn = "混沌";
             }
 
-            string name = ConfigHelper.LayerChinaList[showLevel] + "阶" + qn + string.Format("({0}/{1})", redItem.Count, redItem.Config.Count);
+            string name = showLevel + "级" + qn + string.Format("({0}/{1})", redItem.Count, redItem.Config.Count);
 
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
 

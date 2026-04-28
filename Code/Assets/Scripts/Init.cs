@@ -71,12 +71,13 @@ public class Init : MonoBehaviour
                 "Window/Spirit/Map_Spirit",
 
                 "Window/Dialog_Detail_Select",
-                "Window/Dialog_EquipDetail",
+       
                 "Window/Defend/Dialog_Defend",
                 "Window/Dialog_OfflineExp",
                 "Window/Setting/Dialog_Settings",
 
                 "GameItem/Detail_Normal",
+                "GameItem/Detail_Equip",
                 "GameItem/Detail_Equip_Special",
 
                 "Window/Relic/Dialog_Relic",

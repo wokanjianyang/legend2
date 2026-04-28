@@ -10,44 +10,26 @@ using Game.Data;
 
 namespace Game
 {
-    public class Dialog_EquipDetail : MonoBehaviour, IBattleLife
+    public class Detail_Equip : MonoBehaviour, IBattleLife
     {
-        [LabelText("容器")]
-        public RectTransform rect_Content;
 
         [Title("道具数据")]
-        [LabelText("背景")]
         public Image img_Background;
 
-        [LabelText("背景图片")]
-        public Sprite[] list_BackgroundImgs;
+        public Text Txt_Name;
+        public Text Txt_Require;
 
-        [LabelText("名称")]
-        public Text tmp_Title;
+        public Transform Tf_Base;
 
-        [LabelText("基础属性")]
-        public Transform tran_BaseAttribute;
+        public Transform Tf_Random;
 
-        [LabelText("隐藏属性")]
-        public Transform tran_HideAttribute;
+        public Transform Tf_Quality;
 
-        [LabelText("随机属性")]
-        public Transform tran_RandomAttribute;
+        public Transform Tf_Rune;
 
-        [LabelText("品质属性")]
-        public Transform tran_QualityAttribute;
+        public Transform Tf_Suit;
 
-        [LabelText("技能属性")]
-        public Transform tran_SkillAttribute;
-
-        [LabelText("词条套装")]
-        public Transform tran_SuitAttribute;
-
-        [LabelText("套装属性")]
-        public Transform tran_GroupAttribute;
-
-        [LabelText("红装属性")]
-        public Transform tran_RedAttribute;
+        public Transform Tf_Set;
 
         [Title("导航")]
 
@@ -65,8 +47,6 @@ namespace Game
         private BoxItem boxItem;
         private int equipPositioin;
         private ComBoxType BoxType;
-
-        private RectTransform rectTransform;
 
         // Start is called before the first frame update
         void Start()
@@ -96,19 +76,17 @@ namespace Game
             this.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.AddListener<ShowEquipDetailEvent>(this.OnShowEquipDetailEvent);
-            this.rectTransform = this.transform.GetComponent<RectTransform>();
         }
 
         private void OnShowEquipDetailEvent(ShowEquipDetailEvent e)
         {
             this.gameObject.SetActive(true);
-            tran_BaseAttribute.gameObject.SetActive(false);
-            tran_RandomAttribute.gameObject.SetActive(false);
-            tran_QualityAttribute.gameObject.SetActive(false);
-            tran_SkillAttribute.gameObject.SetActive(false);
-            tran_SuitAttribute.gameObject.SetActive(false);
-            tran_GroupAttribute.gameObject.SetActive(false);
-            tran_RedAttribute.gameObject.SetActive(false);
+            Tf_Base.gameObject.SetActive(false);
+            Tf_Random.gameObject.SetActive(false);
+            Tf_Quality.gameObject.SetActive(false);
+            Tf_Rune.gameObject.SetActive(false);
+            Tf_Suit.gameObject.SetActive(false);
+            Tf_Set.gameObject.SetActive(false);
 
             this.btn_Equip.gameObject.SetActive(false);
             this.btn_UnEquip.gameObject.SetActive(false);
@@ -134,11 +112,12 @@ namespace Game
                 name += "(" + ConfigHelper.LayerChinaList[equip.Layer] + "阶)";
             }
 
-            this.tmp_Title.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
-
-            string color = "green";
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
             User user = GameProcessor.Inst.User;
+            string color = user.MagicLevel.Data >= equip.Config.LevelRequired ? "green" : "red";
+
+            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
 
             long basePercent = 0;
             long qualityPercent = 0;
@@ -160,11 +139,10 @@ namespace Game
 
             if (BaseAttrList != null && BaseAttrList.Count > 0)
             {
-                tran_BaseAttribute.gameObject.SetActive(true);
-                tran_BaseAttribute.Find("Title").GetComponent<Text>().text = "[基础属性]";
-                tran_BaseAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
+                Tf_Base.gameObject.SetActive(true);
+                Tf_Base.Find("Title").GetComponent<Text>().text = "[基础属性]";
 
-                Transform gridBase = tran_BaseAttribute.Find("Grid_Base");
+                Transform gridBase = Tf_Base.Find("Grid_Base");
 
                 List<KeyValuePair<int, double>> btList = BaseAttrList.ToList();
 
@@ -186,9 +164,9 @@ namespace Game
 
             if (equip.AttrEntryList != null && equip.AttrEntryList.Count > 0)
             {
-                tran_RandomAttribute.gameObject.SetActive(true);
-                tran_RandomAttribute.Find("Title").GetComponent<Text>().text = "[随机属性]";
-                Transform gridRandom = tran_RandomAttribute.Find("Grid_Random");
+                Tf_Random.gameObject.SetActive(true);
+                Tf_Random.Find("Title").GetComponent<Text>().text = "[随机属性]";
+                Transform gridRandom = Tf_Random.Find("Grid_Random");
 
                 var AttrEntryList = equip.AttrEntryList.ToList();
 
@@ -215,9 +193,9 @@ namespace Game
 
             if (equip.QualityAttrList != null && equip.QualityAttrList.Count > 0)
             {
-                tran_QualityAttribute.gameObject.SetActive(true);
-                tran_QualityAttribute.Find("Title").GetComponent<Text>().text = "[品质属性]";
-                Transform gridQuality = tran_QualityAttribute.Find("Grid_Quality");
+                Tf_Quality.gameObject.SetActive(true);
+                Tf_Quality.Find("Title").GetComponent<Text>().text = "[品质属性]";
+                Transform gridQuality = Tf_Quality.Find("Grid_Quality");
 
                 var QualityAttrList = equip.QualityAttrList.ToList();
 
@@ -261,82 +239,13 @@ namespace Game
                 this.ShowSuit(suitIdList, suitCountList, user.SuitMax);
             }
 
-
-            if (equip.Part <= 10)
-            {
-                EquipSuit equipSuit = user.GetEquipSuit(equip.Config);
-
-                if (equipSuit.Config != null)
-                {
-                    tran_GroupAttribute.gameObject.SetActive(true);
-                    Transform gridGroup = tran_GroupAttribute.Find("Grid_Group");
-
-                    int groupCount = 0;
-                    int nameIndex = 0;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        var nameChild = gridGroup.Find(string.Format("Name_{0}", nameIndex++));
-
-                        if (i >= equipSuit.ItemList.Count)
-                        {
-                            nameChild.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            EquipSuitItem eg = equipSuit.ItemList[i];
-
-                            string groupColor = QualityConfigHelper.GetEquipGroupColor(eg.Active);
-                            if (eg.Active)
-                            {
-
-                                nameChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, eg.Name);
-                                groupCount++;
-                            }
-                            else
-                            {
-                                nameChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, eg.Name);
-                            }
-
-                            nameChild.gameObject.SetActive(true);
-                        }
-                    }
-
-                    tran_GroupAttribute.Find("Title").GetComponent<Text>().text = string.Format("[套装属性] ({0}/2)", groupCount);
-
-                    //
-                    EquipGroupConfig config = equipSuit.Config;
-
-                    for (int index = 0; index < 3; index++)
-                    {
-                        var attrChild = gridGroup.Find(string.Format("Attribute_{0}", index));
-
-                        if (index < config.AttrIdList.Length)
-                        {
-                            string groupColor = QualityConfigHelper.GetEquipGroupColor(groupCount >= 2);
-
-                            string attrText = FormatAttrText(config.AttrIdList[index], config.AttrValueList[index], 0);
-                            attrChild.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", groupColor, attrText);
-
-                            attrChild.gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            attrChild.gameObject.SetActive(false);
-                        }
-                    }
-                }
-            }
-
             if (equip.Part <= 10 || equip.Part >= 21)
             {
-                if (equip.GetQuality() >= 6 && equip.GetQuality() == 4 + equip.Config.Cycle)
-                {
-                    tran_RedAttribute.gameObject.SetActive(true);
+                Tf_Set.gameObject.SetActive(true);
 
-                    EquipRedSuit red = user.GetEquipRedConfig(equip.Config.Role, equip.GetQuality());
+                EquipSetSuit red = user.GetEquipSet(equip.Config.Role, equip.Config.Cycle);
 
-                    this.ShowRed(red, equip.GetQuality());
-                }
+                this.ShowRed(red, equip.GetQuality());
             }
 
             this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
@@ -368,29 +277,34 @@ namespace Game
             }
         }
 
-        private void ShowRed(EquipRedSuit redSuit, int quality)
+        private void ShowRed(EquipSetSuit redSuit, int quality)
         {
-            Text redTitle = tran_RedAttribute.Find("Title").GetComponent<Text>();
+            Text redTitle = Tf_Set.Find("Title").GetComponent<Text>();
 
             string color = QualityConfigHelper.GetQualityColor(quality);
-            if (quality == 6)
+
+            if (quality == 5)
             {
-                redTitle.text = string.Format("<color=#{0}>[红装属性]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[橙色套装]</color>", color);
+            }
+            else if (quality == 6)
+            {
+                redTitle.text = string.Format("<color=#{0}>[红色套装]</color>", color);
             }
             else if (quality == 7)
             {
-                redTitle.text = string.Format("<color=#{0}>[金装属性]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[金色套装]</color>", color);
             }
             else if (quality == 8)
             {
-                redTitle.text = string.Format("<color=#{0}>[暗金属性]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[暗金套装]</color>", color);
             }
             else if (quality == 9)
             {
-                redTitle.text = string.Format("<color=#{0}>[混沌属性]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[混沌套装]</color>", color);
             }
 
-            Item_Equip_Red[] reds = tran_RedAttribute.GetComponentsInChildren<Item_Equip_Red>(true);
+            Item_Equip_Red[] reds = Tf_Set.GetComponentsInChildren<Item_Equip_Red>(true);
 
             for (int i = 0; i < reds.Length; i++)
             {
@@ -408,7 +322,7 @@ namespace Game
 
         private void ShowRune(List<int> runeIdList)
         {
-            Item_Rune[] runes = tran_SkillAttribute.GetComponentsInChildren<Item_Rune>(true);
+            Item_Rune[] runes = Tf_Rune.GetComponentsInChildren<Item_Rune>(true);
 
             for (int i = 0; i < runes.Length; i++)
             {
@@ -422,12 +336,12 @@ namespace Game
                     runes[i].gameObject.SetActive(false);
                 }
             }
-            tran_SkillAttribute.gameObject.SetActive(true);
+            Tf_Rune.gameObject.SetActive(true);
         }
 
         private void ShowSuit(List<int> suitIdList, List<int> countList, int max)
         {
-            Item_Suit[] suits = tran_SuitAttribute.GetComponentsInChildren<Item_Suit>(true);
+            Item_Suit[] suits = Tf_Suit.GetComponentsInChildren<Item_Suit>(true);
 
             for (int i = 0; i < suits.Length; i++)
             {
@@ -441,7 +355,7 @@ namespace Game
                     suits[i].gameObject.SetActive(false);
                 }
             }
-            tran_SuitAttribute.gameObject.SetActive(true);
+            Tf_Suit.gameObject.SetActive(true);
         }
 
         private string FormatAttrText(int attr, double val, long percent)

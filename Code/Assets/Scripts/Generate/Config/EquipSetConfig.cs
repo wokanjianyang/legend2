@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class EquipRedConfigCategory : ProtoObject, IMerge
+    public partial class EquipSetConfigCategory : ProtoObject, IMerge
     {
-        public static EquipRedConfigCategory Instance;
+        public static EquipSetConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, EquipRedConfig> dict = new Dictionary<int, EquipRedConfig>();
+        private Dictionary<int, EquipSetConfig> dict = new Dictionary<int, EquipSetConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<EquipRedConfig> list = new List<EquipRedConfig>();
+        private List<EquipSetConfig> list = new List<EquipSetConfig>();
 		
-        public EquipRedConfigCategory()
+        public EquipSetConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            EquipRedConfigCategory s = o as EquipRedConfigCategory;
+            EquipSetConfigCategory s = o as EquipSetConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (EquipRedConfig config in list)
+            foreach (EquipSetConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public EquipRedConfig Get(int id)
+        public EquipSetConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out EquipRedConfig item);
+            this.dict.TryGetValue(id, out EquipSetConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (EquipRedConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (EquipSetConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, EquipRedConfig> GetAll()
+        public Dictionary<int, EquipSetConfig> GetAll()
         {
             return this.dict;
         }
 
-        public EquipRedConfig GetOne()
+        public EquipSetConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,7 +73,7 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class EquipRedConfig: ProtoObject, IConfig
+	public partial class EquipSetConfig: ProtoObject, IConfig
 	{
 		/// <summary>_Id</summary>
 		[ProtoMember(1)]
@@ -81,9 +81,9 @@ namespace Game
 		/// <summary>Role</summary>
 		[ProtoMember(2)]
 		public int Role { get; set; }
-		/// <summary>Quality</summary>
+		/// <summary>Cycle</summary>
 		[ProtoMember(3)]
-		public int Quality { get; set; }
+		public int Cycle { get; set; }
 		/// <summary>Count</summary>
 		[ProtoMember(4)]
 		public int Count { get; set; }

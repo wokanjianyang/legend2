@@ -46,7 +46,7 @@ namespace Game
 
             if (currentLevel < maxLevel)
             {
-                long total = user.Bags.Where(m => m.Item.Type == ItemType.Halidom && m.Item.ConfigId == Config.ItemId).Select(m => m.MagicNubmer.Data).Sum();
+                long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Halidom && m.Item.ConfigId == Config.ItemId).Select(m => m.MagicNubmer.Data).Sum();
 
                 if (total < upNumber)
                 {

@@ -123,7 +123,7 @@ public class Panel_Grade_Dark : MonoBehaviour
 
     private void OnSelect(GradeSelectEvent e)
     {
-        if (e.Equip.EquipConfig.Cycle != 4)
+        if (e.Equip.Config.Cycle != 4)
         {
             return;
         }
@@ -191,7 +191,7 @@ public class Panel_Grade_Dark : MonoBehaviour
             int specialId = idList[i];
             int upCount = countList[i];
 
-            long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
+            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
             if (stoneTotal < upCount)
             {
                 return false;

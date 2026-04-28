@@ -81,23 +81,29 @@ namespace Game
 		/// <summary>Sid</summary>
 		[ProtoMember(2)]
 		public int Sid { get; set; }
-		/// <summary>Name</summary>
+		/// <summary>Part</summary>
 		[ProtoMember(3)]
+		public int Part { get; set; }
+		/// <summary>Quality</summary>
+		[ProtoMember(4)]
+		public int Quality { get; set; }
+		/// <summary>Name</summary>
+		[ProtoMember(5)]
 		public string Name { get; set; }
 		/// <summary>StartLayer</summary>
-		[ProtoMember(4)]
+		[ProtoMember(6)]
 		public int StartLayer { get; set; }
 		/// <summary>EndLayer</summary>
-		[ProtoMember(5)]
+		[ProtoMember(7)]
 		public int EndLayer { get; set; }
 		/// <summary>AttrIdList</summary>
-		[ProtoMember(6)]
+		[ProtoMember(8)]
 		public int[] AttrIdList { get; set; }
 		/// <summary>AttrValueList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(9)]
 		public double[] AttrValueList { get; set; }
 		/// <summary>AttrRiseList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(10)]
 		public double[] AttrRiseList { get; set; }
 
 	}

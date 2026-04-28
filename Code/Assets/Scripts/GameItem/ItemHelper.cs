@@ -8,7 +8,7 @@ namespace Game
 {
     public class ItemHelper
     {
-        public static Equip BuildEquip(int configId, int staticQuality, double qualityRate, int seed)
+        public static Item BuildEquip(int configId, int staticQuality, double qualityRate, int seed)
         {
             return EquipConfigCategory.Instance.BuildEquip(configId, staticQuality, qualityRate, seed, RuleType.Normal);
         }
@@ -31,9 +31,9 @@ namespace Game
             {
                 item = EquipConfigCategory.Instance.BuildEquip(configId, 0, qualityRate, seed, ruleType);
             }
-            else if (type == ItemType.SkillBox)
+            else if (type == ItemType.EquipSpeical)
             {
-                item = new SkillBook(configId);
+                item = EquipSpeicalConfigCategory.Instance.BuildEquip(configId, 1);
             }
             else if (type == ItemType.GiftPack)
             {
@@ -61,8 +61,7 @@ namespace Game
             }
             else
             {
-                item = new Item(configId);
-                item.Type = type;
+                item = new Item_Normal(configId);
             }
 
             item.Count = number;
@@ -87,8 +86,7 @@ namespace Game
 
         public static Item BuildMaterial(int configId, long count)
         {
-            Item item = new Item(configId);
-            item.Type = ItemType.Material;
+            Item item = new Item(configId, ItemType.Material);
             item.Count = count;
             return item;
         }
@@ -100,7 +98,7 @@ namespace Game
             {
                 for (int i = 0; i < items.Count; i++)
                 {
-                    Item newItem = ItemHelper.BuildItem(items[i].Type, items[i].ConfigId, qualityRise, items[i].Count, ruleType);
+                    Item newItem = ItemHelper.BuildItem(items[i].GetItemType(), items[i].ConfigId, qualityRise, items[i].Count, ruleType);
 
                     newList.Add(newItem);
                 }
@@ -117,7 +115,7 @@ namespace Game
                 for (int i = 0; i < items.Count; i++)
                 {
 
-                    if (items[i].Type == ItemType.Shengxiao)
+                    if (items[i].GetItemType() == ItemType.Shengxiao)
                     {
                         Item newItem = ShengxiaoConfigCategory.Instance.Build(items[i].ConfigId, qualityRate, maxQuality, 0);
 
@@ -125,7 +123,7 @@ namespace Game
                     }
                     else
                     {
-                        Item newItem = ItemHelper.BuildItem(items[i].Type, items[i].ConfigId, (int)qualityRate, items[i].Count, ruleType);
+                        Item newItem = ItemHelper.BuildItem(items[i].GetItemType(), items[i].ConfigId, (int)qualityRate, items[i].Count, ruleType);
 
                         newList.Add(newItem);
                     }

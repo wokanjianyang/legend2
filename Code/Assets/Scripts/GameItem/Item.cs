@@ -15,6 +15,10 @@ namespace Game
         public long Count { get; set; }
         public int Quality { get; set; }
 
+        public int Layer { get; set; }
+
+        public int Level { get; set; }
+
         public long UUID { get; set; }
 
         public bool IsLock { get; set; }
@@ -23,90 +27,82 @@ namespace Game
 
         public int Seed { get; set; } = -1;
 
-        protected Item()
-        {
-
-        }
-        public Item(int configId)
-        {
-            this.ConfigId = configId;
-            ItemConfig = ItemConfigCategory.Instance.Get(this.ConfigId);
-
-            this.Name = ItemConfig.Name;
-            this.Des = ItemConfig.Des;
-            this.Type = (ItemType)ItemConfig.Type;
-            this.Level = ItemConfig.LevelRequired;
-            this.Gold = ItemConfig.Price;
-            this.MaxNum = ItemConfig.MaxNum;
-            this.Count = 1;
-        }
-
-        [JsonIgnore]
-        public ItemConfig ItemConfig { get; set; }
-
-        virtual public int GetQuality()
-        {
-            if (ItemConfig != null)
-            {
-                return ItemConfig.Quality;
-            }
-            else
-            {
-                return Quality;
-            }
-        }
-
-        [JsonIgnore]
-        public string Name { get; set; }
-
-        [JsonIgnore]
-        public string Des { get; set; }
-
-        [JsonIgnore]
-        /// <summary>
-        ///  道具类型
-        /// </summary>
         public ItemType Type { get; set; }
 
-        [JsonIgnore]
-        /// <summary>
-        /// 装备所需等级
-        /// </summary>
-        public int Level { get; set; }
 
-        [JsonIgnore]
-        public long Gold { get; set; }
+        public Item(int configId, ItemType type)
+        {
+            this.ConfigId = configId;
+            this.Type = type;
+        }
 
-        [JsonIgnore]
+        public virtual int GetQuality()
+        {
+            return 1;
+        }
+
+        public virtual string GetName()
+        {
+            return "not name" + Type.ToString();
+        }
+
+        public virtual string GetDes()
+        {
+            return "not description" + Type.ToString();
+
+        }
+
+
+        public ItemType GetItemType()
+        {
+            return this.Type;
+        }
+
+
+        public virtual int LevelRequired()
+        {
+            return 1;
+        }
+
         /// <summary>
         /// 堆叠数量
         /// </summary>
-        public long MaxNum { get; set; }
+        public virtual long GetMaxNum()
+        {
+            return 1;
+        }
 
         //[JsonIgnore]
         //public int BoxId { get; set; } = -1;
+
+        public void AddComponent(Item_Component component)
+        {
+            //Components.Add(component);
+        }
     }
 
     public enum ItemType
     {
-        Normal = 0,
-        Gold = 1,
+        Gold = 0,
+        Normal = 1,
         Equip = 2,
-        SkillBox = 3,
-        GiftPack = 4,
-        Material = 5,
-        Buff = 6,
-        GoldPack = 7,
-        ExpPack = 8,
-        Ticket = 9,
-        Exclusive = 10,
-        Card = 11,
-        GiftPackExclusive = 12,
-        Fashion = 13,
-        Halidom = 14,
-        Material_Usable = 15,
-        Pet = 16,
-        Shengxiao = 17,
+        EquipSpeical = 3,
+        SkillBox = 4,
+        ExclusiveMaterial = 5,
+        GiftPack = 6,
+        Material = 7,
+        Buff = 8,
+        GoldPack = 9,
+        ExpPack = 10,
+        Ticket = 11,
+        Exclusive = 12,
+        Card = 13,
+        GiftPackExclusive = 14,
+        Fashion = 15,
+        Halidom = 16,
+        Material_Usable = 17,
+        Pet = 18,
+        Shengxiao = 19,
 
         Artifact = 18,
         Ring = 19,

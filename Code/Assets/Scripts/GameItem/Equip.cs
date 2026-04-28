@@ -19,7 +19,6 @@ namespace Game
         public int SuitConfigId { get; set; }
 
         //public int Quality { get; set; }
-        public int Layer { get; set; } = 1;
         public int RuneSeed { get; set; }
         public int SuitSeed { get; set; }
         public int RefreshCount { get; set; }
@@ -29,11 +28,6 @@ namespace Game
 
         public EquipData Data { get; set; } = new EquipData();
 
-        public override int GetQuality()
-        {
-            return Quality;
-        }
-
         [JsonIgnore]
         public SkillRuneConfig SkillRuneConfig { get; set; }
 
@@ -41,7 +35,7 @@ namespace Game
         public SkillSuitConfig SkillSuitConfig { get; set; }
 
         [JsonIgnore]
-        public EquipConfig EquipConfig { get; set; }
+        public EquipConfig Config { get; set; }
 
         [JsonIgnore]
         public int[] Position { get; set; }
@@ -67,21 +61,16 @@ namespace Game
         /// </summary>
         public IDictionary<int, string> GroupNameList { get; set; }
 
-        public Equip(int configId, int runeConfigId, int suitConfigId, int quality)
+        public Equip(int configId, int runeConfigId, int suitConfigId, int quality) : base(configId, ItemType.Equip)
         {
-            this.Type = ItemType.Equip;
             this.ConfigId = configId;
             this.RuneConfigId = runeConfigId;
             this.SuitConfigId = suitConfigId;
 
-            EquipConfig = EquipConfigCategory.Instance.Get(configId);
+            Config = EquipConfigCategory.Instance.Get(configId);
 
-            Name = EquipConfig.Name;
-            Des = EquipConfig.Name;
-            Level = EquipConfig.LevelRequired;
-            Part = EquipConfig.Part;
-            Position = EquipConfig.Position;
-            Gold = EquipConfig.Price;
+            Part = Config.Part;
+            Position = Config.Position;
             Quality = quality;
 
             QualityAttrList = new Dictionary<int, long>();
@@ -104,12 +93,12 @@ namespace Game
                 }
             }
 
-            if (RuneConfigId > 0 && (EquipConfig.Cycle > 0))
+            if (RuneConfigId > 0 && (Config.Cycle > 0))
             {
                 SkillRuneConfig = SkillRuneConfigCategory.Instance.Get(RuneConfigId);
             }
 
-            if (SuitConfigId > 0 && (EquipConfig.Cycle > 0))
+            if (SuitConfigId > 0 && (Config.Cycle > 0))
             {
                 SkillSuitConfig = SkillSuitConfigCategory.Instance.Get(SuitConfigId);
             }
@@ -118,11 +107,11 @@ namespace Game
         public IDictionary<int, double> GetBaseAttrList()
         {
             IDictionary<int, double> BaseAttrList = new Dictionary<int, double>();
-            for (int i = 0; i < EquipConfig.AttrIdList.Length; i++)
+            for (int i = 0; i < Config.AttrIdList.Length; i++)
             {
-                long AttributeBase = EquipConfig.AttrValueList[i];
+                long AttributeBase = Config.AttrValueList[i];
 
-                if (EquipConfig.Cycle == 1)
+                if (Config.Cycle == 1)
                 {
                     if (Quality <= 4)
                     {
@@ -133,16 +122,16 @@ namespace Game
                         AttributeBase = AttributeBase * 2;
                     }
                 }
-                else if (EquipConfig.Cycle == 2 || EquipConfig.Cycle == 3)
+                else if (Config.Cycle == 2 || Config.Cycle == 3)
                 { //红色，金色
                     AttributeBase = AttributeBase * GetLayerRate(Layer);
                 }
-                else if (EquipConfig.Cycle == 4)
+                else if (Config.Cycle == 4)
                 {
                     //暗金，有倍率，所以最高2的7次方基础属性
                     AttributeBase = AttributeBase * GetLayerRate(Math.Min(Layer, 7));
                 }
-                else if (EquipConfig.Cycle == 5)
+                else if (Config.Cycle == 5)
                 {
                     AttributeBase = AttributeBase * Quality * Layer;
                 }
@@ -172,7 +161,7 @@ namespace Game
                 //    }
                 //}
 
-                BaseAttrList.Add(EquipConfig.AttrIdList[i], AttributeBase);
+                BaseAttrList.Add(Config.AttrIdList[i], AttributeBase);
             }
 
             return BaseAttrList;
@@ -209,7 +198,7 @@ namespace Game
             if (this.Data == null || this.Data.RuneIdList.Count == 0)
             {
                 this.Data = new EquipData();
-                this.Data.Refresh(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role);
+                this.Data.Refresh(this.Part, this.Config.Cycle, this.Quality, this.Config.Role);
             }
         }
 
@@ -227,19 +216,19 @@ namespace Game
                 this.SkillSuitConfig = SkillSuitConfigCategory.Instance.Get(SuitConfigId);
             }
 
-            Data.Refresh(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role);
+            Data.Refresh(this.Part, this.Config.Cycle, this.Quality, this.Config.Role);
         }
 
         public void Init(int seed)
         {
             //根据品质,生成随机属性
 
-            this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role, seed));
+            this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.Config.Cycle, this.Quality, this.Config.Role, seed));
 
             if (this.Part <= 10 && this.Quality >= 6)
             {
                 this.Data = new EquipData();
-                this.Data.Refresh(this.Part, this.EquipConfig.Cycle, this.Quality, this.EquipConfig.Role);
+                this.Data.Refresh(this.Part, this.Config.Cycle, this.Quality, this.Config.Role);
             }
         }
 
@@ -394,7 +383,7 @@ namespace Game
 
             foreach (var sp in this.AttrEntryList)
             {
-                AttrEntryConfig config = AttrEntryConfigCategory.Instance.GetRedConfig(sp.Key, this.EquipConfig.Cycle);
+                AttrEntryConfig config = AttrEntryConfigCategory.Instance.GetRedConfig(sp.Key, this.Config.Cycle);
                 if (config == null)
                 {
                     return 1;
@@ -414,5 +403,19 @@ namespace Game
 
             return 0;
         }
+
+
+        //--------------ovveride
+
+        public override string GetName()
+        {
+            return this.Config.Name;
+        }
+
+        public override int LevelRequired()
+        {
+            return this.Config.LevelRequired;
+        }
+
     }
 }

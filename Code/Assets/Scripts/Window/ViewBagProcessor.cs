@@ -257,7 +257,7 @@ namespace Game
             List<SlotBox> sps = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < sps.Count; i++)
             {
-                sps[i].Init(11 + i);
+                sps[i].Init(1001 + i);
                 yield return null;
             }
 
@@ -292,7 +292,7 @@ namespace Game
             }
 
             //穿戴四格
-            foreach (var kvp in user.EquipPanelSpecial)
+            foreach (var kvp in user.EquipSpecialList)
             {
                 this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
                 //yield return null;
@@ -466,7 +466,7 @@ namespace Game
 
                 if (type == ItemType.Equip)
                 {
-                    BoxItem boxItem = user.Bags.Where(m => m.Item.Type == type && m.Item.ConfigId == configId).FirstOrDefault();
+                    BoxItem boxItem = user.Bags.Where(m => m.Item.GetItemType() == type && m.Item.ConfigId == configId).FirstOrDefault();
 
                     GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
                     {
@@ -501,7 +501,7 @@ namespace Game
                 if (i == 0)
                 {
                     User user = GameProcessor.Inst.User;
-                    BoxItem boxItem = user.Bags.Where(m => m.Item.Type == ItemType.Exclusive && m.Item.GetQuality() == 5 && !m.Item.IsLock).FirstOrDefault();
+                    BoxItem boxItem = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Exclusive && m.Item.GetQuality() == 5 && !m.Item.IsLock).FirstOrDefault();
 
                     if (boxItem == null)
                     {
@@ -536,7 +536,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            List<BoxItem> list = user.Bags.Where(m => m.Item.Type == e.Type && m.Item.ConfigId == e.ItemId).ToList();
+            List<BoxItem> list = user.Bags.Where(m => m.Item.GetItemType() == e.Type && m.Item.ConfigId == e.ItemId).ToList();
 
             long count = list.Select(m => m.MagicNubmer.Data).Sum();
 
@@ -574,7 +574,7 @@ namespace Game
             }
 
 
-            List<BoxItem> newList = user.Bags.Where(m => m.Item.Type == e.Type && m.Item.ConfigId == e.ItemId).ToList();
+            List<BoxItem> newList = user.Bags.Where(m => m.Item.GetItemType() == e.Type && m.Item.ConfigId == e.ItemId).ToList();
 
             long newCount = newList.Select(m => m.MagicNubmer.Data).Sum();
             if (newCount >= count)
@@ -751,9 +751,13 @@ namespace Game
 
             if (e.IsWear)
             {
-                if (e.BoxItem.Item.Type == ItemType.Shengxiao)
+                if (e.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
                 {
                     this.WearShengxiao(e.BoxItem);
+                }
+                else if (e.BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
+                {
+                    this.WearEquipSpecial(e.BoxItem);
                 }
                 else
                 {
@@ -762,9 +766,13 @@ namespace Game
             }
             else
             {
-                if (e.BoxItem.Item.Type == ItemType.Shengxiao)
+                if (e.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
                 {
                     this.RemoveShengxiao(e.BoxItem);
+                }
+                else if (e.BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
+                {
+                    this.RemoveEquipSpecial(e.BoxItem);
                 }
                 else
                 {
@@ -865,7 +873,7 @@ namespace Game
 
             List<Item> newList = new List<Item>();
 
-            if (boxItem.Item.Type == ItemType.Equip)
+            if (boxItem.Item.GetItemType() == ItemType.Equip)
             {
                 Equip equip = boxItem.Item as Equip;
                 int layer = equip.Layer;
@@ -905,7 +913,7 @@ namespace Game
                 equip.HoneList = new Dictionary<int, int>();
                 newList.Add(equip);
             }
-            else if (boxItem.Item.Type == ItemType.Pet)
+            else if (boxItem.Item.GetItemType() == ItemType.Pet)
             {
                 Pet pet = boxItem.Item as Pet;
                 long level = pet.PetLevel.Data;
@@ -935,7 +943,7 @@ namespace Game
 
                 newList.Add(pet);
             }
-            else if (boxItem.Item.Type == ItemType.Shengxiao)
+            else if (boxItem.Item.GetItemType() == ItemType.Shengxiao)
             {
                 Shengxiao pet = boxItem.Item as Shengxiao;
                 long level = pet.LevelData.Data;
@@ -1107,11 +1115,11 @@ namespace Game
             BoxItem boxItem = e.BoxItem;
             long quantity = e.Quantity <= 0 ? boxItem.MagicNubmer.Data : e.Quantity;
 
-            if (boxItem.Item.Type == ItemType.Ticket && boxItem.Item.ConfigId == ItemHelper.SpecialId_Copy_Ticket && e.Quantity == -1)
+            if (boxItem.Item.GetItemType() == ItemType.Ticket && boxItem.Item.ConfigId == ItemHelper.SpecialId_Copy_Ticket && e.Quantity == -1)
             {
 
             }
-            else if (boxItem.Item.Type == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Level_Stone)
+            else if (boxItem.Item.GetItemType() == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Level_Stone)
             {
                 quantity = Math.Min(quantity, user.GetMaxLevel() - user.MagicLevel.Data);
 
@@ -1134,7 +1142,7 @@ namespace Game
             }
 
             //use logic
-            if (boxItem.Item.Type == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Level_Stone)
+            if (boxItem.Item.GetItemType() == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Level_Stone)
             {
                 quantity = Math.Min(quantity, user.GetMaxLevel() - user.MagicLevel.Data);
 
@@ -1147,13 +1155,13 @@ namespace Game
                 user.MagicLevel.Data += quantity;
                 GameProcessor.Inst.EventCenter.Raise(new SetPlayerLevelEvent { Cycle = user.Cycle.Data, Level = user.MagicLevel.Data });
             }
-            else if (boxItem.Item.Type == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Talent_Book)
+            else if (boxItem.Item.GetItemType() == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Talent_Book)
             {
                 ItemConfig config = ItemConfigCategory.Instance.Get(boxItem.Item.ConfigId);
 
                 user.TalentExp.Data += quantity * config.UseParam;
             }
-            else if (boxItem.Item.Type == ItemType.SkillBox)
+            else if (boxItem.Item.GetItemType() == ItemType.SkillBox)
             {
                 GameProcessor.Inst.EventCenter.Raise(new HeroUseSkillBookEvent
                 {
@@ -1162,7 +1170,7 @@ namespace Game
                     Quantity = quantity,
                 });
             }
-            else if (boxItem.Item.Type == ItemType.ExpPack)
+            else if (boxItem.Item.GetItemType() == ItemType.ExpPack)
             {
                 long exp = (long)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondExp));
 
@@ -1176,7 +1184,7 @@ namespace Game
                     Message = BattleMsgHelper.BuildGiftPackMessage("道具奖励", exp, 0, null)
                 });
             }
-            else if (boxItem.Item.Type == ItemType.GoldPack)
+            else if (boxItem.Item.GetItemType() == ItemType.GoldPack)
             {
                 long gold = (long)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondGold));
 
@@ -1190,7 +1198,7 @@ namespace Game
                     Message = BattleMsgHelper.BuildGiftPackMessage("道具奖励", 0, gold, null)
                 });
             }
-            else if (boxItem.Item.Type == ItemType.GiftPack)
+            else if (boxItem.Item.GetItemType() == ItemType.GiftPack)
             {
                 GiftPack giftPack = boxItem.Item as GiftPack;
                 GiftPackConfig pc = giftPack.Config;
@@ -1208,7 +1216,7 @@ namespace Game
                 });
                 GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
-            else if (boxItem.Item.Type == ItemType.Ticket)
+            else if (boxItem.Item.GetItemType() == ItemType.Ticket)
             {
                 if (boxItem.Item.ConfigId == ItemHelper.SpecialId_Legacy_Ticket)
                 {
@@ -1220,7 +1228,7 @@ namespace Game
                 }
 
             }
-            else if (boxItem.Item.Type == ItemType.Pet)
+            else if (boxItem.Item.GetItemType() == ItemType.Pet)
             {
                 //build pet
                 //string str_json = JsonConvert.SerializeObject(e.Flairs);
@@ -1306,7 +1314,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            BoxItem boxItem = user.Bags.Find(m => !m.IsFull() && m.Item.Type == newItem.Type && m.Item.ConfigId == newItem.ConfigId);  //ͬ
+            BoxItem boxItem = user.Bags.Find(m => !m.IsFull() && m.Item.GetItemType() == newItem.GetItemType() && m.Item.ConfigId == newItem.ConfigId);  //ͬ
 
             if (boxItem != null)
             {
@@ -1367,10 +1375,6 @@ namespace Game
             {
                 ep = user.EquipPanelList[user.EquipPanelIndex]; ;
             }
-            else if (Part >= 11 && Part <= 14)
-            {
-                ep = user.EquipPanelSpecial;
-            }
             else if (Part >= 21 && Part <= 30)
             {
                 ep = user.EquipPanelGoldenList[user.EquipGoldenIndex];
@@ -1406,7 +1410,7 @@ namespace Game
                 {
                     slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
-                else if (Position >= 11 && Position <= 14)
+                else if (Position >= 1001 && Position <= 1004)
                 {
                     slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
@@ -1437,6 +1441,68 @@ namespace Game
             //通知英雄更新属性
             GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
+
+        private void WearEquipSpecial(BoxItem boxItem)
+        {
+            User user = GameProcessor.Inst.User;
+
+            var item = boxItem.Item as Equip_Special;
+
+            IDictionary<int, Equip_Special> ep = user.EquipSpecialList;
+            int Position = item.Config.Part;
+
+            //从包袱移除
+            UseBoxItem(boxItem, 1);
+
+            //如果存在旧装备，增加到包裹
+            if (ep.ContainsKey(Position))
+            {
+                //装备栏卸载
+                SlotBox slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
+
+                if (slot != null)
+                {
+                    slot.UnEquip();
+                }
+
+                AddBoxItem(ep[Position]);
+            }
+
+            //穿戴到格子上
+            this.CreateEquipPanelItem(user.EquipPanelIndex, Position, item);
+            //this.CreateEquipPanelItem(-1, Position, exclusive);
+
+            ep[Position] = item;
+
+            //通知英雄更新属性
+            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
+        }
+        private void RemoveEquipSpecial(BoxItem boxItem)
+        {
+            User user = GameProcessor.Inst.User;
+
+            var item = boxItem.Item as Equip_Special;
+            int position = item.Config.Part;
+
+            //装备栏卸载
+            SlotBox slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
+
+            if (slot != null)
+            {
+                slot.UnEquip();
+            }
+
+            //装备移动到包裹里面
+            AddBoxItem(item);
+
+            var ep = user.EquipSpecialList;
+
+            ep.Remove(position);
+
+            //通知英雄更新属性
+            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+        }
+
 
 
         public void WearShengxiao(BoxItem boxItem)
@@ -1492,7 +1558,7 @@ namespace Game
                 var EquipInfo = Equip_Plan_List[pi];
                 slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
-            else if (position >= 11 && position <= 14)
+            else if (position >= 1001 && position <= 1004)
             {
                 slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
@@ -1526,7 +1592,7 @@ namespace Game
                 var EquipInfo = Equip_Plan_List[pi];
                 slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
-            else if (position >= 11 && position <= 14)
+            else if (position >= 1001 && position <= 1004)
             {
                 slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).FirstOrDefault();
             }
@@ -1587,7 +1653,7 @@ namespace Game
             {
                 slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
-            else if (position >= 11 && position <= 14)
+            else if (position >= 1001 && position <= 1004)
             {
                 slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
@@ -1615,9 +1681,9 @@ namespace Game
                 user.EquipPanelList[user.EquipPanelIndex].Remove(position);
 
             }
-            else if (position >= 11 && position <= 14)
+            else if (position >= 1001 && position <= 1004)
             {
-                user.EquipPanelSpecial.Remove(position);
+                user.EquipSpecialList.Remove(position);
             }
             else if (position >= 15 && position <= 20)
             {
@@ -1641,6 +1707,8 @@ namespace Game
 
             //UserData.Save();
         }
+
+
 
 
         private void RemoveShengxiao(BoxItem boxItem)
@@ -1677,16 +1745,16 @@ namespace Game
 
                 foreach (Item newItem in newItems)
                 {
-                    if (newItem.Type == ItemType.Buff)
+                    if (newItem.GetItemType() == ItemType.Buff)
                     {
                         //TODO
                     }
-                    else if (newItem.Type == ItemType.Artifact)
+                    else if (newItem.GetItemType() == ItemType.Artifact)
                     {
                         //user.MetalData
                         user.SaveArtifactLevel(newItem.ConfigId, (int)newItem.Count);
                     }
-                    else if (newItem.Type == ItemType.Card || newItem.Type == ItemType.Fashion || newItem.Type == ItemType.Spirit || (newItem.Type == ItemType.Material && newItem.ConfigId == ItemHelper.SpecialId_Card_Stone))
+                    else if (newItem.GetItemType() == ItemType.Card || newItem.GetItemType() == ItemType.Fashion || newItem.GetItemType() == ItemType.Spirit || (newItem.GetItemType() == ItemType.Material && newItem.ConfigId == ItemHelper.SpecialId_Card_Stone))
                     {
                         user.SaveItemMeterialCount(newItem.ConfigId, newItem.Count);
                     }
@@ -1732,7 +1800,7 @@ namespace Game
         }
         public void OnExclusive()
         {
-           this.DialogExclusive.gameObject.SetActive(true);
+            this.DialogExclusive.gameObject.SetActive(true);
         }
 
         public void OnOpenCard()

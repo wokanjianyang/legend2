@@ -37,7 +37,7 @@ namespace Game
 
         public bool IsFull()
         {
-            if (MagicNubmer.Data < Item.MaxNum)
+            if (MagicNubmer.Data < Item.GetMaxNum())
             {
                 return false;
             }
@@ -47,13 +47,13 @@ namespace Game
 
         public int GetBagType()
         {
-            if (this.Item.Type == ItemType.Equip)
+            if (this.Item.GetItemType() == ItemType.Equip)
             {
-                int type = (this.Item as Equip).EquipConfig.Role;
+                int type = (this.Item as Equip).Config.Role;
 
                 return type <= 0 ? 3 : type - 1; //四格等全职业装备放战士包裹
             }
-            if (this.Item.Type == ItemType.Exclusive || this.Item.Type == ItemType.Pet || this.Item.Type == ItemType.Shengxiao)
+            if (this.Item.GetItemType() == ItemType.Exclusive || this.Item.GetItemType() == ItemType.EquipSpeical || this.Item.GetItemType() == ItemType.Pet || this.Item.GetItemType() == ItemType.Shengxiao)
             {
                 return 3;
             }
@@ -63,10 +63,10 @@ namespace Game
 
         public int GetBagSort()
         {
-            if (this.Item.Type == ItemType.Equip)
+            if (this.Item.GetItemType() == ItemType.Equip)
             {
                 Equip equip = this.Item as Equip;
-                var config = equip.EquipConfig;
+                var config = equip.Config;
                 return config.Part * 10000 + config.LevelRequired + equip.GetQuality();
             }
 

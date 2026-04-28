@@ -18,7 +18,7 @@ namespace Game
 
         public const int Channel_Tap = 1;
 
-        public const int Version = 426;
+        public const int Version = 1;
 
         public const long PackTime = 1768816401; //打包时间，防止作弊
 
@@ -125,6 +125,6 @@ namespace Game
 
         public const double PetKillPercent = 100.0;  //为了符合小数值，杀怪加属性削弱十倍
 
-        public const bool EnvTest = true;
+        public const bool EnvTest = false;
     }
 }

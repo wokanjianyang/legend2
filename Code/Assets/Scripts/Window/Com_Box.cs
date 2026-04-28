@@ -54,7 +54,7 @@ namespace Game
         {
             if (this.BoxItem != null)
             {
-               if (BoxItem.Item.Type == ItemType.Equip)
+                if (BoxItem.Item.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = BoxItem.Item as Equip;
                     if (equip.GetQuality() > 5 && (equip.Part <= 10 || equip.Part >= 21))
@@ -63,7 +63,7 @@ namespace Game
                         this.Layer.gameObject.SetActive(true);
                     }
                 }
-                else if (BoxItem.Item.Type == ItemType.Shengxiao)
+                else if (BoxItem.Item.GetItemType() == ItemType.Shengxiao)
                 {
                     Shengxiao item = BoxItem.Item as Shengxiao;
 
@@ -90,7 +90,7 @@ namespace Game
             this.img_Tag.gameObject.SetActive(false);
 
 
-            if (this.BoxItem.Item.Type == ItemType.GiftPack)
+            if (this.BoxItem.Item.GetItemType() == ItemType.GiftPack)
             {
                 GiftPack giftPack = this.BoxItem.Item as GiftPack;
 
@@ -100,17 +100,7 @@ namespace Game
                     return;
                 }
             }
-            else if (this.BoxItem.Item.Type == ItemType.Exclusive)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowExclusiveCardEvent()
-                {
-                    boxItem = this.BoxItem,
-                    EquipPosition = this.EquipPosition,
-                    Type = this.Type
-                });
-                return;
-            }
-            else if (this.BoxItem.Item.Type == ItemType.Equip)
+            else if (this.BoxItem.Item.GetItemType() == ItemType.Equip)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
                 {
@@ -120,7 +110,7 @@ namespace Game
                 });
                 return;
             }
-            else if (this.BoxItem.Item.Type == ItemType.Shengxiao)
+            else if (this.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowShengxiaoDetailEvent()
                 {
@@ -130,7 +120,17 @@ namespace Game
                 });
                 return;
             }
-            else if (this.BoxItem.Item.Type == ItemType.Pet)
+            else if (this.BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowDetailEquipSpecialEvent()
+                {
+                    boxItem = this.BoxItem,
+                    EquipPosition = this.EquipPosition,
+                    Type = this.Type
+                });
+                return;
+            }
+            else if (this.BoxItem.Item.GetItemType() == ItemType.Pet)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowPetDetailEvent()
                 {
@@ -156,7 +156,7 @@ namespace Game
         }
         public void SetItem(BoxItem item)
         {
-            this.tmp_Title.text = item.Item.Name;
+            this.tmp_Title.text = item.Item.GetName();
 
             this.BoxItem = item;
 
@@ -175,9 +175,9 @@ namespace Game
                 this.tmp_Count.text = this.Count.ToString();
             }
 
-            if (item.Item.IsNew && (item.Item.Type == ItemType.Equip || item.Item.Type == ItemType.Exclusive))
+            if (item.Item.IsNew && (item.Item.GetItemType() == ItemType.Equip || item.Item.GetItemType() == ItemType.Exclusive))
             {
-                if (item.Item.Type == ItemType.Equip)
+                if (item.Item.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = item.Item as Equip;
                     if (equip.Part > 10 && equip.Part < 20)

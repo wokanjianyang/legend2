@@ -69,23 +69,23 @@ public class Panel_Grade_Specail : MonoBehaviour
             return;
         }
 
-        IDictionary<int, Equip> dict = user.EquipPanelSpecial;
+        IDictionary<int, Equip_Special> dict = user.EquipSpecialList;
 
-        for (int BoxId = 0; BoxId < 4; BoxId++)
-        {
-            int postion = 11 + BoxId;
+        //for (int BoxId = 0; BoxId < 4; BoxId++)
+        //{
+        //    int postion = 11 + BoxId;
 
-            var bagBox = this.sr_Panel.content.GetChild(BoxId);
-            if (bagBox == null || !dict.ContainsKey(postion))
-            {
-                continue;
-            }
+        //    var bagBox = this.sr_Panel.content.GetChild(BoxId);
+        //    if (bagBox == null || !dict.ContainsKey(postion))
+        //    {
+        //        continue;
+        //    }
 
-            Equip equip = dict[postion];
+        //    Equip_Special equip = dict[postion];
 
-            ItemGrade box = this.CreateItem(equip, bagBox);
-            this.items.Add(box);
-        }
+        //    ItemGrade box = this.CreateItem(equip, bagBox);
+        //    this.items.Add(box);
+        //}
 
         //metailFee.gameObject.SetActive(false);
 
@@ -112,7 +112,7 @@ public class Panel_Grade_Specail : MonoBehaviour
 
     private void OnSelect(GradeSelectEvent e)
     {
-        if (e.Equip.EquipConfig.Cycle != 0)
+        if (e.Equip.Config.Cycle != 0)
         {
             return;
         }

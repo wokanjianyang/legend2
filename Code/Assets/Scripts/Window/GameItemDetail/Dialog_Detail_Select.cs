@@ -163,17 +163,7 @@ namespace Game
                 return;
             }
 
-            if (select.BoxItem.Item.Type == ItemType.Exclusive)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowExclusiveCardEvent()
-                {
-                    boxItem = select.BoxItem,
-                    EquipPosition = -2,
-                    Type = ComBoxType.Gift,
-                });
-                return;
-            }
-            else if (select.BoxItem.Item.Type == ItemType.Equip)
+            if (select.BoxItem.Item.GetItemType() == ItemType.Equip)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
                 {
@@ -182,7 +172,7 @@ namespace Game
                     Type = ComBoxType.Gift,
                 });
             }
-            else if (select.BoxItem.Item.Type == ItemType.Shengxiao)
+            else if (select.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowShengxiaoDetailEvent()
                 {
@@ -191,7 +181,7 @@ namespace Game
                     Type = ComBoxType.Gift,
                 });
             }
-            else if (select.BoxItem.Item.Type == ItemType.Pet)
+            else if (select.BoxItem.Item.GetItemType() == ItemType.Pet)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowPetDetailEvent()
                 {

@@ -107,7 +107,7 @@ namespace Game
 
             Pet pet = this.boxItem.Item as Pet;
 
-            this.TxtName.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.Name);
+            this.TxtName.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.GetName());
             this.TxtLevel.text = pet.PetLevel.Data + "";
             this.TxtLayer.text = pet.PetLayer.Data + "";
 

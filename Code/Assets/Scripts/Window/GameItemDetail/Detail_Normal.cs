@@ -11,12 +11,12 @@ using Newtonsoft.Json;
 
 namespace Game
 {
-    public class Dialog_Detail : MonoBehaviour, IBattleLife
+    public class Detail_Normal : MonoBehaviour, IBattleLife
     {
-        public Text Txt_Title;
+        public Text Txt_Name;
 
-        public Text Txt_NeedLevel;
-        public Text Txt_Memo;
+        public Text Txt_Require;
+        public Text Txt_Des;
 
         public Button Btn_Recovery;
         public Button Btn_Recovery_All;
@@ -26,8 +26,6 @@ namespace Game
         public Button Btn_Use;
         public Button Btn_Use_Batch;
         public Button Btn_UseAll;
-
-        public Button Btn_Egg;
 
         public Button Btn_Close;
 
@@ -52,7 +50,6 @@ namespace Game
             this.Btn_UseAll.onClick.AddListener(this.OnUseAll);
             this.Btn_Confirm.onClick.AddListener(this.OnConfirm);
             this.Btn_Cancle.onClick.AddListener(this.OnCancle);
-            this.Btn_Egg.onClick.AddListener(this.OnEgg);
 
             this.Btn_Learn.onClick.AddListener(this.OnLearnSkill);
             this.Btn_Close.onClick.AddListener(this.OnClick_Close);
@@ -87,8 +84,6 @@ namespace Game
             this.Btn_UseAll.gameObject.SetActive(false);
             this.Btn_Use_Batch.gameObject.SetActive(false);
 
-            this.Btn_Egg.gameObject.SetActive(false);
-
             this.tf_Count.gameObject.SetActive(false);
             this.if_Count.text = "";
 
@@ -97,7 +92,7 @@ namespace Game
             this.BoxType = e.Type;
 
             var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item);
-            this.Txt_Title.text = string.Format("<color=#{0}>{1}</color>", titleColor, this.boxItem.Item.Name);
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, this.boxItem.Item.GetName());
 
             long number = this.boxItem.MagicNubmer.Data;
 
@@ -108,20 +103,16 @@ namespace Game
                 color = "red";
             }
 
-            if (this.boxItem.Item.ItemConfig != null)
-            {
-                Txt_Memo.text = this.boxItem.Item.ItemConfig.Des;
-            }
-            Txt_NeedLevel.text = string.Format("<color={0}>需要轮回{1}转</color>", color, this.boxItem.Item.Level);
 
+            Txt_Des.text = this.boxItem.Item.GetDes();
+            Txt_Require.text = string.Format("<color={0}>需要轮回{1}转</color>", color, this.boxItem.Item.Level);
 
+            int configId = this.boxItem.Item.ConfigId;
 
-            switch ((ItemType)this.boxItem.Item.Type)
+            switch (this.boxItem.Item.GetItemType())
             {
                 case ItemType.SkillBox://技能书
                     {
-                        var skillBox = this.boxItem.Item as SkillBook;
-
                         var isLearn = user.SkillList.Find(b => b.SkillId == this.boxItem.Item.ConfigId) == null;
 
                         this.Btn_Learn.gameObject.SetActive(isLearn);
@@ -133,7 +124,7 @@ namespace Game
                 case ItemType.GiftPack:
                     {
                         GiftPack giftPack = this.boxItem.Item as GiftPack;
-                        Txt_Memo.text = giftPack.Des;
+                        Txt_Des.text = giftPack.GetDes();
                         this.Btn_Use.gameObject.SetActive(true);
 
                         GiftPackConfig giftPackConfig = GiftPackConfigCategory.Instance.Get(giftPack.ConfigId);
@@ -161,14 +152,6 @@ namespace Game
                         }
                     }
                     break;
-                case ItemType.Pet:
-                    {
-                        if (!AppHelper.PetEgging)
-                        {
-                            this.Btn_Egg.gameObject.SetActive(true);
-                        }
-                    }
-                    break;
                 case ItemType.Material:
                     {
                         this.Btn_Lose.gameObject.SetActive(true);
@@ -187,15 +170,15 @@ namespace Game
                     break;
             }
 
-            if (this.boxItem.Item.ItemConfig != null)
-            {
-                if (this.boxItem.Item.ItemConfig.RecoveryItemId > 0)
-                {
-                    this.Btn_Recovery.gameObject.SetActive(true);
-                    this.Btn_Recovery_All.gameObject.SetActive(true);
-                    this.Btn_Lose.gameObject.SetActive(false);
-                }
-            }
+            //if (this.boxItem.Item.ItemConfig != null)
+            //{
+            //    if (this.boxItem.Item.ItemConfig.RecoveryItemId > 0)
+            //    {
+            //        this.Btn_Recovery.gameObject.SetActive(true);
+            //        this.Btn_Recovery_All.gameObject.SetActive(true);
+            //        this.Btn_Lose.gameObject.SetActive(false);
+            //    }
+            //}
 
             if (this.BoxType != ComBoxType.Bag || user.Cycle.Data < this.boxItem.Item.Level) //不可操作
             {
@@ -268,71 +251,6 @@ namespace Game
                 Quantity = 1,
                 BoxItem = this.boxItem
             });
-        }
-
-        private void OnEgg()
-        {
-            //AppHelper.PetEgging = true;
-            //Txt_Memo.text = "请稍等几秒，孵化中...";
-            //this.Btn_Egg.gameObject.SetActive(false);
-
-            //int configId = this.boxItem.Item.ConfigId;
-            //int count = GameProcessor.Inst.User.GetPetCount(configId);
-
-            //int role = this.boxItem.Item.ItemConfig.UseParam;
-            //List<KeyValuePair<int, int>> flairs = PetConfigCategory.Instance.BuildPetAttr(configId, role);
-
-            //GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
-            //{
-            //    Quantity = 1,
-            //    BoxItem = this.boxItem,
-            //    Flairs = flairs,
-            //    Role = role
-            //});
-
-            //this.gameObject.SetActive(false);
-            //AppHelper.PetEgging = false;
-
-            //NetworkHelper.GetPet(configId, count,
-            //            (WebResultWrapper result) =>
-            //            {
-            //                if (result.Code == StatusMessage.OK && result.Data.Count > 0)
-            //                {
-            //                    this.Txt_Memo.text = "孵化成功，请查收包裹";
-
-            //                    GameProcessor.Inst.User.SetPetCount(configId);
-            //                    AppHelper.PetEgging = false;
-
-            //                    this.gameObject.SetActive(false);
-
-            //                    List<KeyValuePair<int, int>> flairs = new List<KeyValuePair<int, int>>();
-
-            //                    foreach (var kv in result.Data)
-            //                    {
-            //                        int attrId = int.Parse(kv.Key);
-            //                        int attrValue = int.Parse(kv.Value);
-
-            //                        flairs.Add(new KeyValuePair<int, int>(attrId, attrValue));
-            //                    }
-
-            //                    GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
-            //                    {
-            //                        Quantity = -1,
-            //                        BoxItem = this.boxItem,
-            //                        Flairs = flairs
-            //                    });
-
-            //                }
-            //                else
-            //                {
-            //                    this.Txt_Memo.text = "孵化失败，请重试.";
-            //                }
-            //            },
-            //            () =>
-            //            {
-            //                this.Txt_Memo.text = "孵化失败，请重试";
-            //            }
-            //            );
         }
 
         private void OnUseAll()

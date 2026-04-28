@@ -47,7 +47,7 @@ namespace Game
                         qt = "*" + drop.Count * burstMul;
                     }
 
-                    drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>" + qt;
+                    drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.GetName()}]</color>" + qt;
                 }
             }
 
@@ -86,7 +86,7 @@ namespace Game
                         qt = "*" + drop.Count + " ";
                     }
 
-                    drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.Name}]</color>" + qt;
+                    drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.GetName()}]</color>" + qt;
                 }
             }
 
@@ -99,7 +99,7 @@ namespace Game
 
             foreach (Item item in itemList)
             {
-                message += item.Count + "个" + item.ItemConfig.Name + "，";
+                message += item.Count + "个" + item.GetName() + "，";
             }
 
             if (gold > 0)
@@ -126,7 +126,7 @@ namespace Game
             {
                 foreach (var item in items)
                 {
-                    message += $",{item.Name}*{item.Count}";
+                    message += $",{item.GetName()}*{item.Count}";
                 }
             }
 

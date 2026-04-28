@@ -56,11 +56,11 @@ namespace Game
             {
                 Item item = e.Items[i];
 
-                if (item.Type == ItemType.Card)
+                if (item.GetItemType() == ItemType.Card)
                 {
                     MergeDict(mergeDict, "Í¼¼ø");
                 }
-                else if (item.Type == ItemType.Fashion)
+                else if (item.GetItemType() == ItemType.Fashion)
                 {
                     MergeDict(mergeDict, "Ê±×°");
                 }

@@ -96,7 +96,7 @@ namespace Game
                 return false;
             }
 
-            if (item.Type == ItemType.Equip)
+            if (item.GetItemType() == ItemType.Equip)
             {
                 Equip equip = item as Equip;
 
@@ -105,8 +105,8 @@ namespace Game
                     return false;
                 }
 
-                int role = equip.EquipConfig.Role;
-                int cycle = equip.EquipConfig.Cycle;
+                int role = equip.Config.Role;
+                int cycle = equip.Config.Cycle;
                 int level = equip.Level;
                 int quality = equip.GetQuality();
                 long ar = equip.GetAttrRateCount();
@@ -316,21 +316,21 @@ namespace Game
                     }
                 }
             }
-            else if (item.Type == ItemType.Halidom && type == RecoveryType.Drop)
-            {
-                if (item.ConfigId >= 40000051 && item.ConfigId <= 41000000 && item.ItemConfig.UseParam < HalidomLevel)
-                {
-                    return true;
-                }
-            }
-            else if (item.Type == ItemType.Material && type == RecoveryType.Drop)
-            {
-                if (item.ConfigId >= 50000001 && item.ConfigId <= 51000000 && item.ItemConfig.UseParam < RedStoneLevel)
-                {
-                    return true;
-                }
-            }
-            else if (item.Type == ItemType.Pet)
+            //else if (item.GetItemType() == ItemType.Halidom && type == RecoveryType.Drop)
+            //{
+            //    if (item.ConfigId >= 40000051 && item.ConfigId <= 41000000 && item.ItemConfig.UseParam < HalidomLevel)
+            //    {
+            //        return true;
+            //    }
+            //}
+            //else if (item.GetItemType() == ItemType.Material && type == RecoveryType.Drop)
+            //{
+            //    if (item.ConfigId >= 50000001 && item.ConfigId <= 51000000 && item.ItemConfig.UseParam < RedStoneLevel)
+            //    {
+            //        return true;
+            //    }
+            //}
+            else if (item.GetItemType() == ItemType.Pet)
             {
                 Pet pet = item as Pet;
                 if (item.GetQuality() <= PetQuality && pet.PetLayer.Data == 1 && pet.PetLevel.Data == 1)
@@ -338,7 +338,7 @@ namespace Game
                     return true;
                 }
             }
-            else if (item.Type == ItemType.Shengxiao)
+            else if (item.GetItemType() == ItemType.Shengxiao)
             {
                 Shengxiao shengxaio = item as Shengxiao;
                 if (item.GetQuality() <= ShengxiaoQuality && shengxaio.LayerData.Data < 1 && shengxaio.LevelData.Data < 1)

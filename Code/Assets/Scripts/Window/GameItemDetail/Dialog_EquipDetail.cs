@@ -127,7 +127,7 @@ namespace Game
 
             Equip equip = this.boxItem.Item as Equip;
 
-            string name = equip.Name;
+            string name = equip.GetName();
 
             if (equip.Part <= 10 || equip.Part >= 21)
             {
@@ -264,7 +264,7 @@ namespace Game
 
             if (equip.Part <= 10)
             {
-                EquipSuit equipSuit = user.GetEquipSuit(equip.EquipConfig);
+                EquipSuit equipSuit = user.GetEquipSuit(equip.Config);
 
                 if (equipSuit.Config != null)
                 {
@@ -329,11 +329,11 @@ namespace Game
 
             if (equip.Part <= 10 || equip.Part >= 21)
             {
-                if (equip.GetQuality() >= 6 && equip.GetQuality() == 4 + equip.EquipConfig.Cycle)
+                if (equip.GetQuality() >= 6 && equip.GetQuality() == 4 + equip.Config.Cycle)
                 {
                     tran_RedAttribute.gameObject.SetActive(true);
 
-                    EquipRedSuit red = user.GetEquipRedConfig(equip.EquipConfig.Role, equip.GetQuality());
+                    EquipRedSuit red = user.GetEquipRedConfig(equip.Config.Role, equip.GetQuality());
 
                     this.ShowRed(red, equip.GetQuality());
                 }

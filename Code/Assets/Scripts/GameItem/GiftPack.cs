@@ -9,18 +9,12 @@ namespace Game
     {
         [JsonIgnore]
         public GiftPackConfig Config { get; set; }
-        public GiftPack(int configId)
+        public GiftPack(int configId) : base(configId, ItemType.GiftPack)
         {
             this.ConfigId = configId;
-            this.Type = ItemType.GiftPack;
 
             Config = GiftPackConfigCategory.Instance.Get(configId);
 
-            Name = Config.Name;
-            Des = Config.Name;
-            Level = Config.LevelRequired;
-            Gold = 0;
-            MaxNum = 999;
         }
 
         public override int GetQuality()

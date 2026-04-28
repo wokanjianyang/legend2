@@ -265,7 +265,7 @@ public class Panel_Refresh : MonoBehaviour
         this.TxtCostName.text = refreshConfig.Name;
 
 
-        long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
+        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
 
         string color = stoneTotal >= upCount ? "#11FF11" : "#FF0000";
         this.TxtCostCount.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, upCount);
@@ -310,7 +310,7 @@ public class Panel_Refresh : MonoBehaviour
 
         User user = GameProcessor.Inst.User;
 
-        long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
+        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
         if (stoneTotal < upCount)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您的洗练石不足" + upCount + "个", ToastType = ToastTypeEnum.Failure });
@@ -346,7 +346,7 @@ public class Panel_Refresh : MonoBehaviour
 
         int specialId = ItemHelper.SpecailEquipRefreshId;
         int upCount = GetUpCount();
-        long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
+        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
         string color = stoneTotal >= upCount ? "#11FF11" : "#FF0000";
         this.TxtCostCount.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, upCount);
 

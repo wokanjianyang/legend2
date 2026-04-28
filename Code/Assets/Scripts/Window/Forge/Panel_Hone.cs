@@ -200,7 +200,7 @@ public class Panel_Hone : MonoBehaviour
         int honeLevel = SelectEquip.GetHoneLevel(SelectAttrIndex);
 
         int needCount = GetNeedNumber(honeLevel);
-        long count = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Red_Stone).Select(m => m.MagicNubmer.Data).Sum();
+        long count = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Red_Stone).Select(m => m.MagicNubmer.Data).Sum();
 
         string color = "#00FF00";
         if (count < needCount)

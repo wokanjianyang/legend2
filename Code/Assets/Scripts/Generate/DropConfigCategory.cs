@@ -34,21 +34,27 @@ namespace Game
 
             List<Item> list = new List<Item>();
 
-            for (int i = 0; i < mapConfig.BaseIdList.Length; i++)
+            if (mapConfig.BaseIdList != null)
             {
-                int realRate = (int)(mapConfig.BaseRateList[i] / burstRise);
-                if (RandomHelper.RandomRate(realRate))
+                for (int i = 0; i < mapConfig.BaseIdList.Length; i++)
                 {
-                    list.Add(BuildByDropBaseId(mapConfig.BaseIdList[i], (int)qualityRise, 0));
+                    int realRate = (int)(mapConfig.BaseRateList[i] / burstRise);
+                    if (RandomHelper.RandomRate(realRate))
+                    {
+                        list.Add(BuildByDropBaseId(mapConfig.BaseIdList[i], (int)qualityRise, 0));
+                    }
                 }
             }
 
-            for (int i = 0; i < mapConfig.DropIdList.Length; i++)
+            if (mapConfig.DropIdList != null)
             {
-                int realRate = (int)(mapConfig.DropRateList[i] / burstRise);
-                if (RandomHelper.RandomRate(realRate))
+                for (int i = 0; i < mapConfig.DropIdList.Length; i++)
                 {
-                    list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise));
+                    int realRate = (int)(mapConfig.DropRateList[i] / burstRise);
+                    if (RandomHelper.RandomRate(realRate))
+                    {
+                        list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise));
+                    }
                 }
             }
 
@@ -58,7 +64,13 @@ namespace Game
         public Item BuildByDropBaseId(int baseId, int qualityRise, int seed)
         {
             DropBaseConfig config = DropBaseConfigCategory.Instance.Get(baseId);
-            int itemIndex = RandomHelper.RandomNumber(0, config.ItemIdList.Length, seed);
+
+            //if (config.ItemIdList.Length <= 0)
+            //{
+            //    Debug.LogError(" drop base id£º" + baseId + " size=0");
+            //}
+
+            int itemIndex = RandomHelper.RandomNumber(seed,0, config.ItemIdList.Length);
 
             return ItemHelper.BuildItem((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, 1);
         }

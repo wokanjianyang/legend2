@@ -47,7 +47,7 @@ namespace Game
             this.Type = type;
             this.Cycle = cycle;
 
-            this.Txt_Name.text = item.Item.Name;
+            this.Txt_Name.text = item.Item.GetName();
 
             int quality = item.Item.GetQuality();
             image_Background.sprite = PrefabHelper.Instance().GetBoxImage(quality);  //list_Backgrounds[quality - 1];
@@ -67,7 +67,7 @@ namespace Game
 
             if (this.BoxItem != null)
             {
-                if (BoxItem.Item.Type == ItemType.Equip)
+                if (BoxItem.Item.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = BoxItem.Item as Equip;
                     if (equip.GetQuality() > 5 && equip.Part <= 10)
@@ -105,16 +105,7 @@ namespace Game
             }
             else if (this.Type == ComBoxType.Box_Ready)
             {
-                if (this.BoxItem.Item.Type == ItemType.Exclusive)
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowExclusiveCardEvent()
-                    {
-                        boxItem = this.BoxItem,
-                        Type = this.Type
-                    });
-                    return;
-                }
-                else if (this.BoxItem.Item.Type == ItemType.Equip)
+                if (this.BoxItem.Item.GetItemType() == ItemType.Equip)
                 {
                     GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
                     {

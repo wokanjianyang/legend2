@@ -36,11 +36,9 @@ namespace Game
             return Quality;
         }
 
-        public Pet(int role)
+        public Pet(int role) : base(role, ItemType.Pet)
         {
-            this.Type = ItemType.Pet;
             this.Role = role;
-            this.Name = "≤‚ ‘≥ËŒÔ";
         }
 
         public Dictionary<int, double> GetBaseAttr()

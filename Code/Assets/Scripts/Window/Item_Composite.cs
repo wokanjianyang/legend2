@@ -87,7 +87,7 @@ public class Item_Composite : MonoBehaviour
             int quality = Config.ItemQualityList[i];
             long MaxCount = Config.ItemCountList[i];
 
-            long count = user.Bags.Where(m => (int)m.Item.Type == Config.ItemTypeList[i] && m.Item.ConfigId == Config.ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
+            long count = user.Bags.Where(m => (int)m.Item.GetItemType() == Config.ItemTypeList[i] && m.Item.ConfigId == Config.ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
 
             if (Config.TargetType == 2 && Config.AutoHide == 1 && count <= 0)
             {
@@ -148,7 +148,7 @@ public class Item_Composite : MonoBehaviour
         {
             long MaxCount = Config.ItemCountList[i];
 
-            long count = user.Bags.Where(m => (int)m.Item.Type == Config.ItemTypeList[i] && m.Item.ConfigId == Config.ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
+            long count = user.Bags.Where(m => (int)m.Item.GetItemType() == Config.ItemTypeList[i] && m.Item.ConfigId == Config.ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
 
             number = Math.Min(number, count / MaxCount);
         }

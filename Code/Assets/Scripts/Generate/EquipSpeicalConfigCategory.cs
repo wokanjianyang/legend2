@@ -7,15 +7,11 @@ using UnityEngine;
 namespace Game
 {
 
-    public partial class EquipConfigCategory
+    public partial class EquipSpeicalConfigCategory
     {
-        public Item BuildEquip(int configId, int staticQuality, double qualityRise, int seed, RuleType ruleType)
+        public Item BuildEquip(int configId, int layer)
         {
-            Item item = new Equip(configId, 0, 0, 5);
-
-            Item_Component component = new Item_Com_Equip(configId, qualityRise);
-
-            item.AddComponent(component);
+            Item item = new Equip_Special(configId);
 
             return item;
         }

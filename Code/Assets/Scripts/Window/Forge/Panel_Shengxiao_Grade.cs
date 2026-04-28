@@ -194,7 +194,7 @@ public class Panel_Shengxiao_Grade : MonoBehaviour
         {
             int MaxCount = ItemCountList[i];
 
-            long count = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
+            long count = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemIdList[i]).Select(m => m.MagicNubmer.Data).Sum();
 
             string color = "#00FF00";
 

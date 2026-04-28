@@ -87,7 +87,7 @@ public class Item_Festive_Week : MonoBehaviour
 
         this.check = true;
 
-        long count = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
+        long count = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         if (count < Config.Cost)
         {
@@ -131,7 +131,7 @@ public class Item_Festive_Week : MonoBehaviour
         }
 
         User user = GameProcessor.Inst.User;
-        long total = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
+        long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.WeekData.GetFestiveWeekCount(Config.Id);
 
@@ -185,7 +185,7 @@ public class Item_Festive_Week : MonoBehaviour
         }
 
         User user = GameProcessor.Inst.User;
-        long total = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
+        long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.WeekData.GetFestiveWeekCount(Config.Id);
 

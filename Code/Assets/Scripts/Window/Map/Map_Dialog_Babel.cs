@@ -83,7 +83,7 @@ public class Map_Dialog_Babel : MonoBehaviour
         {
             BabelConfig rewardConfig = BabelConfigCategory.Instance.GetByProgress(nextProgress);
             Item item = rewardConfig.BuildItem(nextProgress);
-            Txt_Reward.text = "通过奖励:" + item.Name + "*" + item.Count;
+            Txt_Reward.text = "通过奖励:" + item.GetName() + "*" + item.Count;
         }
 
         if (IsNet)

@@ -79,7 +79,7 @@ public class Dialog_Seven_Day : MonoBehaviour
 
     private void OnFestiveUIFresh(FestiveUIFreshEvent e)
     {
-        long count = GameProcessor.Inst.User.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
+        long count = GameProcessor.Inst.User.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
         this.Txt_Total.text = count + " ¸ö";
 
         foreach (Item_Seven_Day item in itemList)
@@ -90,7 +90,7 @@ public class Dialog_Seven_Day : MonoBehaviour
 
     public void Open()
     {
-        long count = GameProcessor.Inst.User.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
+        long count = GameProcessor.Inst.User.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
         this.Txt_Total.text = count + " ¸ö";
 
         this.gameObject.SetActive(true);

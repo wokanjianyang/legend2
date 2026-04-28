@@ -187,7 +187,7 @@ namespace Game
             long pet = 0;
             long petRed = 0;
             long petDard = 0;
-            List<BoxItem> pets = user.Bags.Where(m => m.Item.Type == ItemType.Pet).ToList();
+            List<BoxItem> pets = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Pet).ToList();
             foreach (var sp in pets)
             {
                 Pet p = sp.Item as Pet;

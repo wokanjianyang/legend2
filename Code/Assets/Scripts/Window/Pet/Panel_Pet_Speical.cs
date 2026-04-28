@@ -141,7 +141,7 @@ public class Panel_Pet_Speical : MonoBehaviour
         if (layer == 0)
         {  //显示激活按钮
 
-            int count = user.Bags.Where(m => m.Item.Type == ItemType.Pet && m.Item.GetQuality() == 7 && !m.Item.IsLock && (m.Item as Pet).Role == SelectId && (m.Item as Pet).PetLayer.Data <= 1 && (m.Item as Pet).PetLevel.Data <= 1).Count();
+            int count = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Pet && m.Item.GetQuality() == 7 && !m.Item.IsLock && (m.Item as Pet).Role == SelectId && (m.Item as Pet).PetLayer.Data <= 1 && (m.Item as Pet).PetLevel.Data <= 1).Count();
             int fee = 10;
 
             string color = count >= fee ? "#FFFF00" : "#FF0000";
@@ -156,7 +156,7 @@ public class Panel_Pet_Speical : MonoBehaviour
         else if (currentLevel < maxLevel)
         {
             //显示升级按钮
-            long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
+            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
             long levelFee = PetConfigCategory.Instance.GetPetFee(currentLevel) * PetExpRate;
 
 
@@ -174,7 +174,7 @@ public class Panel_Pet_Speical : MonoBehaviour
             int materilId = ItemHelper.Specail_Pet_Speical;
             long fee = PetConfigCategory.Instance.GetPetLayerFee(layer);
 
-            long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == materilId).Select(m => m.MagicNubmer.Data).Sum();
+            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == materilId).Select(m => m.MagicNubmer.Data).Sum();
             if (stoneTotal >= fee)
             {
                 Btn_Layer_OK.gameObject.SetActive(true);
@@ -199,7 +199,7 @@ public class Panel_Pet_Speical : MonoBehaviour
 
         User user = GameProcessor.Inst.User;
 
-        List<BoxItem> list = user.Bags.Where(m => m.Item.Type == ItemType.Pet && m.Item.GetQuality() == 7 && !m.Item.IsLock && (m.Item as Pet).Role == SelectId && (m.Item as Pet).PetLayer.Data <= 1 && (m.Item as Pet).PetLevel.Data <= 1).ToList();
+        List<BoxItem> list = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Pet && m.Item.GetQuality() == 7 && !m.Item.IsLock && (m.Item as Pet).Role == SelectId && (m.Item as Pet).PetLayer.Data <= 1 && (m.Item as Pet).PetLevel.Data <= 1).ToList();
         int fee = 10;
 
         if (list.Count < fee)
@@ -230,7 +230,7 @@ public class Panel_Pet_Speical : MonoBehaviour
 
         int currentLevel = user.GetPetSpeicalLevel(this.SelectId);
 
-        long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
+        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
         long levelFee = PetConfigCategory.Instance.GetPetFee(currentLevel) * PetExpRate;
 
         if (stoneTotal <= levelFee)
@@ -272,7 +272,7 @@ public class Panel_Pet_Speical : MonoBehaviour
         int materilId = ItemHelper.Specail_Pet_Speical;
         long fee = PetConfigCategory.Instance.GetPetLayerFee(current);
 
-        long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == materilId).Select(m => m.MagicNubmer.Data).Sum();
+        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == materilId).Select(m => m.MagicNubmer.Data).Sum();
         if (stoneTotal < fee)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "材料不足", ToastType = ToastTypeEnum.Failure });

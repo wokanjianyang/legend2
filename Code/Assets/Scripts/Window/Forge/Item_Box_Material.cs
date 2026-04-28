@@ -49,7 +49,7 @@ namespace Game
 
             this.Box_Item = item;
 
-            this.Txt_Name.text = Box_Item.Item.Name;
+            this.Txt_Name.text = Box_Item.Item.GetName();
 
             int quality = Box_Item.Item.GetQuality();
             image_Background.sprite = list_Backgrounds[quality - 1];
@@ -70,7 +70,7 @@ namespace Game
             if (this.Box_Item != null)
             {
                 Item GameItem = Box_Item.Item;
-               if (GameItem.Type == ItemType.Equip)
+               if (GameItem.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = GameItem as Equip;
                     if (equip.GetQuality() > 5 && equip.Part <= 10)
@@ -79,7 +79,7 @@ namespace Game
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
-                else if (GameItem.Type == ItemType.Shengxiao)
+                else if (GameItem.GetItemType() == ItemType.Shengxiao)
                 {
                     Shengxiao shengxiao = GameItem as Shengxiao;
                     if (shengxiao.LayerData.Data > 0)

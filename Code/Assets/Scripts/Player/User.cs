@@ -63,7 +63,7 @@ namespace Game
 
         public IDictionary<int, IDictionary<int, Equip>> EquipPanelHundunList { get; set; } = new Dictionary<int, IDictionary<int, Equip>>();
 
-        public IDictionary<int, Equip> EquipPanelSpecial { get; set; } = new Dictionary<int, Equip>();
+        public IDictionary<int, Equip_Special> EquipSpecialList { get; set; } = new Dictionary<int, Equip_Special>();
 
         public Dictionary<int, long> RecordMax = new Dictionary<int, long>();
 
@@ -431,9 +431,9 @@ namespace Game
 
 
             //装备属性-四格装备
-            foreach (KeyValuePair<int, Equip> kvp in EquipPanelSpecial)
+            foreach (KeyValuePair<int, Equip_Special> kvp in EquipSpecialList)
             {
-                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList(0))
+                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList())
                 {
                     AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
                 }
@@ -569,7 +569,7 @@ namespace Game
 
         private void HeroUseSkillBook(HeroUseSkillBookEvent e)
         {
-            SkillBook Book = e.BoxItem.Item as SkillBook;
+            int configId = e.BoxItem.Item.ConfigId;
 
             SkillData skillData;
 
@@ -578,7 +578,7 @@ namespace Game
             if (e.IsLearn)
             {
                 //第一次学习，创建技能数据
-                skillData = new SkillData(Book.ConfigId, 0);
+                skillData = new SkillData(configId, 0);
                 skillData.Status = SkillStatus.Learn;
                 skillData.MagicLevel.Data = 1;
                 skillData.MagicExp.Data = 0;
@@ -587,8 +587,8 @@ namespace Game
             }
             else
             {
-                skillData = this.SkillList.Find(b => b.SkillId == Book.ConfigId);
-                skillData.AddExp(Book.ItemConfig.UseParam * e.Quantity);
+                skillData = this.SkillList.Find(b => b.SkillId == configId);
+                skillData.AddExp(50 * e.Quantity);
             }
 
             GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
@@ -721,7 +721,7 @@ namespace Game
             {  //1,3,5,7,9
                 if (currentPanel.TryGetValue(i, out Equip equip))
                 {
-                    EquipSuit es = GetEquipSuit(equip.EquipConfig);
+                    EquipSuit es = GetEquipSuit(equip.Config);
                     if (es.Active && es.Config != null)
                     {
                         list.Add(es.Config);
@@ -771,19 +771,19 @@ namespace Game
             List<Equip> equips = null;
             if (quality == 6)
             {
-                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.EquipConfig.Role == role).ToList();
+                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
             }
             else if (quality == 7)
             {
-                equips = this.EquipPanelGoldenList[EquipGoldenIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.EquipConfig.Role == role).ToList();
+                equips = this.EquipPanelGoldenList[EquipGoldenIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
             }
             else if (quality == 8)
             {
-                equips = this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.EquipConfig.Role == role).ToList();
+                equips = this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
             }
             else if (quality == 9)
             {
-                equips = this.EquipPanelHundunList[EquipHundunIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.EquipConfig.Role == role).ToList();
+                equips = this.EquipPanelHundunList[EquipHundunIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
             }
 
             List<int> layers = equips.Select(m => m.Layer).OrderByDescending(m => m).ToList();
@@ -833,7 +833,7 @@ namespace Game
             EquipConfig gc = EquipConfigCategory.Instance.Get(gid);
             EquipSuitItem target = new EquipSuitItem(gc.Id, gc.Name, false);
 
-            int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.EquipConfig.Id == gid).Count();
+            int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.Config.Id == gid).Count();
             if ((gid != config.Id && count >= 1) || count >= 2) //非手镯戒指只要一个，手镯戒指要2个
             {
                 target.Active = true;
@@ -1037,19 +1037,19 @@ namespace Game
 
         public long GetBagItemCount(int id)
         {
-            long count = this.Bags.Where(m => m.Item.Type != ItemType.Equip && m.Item.ConfigId == id).Select(m => m.MagicNubmer.Data).Sum();
+            long count = this.Bags.Where(m => m.Item.GetItemType() != ItemType.Equip && m.Item.ConfigId == id).Select(m => m.MagicNubmer.Data).Sum();
             return count;
         }
 
         public long GetMaterialCount(int id)
         {
-            long count = this.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == id).Select(m => m.MagicNubmer.Data).Sum();
+            long count = this.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == id).Select(m => m.MagicNubmer.Data).Sum();
             return count;
         }
 
         public long GetTicketCount(int id)
         {
-            long count = this.Bags.Where(m => m.Item.Type == ItemType.Ticket && m.Item.ConfigId == id).Select(m => m.MagicNubmer.Data).Sum();
+            long count = this.Bags.Where(m => m.Item.GetItemType() == ItemType.Ticket && m.Item.ConfigId == id).Select(m => m.MagicNubmer.Data).Sum();
             return count;
         }
 
@@ -1665,15 +1665,15 @@ namespace Game
 
             Dictionary<int, long> dict = new Dictionary<int, long>();
 
-            if (item.Type == ItemType.Equip)
+            if (item.GetItemType() == ItemType.Equip)
             {
                 Equip equip = item as Equip;
 
-                if (equip.EquipConfig.Cycle == 0)
+                if (equip.Config.Cycle == 0)
                 {
                     dict[ItemHelper.SpecialId_Equip_Speical_Stone] = CalSpecailStone(equip);
                 }
-                else if (equip.EquipConfig.Cycle == 1)
+                else if (equip.Config.Cycle == 1)
                 {
                     dict[ItemHelper.SpecialId_EquipRefineStone] = CalStone(equip);
 
@@ -1682,15 +1682,15 @@ namespace Game
                         dict[ItemHelper.SpecailEquipRefreshId] = 1;
                     }
                 }
-                else if (equip.EquipConfig.Cycle >= 2 && equip.EquipConfig.Cycle <= 4)
+                else if (equip.Config.Cycle >= 2 && equip.Config.Cycle <= 4)
                 {
-                    int RecoveryItemId = equip.EquipConfig.RecoveryItemId;
+                    int RecoveryItemId = equip.Config.RecoveryItemId;
                     if (RecoveryItemId > 0)
                     {
                         dict[RecoveryItemId] = 1;
                     }
                 }
-                else if (equip.EquipConfig.Cycle == 5)
+                else if (equip.Config.Cycle == 5)
                 {
                     if (equip.GetQuality() == 9)
                     {
@@ -1702,9 +1702,9 @@ namespace Game
                     }
                 }
 
-                recoveryGold += equip.EquipConfig.Price;
+                recoveryGold += equip.Config.Price;
             }
-            else if (item.Type == ItemType.Pet)
+            else if (item.GetItemType() == ItemType.Pet)
             {
                 Pet pet = item as Pet;
                 int quality = item.GetQuality();
@@ -1715,7 +1715,7 @@ namespace Game
                     dict[ItemHelper.Specail_Pet_Layer[quality - 5]] = 1;
                 }
             }
-            else if (item.Type == ItemType.Shengxiao)
+            else if (item.GetItemType() == ItemType.Shengxiao)
             {
                 int quality = item.GetQuality();
                 if (quality <= 5)
@@ -1731,16 +1731,16 @@ namespace Game
                     dict[ItemHelper.Specail_Shengxiao1] = (int)(Math.Pow(3, quality - 6));
                 }
             }
-            else if (item.ItemConfig.RecoveryItemId > 0)
-            {
-                int RecoveryItemId = item.ItemConfig.RecoveryItemId;
+            //else if (item.ItemConfig.RecoveryItemId > 0)
+            //{
+            //    int RecoveryItemId = item.ItemConfig.RecoveryItemId;
 
-                dict[RecoveryItemId] = item.ItemConfig.RecoveryCount;
-            }
-            else
-            {
-                recoveryGold += item.ItemConfig.Price * item.Count;
-            }
+            //    dict[RecoveryItemId] = item.ItemConfig.RecoveryCount;
+            //}
+            //else
+            //{
+            //    recoveryGold += item.ItemConfig.Price * item.Count;
+            //}
 
             return dict;
         }

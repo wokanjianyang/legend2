@@ -128,7 +128,7 @@ public class Panel_Grade_Hundun : MonoBehaviour
 
     private void OnSelect(GradeSelectEvent e)
     {
-        if (e.Equip.EquipConfig.Cycle != 5)
+        if (e.Equip.Config.Cycle != 5)
         {
             return;
         }
@@ -196,7 +196,7 @@ public class Panel_Grade_Hundun : MonoBehaviour
             int specialId = idList[i];
             int upCount = countList[i];
 
-            long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
+            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
             if (stoneTotal < upCount)
             {
                 return false;

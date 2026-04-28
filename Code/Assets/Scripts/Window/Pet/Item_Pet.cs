@@ -119,7 +119,7 @@ namespace Game
                 Btn_Stop.gameObject.SetActive(true);
             }
 
-            Txt_Name.text = pet.Name;
+            Txt_Name.text = pet.GetName();
             Txt_Level.text = pet.PetLevel.Data + "¼¶";
             Txt_Layer.text = pet.PetLayer.Data + "½×";
 

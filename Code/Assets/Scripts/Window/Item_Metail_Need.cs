@@ -31,7 +31,7 @@ namespace Game
             this.Txt_Name.text = config.Name;
 
             User user = GameProcessor.Inst.User;
-            long stoneTotal = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == metailId).Select(m => m.MagicNubmer.Data).Sum();
+            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == metailId).Select(m => m.MagicNubmer.Data).Sum();
 
             string color = stoneTotal >= upCount ? "#11FF11" : "#FF0000";
             this.Txt_Count.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, upCount);

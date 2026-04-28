@@ -36,7 +36,7 @@ namespace Game
         {
             this.item = equip;
 
-            Txt_Name.text = equip.EquipConfig.Name;
+            Txt_Name.text = equip.Config.Name;
             Txt_Level.text = ConfigHelper.LayerChinaList[equip.Layer] + "½×";
 
             this.toggle.group = group;

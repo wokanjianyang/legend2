@@ -211,13 +211,13 @@ namespace Game
 
             foreach (var item in items)
             {
-                if (item.Type == ItemType.Card || item.Type == ItemType.Fashion || item.Type == ItemType.Spirit || (item.Type == ItemType.Material && item.ConfigId == ItemHelper.SpecialId_Card_Stone))
+                if (item.GetItemType() == ItemType.Card || item.GetItemType() == ItemType.Fashion || item.GetItemType() == ItemType.Spirit || (item.GetItemType() == ItemType.Material && item.ConfigId == ItemHelper.SpecialId_Card_Stone))
                 {
                     user.SaveItemMeterialCount(item.ConfigId, item.Count);
                 }
                 else
                 {
-                    BoxItem boxItem = user.Bags.Find(m => !m.IsFull() && m.Item.Type == item.Type && m.Item.ConfigId == item.ConfigId);  //ͬ
+                    BoxItem boxItem = user.Bags.Find(m => !m.IsFull() && m.Item.GetItemType() == item.GetItemType() && m.Item.ConfigId == item.ConfigId);  //ͬ
 
                     if (boxItem != null)
                     {
@@ -304,10 +304,10 @@ namespace Game
             }
         }
 
-        private List<Equip> AddGoldenEquip()
+        private List<Item> AddGoldenEquip()
         {
             //定制红
-            List<Equip> list = new List<Equip>();
+            List<Item> list = new List<Item>();
 
             //list.Add(ItemHelper.BuildEquip(22205801, 6, 1, 0)); //红色战
             //list.Add(ItemHelper.BuildEquip(22205801, 6, 1, 0)); //红色法

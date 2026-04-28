@@ -32,7 +32,7 @@ namespace Game
             this.ModelType = Master.ModelType;
             this.FashionId = Master.FashionId;
 
-            this.Name = Self.Name;
+            this.Name = Self.GetName();
 
             this.SetAttr();  //设置属性值
             this.SetSkill(); //设置技能

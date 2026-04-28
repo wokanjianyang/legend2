@@ -26,13 +26,6 @@ namespace Game
         public BoxItem boxItem { get; set; }
     }
 
-    public class ShowExclusiveCardEvent : SDD.Events.Event
-    {
-        public ComBoxType Type { get; set; }
-        public BoxItem boxItem { get; set; }
-
-        public int EquipPosition { get; set; }
-    }
 
     public class ShowEquipDetailEvent : SDD.Events.Event
     {
@@ -45,6 +38,15 @@ namespace Game
     }
 
     public class ShowShengxiaoDetailEvent : SDD.Events.Event
+    {
+        //public Vector3 Position { get; set; }
+
+        public ComBoxType Type { get; set; }
+        public BoxItem boxItem { get; set; }
+        public int EquipPosition { get; set; }
+    }
+
+    public class ShowDetailEquipSpecialEvent : SDD.Events.Event
     {
         //public Vector3 Position { get; set; }
 

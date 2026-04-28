@@ -45,7 +45,7 @@ namespace Game
             this.toggle.group = group;
 
 
-            this.Txt_Name.text = box.Item.Name;
+            this.Txt_Name.text = box.Item.GetName();
 
             int quality = BoxItem.Item.GetQuality();
             image_Background.sprite = list_Backgrounds[quality - 1];
@@ -65,7 +65,7 @@ namespace Game
 
             if (this.BoxItem != null)
             {
-                if (BoxItem.Item.Type == ItemType.Equip)
+                if (BoxItem.Item.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = BoxItem.Item as Equip;
                     if (equip.GetQuality() > 5 && equip.Part <= 10)

@@ -10,19 +10,21 @@ using Game.Data;
 
 namespace Game
 {
-    public class Dialog_Shengxiao : MonoBehaviour, IBattleLife
+    public class Detail_Equip_Special : MonoBehaviour, IBattleLife
     {
         [LabelText("名称")]
-        public Text tmp_Title;
+        public Text Txt_Name;
+
+        public Text Txt_Require;
 
         [LabelText("基础属性")]
-        public Transform tran_BaseAttribute;
+        public Transform Tf_Base;
 
         [LabelText("随机属性")]
-        public Transform tran_RandomAttribute;
+        public Transform Tf_Random;
 
         [LabelText("套装属性")]
-        public Transform tran_GroupAttribute;
+        public Transform Tf_Set;
 
         [Title("导航")]
 
@@ -40,8 +42,6 @@ namespace Game
         private BoxItem boxItem;
         private int equipPositioin;
         private ComBoxType BoxType;
-
-        private RectTransform rectTransform;
 
         // Start is called before the first frame update
         void Start()
@@ -70,16 +70,15 @@ namespace Game
         {
             this.gameObject.SetActive(false);
 
-            GameProcessor.Inst.EventCenter.AddListener<ShowShengxiaoDetailEvent>(this.OnShowEvent);
-            this.rectTransform = this.transform.GetComponent<RectTransform>();
+            GameProcessor.Inst.EventCenter.AddListener<ShowDetailEquipSpecialEvent>(this.OnShowEvent);
         }
 
-        private void OnShowEvent(ShowShengxiaoDetailEvent e)
+        private void OnShowEvent(ShowDetailEquipSpecialEvent e)
         {
             this.gameObject.SetActive(true);
-            tran_BaseAttribute.gameObject.SetActive(false);
-            tran_RandomAttribute.gameObject.SetActive(false);
-            tran_GroupAttribute.gameObject.SetActive(false);
+            Tf_Base.gameObject.SetActive(false);
+            Tf_Random.gameObject.SetActive(false);
+            Tf_Set.gameObject.SetActive(false);
 
             this.btn_Equip.gameObject.SetActive(false);
             this.btn_UnEquip.gameObject.SetActive(false);
@@ -88,42 +87,35 @@ namespace Game
             this.btn_Lock.gameObject.SetActive(false);
             this.btn_Unlock.gameObject.SetActive(false);
 
-            // this.transform.position = this.GetBetterPosition(e.Position);
-            // this.img_Background.sprite = this.list_BackgroundImgs[this.item.GetQuality() - 1];
             this.boxItem = e.boxItem;
             this.equipPositioin = e.EquipPosition;
             this.BoxType = e.Type;
 
             var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item);
 
-            Shengxiao equip = this.boxItem.Item as Shengxiao;
+            Equip_Special equip = this.boxItem.Item as Equip_Special;
 
-            ShengxiaoConfig config = equip.ShengxiaoConfig;
+            EquipSpeicalConfig config = equip.Config;
 
             string name = equip.GetName();
 
-            if (equip.LevelData.Data > 0)
-            {
-                name += "(" + equip.LevelData.Data + "级)";
-            }
-
-            this.tmp_Title.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
-
-            string color = "green";
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
             User user = GameProcessor.Inst.User;
 
-            IDictionary<int, long> BaseAttrList = equip.GetBaseAttrList();
+            string color = 1 >= 1 ? "green" : "red";
+            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
+
+
+            IDictionary<int, double> BaseAttrList = equip.GetBaseAttrList();
 
             if (BaseAttrList != null && BaseAttrList.Count > 0)
             {
-                tran_BaseAttribute.gameObject.SetActive(true);
-                tran_BaseAttribute.Find("Title").GetComponent<Text>().text = "[基础属性]";
-                tran_BaseAttribute.Find("NeedLevel").GetComponent<Text>().text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
+                Tf_Base.gameObject.SetActive(true);
 
-                Transform gridBase = tran_BaseAttribute.Find("Grid_Base");
+                Transform gridBase = Tf_Base.Find("Grid_Base");
 
-                List<KeyValuePair<int, long>> btList = BaseAttrList.ToList();
+                List<KeyValuePair<int, double>> btList = BaseAttrList.ToList();
 
                 for (int index = 0; index < 8; index++)
                 {
@@ -143,9 +135,9 @@ namespace Game
 
             if (equip.AttrEntryList != null && equip.AttrEntryList.Count > 0)
             {
-                tran_RandomAttribute.gameObject.SetActive(true);
-                tran_RandomAttribute.Find("Title").GetComponent<Text>().text = "[随机属性]";
-                Transform gridRandom = tran_RandomAttribute.Find("Grid_Random");
+                Tf_Random.gameObject.SetActive(true);
+                Tf_Random.Find("Title").GetComponent<Text>().text = "[随机属性]";
+                Transform gridRandom = Tf_Random.Find("Grid_Random");
 
                 var AttrEntryList = equip.AttrEntryList.ToList();
 
@@ -158,7 +150,7 @@ namespace Game
                         int attrId = AttrEntryList[index].Key;
                         long attrBaseValue = AttrEntryList[index].Value;
 
-                        child.GetComponent<Text>().text = FormatAttrText(attrId, attrBaseValue, config.LayerValueList[index] * equip.LayerData.Data);
+                        child.GetComponent<Text>().text = FormatAttrText(attrId, attrBaseValue, 0);
                         child.gameObject.SetActive(true);
                     }
                     else
@@ -169,17 +161,13 @@ namespace Game
             }
 
 
-            ShengxiaoGroup group = user.GetShengxiaoGroup();
+            //ShengxiaoGroup group = user.GetShengxiaoGroup();
 
-            this.ShowGroup(group);
+            //this.ShowGroup(group);
 
-            if (user.Cycle.Data >= 10)
-            {
-                this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
-                this.btn_UnEquip.gameObject.SetActive(this.boxItem.BoxId == -1);
-            }
-
-            if (equip.LevelData.Data > 1 || equip.LayerData.Data > 1)
+            this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
+            this.btn_UnEquip.gameObject.SetActive(this.boxItem.BoxId == -1);
+            if (equip.Level > 1 || equip.Layer > 1)
             {
                 this.btn_Restore.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
                 this.btn_Recovery.gameObject.SetActive(false);
@@ -189,7 +177,6 @@ namespace Game
                 this.btn_Restore.gameObject.SetActive(false);
                 this.btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
             }
-
             this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
             this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
 
@@ -207,11 +194,11 @@ namespace Game
 
         private void ShowGroup(ShengxiaoGroup group)
         {
-            tran_GroupAttribute.gameObject.SetActive(true);
+            Tf_Set.gameObject.SetActive(true);
 
-            Text redTitle = tran_GroupAttribute.Find("Title").GetComponent<Text>();
+            Text redTitle = Tf_Set.Find("Title").GetComponent<Text>();
 
-            Item_Equip_Red[] reds = tran_GroupAttribute.GetComponentsInChildren<Item_Equip_Red>(true);
+            Item_Equip_Red[] reds = Tf_Set.GetComponentsInChildren<Item_Equip_Red>(true);
 
             for (int i = 0; i < reds.Length; i++)
             {

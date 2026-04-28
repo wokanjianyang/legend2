@@ -26,14 +26,12 @@ namespace Game
             return Quality;
         }
 
-        public Shengxiao(int configId, int quality)
+        public Shengxiao(int configId, int quality) : base(configId, ItemType.Shengxiao)
         {
-            this.Type = ItemType.Shengxiao;
             this.ConfigId = configId;
 
             this.ShengxiaoConfig = ShengxiaoConfigCategory.Instance.Get(configId);
 
-            this.Name = this.ShengxiaoConfig.Name;
             Quality = quality;
         }
 

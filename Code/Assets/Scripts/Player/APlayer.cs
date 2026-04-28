@@ -176,6 +176,8 @@ namespace Game
 
         virtual public void Reset()
         {
+            double maxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
+            SetHP(maxHP);
         }
 
         public void SetAttackSpeed(int SpeedPercent)

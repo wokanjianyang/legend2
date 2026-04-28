@@ -40,7 +40,7 @@ namespace Game
         {
             this.GameItem = item;
 
-            this.Txt_Name.text = item.Name;
+            this.Txt_Name.text = item.GetName();
 
             int quality = item.GetQuality();
             image_Background.sprite = list_Backgrounds[quality - 1];
@@ -79,7 +79,7 @@ namespace Game
 
             if (this.GameItem != null)
             {
-                if (GameItem.Type == ItemType.Equip)
+                if (GameItem.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = GameItem as Equip;
                     if (equip.GetQuality() > 5 && equip.Part <= 10)

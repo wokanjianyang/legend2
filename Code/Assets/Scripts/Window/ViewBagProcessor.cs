@@ -1745,16 +1745,7 @@ namespace Game
 
                 foreach (Item newItem in newItems)
                 {
-                    if (newItem.GetItemType() == ItemType.Buff)
-                    {
-                        //TODO
-                    }
-                    else if (newItem.GetItemType() == ItemType.Artifact)
-                    {
-                        //user.MetalData
-                        user.SaveArtifactLevel(newItem.ConfigId, (int)newItem.Count);
-                    }
-                    else if (newItem.GetItemType() == ItemType.Card || newItem.GetItemType() == ItemType.Fashion || newItem.GetItemType() == ItemType.Spirit || (newItem.GetItemType() == ItemType.Material && newItem.ConfigId == ItemHelper.SpecialId_Card_Stone))
+                    if (newItem.GetItemType() == ItemType.Material_Hide)
                     {
                         user.SaveItemMeterialCount(newItem.ConfigId, newItem.Count);
                     }

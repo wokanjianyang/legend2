@@ -34,35 +34,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            //long maxLevel = user.GetCardLimit(Config);
-            //long cardLevel = user.GetCardLevel(Config.Id);
-
-            //if (cardLevel < maxLevel)
-            //{
-            //    int itemId = Config.RiseId;
-            //    long upNumber = Config.CalNewUpNumber(cardLevel);
-
-            //    long total = user.GetItemMeterialCount(itemId);
-
-            //    if (total < upNumber)
-            //    {
-            //        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您的材料不足", ToastType = ToastTypeEnum.Failure });
-            //        return;
-            //    }
-
-            //    user.UseItemMeterialCount(itemId, upNumber);
-            //    user.SaveCardLevel(Config.Id, 1);
-
-            //    this.Show();
-
-
-            //    GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-            //}
-            //else
-            //{
-            //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满级了", ToastType = ToastTypeEnum.Failure });
-            //    return;
-            //}
+           
         }
 
         public void Show()

@@ -98,13 +98,14 @@ namespace Game
             EquipSpeicalConfig config = equip.Config;
 
             string name = equip.GetName();
+            name += "(" + ConfigHelper.LayerChinaList[equip.Layer] + "阶)";
 
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
             User user = GameProcessor.Inst.User;
 
-            string color = 1 >= 1 ? "green" : "red";
-            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
+            string color = user.MagicLevel.Data >= config.LevelRequired ? "green" : "red";
+            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, config.LevelRequired);
 
 
             IDictionary<int, double> BaseAttrList = equip.GetBaseAttrList();
@@ -136,7 +137,6 @@ namespace Game
             if (equip.AttrEntryList != null && equip.AttrEntryList.Count > 0)
             {
                 Tf_Random.gameObject.SetActive(true);
-                Tf_Random.Find("Title").GetComponent<Text>().text = "[随机属性]";
                 Transform gridRandom = Tf_Random.Find("Grid_Random");
 
                 var AttrEntryList = equip.AttrEntryList.ToList();
@@ -160,10 +160,15 @@ namespace Game
                 }
             }
 
+            if (config.Cycle > 0)
+            {
+                Tf_Set.gameObject.SetActive(true);
 
-            //ShengxiaoGroup group = user.GetShengxiaoGroup();
+                EquipSetSuit red = user.GetEquipSet(0, equip.Config.Cycle);
 
-            //this.ShowGroup(group);
+                this.ShowRed(red, config);
+            }
+
 
             this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
             this.btn_UnEquip.gameObject.SetActive(this.boxItem.BoxId == -1);
@@ -192,20 +197,25 @@ namespace Game
             }
         }
 
-        private void ShowGroup(ShengxiaoGroup group)
+        private void ShowRed(EquipSetSuit redSuit, EquipSpeicalConfig config)
         {
-            Tf_Set.gameObject.SetActive(true);
-
             Text redTitle = Tf_Set.Find("Title").GetComponent<Text>();
+
+            string color = QualityConfigHelper.GetQualityColor(config.Quality);
+
+            if (config.Cycle == 101)
+            {
+                redTitle.text = string.Format("<color=#{0}>[四格套装]</color>", color);
+            }
 
             Item_Equip_Red[] reds = Tf_Set.GetComponentsInChildren<Item_Equip_Red>(true);
 
             for (int i = 0; i < reds.Length; i++)
             {
-                if (i < group.List.Count)
+                if (i < redSuit.List.Count)
                 {
                     reds[i].gameObject.SetActive(true);
-                    reds[i].SetShengxiaoGroup(group.List[i]);
+                    reds[i].SetEquipSpecial(redSuit.List[i], config);
                 }
                 else
                 {

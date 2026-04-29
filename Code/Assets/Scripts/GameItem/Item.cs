@@ -88,9 +88,9 @@ namespace Game
         Equip = 2,
         EquipSpeical = 3,
         SkillBox = 4,
-        ExclusiveMaterial = 5,
-        GiftPack = 6,
-        Material = 7,
+        Material = 5, //进入包裹的材料
+        Material_Hide = 6, //不进入包裹的材料
+        GiftPack = 7,
         Buff = 8,
         GoldPack = 9,
         ExpPack = 10,
@@ -104,7 +104,6 @@ namespace Game
         Pet = 18,
         Shengxiao = 19,
 
-        Artifact = 18,
         Ring = 19,
         GiftPackEquip = 20,
         GiftPackPet = 21,

@@ -236,7 +236,7 @@ namespace Game
                 List<int> suitCountList = new List<int>();
                 suitCountList.Add(suitCount);
 
-                this.ShowSuit(suitIdList, suitCountList, user.SuitMax);
+                this.ShowSuit(suitIdList, suitCountList, user.GetSuitMax());
             }
 
             if (equip.Part <= 10 || equip.Part >= 21)

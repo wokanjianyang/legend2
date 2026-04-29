@@ -47,6 +47,23 @@ namespace Game
             this.Txt_Des.text = string.Format("<color=#{0}>{1}</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"));
         }
 
+        public void SetEquipSpecial(EquipSetItem redItem, EquipSpeicalConfig config)
+        {
+            string color = redItem.Count >= redItem.Config.Count ? QualityConfigHelper.GetQualityColor(config.Quality) : "CCCCCC";
+
+            int showLevel = Math.Max(1, redItem.Level);
+
+            string qn = "ËÄ¸ñ";
+
+
+            string name = StringHelper.GetChinaNumber(showLevel) + "½×" + qn + string.Format("({0}/{1})", redItem.Count, redItem.Config.Count);
+
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
+
+            int attr = (int)(redItem.Config.AttrValue + (showLevel - 1) * redItem.Config.AttrRise);
+
+            this.Txt_Des.text = string.Format("<color=#{0}>{1}</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"));
+        }
 
         public void SetShengxiaoGroup(ShengxiaoGroupItem item)
         {

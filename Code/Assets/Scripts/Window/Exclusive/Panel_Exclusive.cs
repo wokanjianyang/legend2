@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class Panel_Exclusive : MonoBehaviour
 {
     public ScrollRect sr_Boss;
+    public Dialog_Exclusive_Fuse Dialog_Fuse;
 
     private int Role = 0;
 
@@ -41,11 +42,17 @@ public class Panel_Exclusive : MonoBehaviour
             var com = item.GetComponentInChildren<Item_Exclusive>();
 
             com.SetContent(configs[i]);
+            com.AddListener(SelectItem);
 
             item.transform.SetParent(this.sr_Boss.content);
             item.transform.localScale = Vector3.one;
 
             items.Add(com);
         }
+    }
+
+    private void SelectItem(int id)
+    {
+        Dialog_Fuse.Open(id);
     }
 }

@@ -67,10 +67,11 @@ namespace Game
         SkillDeadlyDamage = 78, //技能致命伤害
         SkillFinalDamage = 79, //技能终伤
 
-        ExpIncrea = 81, //经验加成
-        GoldIncrea = 82, //金币加成
-        BurstIncrea = 83, //爆率加成
-        QualityIncrea = 84,//品质加成
+        GoldIncrea = 81, //金币加成
+        ExpIncrea = 82, //经验加成
+        QualityIncrea = 83,//品质加成
+        BurstIncrea = 84, //爆率加成
+
 
         SpiritAll = 95,//英灵全属性
         EquipBaseIncrea = 101, //装备基础属性百分比

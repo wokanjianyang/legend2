@@ -368,8 +368,6 @@ namespace Game
         public AttributeBonus AttributeBonus { get; set; }
 
         [JsonIgnore]
-        public int SuitMax = 0;
-        [JsonIgnore]
         public int StoneNumber = 0;
         [JsonIgnore]
         public int SoulRingNumber = 0;
@@ -505,13 +503,9 @@ namespace Game
                 }
             }
 
-            this.SuitMax = ConfigHelper.SkillSuitMax;
             this.StoneNumber = 0;
             this.SoulRingNumber = 0;
             this.SkillNumber = ConfigHelper.SkillNumber;
-
-            this.SuitMax = Math.Max(this.SuitMax, ConfigHelper.SkillSuitMin);
-
 
             //更新属性面版
             GameProcessor.Inst.EventCenter.Raise(new UpdateBagPanelUserAttr());
@@ -648,6 +642,11 @@ namespace Game
             return list;
         }
 
+        public int GetSuitMax()
+        {
+            return 4;
+        }
+
         public List<SkillSuit> GetSuitList(int skillId)
         {
             List<SkillSuit> list = new List<SkillSuit>();
@@ -667,7 +666,7 @@ namespace Game
 
             foreach (var suitItem in suitGroup)
             {
-                if (suitItem.Count() >= this.SuitMax)
+                if (suitItem.Count() >= this.GetSuitMax())
                 {  //SkillSuitHelper.SuitMax 件才成套,并且只能有一套能生效
                     SkillSuit suit = new SkillSuit(suitItem.Key);
                     list.Add(suit);
@@ -768,27 +767,20 @@ namespace Game
 
         public EquipSetSuit GetEquipSet(int role, int cycle)
         {
-            List<Equip> equips = null;
+            List<int> layers = null;
+
             if (cycle == 1)
             {
-                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Config.Role == role).ToList();
+                List<Equip> equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Config.Role == role).ToList();
+
+                layers = equips.Select(m => m.Level).OrderByDescending(m => m).ToList();
             }
-            //else if (cycle == 2)
-            //{
-            //    equips = this.EquipPanelGoldenList[EquipGoldenIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
-            //}
-            //else if (cycle == 3)
-            //{
-            //    equips = this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
-            //}
-            //else if (cycle == 4)
-            //{
-            //    equips = this.EquipPanelHundunList[EquipHundunIndex].Select(m => m.Value).Where(m => m.GetQuality() == quality && m.Config.Role == role).ToList();
-            //}
+            else if (cycle == 101)
+            {
+                List<Equip_Special> equips = this.EquipSpecialList.Select(m => m.Value).Where(m => m.Config.Cycle == cycle).ToList();
 
-            List<int> layers = equips.Select(m => m.Level).OrderByDescending(m => m).ToList();
-
-            //Debug.Log("red layers:" + layers.ListToString());
+                layers = equips.Select(m => m.Layer).OrderByDescending(m => m).ToList();
+            }
 
             List<EquipSetConfig> list = EquipSetConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Role == role && m.Cycle == cycle).ToList();
 

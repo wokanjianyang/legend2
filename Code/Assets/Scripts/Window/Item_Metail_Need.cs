@@ -25,7 +25,7 @@ namespace Game
 
         }
 
-        public void SetContent(int metailId, long upCount)
+        public bool SetContent(int metailId, long upCount)
         {
             ItemConfig config = ItemConfigCategory.Instance.Get(metailId);
             this.Txt_Name.text = config.Name;
@@ -35,6 +35,8 @@ namespace Game
 
             string color = stoneTotal >= upCount ? "#11FF11" : "#FF0000";
             this.Txt_Count.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, upCount);
+
+            return stoneTotal >= upCount;
         }
 
         public void SetContent(string content)

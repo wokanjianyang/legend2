@@ -63,9 +63,9 @@ namespace Game
                 Panel1.gameObject.SetActive(false);
                 Panel2.gameObject.SetActive(true);
 
-                int[] roleList = { 1, 2, 3, 0 };
+                int[] roleList = { -1, 1, 2, 3, 0 };
 
-                Panel2.Show(roleList[CycleIndex - 1]);
+                Panel2.Show(roleList[CycleIndex]);
             }
         }
 

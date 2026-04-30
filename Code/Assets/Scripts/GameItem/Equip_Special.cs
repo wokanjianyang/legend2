@@ -84,5 +84,35 @@ namespace Game
         {
             return this.Config.Name;
         }
+
+        public override void ToRecoverDict(Dictionary<int, long> dict)
+        {
+            if (Config.Cycle == 101)
+            {
+                //四格的回收
+                long number = CalRecoveryNumber();
+
+                if (!dict.ContainsKey(ItemHelper.SpecialId_Equip_Speical_Stone))
+                {
+                    dict[ItemHelper.SpecialId_Equip_Speical_Stone] = 0;
+                }
+
+                dict[ItemHelper.SpecialId_Equip_Speical_Stone] += number;
+            }
+        }
+
+        private long CalRecoveryNumber()
+        {
+            long rise = 1;
+            long total = 1;
+
+            for (int i = 1; i < Layer; i++)
+            {
+                rise *= 3;
+                total += rise;
+            }
+
+            return total;
+        }
     }
 }

@@ -11,6 +11,23 @@ namespace Game
 {
     public class User
     {
+        public Dictionary<int, int> ExclusiveDict = new Dictionary<int, int>();
+
+
+        //---------cal function
+        public int GetExclusiveLevel(int id)
+        {
+            if (!this.ExclusiveDict.ContainsKey(id))
+            {
+                return 0;
+            }
+
+            return ExclusiveDict[id];
+        }
+
+        //-----------------------old--------------------------
+
+
         public bool OldFile { get; set; } = false;
         public int Serial { get; set; } = 0;
 
@@ -1203,7 +1220,7 @@ namespace Game
             KillRecord[dropId] += kc;
         }
 
-        public long GetItemMeterialCount(int configId)
+        public long GetHideMaterialCount(int configId)
         {
             if (!ItemMeterialData.ContainsKey(configId))
             {
@@ -1213,7 +1230,7 @@ namespace Game
             return ItemMeterialData[configId].Data;
         }
 
-        public void SaveItemMeterialCount(int configId, long count)
+        public void SaveHideMaterialCount(int configId, long count)
         {
             if (!ItemMeterialData.ContainsKey(configId))
             {
@@ -1223,7 +1240,7 @@ namespace Game
             ItemMeterialData[configId].Data += count;
         }
 
-        public void UseItemMeterialCount(int configId, long count)
+        public void UseHideMaterialCount(int configId, long count)
         {
             if (ItemMeterialData[configId].Data < count || count <= 0)
             {
@@ -1661,11 +1678,7 @@ namespace Game
             {
                 Equip equip = item as Equip;
 
-                if (equip.Config.Cycle == 0)
-                {
-                    dict[ItemHelper.SpecialId_Equip_Speical_Stone] = CalSpecailStone(equip);
-                }
-                else if (equip.Config.Cycle == 1)
+                if (equip.Config.Cycle == 1)
                 {
                     dict[ItemHelper.SpecialId_EquipRefineStone] = CalStone(equip);
 
@@ -1695,6 +1708,10 @@ namespace Game
                 }
 
                 recoveryGold += equip.Config.Price;
+            }
+            else if (item.GetItemType() == ItemType.EquipSpeical)
+            {
+                item.ToRecoverDict(dict);
             }
             else if (item.GetItemType() == ItemType.Pet)
             {

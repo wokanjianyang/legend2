@@ -61,31 +61,52 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
         {
             ExclusiveConfig requireConfig = ExclusiveConfigCategory.Instance.Get(config.RequireId);
 
+            string color = user.GetExclusiveLevel(config.RequireId) > 0 ? "#11FF11" : "#FF0000";
 
-            Txt_Require.text = "需求前置珍宝：" + requireConfig.Name;
+            Txt_Require.text = "" + string.Format("<color={0}>需求前置珍宝：{1}</color>", color, requireConfig.Name);
         }
         else
         {
-            Txt_Require.text = "无前置需求";
+            Txt_Require.text = string.Format("<color={0}>无前置需求</color>", "#11FF11");
         }
 
-        Btn_OK.gameObject.SetActive(true);
 
-        for (int i = 0; i < config.MaterialIdList.Length; i++)
+        if (user.GetExclusiveLevel(Tid) > 0)
         {
-            //Item_Fee
-            if (fuseList.Count < i)
+            Btn_OK.gameObject.SetActive(false);
+            Txt_Actived.gameObject.SetActive(true);
+        }
+        else
+        {
+            Txt_Actived.gameObject.SetActive(false);
+
+            if (config.RequireId == 0 || user.GetExclusiveLevel(config.RequireId) > 0)
             {
-                fuseList[i].gameObject.SetActive(false);
+                Btn_OK.gameObject.SetActive(true);
+
+                for (int i = 0; i < config.MaterialIdList.Length; i++)
+                {
+                    //Item_Fee
+                    if (fuseList.Count < i)
+                    {
+                        fuseList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        if (!fuseList[i].SetMaterialContent(config.MaterialIdList[i], config.MaterialCountList[i]))
+                        {
+                            Btn_OK.gameObject.SetActive(false);
+                        }
+                    }
+                }
             }
             else
             {
-                if (!fuseList[i].SetContent(config.MaterialIdList[i], config.MaterialCountList[i]))
-                {
-                    Btn_OK.gameObject.SetActive(false);
-                }
+                Btn_OK.gameObject.SetActive(false);
             }
         }
+
+
     }
 
     public void OnClick_Close()
@@ -97,26 +118,39 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
     {
         Btn_OK.gameObject.SetActive(false);
 
-        TalentConfig config = TalentConfigCategory.Instance.Get(this.Tid);
+        ExclusiveConfig config = ExclusiveConfigCategory.Instance.Get(this.Tid);
 
         User user = GameProcessor.Inst.User;
 
-        long total = user.TalentExp.Data / 10000;
-        long use = user.TalentPoint;
-
-
-        long level = user.GetTalentLevel(this.Tid);
-
-        if (level < config.MaxLevel && config.Fee <= (total - use))
+        for (int i = 0; i < config.MaterialIdList.Length; i++)
         {
-            user.AddTalentLevel(Tid, config.Fee);
+            int mid = config.MaterialIdList[i];
+            int count = config.MaterialCountList[i];
 
-            this.Show();
-
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-
-            Dialog_Talent parent = this.GetComponentInParent<Dialog_Talent>();
-            parent.Refresh();
+            long stoneTotal = user.GetHideMaterialCount(mid);
+            if (stoneTotal < count)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "材料不足", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
         }
+
+        for (int i = 0; i < config.MaterialIdList.Length; i++)
+        {
+            int mid = config.MaterialIdList[i];
+            int count = config.MaterialCountList[i];
+
+            user.UseHideMaterialCount(mid, count);
+        }
+
+        user.ExclusiveDict[Tid] = 1;
+
+        this.gameObject.SetActive(false);
+
+        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+
+        Panel_Exclusive parent = this.GetComponentInParent<Panel_Exclusive>();
+        parent.Refresh();
+
     }
 }

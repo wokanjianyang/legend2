@@ -62,14 +62,14 @@ namespace Game
             ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box8"));
             ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box9"));
 
-            for (int i = 1; i <= 14; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip" + i));
             }
 
-            for (int i = 21; i <= 50; i++)
+            for (int i = 1001; i <= 1004; i++)
             {
-                EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip1"));
+                EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip" + i));
             }
 
             for (int i = 15; i <= 20; i++)

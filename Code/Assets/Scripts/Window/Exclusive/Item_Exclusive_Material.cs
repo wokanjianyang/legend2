@@ -41,7 +41,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            long count = user.GetMaterialCount(Config.ItemId);
+            long count = user.GetHideMaterialCount(Config.ItemId);
 
             this.Txt_Count.text = "数量：" + count;
         }

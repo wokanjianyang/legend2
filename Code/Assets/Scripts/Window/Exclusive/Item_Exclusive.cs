@@ -17,7 +17,7 @@ namespace Game
         public Text Txt_Name;
         public Text Txt_Attr;
         public Text Txt_Desc;
-
+        public Image Img_Active;
         public ExclusiveConfig Config { get; set; }
 
         [SerializeField]
@@ -51,6 +51,14 @@ namespace Game
         public void Show()
         {
             User user = GameProcessor.Inst.User;
+            if (user.ExclusiveDict.ContainsKey(Config.Id) && user.ExclusiveDict[Config.Id] > 0)
+            {
+                this.Img_Active.gameObject.SetActive(false);
+            }
+            else
+            {
+                this.Img_Active.gameObject.SetActive(true);
+            }
 
         }
 
@@ -58,6 +66,7 @@ namespace Game
         {
             this.Config = config;
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.Quality), Config.Name);
+            this.Txt_Attr.text = StringHelper.FormatAttrText(config.AttrId, config.AttrValue);
             this.Txt_Desc.text = Config.Des;
 
             this.Show();

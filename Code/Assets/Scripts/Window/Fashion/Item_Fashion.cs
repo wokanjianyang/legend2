@@ -38,7 +38,7 @@ namespace Game
         private void Check()
         {
             User user = GameProcessor.Inst.User;
-            long total = user.GetItemMeterialCount(Config.ItemId);
+            long total = user.GetHideMaterialCount(Config.ItemId);
             int needCount = CalNeedCount((int)Level);
             string color = total >= needCount ? "#FFFF00" : "#FF0000";
             Txt_Name.text = string.Format("<color={0}>{1}</color>", color, Config.Name);

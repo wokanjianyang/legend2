@@ -55,4 +55,12 @@ public class Panel_Exclusive : MonoBehaviour
     {
         Dialog_Fuse.Open(id);
     }
+
+    public void Refresh()
+    {
+        foreach (Item_Exclusive item in items)
+        {
+            item.Show();
+        }
+    }
 }

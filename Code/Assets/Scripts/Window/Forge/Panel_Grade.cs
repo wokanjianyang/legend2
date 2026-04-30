@@ -153,10 +153,10 @@ public class Panel_Grade : MonoBehaviour
         }
 
         metailList[0].gameObject.SetActive(true);
-        metailList[0].SetContent(config.MetailId, config.MetailCount);
+        metailList[0].SetBagContent(config.MetailId, config.MetailCount);
 
         metailList[1].gameObject.SetActive(true);
-        metailList[1].SetContent(config.MetailId1, config.MetailCount1);
+        metailList[1].SetBagContent(config.MetailId1, config.MetailCount1);
     }
 
     public void OnClickOK()

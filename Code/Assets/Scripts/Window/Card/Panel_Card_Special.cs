@@ -107,7 +107,7 @@ public class Panel_Card_Special : MonoBehaviour
 
         int fee = config.GetFee(level);
 
-        long materialCount = user.GetItemMeterialCount(config.ItemId);
+        long materialCount = user.GetHideMaterialCount(config.ItemId);
         string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
         txt_Fee.text = string.Format("<color={0}>{1}</color>", color, config.Name + ":" + materialCount + "/ " + fee);
 
@@ -125,7 +125,7 @@ public class Panel_Card_Special : MonoBehaviour
         User user = GameProcessor.Inst.User;
 
         CardSpecialConfig config = CardSpecialConfigCategory.Instance.Get(this.SelectId);
-        long materialCount = user.GetItemMeterialCount(config.ItemId);
+        long materialCount = user.GetHideMaterialCount(config.ItemId);
 
         int level = user.GetCardSpecialLevel(this.SelectId);
 
@@ -137,7 +137,7 @@ public class Panel_Card_Special : MonoBehaviour
             return;
         }
 
-        user.UseItemMeterialCount(config.ItemId, fee);
+        user.UseHideMaterialCount(config.ItemId, fee);
 
         user.SaveCardSpecialLevel(this.SelectId, 1);
 

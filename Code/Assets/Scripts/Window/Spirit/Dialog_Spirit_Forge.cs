@@ -66,7 +66,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
         else
         {
             //Fee
-            long materialCount = user.GetItemMeterialCount(this.Config.ItemId);
+            long materialCount = user.GetHideMaterialCount(this.Config.ItemId);
             long fee = this.GetFee(nextLevel);
             string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
 
@@ -117,7 +117,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
         long currentLevel = user.GetSpiritLevel(ConfigId);
         long nextLevel = currentLevel + 1;
 
-        long materialCount = user.GetItemMeterialCount(this.Config.ItemId);
+        long materialCount = user.GetHideMaterialCount(this.Config.ItemId);
 
         long fee = this.GetFee(nextLevel);
 
@@ -127,7 +127,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
             return;
         }
 
-        user.UseItemMeterialCount(this.Config.ItemId, fee);
+        user.UseHideMaterialCount(this.Config.ItemId, fee);
         user.SaveSpiritLevel(this.ConfigId, 1);
 
         GameProcessor.Inst.UpdateInfo();

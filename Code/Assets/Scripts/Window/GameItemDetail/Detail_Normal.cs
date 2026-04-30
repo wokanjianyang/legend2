@@ -77,9 +77,8 @@ namespace Game
 
             this.Btn_Recovery.gameObject.SetActive(false);
             this.Btn_Recovery_All.gameObject.SetActive(false);
-            this.Btn_Lose.gameObject.SetActive(false);
             this.Btn_Learn.gameObject.SetActive(false);
-
+            this.Btn_Lose.gameObject.SetActive(true);
             this.Btn_Use.gameObject.SetActive(false);
             this.Btn_UseAll.gameObject.SetActive(false);
             this.Btn_Use_Batch.gameObject.SetActive(false);
@@ -150,11 +149,6 @@ namespace Game
                             this.Btn_Use_Batch.gameObject.SetActive(true);
                             this.Btn_UseAll.gameObject.SetActive(true);
                         }
-                    }
-                    break;
-                case ItemType.Material:
-                    {
-                        this.Btn_Lose.gameObject.SetActive(true);
                     }
                     break;
                 case ItemType.Card:

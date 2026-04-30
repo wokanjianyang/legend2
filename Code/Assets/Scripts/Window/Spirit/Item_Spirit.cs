@@ -44,7 +44,7 @@ namespace Game
 
             long spiritLevel = user.GetSpiritLevel(Config.Id);
 
-            long total = user.GetItemMeterialCount(Config.ItemId);
+            long total = user.GetHideMaterialCount(Config.ItemId);
 
 
             Txt_Level.text = spiritLevel + "级";

@@ -86,7 +86,7 @@ namespace Game
 
         public static Item BuildMaterial(int configId, long count)
         {
-            Item item = new Item(configId, ItemType.Material);
+            Item item = new Item_Normal(configId);
             item.Count = count;
             return item;
         }

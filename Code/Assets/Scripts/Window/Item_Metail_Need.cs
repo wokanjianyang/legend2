@@ -25,7 +25,7 @@ namespace Game
 
         }
 
-        public bool SetContent(int metailId, long upCount)
+        public bool SetBagContent(int metailId, long upCount)
         {
             ItemConfig config = ItemConfigCategory.Instance.Get(metailId);
             this.Txt_Name.text = config.Name;
@@ -37,6 +37,20 @@ namespace Game
             this.Txt_Count.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, upCount);
 
             return stoneTotal >= upCount;
+        }
+
+        public bool SetMaterialContent(int mid, long nubmer)
+        {
+            ItemConfig config = ItemConfigCategory.Instance.Get(mid);
+            this.Txt_Name.text = config.Name;
+
+            User user = GameProcessor.Inst.User;
+            long stoneTotal = user.GetHideMaterialCount(mid);
+
+            string color = stoneTotal >= nubmer ? "#11FF11" : "#FF0000";
+            this.Txt_Count.text = string.Format("<color={0}>{1}/{2}</color>", color, stoneTotal, nubmer);
+
+            return stoneTotal >= nubmer;
         }
 
         public void SetContent(string content)

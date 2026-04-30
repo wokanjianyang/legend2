@@ -211,7 +211,7 @@ public class Panel_Fashion : MonoBehaviour
             }
         }
 
-        long total = user.GetItemMeterialCount(config.ItemId);
+        long total = user.GetHideMaterialCount(config.ItemId);
         int needCount = CalNeedCount(currentLevel);
 
         string color = total >= needCount ? "#FFFF00" : "#FF0000";
@@ -254,7 +254,7 @@ public class Panel_Fashion : MonoBehaviour
 
         FashionConfig config = currentItem.Config;
 
-        long total = user.GetItemMeterialCount(config.ItemId);
+        long total = user.GetHideMaterialCount(config.ItemId);
 
         int needCount = CalNeedCount(currentLevel);
 
@@ -264,7 +264,7 @@ public class Panel_Fashion : MonoBehaviour
             return;
         }
 
-        user.UseItemMeterialCount(config.ItemId, needCount);
+        user.UseHideMaterialCount(config.ItemId, needCount);
 
         fs[currentItem.Part].Data++;
 
@@ -286,7 +286,7 @@ public class Panel_Fashion : MonoBehaviour
 
                 FashionConfig config = FashionConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.SuitId == suitId && m.Part == part).FirstOrDefault();
 
-                long total = user.GetItemMeterialCount(config.ItemId);
+                long total = user.GetHideMaterialCount(config.ItemId);
 
                 int needCount = CalNeedCount(currentLevel);
 
@@ -296,7 +296,7 @@ public class Panel_Fashion : MonoBehaviour
                 {
                     //¿ªÊ¼Éý¼¶
 
-                    user.UseItemMeterialCount(config.ItemId, needCount);
+                    user.UseHideMaterialCount(config.ItemId, needCount);
                     user.FashionData[suitId][part].Data++;
                 }
             }

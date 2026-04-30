@@ -29,6 +29,10 @@ namespace Game
 
         public ItemType Type { get; set; }
 
+        private Item()
+        {
+
+        }
 
         public Item(int configId, ItemType type)
         {
@@ -70,6 +74,11 @@ namespace Game
         public virtual long GetMaxNum()
         {
             return 1;
+        }
+
+        public virtual void ToRecoverDict(Dictionary<int, long> dict)
+        {
+
         }
 
         //[JsonIgnore]

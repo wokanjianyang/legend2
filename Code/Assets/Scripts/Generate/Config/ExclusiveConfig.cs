@@ -108,9 +108,6 @@ namespace Game
 		/// <summary>Des</summary>
 		[ProtoMember(11)]
 		public string Des { get; set; }
-		/// <summary>PreId</summary>
-		[ProtoMember(12)]
-		public int PreId { get; set; }
 
 	}
 }

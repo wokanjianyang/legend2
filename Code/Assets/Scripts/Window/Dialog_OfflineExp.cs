@@ -213,7 +213,7 @@ namespace Game
             {
                 if (item.GetItemType() == ItemType.Material_Hide)
                 {
-                    user.SaveItemMeterialCount(item.ConfigId, item.Count);
+                    user.SaveHideMaterialCount(item.ConfigId, item.Count);
                 }
                 else
                 {

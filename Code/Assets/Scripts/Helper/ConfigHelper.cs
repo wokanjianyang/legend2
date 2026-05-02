@@ -125,6 +125,6 @@ namespace Game
 
         public const double PetKillPercent = 100.0;  //为了符合小数值，杀怪加属性削弱十倍
 
-        public const bool EnvTest = false;
+        public const int EnvTest = 2;  //0 不测试 ，1 测试伤害  2测试爆率
     }
 }

@@ -37,6 +37,7 @@ namespace Game
         public Button btn_UnEquip;
 
         public Button btn_Recovery;
+        public Button btn_Card;
         public Button btn_Restore;
 
         public Button btn_Lock;
@@ -45,8 +46,7 @@ namespace Game
         public Button Btn_Close;
 
         private BoxItem boxItem;
-        private int equipPositioin;
-        private ComBoxType BoxType;
+        private int Positioin;
 
         // Start is called before the first frame update
         void Start()
@@ -56,6 +56,7 @@ namespace Game
 
 
             this.btn_Recovery.onClick.AddListener(this.OnRecovery);
+            this.btn_Card.onClick.AddListener(this.OnCard);
             this.btn_Restore.onClick.AddListener(this.OnClick_Restore);
 
             this.btn_Lock.onClick.AddListener(this.OnClick_Lock);
@@ -91,6 +92,7 @@ namespace Game
             this.btn_Equip.gameObject.SetActive(false);
             this.btn_UnEquip.gameObject.SetActive(false);
             this.btn_Recovery.gameObject.SetActive(false);
+            this.btn_Card.gameObject.SetActive(false);
             this.btn_Restore.gameObject.SetActive(false);
             this.btn_Lock.gameObject.SetActive(false);
             this.btn_Unlock.gameObject.SetActive(false);
@@ -98,8 +100,7 @@ namespace Game
             // this.transform.position = this.GetBetterPosition(e.Position);
             // this.img_Background.sprite = this.list_BackgroundImgs[this.item.GetQuality() - 1];
             this.boxItem = e.boxItem;
-            this.equipPositioin = e.EquipPosition;
-            this.BoxType = e.Type;
+            this.Positioin = e.EquipPosition;
 
             var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item);
 
@@ -122,7 +123,7 @@ namespace Game
             long basePercent = 0;
             long qualityPercent = 0;
 
-            long refineLevel = user.GetRefineLevel(equipPositioin);
+            long refineLevel = user.GetRefineLevel(e.EquipPosition);
             if (refineLevel > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
@@ -239,7 +240,7 @@ namespace Game
                 this.ShowSuit(suitIdList, suitCountList, user.GetSuitMax());
             }
 
-            if (equip.Part <= 10 || equip.Part >= 21)
+            if (equip.Part >= 0)
             {
                 Tf_Set.gameObject.SetActive(true);
 
@@ -248,32 +249,42 @@ namespace Game
                 this.ShowRed(red, equip.GetQuality());
             }
 
-            this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
-            this.btn_UnEquip.gameObject.SetActive(this.boxItem.BoxId == -1);
 
-            if (equip.GetQuality() >= 6 && equip.Layer > 1)
+            if (e.Type == ComBoxType.Bag)
             {
-                this.btn_Restore.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
-                this.btn_Recovery.gameObject.SetActive(false);
+                //包裹中
+                this.btn_Equip.gameObject.SetActive(true);
+                this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
+
+                if (equip.Layer > 1) //升阶过的只能重生
+                {
+                    this.btn_Restore.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                }
+                else  //没升阶的只能回收
+                {
+                    this.btn_Recovery.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                }
+                if (equip.GetQuality() == equip.Config.CardQuality && user.GetCardEquipLevel(equip.ConfigId) <= 0)
+                {
+                    this.btn_Card.gameObject.SetActive(true);
+                }
+
+            }
+            else if (e.Type == ComBoxType.OnEquip)
+            {
+                //装备栏中
+                this.btn_UnEquip.gameObject.SetActive(true);
             }
             else
             {
-                this.btn_Restore.gameObject.SetActive(false);
-                this.btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
-            }
-
-            this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
-            this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
-
-
-            if (equipPositioin < -1 || this.BoxType != ComBoxType.Bag) //不可操作
-            {
-                this.btn_Equip.gameObject.SetActive(false);
-                this.btn_UnEquip.gameObject.SetActive(false);
-                this.btn_Recovery.gameObject.SetActive(false);
-                this.btn_Restore.gameObject.SetActive(false);
-                this.btn_Lock.gameObject.SetActive(false);
-                this.btn_Unlock.gameObject.SetActive(false);
+                //其他地方都不显示任何按钮
+                //this.btn_Equip.gameObject.SetActive(false);
+                //this.btn_UnEquip.gameObject.SetActive(false);
+                //this.btn_Recovery.gameObject.SetActive(false);
+                //this.btn_Restore.gameObject.SetActive(false);
+                //this.btn_Lock.gameObject.SetActive(false);
+                //this.btn_Unlock.gameObject.SetActive(false);
             }
         }
 
@@ -428,7 +439,7 @@ namespace Game
             {
                 IsWear = false,
                 BoxItem = this.boxItem,
-                Part = this.equipPositioin,
+                Part = this.Positioin,
             });
         }
 
@@ -465,6 +476,16 @@ namespace Game
             this.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new RecoveryEvent()
+            {
+                BoxItem = this.boxItem,
+            });
+        }
+
+        public void OnCard()
+        {
+            this.gameObject.SetActive(false);
+
+            GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
             {
                 BoxItem = this.boxItem,
             });

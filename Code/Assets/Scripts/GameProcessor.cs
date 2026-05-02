@@ -377,7 +377,7 @@ namespace Game
             switch (ruleType)
             {
                 case RuleType.Normal:
-                    if (ConfigHelper.EnvTest)
+                    if (ConfigHelper.EnvTest == 1)
                     {
                         this.BattleRule = new BattleRule_Test();
                     }

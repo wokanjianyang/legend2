@@ -32,7 +32,7 @@ namespace Game
         public void Up(BoxItem boxItem, int cycle)
         {
             Txt_Name.gameObject.SetActive(false);
-            BoxSelect.SetItem(boxItem, ComBoxType.Box_Ready, cycle);
+            BoxSelect.SetItem(boxItem, ComBoxType.PreView, cycle);
             BoxSelect.gameObject.SetActive(true);
         }
 

@@ -105,13 +105,7 @@ namespace Game
         public int Position { get; set; }
     }
 
-    public class EquipOneEvent : SDD.Events.Event
-    {
-        public bool IsWear { get; set; } = true;
 
-        public int Part { get; set; }
-        public BoxItem BoxItem { get; set; }
-    }
 
 
     public class BattleMsgEvent : SDD.Events.Event
@@ -139,25 +133,13 @@ namespace Game
         public BoxItem BoxItem { get; set; }
     }
 
-    public class RestoreEvent : SDD.Events.Event
-    {
-        public BoxItem BoxItem { get; set; }
-    }
 
-    public class LoseEvent : SDD.Events.Event
-    {
-        public BoxItem BoxItem { get; set; }
-    }
 
     public class ForgingEvent : SDD.Events.Event
     {
         public BoxItem BoxItem { get; set; }
     }
-    public class EquipLockEvent : SDD.Events.Event
-    {
-        public BoxItem BoxItem { get; set; }
-        public bool IsLock { get; set; }
-    }
+
     public class AutoRecoveryEvent : SDD.Events.Event
     {
         public RuleType RuleType { get; set; }

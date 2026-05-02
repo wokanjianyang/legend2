@@ -83,43 +83,43 @@ namespace Game
         {
             if (this.BoxItem == null) return;
 
-            if (this.Type == ComBoxType.Exclusive_Up_Main)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-                return;
-            }
-            else if (this.Type == ComBoxType.Exclusive_Up_Material)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-                return;
-            }
-            else if (this.Type == ComBoxType.Exclusive_Devour_Main)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-                return;
-            }
-            else if (this.Type == ComBoxType.Exclusive_Devour_Material)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-                return;
-            }
-            else if (this.Type == ComBoxType.Box_Ready)
-            {
-                if (this.BoxItem.Item.GetItemType() == ItemType.Equip)
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
-                    {
-                        boxItem = this.BoxItem,
-                        Type = this.Type
-                    });
-                    return;
-                }
-                else
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent() { boxItem = this.BoxItem, Type = this.Type });
-                    return;
-                }
-            }
+            //if (this.Type == ComBoxType.Exclusive_Up_Main)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
+            //    return;
+            //}
+            //else if (this.Type == ComBoxType.Exclusive_Up_Material)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
+            //    return;
+            //}
+            //else if (this.Type == ComBoxType.Exclusive_Devour_Main)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
+            //    return;
+            //}
+            //else if (this.Type == ComBoxType.Exclusive_Devour_Material)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
+            //    return;
+            //}
+            //else if (this.Type == ComBoxType.Box_Ready)
+            //{
+            //    if (this.BoxItem.Item.GetItemType() == ItemType.Equip)
+            //    {
+            //        GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
+            //        {
+            //            boxItem = this.BoxItem,
+            //            Type = this.Type
+            //        });
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent() { boxItem = this.BoxItem, Type = this.Type });
+            //        return;
+            //    }
+            //}
         }
 
         public void OnPointerUp(PointerEventData eventData)

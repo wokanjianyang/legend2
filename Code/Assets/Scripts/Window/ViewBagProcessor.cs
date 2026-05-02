@@ -151,6 +151,7 @@ namespace Game
             base.OnBattleStart();
 
             GameProcessor.Inst.EventCenter.AddListener<EquipOneEvent>(this.OnEquipOneEvent);
+            GameProcessor.Inst.EventCenter.AddListener<EquipToCardEvent>(this.OnEquipToCard);
             GameProcessor.Inst.EventCenter.AddListener<SkillBookLearnEvent>(this.OnSkillBookLearn);
             GameProcessor.Inst.EventCenter.AddListener<RecoveryEvent>(this.OnRecoveryEvent);
             GameProcessor.Inst.EventCenter.AddListener<RestoreEvent>(this.OnRestoreEvent);
@@ -733,6 +734,17 @@ namespace Game
                     this.Bag_List[i].gameObject.SetActive(false);
                 }
             }
+        }
+
+        private void OnEquipToCard(EquipToCardEvent e)
+        {
+            User user = GameProcessor.Inst.User;
+
+            Equip equip = e.BoxItem.Item as Equip;
+
+            UseBoxItem(e.BoxItem, 1);
+
+            user.CardEquipDict[equip.ConfigId] = 1;
         }
 
 

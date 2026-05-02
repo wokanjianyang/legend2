@@ -201,6 +201,15 @@ namespace Game
         public void SetEquipPosition(int position)
         {
             this.EquipPosition = position;
+
+            if (position > 0)
+            {
+                this.Type = ComBoxType.OnEquip;
+            }
+            else
+            {
+                this.Type = ComBoxType.Bag;
+            }
         }
 
         public void AddStack(long quantity)
@@ -246,12 +255,8 @@ namespace Game
 
     public enum ComBoxType
     {
-        Bag = 0,
-        Box_Ready = 1,
-        Exclusive_Up_Main = 3,
-        Exclusive_Up_Material = 4,
-        Exclusive_Devour_Main = 5,
-        Exclusive_Devour_Material = 6,
-        Gift,
+        Bag = 1,
+        OnEquip = 2,
+        PreView = 3,
     }
 }

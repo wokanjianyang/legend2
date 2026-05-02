@@ -169,7 +169,7 @@ namespace Game
                 {
                     boxItem = select.BoxItem,
                     EquipPosition = -2,
-                    Type = ComBoxType.Gift,
+                    Type = ComBoxType.PreView,
                 });
             }
             else if (select.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
@@ -178,7 +178,7 @@ namespace Game
                 {
                     boxItem = select.BoxItem,
                     EquipPosition = -2,
-                    Type = ComBoxType.Gift,
+                    Type = ComBoxType.PreView,
                 });
             }
             else if (select.BoxItem.Item.GetItemType() == ItemType.Pet)
@@ -193,7 +193,7 @@ namespace Game
                 GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
                 {
                     boxItem = select.BoxItem,
-                    Type = ComBoxType.Gift,
+                    Type = ComBoxType.PreView,
                 });
             }
         }

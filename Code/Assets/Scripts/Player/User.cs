@@ -264,10 +264,6 @@ namespace Game
             return (int)limit;
         }
 
-        public int GetCardLimit(CardConfig cardConfig)
-        {
-            return 1;
-        }
 
         public int GetLimitMineCount()
         {
@@ -438,8 +434,10 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.MulAtk, AttributeFrom.HeroBase, Level * 1);
             AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.HeroBase, Level * 1);
 
-            //AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 1000000000);
-            //AttributeBonus.SetAttr(AttributeEnum.MulAttr, AttributeFrom.Test + 1, 100000);
+            if (ConfigHelper.EnvTest == 2)
+            {
+                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 1000000000);
+            }
 
             //设置升级属性
             SetUpExp();

@@ -13,6 +13,8 @@ namespace Game
     {
         public Dictionary<int, int> ExclusiveDict = new Dictionary<int, int>();
 
+        public Dictionary<int, int> CardEquipDict = new Dictionary<int, int>();
+
 
         //---------cal function
         public int GetExclusiveLevel(int id)
@@ -23,6 +25,16 @@ namespace Game
             }
 
             return ExclusiveDict[id];
+        }
+
+        public int GetCardEquipLevel(int id)
+        {
+            if (!this.CardEquipDict.ContainsKey(id))
+            {
+                return 0;
+            }
+
+            return CardEquipDict[id];
         }
 
         //-----------------------old--------------------------
@@ -520,6 +532,20 @@ namespace Game
                 }
             }
 
+            //专属属性
+            foreach (var sp in this.ExclusiveDict)
+            {
+                int id = sp.Key;
+                int level = sp.Value;
+
+                if (level > 0)
+                {
+                    ExclusiveConfig config = ExclusiveConfigCategory.Instance.Get(id);
+
+                    AttributeBonus.SetAttr((AttributeEnum)(config.AttrId), AttributeFrom.Exclusive, config.Id, config.AttrValue);
+                }
+            }
+
             this.StoneNumber = 0;
             this.SoulRingNumber = 0;
             this.SkillNumber = ConfigHelper.SkillNumber;
@@ -695,7 +721,7 @@ namespace Game
 
         public List<SkillTalent> GetTalentList(int skillId)
         {
-            List<SkillTalent> list = new List<SkillTalent>();
+            Dictionary<int, int> dict = new Dictionary<int, int>();
 
             foreach (var ex in this.PetList)
             {
@@ -704,15 +730,40 @@ namespace Game
                     SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(sp);
                     if (talentConfig.SkillId == skillId)
                     {
-                        SkillTalent talent = new SkillTalent(talentConfig.Id);
-
-                        list.Add(talent);
+                        if (!dict.ContainsKey(talentConfig.Id))
+                        {
+                            dict[talentConfig.Id] = talentConfig.Id;
+                        }
                     }
                 }
             }
 
-            //TODO 专属
+            foreach (var sp in this.ExclusiveDict)
+            {
+                if (sp.Value > 0)
+                {
+                    ExclusiveConfig config = ExclusiveConfigCategory.Instance.Get(sp.Key);
 
+                    if (config.TalentId > 0)
+                    {
+                        SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(config.TalentId);
+                        if (talentConfig.SkillId == skillId)
+                        {
+                            if (!dict.ContainsKey(talentConfig.Id))
+                            {
+                                dict[talentConfig.Id] = talentConfig.Id;
+                            }
+                        }
+                    }
+                }
+            }
+
+            List<SkillTalent> list = new List<SkillTalent>();
+            foreach (var sp in dict)
+            {
+                SkillTalent talent = new SkillTalent(sp.Key);
+                list.Add(talent);
+            }
 
             return list;
         }

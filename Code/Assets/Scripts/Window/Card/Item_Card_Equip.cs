@@ -8,13 +8,12 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class Item_Card : MonoBehaviour, IPointerClickHandler
+    public class Item_Card_Equip : MonoBehaviour, IPointerClickHandler
     {
-        public Text Txt_Attr_Rise;
         public Text Txt_Name;
-        public Text Txt_Level;
-        public Text Txt_Attr_Current;
-        public Text Txt_Fee;
+        public Text Txt_Require;
+        public Text Txt_Attr;
+
         public CardConfig Config { get; set; }
 
         // Start is called before the first frame update
@@ -34,37 +33,11 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            //User user = GameProcessor.Inst.User;
+            Debug.Log("click card item");
 
-            //long maxLevel = user.GetCardLimit(Config);
-            //long cardLevel = user.GetCardLevel(Config.Id);
+            Dialog_Card panel = this.GetComponentInParent<Dialog_Card>();
 
-            //if (cardLevel < maxLevel)
-            //{
-            //    int itemId = Config.RiseId;
-            //    long upNumber = Config.CalNewUpNumber(cardLevel);
-
-            //    long total = user.GetItemMeterialCount(itemId);
-
-            //    if (total < upNumber)
-            //    {
-            //        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您的材料不足", ToastType = ToastTypeEnum.Failure });
-            //        return;
-            //    }
-
-            //    user.UseItemMeterialCount(itemId, upNumber);
-            //    user.SaveCardLevel(Config.Id, 1);
-
-            //    this.Show();
-
-
-            //    GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-            //}
-            //else
-            //{
-            //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满级了", ToastType = ToastTypeEnum.Failure });
-            //    return;
-            //}
+            panel.SelectItem(Config.Id);
         }
 
         public void Show()
@@ -129,7 +102,9 @@ namespace Game
         public void SetContent(CardConfig config)
         {
             this.Config = config;
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.Quality), config.Name);
+            this.Txt_Name.text = config.Name;
+            this.Txt_Require.text = "0/" + config.Count;
+            this.Txt_Attr.text = StringHelper.FormatAttrText(config.AttrIdList[0], config.AttrValueList[0]);
 
             this.Show();
         }

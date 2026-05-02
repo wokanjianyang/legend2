@@ -228,7 +228,7 @@ namespace Game
 
         private void UpdateUserAttr(UpdateBagPanelUserAttr e)
         {
-            Debug.Log("UpdateBagPanelUserAttr");
+            //Debug.Log("UpdateBagPanelUserAttr");
 
             this.InitAttr();
         }

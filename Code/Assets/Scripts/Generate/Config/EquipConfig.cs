@@ -111,11 +111,14 @@ namespace Game
 		/// <summary>CardGroupId</summary>
 		[ProtoMember(12)]
 		public int CardGroupId { get; set; }
-		/// <summary>CardAttr</summary>
+		/// <summary>CardQuality</summary>
 		[ProtoMember(13)]
+		public int CardQuality { get; set; }
+		/// <summary>CardAttr</summary>
+		[ProtoMember(14)]
 		public int CardAttr { get; set; }
 		/// <summary>CardValue</summary>
-		[ProtoMember(14)]
+		[ProtoMember(15)]
 		public int CardValue { get; set; }
 
 	}

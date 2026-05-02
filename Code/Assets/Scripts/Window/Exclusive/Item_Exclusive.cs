@@ -51,7 +51,7 @@ namespace Game
         public void Show()
         {
             User user = GameProcessor.Inst.User;
-            if (user.ExclusiveDict.ContainsKey(Config.Id) && user.ExclusiveDict[Config.Id] > 0)
+            if (user.GetExclusiveLevel(Config.Id) > 0)
             {
                 this.Img_Active.gameObject.SetActive(false);
             }

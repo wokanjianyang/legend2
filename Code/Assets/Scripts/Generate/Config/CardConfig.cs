@@ -90,9 +90,9 @@ namespace Game
 		/// <summary>AttrValueList</summary>
 		[ProtoMember(5)]
 		public int[] AttrValueList { get; set; }
-		/// <summary>Quality</summary>
+		/// <summary>Count</summary>
 		[ProtoMember(6)]
-		public int Quality { get; set; }
+		public int Count { get; set; }
 
 	}
 }

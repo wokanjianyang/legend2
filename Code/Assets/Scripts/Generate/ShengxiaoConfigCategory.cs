@@ -48,10 +48,10 @@ namespace Game
         {
             ShengxiaoConfig config = this.Get(configId);
 
-            List<KeyValuePair<int, long>> list = AttrEntryConfigCategory.Instance.BuildMaxShengxiao(config.Part, 9);
+            //List<KeyValuePair<int, long>> list = AttrEntryConfigCategory.Instance.BuildMaxShengxiao(config.Part, 9);
 
             Shengxiao item = new Shengxiao(configId, 9);
-            item.Init(list);
+            //item.Init(list);
 
             item.Count = 1;
 

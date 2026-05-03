@@ -22,21 +22,10 @@ namespace Game
                 return tempList[0];
             }
 
-            int maxRate = tempList.Select(m => m.EquipRate).Sum();
-            int rd = RandomHelper.RandomNumber(seed, 1, maxRate + 1);
+            List<int> rates = tempList.Select(m => m.EquipRate).ToList();
+            int rd = RandomHelper.RandomListRateIndex(rates, seed);
 
-            int tempRate = 0;
-            for (int i = 0; i < tempList.Count; i++)
-            {
-                tempRate += tempList[i].EquipRate;
-
-                if (rd <= tempRate)
-                {
-                    return tempList[i];
-                }
-            }
-
-            return null;
+            return tempList[rd];
         }
 
 

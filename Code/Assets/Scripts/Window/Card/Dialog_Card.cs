@@ -26,7 +26,7 @@ public class Dialog_Card : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        toggleStageList = tg_Hide.GetComponentsInChildren<Toggle>().ToList();
+        toggleStageList = Tf_Nav.GetComponentsInChildren<Toggle>().ToList();
 
         this.Btn_Close.onClick.AddListener(OnClick_Close);
 
@@ -49,11 +49,11 @@ public class Dialog_Card : MonoBehaviour
         if (index == 3)
         {
             this.panel1.gameObject.SetActive(false);
-            this.panel2.Show();
+            //this.panel2.Show();
         }
         else
         {
-            this.panel2.gameObject.SetActive(false);
+            //this.panel2.gameObject.SetActive(false);
             this.panel1.Show(this.SelectStage + 1);
         }
     }

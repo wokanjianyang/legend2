@@ -171,7 +171,7 @@ namespace Game
 
                 var AttrEntryList = equip.AttrEntryList.ToList();
 
-                for (int index = 0; index < 9; index++)
+                for (int index = 0; index < 6; index++)
                 {
                     var child = gridRandom.Find(string.Format("Attribute_{0}", index));
 

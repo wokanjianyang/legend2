@@ -37,6 +37,13 @@ namespace Game
             return CardEquipDict[id];
         }
 
+        public int GetCardEquipCount(int cardId)
+        {
+            List<int> list = EquipConfigCategory.Instance.GetCardList(cardId).Select(m => m.Id).ToList();
+            int count = CardEquipDict.Where(m => list.Contains(m.Key)).Count();
+            return count;
+        }
+
         //-----------------------old--------------------------
 
 
@@ -100,9 +107,6 @@ namespace Game
 
         public int EquipPanelIndex { get; set; } = 0;
         public IDictionary<int, string> PlanNameList { get; set; } = new Dictionary<int, string>();
-
-        public bool ExclusiveSetting { get; set; } = false;
-        public int ExclusiveIndex { get; set; } = 0;
 
         public bool EquipGoldenSetting { get; set; } = false;
         public bool EquipDarkGoldSetting { get; set; } = false;
@@ -236,12 +240,6 @@ namespace Game
         public int GetReformLimit(int position)
         {
             long limit = (GetStrengthLevel(position) - 300000) / 1000;
-            return (int)limit;
-        }
-
-        public int GetExclusiveLimit()
-        {
-            long limit = GetArtifactValue(ArtifactType.ExclusiveLimit);
             return (int)limit;
         }
 
@@ -383,11 +381,6 @@ namespace Game
 
         public bool GameDoCheat211 { get; set; } = false;
 
-        public bool isClear { get; set; } = false;
-
-
-        [JsonIgnore]
-        public IDictionary<int, int> EquipRecord { get; set; } = new Dictionary<int, int>();
 
         [JsonIgnore]
         public AttributeBonus AttributeBonus { get; set; }
@@ -541,6 +534,32 @@ namespace Game
                     ExclusiveConfig config = ExclusiveConfigCategory.Instance.Get(id);
 
                     AttributeBonus.SetAttr((AttributeEnum)(config.AttrId), AttributeFrom.Exclusive, config.Id, config.AttrValue);
+                }
+            }
+
+            //图鉴属性
+            foreach (var sp in this.CardEquipDict)
+            {
+                if (sp.Value > 0)
+                {
+                    EquipConfig config = EquipConfigCategory.Instance.Get(sp.Key);
+
+                    for (int i = 0; i < config.AttrIdList.Length; i++)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), AttributeFrom.Card, config.Id, config.AttrValueList[i]);
+                    }
+                }
+            }
+            //图鉴组合
+            foreach (CardConfig config in CardConfigCategory.Instance.GetAll().Values)
+            {
+                int count = this.GetCardEquipCount(config.Id);
+                if (count >= config.Count)
+                {
+                    for (int i = 0; i < config.AttrIdList.Length; i++)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), AttributeFrom.Card, config.Id, config.AttrValueList[i]);
+                    }
                 }
             }
 
@@ -1297,76 +1316,6 @@ namespace Game
             }
 
             ItemMeterialData[configId].Data -= count;
-        }
-
-        public long GetCardLevel(int cardId)
-        {
-            if (!CardData.ContainsKey(cardId))
-            {
-                CardData[cardId] = new MagicData();
-            }
-
-            return CardData[cardId].Data;
-        }
-
-        public long GetCardRiseLevel(int quality, long cardLevel, int groupLevel)
-        {
-            CardConfig config = CardConfigCategory.Instance.GetQualityRiseConfig(quality);
-
-            if (config == null)
-            {
-                return 0;
-            }
-
-            if (!CardData.ContainsKey(config.Id))
-            {
-                return 0;
-            }
-
-            long goldenLevel = CardData[config.Id].Data;
-
-            long goldenRiseLevel = config.GetCardRiseValue(goldenLevel, groupLevel);
-
-            long riseLevel = cardLevel * (goldenLevel + goldenRiseLevel) / 100;
-
-            return riseLevel;
-        }
-
-        public void SaveCardLevel(int cardId, long level)
-        {
-            CardData[cardId].Data += level;
-        }
-
-        public int GetCardSpecialLevel(int cardId)
-        {
-            if (!CardSpecialData.ContainsKey(cardId))
-            {
-                CardSpecialData[cardId] = new MagicData();
-            }
-
-            return (int)CardSpecialData[cardId].Data;
-        }
-
-        public void SaveCardSpecialLevel(int cardId, int level)
-        {
-            CardSpecialData[cardId].Data += level;
-        }
-
-        public int GetCardSpecialGroupLevel()
-        {
-            int startId = 1;
-            int endId = 5;
-
-            long groupLevel = 999999;
-
-            for (int i = startId; i <= endId; i++)
-            {
-                groupLevel = Math.Min(groupLevel, GetCardSpecialLevel(i));
-
-                //Debug.Log("GetCardSpecialGroupLevel item id:" + i + ": " + groupLevel);
-            }
-
-            return (int)groupLevel;
         }
 
         public long GetStrengthLevel(int position)

@@ -51,16 +51,16 @@ namespace Game
         {
             //Debug.Log("item relic show");
 
-            if (this.Config == null)
-            {
-                return;
-            }
+            //if (this.Config == null)
+            //{
+            //    return;
+            //}
 
-            this.Txt_Name.text = Config.Name.Insert(2, "\n"); ;
+            //this.Txt_Name.text = Config.Name.Insert(2, "\n"); ;
 
-            User user = GameProcessor.Inst.User;
-            int level = user.GetCardSpecialLevel(Config.Id);
-            this.Txt_Level.text = level + "";
+            //User user = GameProcessor.Inst.User;
+            //int level = user.GetCardSpecialLevel(Config.Id);
+            //this.Txt_Level.text = level + "";
         }
 
         private void Select()

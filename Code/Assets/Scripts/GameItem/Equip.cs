@@ -168,13 +168,13 @@ namespace Game
         {
             //根据品质,生成随机属性
 
-            this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.Config.Cycle, this.Quality, this.Config.Role, seed));
+            this.AttrEntryList.AddRange(AttrEntryConfigCategory.Instance.Build(this.Part, this.Config.Cycle, this.Config.LevelRequired, this.Quality, this.Config.Role, seed));
 
-            if (this.Part <= 10 && this.Quality >= 6)
-            {
-                this.Data = new EquipData();
-                this.Data.Refresh(this.Part, this.Config.Cycle, this.Quality, this.Config.Role);
-            }
+            //if (this.Part <= 10 && this.Quality >= 6)
+            //{
+            //    this.Data = new EquipData();
+            //    this.Data.Refresh(this.Part, this.Config.Cycle, this.Quality, this.Config.Role);
+            //}
         }
 
         /// <summary>

@@ -114,7 +114,7 @@ namespace Game
             int max = lucky * 400 / 9;
             int rd = RandomHelper.RandomNumber(0, max);
 
-            return rd / 100 + 1;
+            return rd / 100.0 + 1;
         }
 
         public static bool IsMiss(APlayer self, APlayer enemy, double skillAccuracy)

@@ -8,12 +8,13 @@ namespace Game
 
     public partial class AttrEntryConfigCategory
     {
-        public List<KeyValuePair<int, long>> Build(int part, int cycle, int quality, int role, int seed)
+        public List<KeyValuePair<int, long>> Build(int part, int cycle, int level, int quality, int role, int seed)
         {
             List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();
 
             List<AttrEntryConfig> configs = list.FindAll(m =>
             m.PartList.Contains(part)
+            && m.StartLevel <= level && level <= m.EndLevel
             && m.Cycle == cycle
             && (m.Role == role || m.Role == 0));
 
@@ -22,15 +23,16 @@ namespace Game
                 return rsList;
             }
 
-            for (int i = 0; i < quality; i++)
+            for (int i = 0; i < quality - 1; i++)
             {
                 seed = AppHelper.RefreshDaySeed(seed);
 
                 List<int> excludeList = GetExcludeList(rsList);
 
-                var fcList = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
+                List<AttrEntryConfig> fcList = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
+                List<int> rates = fcList.Select(m => m.Rate).ToList();
 
-                int rd = RandomHelper.RandomNumber(seed, 0, fcList.Count);
+                int rd = RandomHelper.RandomListRateIndex(rates, seed);
 
                 AttrEntryConfig config = fcList[rd];
 
@@ -45,39 +47,6 @@ namespace Game
             return rsList;
         }
 
-        public List<KeyValuePair<int, long>> Build(int part, int cycle, int quality, int role)
-        {
-            List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();
-
-            List<AttrEntryConfig> configs = list.FindAll(m =>
-            m.PartList.Contains(part)
-            && m.Cycle == cycle
-            && (m.Role == role || m.Role == 0));
-
-            if (configs.Count <= 0)
-            {
-                return rsList;
-            }
-
-            for (int i = 0; i < quality; i++)
-            {
-                List<int> excludeList = GetExcludeList(rsList);
-
-                var fcList = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
-
-                int rd = RandomHelper.RandomNumber(0, fcList.Count);
-
-                AttrEntryConfig config = fcList[rd];
-
-                long attrValue = 0;
-
-                attrValue = RandomHelper.RandomNumber(config.MinValue, config.MaxValue + 1);
-
-                rsList.Add(new KeyValuePair<int, long>(config.AttrId, attrValue));
-            }
-
-            return rsList;
-        }
 
         public List<KeyValuePair<int, long>> BuildNew(int part, int cycle, int quality, int role, RandomRecord record)
         {
@@ -145,54 +114,54 @@ namespace Game
         {
             List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();
 
-            List<AttrEntryConfig> configs = list.Where(m => m.Cycle == 99 && m.Type <= quality && m.PartList.Contains(part)).ToList();
+            //List<AttrEntryConfig> configs = list.Where(m => m.Cycle == 99 && m.Type <= quality && m.PartList.Contains(part)).ToList();
 
-            for (int i = 0; i < configs.Count; i++)
-            {
-                AttrEntryConfig config = configs[i];
+            //for (int i = 0; i < configs.Count; i++)
+            //{
+            //    AttrEntryConfig config = configs[i];
 
-                long attrValue = 0;
+            //    long attrValue = 0;
 
-                if (config.Type == 6)
-                {
-                    attrValue = RandomHelper.RandomNumber(seed, config.MinValue + quality - 3, config.MaxValue + quality - 3);
-                }
-                else
-                {
-                    attrValue = RandomHelper.RandomNumber(seed, config.MinValue, config.MaxValue + 1);
-                }
+            //    if (config.Type == 6)
+            //    {
+            //        attrValue = RandomHelper.RandomNumber(seed, config.MinValue + quality - 3, config.MaxValue + quality - 3);
+            //    }
+            //    else
+            //    {
+            //        attrValue = RandomHelper.RandomNumber(seed, config.MinValue, config.MaxValue + 1);
+            //    }
 
-                rsList.Add(new KeyValuePair<int, long>(config.AttrId, attrValue));
-            }
-
-            return rsList;
-        }
-
-        public List<KeyValuePair<int, long>> BuildMaxShengxiao(int part, int quality)
-        {
-            List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();
-
-            List<AttrEntryConfig> configs = list.Where(m => m.Cycle == 99 && m.Type <= quality && m.PartList.Contains(part)).ToList();
-
-            for (int i = 0; i < configs.Count; i++)
-            {
-                AttrEntryConfig config = configs[i];
-
-                long attrValue = 0;
-
-                if (config.Type == 6)
-                {
-                    attrValue = config.MaxValue + quality - 4;
-                }
-                else
-                {
-                    attrValue = config.MaxValue;
-                }
-
-                rsList.Add(new KeyValuePair<int, long>(config.AttrId, attrValue));
-            }
+            //    rsList.Add(new KeyValuePair<int, long>(config.AttrId, attrValue));
+            //}
 
             return rsList;
         }
+
+        //public List<KeyValuePair<int, long>> BuildMaxShengxiao(int part, int quality)
+        //{
+        //    List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();
+
+        //    List<AttrEntryConfig> configs = list.Where(m => m.Cycle == 99 && m.Type <= quality && m.PartList.Contains(part)).ToList();
+
+        //    for (int i = 0; i < configs.Count; i++)
+        //    {
+        //        AttrEntryConfig config = configs[i];
+
+        //        long attrValue = 0;
+
+        //        if (config.Type == 6)
+        //        {
+        //            attrValue = config.MaxValue + quality - 4;
+        //        }
+        //        else
+        //        {
+        //            attrValue = config.MaxValue;
+        //        }
+
+        //        rsList.Add(new KeyValuePair<int, long>(config.AttrId, attrValue));
+        //    }
+
+        //    return rsList;
+        //}
     }
 }

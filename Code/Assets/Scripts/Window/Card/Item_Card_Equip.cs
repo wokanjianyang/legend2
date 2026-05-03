@@ -42,68 +42,16 @@ namespace Game
 
         public void Show()
         {
-            //User user = GameProcessor.Inst.User;
+            User user = GameProcessor.Inst.User;
 
-            //int groupLevel = user.GetCardSpecialGroupLevel();
-
-            //long cardLevel = user.GetCardLevel(Config.Id);
-
-            //long riseLevel = user.GetCardRiseLevel(Config.Quality, cardLevel, groupLevel);
-
-            //Debug.Log(string.Format("card cardLevel : {0},groupLevel:{1},riseLevel{2}", cardLevel, groupLevel, riseLevel));
-
-            //long totalLevel = cardLevel + riseLevel;
-            //long val = Config.AttrValue * totalLevel;
-
-            //long riseValue = Config.GetCardRiseValue(totalLevel, groupLevel);
-
-            //if (Config.AttrId > 0)
-            //{
-            //    string txtCurrent = StringHelper.FormatAttrText(Config.AttrId, val);
-
-            //    if (riseValue > 0)
-            //    {
-            //        txtCurrent += "+" + StringHelper.FormatAttrValueText(Config.AttrId, riseValue);
-            //    }
-            //    this.Txt_Attr_Current.text = txtCurrent;
-            //    this.Txt_Attr_Rise.text = "升级增加:" + StringHelper.FormatAttrValueText(Config.AttrId, Config.AttrValue);
-            //}
-            //else
-            //{
-            //    string txtCurrent = string.Format(Config.Des, val);
-            //    if (riseValue > 0)
-            //    {
-            //        txtCurrent += "+" + riseValue + "%";
-            //    }
-
-            //    this.Txt_Attr_Current.text = txtCurrent;
-            //    this.Txt_Attr_Rise.text = "升级增加:1%";
-            //}
-
-            //if (riseLevel > 0)
-            //{
-            //    this.Txt_Level.text = $"等级{cardLevel}+{riseLevel}";
-            //}
-            //else
-            //{
-            //    this.Txt_Level.text = $"等级{cardLevel}";
-            //}
-
-            //int itemId = Config.RiseId;
-            //long upNumber = Config.CalNewUpNumber(cardLevel);
-
-            //long total = user.GetItemMeterialCount(itemId);
-
-            //string color = total >= upNumber ? "#FFFF00" : "#FF0000";
-
-            //Txt_Fee.text = string.Format("<color={0}>{1}</color> /{2}", color, total, upNumber);
+            int cardCount = user.GetCardEquipCount(Config.Id);
+            this.Txt_Require.text = cardCount + "/" + Config.Count;
         }
 
         public void SetContent(CardConfig config)
         {
             this.Config = config;
             this.Txt_Name.text = config.Name;
-            this.Txt_Require.text = "0/" + config.Count;
             this.Txt_Attr.text = StringHelper.FormatAttrText(config.AttrIdList[0], config.AttrValueList[0]);
 
             this.Show();

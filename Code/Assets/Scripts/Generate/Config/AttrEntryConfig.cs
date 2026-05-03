@@ -78,32 +78,35 @@ namespace Game
 		/// <summary>_ID</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>AttrId</summary>
+		/// <summary>Cycle</summary>
 		[ProtoMember(2)]
-		public int AttrId { get; set; }
-		/// <summary>Type</summary>
+		public int Cycle { get; set; }
+		/// <summary>AttrId</summary>
 		[ProtoMember(3)]
-		public int Type { get; set; }
-		/// <summary>描述</summary>
-		[ProtoMember(4)]
-		public string Desc { get; set; }
+		public int AttrId { get; set; }
 		/// <summary>MinValue</summary>
-		[ProtoMember(5)]
+		[ProtoMember(4)]
 		public int MinValue { get; set; }
 		/// <summary>MaxValue</summary>
-		[ProtoMember(6)]
+		[ProtoMember(5)]
 		public int MaxValue { get; set; }
 		/// <summary>PartList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(6)]
 		public int[] PartList { get; set; }
-		/// <summary>Cycle</summary>
+		/// <summary>StartLevel</summary>
+		[ProtoMember(7)]
+		public int StartLevel { get; set; }
+		/// <summary>EndLevel</summary>
 		[ProtoMember(8)]
-		public int Cycle { get; set; }
+		public int EndLevel { get; set; }
 		/// <summary>MaxCount</summary>
 		[ProtoMember(9)]
 		public int MaxCount { get; set; }
-		/// <summary>Role</summary>
+		/// <summary>Rate</summary>
 		[ProtoMember(10)]
+		public int Rate { get; set; }
+		/// <summary>Role</summary>
+		[ProtoMember(11)]
 		public int Role { get; set; }
 
 	}

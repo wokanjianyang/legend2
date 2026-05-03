@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Random = System.Random;
 
 namespace Game
@@ -55,6 +56,25 @@ namespace Game
 
                 return rd < fr;
             }
+        }
+
+        internal static int RandomListRateIndex(List<int> rates, int seed)
+        {
+            int maxRate = rates.Sum();
+            int rd = RandomNumber(seed, 1, maxRate + 1);
+
+            int tempRate = 0;
+            for (int i = 0; i < rates.Count; i++)
+            {
+                tempRate += rates[i];
+
+                if (rd <= tempRate)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
         }
 
         public static int RandomEquipQuality(int level, int qualityRate)

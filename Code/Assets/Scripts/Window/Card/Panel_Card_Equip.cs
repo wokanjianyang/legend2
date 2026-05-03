@@ -48,8 +48,4 @@ public class Panel_Card_Equip : MonoBehaviour
             items.Add(com);
         }
     }
-
-    public void SelectItem(int id) { 
-       
-    }
 }

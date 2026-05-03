@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using UnityEngine;
 using Random = System.Random;
+using System.Collections.Generic;
 
 namespace Game
 {
@@ -44,6 +45,8 @@ namespace Game
         public static bool Spirit_Auto = false;
         public static int Spirit_Id = 1;
 
+        public static IDictionary<int, int> EquipRecord { get; set; } = new Dictionary<int, int>();
+
         //-------设置
         public static bool ShowPlayerEffect = true; //是否显示技能效果
         public static bool ShowMonsterDamage = true; //是否显示怪物伤害
@@ -54,6 +57,25 @@ namespace Game
         {
             //如果次数少于500次，则品质-1
             return CopyCount > 600 ? 0 : 1;
+        }
+
+        public static int GetPosition(Equip equip)
+        {
+            if (equip.Position.Length > 1)
+            {
+                int part = equip.Part;
+                if (!EquipRecord.ContainsKey(part))
+                {
+                    EquipRecord[part] = 0;
+                }
+                int pi = EquipRecord[part] % equip.Position.Length;
+
+                EquipRecord[part]++;
+
+                return equip.Position[pi];
+            }
+
+            return equip.Position[0];
         }
 
         public static string getKey()

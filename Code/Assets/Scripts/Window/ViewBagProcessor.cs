@@ -672,12 +672,6 @@ namespace Game
             User user = GameProcessor.Inst.User;
             user.EquipPanelIndex = index;
 
-            if (user.ExclusiveSetting)
-            {
-                user.ExclusiveIndex = index;
-                //GameProcessor.Inst.EventCenter.Raise(new ChangeExclusiveEvent() { Index = index });
-            }
-
             if (user.EquipGoldenSetting)
             {
                 user.EquipGoldenIndex = index;
@@ -745,6 +739,8 @@ namespace Game
             UseBoxItem(e.BoxItem, 1);
 
             user.CardEquipDict[equip.ConfigId] = 1;
+
+            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         }
 
 
@@ -1401,13 +1397,7 @@ namespace Game
             }
 
             //增加一次穿戴记录，用做轮流穿戴左右
-            if (!user.EquipRecord.ContainsKey(Part))
-            {
-                user.EquipRecord[Part] = 0;
-            }
-            user.EquipRecord[Part]++;
-            int PartIndex = user.EquipRecord[Part] % equip.Position.Length;
-            int Position = equip.Position[PartIndex];
+            int Position = AppHelper.GetPosition(equip);
 
             //从包袱移除
             UseBoxItem(boxItem, 1);

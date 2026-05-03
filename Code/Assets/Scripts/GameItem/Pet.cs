@@ -31,11 +31,6 @@ namespace Game
 
         public int Status { get; set; } = 0;
 
-        public override int GetQuality()
-        {
-            return Quality;
-        }
-
         public Pet(int role) : base(role, ItemType.Pet)
         {
             this.Role = role;
@@ -91,6 +86,18 @@ namespace Game
         public void AddKillCount(int rate)
         {
             this.KillCount.Data += rate;
+        }
+
+
+        //--------------ovveride
+        public override int GetQuality()
+        {
+            return this.Quality;
+        }
+
+        public override string GetName()
+        {
+            return "²âÊÔ³èÎï";
         }
     }
 }

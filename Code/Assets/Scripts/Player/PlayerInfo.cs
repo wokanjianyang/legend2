@@ -9,10 +9,11 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerInfo : MonoBehaviour, IBattleLife
 {
-    public Text txt_Name;
+    public TMP_Text txt_Name;
 
     public HP_Progress hp_Progress;
 

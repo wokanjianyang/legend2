@@ -23,6 +23,7 @@ namespace Game
         public Text TxtName;
         public Text TxtLevel;
         public Text TxtLayer;
+        public Text Txt_Count;
 
         [LabelText("资质")]
         public Transform Tf_Flair;
@@ -110,6 +111,7 @@ namespace Game
             this.TxtName.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.GetName());
             this.TxtLevel.text = pet.PetLevel.Data + "";
             this.TxtLayer.text = pet.PetLayer.Data + "";
+            this.Txt_Count.text = "杀敌数：" + pet.GetTotalKillCount() + "点";
 
             var flairs = pet.Flairs;
 

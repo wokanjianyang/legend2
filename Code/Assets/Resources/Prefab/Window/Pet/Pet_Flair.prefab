@@ -31,7 +31,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8990495512143704820}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -67,7 +67,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 5dcea5cbc5467a44592b8769e1798713, type: 3}
+    m_Font: {fileID: 12800000, guid: 83765a9eddf92cc4a9f5fc1495ef9caf, type: 3}
     m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
@@ -80,86 +80,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\uFF08\u7D2F\u8BA1\u653B\u51FB12000\uFF09"
---- !u!1 &2588346549429452090
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2016433395539681533}
-  - component: {fileID: 8964576018988804390}
-  - component: {fileID: 879075512575614254}
-  m_Layer: 0
-  m_Name: Txt_Count
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2016433395539681533
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2588346549429452090}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8990495512143704820}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: 240, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &8964576018988804390
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2588346549429452090}
-  m_CullTransparentMesh: 1
---- !u!114 &879075512575614254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2588346549429452090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.99607843, g: 0.99607843, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 5dcea5cbc5467a44592b8769e1798713, type: 3}
-    m_FontSize: 26
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 40
-    m_Alignment: 3
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: "\uFF08\u6740\u654C\u657012000\uFF09"
 --- !u!1 &6038637416723148342
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +147,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 5dcea5cbc5467a44592b8769e1798713, type: 3}
+    m_Font: {fileID: 12800000, guid: 83765a9eddf92cc4a9f5fc1495ef9caf, type: 3}
     m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
@@ -239,7 +159,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6740\u654C\u653B\u51FB\uFF1A0.1"
+  m_Text: "\u6BCF1000\u70B9\u6740\u654C\u6570\uFF0C\u589E\u52A0\u653B\u51FB0.1\u70B9"
 --- !u!1 &8609859959132169616
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +190,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6377844814094169902}
-  - {fileID: 2016433395539681533}
   - {fileID: 8012502525229875429}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -293,5 +212,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Txt_Name: {fileID: 2913449494616855133}
-  Txt_Count: {fileID: 879075512575614254}
   Txt_Total: {fileID: 5118216045456306069}

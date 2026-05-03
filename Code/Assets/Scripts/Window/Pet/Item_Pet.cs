@@ -114,7 +114,8 @@ namespace Game
                 Btn_Run.gameObject.SetActive(true);
                 Btn_Stop.gameObject.SetActive(false);
             }
-            else {
+            else
+            {
                 Btn_Run.gameObject.SetActive(false);
                 Btn_Stop.gameObject.SetActive(true);
             }

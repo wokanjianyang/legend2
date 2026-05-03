@@ -46,8 +46,6 @@ public class ViewForgeProcessor : AViewPage
     public Toggle toggle_Hone;
     public Panel_Hone PanelHone;
 
-    public Toggle toggle_Exchange;
-    public Panel_Exchange PanelExchange;
 
     public Toggle toggle_GradeSpecail;
     public Panel_Grade_Specail PanelGradeSpecail;
@@ -96,11 +94,6 @@ public class ViewForgeProcessor : AViewPage
         this.toggle_Reform.onValueChanged.AddListener((isOn) =>
         {
             PanelReform.gameObject.SetActive(isOn);
-        });
-
-        this.toggle_Exchange.onValueChanged.AddListener((isOn) =>
-        {
-            PanelExchange.gameObject.SetActive(isOn);
         });
 
         this.toggle_Refresh.onValueChanged.AddListener((isOn) =>

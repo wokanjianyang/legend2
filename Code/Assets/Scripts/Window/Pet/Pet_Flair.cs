@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class Pet_Flair : MonoBehaviour
 {
     public Text Txt_Name;
-    public Text Txt_Count;
     public Text Txt_Total;
 
 
@@ -26,8 +25,7 @@ public class Pet_Flair : MonoBehaviour
         double r = rise / ConfigHelper.PetKillPercent;
         double total = r * count;
 
-        Txt_Name.text = config.Name + "：" + r;
-        Txt_Count.text = "（杀敌数" + count + "）";
+        Txt_Name.text = "每点" + config.Percent + "杀敌数，增加" + StringHelper.FormatAttrValueName(config.AttrId) + r + "";
         Txt_Total.text = "（累计" + StringHelper.FormatAttrValueName(config.AttrId) + total + "）";
     }
 }

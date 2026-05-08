@@ -62,8 +62,6 @@ public class Main_Map_Item : MonoBehaviour
         var dialog = this.GetComponentInParent<Main_Map_Dialog>();
         dialog.gameObject.SetActive(false);
 
-        AppHelper.CurrentMapId = this.Config.Id;
-
         GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { MapId = this.Config.Id });
     }
 }

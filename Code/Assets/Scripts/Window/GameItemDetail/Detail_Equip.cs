@@ -102,7 +102,7 @@ namespace Game
             this.boxItem = e.boxItem;
             this.Positioin = e.EquipPosition;
 
-            var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item);
+            var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item.GetQuality());
 
             Equip equip = this.boxItem.Item as Equip;
 

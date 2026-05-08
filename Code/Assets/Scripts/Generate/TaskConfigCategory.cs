@@ -5,13 +5,13 @@ using System.Linq;
 namespace Game
 {
 
-    public partial class TaskConfigCategory
+    public partial class AchievementTaskConfigCategory
     {
-        public TaskConfig GetById(int taskId)
+        public AchievementTaskConfig GetById(int taskId)
         {
             try
             {
-                TaskConfig config = Get(taskId);
+                AchievementTaskConfig config = Get(taskId);
 
                 return config;
             }
@@ -30,7 +30,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            TaskConfig config = TaskConfigCategory.Instance.GetById(user.TaskId);
+            AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
 
             if (config == null)
             {

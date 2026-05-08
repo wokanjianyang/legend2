@@ -9,7 +9,13 @@ namespace Game
 {
     public class PrefabHelper
     {
-        private List<GameObject> ComBoxList = new List<GameObject>();
+        public GameObject ComBoxEmpty = null;
+        public GameObject ComBoxDefault = null;
+        public GameObject ComBoxEquip = null;
+
+        private List<Sprite> ComBoxList = new List<Sprite>();
+
+        //private List<GameObject> ComBoxList = new List<GameObject>();
         private GameObject BoxSelectPrefab = null;
         private GameObject BoxDropPrefab = null;
 
@@ -27,6 +33,8 @@ namespace Game
         private Dictionary<int, Sprite> EquipBgList = new Dictionary<int, Sprite>();
 
         private Dictionary<int, Sprite> SkillLogoList = new Dictionary<int, Sprite>();
+
+        private Dictionary<int, Sprite> EquipLogoList = new Dictionary<int, Sprite>();
 
         private Sprite MonsterDefend = null;
 
@@ -51,16 +59,19 @@ namespace Game
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_4"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_5"));
 
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box_Empty"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box1"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box2"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box3"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box4"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box5"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box6"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box7"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box8"));
-            ComBoxList.Add(Resources.Load<GameObject>("Prefab/Window/Bag/Box9"));
+            ComBoxEmpty = Resources.Load<GameObject>("Prefab/Window/Bag/Box_Empty");
+            ComBoxDefault = Resources.Load<GameObject>("Prefab/Window/Bag/Box_Default");
+            ComBoxEquip = Resources.Load<GameObject>("Prefab/Window/Bag/Box_Equip");
+
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box1"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box2"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box3"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box4"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box5"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box6"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box7"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box8"));
+            ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box9"));
 
             for (int i = 1; i <= 10; i++)
             {
@@ -116,21 +127,23 @@ namespace Game
             return PlayerList[type];
         }
 
-        public GameObject GetBoxPrefab(int quanlity)
-        {
-            return ComBoxList[quanlity];
-        }
-
         public Sprite GetBoxImage(int quanlity)
         {
             return BoxImageList[quanlity - 1];
         }
 
-
         public Com_Box CreateComBox(BoxItem item)
         {
-            var prefab = GetBoxPrefab(item.Item.GetQuality());
-            var box = GameObject.Instantiate(prefab);
+            GameObject box;
+            if (item.Item.GetItemType() == ItemType.Equip)
+            {
+                box = GameObject.Instantiate(ComBoxEquip);
+            }
+            else
+            {
+                box = GameObject.Instantiate(ComBoxDefault);
+            }
+
             Com_Box comItem = box.GetComponent<Com_Box>();
 
             comItem.SetItem(item);
@@ -218,6 +231,17 @@ namespace Game
             }
 
             return SkillLogoList[skillId];
+        }
+
+        public Sprite GetEquipLog(int role, int part)
+        {
+            int key = role * 100 + part;
+            if (!EquipLogoList.ContainsKey(key))
+            {
+                EquipLogoList[key] = Resources.Load<Sprite>("UI/Bag/Equip/" + "Box_Equip_" + role + "_" + part);
+            }
+
+            return EquipLogoList[key];
         }
 
         public Sprite GetMonsterWorld(int id)

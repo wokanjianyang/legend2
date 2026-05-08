@@ -17,6 +17,7 @@ namespace Game
 
         public Button Btn_Info;
         public Button Btn_Achievement;
+        public Dialog_Achievement Dlg_Achievement;
 
         public Button Btn_Stage;
 
@@ -36,8 +37,14 @@ namespace Game
         private void Init()
         {
             User user = GameProcessor.Inst.User;
+            if (user.OffLineMapId <= 0)
+            {
+                user.OffLineMapId = 1;
+            }
 
-            MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
+            AppHelper.CurrentMapId = user.OffLineMapId;
+            MapConfig config = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
+
             this.Txt_Desc.text = "0S»÷É±0¸ö";
             this.Txt_MapName.text = config.Name;
         }
@@ -60,6 +67,14 @@ namespace Game
 
         private void OnChangeMap(ChangeMainMapEvent e)
         {
+            AppHelper.CurrentMapId = e.MapId;
+            User user = GameProcessor.Inst.User;
+            user.OffLineMapId = AppHelper.CurrentMapId;
+
+            GameProcessor.Inst.OnDestroy();
+            GameProcessor.Inst.SetGameOver(PlayerType.Hero);
+            GameProcessor.Inst.LoadMap(RuleType.Normal, this.transform, null);
+
             MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
             //this.Txt_Desc.text = "0S»÷É±0¸ö";
             this.Txt_MapName.text = config.Name;
@@ -115,7 +130,7 @@ namespace Game
         }
         private void OnClick_Achievement()
         {
-
+            this.Dlg_Achievement.gameObject.SetActive(true);
         }
 
         private void OnClick_ToStage()

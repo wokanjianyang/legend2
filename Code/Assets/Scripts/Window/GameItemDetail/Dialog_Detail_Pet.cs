@@ -104,7 +104,7 @@ namespace Game
 
             this.boxItem = e.boxItem;
 
-            string titleColor = QualityConfigHelper.GetColor(this.boxItem.Item);
+            string titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 
             Pet pet = this.boxItem.Item as Pet;
 

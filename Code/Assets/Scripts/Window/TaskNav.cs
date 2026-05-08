@@ -49,7 +49,7 @@ namespace Game
             //    return;
             //}
 
-            TaskConfig config = TaskConfigCategory.Instance.GetById(user.TaskId);
+            AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
 
             if (config == null)
             {  //over
@@ -78,7 +78,7 @@ namespace Game
             }
 
             //build reward
-            TaskConfig config = TaskConfigCategory.Instance.GetById(user.TaskId);
+            AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
             user.AddExpAndGold(config.RewardExp, config.RewardGold);
 
             List<Item> items = new List<Item>();

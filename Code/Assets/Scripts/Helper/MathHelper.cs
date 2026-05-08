@@ -73,7 +73,7 @@ namespace Game
             int count = (int)(rs / 100);
             int rate = (int)(rs - count * 100);
 
-            if (RandomHelper.RandomRate(rate))
+            if (RandomHelper.RandomCritRate(rate))
             {
                 count++;
             }

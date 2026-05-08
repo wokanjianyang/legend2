@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Game
 {
@@ -12,12 +13,6 @@ namespace Game
 
     public class QualityConfigHelper
     {
-        public static string GetColor(Item item)
-        {
-            var titleColor = GetQualityColor(item.GetQuality());
-            return titleColor;
-        }
-
         public static int GetMaxColor(List<Item> items)
         {
             int ml = 1;
@@ -32,6 +27,11 @@ namespace Game
         public static string GetEquipTagColor(bool isKeep)
         {
             return isKeep ? "FF0000" : "FFFFFF";
+        }
+
+        public static Color GetColor(int quality)
+        {
+            return ColorHelper.HexToColor(QualityConfigHelper.GetQualityColor(quality));
         }
 
         public static string GetQualityColor(int quality)

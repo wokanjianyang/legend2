@@ -358,7 +358,7 @@ public class Panel_Refresh : MonoBehaviour
         }
         else
         {
-            if ((RefreshCount - AutoSaveCount) > 10 && RandomHelper.RandomRate(1))
+            if ((RefreshCount - AutoSaveCount) > 10)
             {
                 Debug.Log("Refresh save net: " + RefreshCount);
                 AutoSaveCount = RefreshCount;

@@ -67,7 +67,7 @@ namespace Game
 
             //致命
             int deadlyRate = (int)((attcher.CalBattleTotalAttr(AttributeEnum.DeadlyRate) + skill.DeadlyRate));
-            if (RandomHelper.RandomRate(deadlyRate))
+            if (RandomHelper.RandomCritRate(deadlyRate))
             {
                 int deadlyDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.DeadlyDamage) + skill.DeadlyDamage);
                 atk *= (1 + deadlyDamage / 100.0);
@@ -75,7 +75,7 @@ namespace Game
 
             //暴击
             int critRate = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritRate) + skill.CritRate - enemy.CalBattleTotalAttr(AttributeEnum.CritRateResist));
-            if (RandomHelper.RandomRate(critRate))
+            if (RandomHelper.RandomCritRate(critRate))
             {
                 long critDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritDamage) + skill.CritDamage - enemy.CalBattleTotalAttr(AttributeEnum.CritDamageResist));
                 atk *= (1 + critDamage / 100.0);
@@ -128,7 +128,7 @@ namespace Game
 
             //Debug.Log("miss rate:" + rate);
 
-            return !RandomHelper.RandomRate((int)rate);
+            return !RandomHelper.RandomCritRate((int)rate);
         }
 
         public static bool IsMiss2(APlayer self, APlayer enemy)
@@ -139,7 +139,7 @@ namespace Game
 
             //Debug.Log("miss2 rate:" + rate);
 
-            return RandomHelper.RandomRate((int)rate);
+            return RandomHelper.RandomCritRate((int)rate);
         }
     }
 

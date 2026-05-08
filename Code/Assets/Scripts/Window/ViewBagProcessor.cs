@@ -326,7 +326,7 @@ namespace Game
             //    this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
             //}
 
-            var emptyPrefab = PrefabHelper.Instance().GetBoxPrefab(0); ;
+            var emptyPrefab = PrefabHelper.Instance().ComBoxEmpty;
             yield return null;
 
             for (int k = 0; k < Bag_List.Count; k++)

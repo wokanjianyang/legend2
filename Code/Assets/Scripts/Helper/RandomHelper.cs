@@ -219,11 +219,16 @@ namespace Game
             return random.Next(2) == 0;
         }
 
-        public static bool RandomRate(int rate)
+        public static bool RandomCritRate(int rate)
         {
             if (rate >= 100) return true;
             if (rate <= 0) return false;
             return random.Next(1, 100) <= rate;
+        }
+
+        public static bool RandomDropRate(int rate)
+        {
+            return random.Next(0, rate) <= 0;
         }
 
         public static T RandomArray<T>(this T[] array)

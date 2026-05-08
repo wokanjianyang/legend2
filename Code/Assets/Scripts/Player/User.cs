@@ -75,11 +75,9 @@ namespace Game
 
         public MagicData MagicLevel { get; } = new MagicData();
 
-        public MagicDouble MagicGold { get; } = new MagicDouble();
+        public MagicData MagicGold { get; } = new MagicData();
 
-        public MagicDouble MagicExp { get; } = new MagicDouble();
-
-        public MagicDouble MagicUpExp { get; } = new MagicDouble();
+        public MagicData MagicExp { get; } = new MagicData();
 
         public MagicData BabelData { get; } = new MagicData();
         public MagicData BabelCount { get; } = new MagicData();
@@ -384,6 +382,9 @@ namespace Game
 
         [JsonIgnore]
         public AttributeBonus AttributeBonus { get; set; }
+
+        [JsonIgnore]
+        public long TempUpExp { get; set; } = 0;
 
         [JsonIgnore]
         public int StoneNumber = 0;
@@ -1032,7 +1033,7 @@ namespace Game
             {
                 if (this.MagicLevel.Data < GetMaxLevel())
                 {
-                    this.MagicExp.Data += exp;
+                    this.MagicExp.Data += (long)exp;
                 }
                 else
                 {
@@ -1042,12 +1043,12 @@ namespace Game
 
             if (gold > 0)
             {
-                this.MagicGold.Data += gold;
+                this.MagicGold.Data += (long)gold;
             }
 
             GameProcessor.Inst.EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
 
-            if (MagicExp.Data >= MagicUpExp.Data)
+            if (MagicExp.Data >= TempUpExp)
             {
                 GameProcessor.Inst.StartCoroutine(LevelUp()); //升级
             }
@@ -1060,7 +1061,7 @@ namespace Game
                 GameProcessor.Inst.EventCenter.Raise(new CheckGameCheatEvent());
                 return;
             }
-            this.MagicExp.Data -= exp;
+            this.MagicExp.Data -= (long)exp;
 
             GameProcessor.Inst.EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
         }
@@ -1073,7 +1074,7 @@ namespace Game
                 return;
             }
 
-            this.MagicGold.Data -= gold;
+            this.MagicGold.Data -= (long)gold;
 
             GameProcessor.Inst.EventCenter.Raise(new UserInfoUpdateEvent()); //更新UI
         }
@@ -1081,9 +1082,9 @@ namespace Game
         IEnumerator LevelUp()
         {
 
-            while (this.MagicExp.Data >= this.MagicUpExp.Data && this.MagicLevel.Data < GetMaxLevel())
+            while (this.TempUpExp >= 1 && this.MagicExp.Data >= this.TempUpExp && this.MagicLevel.Data < GetMaxLevel())
             {
-                MagicExp.Data -= MagicUpExp.Data;
+                MagicExp.Data -= TempUpExp;
                 this.MagicLevel.Data++;
 
                 SetUpExp();
@@ -1109,7 +1110,7 @@ namespace Game
             LevelConfig config = LevelConfigCategory.Instance.GetAll().Where(m => m.Value.StartLevel <= MagicLevel.Data && m.Value.EndLevel >= MagicLevel.Data).First().Value;
 
             double exp = StringHelper.StringToNumber(config.Exp);
-            MagicUpExp.Data = levelAttr * exp;
+            TempUpExp = (long)(levelAttr * exp);
         }
 
         public long GetBagItemCount(int id)

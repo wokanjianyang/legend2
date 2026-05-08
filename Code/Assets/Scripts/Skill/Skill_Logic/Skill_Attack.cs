@@ -99,7 +99,7 @@ namespace Game
                 //{
                 //    Debug.Log("Chediding rate:" + skillChediding.Rate);
                 //}
-                if (skillChediding != null && baseDr != null && RandomHelper.RandomRate(skillChediding.Rate))
+                if (skillChediding != null && baseDr != null && RandomHelper.RandomCritRate(skillChediding.Rate))
                 {
                     skillChediding.Do(baseDr);
                 }

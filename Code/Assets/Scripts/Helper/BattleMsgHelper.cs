@@ -47,7 +47,7 @@ namespace Game
                         qt = "*" + drop.Count * burstMul;
                     }
 
-                    drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.GetName()}]</color>" + qt;
+                    drops += $"<color=#{QualityConfigHelper.GetColor(drop.GetQuality())}>[{drop.GetName()}]</color>" + qt;
                 }
             }
 
@@ -86,7 +86,7 @@ namespace Game
                         qt = "*" + drop.Count + " ";
                     }
 
-                    drops += $"<color=#{QualityConfigHelper.GetColor(drop)}>[{drop.GetName()}]</color>" + qt;
+                    drops += $"<color=#{QualityConfigHelper.GetColor(drop.GetQuality())}>[{drop.GetName()}]</color>" + qt;
                 }
             }
 

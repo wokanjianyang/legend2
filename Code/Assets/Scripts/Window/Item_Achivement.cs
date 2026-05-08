@@ -42,7 +42,7 @@ public class Item_Achivement : MonoBehaviour
 
         if (config.RewardType == 1)
         {
-            attrText = "成就属性:" + StringHelper.FormatAttrText(config.AttrId, config.AttrValue);
+            attrText = "成就属性:" + StringHelper.FormatAttrText(config.AtrId, config.AtrVue);
         }
         else if (config.RewardType == 2)
         {
@@ -50,19 +50,19 @@ public class Item_Achivement : MonoBehaviour
         }
         else if (config.RewardType == 3)
         {
-            attrText = "成就属性:装备分解精炼石数量 + " + config.AttrValue;
+            attrText = "成就属性:装备分解精炼石数量 + " + config.AtrVue;
         }
         else if (config.RewardType == 4)
         {
-            attrText = "成就属性:魂环碎片掉落数量 + " + config.AttrValue;
+            attrText = "成就属性:魂环碎片掉落数量 + " + config.AtrVue;
         }
         else if (config.RewardType == 5)
         {
-            attrText = "成就属性:离线闯关寻怪时间 - " + config.AttrValue;
+            attrText = "成就属性:离线闯关寻怪时间 - " + config.AtrVue;
         }
         else if (config.RewardType == (int)AchievementRewardType.Skill)
         {
-            attrText = "成就属性:技能出战栏 + " + config.AttrValue;
+            attrText = "成就属性:技能出战栏 + " + config.AtrVue;
         }
 
 

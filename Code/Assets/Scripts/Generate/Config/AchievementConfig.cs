@@ -78,26 +78,35 @@ namespace Game
 		/// <summary>_id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>Name</summary>
+		/// <summary>GroupId</summary>
 		[ProtoMember(2)]
-		public string Name { get; set; }
-		/// <summary>Type</summary>
+		public int GroupId { get; set; }
+		/// <summary>Name</summary>
 		[ProtoMember(3)]
-		public int Type { get; set; }
-		/// <summary>Condition</summary>
+		public string Name { get; set; }
+		/// <summary>Max</summary>
 		[ProtoMember(4)]
-		public long Condition { get; set; }
-		/// <summary>RewardType</summary>
+		public int Max { get; set; }
+		/// <summary>Condition</summary>
 		[ProtoMember(5)]
-		public int RewardType { get; set; }
-		/// <summary>AttrId</summary>
+		public long Condition { get; set; }
+		/// <summary>RiseCond</summary>
 		[ProtoMember(6)]
-		public int AttrId { get; set; }
-		/// <summary>AttrValue</summary>
+		public long RiseCond { get; set; }
+		/// <summary>RewardType</summary>
 		[ProtoMember(7)]
-		public int AttrValue { get; set; }
-		/// <summary>Memo</summary>
+		public int RewardType { get; set; }
+		/// <summary>AtrId</summary>
 		[ProtoMember(8)]
+		public int AtrId { get; set; }
+		/// <summary>AtrVue</summary>
+		[ProtoMember(9)]
+		public int AtrVue { get; set; }
+		/// <summary>AtrVueRise</summary>
+		[ProtoMember(10)]
+		public int AtrVueRise { get; set; }
+		/// <summary>Memo</summary>
+		[ProtoMember(11)]
 		public string Memo { get; set; }
 
 	}

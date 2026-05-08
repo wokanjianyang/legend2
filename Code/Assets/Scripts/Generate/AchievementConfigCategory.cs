@@ -7,17 +7,9 @@ namespace Game
 
     public partial class AchievementConfigCategory
     {
-        public AchievementConfig GetNext(AchievementConfig oldConfig)
+        public List<AchievementConfig> GetListByGid(int gid)
         {
-            try
-            {
-                return this.Get(oldConfig.Id + 1);
-            }
-            catch
-            {
-            }
-
-            return null;
+            return this.list.Where(m => m.GroupId == gid).ToList();
         }
     }
 

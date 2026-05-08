@@ -12,16 +12,18 @@ namespace Game
 
         [Title("物品格")]
         [LabelText("道具名")]
-        public Text tmp_Title;
+        public Text Txt_Name;
 
         [LabelText("数量")]
-        public Text tmp_Count;
+        public Text Txt_Count;
 
-        public GameObject go_Lock;
-        public GameObject img_Tag;
+        public Image Img_Lock;
+        public Image Img_Tag;
+        public Image Img_Bg;
+        public Image Img_Logo;
 
         //public Text Tag;
-        public Text Layer;
+        public Text Txt_Layer;
 
         public BoxItem BoxItem { get; private set; }
         public int boxId { get; private set; }
@@ -59,8 +61,8 @@ namespace Game
                     Equip equip = BoxItem.Item as Equip;
                     if (equip.GetQuality() > 5 && (equip.Part <= 10 || equip.Part >= 21))
                     {
-                        this.Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
-                        this.Layer.gameObject.SetActive(true);
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
+                        this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
                 else if (BoxItem.Item.GetItemType() == ItemType.Shengxiao)
@@ -69,13 +71,13 @@ namespace Game
 
                     if (item.LevelData.Data > 0)
                     {
-                        this.tmp_Count.text = item.LevelData.Data + "级";
-                        this.tmp_Count.gameObject.SetActive(true);
+                        this.Txt_Count.text = item.LevelData.Data + "级";
+                        this.Txt_Count.gameObject.SetActive(true);
                     }
                     if (item.LayerData.Data > 0)
                     {
-                        this.Layer.text = ConfigHelper.LayerChinaList[item.LayerData.Data] + "阶";
-                        this.Layer.gameObject.SetActive(true);
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[item.LayerData.Data] + "阶";
+                        this.Txt_Layer.gameObject.SetActive(true);
                     }
 
                 }
@@ -87,7 +89,7 @@ namespace Game
             if (this.BoxItem == null) return;
 
             this.BoxItem.Item.IsNew = false;
-            this.img_Tag.gameObject.SetActive(false);
+            this.Img_Tag.gameObject.SetActive(false);
 
 
             if (this.BoxItem.Item.GetItemType() == ItemType.GiftPack)
@@ -156,24 +158,42 @@ namespace Game
         }
         public void SetItem(BoxItem item)
         {
-            this.tmp_Title.text = item.Item.GetName();
+            this.Img_Lock.gameObject.SetActive(false);
+            this.Img_Tag.gameObject.SetActive(false);
+            this.Txt_Count.gameObject.SetActive(false);
+            this.Txt_Layer.gameObject.SetActive(false);
+
+            int quality = item.Item.GetQuality();
+
+            this.Txt_Name.text = item.Item.GetName();
 
             this.BoxItem = item;
 
             this.Count = item.MagicNubmer.Data;
             this.BagType = item.GetBagType();
 
-            this.go_Lock.gameObject.SetActive(item.Item.IsLock);
+            this.Txt_Name.color = QualityConfigHelper.GetColor(quality);
+            this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
-            this.tmp_Count.transform.gameObject.SetActive(this.Count > 1);
+            this.Img_Lock.gameObject.SetActive(item.Item.IsLock);
+
+            this.Txt_Count.transform.gameObject.SetActive(this.Count > 1);
             if (this.Count > 999999999)
             {
-                this.tmp_Count.text = StringHelper.FormatNumber(this.Count);
+                this.Txt_Count.text = StringHelper.FormatNumber(this.Count);
             }
             else
             {
-                this.tmp_Count.text = this.Count.ToString();
+                this.Txt_Count.text = this.Count.ToString();
             }
+
+            if (item.Item.GetItemType() == ItemType.Equip)
+            {
+                Equip equip = item.Item as Equip;
+
+                this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
+            }
+
 
             if (item.Item.IsNew && (item.Item.GetItemType() == ItemType.Equip || item.Item.GetItemType() == ItemType.Exclusive))
             {
@@ -187,7 +207,7 @@ namespace Game
                     }
                 }
 
-                this.img_Tag.gameObject.SetActive(true);
+                this.Img_Tag.gameObject.SetActive(true);
             }
 
             this.ShowName();
@@ -215,15 +235,15 @@ namespace Game
         public void AddStack(long quantity)
         {
             this.Count += quantity;
-            this.tmp_Count.transform.gameObject.SetActive(this.Count != 1);
+            this.Txt_Count.transform.gameObject.SetActive(this.Count != 1);
 
             if (this.Count > 999999999)
             {
-                this.tmp_Count.text = StringHelper.FormatNumber(this.Count);
+                this.Txt_Count.text = StringHelper.FormatNumber(this.Count);
             }
             else
             {
-                this.tmp_Count.text = this.Count.ToString();
+                this.Txt_Count.text = this.Count.ToString();
             }
 
         }
@@ -231,20 +251,20 @@ namespace Game
         public void RemoveStack(long quantity)
         {
             this.Count -= quantity;
-            this.tmp_Count.transform.gameObject.SetActive(this.Count != 1);
+            this.Txt_Count.transform.gameObject.SetActive(this.Count != 1);
             if (this.Count > 999999999)
             {
-                this.tmp_Count.text = StringHelper.FormatNumber(this.Count);
+                this.Txt_Count.text = StringHelper.FormatNumber(this.Count);
             }
             else
             {
-                this.tmp_Count.text = this.Count.ToString();
+                this.Txt_Count.text = this.Count.ToString();
             }
         }
 
         public void SetLock(bool isLock)
         {
-            this.go_Lock.gameObject.SetActive(isLock);
+            this.Img_Lock.gameObject.SetActive(isLock);
         }
 
         public void SetType(ComBoxType type)

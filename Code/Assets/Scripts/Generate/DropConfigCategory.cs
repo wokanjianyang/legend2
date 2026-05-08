@@ -39,7 +39,7 @@ namespace Game
                 for (int i = 0; i < mapConfig.BaseIdList.Length; i++)
                 {
                     int realRate = (int)(mapConfig.BaseRateList[i] / burstRise);
-                    if (RandomHelper.RandomRate(realRate))
+                    if (RandomHelper.RandomDropRate(realRate))
                     {
                         list.Add(BuildByDropBaseId(mapConfig.BaseIdList[i], (int)qualityRise, 0));
                     }
@@ -51,7 +51,7 @@ namespace Game
                 for (int i = 0; i < mapConfig.DropIdList.Length; i++)
                 {
                     int realRate = (int)(mapConfig.DropRateList[i] / burstRise);
-                    if (RandomHelper.RandomRate(realRate))
+                    if (RandomHelper.RandomDropRate(realRate))
                     {
                         list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise));
                     }

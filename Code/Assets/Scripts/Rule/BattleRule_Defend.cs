@@ -92,11 +92,11 @@ public class Battle_Defend : ABattleRule
         if (enemys.Count <= 0 && !this.Start)
         {
             //check 
-            long progess = user.GetAchievementProgeress(AchievementSourceType.Defend);
+            long progess = user.GetAchievementProgeress(AchievementProType.Defend);
             long cp = (this.Level - 1) * 100 + this.Progress;
             if (progess < cp)
             {
-                user.MagicRecord[AchievementSourceType.Defend].Data = cp;
+                user.SetAchievementProgeress(AchievementProType.Defend, cp);
             }
 
             this.BuildRewardNew();

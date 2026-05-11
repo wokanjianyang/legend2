@@ -15,7 +15,7 @@ namespace Game
 
         public Dictionary<int, int> CardEquipDict = new Dictionary<int, int>();
 
-
+        public IDictionary<int, MagicData> GameRecord { get; set; } = new Dictionary<int, MagicData>();
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -149,7 +149,9 @@ namespace Game
 
         public IDictionary<int, List<int>> SkillPanelList { get; set; } = new Dictionary<int, List<int>>();
 
-        public IDictionary<AchievementSourceType, MagicData> MagicRecord { get; set; } = new Dictionary<AchievementSourceType, MagicData>();
+
+
+        public IDictionary<int, int> AchievementData { get; set; } = new Dictionary<int, int>();
 
         public IDictionary<int, int> RecordData { get; set; } = new Dictionary<int, int>();
 
@@ -281,7 +283,6 @@ namespace Game
 
         public int MapId { get; set; } = 1000;
 
-        public int TaskId { get; set; } = 1;
         public Dictionary<int, bool> TaskLog = new Dictionary<int, bool>();
 
         //副本次数记录
@@ -342,8 +343,6 @@ namespace Game
 
         public int FashionUpId { get; set; } = 0;
         public Dictionary<int, MagicData> ItemMeterialData { get; } = new Dictionary<int, MagicData>();
-
-        public Dictionary<int, int> AchievementData { get; } = new Dictionary<int, int>();
 
         public Dictionary<int, MagicData> CardData { get; } = new Dictionary<int, MagicData>();
 
@@ -430,7 +429,8 @@ namespace Game
 
             if (ConfigHelper.EnvTest == 2)
             {
-                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 1000000000);
+                AttributeBonus.SetAttr(AttributeEnum.BurstIncrea, AttributeFrom.Test + 1, 10000);
+                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 10000);
             }
 
             //设置升级属性
@@ -474,12 +474,10 @@ namespace Game
             {
                 int position = sp.Key;
                 EquipStrengthConfig strengthConfig = EquipStrengthConfigCategory.Instance.GetByPositioin(position);
-                for (int i = 0; i < strengthConfig.AttrList.Length; i++)
+
+                foreach (KeyValuePair<int, double> a in strengthConfig.GetTotalAtrList(sp.Value.Data))
                 {
-                    long strenthAttr = LevelConfigCategory.GetLevelAttr(sp.Value.Data);
-                    double strenthPercetn = this.GetRefineStrenthPercetn(position) / 100.0 + 1;
-                    strenthAttr = (long)(strenthAttr * strenthPercetn);
-                    AttributeBonus.SetAttr((AttributeEnum)strengthConfig.AttrList[i], AttributeFrom.EquiStrong, sp.Key, strenthAttr * strengthConfig.AttrValueList[i]);
+                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquiStrong, sp.Key, a.Value);
                 }
             }
 
@@ -628,7 +626,7 @@ namespace Game
 
             SkillData skillData;
 
-            TaskHelper.CheckTask(TaskType.SkillBook, 1);
+            //TaskHelper.CheckTask(TaskType.SkillBook, 1);
 
             if (e.IsLearn)
             {
@@ -948,16 +946,6 @@ namespace Game
             return list;
         }
 
-        public void SetAchievementProgeress(AchievementSourceType type, long count)
-        {
-            if (!this.MagicRecord.ContainsKey(type))
-            {
-                this.MagicRecord[type] = new MagicData();
-            }
-
-            this.MagicRecord[type].Data += count;
-        }
-
         public int GetRecordData(int type)
         {
             if (!RecordData.ContainsKey(type))
@@ -973,39 +961,35 @@ namespace Game
             RecordData[type] = data;
         }
 
-        public long GetAchievementProgeress(AchievementSourceType type)
+        public long GetAchievementProgeress(AchievementProType type)
         {
             long progress = 0;
 
             switch (type)
             {
-                case AchievementSourceType.Advert:
+                case AchievementProType.Advert:
                     progress = this.Record.GetRecord((int)RecordType.AdVirtual) + this.Record.GetRecord((int)RecordType.AdReal) * 2;
                     break;
-                case AchievementSourceType.RealAdvert:
-                    progress = this.Record.GetRecord((int)RecordType.AdReal);
-                    break;
-                case AchievementSourceType.Strong:
+                case AchievementProType.EquipStrong:
                     progress = this.MagicEquipStrength.Select(m => m.Value.Data).Sum();
                     break;
-                case AchievementSourceType.Refine:
+                case AchievementProType.EquipRefine:
                     progress = this.MagicEquipRefine.Select(m => m.Value.Data).Sum();
                     break;
-                case AchievementSourceType.Level:
+                case AchievementProType.EquipWear:
+                    progress = this.EquipPanelList[EquipPanelIndex].Count;
+                    break;
+                case AchievementProType.Level:
                     progress = this.MagicLevel.Data;
                     break;
-                case AchievementSourceType.BossFamily:
-                case AchievementSourceType.EquipCopy:
-                case AchievementSourceType.Defend:
-                case AchievementSourceType.Infinite:
-                case AchievementSourceType.Legacy:
                 default:
                     {
-                        if (!this.MagicRecord.ContainsKey(type))
+                        int ct = (int)type;
+                        if (!this.GameRecord.ContainsKey(ct))
                         {
-                            this.MagicRecord[type] = new MagicData();
+                            this.GameRecord[ct] = new MagicData();
                         }
-                        progress = this.MagicRecord[type].Data;
+                        progress = this.GameRecord[ct].Data;
                     }
                     break;
             }
@@ -1013,12 +997,48 @@ namespace Game
             return progress;
         }
 
-        public void KillMonsterEnvent(int rate)
+        public void SetAchievementProgeress(AchievementProType type, long count)
+        {
+            int ct = (int)type;
+            if (!this.GameRecord.ContainsKey(ct))
+            {
+                this.GameRecord[ct] = new MagicData();
+            }
+
+            this.GameRecord[ct].Data = count;
+        }
+
+        public void AddAchievementProgeress(AchievementProType type, long count)
+        {
+            int ct = (int)type;
+            if (!this.GameRecord.ContainsKey(ct))
+            {
+                this.GameRecord[ct] = new MagicData();
+            }
+
+            this.GameRecord[ct].Data += count;
+        }
+
+        public int GetAchievementLevel(int id)
+        {
+            if (!this.AchievementData.ContainsKey(id))
+            {
+                AchievementData[id] = 0;
+            }
+
+            return AchievementData[id];
+        }
+
+        public void KillMonsterEnvent(int rate, int quality)
         {
             foreach (Pet sp in PetList)
             {
                 sp.AddKillCount(rate);
             }
+
+            AddAchievementProgeress(AchievementProType.MonsterKillTotal, 1);
+            AchievementProType mk = (AchievementProType)(301 + quality);
+            AddAchievementProgeress(mk, 1);
         }
 
         public void AddExpAndGold(double exp, double gold)
@@ -1101,7 +1121,7 @@ namespace Game
                 GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
             }
 
-            TaskHelper.CheckTask(TaskType.Cycle, this.Cycle.Data);
+            //TaskHelper.CheckTask(TaskType.Cycle, this.Cycle.Data);
         }
 
         private void SetUpExp()

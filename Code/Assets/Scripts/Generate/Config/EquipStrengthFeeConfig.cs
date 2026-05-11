@@ -87,6 +87,9 @@ namespace Game
 		/// <summary>Fee</summary>
 		[ProtoMember(4)]
 		public long Fee { get; set; }
+		/// <summary>RiseFee</summary>
+		[ProtoMember(5)]
+		public long RiseFee { get; set; }
 
 	}
 }

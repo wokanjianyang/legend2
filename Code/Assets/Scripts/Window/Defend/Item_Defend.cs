@@ -40,7 +40,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            long p = user.MagicRecord[AchievementSourceType.Defend].Data - (this.Level - 1) * 100;
+            long p = user.GetAchievementProgeress(AchievementProType.Defend) - (this.Level - 1) * 100;
 
             //p = 0;
             if (p >= 100)

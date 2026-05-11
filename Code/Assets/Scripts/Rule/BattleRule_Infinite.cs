@@ -94,7 +94,7 @@ public class BattleRule_Infinite : ABattleRule
 
         if (enemys.Count <= 0 && !this.Start)
         {
-            long progess = user.GetAchievementProgeress(AchievementSourceType.Infinite);
+            long progess = user.GetAchievementProgeress(AchievementProType.Infinite);
             long ap = 1;
             if (UseTime >= 0 && currentProgres < progess)
             {
@@ -108,7 +108,7 @@ public class BattleRule_Infinite : ABattleRule
 
             if (progess < currentProgres)
             {
-                user.MagicRecord[AchievementSourceType.Infinite].Data = currentProgres;
+                user.SetAchievementProgeress(AchievementProType.Infinite, currentProgres);
             }
 
             record.Progress.Data += ap;

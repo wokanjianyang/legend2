@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Game
 {
@@ -24,6 +25,7 @@ namespace Game
 
         //public Text Tag;
         public Text Txt_Layer;
+        public TMP_Text Tmp_Name;
 
         public BoxItem BoxItem { get; private set; }
         public int boxId { get; private set; }
@@ -166,6 +168,11 @@ namespace Game
             int quality = item.Item.GetQuality();
 
             this.Txt_Name.text = item.Item.GetName();
+            if (Tmp_Name != null)
+            {
+                this.Tmp_Name.text = item.Item.GetName();
+                this.Tmp_Name.faceColor = QualityConfigHelper.GetColor(quality);
+            }
 
             this.BoxItem = item;
 
@@ -193,7 +200,12 @@ namespace Game
 
                 this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
             }
+            else if (item.Item.GetItemType() == ItemType.EquipSpeical)
+            {
+                Equip_Special equip = item.Item as Equip_Special;
 
+                this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
+            }
 
             if (item.Item.IsNew && (item.Item.GetItemType() == ItemType.Equip || item.Item.GetItemType() == ItemType.Exclusive))
             {

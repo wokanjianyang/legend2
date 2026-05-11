@@ -49,61 +49,61 @@ namespace Game
             //    return;
             //}
 
-            AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
+            //AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
 
-            if (config == null)
-            {  //over
-                this.gameObject.SetActive(false);
-                return;
-            }
+            //if (config == null)
+            //{  //over
+            //    this.gameObject.SetActive(false);
+            //    return;
+            //}
 
-            user.TaskLog.TryGetValue(user.TaskId, out bool isOver);
+            //user.TaskLog.TryGetValue(user.TaskId, out bool isOver);
 
-            Text btnText = PlayerGuide.GetComponentInChildren<Text>(true);
+            //Text btnText = PlayerGuide.GetComponentInChildren<Text>(true);
 
-            btnText.text = $"<color=#{QualityConfigHelper.GetTaskColor(isOver)}>[{config.Memo}]</color>";
+            //btnText.text = $"<color=#{QualityConfigHelper.GetTaskColor(isOver)}>[{config.Memo}]</color>";
 
         }
 
         private void Reward()
         {
-            User user = GameProcessor.Inst.User;
+            //User user = GameProcessor.Inst.User;
 
-            user.TaskLog.TryGetValue(user.TaskId, out bool isOver);
+            //user.TaskLog.TryGetValue(user.TaskId, out bool isOver);
 
-            if (!isOver)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "任务没有完成" });
-                return;
-            }
+            //if (!isOver)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "任务没有完成" });
+            //    return;
+            //}
 
-            //build reward
-            AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
-            user.AddExpAndGold(config.RewardExp, config.RewardGold);
+            ////build reward
+            //AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
+            //user.AddExpAndGold(config.RewardExp, config.RewardGold);
 
-            List<Item> items = new List<Item>();
-            if (config.RewardIdList != null)
-            {
-                for (int i = 0; i < config.RewardIdList.Length; i++)
-                {
-                    int itemId = config.RewardIdList[i];
-                    ItemType type = (ItemType)config.RewardTypeList[i];
+            //List<Item> items = new List<Item>();
+            //if (config.RewardIdList != null)
+            //{
+            //    for (int i = 0; i < config.RewardIdList.Length; i++)
+            //    {
+            //        int itemId = config.RewardIdList[i];
+            //        ItemType type = (ItemType)config.RewardTypeList[i];
 
-                    Item item = ItemHelper.BuildItem(type, itemId, 1, config.QuanlityList[i]);
-                    if (item != null)
-                    {
-                        items.Add(item);
-                    }
-                }
-                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-            }
+            //        Item item = ItemHelper.BuildItem(type, itemId, 1, config.QuanlityList[i]);
+            //        if (item != null)
+            //        {
+            //            items.Add(item);
+            //        }
+            //    }
+            //    GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            //}
 
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-            {
-                Message = BattleMsgHelper.BuildGiftPackMessage("完成任务奖励:", config.RewardExp, config.RewardGold, items)
-            });
+            //GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+            //{
+            //    Message = BattleMsgHelper.BuildGiftPackMessage("完成任务奖励:", config.RewardExp, config.RewardGold, items)
+            //});
 
-            user.TaskId = user.TaskId + 1;
+            //user.TaskId = user.TaskId + 1;
 
             Init();
         }

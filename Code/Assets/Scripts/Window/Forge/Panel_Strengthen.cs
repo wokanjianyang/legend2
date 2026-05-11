@@ -14,12 +14,14 @@ public class Panel_Strengthen : MonoBehaviour
     public Transform Tran_Item_List;
     private ItemForge[] items;
 
-    public Transform tran_AttrList;
-    private StrenthAttrItem[] AttrList;
+    public Transform Tf_Atr_List;
+    private StrenthAttrItem[] AtrList;
+
+    public Transform Tf_Atr_Spe_List;
+    private StrenthAttrItem[] AtrSpeList;
 
     public Text Txt_Fee;
     public Button Btn_Strengthen;
-    public Button Btn_Strengthen_Batch;
 
     private int SelectPosition = 1;
 
@@ -28,14 +30,10 @@ public class Panel_Strengthen : MonoBehaviour
     {
         items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
 
-        AttrList = tran_AttrList.GetComponentsInChildren<StrenthAttrItem>();
-        foreach (var attrTxt in AttrList)
-        {
-            attrTxt.gameObject.SetActive(false);
-        }
+        AtrList = Tf_Atr_List.GetComponentsInChildren<StrenthAttrItem>();
+        AtrSpeList = Tf_Atr_Spe_List.GetComponentsInChildren<StrenthAttrItem>();
 
         Btn_Strengthen.onClick.AddListener(OnClick_Strengthen);
-        Btn_Strengthen_Batch.onClick.AddListener(OnClick_Strengthen_Batch);
     }
 
     // Update is called once per frame
@@ -60,6 +58,16 @@ public class Panel_Strengthen : MonoBehaviour
 
             items[i].Init(1, position, level, toggleGroup);
         }
+
+        foreach (var sp in AtrList)
+        {
+            sp.gameObject.SetActive(false);
+        }
+
+        foreach (var sp in AtrSpeList)
+        {
+            sp.gameObject.SetActive(false);
+        }
     }
 
     private void OnEquipStrengthSelectEvent(EquipStrengthSelectEvent e)
@@ -74,9 +82,8 @@ public class Panel_Strengthen : MonoBehaviour
         //Log.Debug("ShowStrengthInfo");
 
         User user = GameProcessor.Inst.User;
-        long MaxLevel = user.GetStrengthLimit();
+        long MaxLevel = Math.Min(EquipStrengthFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
         long currentLevel = user.GetStrengthLevel(SelectPosition);
-        long refineStrenthPercetn = user.GetRefineStrenthPercetn(SelectPosition);
 
         items[SelectPosition - 1].SetLevel(currentLevel);
 
@@ -84,41 +91,55 @@ public class Panel_Strengthen : MonoBehaviour
 
         EquipStrengthConfig config = EquipStrengthConfigCategory.Instance.GetByPositioin(SelectPosition);
 
-        EquipStrengthFeeConfig feeConfig = EquipStrengthFeeConfigCategory.Instance.GetByLevel(nextLevel);
-
-        long levelAttr = LevelConfigCategory.GetLevelAttr(nextLevel);
-
-        if (feeConfig == null || nextLevel > MaxLevel)
+        if (currentLevel >= MaxLevel)
         {
             Txt_Fee.text = "已满级";
             Btn_Strengthen.gameObject.SetActive(false);
-            Btn_Strengthen_Batch.gameObject.SetActive(false);
         }
         else
         {
-            long fee = levelAttr * feeConfig.Fee;
+            long fee = EquipStrengthFeeConfigCategory.Instance.GetFee(nextLevel) * config.FeeBase;
             string color = user.MagicGold.Data >= fee ? "#FFFF00" : "#FF0000";
-            Txt_Fee.text = string.Format("<color={0}>{1}</color>", color, StringHelper.FormatNumber(fee));
+
+            string feeText = fee > 1000000 ? StringHelper.FormatNumber(fee) : fee + "";
+            Txt_Fee.text = string.Format("<color={0}>{1}</color>", color, feeText);
 
             Btn_Strengthen.gameObject.SetActive(true);
-            Btn_Strengthen_Batch.gameObject.SetActive(true);
         }
 
-        for (int i = 0; i < AttrList.Length; i++)
+        for (int i = 0; i < AtrList.Length; i++)
         {
-            if (i < config.AttrList.Length)
+            if (i < config.AtrList.Length && currentLevel >= config.RequireLevel[i])
             {
-                int attrId = config.AttrList[i];
+                int attrId = config.AtrList[i];
 
-                long attrAdd = config.AttrValueList[i] * nextLevel;
-                long attrCurrent = config.AttrValueList[i] * levelAttr;
+                long atrRise = config.AtrVueList[i];
+                long attrCurrent = config.AtrVueList[i] * currentLevel;
 
-                AttrList[i].SetContent(attrId, attrCurrent, refineStrenthPercetn, attrAdd);
-                AttrList[i].gameObject.SetActive(true);
+                AtrList[i].SetContent(attrId, attrCurrent, atrRise);
+                AtrList[i].gameObject.SetActive(true);
             }
             else
             {
-                AttrList[i].gameObject.SetActive(false);
+                AtrList[i].gameObject.SetActive(false);
+            }
+
+        }
+
+        for (int i = 0; i < AtrSpeList.Length; i++)
+        {
+            if (i < config.SpeAtrList.Length)
+            {
+                int attrId = config.SpeAtrList[i];
+                long atrVue = config.SpeVueList[i];
+                int rv = config.SpeLevel[i];
+
+                AtrSpeList[i].SetSpContent(attrId, atrVue, rv);
+                AtrSpeList[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                AtrSpeList[i].gameObject.SetActive(false);
             }
         }
     }
@@ -153,64 +174,9 @@ public class Panel_Strengthen : MonoBehaviour
 
         ShowStrengthInfo();
 
-        TaskHelper.CheckTask(TaskType.Strength, 1);
+        //TaskHelper.CheckTask(TaskType.Strength, 1);
 
         GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "强化成功", ToastType = ToastTypeEnum.Success });
-    }
-
-    private void OnClick_Strengthen_Batch()
-    {
-        User user = GameProcessor.Inst.User;
-
-        long nextLevel = 1;
-
-        if (user.MagicEquipStrength.TryGetValue(SelectPosition, out MagicData strengthData))
-        {
-            nextLevel = strengthData.Data + 1;
-        }
-
-        EquipStrengthFeeConfig config = EquipStrengthFeeConfigCategory.Instance.GetByLevel(nextLevel);
-
-        int LimitLevel = user.GetStrengthLimit();
-        long maxLevel = Math.Min(config.EndLevel, LimitLevel) - nextLevel + 1;
-        maxLevel = Math.Min(maxLevel, 10000);
-
-        long sl = 0;
-        double feeTotal = 0;
-
-        for (int i = 0; i < maxLevel; i++)
-        {
-            long levelAttr = LevelConfigCategory.GetLevelAttr(nextLevel + i);
-            long fee = levelAttr * config.Fee;
-
-            if (feeTotal + fee > user.MagicGold.Data)
-            {
-                break;
-            }
-
-            feeTotal += fee;
-            sl++;
-        }
-
-
-        if (sl > 0)
-        {
-            user.MagicEquipStrength[SelectPosition].Data += sl;
-
-            user.SubGold(feeTotal);
-
-            GameProcessor.Inst.UpdateInfo();
-
-            ShowStrengthInfo();
-
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "一键强化成功", ToastType = ToastTypeEnum.Success });
-
-            TaskHelper.CheckTask(TaskType.Strength, 1);
-        }
-        else
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不够", ToastType = ToastTypeEnum.Failure });
-        }
     }
 
 

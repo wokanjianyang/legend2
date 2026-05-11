@@ -212,7 +212,7 @@ namespace Game
 
             this.Show();
 
-            TaskHelper.CheckTask(TaskType.BindAccount, 1);
+            //TaskHelper.CheckTask(TaskType.BindAccount, 1);
         }
 
         public void ShowSkill(bool show)

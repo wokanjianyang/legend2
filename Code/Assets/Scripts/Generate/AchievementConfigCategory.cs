@@ -11,6 +11,25 @@ namespace Game
         {
             return this.list.Where(m => m.GroupId == gid).ToList();
         }
+
+        public long CalRequire(AchievementConfig config, int level)
+        {
+            if (config.ConRiseType == 1)
+            {
+                return config.Condition + (level - 1) * config.CondRiseVue;
+            }
+            else if (config.ConRiseType == 2) //sq
+            {
+                return (long)(config.Condition * Math.Pow(2, level));
+            }
+            else if (config.ConRiseType == 3) //sq
+            {
+                return config.Condition * MathHelper.GetSequence1(level);
+            }
+
+
+            return long.MaxValue;
+        }
     }
 
     public enum AchievementRewardType
@@ -23,17 +42,33 @@ namespace Game
         Skill = 6,
     }
 
-    public enum AchievementSourceType
+    public enum AchievementProType
     {
-        Advert = 1,
-        RealAdvert = 2,
-        Strong = 3,
-        Refine = 4,
-        Level = 5,
+        Level = 1,
+        DayCount = 2,
+        Advert = 3,
+        EquipWear = 4,
+        RecoverySet = 5,
         BossFamily = 6,
         EquipCopy = 7,
         Defend = 8,
         Infinite = 9,
-        Legacy = 10,
+        SkillCount = 10,
+        SkillLevel = 11,
+
+        PetWear = 100,
+        PetTotal = 101,
+        EquipTotal = 201,
+        EquipRefine = 202,
+        EquipStrong = 203,
+        StageCount = 300,
+        MonsterKillTotal = 301,
+        MonsterKill1 = 302,
+        MonsterKill2 = 303,
+        MonsterKill3 = 304,
+        MonsterKill4 = 305,
+        MonsterKill5 = 306,
+        MonsterKill6 = 307,
+
     }
 }

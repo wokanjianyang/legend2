@@ -789,7 +789,7 @@ namespace Game
             }
             //UserData.Save();
 
-            TaskHelper.CheckTask(TaskType.Equip, 1);
+            //TaskHelper.CheckTask(TaskType.Equip, 1);
         }
 
         private void PetBattleUp(PetBattleUpEvent e)

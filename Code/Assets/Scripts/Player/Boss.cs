@@ -167,7 +167,7 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
             //增加宠物经验，神器经验
-            user.KillMonsterEnvent(10);
+            user.KillMonsterEnvent(10, 6);
 
             //区域boss独特掉落
         }

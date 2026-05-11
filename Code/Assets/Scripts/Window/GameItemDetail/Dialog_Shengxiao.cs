@@ -94,7 +94,7 @@ namespace Game
             this.equipPositioin = e.EquipPosition;
             this.BoxType = e.Type;
 
-            var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item.GetQuality());
+            var titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 
             Shengxiao equip = this.boxItem.Item as Shengxiao;
 

@@ -86,7 +86,7 @@ namespace Game
             paramDict.Add("level", user.MagicLevel.Data + "");
             paramDict.Add("cycle", user.Cycle.Data + "");
 
-            long advert = user.GetAchievementProgeress(AchievementSourceType.RealAdvert);
+            long advert = user.GetAchievementProgeress(AchievementProType.Advert);
             paramDict.Add("advert", advert + "");
 
             long artifactTotal = user.ArtifactData.Select(m => m.Value.Data).Sum();
@@ -103,7 +103,7 @@ namespace Game
             soulBoneTotal += GetTotal(user.Bags, 28);
             paramDict.Add("bone", soulBoneTotal + "");
 
-            long boss = user.GetAchievementProgeress(AchievementSourceType.BossFamily);
+            long boss = user.GetAchievementProgeress(AchievementProType.BossFamily);
             boss += user.GetMaterialCount(ItemHelper.SpecialId_Boss_Ticket);
             paramDict.Add("boss", boss + "");
 
@@ -132,7 +132,7 @@ namespace Game
             }
             paramDict.Add("divine", divineTotal + "");
 
-            long copy = user.GetAchievementProgeress(AchievementSourceType.EquipCopy);
+            long copy = user.GetAchievementProgeress(AchievementProType.EquipCopy);
             copy += user.GetTicketCount(ItemHelper.SpecialId_Copy_Ticket);
             paramDict.Add("equip", copy + "");
 
@@ -165,12 +165,8 @@ namespace Game
             long halidom = user.HalidomData.Select(m => m.Value.Data).Sum();
             paramDict.Add("halidom", halidom + "");
 
-            long infiniteMax = user.GetAchievementProgeress(AchievementSourceType.Infinite);
+            long infiniteMax = user.GetAchievementProgeress(AchievementProType.Infinite);
             paramDict.Add("infinite", infiniteMax + "");
-
-            long legacy = user.GetAchievementProgeress(AchievementSourceType.Legacy);
-            legacy += user.GetTicketCount(ItemHelper.SpecialId_Legacy_Ticket) + user.LegacyTikerCount.Data;
-            paramDict.Add("legacy", legacy + "");
 
             long metalTotal = user.MetalData.Select(m => m.Value.Data).Sum();
             paramDict.Add("metal", metalTotal + "");

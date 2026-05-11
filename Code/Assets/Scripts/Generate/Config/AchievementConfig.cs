@@ -87,26 +87,32 @@ namespace Game
 		/// <summary>Max</summary>
 		[ProtoMember(4)]
 		public int Max { get; set; }
-		/// <summary>Condition</summary>
+		/// <summary>ConType</summary>
 		[ProtoMember(5)]
-		public long Condition { get; set; }
-		/// <summary>RiseCond</summary>
+		public int ConType { get; set; }
+		/// <summary>Condition</summary>
 		[ProtoMember(6)]
-		public long RiseCond { get; set; }
-		/// <summary>RewardType</summary>
+		public long Condition { get; set; }
+		/// <summary>ConRiseType</summary>
 		[ProtoMember(7)]
+		public int ConRiseType { get; set; }
+		/// <summary>CondRiseVue</summary>
+		[ProtoMember(8)]
+		public long CondRiseVue { get; set; }
+		/// <summary>RewardType</summary>
+		[ProtoMember(9)]
 		public int RewardType { get; set; }
 		/// <summary>AtrId</summary>
-		[ProtoMember(8)]
+		[ProtoMember(10)]
 		public int AtrId { get; set; }
 		/// <summary>AtrVue</summary>
-		[ProtoMember(9)]
+		[ProtoMember(11)]
 		public int AtrVue { get; set; }
 		/// <summary>AtrVueRise</summary>
-		[ProtoMember(10)]
+		[ProtoMember(12)]
 		public int AtrVueRise { get; set; }
 		/// <summary>Memo</summary>
-		[ProtoMember(11)]
+		[ProtoMember(13)]
 		public string Memo { get; set; }
 
 	}

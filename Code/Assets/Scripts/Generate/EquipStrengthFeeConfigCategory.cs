@@ -12,14 +12,28 @@ namespace Game
         {
             try
             {
-                return this.GetAll().Where(m => m.Value.StartLevel <= level && m.Value.EndLevel >= level).First().Value;
+                return this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
             }
-            catch 
+            catch
             {
 
             }
 
             return null;
+        }
+
+        public long GetFee(long level)
+        {
+            EquipStrengthFeeConfig config = this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
+            long riseLevel = level - config.StartLevel;
+
+            return config.Fee + config.RiseFee * riseLevel;
+        }
+
+
+        public long GetMaxLevel()
+        {
+            return this.list.Select(m => m.EndLevel).Max();
         }
     }
 

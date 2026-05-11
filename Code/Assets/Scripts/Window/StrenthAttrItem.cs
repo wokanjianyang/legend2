@@ -72,5 +72,12 @@ namespace Game
             this.Txt_Attr.text = bt;
             this.Txt_Attr_Add.text = rise;
         }
+
+        public void SetSpContent(int atrId, double atrVue, int requireLevel)
+        {
+            this.Txt_Name.text = StringHelper.FormatAttrValueName(atrId);
+            this.Txt_Attr.text = " + " + StringHelper.FormatAttrValueText(atrId, atrVue);
+            this.Txt_Attr_Add.text = "£¨" + requireLevel + "¼¶½âËø£©";
+        }
     }
 }

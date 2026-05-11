@@ -90,7 +90,7 @@ namespace Game
             this.boxItem = e.boxItem;
             this.BoxType = e.Type;
 
-            var titleColor = QualityConfigHelper.GetColor(this.boxItem.Item.GetQuality());
+            var titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, this.boxItem.Item.GetName());
 
             long number = this.boxItem.MagicNubmer.Data;

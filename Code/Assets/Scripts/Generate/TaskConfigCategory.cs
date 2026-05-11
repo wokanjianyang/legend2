@@ -15,41 +15,49 @@ namespace Game
 
                 return config;
             }
-            catch 
+            catch
             {
             }
 
             return null;
         }
-    }
 
-    public class TaskHelper
-    {
+        public AchievementTaskConfig GetCurrent(int gid, Dictionary<int, bool> dict)
+        {
+            AchievementTaskConfig config = this.list.Where(m => m.GroupId == gid && !dict.ContainsKey(m.Id)).OrderBy(m => m.Sort).FirstOrDefault();
+            return config;
+        }
 
         public static void CheckTask(TaskType type, long condition)
         {
             User user = GameProcessor.Inst.User;
 
-            AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(user.TaskId);
+            AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(1);
 
             if (config == null)
             {
                 return;
             }
 
-            if (config.Type != (int)type)
+            if (config.ConType != (int)type)
             {
                 return;
             }
 
-            if (config.Condition <= condition)
+            if (config.ConRequire <= condition)
             {
-                user.TaskLog[user.TaskId] = true;
+                user.TaskLog[1] = true;
             }
 
             GameProcessor.Inst.EventCenter.Raise(new TaskChangeEvent() { });
 
             return;
         }
+    }
+
+    public class TaskHelper
+    {
+
+
     }
 }

@@ -16,8 +16,12 @@ namespace Game
         public Main_Map_Dialog MapMain;
 
         public Button Btn_Info;
+
         public Button Btn_Achievement;
         public Dialog_Achievement Dlg_Achievement;
+
+        public Button Btn_Task;
+        public Dialog_Task Dlg_Task;
 
         public Button Btn_Stage;
 
@@ -29,6 +33,7 @@ namespace Game
             this.Btn_Map.onClick.AddListener(this.OnClick_Map);
             this.Btn_Info.onClick.AddListener(this.OnClick_Info);
             this.Btn_Achievement.onClick.AddListener(this.OnClick_Achievement);
+            this.Btn_Task.onClick.AddListener(this.OnClick_Task);
             this.Btn_Stage.onClick.AddListener(this.OnClick_ToStage);
 
             this.Init();
@@ -131,6 +136,10 @@ namespace Game
         private void OnClick_Achievement()
         {
             this.Dlg_Achievement.gameObject.SetActive(true);
+        }
+        private void OnClick_Task()
+        {
+            this.Dlg_Task.gameObject.SetActive(true);
         }
 
         private void OnClick_ToStage()

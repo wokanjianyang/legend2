@@ -44,7 +44,7 @@ public class Battle_BossFamily : ABattleRule
             QualityList.Add(bossId);
         }
 
-        TaskHelper.CheckTask(TaskType.ToCopy, 1);
+        //TaskHelper.CheckTask(TaskType.ToCopy, 1);
     }
 
     public override void DoMapLogic(int roundNum, double currentRoundTime)

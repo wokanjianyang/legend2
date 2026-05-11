@@ -23,7 +23,7 @@ public class Dialog_Defend : MonoBehaviour, IBattleLife
         User user = GameProcessor.Inst.User;
         user.DefendData.BuildCurrent();
 
-        long progess = user.GetAchievementProgeress(AchievementSourceType.Defend);
+        long progess = user.GetAchievementProgeress(AchievementProType.Defend);
 
         for (int i = 0; i < ItemList.Count; i++)
         {

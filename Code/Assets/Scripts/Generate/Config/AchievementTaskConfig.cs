@@ -81,32 +81,35 @@ namespace Game
 		/// <summary>GroupId</summary>
 		[ProtoMember(2)]
 		public int GroupId { get; set; }
-		/// <summary>Type</summary>
+		/// <summary>ConType</summary>
 		[ProtoMember(3)]
-		public int Type { get; set; }
-		/// <summary>Condition</summary>
+		public int ConType { get; set; }
+		/// <summary>ConRequire</summary>
 		[ProtoMember(4)]
-		public long Condition { get; set; }
+		public long ConRequire { get; set; }
 		/// <summary>RewardGold</summary>
 		[ProtoMember(5)]
 		public long RewardGold { get; set; }
 		/// <summary>RewardExp</summary>
 		[ProtoMember(6)]
 		public long RewardExp { get; set; }
-		/// <summary>RewardIdList</summary>
-		[ProtoMember(7)]
-		public int[] RewardIdList { get; set; }
 		/// <summary>RewardTypeList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(7)]
 		public int[] RewardTypeList { get; set; }
-		/// <summary>QuanlityList</summary>
+		/// <summary>RewardIdList</summary>
+		[ProtoMember(8)]
+		public int[] RewardIdList { get; set; }
+		/// <summary>NumberList</summary>
 		[ProtoMember(9)]
-		public int[] QuanlityList { get; set; }
-		/// <summary>Memo</summary>
+		public int[] NumberList { get; set; }
+		/// <summary>Desc</summary>
 		[ProtoMember(10)]
-		public string Memo { get; set; }
-		/// <summary>Sort</summary>
+		public string Desc { get; set; }
+		/// <summary>RewardText</summary>
 		[ProtoMember(11)]
+		public string RewardText { get; set; }
+		/// <summary>Sort</summary>
+		[ProtoMember(12)]
 		public int Sort { get; set; }
 
 	}

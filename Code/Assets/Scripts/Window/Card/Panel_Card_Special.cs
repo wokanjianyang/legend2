@@ -17,7 +17,7 @@ public class Panel_Card_Special : MonoBehaviour
     public Transform Tf_Attr;
 
     private List<Item_Card_Special> ItemList;
-    private List<StrenthAttrItem> AttrList;
+    private List<Forge_Atr_Item> AttrList;
 
     private int Rid = 0;
     private int SelectId = 0;

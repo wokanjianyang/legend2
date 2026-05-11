@@ -16,10 +16,10 @@ public class Panel_Fashion : MonoBehaviour
     private List<Item_Fashion> items;
 
     public Transform Tf_Attr;
-    private List<StrenthAttrItem> ItemAttrList;
+    private List<Forge_Atr_Item> ItemAttrList;
 
     public Transform Tf_SuitAttr;
-    private List<StrenthAttrItem> SuitAttrList;
+    private List<Forge_Atr_Item> SuitAttrList;
 
     public Text Txt_Fee;
     public Button Btn_Ok;
@@ -36,8 +36,8 @@ public class Panel_Fashion : MonoBehaviour
     {
         toggles = Tf_Nav.GetComponentsInChildren<Toggle>().ToList();
         items = Tf_Items.GetComponentsInChildren<Item_Fashion>().ToList();
-        ItemAttrList = Tf_Attr.GetComponentsInChildren<StrenthAttrItem>().ToList();
-        SuitAttrList = Tf_SuitAttr.GetComponentsInChildren<StrenthAttrItem>().ToList();
+        ItemAttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
+        SuitAttrList = Tf_SuitAttr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
 
         Btn_Ok.onClick.AddListener(OnClick_Ok);
         Btn_Batch.onClick.AddListener(OnClick_Batch);

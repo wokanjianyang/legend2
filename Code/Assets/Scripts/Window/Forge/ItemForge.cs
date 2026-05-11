@@ -10,6 +10,8 @@ namespace Game
 {
     public class ItemForge : MonoBehaviour
     {
+        public Image Img_Bg;
+
         public Text Txt_Name;
         public Text Txt_Level;
         public Toggle toggle;
@@ -37,15 +39,16 @@ namespace Game
         {
             this.Type = type;
             this.Position = position;
-            Txt_Name.text = ((SlotType)position).ToString();
-            Txt_Level.text = level + "";
+
+            this.Txt_Level.text = level + "¼¶";
+            this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(Position);
 
             this.toggle.group = group;
         }
 
         public void SetLevel(long level)
         {
-            Txt_Level.text = level + "";
+            Txt_Level.text = level + "¼¶";
         }
 
 
@@ -55,7 +58,8 @@ namespace Game
             {
                 if (Type == 1)
                 {
-                    GameProcessor.Inst.EventCenter.Raise(new EquipStrengthSelectEvent() { Position = this.Position });
+                    Panel_Strengthen panel = this.gameObject.GetComponentInParent<Panel_Strengthen>();
+                    panel.SelectItem(this.Position);
                 }
                 else if (Type == 2)
                 {

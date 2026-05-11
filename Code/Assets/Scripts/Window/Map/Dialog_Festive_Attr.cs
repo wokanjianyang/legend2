@@ -16,7 +16,7 @@ public class Dialog_Festive_Attr : MonoBehaviour
     public Button Btn_Strong;
 
     public Transform tf_attr;
-    private List<StrenthAttrItem> AttrList;
+    private List<Forge_Atr_Item> AttrList;
 
     private int GroupId = 1;
     private int MaxLevel = 80;
@@ -26,7 +26,7 @@ public class Dialog_Festive_Attr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AttrList = tf_attr.GetComponentsInChildren<StrenthAttrItem>(true).ToList();
+        AttrList = tf_attr.GetComponentsInChildren<Forge_Atr_Item>(true).ToList();
 
         Btn_Full.onClick.AddListener(OnClick_Close);
         Btn_Strong.onClick.AddListener(OnStrong);

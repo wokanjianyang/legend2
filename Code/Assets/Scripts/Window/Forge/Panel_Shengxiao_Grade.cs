@@ -14,7 +14,7 @@ public class Panel_Shengxiao_Grade : MonoBehaviour
 
     private List<Item_Forge_Main> items = new List<Item_Forge_Main>();
 
-    private List<StrenthAttrItem> AttrList;
+    private List<Forge_Atr_Item> AttrList;
 
     public List<Text> TxtCommissionNameList;
     public List<Text> TxtCommissionCountList;
@@ -36,7 +36,7 @@ public class Panel_Shengxiao_Grade : MonoBehaviour
     {
         this.Init();
 
-        AttrList = Tf_Attr.GetComponentsInChildren<StrenthAttrItem>().ToList();
+        AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
 
         this.Btn_OK.onClick.AddListener(OnClickOK);
     }

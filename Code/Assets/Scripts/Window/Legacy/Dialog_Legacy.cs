@@ -16,9 +16,9 @@ public class Dialog_Legacy : MonoBehaviour, IBattleLife
 
     public List<Text> TxtPowerList;
 
-    public List<StrenthAttrItem> LayerAttrList;
+    public List<Forge_Atr_Item> LayerAttrList;
 
-    public List<StrenthAttrItem> LevelAttrList;
+    public List<Forge_Atr_Item> LevelAttrList;
 
     public Text Txt_Fee;
     public Text Txt_Fee2;

@@ -21,7 +21,7 @@ public class Panel_Pill3 : MonoBehaviour
     public Button Btn_Active_Batch;
 
     private Item_Pill[] ItemList;
-    private StrenthAttrItem[] AtrrList;
+    private Forge_Atr_Item[] AtrrList;
 
     public int Order => (int)ComponentOrder.Dialog;
 
@@ -31,7 +31,7 @@ public class Panel_Pill3 : MonoBehaviour
     void Awake()
     {
         ItemList = Tf_Item.GetComponentsInChildren<Item_Pill>();
-        AtrrList = Tf_Attr.GetComponentsInChildren<StrenthAttrItem>();
+        AtrrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>();
 
         Btn_Active.onClick.AddListener(OnStrong);
         Btn_Active_Batch.onClick.AddListener(OnBatch);
@@ -91,7 +91,7 @@ public class Panel_Pill3 : MonoBehaviour
         int index = 0;
         foreach (var kv in attrDict)
         {
-            StrenthAttrItem attrItem = AtrrList[index++];
+            Forge_Atr_Item attrItem = AtrrList[index++];
 
             double rise = 0;
             if (config.AttrId == kv.Key)

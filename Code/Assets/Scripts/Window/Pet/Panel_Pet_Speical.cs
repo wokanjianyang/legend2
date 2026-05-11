@@ -20,7 +20,7 @@ public class Panel_Pet_Speical : MonoBehaviour
     public Transform Tf_Attr;
 
     private List<Item_Pet_Speical> ItemList;
-    private List<StrenthAttrItem> AttrList;
+    private List<Forge_Atr_Item> AttrList;
 
     private int SelectId = 0;
 
@@ -38,7 +38,7 @@ public class Panel_Pet_Speical : MonoBehaviour
 
         ItemList = Tf_List.GetComponentsInChildren<Item_Pet_Speical>().ToList();
 
-        AttrList = Tf_Attr.GetComponentsInChildren<StrenthAttrItem>().ToList();
+        AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
 
         for (int i = 0; i < ItemList.Count; i++)
         {

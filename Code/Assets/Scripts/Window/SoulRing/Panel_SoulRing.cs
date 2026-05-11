@@ -22,7 +22,7 @@ public class Panel_SoulRing : MonoBehaviour
     public Transform Tf_RingSkill;
 
     private List<Toggle> RingList;
-    private List<StrenthAttrItem> AttrList;
+    private List<Forge_Atr_Item> AttrList;
     private List<Toggle> RingSkillList;
 
     private int Sid = 0;
@@ -31,7 +31,7 @@ public class Panel_SoulRing : MonoBehaviour
     void Start()
     {
         RingList = Tf_Ring.GetComponentsInChildren<Toggle>().ToList();
-        AttrList = Tf_Attr.GetComponentsInChildren<StrenthAttrItem>().ToList();
+        AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
         RingSkillList = Tf_RingSkill.GetComponentsInChildren<Toggle>().ToList();
 
         Btn_Active.onClick.AddListener(OnStrong);
@@ -201,7 +201,7 @@ public class Panel_SoulRing : MonoBehaviour
         //Attr
         for (int i = 0; i < AttrList.Count; i++)
         {
-            StrenthAttrItem attrItem = AttrList[i];
+            Forge_Atr_Item attrItem = AttrList[i];
 
             if (i >= showConfig.AttrIdList.Length)
             {

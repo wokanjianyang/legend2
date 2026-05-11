@@ -14,9 +14,9 @@ public class Panel_Refine : MonoBehaviour
     public Transform Tran_Item_List;
     private ItemForge[] items;
 
-    public StrenthAttrItem Refine_Attr_Base;
-    public StrenthAttrItem Refine_Attr_Quality;
-    public StrenthAttrItem Refine_Attr_Strenth;
+    public Forge_Atr_Item Refine_Attr_Base;
+    public Forge_Atr_Item Refine_Attr_Quality;
+    public Forge_Atr_Item Refine_Attr_Strenth;
 
     public Text Refine_Txt_Fee;
     public Button Btn_Refine;

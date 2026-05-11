@@ -15,7 +15,7 @@ public class Panel_Reform : MonoBehaviour
     private ItemForge[] items;
 
     public Transform Tran_Attr_List;
-    private StrenthAttrItem[] AttrList;
+    private Forge_Atr_Item[] AttrList;
 
     public Text Reform_Txt_Fee;
     public Text Reform_Txt_Fee1;
@@ -31,7 +31,7 @@ public class Panel_Reform : MonoBehaviour
         items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
         Btn_Reform.onClick.AddListener(OnClick_Refine);
 
-        AttrList = Tran_Attr_List.GetComponentsInChildren<StrenthAttrItem>();
+        AttrList = Tran_Attr_List.GetComponentsInChildren<Forge_Atr_Item>();
     }
 
     // Update is called once per frame

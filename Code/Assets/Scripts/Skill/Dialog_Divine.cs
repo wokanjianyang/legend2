@@ -14,7 +14,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
 
     public Text Txt_Desc;
 
-    public StrenthAttrItem AttrItem;
+    public Forge_Atr_Item AttrItem;
 
     public Text Txt_Metail;
     public Text Txt_Fee;

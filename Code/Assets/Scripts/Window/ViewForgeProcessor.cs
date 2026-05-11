@@ -15,14 +15,14 @@ public class ViewForgeProcessor : AViewPage
     public Toggle toggle_Strengthen;
     public Panel_Strengthen PanelStrengthen;
 
-    public Toggle toggle_Compound;
+    public Toggle Toggle_Composite;
     public Panel_Compound PanelCompound;
 
 
 
     private void Awake()
     {
-        this.toggle_Compound.onValueChanged.AddListener((isOn) =>
+        this.Toggle_Composite.onValueChanged.AddListener((isOn) =>
         {
             this.PanelCompound.Show(isOn);
         });

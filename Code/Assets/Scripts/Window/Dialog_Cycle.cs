@@ -17,7 +17,7 @@ public class Dialog_Cycle : MonoBehaviour
     public Toggle toggle_Type3;
     public Toggle toggle_Type4;
 
-    private StrenthAttrItem[] AttrList;
+    private Forge_Atr_Item[] AttrList;
 
     public Text Txt_Fee;
 
@@ -54,7 +54,7 @@ public class Dialog_Cycle : MonoBehaviour
             this.Show(3);
         });
 
-        AttrList = this.GetComponentsInChildren<StrenthAttrItem>();
+        AttrList = this.GetComponentsInChildren<Forge_Atr_Item>();
     }
 
     // Start is called before the first frame update

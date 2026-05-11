@@ -17,7 +17,7 @@ public class Panel_Relic : MonoBehaviour
     public Transform Tf_Attr;
 
     private List<Item_Relic> ItemList;
-    private List<StrenthAttrItem> AttrList;
+    private List<Forge_Atr_Item> AttrList;
 
     private int Rid = 0;
     private int SelectId = 0;
@@ -29,7 +29,7 @@ public class Panel_Relic : MonoBehaviour
 
         ItemList = Tf_Ring.GetComponentsInChildren<Item_Relic>().ToList();
 
-        AttrList = Tf_Attr.GetComponentsInChildren<StrenthAttrItem>().ToList();
+        AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
 
         foreach (Item_Relic item in ItemList)
         {

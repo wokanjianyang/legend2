@@ -15,10 +15,10 @@ public class Panel_Strengthen : MonoBehaviour
     private ItemForge[] items;
 
     public Transform Tf_Atr_List;
-    private StrenthAttrItem[] AtrList;
+    private Forge_Atr_Item[] AtrList;
 
     public Transform Tf_Atr_Spe_List;
-    private StrenthAttrItem[] AtrSpeList;
+    private Forge_Atr_Item[] AtrSpeList;
 
     public Text Txt_Fee;
     public Button Btn_Strengthen;
@@ -30,8 +30,8 @@ public class Panel_Strengthen : MonoBehaviour
     {
         items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
 
-        AtrList = Tf_Atr_List.GetComponentsInChildren<StrenthAttrItem>();
-        AtrSpeList = Tf_Atr_Spe_List.GetComponentsInChildren<StrenthAttrItem>();
+        AtrList = Tf_Atr_List.GetComponentsInChildren<Forge_Atr_Item>();
+        AtrSpeList = Tf_Atr_Spe_List.GetComponentsInChildren<Forge_Atr_Item>();
 
         Btn_Strengthen.onClick.AddListener(OnClick_Strengthen);
     }
@@ -39,7 +39,7 @@ public class Panel_Strengthen : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        GameProcessor.Inst.EventCenter.AddListener<EquipStrengthSelectEvent>(this.OnEquipStrengthSelectEvent);
+        //GameProcessor.Inst.EventCenter.AddListener<EquipStrengthSelectEvent>(this.OnEquipStrengthSelectEvent);
 
         this.Init();
         this.ShowStrengthInfo();
@@ -70,9 +70,9 @@ public class Panel_Strengthen : MonoBehaviour
         }
     }
 
-    private void OnEquipStrengthSelectEvent(EquipStrengthSelectEvent e)
+    public void SelectItem(int p)
     {
-        this.SelectPosition = e.Position;
+        this.SelectPosition = p;
         this.ShowStrengthInfo();
     }
 

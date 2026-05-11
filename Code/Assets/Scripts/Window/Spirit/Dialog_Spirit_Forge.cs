@@ -17,7 +17,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
     public Button Btn_Ok;
 
     public Transform tf_attr;
-    private List<StrenthAttrItem> AtrrList;
+    private List<Forge_Atr_Item> AtrrList;
 
     private int ConfigId = 0;
     private SpiritConfig Config = null;
@@ -29,7 +29,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        AtrrList = tf_attr.GetComponentsInChildren<StrenthAttrItem>(true).ToList();
+        AtrrList = tf_attr.GetComponentsInChildren<Forge_Atr_Item>(true).ToList();
 
         Btn_Close.onClick.AddListener(OnClick_Close);
         Btn_Ok.onClick.AddListener(OnStrong);
@@ -78,7 +78,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
 
         for (int i = 0; i < AtrrList.Count; i++)
         {
-            StrenthAttrItem attrItem = AtrrList[i];
+            Forge_Atr_Item attrItem = AtrrList[i];
 
             if (i >= Config.AttrIdList.Length)
             {

@@ -245,10 +245,6 @@ namespace Game
         public int Floor { get; set; }
     }
 
-    public class EquipStrengthSelectEvent : SDD.Events.Event
-    {
-        public int Position { get; set; }
-    }
     public class EquipRefineSelectEvent : SDD.Events.Event
     {
         public int Position { get; set; }

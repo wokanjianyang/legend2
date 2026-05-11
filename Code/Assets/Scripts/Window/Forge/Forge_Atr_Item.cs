@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class StrenthAttrItem : MonoBehaviour
+    public class Forge_Atr_Item : MonoBehaviour
     {
         [LabelText("Txt_Name")]
         public Text Txt_Name;

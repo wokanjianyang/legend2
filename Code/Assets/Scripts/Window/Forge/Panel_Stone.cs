@@ -20,7 +20,7 @@ public class Panel_Stone : MonoBehaviour
     public ToggleGroup tg_Stone;
     private List<Stone_Item> stoneList = new List<Stone_Item>();
 
-    public StrenthAttrItem AttrItem;
+    public Forge_Atr_Item AttrItem;
     public Text Txt_Fee;
     public Text Txt_Fee_Set;
 

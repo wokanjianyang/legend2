@@ -14,7 +14,7 @@ public class Dialog_Ring : MonoBehaviour
 
     public Text Txt_Desc;
 
-    public List<StrenthAttrItem> AttrList;
+    public List<Forge_Atr_Item> AttrList;
 
     public Text Txt_Metail;
     public Text Txt_Fee;

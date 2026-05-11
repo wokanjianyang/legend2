@@ -13,7 +13,7 @@ public class Item_Fashion_Special : MonoBehaviour
     public Text Txt_Name;
 
     public Transform Tf_Attr;
-    private List<StrenthAttrItem> AttrList;
+    private List<Forge_Atr_Item> AttrList;
 
     public Text Txt_Fee;
     public Text Txt_Attr_Active;
@@ -29,7 +29,7 @@ public class Item_Fashion_Special : MonoBehaviour
         Btn_Active.onClick.AddListener(OnActive);
         Btn_Up.onClick.AddListener(OnUp);
 
-        AttrList = Tf_Attr.GetComponentsInChildren<StrenthAttrItem>().ToList();
+        AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
     }
 
     // Update is called once per frame

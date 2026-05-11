@@ -87,8 +87,17 @@ namespace Game
 		/// <summary>AttrValueList</summary>
 		[ProtoMember(4)]
 		public int[] AttrValueList { get; set; }
-		/// <summary>Role</summary>
+		/// <summary>TalentList</summary>
 		[ProtoMember(5)]
+		public int[] TalentList { get; set; }
+		/// <summary>SkillList</summary>
+		[ProtoMember(6)]
+		public int[] SkillList { get; set; }
+		/// <summary>SkillLevelList</summary>
+		[ProtoMember(7)]
+		public int[] SkillLevelList { get; set; }
+		/// <summary>Role</summary>
+		[ProtoMember(8)]
 		public int Role { get; set; }
 
 	}

@@ -77,7 +77,7 @@ namespace Game
         {
             this.Txt_Name.text = StringHelper.FormatAttrValueName(atrId);
             this.Txt_Attr.text = " + " + StringHelper.FormatAttrValueText(atrId, atrVue);
-            this.Txt_Attr_Add.text = "（" + requireLevel + "级解锁）";
+            this.Txt_Attr_Add.text = "（" + requireLevel + "级解锁特殊属性）";
         }
     }
 }

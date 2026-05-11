@@ -22,12 +22,20 @@ namespace Game
             return null;
         }
 
-        public long GetFee(long level)
+        public long GetFee1(long level)
         {
             EquipStrengthFeeConfig config = this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
             long riseLevel = level - config.StartLevel;
 
-            return config.Fee + config.RiseFee * riseLevel;
+            return config.Fee1 + config.RiseFee1 * riseLevel;
+        }
+
+        public long GetFee2(long level)
+        {
+            EquipStrengthFeeConfig config = this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
+            long riseLevel = level - config.StartLevel;
+
+            return config.Fee2 + config.RiseFee2 * riseLevel;
         }
 
 

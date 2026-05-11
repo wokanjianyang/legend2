@@ -44,31 +44,31 @@ namespace Game
 
     public enum AchievementProType
     {
-        Level = 1,
-        DayCount = 2,
-        Advert = 3,
-        EquipWear = 4,
-        RecoverySet = 5,
+        Level = 1,  //等级
+        DayCount = 2,  //登录天数
+        Advert = 3,  //广告数量
+        EquipWear = 4,  //穿戴装备数量
+        RecoverySet = 5,  //回收设定
         BossFamily = 6,
         EquipCopy = 7,
         Defend = 8,
-        Infinite = 9,
-        SkillCount = 10,
-        SkillLevel = 11,
+        Infinite = 9, //
+        SkillCount = 10, //技能总数量
+        SkillLevel = 11, //技能总等级
 
-        PetWear = 100,
-        PetTotal = 101,
-        EquipTotal = 201,
-        EquipRefine = 202,
-        EquipStrong = 203,
-        StageCount = 300,
-        MonsterKillTotal = 301,
-        MonsterKill1 = 302,
-        MonsterKill2 = 303,
-        MonsterKill3 = 304,
-        MonsterKill4 = 305,
-        MonsterKill5 = 306,
-        MonsterKill6 = 307,
+        PetWear = 100,  //上阵宠物
+        PetTotal = 101,  //累计获取宠物数量
+        EquipTotal = 201, //累计获取装备数量
+        EquipRefine = 202, //精炼等级
+        EquipStrong = 203, //强化等级
+        StageCount = 300, //闯关数
+        MonsterKillTotal = 301, //累计杀敌数量
+        MonsterKill1 = 302, //累计白怪数量
+        MonsterKill2 = 303, //累计绿怪数量
+        MonsterKill3 = 304, //累计蓝怪数量
+        MonsterKill4 = 305, //累计紫怪数量
+        MonsterKill5 = 306, //累计boss数量
+        MonsterKill6 = 307, //累计区域boss数量
 
     }
 }

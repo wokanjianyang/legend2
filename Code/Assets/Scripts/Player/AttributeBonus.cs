@@ -433,11 +433,20 @@ namespace Game
 
         public double GetPower()
         {
+            double power = 0;
+
             double atk = CalBaseMaxAtk();
+            power += atk;
 
+            double def = CalPanelTotalAttr(AttributeEnum.Def);
 
+            power += def * 5;
 
-            return atk;
+            double hp = CalPanelTotalAttr(AttributeEnum.HP);
+
+            power += hp / 100;
+
+            return power;
         }
 
         public string GetPowerText()

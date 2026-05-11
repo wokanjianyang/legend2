@@ -20,7 +20,9 @@ public class Panel_Strengthen : MonoBehaviour
     public Transform Tf_Atr_Spe_List;
     private Forge_Atr_Item[] AtrSpeList;
 
-    public Text Txt_Fee;
+    public Text Txt_Fee1;
+    public Text Txt_Fee2;
+
     public Button Btn_Strengthen;
 
     private int SelectPosition = 1;
@@ -93,18 +95,32 @@ public class Panel_Strengthen : MonoBehaviour
 
         if (currentLevel >= MaxLevel)
         {
-            Txt_Fee.text = "已满级";
+            Txt_Fee1.text = "已满级";
+            Txt_Fee2.text = "已满级";
             Btn_Strengthen.gameObject.SetActive(false);
         }
         else
         {
-            long fee = EquipStrengthFeeConfigCategory.Instance.GetFee(nextLevel) * config.FeeBase;
-            string color = user.MagicGold.Data >= fee ? "#FFFF00" : "#FF0000";
+            long fee1 = EquipStrengthFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+            string color = user.MagicGold.Data >= fee1 ? "#FFFF00" : "#FF0000";
 
-            string feeText = fee > 1000000 ? StringHelper.FormatNumber(fee) : fee + "";
-            Txt_Fee.text = string.Format("<color={0}>{1}</color>", color, feeText);
+            string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
+            Txt_Fee1.text = string.Format("金币：<color={0}>{1}</color>", color, feeText);
 
-            Btn_Strengthen.gameObject.SetActive(true);
+
+            long fee2 = EquipStrengthFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+            long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
+            color = mc >= fee2 ? "#FFFF00" : "#FF0000";
+            Txt_Fee2.text = string.Format("强化石：<color={0}>{1}</color>/{2}", color, mc, fee2);
+
+            if (user.MagicGold.Data >= fee1 && mc >= fee2)
+            {
+                Btn_Strengthen.gameObject.SetActive(true);
+            }
+            else
+            {
+                Btn_Strengthen.gameObject.SetActive(false);
+            }
         }
 
         for (int i = 0; i < AtrList.Length; i++)
@@ -155,28 +171,40 @@ public class Panel_Strengthen : MonoBehaviour
             nextLevel = strengthData.Data + 1;
         }
 
-        EquipStrengthFeeConfig config = EquipStrengthFeeConfigCategory.Instance.GetByLevel(nextLevel);
+        EquipStrengthConfig config = EquipStrengthConfigCategory.Instance.GetByPositioin(SelectPosition);
 
-        long levelAttr = LevelConfigCategory.GetLevelAttr(nextLevel);
-        double fee = levelAttr * config.Fee;
+        long fee1 = EquipStrengthFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
 
-        if (user.MagicGold.Data < fee)
+        if (user.MagicGold.Data < fee1)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的金币", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        user.MagicEquipStrength[SelectPosition].Data++;
+        long fee2 = EquipStrengthFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+        long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
 
-        user.SubGold(fee);
+        if (mc < fee2)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的强化石", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        user.SubGold(fee1);
+
+        GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+        {
+            Type = ItemType.Material,
+            ItemId = ItemHelper.Equip_Strong,
+            Quantity = fee2
+        });
+
+
+        user.SaveStrengthLevel(SelectPosition, 1);
 
         GameProcessor.Inst.UpdateInfo();
 
         ShowStrengthInfo();
-
-        //TaskHelper.CheckTask(TaskType.Strength, 1);
-
-        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "强化成功", ToastType = ToastTypeEnum.Success });
     }
 
 

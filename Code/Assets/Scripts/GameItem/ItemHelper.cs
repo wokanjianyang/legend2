@@ -76,7 +76,7 @@ namespace Game
 
         public static Item BuildRefineStone(long quantity)
         {
-            return BuildMaterial(SpecialId_EquipRefineStone, quantity);
+            return BuildMaterial(Equip_Refine, quantity);
         }
 
         public static Item BuildGifPack(int configId)
@@ -133,9 +133,10 @@ namespace Game
             return newList;
         }
 
+        public static int Equip_Strong = 5001; //强化石
+        public static int Equip_Refine = 5002; //精炼石
 
         public static int SpecialId_SoulRingShard = 4001; //魂环碎片
-        public static int SpecialId_EquipRefineStone = 4002; //精炼石
         public static int SpecialId_Copy_Ticket = 4003; //装备副本卷
         public static int SpecialId_Boss_Ticket = 4004; //BOSS挑战卷
         public static int SpecialId_Exclusive_Stone = 4005; //专属碎片

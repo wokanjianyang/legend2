@@ -572,7 +572,7 @@ namespace Game
 
         public int CalStone(Equip equip)
         {
-            int count = MathHelper.CalRefineStone(equip.Level, this.StoneNumber + this.GetArtifactValue(ArtifactType.RefineStone)) * equip.GetQuality();
+            int count = equip.Level / 10 + equip.GetQuality();
             return count;
         }
 
@@ -979,6 +979,12 @@ namespace Game
                 case AchievementProType.EquipWear:
                     progress = this.EquipPanelList[EquipPanelIndex].Count;
                     break;
+                case AchievementProType.SkillCount:
+                    progress = this.SkillList.Count;
+                    break;
+                case AchievementProType.SkillLevel:
+                    progress = this.SkillList.Select(m => m.MagicLevel.Data).Sum();
+                    break;
                 case AchievementProType.Level:
                     progress = this.MagicLevel.Data;
                     break;
@@ -1349,6 +1355,12 @@ namespace Game
             return MagicEquipStrength[position].Data;
         }
 
+        public void SaveStrengthLevel(int position, int level)
+        {
+            MagicEquipStrength[position].Data += level;
+        }
+
+
         public long GetRefineLevel(int position)
         {
             if (!MagicEquipRefine.ContainsKey(position))
@@ -1699,30 +1711,11 @@ namespace Game
 
                 if (equip.Config.Cycle == 1)
                 {
-                    dict[ItemHelper.SpecialId_EquipRefineStone] = CalStone(equip);
+                    dict[ItemHelper.Equip_Strong] = CalStone(equip);
 
                     if (equip.GetQuality() >= 5)
                     {
-                        dict[ItemHelper.SpecailEquipRefreshId] = 1;
-                    }
-                }
-                else if (equip.Config.Cycle >= 2 && equip.Config.Cycle <= 4)
-                {
-                    int RecoveryItemId = equip.Config.RecoveryItemId;
-                    if (RecoveryItemId > 0)
-                    {
-                        dict[RecoveryItemId] = 1;
-                    }
-                }
-                else if (equip.Config.Cycle == 5)
-                {
-                    if (equip.GetQuality() == 9)
-                    {
-                        dict[ItemHelper.SpecialId_Equip_Hundun] = 1;
-                    }
-                    else
-                    {
-                        dict[ItemHelper.SpecialId_EquipRefineStone] = CalStone(equip);
+                        dict[ItemHelper.Equip_Refine] = 1;
                     }
                 }
 

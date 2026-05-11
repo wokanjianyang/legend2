@@ -56,29 +56,40 @@ namespace Game
         public Pet BuildByPack(int configId)
         {
 
-            GiftPackPet packPet = GiftPackPetCategory.Instance.Get(configId);
+            GiftPackPet config = GiftPackPetCategory.Instance.Get(configId);
 
-            Pet pet = new Pet(packPet.Role);
+            Pet pet = new Pet(config.Role);
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
-            pet.Quality = packPet.AttrIdList.Length;
+            pet.Quality = config.AttrIdList.Length;
 
 
             //杀敌资质
-            for (int i = 0; i < packPet.AttrIdList.Length; i++)
+            for (int i = 0; i < config.AttrIdList.Length; i++)
             {
-                int attrId = packPet.AttrIdList[i];
+                int attrId = config.AttrIdList[i];
                 MagicData attrValue = new MagicData();
-                attrValue.Data = packPet.AttrValueList[i];
+                attrValue.Data = config.AttrValueList[i];
 
                 pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
             }
 
-            //技能天赋
-
-
             //自带技能
+            for (int i = 0; i < config.SkillList.Length; i++)
+            {
+                int skillId = config.SkillList[i];
+                MagicData skillLevel = new MagicData();
+                skillLevel.Data = config.SkillLevelList[i];
+
+                pet.Skills.Add(new KeyValuePair<int, MagicData>(skillId, skillLevel));
+            }
+
+            //技能天赋
+            for (int i = 0; i < config.TalentList.Length; i++)
+            {
+                pet.Talents.Add(config.TalentList[i]);
+            }
 
 
             return pet;

@@ -74,7 +74,7 @@ public class Panel_Refine : MonoBehaviour
         }
         else
         {
-            var materialCount = user.GetMaterialCount(ItemHelper.SpecialId_EquipRefineStone);
+            var materialCount = user.GetMaterialCount(ItemHelper.Equip_Refine);
 
             string color = materialCount >= nextConfig.GetFee(nextLevel) ? "#FFFF00" : "#FF0000";
 
@@ -140,7 +140,7 @@ public class Panel_Refine : MonoBehaviour
         long refineLevel = currentLevel + 1;
         EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
 
-        var materialCount = user.GetMaterialCount(ItemHelper.SpecialId_EquipRefineStone);
+        var materialCount = user.GetMaterialCount(ItemHelper.Equip_Refine);
 
         if (materialCount < config.GetFee(refineLevel))
         {
@@ -153,7 +153,7 @@ public class Panel_Refine : MonoBehaviour
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
             Type = ItemType.Material,
-            ItemId = ItemHelper.SpecialId_EquipRefineStone,
+            ItemId = ItemHelper.Equip_Refine,
             Quantity = config.GetFee(refineLevel)
         });
 

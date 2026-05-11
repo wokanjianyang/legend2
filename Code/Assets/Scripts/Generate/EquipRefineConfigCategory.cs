@@ -28,14 +28,7 @@ namespace Game
 
         public long GetFee(long level)
         {
-            if (this.BaseFee <= 0)
-            {
-                return MathHelper.GetSequence1(level) * this.RiseFee;
-            }
-            else
-            {
-                return this.BaseFee + (level - this.StartLevel) * this.RiseFee;
-            }
+            return 0;
         }
 
         public long GetBaseAttrPercent(long level)

@@ -84,9 +84,9 @@ namespace Game
 		/// <summary>EndLevel</summary>
 		[ProtoMember(3)]
 		public int EndLevel { get; set; }
-		/// <summary>BaseFee</summary>
+		/// <summary>Fee</summary>
 		[ProtoMember(4)]
-		public long BaseFee { get; set; }
+		public long Fee { get; set; }
 		/// <summary>RiseFee</summary>
 		[ProtoMember(5)]
 		public long RiseFee { get; set; }

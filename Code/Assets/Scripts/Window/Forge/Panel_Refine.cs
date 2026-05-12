@@ -26,6 +26,7 @@ public class Panel_Refine : MonoBehaviour
     public Button Btn_Ok;
 
     private int SelectPosition = 1;
+    private int ForgeType = 2;
 
     // Start is called before the first frame update
     void Awake()
@@ -55,7 +56,7 @@ public class Panel_Refine : MonoBehaviour
             int position = i + 1;
             long level = user.GetRefineLevel(position);
 
-            items[i].Init(2, position, level, toggleGroup);
+            items[i].Init(ForgeType, position, level, toggleGroup);
         }
     }
 

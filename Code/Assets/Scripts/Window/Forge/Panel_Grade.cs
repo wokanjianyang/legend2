@@ -1,5 +1,7 @@
-using Game;
+Ôªøusing Game;
+using Game.Data;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,317 +11,173 @@ using UnityEngine.UI;
 
 public class Panel_Grade : MonoBehaviour
 {
-    public ScrollRect sr_Panel;
+    public Transform Tran_Item_List;
+    private ItemForge[] items;
 
-    private List<ItemGrade> items = new List<ItemGrade>();
+    public Transform Tran_Spe_Item_List;
+    private ItemForge[] speItems;
 
-    public List<Item_Metail_Need> metailList;
+    public Transform Tf_Atr_List;
+    private Forge_Atr_Item[] AtrList;
 
-    public Button Btn_OK;
-    public Button Btn_Batch;
-    public Button Btn_Batch_Restore;
+    public Text Txt_Fee1;
+    public Text Txt_Fee2;
 
-    private const int MaxCount = 10; //10º˛◊∞±∏
-    private const int Quality = 6;
+    public Button Btn_Ok;
 
-    private const int StartPosition = 1;
-    private const int MaxLevel = 21;
+    private int SelectPosition = 1;
 
-    Equip SelectEquip;
+    private int ForgeType = 3;
 
     // Start is called before the first frame update
     void Awake()
     {
-        this.Init();
+        AtrList = Tf_Atr_List.GetComponentsInChildren<Forge_Atr_Item>();
 
-        this.Btn_OK.onClick.AddListener(OnClickOK);
-        this.Btn_Batch.onClick.AddListener(OnClickBatch);
-        this.Btn_Batch_Restore.onClick.AddListener(OnClickBatchRestore);
+        items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
+        speItems = Tran_Spe_Item_List.GetComponentsInChildren<ItemForge>();
+
+        Btn_Ok.onClick.AddListener(OnClick_Refine);
     }
 
     // Update is called once per frame
     void Start()
     {
-        GameProcessor.Inst.EventCenter.AddListener<GradeSelectEvent>(this.OnSelect);
+        this.Init();
+        this.Show();
     }
 
-    void OnEnable()
+    private void Init()
     {
-        this.Load();
-    }
-
-    public void Init()
-    {
-        var emptyPrefab = Resources.Load<GameObject>("Prefab/Window/Box_Empty");
-
-        for (var i = 0; i < MaxCount; i++)
-        {
-            var empty = GameObject.Instantiate(emptyPrefab, this.sr_Panel.content);
-            empty.name = "Box_" + i;
-        }
-    }
-
-    public void Load()
-    {
-        //∞—÷Æ«∞µƒ–∂‘ÿ
-        this.SelectEquip = null;
-
-        foreach (ItemGrade cb in items)
-        {
-            GameObject.Destroy(cb.gameObject);
-        }
-        items.Clear();
-
         User user = GameProcessor.Inst.User;
-        if (user == null)
+
+        ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
+
+        for (int i = 0; i < items.Count(); i++)
         {
-            return;
+            int position = i + 1;
+
+            items[i].Init(ForgeType, position, 1, toggleGroup);
         }
 
-        IDictionary<int, Equip> dict = user.EquipPanelList[user.EquipPanelIndex];
-
-        for (int BoxId = 0; BoxId < MaxCount; BoxId++)
+        for (int i = 0; i < speItems.Count(); i++)
         {
-            int postion = BoxId + StartPosition;
+            int position = i + 1001;
 
-            var bagBox = this.sr_Panel.content.GetChild(BoxId);
-            if (bagBox == null || !dict.ContainsKey(postion))
-            {
-                continue;
-            }
-
-            Equip equip = dict[postion];
-
-            if (equip.GetQuality() < 6)
-            {
-                continue;
-            }
-
-            ItemGrade box = this.CreateItem(equip, bagBox);
-            this.items.Add(box);
+            speItems[i].Init(ForgeType, position, 1, toggleGroup);
         }
-
-
-        foreach (var item in metailList)
-        {
-            item.gameObject.SetActive(false);
-        }
-
-        this.Btn_OK.gameObject.SetActive(false);
     }
 
-    private ItemGrade CreateItem(Equip equip, Transform parent)
+    public void SelectItem(int p)
     {
-        ToggleGroup toggleGroup = sr_Panel.GetComponent<ToggleGroup>();
-
-        GameObject prefab = Resources.Load<GameObject>("Prefab/Window/Forge/Item_Grade");
-
-        var go = GameObject.Instantiate(prefab);
-        ItemGrade comItem = go.GetComponent<ItemGrade>();
-        comItem.Init(equip, toggleGroup);
-
-        comItem.transform.SetParent(parent);
-        comItem.transform.localPosition = Vector3.zero;
-        comItem.transform.localScale = Vector3.one;
-
-        return comItem;
-    }
-
-
-    private void OnSelect(GradeSelectEvent e)
-    {
-        if (e.Equip.Config.Cycle != 2)
-        {
-            return;
-        }
-
-        this.SelectEquip = e.Equip;
+        this.SelectPosition = p;
         this.Show();
     }
 
     private void Show()
     {
-        Btn_OK.gameObject.SetActive(true);
+        User user = GameProcessor.Inst.User;
+        long MaxLevel = Math.Min(EquipRefineFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
+        long currentLevel = user.GetRefineLevel(SelectPosition);
 
-        int part = SelectEquip.Part;
-        int layer = SelectEquip.Layer;
+        items[SelectPosition - 1].SetLevel(currentLevel);
 
-        EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == part && m.Layer == layer && m.Quanlity == Quality).FirstOrDefault();
+        long nextLevel = currentLevel + 1;
 
-        if (config == null)
+        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+
+        if (currentLevel >= MaxLevel)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "“—æ≠¬˙º∂¡À", ToastType = ToastTypeEnum.Failure });
-            return;
-        }
-
-        metailList[0].gameObject.SetActive(true);
-        metailList[0].SetBagContent(config.MetailId, config.MetailCount);
-
-        metailList[1].gameObject.SetActive(true);
-        metailList[1].SetBagContent(config.MetailId1, config.MetailCount1);
-    }
-
-    public void OnClickOK()
-    {
-        bool grade = Grade(SelectEquip);
-
-        if (!grade)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "ƒ˙µƒ…˝Ω◊≤ƒ¡œ≤ª◊„", ToastType = ToastTypeEnum.Failure });
+            Txt_Fee1.text = "Â∑≤Êª°Èò∂";
+            Txt_Fee2.text = "Â∑≤Êª°Èò∂";
+            Btn_Ok.gameObject.SetActive(false);
         }
         else
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "…˝Ω◊≥…π¶", ToastType = ToastTypeEnum.Success });
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-            this.Load();
-        }
-    }
+            long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+            string color = user.MagicGold.Data >= fee1 ? "#FFFF00" : "#FF0000";
 
-    private bool Grade(Equip equip)
-    {
-        int part = equip.Part;
-        int layer = equip.Layer;
-        EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == part && m.Layer == layer && m.Quanlity == Quality).FirstOrDefault();
+            string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
+            Txt_Fee1.text = string.Format("ÈáëÂ∏ÅÔºö<color={0}>{1}</color>", color, feeText);
 
-        if (config == null)
-        {
-            return false;
-        }
 
-        User user = GameProcessor.Inst.User;
+            long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+            long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
+            color = mc >= fee2 ? "#FFFF00" : "#FF0000";
+            Txt_Fee2.text = string.Format("Á≤æÁÇºÁü≥Ôºö<color={0}>{1}</color>/{2}", color, mc, fee2);
 
-        int[] idList = { config.MetailId, config.MetailId1 };
-        int[] countList = { config.MetailCount, config.MetailCount1 };
-
-        for (int i = 0; i < idList.Length; i++)
-        {
-            int specialId = idList[i];
-            int upCount = countList[i];
-
-            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
-            if (stoneTotal < upCount)
+            if (user.MagicGold.Data >= fee1 && mc >= fee2)
             {
-                return false;
+                Btn_Ok.gameObject.SetActive(true);
+            }
+            else
+            {
+                Btn_Ok.gameObject.SetActive(false);
             }
         }
 
-        for (int i = 0; i < idList.Length; i++)
+        for (int i = 0; i < AtrList.Length; i++)
         {
-            int specialId = idList[i];
-            int upCount = countList[i];
-
-            GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+            if (i < config.AtrList.Length && currentLevel >= config.RequireLevel[i])
             {
-                Type = ItemType.Material,
-                ItemId = specialId,
-                Quantity = upCount
-            });
-        }
+                int attrId = config.AtrList[i];
 
-        equip.Grade();
+                long atrRise = config.AtrVueList[i];
+                long attrCurrent = config.AtrVueList[i] * currentLevel;
 
-        return true;
-    }
-
-    public void OnClickBatch()
-    {
-        GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("“ªº¸Ω¯Ω◊œ˚∫ƒ10æ©Ω±“°£ «∑Ò»∑»œ£ø", true,
-        () =>
-        {
-            BatchGrade();
-        }, () =>
-        {
-
-        });
-    }
-
-    private void BatchGrade()
-    {
-        User user = GameProcessor.Inst.User;
-
-        if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 20)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "Ω±“≤ª◊„10æ©", ToastType = ToastTypeEnum.Failure });
-            return;
-        }
-
-        user.SubGold(ConfigHelper.RestoreGold * 20);
-
-        IDictionary<int, Equip> dict = user.EquipPanelList[user.EquipPanelIndex];
-
-        for (int i = 0; i <= MaxLevel; i++)
-        {
-            foreach (Equip equip in dict.Values)
-            {
-                if (equip.GetQuality() == Quality)
-                {
-                    Grade(equip);
-                }
+                AtrList[i].SetContent(attrId, attrCurrent, atrRise);
+                AtrList[i].gameObject.SetActive(true);
             }
+            else
+            {
+                AtrList[i].gameObject.SetActive(false);
+            }
+
         }
-
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-        this.Load();
     }
 
-
-    public void OnClickBatchRestore()
-    {
-        GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("“ªº¸÷ÿ…˙œ˚∫ƒ10æ©Ω±“°£ «∑Ò»∑»œ£ø", true,
-        () =>
-        {
-            BatchRestore();
-        }, () =>
-        {
-
-        });
-    }
-
-    private void BatchRestore()
+    private void OnClick_Refine()
     {
         User user = GameProcessor.Inst.User;
 
-        if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 20)
+        long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
+
+        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+
+        long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+
+        if (user.MagicGold.Data < fee1)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "Ω±“≤ª◊„10æ©", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "Ê≤°ÊúâË∂≥Â§üÁöÑÈáëÂ∏Å", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        IDictionary<int, Equip> dict = user.EquipPanelList[user.EquipPanelIndex];
+        long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+        long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
 
-        Dictionary<int, int> mlist = new Dictionary<int, int>();
-
-        foreach (Equip equip in dict.Values)
+        if (mc < fee2)
         {
-            equip.GetRestoreItems(mlist);
-        }
-
-        int haveCount = user.GetBagIdleCount(4);
-        if (haveCount < mlist.Count)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "«Î±£¡Ù" + mlist.Count + "∏ˆ∞¸π¸ø’∂Ó", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "Ê≤°ÊúâË∂≥Â§üÁöÑÁ≤æÁÇºÁü≥", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        user.SubGold(ConfigHelper.RestoreGold * 20);
+        user.SubGold(fee1);
 
-        foreach (Equip equip in dict.Values)
+        GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
-            equip.Layer = 1;
-            equip.HoneList = new Dictionary<int, int>();
-        }
+            Type = ItemType.Material,
+            ItemId = ItemHelper.Equip_Refine,
+            Quantity = fee2
+        });
 
-        List<Item> newList = new List<Item>();
-        foreach (var kp in mlist)
-        {
-            Item item = ItemHelper.BuildMaterial(kp.Key, kp.Value);
-            newList.Add(item);
-        }
 
-        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
+        user.SaveRefineLevel(SelectPosition, 1);
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-        this.Load();
+        GameProcessor.Inst.UpdateInfo();
+
+        Show();
     }
+
+
 }
 

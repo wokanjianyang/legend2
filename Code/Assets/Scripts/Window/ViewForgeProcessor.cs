@@ -18,7 +18,8 @@ public class ViewForgeProcessor : AViewPage
     public Toggle Toggle_Composite;
     public Panel_Compound PanelCompound;
 
-
+    public Toggle Toggle_Grade;
+    public Panel_Grade PanelGrade;
 
     private void Awake()
     {
@@ -35,6 +36,11 @@ public class ViewForgeProcessor : AViewPage
         this.toggle_Refine.onValueChanged.AddListener((isOn) =>
         {
             PanelRefine.gameObject.SetActive(isOn);
+        });
+
+        this.Toggle_Grade.onValueChanged.AddListener((isOn) =>
+        {
+            PanelGrade.gameObject.SetActive(isOn);
         });
     }
 

@@ -26,6 +26,7 @@ public class Panel_Strengthen : MonoBehaviour
     public Button Btn_Strengthen;
 
     private int SelectPosition = 1;
+    private int ForgeType = 1;
 
     // Start is called before the first frame update
     void Awake()
@@ -58,7 +59,7 @@ public class Panel_Strengthen : MonoBehaviour
             int position = i + 1;
             long level = user.GetStrengthLevel(position);
 
-            items[i].Init(1, position, level, toggleGroup);
+            items[i].Init(ForgeType, position, level, toggleGroup);
         }
 
         foreach (var sp in AtrList)

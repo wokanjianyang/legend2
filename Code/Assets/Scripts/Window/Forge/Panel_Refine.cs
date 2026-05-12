@@ -14,29 +14,34 @@ public class Panel_Refine : MonoBehaviour
     public Transform Tran_Item_List;
     private ItemForge[] items;
 
-    public Forge_Atr_Item Refine_Attr_Base;
-    public Forge_Atr_Item Refine_Attr_Quality;
-    public Forge_Atr_Item Refine_Attr_Strenth;
+    public Transform Tf_Atr_List;
+    private Forge_Atr_Item[] AtrList;
 
-    public Text Refine_Txt_Fee;
-    public Button Btn_Refine;
+    public Transform Tf_Atr_Spe_List;
+    private Forge_Atr_Item[] AtrSpeList;
 
-    private int Refine_Position = 1;
+    public Text Txt_Fee1;
+    public Text Txt_Fee2;
+
+    public Button Btn_Ok;
+
+    private int SelectPosition = 1;
 
     // Start is called before the first frame update
     void Awake()
     {
+        AtrList = Tf_Atr_List.GetComponentsInChildren<Forge_Atr_Item>();
+        AtrSpeList = Tf_Atr_Spe_List.GetComponentsInChildren<Forge_Atr_Item>();
+
         items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
-        Btn_Refine.onClick.AddListener(OnClick_Refine);
+        Btn_Ok.onClick.AddListener(OnClick_Refine);
     }
 
     // Update is called once per frame
     void Start()
     {
-        GameProcessor.Inst.EventCenter.AddListener<EquipRefineSelectEvent>(this.OnEquipRefineSelectEvent);
-
         this.Init();
-        this.ShowRefine();
+        this.Show();
     }
 
     private void Init()
@@ -54,114 +59,131 @@ public class Panel_Refine : MonoBehaviour
         }
     }
 
-    private void ShowRefine()
+    public void SelectItem(int p)
+    {
+        this.SelectPosition = p;
+        this.Show();
+    }
+
+    private void Show()
     {
         User user = GameProcessor.Inst.User;
-        long MaxLevel = user.GetRefineLimit();
-        long currentLevel = user.GetRefineLevel(Refine_Position);
+        long MaxLevel = Math.Min(EquipRefineFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
+        long currentLevel = user.GetRefineLevel(SelectPosition);
 
-        items[Refine_Position - 1].SetLevel(currentLevel);
-
-        EquipRefineConfig currentConfig = EquipRefineConfigCategory.Instance.GetByLevel(currentLevel);
+        items[SelectPosition - 1].SetLevel(currentLevel);
 
         long nextLevel = currentLevel + 1;
-        EquipRefineConfig nextConfig = EquipRefineConfigCategory.Instance.GetByLevel(nextLevel);
 
-        if (nextConfig == null || nextLevel > MaxLevel)
+        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+
+        if (currentLevel >= MaxLevel)
         {
-            Refine_Txt_Fee.text = "已满级";
-            Btn_Refine.gameObject.SetActive(false);
+            Txt_Fee1.text = "已满级";
+            Txt_Fee2.text = "已满级";
+            Btn_Ok.gameObject.SetActive(false);
         }
         else
         {
-            var materialCount = user.GetMaterialCount(ItemHelper.Equip_Refine);
+            long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+            string color = user.MagicGold.Data >= fee1 ? "#FFFF00" : "#FF0000";
 
-            string color = materialCount >= nextConfig.GetFee(nextLevel) ? "#FFFF00" : "#FF0000";
+            string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
+            Txt_Fee1.text = string.Format("金币：<color={0}>{1}</color>", color, feeText);
 
-            Refine_Txt_Fee.text = string.Format("<color={0}>{1}</color>", color, nextConfig.GetFee(nextLevel));
-            Btn_Refine.gameObject.SetActive(true);
+
+            long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+            long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
+            color = mc >= fee2 ? "#FFFF00" : "#FF0000";
+            Txt_Fee2.text = string.Format("精炼石：<color={0}>{1}</color>/{2}", color, mc, fee2);
+
+            if (user.MagicGold.Data >= fee1 && mc >= fee2)
+            {
+                Btn_Ok.gameObject.SetActive(true);
+            }
+            else
+            {
+                Btn_Ok.gameObject.SetActive(false);
+            }
         }
 
-        Refine_Attr_Base.gameObject.SetActive(false);
-        Refine_Attr_Quality.gameObject.SetActive(false);
-        Refine_Attr_Strenth.gameObject.SetActive(false);
-
-        if (nextConfig != null && nextConfig.GetBaseAttrPercent(nextLevel) > 0)
+        for (int i = 0; i < AtrList.Length; i++)
         {
-            long currentAttrValue = currentConfig == null ? 0 : currentConfig.GetBaseAttrPercent(currentLevel);
-            long nextAttrValue = nextConfig == null ? 0 : nextConfig.GetBaseAttrPercent(nextLevel);
+            if (i < config.AtrList.Length && currentLevel >= config.RequireLevel[i])
+            {
+                int attrId = config.AtrList[i];
 
-            long attrRise = nextAttrValue - currentAttrValue;
+                long atrRise = config.AtrVueList[i];
+                long attrCurrent = config.AtrVueList[i] * currentLevel;
 
-            Refine_Attr_Base.gameObject.SetActive(true);
-            Refine_Attr_Base.SetContent((int)AttributeEnum.EquipBaseIncrea, currentAttrValue, attrRise);
+                AtrList[i].SetContent(attrId, attrCurrent, atrRise);
+                AtrList[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                AtrList[i].gameObject.SetActive(false);
+            }
+
         }
 
-        if (nextConfig != null && nextConfig.GetQualityAttrPercent(nextLevel) > 0)
+        for (int i = 0; i < AtrSpeList.Length; i++)
         {
-            long currentAttrValue = currentConfig == null ? 0 : currentConfig.GetQualityAttrPercent(currentLevel);
-            long nextAttrValue = nextConfig == null ? 0 : nextConfig.GetQualityAttrPercent(nextLevel);
-            long attrRise = nextAttrValue - currentAttrValue;
+            if (i < config.SpeAtrList.Length)
+            {
+                int attrId = config.SpeAtrList[i];
+                long atrVue = config.SpeVueList[i];
+                int rv = config.SpeLevel[i];
 
-            Refine_Attr_Quality.gameObject.SetActive(true);
-            Refine_Attr_Quality.SetContent((int)AttributeEnum.EquipRandomIncrea, currentAttrValue, attrRise);
+                AtrSpeList[i].SetSpContent(attrId, atrVue, rv);
+                AtrSpeList[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                AtrSpeList[i].gameObject.SetActive(false);
+            }
         }
-
-        if (nextConfig != null && nextConfig.GetStengthPercent(nextLevel) > 0)
-        {
-            long currentStrenthValue = currentConfig == null ? 0 : currentConfig.GetStengthPercent(currentLevel);
-            long nextStrenthValue = nextConfig == null ? 0 : nextConfig.GetStengthPercent(nextLevel);
-            long strenthRise = nextStrenthValue - currentStrenthValue;
-
-            Refine_Attr_Strenth.gameObject.SetActive(true);
-            Refine_Attr_Strenth.SetContent((int)AttributeEnum.EquipStrengthIncrea, currentStrenthValue, strenthRise);
-        }
-    }
-
-    private void OnEquipRefineSelectEvent(EquipRefineSelectEvent e)
-    {
-        this.Refine_Position = e.Position;
-        ShowRefine();
     }
 
     private void OnClick_Refine()
     {
         User user = GameProcessor.Inst.User;
-        long currentLevel = user.GetRefineLevel(Refine_Position);
 
-        long MaxLevel = user.GetRefineLimit();
-        if (currentLevel >= MaxLevel)
+        long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
+
+        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+
+        long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+
+        if (user.MagicGold.Data < fee1)
         {
-            //
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "精练等级满级了", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的金币", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        long refineLevel = currentLevel + 1;
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
+        long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+        long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
 
-        var materialCount = user.GetMaterialCount(ItemHelper.Equip_Refine);
-
-        if (materialCount < config.GetFee(refineLevel))
+        if (mc < fee2)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的精炼石", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        user.MagicEquipRefine[Refine_Position].Data++;
+        user.SubGold(fee1);
 
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
             Type = ItemType.Material,
             ItemId = ItemHelper.Equip_Refine,
-            Quantity = config.GetFee(refineLevel)
+            Quantity = fee2
         });
+
+
+        user.SaveRefineLevel(SelectPosition, 1);
 
         GameProcessor.Inst.UpdateInfo();
 
-        ShowRefine();
-
-        GameProcessor.Inst.SaveData();
+        Show();
     }
 
 

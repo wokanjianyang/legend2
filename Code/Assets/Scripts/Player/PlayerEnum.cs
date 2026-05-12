@@ -74,9 +74,6 @@ namespace Game
 
 
         SpiritAll = 95,//英灵全属性
-        EquipBaseIncrea = 101, //装备基础属性百分比
-        EquipRandomIncrea = 102, //装备随机属性百分比
-        EquipStrengthIncrea = 103, //装备强化属性百分比
 
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成
@@ -147,7 +144,13 @@ namespace Game
         MulDamageResist = 10028, //减伤倍率
 
         MulStrong = 10041,//韧性倍率
-        //ShatterMul = 10042,//破韧倍率
+                          //ShatterMul = 10042,//破韧倍率
+
+        //----------特殊-------------
+        EquipBaseIncrea = 20001, //装备基础属性百分比
+        EquipRandomIncrea = 20002, //装备随机属性百分比
+        EquipQualityIncrea = 20003, //装备品质属性百分比
+        EquipSetIncrea = 20004, //装备套装属性百分比
 
         //--废弃
         MonsterFaster = 107,//副刷新速度加快

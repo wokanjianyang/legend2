@@ -12,7 +12,7 @@ namespace Game
         {
             try
             {
-                return this.list.Where(m => m.StartLevel <= level && level <= m.EndLevel).First();
+                return this.list.First();
             }
             catch
             {
@@ -20,6 +20,11 @@ namespace Game
             }
 
             return null;
+        }
+
+        public EquipRefineConfig GetByPositioin(int position)
+        {
+            return this.list.Where(m => m.Position == position).FirstOrDefault();
         }
     }
 

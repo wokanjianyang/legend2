@@ -72,7 +72,8 @@ namespace Game
 
             {nameof(AttributeEnum.EquipBaseIncrea), "装备基础属性" },
             {nameof(AttributeEnum.EquipRandomIncrea), "装备随机属性" },
-            {nameof(AttributeEnum.EquipStrengthIncrea), "装备强化属性" },
+            {nameof(AttributeEnum.EquipQualityIncrea), "装备品质属性" },
+            {nameof(AttributeEnum.EquipSetIncrea), "装备套装属性" },
 
             {nameof(AttributeEnum.AurasDamageIncrea), "最终增伤" },
             {nameof(AttributeEnum.AurasDamageResist), "最终减伤" },

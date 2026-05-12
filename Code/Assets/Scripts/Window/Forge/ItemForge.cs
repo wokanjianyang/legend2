@@ -63,7 +63,8 @@ namespace Game
                 }
                 else if (Type == 2)
                 {
-                    GameProcessor.Inst.EventCenter.Raise(new EquipRefineSelectEvent() { Position = this.Position });
+                    Panel_Refine panel = this.gameObject.GetComponentInParent<Panel_Refine>();
+                    panel.SelectItem(this.Position);
                 }
                 else if (Type == 3)
                 {

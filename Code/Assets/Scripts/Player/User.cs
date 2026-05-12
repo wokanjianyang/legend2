@@ -1371,6 +1371,11 @@ namespace Game
             return MagicEquipRefine[position].Data;
         }
 
+        public void SaveRefineLevel(int position, int level)
+        {
+            MagicEquipRefine[position].Data += level;
+        }
+
         public long GetReformLevel(int position)
         {
             if (!MagicEquipReform.ContainsKey(position))

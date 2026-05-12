@@ -164,12 +164,7 @@ public class Panel_Strengthen : MonoBehaviour
     {
         User user = GameProcessor.Inst.User;
 
-        long nextLevel = 1;
-
-        if (user.MagicEquipStrength.TryGetValue(SelectPosition, out MagicData strengthData))
-        {
-            nextLevel = strengthData.Data + 1;
-        }
+        long nextLevel = user.GetStrengthLevel(SelectPosition) + 1;
 
         EquipStrengthConfig config = EquipStrengthConfigCategory.Instance.GetByPositioin(SelectPosition);
 

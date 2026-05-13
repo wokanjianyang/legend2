@@ -1208,7 +1208,7 @@ namespace Game
             }
             else if (boxItem.Item.GetItemType() == ItemType.GiftPack)
             {
-                GiftPack giftPack = boxItem.Item as GiftPack;
+                Gift_Pack giftPack = boxItem.Item as Gift_Pack;
                 GiftPackConfig pc = giftPack.Config;
 
                 List<Item> items = new List<Item>();

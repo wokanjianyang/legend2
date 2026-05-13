@@ -37,7 +37,7 @@ namespace Game
             }
             else if (type == ItemType.GiftPack)
             {
-                item = new GiftPack(configId);
+                item = new Gift_Pack(configId);
             }
             else if (type == ItemType.Material)
             {

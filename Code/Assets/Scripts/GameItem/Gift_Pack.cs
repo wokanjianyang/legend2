@@ -10,7 +10,7 @@ namespace Game
         [JsonIgnore]
         public GiftPackConfig Config { get; set; }
 
-        public GiftPack(int configId) : base(configId, ItemType.GiftPack)
+        public Gift_Pack(int configId) : base(configId, ItemType.GiftPack)
         {
             this.ConfigId = configId;
 
@@ -20,7 +20,7 @@ namespace Game
 
         public override int GetQuality()
         {
-            return 4;
+            return Config.Quality;
         }
     }
 }

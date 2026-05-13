@@ -122,7 +122,7 @@ namespace Game
                     break;
                 case ItemType.GiftPack:
                     {
-                        GiftPack giftPack = this.boxItem.Item as GiftPack;
+                        Gift_Pack giftPack = this.boxItem.Item as Gift_Pack;
                         Txt_Des.text = giftPack.GetDes();
                         this.Btn_Use.gameObject.SetActive(true);
 

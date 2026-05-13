@@ -96,7 +96,7 @@ namespace Game
 
             if (this.BoxItem.Item.GetItemType() == ItemType.GiftPack)
             {
-                GiftPack giftPack = this.BoxItem.Item as GiftPack;
+                Gift_Pack giftPack = this.BoxItem.Item as Gift_Pack;
 
                 if (giftPack.Config.GiftType == 1)  //自选包;
                 {

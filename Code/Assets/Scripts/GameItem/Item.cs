@@ -84,10 +84,10 @@ namespace Game
         //[JsonIgnore]
         //public int BoxId { get; set; } = -1;
 
-        public void AddComponent(Item_Component component)
-        {
-            //Components.Add(component);
-        }
+        //public void AddComponent(Item_Component component)
+        //{
+        //    //Components.Add(component);
+        //}
     }
 
     public enum ItemType

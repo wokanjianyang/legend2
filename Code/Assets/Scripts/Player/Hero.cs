@@ -344,15 +344,6 @@ namespace Game
             return ret;
         }
 
-        /// <summary>
-        /// ¸´»î
-        /// </summary>
-        public void Resurrection()
-        {
-            this.Logic.ResetData();
-            this._enemy = null;
-        }
-
         public void UpdateEnemy(APlayer player)
         {
             this._enemy = player;

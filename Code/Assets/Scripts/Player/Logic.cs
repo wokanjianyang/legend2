@@ -155,9 +155,17 @@ namespace Game
                     ToId = SelfPlayer.ID
                 });
 
-                if (SelfPlayer.Camp != PlayerType.Hero)
+                if (SelfPlayer.Camp != PlayerType.Hero && SelfPlayer.Camp != PlayerType.Hero_Pet)
                 {
                     StartCoroutine(this.ClearPlayer());
+                }
+                else
+                {
+                    if (SelfPlayer.RuleType == RuleType.Normal)
+                    {
+                        //自动复活
+                        StartCoroutine(this.AutoResurrection());
+                    }
                 }
 
             }
@@ -175,6 +183,23 @@ namespace Game
             yield return new WaitForSeconds(ConfigHelper.DelayShowTime);
             GameProcessor.Inst.PlayerManager.RemoveDeadPlayers(this.SelfPlayer);
             yield return null;
+        }
+
+        private IEnumerator AutoResurrection()
+        {
+            int cd = ConfigHelper.AutoResurrectionTime;
+
+            for (int i = 0; i < cd; i++)
+            {
+                SelfPlayer.EventCenter.Raise(new ShowMsgEvent()
+                {
+                    Type = MsgType.Normal,
+                    Content = $"{(cd - i)}秒后复活"
+                });
+                yield return new WaitForSeconds(1f);
+            }
+
+            SelfPlayer.Resurrection();
         }
 
         public void OnRestore(double hp)

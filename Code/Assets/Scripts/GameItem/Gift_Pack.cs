@@ -18,9 +18,15 @@ namespace Game
 
         }
 
+        //------------------------------------------override----------------
         public override int GetQuality()
         {
-            return Config.Quality;
+            return this.Config.Quality;
+        }
+
+        public override string GetName()
+        {
+            return this.Config.Name;
         }
     }
 }

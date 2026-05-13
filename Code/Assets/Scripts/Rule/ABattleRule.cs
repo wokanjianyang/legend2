@@ -96,16 +96,17 @@ namespace Game
 
         virtual public void CheckGameResult()
         {
-            var heroCamp = GameProcessor.Inst.PlayerManager.GetHero();
-            if (heroCamp != null && heroCamp.HP <= 0)
-            {
-                this.currentRoundTime = 0;
+            //var heroCamp = GameProcessor.Inst.PlayerManager.GetHero();
+            //if (heroCamp != null && heroCamp.HP <= 0)
+            //{
+            //    GameProcessor.Inst.HeroDie(this.ruleType, 0);
+            //}
 
-                GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-
-                //Log.Debug($"{(GameProcessor.Inst.winCamp == PlayerType.Hero ? "玩家" : "怪物")}获胜！！");
-                GameProcessor.Inst.HeroDie(this.ruleType, 0);
-            }
+            //var petCamp = GameProcessor.Inst.PlayerManager.GetHeroPet();
+            //if (petCamp != null && petCamp.HP <= 0)
+            //{
+            //    GameProcessor.Inst.HeroPetDie(this.ruleType, 0);
+            //}
         }
     }
 }

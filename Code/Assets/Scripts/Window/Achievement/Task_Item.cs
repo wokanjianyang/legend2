@@ -111,6 +111,6 @@ public class Task_Item : MonoBehaviour
 
         Dialog_Task dialog = this.GetComponentInParent<Dialog_Task>();
 
-        dialog.SelectItem(this.Config.Id);
+        dialog.SelectItem(this.Config.GroupId);
     }
 }

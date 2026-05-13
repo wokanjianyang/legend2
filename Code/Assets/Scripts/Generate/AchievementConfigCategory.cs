@@ -31,6 +31,14 @@ namespace Game
             return long.MaxValue;
         }
     }
+    public partial class AchievementConfig
+    {
+        public long GetAtrVue(int level)
+        {
+            return AtrVue + (level - 1) * AtrVueRise;
+        }
+    }
+
 
     public enum AchievementRewardType
     {

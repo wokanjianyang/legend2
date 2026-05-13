@@ -16,6 +16,10 @@ namespace Game
         public Dictionary<int, int> CardEquipDict = new Dictionary<int, int>();
 
         public IDictionary<int, MagicData> GameRecord { get; set; } = new Dictionary<int, MagicData>();
+
+        public Dictionary<int, bool> TaskLog = new Dictionary<int, bool>();
+
+        public IDictionary<int, int> AchievementData { get; set; } = new Dictionary<int, int>();
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -172,7 +176,7 @@ namespace Game
 
 
 
-        public IDictionary<int, int> AchievementData { get; set; } = new Dictionary<int, int>();
+
 
         public IDictionary<int, int> RecordData { get; set; } = new Dictionary<int, int>();
 
@@ -304,7 +308,7 @@ namespace Game
 
         public int MapId { get; set; } = 1000;
 
-        public Dictionary<int, bool> TaskLog = new Dictionary<int, bool>();
+
 
         //副本次数记录
         public long CopyTicketTime { get; set; } = 0;
@@ -502,19 +506,16 @@ namespace Game
                 }
             }
 
-            //改造属性
-            foreach (var sp in this.MagicEquipReform)
+            //成就属性
+            foreach (var sp in this.AchievementData)
             {
-                int position = sp.Key;
-                EquipReformConfig reformConfig = EquipReformConfigCategory.Instance.Get(position);
-
-                long reformLevel = sp.Value.Data;
-                if (reformLevel > 0)
+                int al = sp.Value;
+                if (al > 0)
                 {
-                    for (int i = 0; i < reformConfig.AttrList.Length; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)reformConfig.AttrList[i], AttributeFrom.EquipReform, position, reformConfig.GetAttr(reformLevel, i));
-                    }
+                    AchievementConfig config = AchievementConfigCategory.Instance.Get((sp.Key));
+
+                    AttributeBonus.SetAttr((AttributeEnum)config.AtrId, AttributeFrom.Achivement, sp.Key, config.GetAtrVue(al));
+
                 }
             }
 
@@ -570,6 +571,7 @@ namespace Game
                     }
                 }
             }
+
             //图鉴组合
             foreach (CardConfig config in CardConfigCategory.Instance.GetAll().Values)
             {
@@ -1009,6 +1011,11 @@ namespace Game
                 case AchievementProType.Level:
                     progress = this.MagicLevel.Data;
                     break;
+                case AchievementProType.PetWear:
+                    progress = this.PetList.Count;
+                    break;
+                case AchievementProType.StageCount:
+                    return this.MapId - 1;
                 default:
                     {
                         int ct = (int)type;
@@ -1055,6 +1062,12 @@ namespace Game
 
             return AchievementData[id];
         }
+
+        public void AddAchievementLevel(int id)
+        {
+            AchievementData[id]++;
+        }
+
 
         public void KillMonsterEnvent(int rate, int quality)
         {

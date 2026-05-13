@@ -74,6 +74,11 @@ namespace Game
             }
         }
 
+        public Hero_Pet GetHeroPet()
+        {
+            return heroPet;
+        }
+
         public void LoadPet(Pet pet)
         {
             heroPet = new Hero_Pet(hero, pet);
@@ -223,7 +228,7 @@ namespace Game
             var playerList = new List<APlayer>();
             foreach (var player in this.AllPlayers)
             {
-                if (player.Camp == PlayerType.Hero)
+                if (player.Camp == PlayerType.Hero || player.Camp == PlayerType.Hero_Pet)
                 {
                     playerList.Add(player);
                 }
@@ -242,7 +247,7 @@ namespace Game
 
         public bool IsCellCanMove(Vector3Int cell)
         {
-            var allCells = this.AllPlayers.Where(p => p.IsSurvice).Select(p => p.Cell).ToList();
+            var allCells = this.AllPlayers.Where(p => p.IsSurvice && p.Camp != PlayerType.Hero && p.Camp != PlayerType.Hero_Pet).Select(p => p.Cell).ToList();
             return !allCells.Contains(cell);
         }
 
@@ -437,7 +442,7 @@ namespace Game
             for (var i = this.AllPlayers.Count - 1; i >= 0; i--)
             {
                 var player = this.AllPlayers[i];
-                if (!player.IsSurvice && player.Camp != PlayerType.Hero)
+                if (!player.IsSurvice && player.Camp != PlayerType.Hero && player.Camp != PlayerType.Hero_Pet)
                 {
                     //player.Transform.gameObject.SetActive(false);
                     player.OnDestroy();

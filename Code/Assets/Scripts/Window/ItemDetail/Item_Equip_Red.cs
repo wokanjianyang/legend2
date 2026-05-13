@@ -10,7 +10,6 @@ namespace Game
 {
     public class Item_Equip_Red : MonoBehaviour
     {
-        public Text Txt_Name;
         public Text Txt_Des;
 
         public void SetContent(EquipSetItem redItem, int quality)
@@ -38,13 +37,9 @@ namespace Game
                 qn = "混沌";
             }
 
-            string name = showLevel + "级" + qn + string.Format("({0}/{1})", redItem.Count, redItem.Config.Count);
-
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
-
             int attr = (int)(redItem.Config.AttrValue + (showLevel - 1) * redItem.Config.AttrRise);
 
-            this.Txt_Des.text = string.Format("<color=#{0}>{1}</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"));
+            this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"), redItem.Count, redItem.Config.Count);
         }
 
         public void SetEquipSpecial(EquipSetItem redItem, EquipSpeicalConfig config)
@@ -53,16 +48,9 @@ namespace Game
 
             int showLevel = Math.Max(1, redItem.Level);
 
-            string qn = "四格";
-
-
-            string name = StringHelper.GetChinaNumber(showLevel) + "阶" + qn + string.Format("({0}/{1})", redItem.Count, redItem.Config.Count);
-
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
-
             int attr = (int)(redItem.Config.AttrValue + (showLevel - 1) * redItem.Config.AttrRise);
 
-            this.Txt_Des.text = string.Format("<color=#{0}>{1}</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"));
+            this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"), redItem.Count, redItem.Config.Count);
         }
 
         public void SetShengxiaoGroup(ShengxiaoGroupItem item)
@@ -84,8 +72,6 @@ namespace Game
             }
 
             string name = qn + "生肖" + string.Format("({0}/{1})", item.Count, item.Config.Count);
-
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
 
             int attr = (int)(item.Config.AttrValue);
 

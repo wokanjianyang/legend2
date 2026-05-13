@@ -139,7 +139,7 @@ namespace Game
             if (BaseAttrList != null && BaseAttrList.Count > 0)
             {
                 Tf_Base.gameObject.SetActive(true);
-                Tf_Base.Find("Title").GetComponent<Text>().text = "[基础属性]";
+                Tf_Base.Find("Tf_Title").Find("Title_Text").GetComponent<Text>().text = "[基础属性]";
 
                 Transform gridBase = Tf_Base.Find("Grid_Base");
 
@@ -164,7 +164,7 @@ namespace Game
             if (equip.AttrEntryList != null && equip.AttrEntryList.Count > 0)
             {
                 Tf_Random.gameObject.SetActive(true);
-                Tf_Random.Find("Title").GetComponent<Text>().text = "[随机属性]";
+                Tf_Random.Find("Tf_Title").Find("Title_Text").GetComponent<Text>().text = "[随机属性]";
                 Transform gridRandom = Tf_Random.Find("Grid_Random");
 
                 var AttrEntryList = equip.AttrEntryList.ToList();
@@ -193,7 +193,7 @@ namespace Game
             if (equip.QualityAttrList != null && equip.QualityAttrList.Count > 0)
             {
                 Tf_Quality.gameObject.SetActive(true);
-                Tf_Quality.Find("Title").GetComponent<Text>().text = "[品质属性]";
+                Tf_Quality.Find("Tf_Title").Find("Title_Text").GetComponent<Text>().text = "[品质属性]";
                 Transform gridQuality = Tf_Quality.Find("Grid_Quality");
 
                 var QualityAttrList = equip.QualityAttrList.ToList();
@@ -244,7 +244,7 @@ namespace Game
 
                 EquipSetSuit red = user.GetEquipSet(equip.Config.Role, equip.Config.Cycle);
 
-                this.ShowRed(red, equip.GetQuality());
+                this.ShowRed(red, equip.GetQuality(), equip.Config.LevelRequired);
             }
 
 
@@ -286,15 +286,15 @@ namespace Game
             }
         }
 
-        private void ShowRed(EquipSetSuit redSuit, int quality)
+        private void ShowRed(EquipSetSuit redSuit, int quality, int level)
         {
-            Text redTitle = Tf_Set.Find("Title").GetComponent<Text>();
+            Text redTitle = Tf_Set.Find("Tf_Title").Find("Title_Text").GetComponent<Text>();
 
             string color = QualityConfigHelper.GetQualityColor(quality);
 
             if (quality == 5)
             {
-                redTitle.text = string.Format("<color=#{0}>[橙色套装]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[{1}级橙装]</color>", color, level);
             }
             else if (quality == 6)
             {

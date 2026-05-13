@@ -247,6 +247,7 @@ namespace Game
     public enum PlayerType
     {
         Hero = 0,
+        Hero_Pet,
         Enemy,
         Valet,
         Defend,

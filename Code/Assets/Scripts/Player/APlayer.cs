@@ -514,6 +514,15 @@ namespace Game
             }
         }
 
+        /// <summary>
+        /// 复活
+        /// </summary>
+        public void Resurrection()
+        {
+            this.Logic.ResetData();
+            this._enemy = null;
+        }
+
         public T GetComponent<T>()
         {
             return this.Transform.GetComponent<T>();

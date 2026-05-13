@@ -17,7 +17,7 @@ namespace Game
             SkillSuitConfig config = SkillSuitConfigCategory.Instance.Get(suitId);
             SkillConfig skillConfig = SkillConfigCategory.Instance.Get(config.SkillId);
 
-            this.Txt_Name.text = skillConfig.Name + config.Name + string.Format("({0}/{1})", count, max); ;
+            this.Txt_Name.text = skillConfig.Name + config.Name + string.Format("£¨{0}/{1}£©£º", count, max); ;
             this.Txt_Des.text = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate, config.DeadlyDamage, config.RateDamage, config.AttrIncrea, config.FinalIncrea);
 
         }

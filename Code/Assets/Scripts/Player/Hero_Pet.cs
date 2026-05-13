@@ -27,6 +27,8 @@ namespace Game
 
         private void Init()
         {
+            this.Camp = PlayerType.Hero_Pet;
+
             this.Level = Self.PetLevel.Data;
 
             this.ModelType = Master.ModelType;

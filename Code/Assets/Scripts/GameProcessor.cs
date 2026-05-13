@@ -69,7 +69,6 @@ namespace Game
         private GameObject barragePrefab;
 
         private Coroutine ie_autoExitKey = null;
-        private Coroutine ie_AutoResurrection = null;
 
         private Coroutine ie_autoStartMap = null;
 
@@ -360,11 +359,6 @@ namespace Game
 
         public void LoadMap(RuleType ruleType, Transform map, Dictionary<string, object> param)
         {
-            if (ie_AutoResurrection != null)
-            {
-                StopCoroutine(ie_AutoResurrection);
-            }
-
             MapData = map.GetComponentInChildren<MapData>();
             MapData.Clear();
 
@@ -720,20 +714,10 @@ namespace Game
                 case RuleType.Babel:
                 case RuleType.Festive:
                 case RuleType.Spirit:
+                case RuleType.Shengxiao:
                     ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time, ConfigHelper.AutoExitMapTime));
                     break;
-                case RuleType.Shengxiao:
-                    if (AppHelper.Shengxiao_Auto)
-                    {
-                        ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time, ConfigHelper.AutoExitMapTime));
-                    }
-                    else
-                    {
-                        ie_AutoResurrection = StartCoroutine(this.AutoResurrection());
-                    }
-                    break;
                 default:
-                    ie_AutoResurrection = StartCoroutine(this.AutoResurrection());
                     break;
             }
         }
@@ -817,22 +801,6 @@ namespace Game
             this.isGameOver = false;
 
             //Debug.Log("StartGame");
-        }
-
-        private IEnumerator AutoResurrection()
-        {
-            int cd = ConfigHelper.AutoResurrectionTime;
-            for (int i = 0; i < cd; i++)
-            {
-                PlayerManager.GetHero().EventCenter.Raise(new ShowMsgEvent()
-                {
-                    Type = MsgType.Normal,
-                    Content = $"{(cd - i)}秒后复活"
-                });
-                yield return new WaitForSeconds(1f);
-            }
-            PlayerManager.GetHero().Resurrection();
-            this.StartGame();
         }
 
         private IEnumerator AutoExitMap(RuleType ruleType, long time, int cd)

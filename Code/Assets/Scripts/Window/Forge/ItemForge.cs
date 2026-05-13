@@ -40,7 +40,15 @@ namespace Game
             this.Type = type;
             this.Position = position;
 
-            this.Txt_Level.text = level + "级";
+            if (level > 0)
+            {
+                this.Txt_Level.text = level + "级";
+            }
+            else
+            {
+                this.Txt_Level.text = "";
+            }
+
             this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(Position);
 
             this.toggle.group = group;
@@ -48,7 +56,10 @@ namespace Game
 
         public void SetLevel(long level)
         {
-            Txt_Level.text = level + "级";
+            if (level > 0)
+            {
+                Txt_Level.text = level + "级";
+            }
         }
 
 
@@ -64,11 +75,6 @@ namespace Game
                 else if (Type == 2)
                 {
                     Panel_Refine panel = this.gameObject.GetComponentInParent<Panel_Refine>();
-                    panel.SelectItem(this.Position);
-                }
-                else if (Type == 3)
-                {
-                    Panel_Grade panel = this.gameObject.GetComponentInParent<Panel_Grade>();
                     panel.SelectItem(this.Position);
                 }
             }

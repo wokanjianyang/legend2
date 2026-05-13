@@ -5,10 +5,11 @@ using UnityEngine;
 
 namespace Game
 {
-    public class GiftPack : Item
+    public class Gift_Pack : Item
     {
         [JsonIgnore]
         public GiftPackConfig Config { get; set; }
+
         public GiftPack(int configId) : base(configId, ItemType.GiftPack)
         {
             this.ConfigId = configId;

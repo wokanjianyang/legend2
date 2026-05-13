@@ -91,28 +91,20 @@ namespace Game
             {
                 //四格的回收
                 long number = CalRecoveryNumber();
+                int rid = this.Config.RecoveryItemId;
 
-                if (!dict.ContainsKey(ItemHelper.SpecialId_Equip_Speical_Stone))
+                if (!dict.ContainsKey(rid))
                 {
-                    dict[ItemHelper.SpecialId_Equip_Speical_Stone] = 0;
+                    dict[rid] = 0;
                 }
 
-                dict[ItemHelper.SpecialId_Equip_Speical_Stone] += number;
+                dict[rid] += number;
             }
         }
 
         private long CalRecoveryNumber()
         {
-            long rise = 1;
-            long total = 1;
-
-            for (int i = 1; i < Layer; i++)
-            {
-                rise *= 3;
-                total += rise;
-            }
-
-            return total;
+            return this.Layer + 1;
         }
     }
 }

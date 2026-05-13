@@ -103,7 +103,7 @@ public class Panel_Strengthen : MonoBehaviour
         else
         {
             long fee1 = EquipStrengthFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
-            string color = user.MagicGold.Data >= fee1 ? "#FFFF00" : "#FF0000";
+            string color = user.MagicGold.Data >= fee1 ? "#11FF11" : "#FF1111";
 
             string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
             Txt_Fee1.text = string.Format("金币：<color={0}>{1}</color>", color, feeText);
@@ -111,7 +111,7 @@ public class Panel_Strengthen : MonoBehaviour
 
             long fee2 = EquipStrengthFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
             long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
-            color = mc >= fee2 ? "#FFFF00" : "#FF0000";
+            color = mc >= fee2 ? "#11FF11" : "#FF1111";
             Txt_Fee2.text = string.Format("强化石：<color={0}>{1}</color>/{2}", color, mc, fee2);
 
             if (user.MagicGold.Data >= fee1 && mc >= fee2)

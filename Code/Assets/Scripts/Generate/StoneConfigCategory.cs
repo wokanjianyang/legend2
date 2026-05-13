@@ -16,7 +16,7 @@ namespace Game
 
         public int GetFee(int level)
         {
-            return (int)(MathHelper.GetSequence1(level) * FeeRate) + 3;
+            return (int)(MathHelper.GetSequence2(level) * FeeRate) + 3;
         }
 
         public int GetTotalFee(long level)
@@ -34,7 +34,7 @@ namespace Game
         {
             if (this.RiseType == 1)
             {
-                return (int)(MathHelper.GetSequence1(level - 1) + this.AttrValue * level);
+                return (int)(MathHelper.GetSequence2(level - 1) + this.AttrValue * level);
             }
             else
             {

@@ -12,32 +12,30 @@ using UnityEngine.UI;
 public class Panel_Grade : MonoBehaviour
 {
     public Transform Tran_Item_List;
-    private ItemForge[] items;
+    private Box_Forge[] items;
 
     public Transform Tran_Spe_Item_List;
-    private ItemForge[] speItems;
+    private Box_Forge[] speItems;
 
-    public Transform Tf_Atr_List;
-    private Forge_Atr_Item[] AtrList;
-
-    public Text Txt_Fee1;
-    public Text Txt_Fee2;
+    public List<Text> Txt_Fee_List;
 
     public Button Btn_Ok;
 
+    public Transform Tf_Fee;
+    public Text Txt_Info;
+
     private int SelectPosition = 1;
+    private Item CurrentItem;
 
     private int ForgeType = 3;
 
     // Start is called before the first frame update
     void Awake()
     {
-        AtrList = Tf_Atr_List.GetComponentsInChildren<Forge_Atr_Item>();
+        items = Tran_Item_List.GetComponentsInChildren<Box_Forge>();
+        speItems = Tran_Spe_Item_List.GetComponentsInChildren<Box_Forge>();
 
-        items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
-        speItems = Tran_Spe_Item_List.GetComponentsInChildren<ItemForge>();
-
-        Btn_Ok.onClick.AddListener(OnClick_Refine);
+        Btn_Ok.onClick.AddListener(OnClick_OK);
     }
 
     // Update is called once per frame
@@ -57,125 +55,122 @@ public class Panel_Grade : MonoBehaviour
         {
             int position = i + 1;
 
-            items[i].Init(ForgeType, position, 1, toggleGroup);
+            items[i].Init(ForgeType, position, toggleGroup);
+            items[i].SetItem(user.GetEquip(position));
         }
 
         for (int i = 0; i < speItems.Count(); i++)
         {
             int position = i + 1001;
 
-            speItems[i].Init(ForgeType, position, 1, toggleGroup);
+            speItems[i].Init(ForgeType, position, toggleGroup);
+            speItems[i].SetItem(user.GetEquip(position));
         }
     }
 
-    public void SelectItem(int p)
+    public void SelectItem(int p, Item item)
     {
         this.SelectPosition = p;
+        this.CurrentItem = item;
+
         this.Show();
     }
 
     private void Show()
     {
         User user = GameProcessor.Inst.User;
-        long MaxLevel = Math.Min(EquipRefineFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
-        long currentLevel = user.GetRefineLevel(SelectPosition);
 
-        items[SelectPosition - 1].SetLevel(currentLevel);
-
-        long nextLevel = currentLevel + 1;
-
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
-
-        if (currentLevel >= MaxLevel)
+        if (CurrentItem == null)
         {
-            Txt_Fee1.text = "已满阶";
-            Txt_Fee2.text = "已满阶";
-            Btn_Ok.gameObject.SetActive(false);
+            Tf_Fee.gameObject.SetActive(false);
+            Txt_Info.text = "此部位没有装备";
+        }
+        else if (SelectPosition >= 1001 && SelectPosition <= 1004)//四格
+        {
+            Tf_Fee.gameObject.SetActive(true);
+
+            int nextLayer = CurrentItem.Layer + 1;
+
+            EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetConfig(SelectPosition, nextLayer);
+
+            if (config == null)
+            {
+                foreach (Text Txt_Fee in Txt_Fee_List)
+                {
+                    Txt_Fee.text = "已满阶";
+                }
+
+                Btn_Ok.gameObject.SetActive(false);
+            }
+            else
+            {
+                Btn_Ok.gameObject.SetActive(true);
+
+                Txt_Info.text = string.Format("{0}阶---->{1}阶", CurrentItem.Layer, nextLayer);
+
+                for (int i = 0; i < config.MidList.Length; i++)
+                {
+                    long fee = config.GetFee(i, nextLayer);
+                    long mc = user.GetMaterialCount(config.MidList[i]);
+                    ItemConfig itemConfig = ItemConfigCategory.Instance.Get(config.MidList[i]);
+
+                    string color = mc >= fee ? "#11FF11" : "#FF1111";
+                    Txt_Fee_List[i].text = string.Format("{3}：<color={0}>{1}</color>/{2}", color, mc, fee, itemConfig.Name);
+
+                    if (mc < fee)
+                    {
+                        Btn_Ok.gameObject.SetActive(false);
+                    }
+                }
+            }
         }
         else
         {
-            long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
-            string color = user.MagicGold.Data >= fee1 ? "#FFFF00" : "#FF0000";
-
-            string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
-            Txt_Fee1.text = string.Format("金币：<color={0}>{1}</color>", color, feeText);
-
-
-            long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
-            long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
-            color = mc >= fee2 ? "#FFFF00" : "#FF0000";
-            Txt_Fee2.text = string.Format("精炼石：<color={0}>{1}</color>/{2}", color, mc, fee2);
-
-            if (user.MagicGold.Data >= fee1 && mc >= fee2)
-            {
-                Btn_Ok.gameObject.SetActive(true);
-            }
-            else
-            {
-                Btn_Ok.gameObject.SetActive(false);
-            }
-        }
-
-        for (int i = 0; i < AtrList.Length; i++)
-        {
-            if (i < config.AtrList.Length && currentLevel >= config.RequireLevel[i])
-            {
-                int attrId = config.AtrList[i];
-
-                long atrRise = config.AtrVueList[i];
-                long attrCurrent = config.AtrVueList[i] * currentLevel;
-
-                AtrList[i].SetContent(attrId, attrCurrent, atrRise);
-                AtrList[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                AtrList[i].gameObject.SetActive(false);
-            }
-
+            Tf_Fee.gameObject.SetActive(false);
+            Txt_Info.text = "此装备不能升阶";
         }
     }
 
-    private void OnClick_Refine()
+    private void OnClick_OK()
     {
-        User user = GameProcessor.Inst.User;
+        //User user = GameProcessor.Inst.User;
 
-        long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
+        //long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
 
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+        //EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
 
-        long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+        //long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
 
-        if (user.MagicGold.Data < fee1)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的金币", ToastType = ToastTypeEnum.Failure });
-            return;
-        }
+        //if (user.MagicGold.Data < fee1)
+        //{
+        //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的金币", ToastType = ToastTypeEnum.Failure });
+        //    return;
+        //}
 
-        long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
-        long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
+        //long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+        //long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
 
-        if (mc < fee2)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的精炼石", ToastType = ToastTypeEnum.Failure });
-            return;
-        }
+        //if (mc < fee2)
+        //{
+        //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的精炼石", ToastType = ToastTypeEnum.Failure });
+        //    return;
+        //}
 
-        user.SubGold(fee1);
+        //user.SubGold(fee1);
 
-        GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
-        {
-            Type = ItemType.Material,
-            ItemId = ItemHelper.Equip_Refine,
-            Quantity = fee2
-        });
+        //GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+        //{
+        //    Type = ItemType.Material,
+        //    ItemId = ItemHelper.Equip_Refine,
+        //    Quantity = fee2
+        //});
 
 
-        user.SaveRefineLevel(SelectPosition, 1);
+        //user.SaveRefineLevel(SelectPosition, 1);
 
-        GameProcessor.Inst.UpdateInfo();
+        //GameProcessor.Inst.UpdateInfo();
 
-        Show();
+        //Show();
     }
 
 

@@ -263,7 +263,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
             if (level > 0)
             {
                 SkillDivineConfig config = SkillDivineConfigCategory.Instance.Get(kv.Key);
-                int count = (int)MathHelper.GetSequence1(level);
+                int count = (int)MathHelper.GetSequence2(level);
 
                 newList.Add(ItemHelper.BuildMaterial(config.ItemId, count));
                 //Debug.Log(kv.Key + " :" + kv.Value);

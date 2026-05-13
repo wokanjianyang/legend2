@@ -24,7 +24,7 @@ namespace Game
             }
             else if (config.ConRiseType == 3) //sq
             {
-                return config.Condition * MathHelper.GetSequence1(level);
+                return config.Condition * MathHelper.GetSequence2(level);
             }
 
 

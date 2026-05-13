@@ -84,21 +84,24 @@ namespace Game
 		/// <summary>Part</summary>
 		[ProtoMember(3)]
 		public int Part { get; set; }
-		/// <summary>Layer</summary>
+		/// <summary>StartLayer</summary>
 		[ProtoMember(4)]
-		public int Layer { get; set; }
-		/// <summary>MetailId</summary>
+		public int StartLayer { get; set; }
+		/// <summary>EndLayer</summary>
 		[ProtoMember(5)]
-		public int MetailId { get; set; }
-		/// <summary>MetailCount</summary>
+		public int EndLayer { get; set; }
+		/// <summary>MidList</summary>
 		[ProtoMember(6)]
-		public int MetailCount { get; set; }
-		/// <summary>MetailId1</summary>
+		public int[] MidList { get; set; }
+		/// <summary>McList</summary>
 		[ProtoMember(7)]
-		public int MetailId1 { get; set; }
-		/// <summary>MetailCount1</summary>
+		public int[] McList { get; set; }
+		/// <summary>RiseTypeList</summary>
 		[ProtoMember(8)]
-		public int MetailCount1 { get; set; }
+		public int[] RiseTypeList { get; set; }
+		/// <summary>RiseMcList</summary>
+		[ProtoMember(9)]
+		public int[] RiseMcList { get; set; }
 
 	}
 }

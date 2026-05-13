@@ -140,7 +140,7 @@ namespace Game
         public static int SpecialId_Copy_Ticket = 4003; //装备副本卷
         public static int SpecialId_Boss_Ticket = 4004; //BOSS挑战卷
         public static int SpecialId_Exclusive_Stone = 4005; //专属碎片
-        public static int SpecialId_Equip_Speical_Stone = 4007; //四格碎片
+
         public static int SpecialId_Wing_Stone = 4008; //凤凰之羽
         //public static int SpecialId_Exclusive_Core = 4009; //专属精华
         public static int SpecialId_Exclusive_Heart = 4010; //专属之心

@@ -44,6 +44,27 @@ namespace Game
             return count;
         }
 
+        public Item GetEquip(int position)
+        {
+            if (position >= 0 && position <= 10)
+            {
+                var ep = EquipPanelList[EquipPanelIndex];
+                if (ep.ContainsKey(position))
+                {
+                    return ep[position];
+                }
+            }
+            else if (position >= 1001 && position <= 1004)
+            {
+                if (EquipSpecialList.ContainsKey(position))
+                {
+                    return EquipSpecialList[position];
+                }
+            }
+
+            return null;
+        }
+
         //-----------------------old--------------------------
 
 

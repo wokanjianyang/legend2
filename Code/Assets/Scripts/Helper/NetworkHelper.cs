@@ -117,7 +117,7 @@ namespace Game
                 {
                     foreach (var di in sp.DivineData)
                     {
-                        divineTotal += MathHelper.GetSequence1(di.Value.Data);
+                        divineTotal += MathHelper.GetSequence2(di.Value.Data);
                     }
                 }
 

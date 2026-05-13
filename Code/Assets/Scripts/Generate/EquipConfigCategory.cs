@@ -39,10 +39,6 @@ namespace Game
             Equip item = new Equip(configId, runeId, suitId, quality);
             item.Init(seed);
 
-            Item_Component component = new Item_Com_Equip(configId, qualityRise);
-
-            item.AddComponent(component);
-
             return item;
         }
 

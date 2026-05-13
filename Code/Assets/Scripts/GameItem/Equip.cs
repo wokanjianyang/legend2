@@ -49,13 +49,6 @@ namespace Game
         /// </summary>
         public IDictionary<int, long> QualityAttrList { get; set; }
 
-
-        [JsonIgnore]
-        /// <summary>
-        /// 套装属性名称
-        /// </summary>
-        public IDictionary<int, string> GroupNameList { get; set; }
-
         public Equip(int configId, int runeConfigId, int suitConfigId, int quality) : base(configId, ItemType.Equip)
         {
             this.ConfigId = configId;
@@ -277,44 +270,6 @@ namespace Game
             }
 
             return 0;
-        }
-
-        public void GetRestoreItems(Dictionary<int, int> mlist)
-        {
-            int quanlity = this.GetQuality();
-            int layer = Layer;
-
-            for (int l = 1; l < layer; l++)
-            {
-                EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == Part && m.Layer == l && m.Quanlity == quanlity).FirstOrDefault();
-
-                if (!mlist.ContainsKey(config.MetailId))
-                {
-                    mlist[config.MetailId] = 0;
-                }
-
-                mlist[config.MetailId] += config.MetailCount;
-
-
-                if (!mlist.ContainsKey(config.MetailId1))
-                {
-                    mlist[config.MetailId1] = 0;
-                }
-
-                mlist[config.MetailId1] += config.MetailCount1;
-            }
-
-            foreach (var kv in HoneList)
-            {
-                int honeLevel = kv.Value;
-                int redNumber = EquipHoneConfigCategory.Instance.GetTotalNeedNumber(honeLevel);
-
-                if (!mlist.ContainsKey(ItemHelper.SpecialId_Red_Stone))
-                {
-                    mlist[ItemHelper.SpecialId_Red_Stone] = 0;
-                }
-                mlist[ItemHelper.SpecialId_Red_Stone] += redNumber;
-            }
         }
 
         public long GetAttrRateCount()

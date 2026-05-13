@@ -116,7 +116,7 @@ namespace Game
             User user = GameProcessor.Inst.User;
             string color = user.MagicLevel.Data >= equip.Config.LevelRequired ? "green" : "red";
 
-            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, this.boxItem.Item.Level);
+            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, equip.Config.LevelRequired);
 
             long basePercent = 0;
             long qualityPercent = 0;

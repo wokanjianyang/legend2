@@ -111,6 +111,9 @@ namespace Game
 		/// <summary>AttrRiseList</summary>
 		[ProtoMember(12)]
 		public double[] AttrRiseList { get; set; }
+		/// <summary>RecoveryItemId</summary>
+		[ProtoMember(13)]
+		public int RecoveryItemId { get; set; }
 
 	}
 }

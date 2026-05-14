@@ -93,19 +93,6 @@ namespace Game
             this.BoxItem.Item.IsNew = false;
             this.Img_Tag.gameObject.SetActive(false);
 
-            ShowType showType = ShowType.Normal;
-
-
-            if (this.BoxItem.Item.GetItemType() == ItemType.GiftPack)
-            {
-                Gift_Pack giftPack = this.BoxItem.Item as Gift_Pack;
-
-                if (giftPack.Config.GiftType == 1)  //自选包;
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowSelectEvent() { boxItem = this.BoxItem });
-                    return;
-                }
-            }
 
             GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
             {

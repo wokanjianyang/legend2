@@ -10,7 +10,6 @@ namespace Game
 {
     public class Gift_Item : MonoBehaviour
     {
-        public Transform Tf_Bg;
         public Transform Tf_Box;
 
         public Toggle toggle;
@@ -50,9 +49,6 @@ namespace Game
         {
             if (this.CurrentItem != null)
             {
-                Tf_Bg.gameObject.SetActive(false);
-                Tf_Box.gameObject.SetActive(true);
-
                 this.Txt_Layer.gameObject.SetActive(false);
                 this.Txt_Level.gameObject.SetActive(false);
 
@@ -88,11 +84,6 @@ namespace Game
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
-            }
-            else
-            {
-                Tf_Bg.gameObject.SetActive(true);
-                Tf_Box.gameObject.SetActive(false);
             }
         }
 

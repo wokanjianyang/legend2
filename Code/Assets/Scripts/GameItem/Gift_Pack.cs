@@ -31,7 +31,14 @@ namespace Game
 
         public override ShowType GetShowType()
         {
-            return ShowType.Select;
+            if (Config.GiftType == 1)
+            {
+                return ShowType.Select;
+            }
+            else
+            {
+                return ShowType.Normal;
+            }
         }
     }
 }

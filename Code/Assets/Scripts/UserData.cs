@@ -96,28 +96,6 @@ namespace Game
                     }
                 }
 
-                if (user.EquipPanelDarkGoldList.Count < 7)
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        if (!user.EquipPanelDarkGoldList.ContainsKey(i))
-                        {
-                            user.EquipPanelDarkGoldList[i] = new Dictionary<int, Equip>();
-                        }
-                    }
-                }
-
-                if (user.EquipPanelHundunList.Count < 7)
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        if (!user.EquipPanelHundunList.ContainsKey(i))
-                        {
-                            user.EquipPanelHundunList[i] = new Dictionary<int, Equip>();
-                        }
-                    }
-                }
-
                 if (user.DefendData == null)
                 {
                     user.DefendData = new DefendData();

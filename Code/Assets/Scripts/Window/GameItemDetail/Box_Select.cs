@@ -117,8 +117,8 @@ namespace Game
             {
                 if (Type == 3)
                 {
-                    Panel_Grade panel = this.gameObject.GetComponentInParent<Panel_Grade>();
-                    panel.SelectItem(this.Position, CurrentItem);
+                    //Panel_Grade panel = this.gameObject.GetComponentInParent<Panel_Grade>();
+                    //panel.SelectItem(this.Position, CurrentItem);
                 }
             }
         }

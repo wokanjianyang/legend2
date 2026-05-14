@@ -95,6 +95,11 @@ namespace Game
 
         }
 
+        public virtual void Grade()
+        {
+            this.Layer++;
+        }
+
         //[JsonIgnore]
         //public int BoxId { get; set; } = -1;
 

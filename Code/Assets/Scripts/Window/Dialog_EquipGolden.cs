@@ -82,7 +82,7 @@ namespace Game
 
         private void ChangePlan(int i)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 3, Index = i });
+            //GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 3, Index = i });
 
             GameProcessor.Inst.EventCenter.Raise(new SkillChangePlanEvent());
             GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());

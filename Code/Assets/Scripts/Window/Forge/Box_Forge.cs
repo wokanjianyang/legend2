@@ -111,6 +111,11 @@ namespace Game
             this.Show();
         }
 
+        public void Refresh()
+        {
+            this.Show();
+        }
+
 
         private void Select(bool isOn)
         {
@@ -119,7 +124,7 @@ namespace Game
                 if (Type == 3)
                 {
                     Panel_Grade panel = this.gameObject.GetComponentInParent<Panel_Grade>();
-                    panel.SelectItem(this.Position, CurrentItem);
+                    panel.SelectItem(this.Position, CurrentItem, this);
                 }
             }
         }

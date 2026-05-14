@@ -14,8 +14,6 @@ namespace Game
         /// </summary>
         public List<KeyValuePair<int, long>> AttrEntryList { get; set; } = new List<KeyValuePair<int, long>>();
 
-        public int Part { get; set; }
-
         [JsonIgnore]
         public EquipSpeicalConfig Config { get; set; }
 

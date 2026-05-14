@@ -32,8 +32,8 @@ namespace Game
         private List<Toggle> Toggle_Plan_List = new List<Toggle>();
         public Button Btn_ReName;
 
-        public Transform Tran_Equip_List;
-        private List<Equip_Panel> Equip_Plan_List = new List<Equip_Panel>();
+        //public Transform Tran_Equip_List;
+        public Equip_Panel EquipPanel;
 
         public RectTransform EquipInfoSpecial;
         public Transform Tran_Plan;
@@ -57,15 +57,11 @@ namespace Game
 
         public Button btn_Fashion;
         public Button btn_Halidom;
-        public Button btn_Artifact;
         public Button btn_Ring;
         public Button btn_Pill;
         public Button btn_Talent;
         public Button btn_Pet;
 
-        public Button btn_Equip_Golden;
-        public Button btn_Equip_Dark_Gold;
-        public Button btn_Equip_Hundun;
         public Button btn_Relic;
 
 
@@ -74,7 +70,6 @@ namespace Game
         public Dialog_Card DialogCard;
         public Dialog_Wing DialogWing;
         public Dialog_Halidom DialogHalidom;
-        public Dialog_Artifact DialogArtifact;
         public Dialog_Ring DialogRing;
         public Dialog_Cycle DialogCycle;
         public Dialog_Pill DialogPill;
@@ -87,8 +82,6 @@ namespace Game
             Toggle_Plan_List = Tran_Plan_List.GetComponentsInChildren<Toggle>().ToList();
             Bag_List = Tran_Bag_List.GetComponentsInChildren<ScrollRect>(true).ToList();
             Attr_List = Tf_Attr.GetComponentsInChildren<Item_Attr>(true).ToList();
-
-            Equip_Plan_List = Tran_Equip_List.GetComponentsInChildren<Equip_Panel>(true).ToList();
 
             for (int i = 0; i < Toggle_Bag_Nav_List.Count; i++)
             {
@@ -112,7 +105,6 @@ namespace Game
             this.btn_Fashion.onClick.AddListener(OpenFashion);
             this.btn_Card.onClick.AddListener(OnOpenCard);
             this.btn_Halidom.onClick.AddListener(OnOpenHalidom);
-            this.btn_Artifact.onClick.AddListener(OnOpenArtifact);
             this.btn_Ring.onClick.AddListener(OnOpenRing);
             this.btn_Pill.onClick.AddListener(OnOpenPill);
             this.btn_Talent.onClick.AddListener(OnOpenTalent);
@@ -129,7 +121,7 @@ namespace Game
         // Start is called before the first frame update
         void Start()
         {
-            ShowEquipPanel();
+
         }
 
         // Update is called once per frame
@@ -166,7 +158,7 @@ namespace Game
             Toggle_Plan_List[EquipPanelIndex].isOn = true;
             this.InitPlanName();
 
-            for (int i = 0; i < Equip_Plan_List.Count; i++)
+            for (int i = 0; i < Toggle_Plan_List.Count; i++)
             {
                 int index = i;
                 Toggle_Plan_List[i].onValueChanged.AddListener((isOn) =>
@@ -236,15 +228,11 @@ namespace Game
             var prefab = Resources.Load<GameObject>("Prefab/Window/Box_Info");
             yield return null;
 
-            for (int i = 0; i < Equip_Plan_List.Count; i++)
-            {
-                var EquipInfo = Equip_Plan_List[i];
-                var slots = EquipInfo.GetComponentsInChildren<SlotBox>();
+            var slots = EquipPanel.GetComponentsInChildren<SlotBox>();
 
-                for (int p = 0; p < slots.Count(); p++)
-                {
-                    slots[p].Init(p + 1);
-                }
+            for (int p = 0; p < slots.Count(); p++)
+            {
+                slots[p].Init(p + 1);
             }
 
             List<SlotBox> sps = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().ToList();
@@ -254,48 +242,28 @@ namespace Game
                 yield return null;
             }
 
-            foreach (var kvEp in user.EquipPanelList)
+            //穿戴装备
+            foreach (var kvp in user.EquipPanelList[user.EquipPanelIndex])
             {
-                foreach (var kvp in kvEp.Value)
-                {
-                    this.CreateEquipPanelItem(kvEp.Key, kvp.Key, kvp.Value);
-                    //yield return null;
-                }
+                this.CreateEquipPanelItem(kvp.Key, kvp.Value);
+                //yield return null;
             }
+
 
             //穿戴四格
             foreach (var kvp in user.EquipSpecialList)
             {
-                this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
+                this.CreateEquipPanelItem(kvp.Key, kvp.Value);
                 //yield return null;
             }
 
             //穿戴金装
-            foreach (var kvp in user.EquipPanelGoldenList[user.EquipGoldenIndex])
-            {
-                this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
-                //yield return null;
-            }
-
-            //穿戴暗金装
-            foreach (var kvp in user.EquipPanelDarkGoldList[user.EquipDarkGoldIndex])
-            {
-                this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
-                //yield return null;
-            }
-
-            //穿戴混沌装
-            foreach (var kvp in user.EquipPanelHundunList[user.EquipHundunIndex])
-            {
-                this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
-                //yield return null;
-            }
-
-            ////穿戴专属
-            //foreach (var kvp in user.ExclusivePanelList[user.ExclusiveIndex])
+            //foreach (var kvp in user.EquipPanelGoldenList[user.EquipGoldenIndex])
             //{
             //    this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
+            //    //yield return null;
             //}
+
 
             var emptyPrefab = PrefabHelper.Instance().ComBoxEmpty;
             yield return null;
@@ -592,7 +560,21 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            if (e.Type == 3)
+            if (e.Type == 1)
+            {
+                user.EquipPanelIndex = e.Index;
+
+                for (int i = 1; i <= 10; i++)
+                {
+                    this.ClearEquipPanelItem(i);
+                }
+
+                foreach (var kvp in user.EquipPanelList[e.Index])
+                {
+                    this.CreateEquipPanelItem(kvp.Key, kvp.Value);
+                }
+            }
+            else if (e.Type == 3)
             {
                 user.EquipGoldenIndex = e.Index;
 
@@ -603,36 +585,7 @@ namespace Game
 
                 foreach (var kvp in user.EquipPanelGoldenList[e.Index])
                 {
-                    this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
-                }
-            }
-            else if (e.Type == 4)
-            {
-                user.EquipDarkGoldIndex = e.Index;
-
-                for (int i = 31; i <= 40; i++)
-                {
-                    this.ClearEquipPanelItem(i);
-                }
-
-                foreach (var kvp in user.EquipPanelDarkGoldList[e.Index])
-                {
-                    this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
-                }
-
-            }
-            else if (e.Type == 5)
-            {
-                user.EquipHundunIndex = e.Index;
-
-                for (int i = 41; i <= 50; i++)
-                {
-                    this.ClearEquipPanelItem(i);
-                }
-
-                foreach (var kvp in user.EquipPanelHundunList[e.Index])
-                {
-                    this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
+                    this.CreateEquipPanelItem(kvp.Key, kvp.Value);
                 }
             }
         }
@@ -643,47 +596,18 @@ namespace Game
             User user = GameProcessor.Inst.User;
             user.EquipPanelIndex = index;
 
+            GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 1, Index = index });
+
             if (user.EquipGoldenSetting)
             {
                 user.EquipGoldenIndex = index;
                 GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 3, Index = index });
             }
 
-            if (user.EquipDarkGoldSetting)
-            {
-                user.EquipDarkGoldIndex = index;
-                GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 4, Index = index });
-            }
-
-            if (user.EquipHundunSetting)
-            {
-                user.EquipHundunIndex = index;
-                GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 5, Index = index });
-            }
-
             user.SkillPanelIndex = index;
-
-            ShowEquipPanel();
 
             GameProcessor.Inst.EventCenter.Raise(new SkillChangePlanEvent());
             GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-        }
-
-        private void ShowEquipPanel()
-        {
-            int position = GameProcessor.Inst.User.EquipPanelIndex;
-
-            for (int i = 0; i < this.Equip_Plan_List.Count; i++)
-            {
-                if (i == position)
-                {
-                    this.Equip_Plan_List[i].gameObject.SetActive(true);
-                }
-                else
-                {
-                    this.Equip_Plan_List[i].gameObject.SetActive(false);
-                }
-            }
         }
 
         private void ShowBagPanel(int index)
@@ -730,33 +654,11 @@ namespace Game
 
             if (e.IsWear)
             {
-                if (e.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
-                {
-                    this.WearShengxiao(e.BoxItem);
-                }
-                else if (e.BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
-                {
-                    this.WearEquipSpecial(e.BoxItem);
-                }
-                else
-                {
-                    this.WearEquipment(e.BoxItem);
-                }
+                this.WearToPanel(e.BoxItem);
             }
             else
             {
-                if (e.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
-                {
-                    this.RemoveShengxiao(e.BoxItem);
-                }
-                else if (e.BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
-                {
-                    this.RemoveEquipSpecial(e.BoxItem);
-                }
-                else
-                {
-                    this.RmoveEquipment(e.Part, e.BoxItem);
-                }
+                this.RmoveFromPanel(e.Part, e.BoxItem);
             }
             //UserData.Save();
 
@@ -1341,163 +1243,70 @@ namespace Game
             }
         }
 
-        private void WearEquipment(BoxItem boxItem)
+        private void WearToPanel(BoxItem boxItem)
         {
-            User user = GameProcessor.Inst.User;
+            Item wearItem = boxItem.Item;
 
-            var equip = boxItem.Item as Equip;
-            int Part = equip.Part;
+            int position = 0;
 
-            IDictionary<int, Equip> ep = null; ;
+            if (wearItem.GetItemType() == ItemType.Equip)
+            {
+                Equip equip = wearItem as Equip;
 
-            if (Part <= 10)
-            {
-                ep = user.EquipPanelList[user.EquipPanelIndex]; ;
+                //增加一次穿戴记录，用做轮流穿戴左右
+                position = AppHelper.GetEquipPosition(equip);
             }
-            else if (Part >= 21 && Part <= 30)
+            else if (wearItem.GetItemType() == ItemType.EquipSpeical)
             {
-                ep = user.EquipPanelGoldenList[user.EquipGoldenIndex];
-            }
-            else if (Part >= 31 && Part <= 40)
-            {
-                ep = user.EquipPanelDarkGoldList[user.EquipDarkGoldIndex];
-            }
-            else if (Part >= 41 && Part <= 50)
-            {
-                ep = user.EquipPanelHundunList[user.EquipHundunIndex];
+                Equip_Special item = wearItem as Equip_Special;
+                position = item.Config.Part;
             }
 
-            //增加一次穿戴记录，用做轮流穿戴左右
-            int Position = AppHelper.GetPosition(equip);
 
             //从包袱移除
             UseBoxItem(boxItem, 1);
 
             //如果存在旧装备，增加到包裹
-            if (ep.ContainsKey(Position))
+            Item oldEquip = GetEquip(position);
+            if (oldEquip != null)
             {
                 //装备栏卸载
-                SlotBox slot = null;
-
-                if (Position <= 10)
-                {
-                    slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
-                }
-                else if (Position >= 1001 && Position <= 1004)
-                {
-                    slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
-                }
+                SlotBox slot = GetCurrentPanelEquipSolt(position);
 
                 slot.UnEquip();
 
-                AddBoxItem(ep[Position]);
+                AddBoxItem(oldEquip);
             }
 
             //穿戴到格子上
-            this.CreateEquipPanelItem(user.EquipPanelIndex, Position, equip);
+            this.CreateEquipPanelItem(position, wearItem);
 
             //记录
-            ep[Position] = equip;
+            AddEquip(position, wearItem);
 
             //通知英雄更新属性
             GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
-        private void WearEquipSpecial(BoxItem boxItem)
+        private void RmoveFromPanel(int position, BoxItem boxItem)
         {
-            User user = GameProcessor.Inst.User;
-
-            var item = boxItem.Item as Equip_Special;
-
-            IDictionary<int, Equip_Special> ep = user.EquipSpecialList;
-            int Position = item.Config.Part;
-
-            //从包袱移除
-            UseBoxItem(boxItem, 1);
-
-            //如果存在旧装备，增加到包裹
-            if (ep.ContainsKey(Position))
-            {
-                //装备栏卸载
-                SlotBox slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
-
-                if (slot != null)
-                {
-                    slot.UnEquip();
-                }
-
-                AddBoxItem(ep[Position]);
-            }
-
-            //穿戴到格子上
-            this.CreateEquipPanelItem(user.EquipPanelIndex, Position, item);
-            //this.CreateEquipPanelItem(-1, Position, exclusive);
-
-            ep[Position] = item;
-
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
-        }
-        private void RemoveEquipSpecial(BoxItem boxItem)
-        {
-            User user = GameProcessor.Inst.User;
-
-            var item = boxItem.Item as Equip_Special;
-            int position = item.Config.Part;
+            Item removeItem = boxItem.Item;
 
             //装备栏卸载
-            SlotBox slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
+            SlotBox slot = GetCurrentPanelEquipSolt(position);
 
-            if (slot != null)
-            {
-                slot.UnEquip();
-            }
+            slot.UnEquip();
 
             //装备移动到包裹里面
-            AddBoxItem(item);
+            AddBoxItem(removeItem);
 
-            var ep = user.EquipSpecialList;
-
-            ep.Remove(position);
+            //
+            RemoveEquip(position);
 
             //通知英雄更新属性
             GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
-        }
 
-        public void WearShengxiao(BoxItem boxItem)
-        {
-            //User user = GameProcessor.Inst.User;
-
-            //var exclusive = boxItem.Item as Shengxiao;
-
-            //IDictionary<int, Shengxiao> ep = user.ShengxiaoList;
-            //int Position = exclusive.ShengxiaoConfig.Part;
-
-            ////从包袱移除
-            //UseBoxItem(boxItem, 1);
-
-            ////如果存在旧装备，增加到包裹
-            //if (ep.ContainsKey(Position))
-            //{
-            //    //装备栏卸载
-            //    SlotBox slot = DialogShengxiaoPanel.ItemList.Where(s => s.Part == Position).FirstOrDefault();
-
-            //    if (slot != null)
-            //    {
-            //        slot.UnEquip();
-            //    }
-
-            //    AddBoxItem(ep[Position]);
-            //}
-
-            ////穿戴到格子上
-            //DialogShengxiaoPanel.Wear(exclusive);
-            ////this.CreateEquipPanelItem(-1, Position, exclusive);
-
-            //ep[Position] = exclusive;
-
-            ////通知英雄更新属性
-            //GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
+            //UserData.Save();
         }
 
         private void ClearEquipPanelItem(int position)
@@ -1514,8 +1323,7 @@ namespace Game
             {
                 int pi = GameProcessor.Inst.User.EquipPanelIndex;
 
-                var EquipInfo = Equip_Plan_List[pi];
-                slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
+                slot = EquipPanel.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 1001 && position <= 1004)
             {
@@ -1525,30 +1333,66 @@ namespace Game
             return slot;
         }
 
-        private void CreateEquipPanelItem(int pi, int position, Item equip)
+        private Item GetEquip(int position)
         {
-
-            SlotBox slot = null;
+            User user = GameProcessor.Inst.User;
 
             if (position <= 10)
             {
-                var EquipInfo = Equip_Plan_List[pi];
-                slot = EquipInfo.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
+                var ep = user.EquipPanelList[user.EquipPanelIndex];
+                if (ep.ContainsKey(position))
+                {
+                    return ep[position];
+                }
+
             }
             else if (position >= 1001 && position <= 1004)
             {
-                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).FirstOrDefault();
+                var ep = user.EquipSpecialList;
+                if (ep.ContainsKey(position))
+                {
+                    return ep[position];
+                }
             }
-            else if ((position >= 15 && position <= 20) || position > 1000)
-            {
-                //slot = ExclusiveDialog.ItemList.Where(s => s.Part == position).First();
 
-                //if (slot == null)
-                //{
-                //    return; //没有切换到这个，就跳过
-                //}
-                return;
+
+            return null;
+        }
+
+        private void RemoveEquip(int position)
+        {
+            User user = GameProcessor.Inst.User;
+
+            if (position <= 10)
+            {
+                user.EquipPanelList[user.EquipPanelIndex].Remove(position);
+
             }
+            else if (position >= 1001 && position <= 1004)
+            {
+                user.EquipSpecialList.Remove(position);
+            }
+        }
+
+        private void AddEquip(int position, Item equip)
+        {
+            User user = GameProcessor.Inst.User;
+
+            if (position <= 10)
+            {
+                user.EquipPanelList[user.EquipPanelIndex][position] = equip as Equip;
+            }
+            else if (position >= 1001 && position <= 1004)
+            {
+                user.EquipSpecialList[position] = equip as Equip_Special;
+            }
+
+        }
+
+        private void CreateEquipPanelItem(int position, Item equip)
+        {
+            SlotBox slot = GetCurrentPanelEquipSolt(position);
+
 
             if (slot.GetEquip() != null) //防止叠加，无限刷道具
             {
@@ -1572,85 +1416,6 @@ namespace Game
             slot.Equip(comItem);
         }
 
-        private void RmoveEquipment(int position, BoxItem boxItem)
-        {
-            User user = GameProcessor.Inst.User;
-
-            var equip = boxItem.Item as Equip;
-            //装备栏卸载
-            SlotBox slot = null;
-
-            if (position <= 10)
-            {
-                slot = Equip_Plan_List[user.EquipPanelIndex].GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 1001 && position <= 1004)
-            {
-                slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-
-            slot.UnEquip();
-
-            //装备移动到包裹里面
-            AddBoxItem(equip);
-
-            //
-            if (position <= 10)
-            {
-                user.EquipPanelList[user.EquipPanelIndex].Remove(position);
-
-            }
-            else if (position >= 1001 && position <= 1004)
-            {
-                user.EquipSpecialList.Remove(position);
-            }
-            else if (position >= 15 && position <= 20)
-            {
-
-            }
-            else if (position >= 21 && position <= 30)
-            {
-                user.EquipPanelGoldenList[user.EquipGoldenIndex].Remove(position);
-            }
-            else if (position >= 31 && position <= 40)
-            {
-                user.EquipPanelDarkGoldList[user.EquipDarkGoldIndex].Remove(position);
-            }
-            else if (position >= 41 && position <= 50)
-            {
-                user.EquipPanelHundunList[user.EquipHundunIndex].Remove(position);
-            }
-
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
-
-            //UserData.Save();
-        }
-
-        private void RemoveShengxiao(BoxItem boxItem)
-        {
-            //User user = GameProcessor.Inst.User;
-
-            //var exclusive = boxItem.Item as Shengxiao;
-            //int position = exclusive.ShengxiaoConfig.Part;
-
-            ////装备栏卸载
-            //SlotBox slot = DialogShengxiaoPanel.ItemList.Where(s => s.Part == position).First();
-            //if (slot != null)
-            //{
-            //    slot.UnEquip();
-            //}
-
-            ////装备移动到包裹里面
-            //AddBoxItem(exclusive);
-
-            //var ep = user.ShengxiaoList;
-
-            //ep.Remove(position);
-
-            ////通知英雄更新属性
-            //GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
-        }
 
         private void OnHeroBagUpdateEvent(HeroBagUpdateEvent e)
         {
@@ -1720,10 +1485,6 @@ namespace Game
             this.DialogHalidom.gameObject.SetActive(true);
         }
 
-        public void OnOpenArtifact()
-        {
-            this.DialogArtifact.Show();
-        }
 
         public void OnOpenRing()
         {

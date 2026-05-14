@@ -59,7 +59,7 @@ namespace Game
             return CopyCount > 600 ? 0 : 1;
         }
 
-        public static int GetPosition(Equip equip)
+        public static int GetEquipPosition(Equip equip)
         {
             if (equip.Position.Length > 1)
             {

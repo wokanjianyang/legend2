@@ -26,6 +26,7 @@ public class Panel_Grade : MonoBehaviour
 
     private int SelectPosition = 1;
     private Item CurrentItem;
+    private Box_Forge CurrentBox;
 
     private int ForgeType = 3;
 
@@ -68,10 +69,11 @@ public class Panel_Grade : MonoBehaviour
         }
     }
 
-    public void SelectItem(int p, Item item)
+    public void SelectItem(int p, Item item, Box_Forge box)
     {
         this.SelectPosition = p;
         this.CurrentItem = item;
+        this.CurrentBox = box;
 
         this.Show();
     }
@@ -133,44 +135,42 @@ public class Panel_Grade : MonoBehaviour
 
     private void OnClick_OK()
     {
-        //User user = GameProcessor.Inst.User;
+        User user = GameProcessor.Inst.User;
 
-        //long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
+        int nextLayer = CurrentItem.Layer + 1;
 
-        //EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+        EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetConfig(SelectPosition, nextLayer);
 
-        //long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+        for (int i = 0; i < config.MidList.Length; i++)
+        {
+            long fee = config.GetFee(i, nextLayer);
+            long mc = user.GetMaterialCount(config.MidList[i]);
 
-        //if (user.MagicGold.Data < fee1)
-        //{
-        //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的金币", ToastType = ToastTypeEnum.Failure });
-        //    return;
-        //}
+            if (mc < fee)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "材料不足", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+        }
 
-        //long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
-        //long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
+        for (int i = 0; i < config.MidList.Length; i++)
+        {
+            long fee = config.GetFee(i, nextLayer);
+            GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+            {
+                Type = ItemType.Material,
+                ItemId = config.MidList[i],
+                Quantity = fee
+            });
+        }
 
-        //if (mc < fee2)
-        //{
-        //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的精炼石", ToastType = ToastTypeEnum.Failure });
-        //    return;
-        //}
+        CurrentItem.Grade();
 
-        //user.SubGold(fee1);
+        CurrentBox.Refresh();
 
-        //GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
-        //{
-        //    Type = ItemType.Material,
-        //    ItemId = ItemHelper.Equip_Refine,
-        //    Quantity = fee2
-        //});
+        GameProcessor.Inst.UpdateInfo();
 
-
-        //user.SaveRefineLevel(SelectPosition, 1);
-
-        //GameProcessor.Inst.UpdateInfo();
-
-        //Show();
+        Show();
     }
 
 

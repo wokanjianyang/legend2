@@ -118,10 +118,6 @@ namespace Game
 
         public IDictionary<int, IDictionary<int, Equip>> EquipPanelGoldenList { get; set; } = new Dictionary<int, IDictionary<int, Equip>>();
 
-        public IDictionary<int, IDictionary<int, Equip>> EquipPanelDarkGoldList { get; set; } = new Dictionary<int, IDictionary<int, Equip>>();
-
-        public IDictionary<int, IDictionary<int, Equip>> EquipPanelHundunList { get; set; } = new Dictionary<int, IDictionary<int, Equip>>();
-
         public IDictionary<int, Equip_Special> EquipSpecialList { get; set; } = new Dictionary<int, Equip_Special>();
 
         public Dictionary<int, long> RecordMax = new Dictionary<int, long>();
@@ -137,10 +133,6 @@ namespace Game
         public bool EquipHundunSetting { get; set; } = false;
 
         public int EquipGoldenIndex { get; set; } = 0;
-
-        public int EquipDarkGoldIndex { get; set; } = 0;
-
-        public int EquipHundunIndex { get; set; } = 0;
 
         public int SkillPanelIndex { get; set; } = 0;
 
@@ -690,10 +682,6 @@ namespace Game
             //金装词条
             skillList.AddRange(this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList());
 
-            //混沌词条
-            skillList.AddRange(this.EquipPanelHundunList[EquipHundunIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList());
-
-
             //buff 词条
             if (buffList != null)
             {
@@ -740,9 +728,6 @@ namespace Game
 
             //金装套装
             skillList.AddRange(this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SkillSuitConfig.SkillId == skillId).Select(m => m.Value.SkillSuitConfig).ToList());
-
-            //混沌套装
-            skillList.AddRange(this.EquipPanelHundunList[EquipHundunIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SkillSuitConfig.SkillId == skillId).Select(m => m.Value.SkillSuitConfig).ToList());
 
             var suitGroup = skillList.GroupBy(m => m.Id);
 
@@ -811,8 +796,6 @@ namespace Game
         {
             int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
             count += this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
-            count += this.EquipPanelDarkGoldList[EquipDarkGoldIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
-            count += this.EquipPanelHundunList[EquipHundunIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
 
             return count;
         }

@@ -141,14 +141,6 @@ namespace Game
             {
                 equip1 += sp.Value.GetFull();
             }
-            foreach (var sp in user.EquipPanelDarkGoldList[user.EquipDarkGoldIndex])
-            {
-                equip1 += sp.Value.GetFull();
-            }
-            foreach (var sp in user.EquipPanelHundunList[user.EquipHundunIndex])
-            {
-                equip1 += sp.Value.GetFull();
-            }
             paramDict.Add("equip1", equip1 + "");
 
             long fashion = GetTotal(user.Bags, ItemHelper.SpecialId_Fashion);

@@ -67,22 +67,38 @@ namespace Game
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
-                else if (BoxItem.Item.GetItemType() == ItemType.Shengxiao)
+                else if (BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
                 {
-                    Shengxiao item = BoxItem.Item as Shengxiao;
+                    Equip_Special item = BoxItem.Item as Equip_Special;
 
-                    if (item.LevelData.Data > 0)
+                    if (item.Level > 0)
                     {
-                        this.Txt_Count.text = item.LevelData.Data + "级";
+                        this.Txt_Count.text = item.Level + "级";
                         this.Txt_Count.gameObject.SetActive(true);
                     }
-                    if (item.LayerData.Data > 0)
+                    if (item.Layer > 0)
                     {
-                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[item.LayerData.Data] + "阶";
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[item.Layer] + "阶";
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
 
                 }
+                //else if (BoxItem.Item.GetItemType() == ItemType.Shengxiao)
+                //{
+                //    Shengxiao item = BoxItem.Item as Shengxiao;
+
+                //    if (item.LevelData.Data > 0)
+                //    {
+                //        this.Txt_Count.text = item.LevelData.Data + "级";
+                //        this.Txt_Count.gameObject.SetActive(true);
+                //    }
+                //    if (item.LayerData.Data > 0)
+                //    {
+                //        this.Txt_Layer.text = ConfigHelper.LayerChinaList[item.LayerData.Data] + "阶";
+                //        this.Txt_Layer.gameObject.SetActive(true);
+                //    }
+
+                //}
             }
         }
 

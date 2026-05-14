@@ -68,13 +68,16 @@ namespace Game
 
         public void OnBattleStart()
         {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.AddListener<ShowDetailEquipSpecialEvent>(this.OnShowEvent);
+            GameProcessor.Inst.EventCenter.AddListener<ShowDetailEvent>(this.OnShowEvent);
         }
 
-        private void OnShowEvent(ShowDetailEquipSpecialEvent e)
+        private void OnShowEvent(ShowDetailEvent e)
         {
+            if (e.Show_Type != ShowType.Equip_Special)
+            {
+                return;
+            }
+
             this.gameObject.SetActive(true);
             Tf_Base.gameObject.SetActive(false);
             Tf_Random.gameObject.SetActive(false);
@@ -87,9 +90,9 @@ namespace Game
             this.btn_Lock.gameObject.SetActive(false);
             this.btn_Unlock.gameObject.SetActive(false);
 
-            this.boxItem = e.boxItem;
-            this.equipPositioin = e.EquipPosition;
-            this.BoxType = e.Type;
+            this.boxItem = e.Show_Item;
+            this.equipPositioin = e.Position;
+            this.BoxType = e.Box_Type;
 
             var titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 
@@ -98,7 +101,10 @@ namespace Game
             EquipSpeicalConfig config = equip.Config;
 
             string name = equip.GetName();
-            name += "(" + ConfigHelper.LayerChinaList[equip.Layer] + "阶)";
+            if (equip.Layer > 0)
+            {
+                name += "(" + ConfigHelper.LayerChinaList[equip.Layer] + "阶)";
+            }
 
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
@@ -169,37 +175,42 @@ namespace Game
                 this.ShowRed(red, config);
             }
 
-
-            this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
-            this.btn_UnEquip.gameObject.SetActive(this.boxItem.BoxId == -1);
-            if (equip.Level > 1 || equip.Layer > 1)
+            if (e.Box_Type == ComBoxType.Bag)
             {
-                this.btn_Restore.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
-                this.btn_Recovery.gameObject.SetActive(false);
+                //包裹中
+                this.btn_Equip.gameObject.SetActive(true);
+                this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
+
+                if (equip.Layer > 1) //升阶过的只能重生
+                {
+                    this.btn_Restore.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                }
+                else  //没升阶的只能回收
+                {
+                    this.btn_Recovery.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                }
+            }
+            else if (e.Box_Type == ComBoxType.OnEquip)
+            {
+                //装备栏中
+                this.btn_UnEquip.gameObject.SetActive(true);
             }
             else
             {
-                this.btn_Restore.gameObject.SetActive(false);
-                this.btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1 && !this.boxItem.Item.IsLock);
-            }
-            this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
-            this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
-
-
-            if (equipPositioin < -1 || this.BoxType != ComBoxType.Bag) //不可操作
-            {
-                this.btn_Equip.gameObject.SetActive(false);
-                this.btn_UnEquip.gameObject.SetActive(false);
-                this.btn_Recovery.gameObject.SetActive(false);
-                this.btn_Restore.gameObject.SetActive(false);
-                this.btn_Lock.gameObject.SetActive(false);
-                this.btn_Unlock.gameObject.SetActive(false);
+                //其他地方都不显示任何按钮
+                //this.btn_Equip.gameObject.SetActive(false);
+                //this.btn_UnEquip.gameObject.SetActive(false);
+                //this.btn_Recovery.gameObject.SetActive(false);
+                //this.btn_Restore.gameObject.SetActive(false);
+                //this.btn_Lock.gameObject.SetActive(false);
+                //this.btn_Unlock.gameObject.SetActive(false);
             }
         }
 
         private void ShowRed(EquipSetSuit redSuit, EquipSpeicalConfig config)
         {
-            Text redTitle = Tf_Set.Find("Title").GetComponent<Text>();
+            Text redTitle = Tf_Set.Find("Tf_Title").Find("Title_Text").GetComponent<Text>();
 
             string color = QualityConfigHelper.GetQualityColor(config.Quality);
 

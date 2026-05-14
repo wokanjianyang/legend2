@@ -70,12 +70,17 @@ namespace Game
         {
             this.gameObject.SetActive(false);
 
-            GameProcessor.Inst.EventCenter.AddListener<ShowShengxiaoDetailEvent>(this.OnShowEvent);
+            GameProcessor.Inst.EventCenter.AddListener<ShowDetailEvent>(this.OnShowEvent);
             this.rectTransform = this.transform.GetComponent<RectTransform>();
         }
 
-        private void OnShowEvent(ShowShengxiaoDetailEvent e)
+        private void OnShowEvent(ShowDetailEvent e)
         {
+            if (e.Show_Type != ShowType.Shengxiao)
+            {
+                return;
+            }
+
             this.gameObject.SetActive(true);
             tran_BaseAttribute.gameObject.SetActive(false);
             tran_RandomAttribute.gameObject.SetActive(false);
@@ -90,9 +95,9 @@ namespace Game
 
             // this.transform.position = this.GetBetterPosition(e.Position);
             // this.img_Background.sprite = this.list_BackgroundImgs[this.item.GetQuality() - 1];
-            this.boxItem = e.boxItem;
-            this.equipPositioin = e.EquipPosition;
-            this.BoxType = e.Type;
+            this.boxItem = e.Show_Item;
+            this.equipPositioin = e.Position;
+            this.BoxType = e.Box_Type;
 
             var titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 

@@ -17,10 +17,12 @@ namespace Game
         public RectTransform Container;
         public ToggleGroup toggleGroup;
 
-        private BoxItem boxItem;
         private int ConfigId;
+        private BoxItem FromItem;
 
         private List<Gift_Item> ItemList = new List<Gift_Item>();
+
+        private BoxItem SelectItem;
 
         public int Order => (int)ComponentOrder.Dialog;
 
@@ -35,7 +37,7 @@ namespace Game
 
         public void OnBattleStart()
         {
-            GameProcessor.Inst.EventCenter.AddListener<ShowSelectEvent>(this.OnShow);
+            GameProcessor.Inst.EventCenter.AddListener<ShowDetailEvent>(this.OnShow);
         }
 
         private void Init()
@@ -48,7 +50,7 @@ namespace Game
             ItemList.Clear();
 
             GiftPackConfig config = GiftPackConfigCategory.Instance.Get(this.ConfigId);
-            var pref = Resources.Load<GameObject>("Prefab/Window/GameItem/Gift_Item");
+            var pref = Resources.Load<GameObject>("Prefab/GameItem/Gift_Item");
 
             for (int i = 0; i < config.ItemIdList.Length; i++)
             {
@@ -58,13 +60,12 @@ namespace Game
                 Gift_Item item = itemUI.GetComponent<Gift_Item>();
 
                 Item newItem = ItemHelper.BuildItem((ItemType)config.ItemTypeList[i], config.ItemIdList[i], 1, config.ItemCountList[i]);
+                BoxItem newBox = new BoxItem();
+                newBox.Item = newItem;
+                newBox.MagicNubmer.Data = 1;
+                newBox.BoxId = -1;
 
-                BoxItem boxItem = new BoxItem();
-                boxItem.Item = newItem;
-                boxItem.MagicNubmer.Data = 1;
-                boxItem.BoxId = -1;
-
-                item.SetItem(boxItem, toggleGroup);
+                item.SetItem(newBox, toggleGroup);
 
                 ItemList.Add(item);
             }
@@ -80,14 +81,23 @@ namespace Game
             }
         }
 
-        public void OnShow(ShowSelectEvent e)
+        public void OnShow(ShowDetailEvent e)
         {
-            this.boxItem = e.boxItem;
-            this.ConfigId = this.boxItem.Item.ConfigId;
+            if (e.Show_Type != ShowType.Select)
+            {
+                return;
+            }
+
+            this.FromItem = e.Show_Item;
+            this.ConfigId = this.FromItem.Item.ConfigId;
             this.Init();
             this.gameObject.SetActive(true);
         }
 
+        public void OnSelectItem(BoxItem item)
+        {
+            this.SelectItem = item;
+        }
 
         public void OnClick_Close()
         {
@@ -105,7 +115,7 @@ namespace Game
             }
 
             //判断空格
-            int ic = GameProcessor.Inst.User.GetBagIdleCount(select.BoxItem.GetBagType());
+            int ic = GameProcessor.Inst.User.GetBagIdleCount(SelectItem.GetBagType());
             if (ic < 10)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留10个对应的包裹格子", ToastType = ToastTypeEnum.Failure });
@@ -118,8 +128,8 @@ namespace Game
             //选择第N个装备
             GameProcessor.Inst.EventCenter.Raise(new SelectGiftEvent()
             {
-                BoxItem = boxItem,
-                Item = select.BoxItem.Item,
+                BoxItem = FromItem,
+                Item = SelectItem.Item,
                 Nubmer = 1
             });
         }
@@ -136,7 +146,7 @@ namespace Game
             }
 
             //判断空格
-            int ic = GameProcessor.Inst.User.GetBagIdleCount(select.BoxItem.GetBagType());
+            int ic = GameProcessor.Inst.User.GetBagIdleCount(SelectItem.GetBagType());
             if (ic < 10)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留10个对应的包裹格子", ToastType = ToastTypeEnum.Failure });
@@ -148,9 +158,9 @@ namespace Game
             //选择第N个装备
             GameProcessor.Inst.EventCenter.Raise(new SelectGiftEvent()
             {
-                BoxItem = boxItem,
-                Item = select.BoxItem.Item,
-                Nubmer = boxItem.MagicNubmer.Data
+                BoxItem = FromItem,
+                Item = SelectItem.Item,
+                Nubmer = FromItem.MagicNubmer.Data
             });
         }
 
@@ -163,39 +173,13 @@ namespace Game
                 return;
             }
 
-            if (select.BoxItem.Item.GetItemType() == ItemType.Equip)
+            GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
-                {
-                    boxItem = select.BoxItem,
-                    EquipPosition = -2,
-                    Type = ComBoxType.PreView,
-                });
-            }
-            else if (select.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowShengxiaoDetailEvent()
-                {
-                    boxItem = select.BoxItem,
-                    EquipPosition = -2,
-                    Type = ComBoxType.PreView,
-                });
-            }
-            else if (select.BoxItem.Item.GetItemType() == ItemType.Pet)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowPetDetailEvent()
-                {
-                    boxItem = select.BoxItem,
-                });
-            }
-            else
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
-                {
-                    boxItem = select.BoxItem,
-                    Type = ComBoxType.PreView,
-                });
-            }
+                Show_Item = SelectItem,
+                Show_Type = SelectItem.Item.GetShowType(),
+                Box_Type = ComBoxType.PreView,
+                Position = -1,
+            });
         }
     }
 }

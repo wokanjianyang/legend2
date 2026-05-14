@@ -316,10 +316,19 @@ namespace Game
             return this.Config.Name;
         }
 
-        public override int LevelRequired()
+        public override int GetRequired()
         {
             return this.Config.LevelRequired;
         }
 
+        public override int GetBagType()
+        {
+            return Config.Role - 1;
+        }
+
+        public override ShowType GetShowType()
+        {
+            return ShowType.Equip;
+        }
     }
 }

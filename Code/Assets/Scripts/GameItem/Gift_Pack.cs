@@ -28,5 +28,10 @@ namespace Game
         {
             return this.Config.Name;
         }
+
+        public override ShowType GetShowType()
+        {
+            return ShowType.Select;
+        }
     }
 }

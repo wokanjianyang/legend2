@@ -83,12 +83,17 @@ namespace Game
         {
             this.gameObject.SetActive(false);
 
-            GameProcessor.Inst.EventCenter.AddListener<ShowPetDetailEvent>(this.OnShowEvent);
+            GameProcessor.Inst.EventCenter.AddListener<ShowDetailEvent>(this.OnShowEvent);
             //this.rectTransform = this.transform.GetComponent<RectTransform>();
         }
 
-        private void OnShowEvent(ShowPetDetailEvent e)
+        private void OnShowEvent(ShowDetailEvent e)
         {
+            if (e.Show_Type != ShowType.Pet)
+            {
+                return;
+            }
+
             this.gameObject.SetActive(true);
 
             Tf_Flair.gameObject.SetActive(false);
@@ -102,7 +107,7 @@ namespace Game
             this.btn_Lock.gameObject.SetActive(false);
             this.btn_Unlock.gameObject.SetActive(false);
 
-            this.boxItem = e.boxItem;
+            this.boxItem = e.Show_Item;
 
             string titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 

@@ -10,27 +10,29 @@ namespace Game
 {
     public class Gift_Item : MonoBehaviour
     {
-        public Image image_Background;
-        public Sprite[] list_Backgrounds;
+        public Transform Tf_Bg;
+        public Transform Tf_Box;
 
+        public Toggle toggle;
         public Text Txt_Name;
         public Text Txt_Layer;
         public Text Txt_Level;
 
-        public Toggle toggle;
+        public Image Img_Bg;
+        public Image Img_Logo;
 
-        public BoxItem BoxItem { get; private set; }
+        private BoxItem CurrentItem;
+
+        private int Type = 0;
+        private int Position = 0;
 
         // Start is called before the first frame update
         void Start()
         {
-            //this.toggle.onValueChanged.AddListener((isOn) =>
-            //{
-            //    if (isOn)
-            //    {
-            //        ShowDetail();
-            //    }
-            //});
+            toggle.onValueChanged.AddListener((isOn) =>
+            {
+                Select(isOn);
+            });
         }
 
         // Update is called once per frame
@@ -39,49 +41,78 @@ namespace Game
 
         }
 
-        public void SetItem(BoxItem box, ToggleGroup group)
+        void OnEnable()
         {
-            this.BoxItem = box;
-            this.toggle.group = group;
-
-
-            this.Txt_Name.text = box.Item.GetName();
-
-            int quality = BoxItem.Item.GetQuality();
-            image_Background.sprite = list_Backgrounds[quality - 1];
-
-            Color color = ColorHelper.HexToColor(QualityConfigHelper.GetQualityColor(quality));
-            Txt_Name.color = color;
-            Txt_Layer.color = color;
-            Txt_Level.color = color;
-
-            this.ShowName();
+            this.Show();
         }
 
-        private void ShowName()
+        private void Show()
         {
-            this.Txt_Layer.gameObject.SetActive(false);
-            this.Txt_Level.gameObject.SetActive(false);
-
-            if (this.BoxItem != null)
+            if (this.CurrentItem != null)
             {
-                if (BoxItem.Item.GetItemType() == ItemType.Equip)
+                Tf_Bg.gameObject.SetActive(false);
+                Tf_Box.gameObject.SetActive(true);
+
+                this.Txt_Layer.gameObject.SetActive(false);
+                this.Txt_Level.gameObject.SetActive(false);
+
+                Item gameItem = CurrentItem.Item;
+                int quality = gameItem.GetQuality();
+
+                this.Txt_Name.text = gameItem.GetName();
+                this.Txt_Name.color = QualityConfigHelper.GetColor(quality);
+
+                this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
+
+                if (gameItem.GetItemType() == ItemType.Equip)
                 {
-                    Equip equip = BoxItem.Item as Equip;
-                    if (equip.GetQuality() > 5 && equip.Part <= 10)
+                    Equip equip = gameItem as Equip;
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
+
+                    if (equip.Layer > 0)
                     {
                         this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "½×";
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
-                else
+                else if (gameItem.GetItemType() == ItemType.EquipSpeical)
                 {
-                    if (BoxItem.Item.Count > 1)
+                    Equip_Special equip = gameItem as Equip_Special;
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
+
+                    if (equip.Layer > 0)
                     {
-                        this.Txt_Level.text = BoxItem.Item.Count + "";
-                        this.Txt_Level.gameObject.SetActive(true);
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "½×";
+                        this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
+            }
+            else
+            {
+                Tf_Bg.gameObject.SetActive(true);
+                Tf_Box.gameObject.SetActive(false);
+            }
+        }
+
+        public void SetItem(BoxItem item, ToggleGroup group)
+        {
+            this.CurrentItem = item;
+            this.toggle.group = group;
+            this.Show();
+        }
+
+
+
+
+        private void Select(bool isOn)
+        {
+            if (isOn)
+            {
+                Dialog_Detail_Select panel = this.gameObject.GetComponentInParent<Dialog_Detail_Select>();
+                panel.OnSelectItem(CurrentItem);
+
             }
         }
     }

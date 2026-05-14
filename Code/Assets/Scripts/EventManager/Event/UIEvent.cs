@@ -5,7 +5,18 @@ namespace Game
 {
     //new-user
 
+    public class ShowDetailEvent : SDD.Events.Event
+    {
+        //public Vector3 Position { get; set; }
 
+        public ComBoxType Box_Type { get; set; }
+
+        public ShowType Show_Type { get; set; }
+
+        public BoxItem Show_Item { get; set; }
+
+        public int Position { get; set; }
+    }
 
     //--------------------------old--------------------------- 
 

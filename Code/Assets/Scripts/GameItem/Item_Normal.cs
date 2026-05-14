@@ -39,15 +39,21 @@ namespace Game
         }
 
 
-        public override int LevelRequired()
+        public override int GetRequired()
         {
             return this.Config.LevelRequired;
+        }
+
+        public override int GetRecoveryId()
+        {
+            return this.Config.RecoveryItemId;
         }
 
         public override long GetMaxNum()
         {
             return this.Config.MaxNum;
         }
+
 
     }
 }

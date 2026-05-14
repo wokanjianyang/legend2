@@ -62,10 +62,24 @@ namespace Game
             return this.Type;
         }
 
+        public virtual int GetBagType()
+        {
+            return 4;
+        }
 
-        public virtual int LevelRequired()
+        public virtual ShowType GetShowType()
+        {
+            return ShowType.Normal;
+        }
+
+        public virtual int GetRequired()
         {
             return 1;
+        }
+
+        public virtual int GetRecoveryId()
+        {
+            return 0;
         }
 
         /// <summary>
@@ -122,5 +136,16 @@ namespace Game
 
         Metal = 98,
         Ad = 99,
+    }
+
+    public enum ShowType
+    {
+        Normal = 1,
+        Equip,
+        Equip_Special,
+        Pet,
+        Select,
+        Drop,
+        Shengxiao
     }
 }

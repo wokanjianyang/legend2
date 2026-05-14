@@ -7,27 +7,31 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class Box_Select : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+    public class Box_Select : MonoBehaviour
     {
-        public Image image_Background;
-        public Sprite[] list_Backgrounds;
+        public Transform Tf_Bg;
+        public Transform Tf_Box;
 
+        public Toggle toggle;
         public Text Txt_Name;
         public Text Txt_Layer;
         public Text Txt_Level;
 
+        public Image Img_Bg;
+        public Image Img_Logo;
 
-        public BoxItem BoxItem { get; private set; }
-        public int boxId { get; private set; }
+        private Item CurrentItem;
 
-        public ComBoxType Type { get; set; } = ComBoxType.Bag;
-
-        public int Cycle = 0;
+        private int Type = 0;
+        private int Position = 0;
 
         // Start is called before the first frame update
         void Start()
         {
-
+            toggle.onValueChanged.AddListener((isOn) =>
+            {
+                Select(isOn);
+            });
         }
 
         // Update is called once per frame
@@ -38,99 +42,87 @@ namespace Game
 
         void OnEnable()
         {
-            this.ShowName();
+            this.Show();
         }
 
-        public void SetItem(BoxItem item, ComBoxType type, int cycle)
+        private void Show()
         {
-            this.BoxItem = item;
-            this.Type = type;
-            this.Cycle = cycle;
-
-            this.Txt_Name.text = item.Item.GetName();
-
-            int quality = item.Item.GetQuality();
-            image_Background.sprite = PrefabHelper.Instance().GetBoxImage(quality);  //list_Backgrounds[quality - 1];
-
-            Color color = ColorHelper.HexToColor(QualityConfigHelper.GetQualityColor(quality));
-            Txt_Name.color = color;
-            Txt_Layer.color = color;
-            Txt_Level.color = color;
-
-            this.ShowName();
-        }
-
-        private void ShowName()
-        {
-            this.Txt_Layer.gameObject.SetActive(false);
-            this.Txt_Level.gameObject.SetActive(false);
-
-            if (this.BoxItem != null)
+            if (this.CurrentItem != null)
             {
-                if (BoxItem.Item.GetItemType() == ItemType.Equip)
+                Tf_Bg.gameObject.SetActive(false);
+                Tf_Box.gameObject.SetActive(true);
+
+                this.Txt_Layer.gameObject.SetActive(false);
+                this.Txt_Level.gameObject.SetActive(false);
+
+                int quality = CurrentItem.GetQuality();
+
+                this.Txt_Name.text = CurrentItem.GetName();
+                this.Txt_Name.color = QualityConfigHelper.GetColor(quality);
+
+                this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
+
+                if (CurrentItem.GetItemType() == ItemType.Equip)
                 {
-                    Equip equip = BoxItem.Item as Equip;
-                    if (equip.GetQuality() > 5 && equip.Part <= 10)
+                    Equip equip = CurrentItem as Equip;
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
+
+                    if (equip.Layer > 0)
+                    {
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
+                        this.Txt_Layer.gameObject.SetActive(true);
+                    }
+                }
+                else if (CurrentItem.GetItemType() == ItemType.EquipSpeical)
+                {
+                    Equip_Special equip = CurrentItem as Equip_Special;
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
+
+                    if (equip.Layer > 0)
                     {
                         this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
             }
+            else
+            {
+                Tf_Bg.gameObject.SetActive(true);
+                Tf_Box.gameObject.SetActive(false);
+            }
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void Init(int type, int position, ToggleGroup group)
         {
-            if (this.BoxItem == null) return;
+            this.Type = type;
+            this.Position = position;
 
-            //if (this.Type == ComBoxType.Exclusive_Up_Main)
-            //{
-            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-            //    return;
-            //}
-            //else if (this.Type == ComBoxType.Exclusive_Up_Material)
-            //{
-            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-            //    return;
-            //}
-            //else if (this.Type == ComBoxType.Exclusive_Devour_Main)
-            //{
-            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-            //    return;
-            //}
-            //else if (this.Type == ComBoxType.Exclusive_Devour_Material)
-            //{
-            //    GameProcessor.Inst.EventCenter.Raise(new BoxSelectEvent() { Box = this, Type = this.Type, Cycle = this.Cycle });
-            //    return;
-            //}
-            //else if (this.Type == ComBoxType.Box_Ready)
-            //{
-            //    if (this.BoxItem.Item.GetItemType() == ItemType.Equip)
-            //    {
-            //        GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
-            //        {
-            //            boxItem = this.BoxItem,
-            //            Type = this.Type
-            //        });
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent() { boxItem = this.BoxItem, Type = this.Type });
-            //        return;
-            //    }
-            //}
+            this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(Position);
+
+            this.toggle.group = group;
         }
 
-        public void OnPointerUp(PointerEventData eventData)
+        public void SetItem(Item item)
         {
-
+            this.CurrentItem = item;
+            this.Show();
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+
+        private void Select(bool isOn)
         {
+            if (isOn)
+            {
+                if (Type == 3)
+                {
+                    Panel_Grade panel = this.gameObject.GetComponentInParent<Panel_Grade>();
+                    panel.SelectItem(this.Position, CurrentItem);
+                }
+            }
         }
-
 
     }
+
 }

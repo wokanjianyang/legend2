@@ -155,7 +155,7 @@ namespace Game
         {
             var go = GameObject.Instantiate(BoxSelectPrefab);
             Box_Select comItem = go.GetComponent<Box_Select>();
-            comItem.SetItem(item, type, cycle);
+            //comItem.SetItem(item, type, cycle);
 
             comItem.transform.SetParent(parent);
             comItem.transform.localPosition = Vector3.zero;

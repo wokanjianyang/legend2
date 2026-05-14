@@ -21,11 +21,6 @@ namespace Game
         [JsonIgnore]
         public ShengxiaoConfig ShengxiaoConfig { get; set; }
 
-        public override int GetQuality()
-        {
-            return Quality;
-        }
-
         public Shengxiao(int configId, int quality) : base(configId, ItemType.Shengxiao)
         {
             this.ConfigId = configId;
@@ -104,6 +99,28 @@ namespace Game
         {
             this.LayerData.Data++;
 
+        }
+
+
+        //--------------ovveride
+        public override int GetQuality()
+        {
+            return this.Quality;
+        }
+
+        public override string GetName()
+        {
+            return ShengxiaoConfig.Name;
+        }
+
+        public override int GetBagType()
+        {
+            return 4;
+        }
+
+        public override ShowType GetShowType()
+        {
+            return ShowType.Shengxiao;
         }
     }
 }

@@ -85,6 +85,16 @@ namespace Game
             return this.Config.Name;
         }
 
+        public override int GetBagType()
+        {
+            return 3;
+        }
+
+        public override ShowType GetShowType()
+        {
+            return ShowType.Equip_Special;
+        }
+
         public override void ToRecoverDict(Dictionary<int, long> dict)
         {
             if (Config.Cycle == 101)

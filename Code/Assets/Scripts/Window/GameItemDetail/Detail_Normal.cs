@@ -21,7 +21,6 @@ namespace Game
         public Button Btn_Recovery;
         public Button Btn_Recovery_All;
         public Button Btn_Lose;
-        public Button Btn_Learn;
 
         public Button Btn_Use;
         public Button Btn_Use_Batch;
@@ -51,7 +50,6 @@ namespace Game
             this.Btn_Confirm.onClick.AddListener(this.OnConfirm);
             this.Btn_Cancle.onClick.AddListener(this.OnCancle);
 
-            this.Btn_Learn.onClick.AddListener(this.OnLearnSkill);
             this.Btn_Close.onClick.AddListener(this.OnClick_Close);
         }
 
@@ -71,13 +69,17 @@ namespace Game
 
         private void OnShow(ShowDetailEvent e)
         {
+            if (e.Show_Type != ShowType.Normal)
+            {
+                return;
+            }
+
             this.gameObject.SetActive(true);
 
             User user = GameProcessor.Inst.User;
 
             this.Btn_Recovery.gameObject.SetActive(false);
             this.Btn_Recovery_All.gameObject.SetActive(false);
-            this.Btn_Learn.gameObject.SetActive(false);
             this.Btn_Lose.gameObject.SetActive(true);
             this.Btn_Use.gameObject.SetActive(false);
             this.Btn_UseAll.gameObject.SetActive(false);
@@ -87,8 +89,8 @@ namespace Game
             this.if_Count.text = "";
 
 
-            this.boxItem = e.boxItem;
-            this.BoxType = e.Type;
+            this.boxItem = e.Show_Item;
+            this.BoxType = e.Box_Type;
 
             var titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, this.boxItem.Item.GetName());
@@ -114,7 +116,6 @@ namespace Game
                     {
                         var isLearn = user.SkillList.Find(b => b.SkillId == this.boxItem.Item.ConfigId) == null;
 
-                        this.Btn_Learn.gameObject.SetActive(isLearn);
                         this.Btn_Use.gameObject.SetActive(!isLearn);
                         this.Btn_Use_Batch.gameObject.SetActive(!isLearn);
                         this.Btn_UseAll.gameObject.SetActive(!isLearn);
@@ -181,7 +182,6 @@ namespace Game
                 this.Btn_Lose.gameObject.SetActive(false);
                 this.Btn_Use.gameObject.SetActive(false);
                 this.Btn_UseAll.gameObject.SetActive(false);
-                this.Btn_Learn.gameObject.SetActive(false);
                 this.Btn_Use_Batch.gameObject.SetActive(false);
             }
         }
@@ -308,17 +308,6 @@ namespace Game
             this.tf_Count.gameObject.SetActive(false);
         }
 
-
-
-        private void OnLearnSkill()
-        {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.Raise(new SkillBookLearnEvent()
-            {
-                BoxItem = this.boxItem,
-            });
-        }
         public void OnClick_Close()
         {
             this.gameObject.SetActive(false);

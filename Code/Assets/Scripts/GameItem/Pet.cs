@@ -99,5 +99,15 @@ namespace Game
         {
             return "≤‚ ‘≥ËŒÔ";
         }
+
+        public override int GetBagType()
+        {
+            return 4;
+        }
+
+        public override ShowType GetShowType()
+        {
+            return ShowType.Pet;
+        }
     }
 }

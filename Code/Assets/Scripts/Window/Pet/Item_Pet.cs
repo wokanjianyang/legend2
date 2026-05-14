@@ -52,9 +52,12 @@ namespace Game
             box.Item = pet;
             box.BoxId = -1;
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowPetDetailEvent()
+            GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
             {
-                boxItem = box,
+                Show_Item = box,
+                Box_Type = ComBoxType.PreView,
+                Show_Type = pet.GetShowType(),
+                Position = -1,
             });
         }
 

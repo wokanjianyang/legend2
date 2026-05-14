@@ -93,6 +93,8 @@ namespace Game
             this.BoxItem.Item.IsNew = false;
             this.Img_Tag.gameObject.SetActive(false);
 
+            ShowType showType = ShowType.Normal;
+
 
             if (this.BoxItem.Item.GetItemType() == ItemType.GiftPack)
             {
@@ -104,49 +106,13 @@ namespace Game
                     return;
                 }
             }
-            else if (this.BoxItem.Item.GetItemType() == ItemType.Equip)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowEquipDetailEvent()
-                {
-                    boxItem = this.BoxItem,
-                    EquipPosition = this.EquipPosition,
-                    Type = this.Type
-                });
-                return;
-            }
-            else if (this.BoxItem.Item.GetItemType() == ItemType.Shengxiao)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowShengxiaoDetailEvent()
-                {
-                    boxItem = this.BoxItem,
-                    EquipPosition = this.EquipPosition,
-                    Type = this.Type
-                });
-                return;
-            }
-            else if (this.BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowDetailEquipSpecialEvent()
-                {
-                    boxItem = this.BoxItem,
-                    EquipPosition = this.EquipPosition,
-                    Type = this.Type
-                });
-                return;
-            }
-            else if (this.BoxItem.Item.GetItemType() == ItemType.Pet)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowPetDetailEvent()
-                {
-                    boxItem = this.BoxItem,
-                });
-                return;
-            }
 
             GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
             {
-                boxItem = this.BoxItem,
-                Type = this.Type
+                Show_Item = this.BoxItem,
+                Box_Type = this.Type,
+                Show_Type = this.BoxItem.Item.GetShowType(),
+                Position = this.EquipPosition,
             });
         }
 

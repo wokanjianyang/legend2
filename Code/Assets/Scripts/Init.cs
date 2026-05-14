@@ -64,7 +64,7 @@ public class Init : MonoBehaviour
                 "Map/Map_Babel",
                 "Window/Spirit/Map_Spirit",
 
-                "Window/Dialog_Detail_Select",
+           
        
                 "Window/Defend/Dialog_Defend",
                 "Window/Dialog_OfflineExp",
@@ -73,6 +73,7 @@ public class Init : MonoBehaviour
                 "GameItem/Detail_Normal",
                 "GameItem/Detail_Equip",
                 "GameItem/Detail_Equip_Special",
+                "GameItem/Dialog_Detail_Select",
 
                 "Window/Relic/Dialog_Relic",
                 "Window/SoulRing/Dialog_SoulRing",
@@ -82,7 +83,6 @@ public class Init : MonoBehaviour
                 "Window/Legacy/Dialog_Legacy",
                 "Window/Pet/Dialog_Pet",
                 "Window/Pet/Dialog_Detail_Pet",
-                "Window/GameItem/Dialog_Shengxiao",
 
                 "Window/More/Dialog_Mine",
 

@@ -47,18 +47,7 @@ namespace Game
 
         public int GetBagType()
         {
-            if (this.Item.GetItemType() == ItemType.Equip)
-            {
-                int type = (this.Item as Equip).Config.Role;
-
-                return type <= 0 ? 3 : type - 1; //四格等全职业装备放战士包裹
-            }
-            if (this.Item.GetItemType() == ItemType.Exclusive || this.Item.GetItemType() == ItemType.EquipSpeical || this.Item.GetItemType() == ItemType.Pet || this.Item.GetItemType() == ItemType.Shengxiao)
-            {
-                return 3;
-            }
-
-            return 4;
+            return this.Item.GetBagType();
         }
 
         public int GetBagSort()

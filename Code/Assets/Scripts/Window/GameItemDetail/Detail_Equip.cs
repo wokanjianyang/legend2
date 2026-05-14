@@ -74,13 +74,16 @@ namespace Game
 
         public void OnBattleStart()
         {
-            this.gameObject.SetActive(false);
-
-            GameProcessor.Inst.EventCenter.AddListener<ShowEquipDetailEvent>(this.OnShowEquipDetailEvent);
+            GameProcessor.Inst.EventCenter.AddListener<ShowDetailEvent>(this.OnShowDetailEvent);
         }
 
-        private void OnShowEquipDetailEvent(ShowEquipDetailEvent e)
+        private void OnShowDetailEvent(ShowDetailEvent e)
         {
+            if (e.Show_Type != ShowType.Equip)
+            {
+                return;
+            }
+
             this.gameObject.SetActive(true);
             Tf_Base.gameObject.SetActive(false);
             Tf_Random.gameObject.SetActive(false);
@@ -99,8 +102,8 @@ namespace Game
 
             // this.transform.position = this.GetBetterPosition(e.Position);
             // this.img_Background.sprite = this.list_BackgroundImgs[this.item.GetQuality() - 1];
-            this.boxItem = e.boxItem;
-            this.Positioin = e.EquipPosition;
+            this.boxItem = e.Show_Item;
+            this.Positioin = e.Position;
 
             Equip equip = this.boxItem.Item as Equip;
 
@@ -121,7 +124,7 @@ namespace Game
             long basePercent = 0;
             long qualityPercent = 0;
 
-            long refineLevel = user.GetRefineLevel(e.EquipPosition);
+            long refineLevel = user.GetRefineLevel(e.Position);
             if (refineLevel > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
@@ -248,7 +251,7 @@ namespace Game
             }
 
 
-            if (e.Type == ComBoxType.Bag)
+            if (e.Box_Type == ComBoxType.Bag)
             {
                 //包裹中
                 this.btn_Equip.gameObject.SetActive(true);
@@ -269,7 +272,7 @@ namespace Game
                 }
 
             }
-            else if (e.Type == ComBoxType.OnEquip)
+            else if (e.Box_Type == ComBoxType.OnEquip)
             {
                 //装备栏中
                 this.btn_UnEquip.gameObject.SetActive(true);

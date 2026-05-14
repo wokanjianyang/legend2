@@ -78,10 +78,6 @@ namespace Game
         public Dialog_Ring DialogRing;
         public Dialog_Cycle DialogCycle;
         public Dialog_Pill DialogPill;
-        public Dialog_EquipGolden DialogEquipGolden;
-        public Dialog_Equip_Dark_Gold DialogEquipDarkGold;
-        public Dialog_Equip_Hundun DialogEquipHundun;
-        public Dialog_Shengxiao_Panel DialogShengxiaoPanel;
 
         private List<Com_Box> items = new List<Com_Box>();
 
@@ -119,12 +115,8 @@ namespace Game
             this.btn_Artifact.onClick.AddListener(OnOpenArtifact);
             this.btn_Ring.onClick.AddListener(OnOpenRing);
             this.btn_Pill.onClick.AddListener(OnOpenPill);
-            this.btn_Equip_Golden.onClick.AddListener(OnOpenEquipGolden);
-            this.btn_Equip_Dark_Gold.onClick.AddListener(OnOpenEquipDarkGold);
-            this.btn_Equip_Hundun.onClick.AddListener(OnOpenEquipHundun);
             this.btn_Talent.onClick.AddListener(OnOpenTalent);
             this.btn_Relic.onClick.AddListener(OnOpenRelic);
-            this.btn_Shengxiao.onClick.AddListener(OnOpenShengxiao);
 
             this.Btn_Reset.onClick.AddListener(OnRefreshBag);
             this.Btn_ReName.onClick.AddListener(OnSetPlanName);
@@ -259,27 +251,6 @@ namespace Game
             for (int i = 0; i < sps.Count; i++)
             {
                 sps[i].Init(1001 + i);
-                yield return null;
-            }
-
-            List<SlotBox> gds = DialogEquipGolden.GetComponentsInChildren<SlotBox>().ToList();
-            for (int i = 0; i < gds.Count; i++)
-            {
-                gds[i].Init(21 + i);
-                yield return null;
-            }
-
-            List<SlotBox> dgds = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().ToList();
-            for (int i = 0; i < dgds.Count; i++)
-            {
-                dgds[i].Init(31 + i);
-                yield return null;
-            }
-
-            List<SlotBox> hunduns = DialogEquipHundun.GetComponentsInChildren<SlotBox>().ToList();
-            for (int i = 0; i < dgds.Count; i++)
-            {
-                hunduns[i].Init(41 + i);
                 yield return null;
             }
 
@@ -1416,18 +1387,6 @@ namespace Game
                 {
                     slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
                 }
-                else if (Position >= 21 && Position <= 30)
-                {
-                    slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
-                }
-                else if (Position >= 31 && Position <= 40)
-                {
-                    slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
-                }
-                else if (Position >= 41 && Position <= 50)
-                {
-                    slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == Position).First();
-                }
 
                 slot.UnEquip();
 
@@ -1505,42 +1464,40 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
         }
 
-
-
         public void WearShengxiao(BoxItem boxItem)
         {
-            User user = GameProcessor.Inst.User;
+            //User user = GameProcessor.Inst.User;
 
-            var exclusive = boxItem.Item as Shengxiao;
+            //var exclusive = boxItem.Item as Shengxiao;
 
-            IDictionary<int, Shengxiao> ep = user.ShengxiaoList;
-            int Position = exclusive.ShengxiaoConfig.Part;
+            //IDictionary<int, Shengxiao> ep = user.ShengxiaoList;
+            //int Position = exclusive.ShengxiaoConfig.Part;
 
-            //从包袱移除
-            UseBoxItem(boxItem, 1);
+            ////从包袱移除
+            //UseBoxItem(boxItem, 1);
 
-            //如果存在旧装备，增加到包裹
-            if (ep.ContainsKey(Position))
-            {
-                //装备栏卸载
-                SlotBox slot = DialogShengxiaoPanel.ItemList.Where(s => s.Part == Position).FirstOrDefault();
+            ////如果存在旧装备，增加到包裹
+            //if (ep.ContainsKey(Position))
+            //{
+            //    //装备栏卸载
+            //    SlotBox slot = DialogShengxiaoPanel.ItemList.Where(s => s.Part == Position).FirstOrDefault();
 
-                if (slot != null)
-                {
-                    slot.UnEquip();
-                }
+            //    if (slot != null)
+            //    {
+            //        slot.UnEquip();
+            //    }
 
-                AddBoxItem(ep[Position]);
-            }
+            //    AddBoxItem(ep[Position]);
+            //}
 
-            //穿戴到格子上
-            DialogShengxiaoPanel.Wear(exclusive);
-            //this.CreateEquipPanelItem(-1, Position, exclusive);
+            ////穿戴到格子上
+            //DialogShengxiaoPanel.Wear(exclusive);
+            ////this.CreateEquipPanelItem(-1, Position, exclusive);
 
-            ep[Position] = exclusive;
+            //ep[Position] = exclusive;
 
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
+            ////通知英雄更新属性
+            //GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
         private void ClearEquipPanelItem(int position)
@@ -1563,22 +1520,6 @@ namespace Game
             else if (position >= 1001 && position <= 1004)
             {
                 slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 15 && position <= 20)
-            {
-                //slot = ExclusiveDialog.ItemList.Where(s => s.Part == position).First();
-            }
-            else if (position >= 21 && position <= 30)
-            {
-                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 31 && position <= 40)
-            {
-                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 41 && position <= 50)
-            {
-                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
 
             return slot;
@@ -1607,18 +1548,6 @@ namespace Game
                 //    return; //没有切换到这个，就跳过
                 //}
                 return;
-            }
-            else if (position >= 21 && position <= 30)
-            {
-                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 31 && position <= 40)
-            {
-                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 41 && position <= 50)
-            {
-                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
 
             if (slot.GetEquip() != null) //防止叠加，无限刷道具
@@ -1659,18 +1588,6 @@ namespace Game
             {
                 slot = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
-            else if (position >= 21 && position <= 30)
-            {
-                slot = DialogEquipGolden.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 31 && position <= 40)
-            {
-                slot = DialogEquipDarkGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
-            else if (position >= 41 && position <= 50)
-            {
-                slot = DialogEquipHundun.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
-            }
 
             slot.UnEquip();
 
@@ -1710,32 +1627,29 @@ namespace Game
             //UserData.Save();
         }
 
-
-
-
         private void RemoveShengxiao(BoxItem boxItem)
         {
-            User user = GameProcessor.Inst.User;
+            //User user = GameProcessor.Inst.User;
 
-            var exclusive = boxItem.Item as Shengxiao;
-            int position = exclusive.ShengxiaoConfig.Part;
+            //var exclusive = boxItem.Item as Shengxiao;
+            //int position = exclusive.ShengxiaoConfig.Part;
 
-            //装备栏卸载
-            SlotBox slot = DialogShengxiaoPanel.ItemList.Where(s => s.Part == position).First();
-            if (slot != null)
-            {
-                slot.UnEquip();
-            }
+            ////装备栏卸载
+            //SlotBox slot = DialogShengxiaoPanel.ItemList.Where(s => s.Part == position).First();
+            //if (slot != null)
+            //{
+            //    slot.UnEquip();
+            //}
 
-            //装备移动到包裹里面
-            AddBoxItem(exclusive);
+            ////装备移动到包裹里面
+            //AddBoxItem(exclusive);
 
-            var ep = user.ShengxiaoList;
+            //var ep = user.ShengxiaoList;
 
-            ep.Remove(position);
+            //ep.Remove(position);
 
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+            ////通知英雄更新属性
+            //GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
         }
 
         private void OnHeroBagUpdateEvent(HeroBagUpdateEvent e)
@@ -1826,21 +1740,6 @@ namespace Game
             this.DialogWing.gameObject.SetActive(true);
         }
 
-        public void OnOpenEquipGolden()
-        {
-            DialogEquipGolden.Show();
-        }
-
-        public void OnOpenEquipDarkGold()
-        {
-            DialogEquipDarkGold.Show();
-        }
-
-        public void OnOpenEquipHundun()
-        {
-            DialogEquipHundun.Show();
-        }
-
         public void OnOpenTalent()
         {
             GameProcessor.Inst.EventCenter.Raise(new TalentShowEvent());
@@ -1849,11 +1748,6 @@ namespace Game
         public void OnOpenRelic()
         {
             GameProcessor.Inst.EventCenter.Raise(new RelicShowEvent());
-        }
-
-        public void OnOpenShengxiao()
-        {
-            DialogShengxiaoPanel.gameObject.SetActive(true);
         }
 
 

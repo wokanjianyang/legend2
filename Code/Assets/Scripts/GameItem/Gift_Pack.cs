@@ -29,6 +29,11 @@ namespace Game
             return this.Config.Name;
         }
 
+        public override string GetDes()
+        {
+            return this.Config.Des;
+        }
+
         public override ShowType GetShowType()
         {
             if (Config.GiftType == 1)

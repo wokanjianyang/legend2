@@ -96,7 +96,7 @@ public class Panel_Refine : MonoBehaviour
             long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
             long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
             color = mc >= fee2 ? "#11FF11" : "#FF1111";
-            Txt_Fee2.text = string.Format("精炼石：<color={0}>{1}</color>/{2}", color, mc, fee2);
+            Txt_Fee2.text = string.Format("黑铁矿：<color={0}>{1}</color>/{2}", color, mc, fee2);
 
             if (user.MagicGold.Data >= fee1 && mc >= fee2)
             {
@@ -166,7 +166,7 @@ public class Panel_Refine : MonoBehaviour
 
         if (mc < fee2)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的精炼石", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的黑铁矿", ToastType = ToastTypeEnum.Failure });
             return;
         }
 

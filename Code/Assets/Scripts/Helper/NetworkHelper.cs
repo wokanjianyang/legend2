@@ -103,10 +103,6 @@ namespace Game
             soulBoneTotal += GetTotal(user.Bags, 28);
             paramDict.Add("bone", soulBoneTotal + "");
 
-            long boss = user.GetAchievementProgeress(AchievementProType.BossFamily);
-            boss += user.GetMaterialCount(ItemHelper.SpecialId_Boss_Ticket);
-            paramDict.Add("boss", boss + "");
-
             long divineTotal = GetTotal(user.Bags, 8001, 8010);
             divineTotal += GetTotal(user.Bags, 26);
             long skill11 = 0;

@@ -164,7 +164,7 @@ namespace Game
             //
 
             User user = GameProcessor.Inst.User;
-            RecoverySettingNew setting = user.RecoveryNew;
+            RecoverySetting setting = user.RecoverySet;
 
             if (setting.EquipQualityKeep > 0)
             {
@@ -249,7 +249,9 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            RecoverySettingNew setting = GameProcessor.Inst.User.RecoveryNew;
+            RecoverySetting setting = user.RecoverySet;
+
+            setting.SetTotal++;
 
             //普通装备回收
             setting.EquipQualityKeep = dp_Equip_Skill.value;

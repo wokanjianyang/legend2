@@ -34,7 +34,7 @@ namespace Game
                 int ai = Config.AttrIdList[i];
                 double av = Config.AttrValueList[i];
 
-                BaseAttrList.Add(ai, av);
+                BaseAttrList.Add(ai, av + Config.AttrRiseList[i] * Layer);
             }
 
             return BaseAttrList;

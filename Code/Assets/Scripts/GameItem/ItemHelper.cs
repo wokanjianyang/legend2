@@ -133,8 +133,8 @@ namespace Game
             return newList;
         }
 
-        public static int Equip_Strong = 5001; //强化石
-        public static int Equip_Refine = 5002; //精炼石
+        public static int Equip_Strong = 5001; //铜矿石
+        public static int Equip_Refine = 5002; //黑铁矿
 
         public static int SpecialId_SoulRingShard = 4001; //魂环碎片
         public static int SpecialId_Copy_Ticket = 4003; //装备副本卷

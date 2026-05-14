@@ -20,6 +20,8 @@ namespace Game
         public Dictionary<int, bool> TaskLog = new Dictionary<int, bool>();
 
         public IDictionary<int, int> AchievementData { get; set; } = new Dictionary<int, int>();
+
+        public int RecoveryTotal { get; set; } = 0;
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -154,9 +156,7 @@ namespace Game
 
         public MagicData LegacyPoint { get; } = new MagicData();
 
-        //public RecoverySetting RecoverySetting { get; set; } = new RecoverySetting();
-
-        public RecoverySettingNew RecoveryNew { get; set; } = new RecoverySettingNew();
+        public RecoverySetting RecoverySet { get; set; } = new RecoverySetting();
 
 
 
@@ -863,7 +863,7 @@ namespace Game
             {
                 List<Equip> equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Config.Role == role).ToList();
 
-                layers = equips.Select(m => m.Level).OrderByDescending(m => m).ToList();
+                layers = equips.Select(m => m.Config.LevelRequired).OrderByDescending(m => m).ToList();
             }
             else if (cycle == 101)
             {
@@ -999,6 +999,10 @@ namespace Game
                     break;
                 case AchievementProType.StageCount:
                     return this.MapId - 1;
+                case AchievementProType.RecoverySet:
+                    return this.RecoverySet.SetTotal;
+                case AchievementProType.RecoveryTotal:
+                    return this.RecoveryTotal;
                 default:
                     {
                         int ct = (int)type;
@@ -1682,7 +1686,7 @@ namespace Game
             List<Item> newList = new List<Item>();
             gold = 0;
 
-            List<Item> recoveryList = items.Where(m => RecoveryNew.CheckRecovery(m, RecoveryType.Drop)).ToList();
+            List<Item> recoveryList = items.Where(m => RecoverySet.CheckRecovery(m, RecoveryType.Drop)).ToList();
             recoveryCount = recoveryList.Count;
             if (recoveryList.Count > 0)
             {
@@ -1714,7 +1718,7 @@ namespace Game
                     }
                 }
 
-                items.RemoveAll(m => RecoveryNew.CheckRecovery(m, RecoveryType.Drop));
+                items.RemoveAll(m => RecoverySet.CheckRecovery(m, RecoveryType.Drop));
                 items.AddRange(newList);
             }
 
@@ -1784,6 +1788,7 @@ namespace Game
             //{
             //    recoveryGold += item.ItemConfig.Price * item.Count;
             //}
+            this.RecoveryTotal++;
 
             return dict;
         }

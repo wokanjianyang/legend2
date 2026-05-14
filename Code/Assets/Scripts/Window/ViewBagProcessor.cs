@@ -289,7 +289,7 @@ namespace Game
         private void OnRefreshBag()
         {
             User user = GameProcessor.Inst.User;
-            List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoveryNew.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
+            List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoverySet.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
             this.RecoveryAll(recoveryList, RuleType.Normal);
 
             RefreshBag();
@@ -716,7 +716,7 @@ namespace Game
         private void FirstRecovery()
         {
             User user = GameProcessor.Inst.User;
-            List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoveryNew.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
+            List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoverySet.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
             this.RecoveryAll(recoveryList, RuleType.Normal);
         }
 
@@ -898,7 +898,7 @@ namespace Game
         private void OnAutoRecoveryEvent(AutoRecoveryEvent e)
         {
             User user = GameProcessor.Inst.User;
-            List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoveryNew.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
+            List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoverySet.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
             this.RecoveryAll(recoveryList, e.RuleType);
         }
 

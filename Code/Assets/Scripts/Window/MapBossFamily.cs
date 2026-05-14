@@ -75,7 +75,6 @@ public class MapBossFamily : MonoBehaviour, IBattleLife
             Quantity = this.MapRate
         });
 
-        user.AddAchievementProgeress(AchievementProType.BossFamily, this.MapRate);
         AppHelper.CopyCount += this.MapRate * 10;
 
         //GameProcessor.Inst.SaveData();

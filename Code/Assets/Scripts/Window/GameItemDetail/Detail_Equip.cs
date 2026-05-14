@@ -247,7 +247,7 @@ namespace Game
 
                 EquipSetSuit red = user.GetEquipSet(equip.Config.Role, equip.Config.Cycle);
 
-                this.ShowRed(red, equip.GetQuality(), equip.Config.LevelRequired);
+                this.ShowRed(red, equip.GetQuality(), equip.Config.Role);
             }
 
 
@@ -289,31 +289,32 @@ namespace Game
             }
         }
 
-        private void ShowRed(EquipSetSuit redSuit, int quality, int level)
+        private void ShowRed(EquipSetSuit redSuit, int quality, int role)
         {
             Text redTitle = Tf_Set.Find("Tf_Title").Find("Title_Text").GetComponent<Text>();
 
             string color = QualityConfigHelper.GetQualityColor(quality);
+            string rt = ConfigHelper.RoleName[role - 1];
 
             if (quality == 5)
             {
-                redTitle.text = string.Format("<color=#{0}>[{1}级橙装]</color>", color, level);
+                redTitle.text = string.Format("<color=#{0}>[{1}橙装]</color>", color, rt);
             }
             else if (quality == 6)
             {
-                redTitle.text = string.Format("<color=#{0}>[红色套装]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[{1}红装]</color>", color, rt);
             }
             else if (quality == 7)
             {
-                redTitle.text = string.Format("<color=#{0}>[金色套装]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[{1}金装]</color>", color, rt);
             }
             else if (quality == 8)
             {
-                redTitle.text = string.Format("<color=#{0}>[暗金套装]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[{1}暗金]</color>", color, rt);
             }
             else if (quality == 9)
             {
-                redTitle.text = string.Format("<color=#{0}>[混沌套装]</color>", color);
+                redTitle.text = string.Format("<color=#{0}>[{1}混沌]</color>", color, rt);
             }
 
             Item_Equip_Red[] reds = Tf_Set.GetComponentsInChildren<Item_Equip_Red>(true);

@@ -48,10 +48,6 @@ public class Item_Achivement : MonoBehaviour
         {
             attrText = "成就属性:装备技能套装上限 -1";
         }
-        else if (config.RewardType == 3)
-        {
-            attrText = "成就属性:装备分解精炼石数量 + " + config.AtrVue;
-        }
         else if (config.RewardType == 4)
         {
             attrText = "成就属性:魂环碎片掉落数量 + " + config.AtrVue;

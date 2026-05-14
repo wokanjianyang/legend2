@@ -57,7 +57,7 @@ namespace Game
         Advert = 3,  //广告数量
         EquipWear = 4,  //穿戴装备数量
         RecoverySet = 5,  //回收设定
-        BossFamily = 6,
+        RecoveryTotal = 6,
         EquipCopy = 7,
         Defend = 8,
         Infinite = 9, //

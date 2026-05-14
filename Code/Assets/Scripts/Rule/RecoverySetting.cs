@@ -5,8 +5,10 @@ namespace Game
     using System.Linq;
     using UnityEngine;
 
-    public class RecoverySettingNew
+    public class RecoverySetting
     {
+        public int SetTotal { get; set; } = 0;
+
         //ÆÕÍ¨×°±¸
         public int EquipQualityKeep { get; set; } = 0;
         public int GoldTotal { get; set; } = 0;
@@ -84,7 +86,8 @@ namespace Game
 
         private int KeepStartQuality = 3;
 
-        public RecoverySettingNew()
+
+        public RecoverySetting()
         {
 
         }

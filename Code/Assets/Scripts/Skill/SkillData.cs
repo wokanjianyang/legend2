@@ -29,37 +29,9 @@ namespace Game
 
         public long GetLevelUpExp()
         {
-            long rate = 50;
+            long rate = MagicLevel.Data + 1;
 
-            long tempLevel = MagicLevel.Data;
-
-            if (tempLevel < 1000)
-            {
-                rate = 10;
-            }
-            else if (tempLevel >= 1000 && tempLevel < 1500)
-            {
-                rate = 20;
-            }
-            else if (tempLevel >= 1500 && tempLevel < 2000)
-            {
-                rate = 30;
-            }
-            else if (tempLevel >= 2000 && tempLevel < 2500)
-            {
-                rate = 40;
-            }
-            else
-            {
-                rate = 50;
-            }
-
-            //if (tempLevel >= SkillConfig.MaxLevel)
-            //{
-            //    rate = 9999999;
-            //}
-
-            return rate * SkillConfig.Exp;
+            return rate * 10 * SkillConfig.Exp;
         }
 
         public SkillData(int skillId, int position)

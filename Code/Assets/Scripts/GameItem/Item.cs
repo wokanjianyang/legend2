@@ -118,17 +118,16 @@ namespace Game
         SkillBox = 4,
         Material = 5, //进入包裹的材料
         Material_Hide = 6, //不进入包裹的材料
-        GiftPack = 7,
-        Buff = 8,
-        GoldPack = 9,
-        ExpPack = 10,
+        Material_Usable = 7,
+        GiftPack = 8,
+
+
         Ticket = 11,
         Exclusive = 12,
         Card = 13,
         GiftPackExclusive = 14,
         Fashion = 15,
         Halidom = 16,
-        Material_Usable = 17,
         Pet = 18,
         Shengxiao = 19,
 

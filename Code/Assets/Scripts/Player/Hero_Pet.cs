@@ -21,6 +21,8 @@ namespace Game
 
             this.Master = master;
             this.Self = pet;
+            //this.FashionId = pet.Mid;
+            this.FashionId = 1;
 
             this.Init();
         }
@@ -32,7 +34,6 @@ namespace Game
             this.Level = Self.PetLevel.Data;
 
             this.ModelType = Master.ModelType;
-            this.FashionId = Master.FashionId;
 
             this.Name = Self.GetName();
 

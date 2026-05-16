@@ -141,7 +141,7 @@ namespace Game
 
         public BoxItem BoxItem { get; set; }
 
-        public long Quantity { get; set; }
+        public long Number { get; set; }
     }
 
     public class SkillShowEvent : SDD.Events.Event

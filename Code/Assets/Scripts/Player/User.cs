@@ -641,9 +641,9 @@ namespace Game
 
             SkillData skillData;
 
-            //TaskHelper.CheckTask(TaskType.SkillBook, 1);
+            bool learned = SkillList.Find(m => m.SkillId == configId) != null;
 
-            if (e.IsLearn)
+            if (!learned)
             {
                 //第一次学习，创建技能数据
                 skillData = new SkillData(configId, 0);
@@ -656,7 +656,7 @@ namespace Game
             else
             {
                 skillData = this.SkillList.Find(b => b.SkillId == configId);
-                skillData.AddExp(50 * e.Quantity);
+                skillData.AddExp(100 * e.Number);
             }
 
             GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());

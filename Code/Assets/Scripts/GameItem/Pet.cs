@@ -10,6 +10,7 @@ namespace Game
 {
     public class Pet : Item
     {
+        public int Mid { get; set; } = 1;
         public MagicData PetLevel { get; set; } = new MagicData();
 
         public MagicData PetLayer { get; set; } = new MagicData();

@@ -16,6 +16,7 @@ namespace Game
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
             pet.Quality = quality;
+            pet.Mid = 1;
 
             List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, quality);
 
@@ -63,6 +64,7 @@ namespace Game
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
             pet.Quality = config.AttrIdList.Length;
+            pet.Mid = config.Mid;
 
 
             //É±µÐ×ÊÖÊ

@@ -113,8 +113,8 @@ namespace ET
         public static void BuildDebug()
         {
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
-            PlayerSettings.applicationIdentifier = "com.lcgame.wujinanyu"; //com.lengend.test
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+            PlayerSettings.applicationIdentifier = "com.lcgame.anyu2"; //com.lengend.test
             PlayerSettings.Android.useCustomKeystore = false;
             var opa = BuildOptions.CompressWithLz4HC | BuildOptions.Development | BuildOptions.AllowDebugging | BuildOptions.ConnectWithProfiler | BuildOptions.EnableDeepProfilingSupport;
             EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
@@ -127,7 +127,7 @@ namespace ET
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
-            PlayerSettings.applicationIdentifier = "com.lcgame.wujinanyu";
+            PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
             PlayerSettings.Android.useCustomKeystore = true;
             EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
 
@@ -143,7 +143,7 @@ namespace ET
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
-            PlayerSettings.applicationIdentifier = "com.lcgame.wujinanyu";
+            PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
             PlayerSettings.Android.useCustomKeystore = true;
             EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
             var opa = BuildOptions.CompressWithLz4HC;
@@ -160,7 +160,7 @@ namespace ET
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
-            PlayerSettings.applicationIdentifier = "com.lcgame.wujinanyu";
+            PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
             PlayerSettings.Android.useCustomKeystore = true;
             EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
             var opa = BuildOptions.CompressWithLz4HC;
@@ -172,7 +172,7 @@ namespace ET
                 PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.All;
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel25;
-                PlayerSettings.applicationIdentifier = "com.lcgame.wujinanyu";
+                PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
                 PlayerSettings.Android.useCustomKeystore = true;
                 EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
                 opa = BuildOptions.CompressWithLz4HC;
@@ -185,7 +185,7 @@ namespace ET
             var ret = false;
             try
             {
-                string name = "无尽暗域";
+                string name = "暗域2之宠物";
 
                 //if (buildType == BuildType.Debug)
                 //{

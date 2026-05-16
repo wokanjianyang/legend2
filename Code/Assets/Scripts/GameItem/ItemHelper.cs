@@ -136,6 +136,9 @@ namespace Game
         public static int Equip_Strong = 5001; //铜矿石
         public static int Equip_Refine = 5002; //黑铁矿
 
+        public static int SpecialId_Level_Stone = 5101; //等级丹
+        public static int SpecialId_Talent_Book = 5102; //天赋书
+        //--------old
         public static int SpecialId_SoulRingShard = 4001; //魂环碎片
         public static int SpecialId_Copy_Ticket = 4003; //装备副本卷
         public static int SpecialId_Boss_Ticket = 4004; //BOSS挑战卷
@@ -147,7 +150,7 @@ namespace Game
         public static int SpecialId_Red_Stone = 4011;  //红装精华
         public static int SpecialId_Legacy_Stone = 4012; //传世精华
         public static int SpecialId_Legacy_Ticket = 4013; //传世挑战卷
-        public static int SpecialId_Level_Stone = 4014; //等级丹
+
         public static int SpecialId_Red_Chip = 4015; //红装粉尘
         public static int SpecialId_Pill = 4016; //淬体丹
         public static int SpecialId_Pill2 = 4033; //行气丹
@@ -162,7 +165,7 @@ namespace Game
         public static int SpecialId_Pill_Ticket = 4017; //幻境挑战卷
         public static int SpecialId_Halidom_Chip = 4018; //遗物粉尘
         public static int SpecialId_Golden_Stone = 4019;  //金装精华
-        public static int SpecialId_Talent_Book = 4020; //天赋书
+
         public static int SpecialId_Reform_Stone = 4021; //改造石
         public static int SpecialId_Pet_Exp = 4022; //魂宠口粮
         public static int SpecialId_Dark_Stone = 4026;//暗金精华

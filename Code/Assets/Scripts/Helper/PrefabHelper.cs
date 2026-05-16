@@ -36,6 +36,8 @@ namespace Game
 
         private Dictionary<int, Sprite> EquipLogoList = new Dictionary<int, Sprite>();
 
+        private Dictionary<int, Sprite> PetBgList = new Dictionary<int, Sprite>();
+
         private Sprite MonsterDefend = null;
 
         private static PrefabHelper instance = null;
@@ -53,11 +55,13 @@ namespace Game
         public PrefabHelper()
         {
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Hero"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Pet"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_1"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_2"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_3"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_4"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_5"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_6"));
 
             ComBoxEmpty = Resources.Load<GameObject>("Prefab/Window/Bag/Box_Empty");
             ComBoxDefault = Resources.Load<GameObject>("Prefab/Window/Bag/Box_Default");
@@ -122,9 +126,21 @@ namespace Game
             MonsterDefend = Resources.Load<Sprite>("UI/Player/Player_Defend");
         }
 
-        public GameObject GetPlayer(int type)
+        public GameObject GetPlayer(PlayerType cam, int quality)
         {
-            return PlayerList[type];
+            if (cam == PlayerType.Hero)
+            {
+                return PlayerList[0];
+            }
+            else if (cam == PlayerType.Hero_Pet)
+            {
+                return PlayerList[1];
+            }
+            else
+            {
+                return PlayerList[quality + 1];
+            }
+
         }
 
         public Sprite GetBoxImage(int quanlity)
@@ -223,6 +239,16 @@ namespace Game
             return MonsterList[id];
         }
 
+        public Sprite GetHeroPet(int id)
+        {
+            if (!PetBgList.ContainsKey(id))
+            {
+                PetBgList[id] = Resources.Load<Sprite>("UI/Player/Pet/Hero_Pet" + id);
+            }
+
+            return PetBgList[id];
+        }
+
         public Sprite GetSkillLog(int skillId)
         {
             if (!SkillLogoList.ContainsKey(skillId))
@@ -248,6 +274,8 @@ namespace Game
         {
             return MonsterWorldList[id - 1];
         }
+
+
 
         public Sprite GetDefend()
         {

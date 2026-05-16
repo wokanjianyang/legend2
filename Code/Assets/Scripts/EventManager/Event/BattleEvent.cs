@@ -11,46 +11,18 @@ namespace Game
 
     }
 
+    public class BagUseEvent : SDD.Events.Event
+    {
+        public BoxItem BoxItem { get; set; }
 
-    //--------------old
-
-
+        public int Number { get; set; }
+    }
     public class ChangePageEvent : SDD.Events.Event
     {
         public ViewPageType Page { get; set; }
     }
 
-    //public class ShowDetailEvent : SDD.Events.Event
-    //{
-    //    public ComBoxType Type { get; set; }
-    //    public BoxItem ShowItem { get; set; }
-    //}
-
-
-
-
-    //public class ShowShengxiaoDetailEvent : SDD.Events.Event
-    //{
-    //    //public Vector3 Position { get; set; }
-
-    //    public ComBoxType Type { get; set; }
-    //    public BoxItem boxItem { get; set; }
-    //    public int EquipPosition { get; set; }
-    //}
-
-    //public class ShowDetailEquipSpecialEvent : SDD.Events.Event
-    //{
-    //    //public Vector3 Position { get; set; }
-
-    //    public ComBoxType Type { get; set; }
-    //    public BoxItem boxItem { get; set; }
-    //    public int EquipPosition { get; set; }
-    //}
-
-    //public class ShowPetDetailEvent : SDD.Events.Event
-    //{
-    //    public BoxItem boxItem { get; set; }
-    //}
+    //--------------old
 
     public class PetBattleUpEvent : SDD.Events.Event
     {
@@ -114,11 +86,6 @@ namespace Game
         public string Message { get; set; }
     }
 
-    public class SkillBookLearnEvent : SDD.Events.Event
-    {
-        public BoxItem BoxItem { get; set; }
-    }
-
     public class RecoveryEvent : SDD.Events.Event
     {
         public int Quantity { get; set; }
@@ -136,16 +103,7 @@ namespace Game
     {
         public RuleType RuleType { get; set; }
     }
-    public class BagUseEvent : SDD.Events.Event
-    {
-        public BoxItem BoxItem { get; set; }
 
-        public int Quantity { get; set; }
-
-        public List<KeyValuePair<int, int>> Flairs { get; set; }
-
-        public int Role { get; set; }
-    }
 
     public class BagRemoveEvent : SDD.Events.Event
     {

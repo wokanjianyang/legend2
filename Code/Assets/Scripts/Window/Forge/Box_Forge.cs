@@ -52,6 +52,7 @@ namespace Game
             {
                 Tf_Bg.gameObject.SetActive(false);
                 Tf_Box.gameObject.SetActive(true);
+                Img_Logo.gameObject.SetActive(true);
 
                 this.Txt_Layer.gameObject.SetActive(false);
                 this.Txt_Level.gameObject.SetActive(false);
@@ -90,6 +91,7 @@ namespace Game
             }
             else
             {
+                this.Img_Logo.gameObject.SetActive(false);
                 Tf_Bg.gameObject.SetActive(true);
                 Tf_Box.gameObject.SetActive(false);
             }

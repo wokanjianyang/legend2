@@ -136,7 +136,6 @@ namespace Game
 
             GameProcessor.Inst.EventCenter.AddListener<EquipOneEvent>(this.OnEquipOneEvent);
             GameProcessor.Inst.EventCenter.AddListener<EquipToCardEvent>(this.OnEquipToCard);
-            GameProcessor.Inst.EventCenter.AddListener<SkillBookLearnEvent>(this.OnSkillBookLearn);
             GameProcessor.Inst.EventCenter.AddListener<RecoveryEvent>(this.OnRecoveryEvent);
             GameProcessor.Inst.EventCenter.AddListener<RestoreEvent>(this.OnRestoreEvent);
             GameProcessor.Inst.EventCenter.AddListener<LoseEvent>(this.OnLoseEvent);
@@ -410,7 +409,7 @@ namespace Game
 
                     GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
                     {
-                        Quantity = 1,
+                        Number = 1,
                         BoxItem = boxItem
                     });
 
@@ -695,24 +694,6 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
         }
 
-
-
-
-        private void OnSkillBookLearn(SkillBookLearnEvent e)
-        {
-            User user = GameProcessor.Inst.User;
-
-            if (UseBoxItem(e.BoxItem, 1))
-            {
-                GameProcessor.Inst.EventCenter.Raise(new HeroUseSkillBookEvent
-                {
-                    IsLearn = true,
-                    BoxItem = e.BoxItem,
-                    Quantity = 1,
-                });
-            }
-        }
-
         private void FirstRecovery()
         {
             User user = GameProcessor.Inst.User;
@@ -994,30 +975,30 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
             BoxItem boxItem = e.BoxItem;
-            long quantity = e.Quantity <= 0 ? boxItem.MagicNubmer.Data : e.Quantity;
+            long number = e.Number <= 0 ? boxItem.MagicNubmer.Data : e.Number;
 
-            if (boxItem.Item.GetItemType() == ItemType.Ticket && boxItem.Item.ConfigId == ItemHelper.SpecialId_Copy_Ticket && e.Quantity == -1)
+            if (boxItem.Item.GetItemType() == ItemType.Ticket && boxItem.Item.ConfigId == ItemHelper.SpecialId_Copy_Ticket && e.Number == -1)
             {
 
             }
             else if (boxItem.Item.GetItemType() == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Level_Stone)
             {
-                quantity = Math.Min(quantity, user.GetMaxLevel() - user.MagicLevel.Data);
+                number = Math.Min(number, user.GetMaxLevel() - user.MagicLevel.Data);
 
-                if (quantity <= 0)
+                if (number <= 0)
                 {
                     GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满级了", ToastType = ToastTypeEnum.Failure });
                     return;
                 }
             }
 
-            if (quantity <= 0)
+            if (number <= 0)
             {
                 throw new Exception();
                 //GameProcessor.Inst.EventCenter.Raise(new CheckGameCheatEvent());
             }
 
-            if (!UseBoxItem(boxItem, quantity))
+            if (!UseBoxItem(boxItem, number))
             {
                 return;
             }
@@ -1025,58 +1006,21 @@ namespace Game
             //use logic
             if (boxItem.Item.GetItemType() == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Level_Stone)
             {
-                quantity = Math.Min(quantity, user.GetMaxLevel() - user.MagicLevel.Data);
-
-                if (quantity <= 0)
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满级了", ToastType = ToastTypeEnum.Failure });
-                    return;
-                }
-
-                user.MagicLevel.Data += quantity;
+                user.MagicLevel.Data += number;
                 GameProcessor.Inst.EventCenter.Raise(new SetPlayerLevelEvent { Cycle = user.Cycle.Data, Level = user.MagicLevel.Data });
             }
             else if (boxItem.Item.GetItemType() == ItemType.Material_Usable && boxItem.Item.ConfigId == ItemHelper.SpecialId_Talent_Book)
             {
                 ItemConfig config = ItemConfigCategory.Instance.Get(boxItem.Item.ConfigId);
 
-                user.TalentExp.Data += quantity * config.UseParam;
+                user.TalentExp.Data += number * config.UseParam;
             }
             else if (boxItem.Item.GetItemType() == ItemType.SkillBox)
             {
                 GameProcessor.Inst.EventCenter.Raise(new HeroUseSkillBookEvent
                 {
-                    IsLearn = false,
                     BoxItem = boxItem,
-                    Quantity = quantity,
-                });
-            }
-            else if (boxItem.Item.GetItemType() == ItemType.ExpPack)
-            {
-                long exp = (long)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondExp));
-
-                ItemConfig config = ItemConfigCategory.Instance.Get(boxItem.Item.ConfigId);
-
-                exp = exp * quantity * config.UseParam * 720; //3600/5 = 720,配置的是小时
-
-                user.AddExpAndGold(exp, 0);
-                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-                {
-                    Message = BattleMsgHelper.BuildGiftPackMessage("道具奖励", exp, 0, null)
-                });
-            }
-            else if (boxItem.Item.GetItemType() == ItemType.GoldPack)
-            {
-                long gold = (long)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondGold));
-
-                ItemConfig config = ItemConfigCategory.Instance.Get(boxItem.Item.ConfigId);
-
-                gold = gold * quantity * config.UseParam * 720; //3600/5 = 720,配置的是小时
-
-                user.AddExpAndGold(0, gold);
-                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-                {
-                    Message = BattleMsgHelper.BuildGiftPackMessage("道具奖励", 0, gold, null)
+                    Number = number,
                 });
             }
             else if (boxItem.Item.GetItemType() == ItemType.GiftPack)
@@ -1087,7 +1031,7 @@ namespace Game
                 List<Item> items = new List<Item>();
                 for (int i = 0; i < pc.ItemIdList.Length; i++)
                 {
-                    Item item = ItemHelper.BuildItem((ItemType)pc.ItemTypeList[i], pc.ItemIdList[i], 1, (quantity * pc.ItemCountList[i]));
+                    Item item = ItemHelper.BuildItem((ItemType)pc.ItemTypeList[i], pc.ItemIdList[i], 1, (number * pc.ItemCountList[i]));
                     //this.AddBoxItem(item);
                     items.Add(item);
                 }
@@ -1101,11 +1045,11 @@ namespace Game
             {
                 if (boxItem.Item.ConfigId == ItemHelper.SpecialId_Legacy_Ticket)
                 {
-                    user.LegacyTikerCount.Data += quantity;
+                    user.LegacyTikerCount.Data += number;
                 }
                 else if (boxItem.Item.ConfigId == ItemHelper.SpecialId_Pill_Ticket)
                 {
-                    user.PillTime.Time.Data += quantity * ConfigHelper.PillDefaultTime;
+                    user.PillTime.Time.Data += number * ConfigHelper.PillDefaultTime;
                 }
 
             }

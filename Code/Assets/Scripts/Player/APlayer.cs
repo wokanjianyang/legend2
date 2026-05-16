@@ -153,7 +153,8 @@ namespace Game
         virtual public void Load()
         {
             //Debug.Log("this.Qulaity" + this.Quality);
-            var prefab = PrefabHelper.Instance().GetPlayer(this.Quality);
+
+            GameObject prefab = PrefabHelper.Instance().GetPlayer(Camp, this.Quality);
             this.Transform = GameObject.Instantiate(prefab).transform;
 
             this.Transform.SetParent(GameProcessor.Inst.PlayerRoot);

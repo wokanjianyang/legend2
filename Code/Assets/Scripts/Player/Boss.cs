@@ -44,6 +44,8 @@ namespace Game
 
             this.Name = Config.Name;
             this.Level = (Config.MapId - 999) * 100;
+            this.FashionId = Config.ModelId;
+
             this.Exp = Config.Exp;
             this.Gold = Config.Gold;
 

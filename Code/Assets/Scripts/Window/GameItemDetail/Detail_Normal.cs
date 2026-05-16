@@ -28,7 +28,7 @@ namespace Game
 
         public Button Btn_Close;
 
-        private BoxItem boxItem;
+        private BoxItem Show_Box;
         private ComBoxType BoxType;
 
         public Transform tf_Count;
@@ -76,11 +76,9 @@ namespace Game
 
             this.gameObject.SetActive(true);
 
-            User user = GameProcessor.Inst.User;
-
             this.Btn_Recovery.gameObject.SetActive(false);
             this.Btn_Recovery_All.gameObject.SetActive(false);
-            this.Btn_Lose.gameObject.SetActive(true);
+            this.Btn_Lose.gameObject.SetActive(false);
             this.Btn_Use.gameObject.SetActive(false);
             this.Btn_UseAll.gameObject.SetActive(false);
             this.Btn_Use_Batch.gameObject.SetActive(false);
@@ -89,106 +87,78 @@ namespace Game
             this.if_Count.text = "";
 
 
-            this.boxItem = e.Show_Item;
+            this.Show_Box = e.Show_Item;
             this.BoxType = e.Box_Type;
 
-            var titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, this.boxItem.Item.GetName());
+            Item item = Show_Box.Item;
 
-            long number = this.boxItem.MagicNubmer.Data;
+            var titleColor = QualityConfigHelper.GetQualityColor(item.GetQuality());
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, item.GetName());
 
-            string color = "green";
+            long number = Show_Box.MagicNubmer.Data;
+            int requireLevel = item.GetRequired();
+            int configId = item.ConfigId;
 
-            if (user.Cycle.Data < this.boxItem.Item.Level)
+            User user = GameProcessor.Inst.User;
+            string color = user.MagicLevel.Data < requireLevel ? "red" : "green";
+
+            Txt_Des.text = item.GetDes();
+            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, requireLevel);
+
+            if (e.Box_Type == ComBoxType.Bag)
             {
-                color = "red";
-            }
+                this.Btn_Lose.gameObject.SetActive(true);
 
-
-            Txt_Des.text = this.boxItem.Item.GetDes();
-            Txt_Require.text = string.Format("<color={0}>需要轮回{1}转</color>", color, this.boxItem.Item.Level);
-
-            int configId = this.boxItem.Item.ConfigId;
-
-            switch (this.boxItem.Item.GetItemType())
-            {
-                case ItemType.SkillBox://技能书
-                    {
-                        var isLearn = user.SkillList.Find(b => b.SkillId == this.boxItem.Item.ConfigId) == null;
-
-                        this.Btn_Use.gameObject.SetActive(!isLearn);
-                        this.Btn_Use_Batch.gameObject.SetActive(!isLearn);
-                        this.Btn_UseAll.gameObject.SetActive(!isLearn);
-                    }
-                    break;
-                case ItemType.GiftPack:
-                    {
-                        Gift_Pack giftPack = this.boxItem.Item as Gift_Pack;
-                        Txt_Des.text = giftPack.GetDes();
-                        this.Btn_Use.gameObject.SetActive(true);
-
-                        GiftPackConfig giftPackConfig = GiftPackConfigCategory.Instance.Get(giftPack.ConfigId);
-                        if (giftPackConfig.OpenType == 1)
+                switch (item.GetItemType())
+                {
+                    case ItemType.SkillBox://技能书
                         {
-                            this.Btn_UseAll.gameObject.SetActive(true);
+                            var isLearn = user.SkillList.Find(b => b.SkillId == configId) == null;
+
+                            this.Btn_Use.gameObject.SetActive(true);
+                            this.Btn_Use_Batch.gameObject.SetActive(!isLearn);
+                            this.Btn_UseAll.gameObject.SetActive(!isLearn);
                         }
-                        else
+                        break;
+                    case ItemType.GiftPack:
                         {
-                            this.Btn_UseAll.gameObject.SetActive(false);
+                            this.Btn_Use.gameObject.SetActive(true);
+
+                            GiftPackConfig giftPackConfig = GiftPackConfigCategory.Instance.Get(configId);
+                            if (giftPackConfig.OpenType == 1)
+                            {
+                                this.Btn_UseAll.gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                this.Btn_UseAll.gameObject.SetActive(false);
+                            }
                         }
-                        //
-                    }
-                    break;
-                case ItemType.ExpPack:
-                case ItemType.GoldPack:
-                case ItemType.Ticket:
-                case ItemType.Material_Usable:
-                    {
-                        this.Btn_Use.gameObject.SetActive(true);
-                        if (number > 1)
+                        break;
+                    case ItemType.Ticket:
+                    case ItemType.Material_Usable:
                         {
-                            this.Btn_Use_Batch.gameObject.SetActive(true);
-                            this.Btn_UseAll.gameObject.SetActive(true);
+                            this.Btn_Use.gameObject.SetActive(true);
+                            if (number > 1)
+                            {
+                                this.Btn_Use_Batch.gameObject.SetActive(true);
+                                this.Btn_UseAll.gameObject.SetActive(true);
+                            }
                         }
-                    }
-                    break;
-                case ItemType.Card:
-                    {
-                        //this.Btn_Recovery.gameObject.SetActive(true);
-                        //this.Btn_Lose.gameObject.SetActive(false);
-                    }
-                    break;
-                default:
-                    {
+                        break;
+                    default:
+                        {
 
-                    }
-                    break;
-            }
+                        }
+                        break;
+                }
 
-            //if (this.boxItem.Item.ItemConfig != null)
-            //{
-            //    if (this.boxItem.Item.ItemConfig.RecoveryItemId > 0)
-            //    {
-            //        this.Btn_Recovery.gameObject.SetActive(true);
-            //        this.Btn_Recovery_All.gameObject.SetActive(true);
-            //        this.Btn_Lose.gameObject.SetActive(false);
-            //    }
-            //}
-
-            if (this.BoxType != ComBoxType.Bag || user.Cycle.Data < this.boxItem.Item.Level) //不可操作
-            {
-                this.Btn_Recovery.gameObject.SetActive(false);
-                this.Btn_Recovery_All.gameObject.SetActive(false);
-                this.Btn_Lose.gameObject.SetActive(false);
-                this.Btn_Use.gameObject.SetActive(false);
-                this.Btn_UseAll.gameObject.SetActive(false);
-                this.Btn_Use_Batch.gameObject.SetActive(false);
             }
         }
 
         private void OnRecovery()
         {
-            if (this.boxItem.Item.IsLock)
+            if (this.Show_Box.Item.IsLock)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "锁定的不能回收", ToastType = ToastTypeEnum.Failure });
                 return;
@@ -197,7 +167,7 @@ namespace Game
             this.tf_Count.gameObject.SetActive(true);
             this.Type = 1;
 
-            long count = this.boxItem.MagicNubmer.Data;
+            long count = this.Show_Box.MagicNubmer.Data;
             if_Count.placeholder.GetComponent<Text>().text = "最大输入" + count;
         }
 
@@ -207,13 +177,13 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new RecoveryEvent()
             {
                 Quantity = -1,
-                BoxItem = this.boxItem,
+                BoxItem = this.Show_Box,
             });
         }
 
         private void OnLose()
         {
-            if (this.boxItem.Item.IsLock)
+            if (this.Show_Box.Item.IsLock)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "锁定的不能丢弃", ToastType = ToastTypeEnum.Failure });
                 return;
@@ -231,7 +201,7 @@ namespace Game
             {
                 GameProcessor.Inst.EventCenter.Raise(new LoseEvent()
                 {
-                    BoxItem = this.boxItem,
+                    BoxItem = this.Show_Box,
                 });
             }, null);
         }
@@ -242,8 +212,8 @@ namespace Game
 
             GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
             {
-                Quantity = 1,
-                BoxItem = this.boxItem
+                Number = 1,
+                BoxItem = this.Show_Box
             });
         }
 
@@ -253,8 +223,8 @@ namespace Game
 
             GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
             {
-                Quantity = -1,
-                BoxItem = this.boxItem
+                Number = -1,
+                BoxItem = this.Show_Box
             });
         }
 
@@ -263,7 +233,7 @@ namespace Game
             this.tf_Count.gameObject.SetActive(true);
             this.Type = 2;
 
-            long count = this.boxItem.MagicNubmer.Data;
+            long count = this.Show_Box.MagicNubmer.Data;
             if_Count.placeholder.GetComponent<Text>().text = "最大输入" + count;
         }
 
@@ -274,7 +244,7 @@ namespace Game
 
             int.TryParse(if_Count.text, out int quantity);
 
-            long count = this.boxItem.MagicNubmer.Data;
+            long count = this.Show_Box.MagicNubmer.Data;
             if (quantity > count)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "数量超出了最大值", ToastType = ToastTypeEnum.Failure });
@@ -288,7 +258,7 @@ namespace Game
                     GameProcessor.Inst.EventCenter.Raise(new RecoveryEvent()
                     {
                         Quantity = quantity,
-                        BoxItem = this.boxItem,
+                        BoxItem = this.Show_Box,
                     });
                 }
                 else if (Type == 2)
@@ -296,8 +266,8 @@ namespace Game
 
                     GameProcessor.Inst.EventCenter.Raise(new BagUseEvent()
                     {
-                        Quantity = quantity,
-                        BoxItem = this.boxItem
+                        Number = quantity,
+                        BoxItem = this.Show_Box
                     });
                 }
             }

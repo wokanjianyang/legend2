@@ -9,18 +9,27 @@ namespace Game
 
     public partial class PetConfigCategory
     {
-        public Pet BuildPet(int role, int quality)
+        public Pet BuildPet(int role, int quality, int mid)
         {
-            Pet pet = new Pet(role);
+            if (quality == 0)
+            {
+                quality = RandomHelper.RandomNumber(1, 6);
+            }
+            if (role == 0)
+            {
+                role = RandomHelper.RandomNumber(1, 4);
+            }
+
+            Pet pet = new Pet(role, mid);
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
             pet.Quality = quality;
-            pet.Mid = 1;
+
 
             List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, quality);
 
-            //杀敌资质
+            //资质紫色1，橙色2，红色3，金色4
             foreach (var flair in flairs)
             {
                 int attrId = flair.Key;
@@ -30,7 +39,7 @@ namespace Game
                 pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
             }
 
-            //自带技能红色以下，单技能，红色2技能，金色3技能
+            //技能紫色1，橙色2，红色3，金色4
             List<KeyValuePair<int, int>> skills = BuildPetSkill(role, pet.Quality);
             foreach (var skill in skills)
             {
@@ -41,7 +50,7 @@ namespace Game
                 pet.Skills.Add(new KeyValuePair<int, MagicData>(skillId, skillLevel));
             }
 
-            //技能天赋，紫色橙色1条天赋，红色2条天赋，金色3条天赋（天赋必属于自带技能当中）
+            //技能橙色1，红色2，金色3
             if (quality >= 4)
             {
                 List<int> talents = BuildPetTalents(skills.Select(m => m.Key).ToList(), pet.Quality);
@@ -59,13 +68,11 @@ namespace Game
 
             GiftPackPet config = GiftPackPetCategory.Instance.Get(configId);
 
-            Pet pet = new Pet(config.Role);
+            Pet pet = new Pet(config.Role, config.Mid);
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
             pet.Quality = config.AttrIdList.Length;
-            pet.Mid = config.Mid;
-
 
             //杀敌资质
             for (int i = 0; i < config.AttrIdList.Length; i++)
@@ -98,6 +105,11 @@ namespace Game
         }
 
         private int GetFlairCount(int quality)
+        {
+            return Math.Max(1, quality - 3);
+        }
+
+        private int GetTalentCount(int quality)
         {
             return Math.Max(1, quality - 4);
         }
@@ -176,7 +188,7 @@ namespace Game
         {
             List<SkillTalentConfig> configs = SkillTalentConfigCategory.Instance.GetSkillAllConfigs(skills);
 
-            int count = GetFlairCount(quality);
+            int count = GetTalentCount(quality);
 
             List<int> talents = new List<int>();
             List<int> ids = new List<int>();

@@ -8,22 +8,13 @@ namespace Game
 {
     public class ItemHelper
     {
-        public static Item BuildEquip(int configId, double qualityRise, int seed)
-        {
-            return EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, seed);
-        }
-
         public static Item BuildItem(ItemType type, int configId, double qualityRate, long number)
         {
-            return BuildItem(type, configId, qualityRate, number, -1, RuleType.Normal);
+            return BuildItemNew(type, configId, qualityRate, number, 0);
         }
 
-        public static Item BuildItem(ItemType type, int configId, double qualityRate, long number, RuleType ruleType)
-        {
-            return BuildItem(type, configId, qualityRate, number, -1, ruleType);
-        }
 
-        public static Item BuildItem(ItemType type, int configId, double qualityRise, long number, int seed, RuleType ruleType)
+        public static Item BuildItemNew(ItemType type, int configId, double qualityRise, long number, int seed)
         {
             Item item = null;
 
@@ -57,7 +48,7 @@ namespace Game
             }
             else if (type == ItemType.Pet)
             {
-                item = PetConfigCategory.Instance.BuildPet(configId, 5);
+                item = PetConfigCategory.Instance.BuildPet(0, 0, configId);
             }
             else
             {
@@ -91,14 +82,14 @@ namespace Game
             return item;
         }
 
-        public static IEnumerable<Item> BurstMul(List<Item> items, int count, double qualityRise, RuleType ruleType)
+        public static IEnumerable<Item> BurstMulNew(List<Item> items, int count, double qualityRise)
         {
             List<Item> newList = new List<Item>();
             for (int c = 0; c < count; c++)
             {
                 for (int i = 0; i < items.Count; i++)
                 {
-                    Item newItem = ItemHelper.BuildItem(items[i].GetItemType(), items[i].ConfigId, qualityRise, items[i].Count, ruleType);
+                    Item newItem = BuildItemNew(items[i].GetItemType(), items[i].ConfigId, qualityRise, items[i].Count, 0);
 
                     newList.Add(newItem);
                 }
@@ -107,31 +98,31 @@ namespace Game
             return newList;
         }
 
-        public static IEnumerable<Item> BurstMul(List<Item> items, int count, double qualityRate, RuleType ruleType, int maxQuality)
-        {
-            List<Item> newList = new List<Item>();
-            for (int c = 0; c < count; c++)
-            {
-                for (int i = 0; i < items.Count; i++)
-                {
+        //public static IEnumerable<Item> BurstMul(List<Item> items, int count, double qualityRate, RuleType ruleType, int maxQuality)
+        //{
+        //    List<Item> newList = new List<Item>();
+        //    for (int c = 0; c < count; c++)
+        //    {
+        //        for (int i = 0; i < items.Count; i++)
+        //        {
 
-                    if (items[i].GetItemType() == ItemType.Shengxiao)
-                    {
-                        Item newItem = ShengxiaoConfigCategory.Instance.Build(items[i].ConfigId, qualityRate, maxQuality, 0);
+        //            if (items[i].GetItemType() == ItemType.Shengxiao)
+        //            {
+        //                Item newItem = ShengxiaoConfigCategory.Instance.Build(items[i].ConfigId, qualityRate, maxQuality, 0);
 
-                        newList.Add(newItem);
-                    }
-                    else
-                    {
-                        Item newItem = ItemHelper.BuildItem(items[i].GetItemType(), items[i].ConfigId, (int)qualityRate, items[i].Count, ruleType);
+        //                newList.Add(newItem);
+        //            }
+        //            else
+        //            {
+        //                Item newItem = ItemHelper.BuildItem(items[i].GetItemType(), items[i].ConfigId, (int)qualityRate, items[i].Count, ruleType);
 
-                        newList.Add(newItem);
-                    }
-                }
-            }
+        //                newList.Add(newItem);
+        //            }
+        //        }
+        //    }
 
-            return newList;
-        }
+        //    return newList;
+        //}
 
         public static int Equip_Strong = 5001; //Í­¿óÊ¯
         public static int Equip_Refine = 5002; //ºÚÌú¿ó

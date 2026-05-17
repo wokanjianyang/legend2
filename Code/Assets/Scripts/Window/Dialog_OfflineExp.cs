@@ -331,16 +331,16 @@ namespace Game
             //金色
             for (int i = 0; i < 1; i++)
             {
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5801, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5802, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5803, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5804, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5805, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5805, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5807, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5807, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5809, quality, 0)); //
-                list.Add(ItemHelper.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5810, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5801, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5802, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5803, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5804, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5805, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5805, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5807, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5807, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5809, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5810, quality, 0)); //
             }
 
 

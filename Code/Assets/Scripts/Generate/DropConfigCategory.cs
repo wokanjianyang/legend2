@@ -53,7 +53,7 @@ namespace Game
                     int realRate = (int)(mapConfig.DropRateList[i] / burstRise);
                     if (RandomHelper.RandomDropRate(realRate))
                     {
-                        list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise));
+                        list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise, 0));
                     }
                 }
             }
@@ -70,9 +70,9 @@ namespace Game
             //    Debug.LogError(" drop base id£º" + baseId + " size=0");
             //}
 
-            int itemIndex = RandomHelper.RandomNumber(seed,0, config.ItemIdList.Length);
+            int itemIndex = RandomHelper.RandomNumber(seed, 0, config.ItemIdList.Length);
 
-            return ItemHelper.BuildItem((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, 1);
+            return ItemHelper.BuildItemNew((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, 1, seed);
         }
         public List<Item> BuildByDropBaseIdList(List<int> idList, int qualityRise, int seed)
         {
@@ -97,14 +97,14 @@ namespace Game
                 DropBaseConfig config = DropBaseConfigCategory.Instance.Get(baseId);
                 int itemIndex = RandomHelper.RandomNumber(0, config.ItemIdList.Length, seed);
 
-                list.Add(ItemHelper.BuildItem((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, sp.Value));
+                list.Add(ItemHelper.BuildItemNew((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, sp.Value, seed));
 
             }
 
             return list;
         }
 
-        public Item BuildByDropId(int dropId, int qualityRise)
+        public Item BuildByDropId(int dropId, int qualityRise, int seed)
         {
             DropConfig config = DropConfigCategory.Instance.Get(dropId);
 
@@ -112,7 +112,7 @@ namespace Game
 
             int baseId = config.BaseIdList[index];
 
-            return BuildByDropBaseId(baseId, qualityRise, 0);
+            return BuildByDropBaseId(baseId, qualityRise, seed);
         }
 
 

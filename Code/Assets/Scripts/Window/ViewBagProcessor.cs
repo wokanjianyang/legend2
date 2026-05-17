@@ -1053,18 +1053,6 @@ namespace Game
                 }
 
             }
-            else if (boxItem.Item.GetItemType() == ItemType.Pet)
-            {
-                //build pet
-                //string str_json = JsonConvert.SerializeObject(e.Flairs);
-                //Debug.Log("build pet flairs:" + str_json);
-                List<Item> items = new List<Item>();
-
-                Item item = PetConfigCategory.Instance.BuildPet(boxItem.Item.ConfigId, 5);
-                items.Add(item);
-
-                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-            }
         }
 
         private void OnBagRemove(BagRemoveEvent e)

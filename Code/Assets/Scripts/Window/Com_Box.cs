@@ -175,6 +175,12 @@ namespace Game
 
                 this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
             }
+            else if (item.Item.GetItemType() == ItemType.Pet)
+            {
+                Pet pet = item.Item as Pet;
+
+                this.Img_Logo.sprite = PrefabHelper.Instance().GetMonster(pet.Mid);
+            }
 
             if (item.Item.IsNew && (item.Item.GetItemType() == ItemType.Equip || item.Item.GetItemType() == ItemType.Exclusive))
             {

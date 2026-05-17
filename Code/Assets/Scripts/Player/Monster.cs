@@ -221,7 +221,7 @@ namespace Game
             {
                 exp += exp * itemCount;
                 gold += gold * itemCount;
-                items.AddRange(ItemHelper.BurstMul(items, itemCount, qualityRise, RuleType.Normal));
+                items.AddRange(ItemHelper.BurstMulNew(items, itemCount, qualityRise));
             }
 
             //œ»ªÿ ’

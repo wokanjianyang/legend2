@@ -32,9 +32,14 @@ namespace Game
 
         public int Status { get; set; } = 0;
 
-        public Pet(int role) : base(role, ItemType.Pet)
+        private string Name;
+
+        public Pet(int role, int mid) : base(role, ItemType.Pet)
         {
             this.Role = role;
+            this.Mid = mid;
+
+            this.Name = PetNameConfigCategory.Instance.Get(mid).Name;
         }
 
         public Dictionary<int, double> GetBaseAttr()
@@ -98,12 +103,12 @@ namespace Game
 
         public override string GetName()
         {
-            return "≤‚ ‘≥ËŒÔ";
+            return this.Name;
         }
 
         public override int GetBagType()
         {
-            return 4;
+            return 3;
         }
 
         public override ShowType GetShowType()

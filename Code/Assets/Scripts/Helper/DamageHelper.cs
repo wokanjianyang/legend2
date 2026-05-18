@@ -60,8 +60,6 @@ namespace Game
                 atk *= luckyRate;
             }
 
-
-
             //技能终伤
             atk *= (1 + skill.FinalIncrea / 100.0);
 
@@ -80,6 +78,15 @@ namespace Game
                 long critDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritDamage) + skill.CritDamage - enemy.CalBattleTotalAttr(AttributeEnum.CritDamageResist));
                 atk *= (1 + critDamage / 100.0);
             }
+
+            //图鉴增伤
+            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.CardDamage) / 100.0);
+
+            //时装增伤
+            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.FashionDamage) / 100.0);
+
+            //传世增伤
+            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.LegacyDamage) / 100.0);
 
             //增伤
             atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.DamageIncrea) / 100.0);

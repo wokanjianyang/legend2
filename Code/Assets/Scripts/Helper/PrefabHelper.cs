@@ -239,16 +239,6 @@ namespace Game
             return MonsterList[id];
         }
 
-        public Sprite GetHeroPet(int id)
-        {
-            if (!PetBgList.ContainsKey(id))
-            {
-                PetBgList[id] = Resources.Load<Sprite>("UI/Player/Pet/Hero_Pet" + id);
-            }
-
-            return PetBgList[id];
-        }
-
         public Sprite GetSkillLog(int skillId)
         {
             if (!SkillLogoList.ContainsKey(skillId))

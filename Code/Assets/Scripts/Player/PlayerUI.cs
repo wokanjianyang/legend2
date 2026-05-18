@@ -177,7 +177,7 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
                 this.image_Background.sprite = PrefabHelper.Instance().GetDefend();
                 break;
             case PlayerType.Hero_Pet:
-                this.image_Background.sprite = PrefabHelper.Instance().GetHeroPet(SelfPlayer.FashionId);
+                this.image_Background.sprite = PrefabHelper.Instance().GetMonster(SelfPlayer.FashionId);
                 break;
             case PlayerType.Enemy:
                 if (SelfPlayer.RuleType == RuleType.World)

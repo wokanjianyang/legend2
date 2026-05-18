@@ -10,8 +10,6 @@ public class Dialog_Card : MonoBehaviour
 {
     public Button Btn_Close;
 
-    public Toggle tg_Hide;
-
     private int SelectStage = 0;
     public Transform Tf_Nav;
     private List<Toggle> toggleStageList = new List<Toggle>();

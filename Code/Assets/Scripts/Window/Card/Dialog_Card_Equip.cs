@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class Dialog_Card_Equip : MonoBehaviour
 {
     public Button Btn_Close;
+    public Text Txt_Title;
 
     public Transform Tf_List;
     private List<Item_Card_Equip_Sub> list;
@@ -27,6 +28,10 @@ public class Dialog_Card_Equip : MonoBehaviour
     public void show(int cardId)
     {
         this.gameObject.SetActive(true);
+
+        CardConfig config = CardConfigCategory.Instance.Get(cardId);
+
+        this.Txt_Title.text = config.Name;
 
         List<EquipConfig> configs = EquipConfigCategory.Instance.GetCardList(cardId);
 

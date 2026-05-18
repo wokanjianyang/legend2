@@ -114,12 +114,12 @@ namespace Game
 		/// <summary>CardQuality</summary>
 		[ProtoMember(13)]
 		public int CardQuality { get; set; }
-		/// <summary>CardAttr</summary>
+		/// <summary>CardAtrList</summary>
 		[ProtoMember(14)]
-		public int CardAttr { get; set; }
-		/// <summary>CardValue</summary>
+		public int[] CardAtrList { get; set; }
+		/// <summary>CardVueList</summary>
 		[ProtoMember(15)]
-		public int CardValue { get; set; }
+		public int[] CardVueList { get; set; }
 
 	}
 }

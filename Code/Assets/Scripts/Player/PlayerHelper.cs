@@ -56,7 +56,12 @@ namespace Game
             {nameof(AttributeEnum.RateCritDamage), "爆伤增幅" },
             {nameof(AttributeEnum.Shatter), "破韧倍率" },
 
-            {nameof(AttributeEnum.SpiritAll), "英灵攻防血" },
+            {nameof(AttributeEnum.CardDamage), "图鉴增伤" },
+            {nameof(AttributeEnum.FashionDamage), "时装增伤" },
+            {nameof(AttributeEnum.LegacyDamage), "传世增伤" },
+
+
+
             {nameof(AttributeEnum.SpRate), "护盾固防" },
             {nameof(AttributeEnum.RealMulDamageResist), "完全减伤" },
             {nameof(AttributeEnum.RealHpDamage), "血量真伤" },

@@ -135,6 +135,9 @@ namespace Game
                 case AttributeEnum.Accuracy:
                 case AttributeEnum.Miss:
                 case AttributeEnum.Miss2:
+                case AttributeEnum.CardDamage:
+                case AttributeEnum.FashionDamage:
+                case AttributeEnum.LegacyDamage:
                     total = CalBattleSingleAttr(attrType);
                     break;
                 default:

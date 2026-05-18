@@ -557,9 +557,9 @@ namespace Game
                 {
                     EquipConfig config = EquipConfigCategory.Instance.Get(sp.Key);
 
-                    for (int i = 0; i < config.AttrIdList.Length; i++)
+                    for (int i = 0; i < config.CardAtrList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), AttributeFrom.Card, config.Id, config.AttrValueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), AttributeFrom.Card, sp.Key, config.CardVueList[i]);
                     }
                 }
             }
@@ -570,9 +570,9 @@ namespace Game
                 int count = this.GetCardEquipCount(config.Id);
                 if (count >= config.Count)
                 {
-                    for (int i = 0; i < config.AttrIdList.Length; i++)
+                    for (int i = 0; i < config.AtrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), AttributeFrom.Card, config.Id, config.AttrValueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), AttributeFrom.Card, config.Id + 1000000, config.AtrVueList[i]);
                     }
                 }
             }

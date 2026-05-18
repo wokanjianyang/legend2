@@ -1,6 +1,7 @@
 using Game.Data;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,16 +12,21 @@ namespace Game
 {
     public class Item_Card_Equip_Sub : MonoBehaviour
     {
+        public Image Img_Logo;
         public Text Txt_Name;
-        public Text Txt_Attr;
         public Image Img_Active;
+
+        public Transform Tf_Akt;
+        private List<Text> Txt_Atk_List;
+
+
 
         private EquipConfig Config;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-
+            Txt_Atk_List = Tf_Akt.GetComponentsInChildren<Text>().ToList();
         }
 
         // Update is called once per frame
@@ -50,7 +56,21 @@ namespace Game
         {
             this.Config = config;
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.CardQuality), Config.Name);
-            this.Txt_Attr.text = StringHelper.FormatAttrText(config.CardAttr, config.CardValue);
+            this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(config.Role, config.Part);
+
+
+            for (int i = 0; i < config.CardAtrList.Length; i++)
+            {
+                if (i < Txt_Atk_List.Count)
+                {
+                    this.Txt_Atk_List[i].gameObject.SetActive(true);
+                    this.Txt_Atk_List[i].text = StringHelper.FormatAttrText(config.CardAtrList[i], config.CardVueList[i],"£º+");
+                }
+                else
+                {
+                    this.Txt_Atk_List[i].gameObject.SetActive(false);
+                }
+            }
 
             this.Show();
         }

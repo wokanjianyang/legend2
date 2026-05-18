@@ -55,7 +55,7 @@ public class Map_Dialog_Spirit : MonoBehaviour
             return;
         }
 
-        double total = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritAll);
+        double total = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CardDamage);
 
         Debug.Log("total:" + total);
 

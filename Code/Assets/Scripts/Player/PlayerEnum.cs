@@ -73,7 +73,9 @@ namespace Game
         BurstIncrea = 84, //爆率加成
 
 
-        SpiritAll = 95,//英灵全属性
+        CardDamage = 91,//图鉴增伤
+        FashionDamage = 92,//时装增伤
+        LegacyDamage = 93,//传世增伤
 
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成

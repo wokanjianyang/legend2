@@ -84,12 +84,12 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(3)]
 		public string Name { get; set; }
-		/// <summary>AttrIdList</summary>
+		/// <summary>AtrIdList</summary>
 		[ProtoMember(4)]
-		public int[] AttrIdList { get; set; }
-		/// <summary>AttrValueList</summary>
+		public int[] AtrIdList { get; set; }
+		/// <summary>AtrVueList</summary>
 		[ProtoMember(5)]
-		public int[] AttrValueList { get; set; }
+		public int[] AtrVueList { get; set; }
 		/// <summary>Count</summary>
 		[ProtoMember(6)]
 		public int Count { get; set; }

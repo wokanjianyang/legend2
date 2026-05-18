@@ -144,7 +144,7 @@ namespace Game
             {
                 if (sp.Value.Data > 0)
                 {
-                    FashionSpecialConfig fashionConfig = FashionSpecialConfigCategory.Instance.Get(sp.Key);
+                    FashionConfig fashionConfig = FashionConfigCategory.Instance.Get(sp.Key);
                     fashion += sp.Value.Data * fashionConfig.Fee;
                 }
             }

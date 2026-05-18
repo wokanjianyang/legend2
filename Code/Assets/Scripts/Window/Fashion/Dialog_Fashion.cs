@@ -7,15 +7,20 @@ using Game.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dialog_Fashion : MonoBehaviour, IBattleLife
+public class Dialog_Fashion : MonoBehaviour
 {
     public Button Btn_Close;
 
     public Transform Tf_Nav;
     private List<Toggle> toggles;
 
-    public Panel_Fashion PanelFashion;
-    public Panel_Fashion_Special PanelFashionSpecial;
+    public ScrollRect sr_Panel;
+
+    private List<Item_Fashion> Items = new List<Item_Fashion>();
+
+    private GameObject ItemPrefab;
+
+    private int Cycle = 1;
 
     public int Order => (int)ComponentOrder.Dialog;
 
@@ -40,38 +45,42 @@ public class Dialog_Fashion : MonoBehaviour, IBattleLife
 
         this.ChangePanel(0);
 
+
+        ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Fashion/Item_Fashion");
+
+        Init();
+    }
+
+    private void Init()
+    {
         User user = GameProcessor.Inst.User;
-        bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
-        if (ac)
+
+        List<FashionConfig> configs = FashionConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
+
+        foreach (FashionConfig config in configs)
         {
-            toggles[2].gameObject.SetActive(false);
+            var item = GameObject.Instantiate(ItemPrefab);
+            item.transform.SetParent(this.sr_Panel.content);
+            item.transform.localScale = Vector3.one;
+
+            var com = item.GetComponentInChildren<Item_Fashion>();
+            com.SetItem(config);
+
+            Items.Add(com);
         }
     }
 
-    public void OnBattleStart()
+
+    public void Show()
     {
-        GameProcessor.Inst.EventCenter.AddListener<OpenFashionDialogEvent>(this.OnShow);
+
     }
 
-    public void OnShow(OpenFashionDialogEvent e)
+    private void ChangePanel(int cycle)
     {
-        this.gameObject.SetActive(true);
-    }
+        this.Cycle = cycle;
 
-    private void ChangePanel(int index)
-    {
-
-        if (index == 2)
-        {
-            PanelFashion.gameObject.SetActive(false);
-            PanelFashionSpecial.Show();
-        }
-        else
-        {
-            PanelFashion.Show(index);
-            PanelFashionSpecial.gameObject.SetActive(false);
-        }
-
+        this.Show();
     }
 
     public void OnClick_Close()

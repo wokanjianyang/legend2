@@ -20,17 +20,17 @@ public class Dialog_Pet_Travel : MonoBehaviour
 
     public Transform Tf_Layer;
 
-    private List<Toggle> tgLevelList;
+    //private List<Toggle> tgLevelList;
 
-    private int LevelCount = 35; //每个难度多少个
-    private int ShowCount = 10; //隐藏的时候显示多少个
+    //private int LevelCount = 35; //每个难度多少个
+    //private int ShowCount = 10; //隐藏的时候显示多少个
 
-    private int MaxLayer = -1;
-    private int SelectLayer = -1;
+    //private int MaxLayer = -1;
+    //private int SelectLayer = -1;
 
-    private Pet SelectPet;
+    //private Pet SelectPet;
 
-    List<Item_Travel> items = new List<Item_Travel>();
+    //List<Item_Travel> items = new List<Item_Travel>();
 
     private void Awake()
     {

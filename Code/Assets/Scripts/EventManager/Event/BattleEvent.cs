@@ -292,11 +292,6 @@ namespace Game
 
     }
 
-    public class ShowAchievementEvent : SDD.Events.Event
-    {
-
-    }
-
     public class ShowFestiveDialogEvent : SDD.Events.Event
     {
 
@@ -472,9 +467,6 @@ namespace Game
     {
     }
 
-    public class FashionUIFreshEvent : SDD.Events.Event
-    {
-    }
     //----------Divine
     public class OpenDivineEvent : SDD.Events.Event
     {

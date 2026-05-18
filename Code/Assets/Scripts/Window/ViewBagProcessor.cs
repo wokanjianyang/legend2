@@ -56,9 +56,7 @@ namespace Game
         public Button btn_Shengxiao;
 
         public Button btn_Fashion;
-        public Button btn_Halidom;
         public Button btn_Ring;
-        public Button btn_Pill;
         public Button btn_Talent;
         public Button btn_Pet;
 
@@ -69,10 +67,9 @@ namespace Game
         public Dialog_Exclusive DialogExclusive;
         public Dialog_Card DialogCard;
         public Dialog_Wing DialogWing;
-        public Dialog_Halidom DialogHalidom;
         public Dialog_Ring DialogRing;
         public Dialog_Cycle DialogCycle;
-        public Dialog_Pill DialogPill;
+        public Dialog_Fashion DialogFashion;
 
         private List<Com_Box> items = new List<Com_Box>();
 
@@ -99,14 +96,14 @@ namespace Game
             this.Btn_Attr.onClick.AddListener(this.OnClick_Attr);
             this.Btn_Achievement.onClick.AddListener(this.OnClick_Achievement);
 
+            this.btn_Fashion.onClick.AddListener(OpenFashion);
+            this.btn_Card.onClick.AddListener(OnOpenCard);
+
             this.btn_SoulRing.onClick.AddListener(this.OnClick_RingSoul);
             this.btn_Wing.onClick.AddListener(OnOpenWing);
             this.btn_Exclusive.onClick.AddListener(OnExclusive);
-            this.btn_Fashion.onClick.AddListener(OpenFashion);
-            this.btn_Card.onClick.AddListener(OnOpenCard);
-            this.btn_Halidom.onClick.AddListener(OnOpenHalidom);
+
             this.btn_Ring.onClick.AddListener(OnOpenRing);
-            this.btn_Pill.onClick.AddListener(OnOpenPill);
             this.btn_Talent.onClick.AddListener(OnOpenTalent);
             this.btn_Relic.onClick.AddListener(OnOpenRelic);
 
@@ -1395,7 +1392,7 @@ namespace Game
 
         public void OnClick_Achievement()
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowAchievementEvent());
+
         }
         public void OnClick_Cycle()
         {
@@ -1412,21 +1409,11 @@ namespace Game
             this.DialogCard.gameObject.SetActive(true);
         }
 
-        public void OnOpenHalidom()
-        {
-            this.DialogHalidom.gameObject.SetActive(true);
-        }
-
-
         public void OnOpenRing()
         {
             this.DialogRing.Show();
         }
 
-        public void OnOpenPill()
-        {
-            this.DialogPill.gameObject.SetActive(true);
-        }
 
         public void OnOpenWing()
         {
@@ -1451,7 +1438,7 @@ namespace Game
 
         public void OpenFashion()
         {
-            GameProcessor.Inst.EventCenter.Raise(new OpenFashionDialogEvent());
+            DialogFashion.gameObject.SetActive(true);
         }
 
         public override void OnOpen()

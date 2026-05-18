@@ -23,23 +23,23 @@ public class Dialog_Pet_Devour : MonoBehaviour
 
     public Transform Tf_Select;
     private List<Item_Pet_Attr_Select> AttrSelectList;
-    private int SelectAttrIndex = 0;
+    //private int SelectAttrIndex = 0;
 
     public Button Btn_OK;
     public Button Btn_Close;
 
-    int MinQuality = 7;
+    //int MinQuality = 7;
 
-    private const int MaxMaterial = 48;
+    //private const int MaxMaterial = 48;
 
-    private bool check = false;
+    //private bool check = false;
 
-    Item_Box_Material SelectMaterial;
+    //Item_Box_Material SelectMaterial;
 
-    private Pet MainPet = null;
+    //private Pet MainPet = null;
 
-    int MeterailId = ItemHelper.Specail_Pet_Speical;
-    int MeterailCount = 5;
+    //int MeterailId = ItemHelper.Specail_Pet_Speical;
+    //int MeterailCount = 5;
 
     // Start is called before the first frame update
     //void Awake()

@@ -139,8 +139,8 @@ namespace Game
             }
             paramDict.Add("equip1", equip1 + "");
 
-            long fashion = GetTotal(user.Bags, ItemHelper.SpecialId_Fashion);
-            foreach (var sp in user.FashionSpecialData)
+            long fashion = GetTotal(user.Bags, ItemHelper.Fashion_Stone);
+            foreach (var sp in user.FashionData)
             {
                 if (sp.Value.Data > 0)
                 {

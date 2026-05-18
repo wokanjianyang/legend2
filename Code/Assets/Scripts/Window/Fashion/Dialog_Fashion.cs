@@ -29,6 +29,8 @@ public class Dialog_Fashion : MonoBehaviour
         toggles = Tf_Nav.GetComponentsInChildren<Toggle>().ToList();
 
         Btn_Close.onClick.AddListener(OnClick_Close);
+
+        ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Fashion/Item_Fashion");
     }
 
     // Start is called before the first frame update
@@ -36,26 +38,26 @@ public class Dialog_Fashion : MonoBehaviour
     {
         for (int i = 0; i < toggles.Count; i++)
         {
-            int index = i;
+            int index = i + 1;
             toggles[i].onValueChanged.AddListener((isOn) =>
             {
                 ChangePanel(index);
             });
         }
 
-        this.ChangePanel(0);
-
-
-        ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Fashion/Item_Fashion");
-
-        Init();
+        Show();
     }
 
-    private void Init()
+    public void Show()
     {
-        User user = GameProcessor.Inst.User;
+        foreach (var item in Items)
+        {
+            GameObject.Destroy(item.gameObject);
+        }
 
-        List<FashionConfig> configs = FashionConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
+        Items.Clear();
+
+        List<FashionConfig> configs = FashionConfigCategory.Instance.GetList(Cycle);
 
         foreach (FashionConfig config in configs)
         {
@@ -68,12 +70,6 @@ public class Dialog_Fashion : MonoBehaviour
 
             Items.Add(com);
         }
-    }
-
-
-    public void Show()
-    {
-
     }
 
     private void ChangePanel(int cycle)

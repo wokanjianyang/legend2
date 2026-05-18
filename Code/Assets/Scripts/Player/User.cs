@@ -21,6 +21,10 @@ namespace Game
 
         public IDictionary<int, int> AchievementData { get; set; } = new Dictionary<int, int>();
 
+        public Dictionary<int, MagicData> FashionData { get; set; } = new Dictionary<int, MagicData>();
+
+        public int FashionUpId { get; set; } = 0;
+
         public int RecoveryTotal { get; set; } = 0;
         //---------cal function
         public int GetExclusiveLevel(int id)
@@ -356,9 +360,6 @@ namespace Game
 
         public PillTime PillTime { get; set; } = new PillTime();
 
-        public Dictionary<int, Dictionary<int, MagicData>> FashionData { get; set; } = new Dictionary<int, Dictionary<int, MagicData>>();
-
-        public int FashionUpId { get; set; } = 0;
         public Dictionary<int, MagicData> ItemMeterialData { get; } = new Dictionary<int, MagicData>();
 
         public Dictionary<int, MagicData> CardData { get; } = new Dictionary<int, MagicData>();
@@ -366,8 +367,6 @@ namespace Game
         public Dictionary<int, MagicData> CardSpecialData { get; } = new Dictionary<int, MagicData>();
 
         public Dictionary<int, MagicData> HalidomData { get; } = new Dictionary<int, MagicData>();
-
-        public Dictionary<int, MagicData> FashionSpecialData { get; } = new Dictionary<int, MagicData>();
 
         public Dictionary<int, MagicData> ArtifactData { get; } = new Dictionary<int, MagicData>();
 
@@ -1586,24 +1585,24 @@ namespace Game
             HalidomData[id].Data++;
         }
 
-        public long GetFashionSpecialLevel(int id)
+        public long GetFashionLevel(int id)
         {
-            if (!FashionSpecialData.ContainsKey(id))
+            if (!FashionData.ContainsKey(id))
             {
-                FashionSpecialData[id] = new MagicData();
+                FashionData[id] = new MagicData();
             }
 
-            return FashionSpecialData[id].Data;
+            return FashionData[id].Data;
         }
 
-        public void SaveFashionSpecialLevel(int id)
+        public void SaveFashionLevel(int id)
         {
-            if (!FashionSpecialData.ContainsKey(id))
+            if (!FashionData.ContainsKey(id))
             {
-                FashionSpecialData[id] = new MagicData();
+                FashionData[id] = new MagicData();
             }
 
-            FashionSpecialData[id].Data++;
+            FashionData[id].Data++;
         }
 
         public long GetMetalLevel(int id)

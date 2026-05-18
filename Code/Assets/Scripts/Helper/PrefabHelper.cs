@@ -25,7 +25,7 @@ namespace Game
         private List<GameObject> PlayerList = new List<GameObject>();
 
         private List<Sprite> BoxImageList = new List<Sprite>();
-        private List<Sprite> FashionList = new List<Sprite>();
+        private Dictionary<int, Sprite> FashionList = new Dictionary<int, Sprite>();
         private List<Sprite> ValetList = new List<Sprite>();
         private Dictionary<int, Sprite> MonsterList = new Dictionary<int, Sprite>();
         private List<Sprite> MonsterWorldList = new List<Sprite>();
@@ -107,11 +107,6 @@ namespace Game
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box6"));
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box7"));
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box8"));
-
-            for (int i = 1; i <= 24; i++)
-            {
-                FashionList.Add(Resources.Load<Sprite>("UI/Player/Fashion" + i));
-            }
 
             ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet1"));
             ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet2"));
@@ -220,7 +215,12 @@ namespace Game
 
         public Sprite GetFashion(int id)
         {
-            return FashionList[id - 1];
+            if (!FashionList.ContainsKey(id))
+            {
+                FashionList[id] = Resources.Load<Sprite>("UI/Player/Fashion/Fashion" + id);
+            }
+
+            return FashionList[id];
         }
 
         public Sprite GetValet(int id)

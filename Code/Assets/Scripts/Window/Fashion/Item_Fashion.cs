@@ -64,7 +64,7 @@ public class Item_Fashion : MonoBehaviour
 
         User user = GameProcessor.Inst.User;
 
-        long fashionLevel = user.GetFashionSpecialLevel(this.Config.Id);
+        long fashionLevel = user.GetFashionLevel(this.Config.Id);
 
         if (fashionLevel > 0)
         {
@@ -86,12 +86,13 @@ public class Item_Fashion : MonoBehaviour
             Btn_Up.gameObject.SetActive(false);
             Txt_Fee.gameObject.SetActive(true);
 
-            long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_Fashion);
+            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(this.Config.ItemId);
+            long materialCount = user.GetMaterialCount(this.Config.ItemId);
 
             int fee = this.Config.Fee;
             string color = materialCount >= fee ? "#00FF00" : "#FF0000";
 
-            Txt_Fee.text = string.Format("<color={0}>时装精华:{1}/{2}</color>", color, materialCount, fee);
+            Txt_Fee.text = string.Format("{3}：<color={0}>{1}/{2}</color>", color, materialCount, fee, itemConfig.Name);
         }
     }
 
@@ -100,7 +101,7 @@ public class Item_Fashion : MonoBehaviour
         this.Btn_Active.gameObject.SetActive(false);
 
         User user = GameProcessor.Inst.User;
-        long fashionLevel = user.GetFashionSpecialLevel(Config.Id);
+        long fashionLevel = user.GetFashionLevel(Config.Id);
 
         if (fashionLevel > 0)
         {
@@ -108,23 +109,23 @@ public class Item_Fashion : MonoBehaviour
             return;
         }
 
-        long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_Fashion);
+        long materialCount = user.GetMaterialCount(this.Config.ItemId);
 
         int fee = Config.Fee;
 
         if (materialCount < fee)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的材料", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的道具", ToastType = ToastTypeEnum.Failure });
             this.Btn_Active.gameObject.SetActive(true);
             return;
         }
 
-        user.SaveFashionSpecialLevel(Config.Id);
+        user.SaveFashionLevel(Config.Id);
 
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
             Type = ItemType.Material,
-            ItemId = ItemHelper.SpecialId_Fashion,
+            ItemId = Config.ItemId,
             Quantity = fee
         });
 
@@ -140,7 +141,7 @@ public class Item_Fashion : MonoBehaviour
         this.Btn_Up.gameObject.SetActive(false);
 
         User user = GameProcessor.Inst.User;
-        long fashionLevel = user.GetFashionSpecialLevel(Config.Id);
+        long fashionLevel = user.GetFashionLevel(Config.Id);
 
         if (fashionLevel <= 0)
         {

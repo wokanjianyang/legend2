@@ -9,7 +9,7 @@ namespace Game
 
     public partial class PetAtrConfigCategory
     {
-        public Pet BuildPet(int role, int quality, int mid)
+        public Pet BuildPet(int id, int role, int quality)
         {
             if (quality == 0)
             {
@@ -20,7 +20,7 @@ namespace Game
                 role = RandomHelper.RandomNumber(1, 4);
             }
 
-            Pet pet = new Pet(role, mid);
+            Pet pet = new Pet(role, id);
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
@@ -252,20 +252,4 @@ namespace Game
             return total;
         }
     }
-
-    public partial class PetConfig
-    {
-        public long GetAttr(long layer)
-        {
-            return 0;
-        }
-
-        public long GetFee(long layer)
-        {
-            return 0;
-        }
-
-
-    }
-
 }

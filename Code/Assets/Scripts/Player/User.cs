@@ -554,11 +554,22 @@ namespace Game
             {
                 if (sp.Value > 0)
                 {
-                    EquipConfig config = EquipConfigCategory.Instance.Get(sp.Key);
-
-                    for (int i = 0; i < config.CardAtrList.Length; i++)
+                    if (sp.Key >= 210001)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), AttributeFrom.Card, sp.Key, config.CardVueList[i]);
+                        EquipConfig config = EquipConfigCategory.Instance.Get(sp.Key);
+
+                        for (int i = 0; i < config.CardAtrList.Length; i++)
+                        {
+                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), AttributeFrom.Card, sp.Key, config.CardVueList[i]);
+                        }
+                    }
+                    else {
+                        PetConfig config = PetConfigCategory.Instance.Get(sp.Key);
+
+                        for (int i = 0; i < config.CardAtrList.Length; i++)
+                        {
+                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), AttributeFrom.Card, sp.Key, config.CardVueList[i]);
+                        }
                     }
                 }
             }

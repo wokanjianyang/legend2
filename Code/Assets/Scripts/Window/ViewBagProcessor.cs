@@ -625,11 +625,11 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            Equip equip = e.BoxItem.Item as Equip;
+            Item item = e.BoxItem.Item;
 
             UseBoxItem(e.BoxItem, 1);
 
-            user.CardEquipDict[equip.ConfigId] = 1;
+            user.CardEquipDict[item.ConfigId] = 1;
 
             GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         }

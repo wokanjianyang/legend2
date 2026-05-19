@@ -109,6 +109,7 @@ namespace Game
 
             this.boxItem = e.Show_Item;
 
+            User user = GameProcessor.Inst.User;
             string titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 
             Pet pet = this.boxItem.Item as Pet;
@@ -184,25 +185,32 @@ namespace Game
 
             this.Btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
 
-            if (!this.boxItem.Item.IsLock)
+            if (e.Box_Type == ComBoxType.Bag)
             {
-                if (pet.PetLevel.Data > 1)
-                {
-                    this.Btn_ToCard.gameObject.SetActive(this.boxItem.BoxId != -1);
-                }
-                else
-                {
-                    this.Btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1);
-                }
-            }
+                //包裹中
+                this.Btn_Equip.gameObject.SetActive(true);
+                this.Btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                this.Btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
 
-            if (this.boxItem.Item.IsLock)
-            {
-                this.Btn_Unlock.gameObject.SetActive(true);
+                if (pet.Level > 1) //升阶过的只能重生
+                {
+
+                }
+                else  //没升阶的只能回收
+                {
+                    this.Btn_Recovery.gameObject.SetActive(!this.boxItem.Item.IsLock);
+                }
+
+                if (pet.GetQuality() == pet.Config.CardQuality && user.GetCardEquipLevel(pet.ConfigId) <= 0)
+                {
+                    this.Btn_ToCard.gameObject.SetActive(true);
+                }
+
             }
-            else
+            else if (e.Box_Type == ComBoxType.OnEquip)
             {
-                this.Btn_Lock.gameObject.SetActive(true);
+                //装备栏中
+                this.Btn_UnEquip.gameObject.SetActive(true);
             }
         }
 

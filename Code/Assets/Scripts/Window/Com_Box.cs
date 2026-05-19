@@ -179,7 +179,7 @@ namespace Game
             {
                 Pet pet = item.Item as Pet;
 
-                this.Img_Logo.sprite = PrefabHelper.Instance().GetMonster(pet.Mid);
+                this.Img_Logo.sprite = PrefabHelper.Instance().GetMonster(pet.ConfigId);
             }
 
             if (item.Item.IsNew && (item.Item.GetItemType() == ItemType.Equip || item.Item.GetItemType() == ItemType.Exclusive))

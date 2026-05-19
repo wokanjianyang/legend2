@@ -277,16 +277,6 @@ namespace Game
                 //装备栏中
                 this.btn_UnEquip.gameObject.SetActive(true);
             }
-            else
-            {
-                //其他地方都不显示任何按钮
-                //this.btn_Equip.gameObject.SetActive(false);
-                //this.btn_UnEquip.gameObject.SetActive(false);
-                //this.btn_Recovery.gameObject.SetActive(false);
-                //this.btn_Restore.gameObject.SetActive(false);
-                //this.btn_Lock.gameObject.SetActive(false);
-                //this.btn_Unlock.gameObject.SetActive(false);
-            }
         }
 
         private void ShowRed(EquipSetSuit redSuit, int quality, int role)

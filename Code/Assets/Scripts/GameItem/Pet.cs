@@ -10,7 +10,6 @@ namespace Game
 {
     public class Pet : Item
     {
-        public int Mid { get; set; } = 1;
         public MagicData PetLevel { get; set; } = new MagicData();
 
         public MagicData PetLayer { get; set; } = new MagicData();
@@ -34,12 +33,16 @@ namespace Game
 
         private string Name;
 
-        public Pet(int role, int mid) : base(role, ItemType.Pet)
-        {
-            this.Role = role;
-            this.Mid = mid;
+        [JsonIgnore]
+        public PetConfig Config { get; set; }
 
-            this.Name = PetConfigCategory.Instance.Get(mid).Name;
+        public Pet(int role, int id) : base(role, ItemType.Pet)
+        {
+            this.ConfigId = id;
+            this.Role = role;
+      
+            this.Config = PetConfigCategory.Instance.Get(id);
+            this.Name = Config.Name;
         }
 
         public Dictionary<int, double> GetBaseAttr()

@@ -11,8 +11,11 @@ public class Dialog_Card_Equip : MonoBehaviour
     public Button Btn_Close;
     public Text Txt_Title;
 
-    public Transform Tf_List;
-    private List<Item_Card_Equip_Sub> list;
+    public Transform Tf_List_Equip;
+    private List<Item_Card_Equip_Sub> equipList;
+
+    public Transform Tf_List_Pet;
+    private List<Item_Card_Pet_Sub> petList;
 
     public int Order => (int)ComponentOrder.Dialog;
 
@@ -21,7 +24,9 @@ public class Dialog_Card_Equip : MonoBehaviour
     {
         this.Btn_Close.onClick.AddListener(OnClick_Close);
 
-        list = Tf_List.GetComponentsInChildren<Item_Card_Equip_Sub>().ToList();
+        equipList = Tf_List_Equip.GetComponentsInChildren<Item_Card_Equip_Sub>().ToList();
+
+        petList = Tf_List_Pet.GetComponentsInChildren<Item_Card_Pet_Sub>().ToList();
     }
 
 
@@ -33,17 +38,42 @@ public class Dialog_Card_Equip : MonoBehaviour
 
         this.Txt_Title.text = config.Name;
 
-        List<EquipConfig> configs = EquipConfigCategory.Instance.GetCardList(cardId);
-
-        for (int i = 0; i < list.Count; i++)
+        if (config.Stage <= 10)
         {
-            if (i > configs.Count)
+            Tf_List_Equip.gameObject.SetActive(true);
+            Tf_List_Pet.gameObject.SetActive(false);
+
+            List<EquipConfig> configs = EquipConfigCategory.Instance.GetCardList(cardId);
+
+            for (int i = 0; i < equipList.Count; i++)
             {
-                list[i].gameObject.SetActive(false);
+                if (i >= configs.Count)
+                {
+                    equipList[i].gameObject.SetActive(false);
+                }
+                else
+                {
+                    equipList[i].SetContent(configs[i]);
+                }
             }
-            else
+        }
+        else
+        {
+            Tf_List_Equip.gameObject.SetActive(false);
+            Tf_List_Pet.gameObject.SetActive(true);
+
+            List<PetConfig> configs = PetConfigCategory.Instance.GetListByCardId(cardId);
+
+            for (int i = 0; i < petList.Count; i++)
             {
-                list[i].SetContent(configs[i]);
+                if (i >= configs.Count)
+                {
+                    petList[i].gameObject.SetActive(false);
+                }
+                else
+                {
+                    petList[i].SetContent(configs[i]);
+                }
             }
         }
     }

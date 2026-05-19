@@ -22,7 +22,7 @@ namespace Game
             this.Master = master;
             this.Self = pet;
             //this.FashionId = pet.Mid;
-            this.FashionId = pet.Mid;
+            this.FashionId = pet.ConfigId;
 
             this.Init();
         }

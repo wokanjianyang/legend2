@@ -12,7 +12,6 @@ namespace Game
             get;
             set;
         }
-        public long Count { get; set; }
         public int Quality { get; set; }
 
         public int Layer { get; set; }
@@ -28,6 +27,9 @@ namespace Game
         public int Seed { get; set; } = -1;
 
         public ItemType Type { get; set; }
+
+        [JsonIgnore]
+        public long Temp_Number = 1;
 
         private Item()
         {

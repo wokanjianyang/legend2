@@ -59,10 +59,10 @@ public class Dialog_Pet_Forge : MonoBehaviour
 
         Txt_Level.text = "当前等级：" + currentLevel + "级（最高等级" + maxLevel + "级）";
 
-        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
+        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
         Txt_Cost.text = "拥有口粮：" + stoneTotal;
 
-        long fee = PetConfigCategory.Instance.GetPetFee(SelectPet.PetLevel.Data);
+        long fee = PetAtrConfigCategory.Instance.GetPetFee(SelectPet.PetLevel.Data);
         ExpProgress.SetProgress(SelectPet.LevelExp.Data, fee);
 
         if (currentLevel >= maxLevel || stoneTotal <= 0)
@@ -85,7 +85,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
         ItemConfig itemConfig = ItemConfigCategory.Instance.Get(materailId);
 
         long haveCount = user.GetMaterialCount(materailId);
-        long needCount = PetConfigCategory.Instance.GetPetLayerFee(currentLayer);
+        long needCount = PetAtrConfigCategory.Instance.GetPetLayerFee(currentLayer);
 
         Txt_Name_Layer.text = itemConfig.Name;
         Txt_Cost_Layer.text = haveCount + "/" + needCount;
@@ -109,7 +109,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
 
         int psg = user.GetPetSpeicalGroupLevel();
 
-        long max = PetConfigCategory.Instance.GetPetFee(SelectPet.PetLevel.Data);
+        long max = PetAtrConfigCategory.Instance.GetPetFee(SelectPet.PetLevel.Data);
         long current = SelectPet.LevelExp.Data;
 
         long currentLevel = SelectPet.PetLevel.Data;
@@ -120,7 +120,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
             return;
         }
 
-        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
+        long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
         if (stoneTotal <= 0)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "口粮不足", ToastType = ToastTypeEnum.Failure });
@@ -140,7 +140,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
             GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
             {
                 Type = ItemType.Material,
-                ItemId = ItemHelper.SpecialId_Pet_Exp,
+                ItemId = ItemHelper.Pet_Exp,
                 Quantity = fee
             });
 
@@ -166,7 +166,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
 
         for (int i = 0; i < 50; i++)
         {
-            long max = PetConfigCategory.Instance.GetPetFee(SelectPet.PetLevel.Data);
+            long max = PetAtrConfigCategory.Instance.GetPetFee(SelectPet.PetLevel.Data);
             long current = SelectPet.LevelExp.Data;
             long currentLevel = SelectPet.PetLevel.Data;
             int maxLevel = SelectPet.GetQuality() * PetQualityRate + psg * PetSpeicalRate;
@@ -177,7 +177,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
                 break;
             }
 
-            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
+            long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.Pet_Exp).Select(m => m.MagicNubmer.Data).Sum();
             if (stoneTotal <= 0)
             {
                 //GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "口粮不足", ToastType = ToastTypeEnum.Failure });
@@ -197,7 +197,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
                 GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
                 {
                     Type = ItemType.Material,
-                    ItemId = ItemHelper.SpecialId_Pet_Exp,
+                    ItemId = ItemHelper.Pet_Exp,
                     Quantity = fee
                 });
 
@@ -235,7 +235,7 @@ public class Dialog_Pet_Forge : MonoBehaviour
         }
 
         int materilId = ItemHelper.Specail_Pet_Layer[quality - 5];
-        long fee = PetConfigCategory.Instance.GetPetLayerFee(current);
+        long fee = PetAtrConfigCategory.Instance.GetPetLayerFee(current);
 
         long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == materilId).Select(m => m.MagicNubmer.Data).Sum();
         if (stoneTotal < fee)

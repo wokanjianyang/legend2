@@ -40,7 +40,7 @@ namespace Game
             }
             else if (type == ItemType.GiftPackPet)
             {
-                item = PetConfigCategory.Instance.BuildByPack(configId);
+                item = PetAtrConfigCategory.Instance.BuildByPack(configId);
             }
             else if (type == ItemType.GiftPackShengxiao)
             {
@@ -48,14 +48,14 @@ namespace Game
             }
             else if (type == ItemType.Pet)
             {
-                item = PetConfigCategory.Instance.BuildPet(0, 0, configId);
+                item = PetAtrConfigCategory.Instance.BuildPet(0, 0, configId);
             }
             else
             {
                 item = new Item_Normal(configId);
             }
 
-            item.Count = number;
+            item.Temp_Number = number;
 
             return item;
         }
@@ -78,7 +78,7 @@ namespace Game
         public static Item BuildMaterial(int configId, long count)
         {
             Item item = new Item_Normal(configId);
-            item.Count = count;
+            item.Temp_Number = count;
             return item;
         }
 
@@ -89,7 +89,7 @@ namespace Game
             {
                 for (int i = 0; i < items.Count; i++)
                 {
-                    Item newItem = BuildItemNew(items[i].GetItemType(), items[i].ConfigId, qualityRise, items[i].Count, 0);
+                    Item newItem = BuildItemNew(items[i].GetItemType(), items[i].ConfigId, qualityRise, items[i].Temp_Number, 0);
 
                     newList.Add(newItem);
                 }
@@ -127,6 +127,7 @@ namespace Game
         public static int Equip_Strong = 5001; //铜矿石
         public static int Equip_Refine = 5002; //黑铁矿
         public static int Fashion_Stone = 5003; //皮肤碎片
+        public static int Pet_Exp = 5004; //宠物口粮
 
         public static int SpecialId_Level_Stone = 7001; //等级丹
         public static int SpecialId_Talent_Book = 7002; //天赋书
@@ -159,7 +160,7 @@ namespace Game
         public static int SpecialId_Golden_Stone = 4019;  //金装精华
 
         public static int SpecialId_Reform_Stone = 4021; //改造石
-        public static int SpecialId_Pet_Exp = 4022; //魂宠口粮
+
         public static int SpecialId_Dark_Stone = 4026;//暗金精华
         public static int SpecialId_Stone_Set = 4027; //魂宠口粮
 

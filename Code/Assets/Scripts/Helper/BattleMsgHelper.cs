@@ -42,9 +42,9 @@ namespace Game
                 foreach (var drop in Drops)
                 {
                     string qt = "";
-                    if (drop.Count > 1 || burstMul > 1)
+                    if (drop.Temp_Number > 1 || burstMul > 1)
                     {
-                        qt = "*" + drop.Count * burstMul;
+                        qt = "*" + drop.Temp_Number * burstMul;
                     }
 
                     drops += $"<color=#{QualityConfigHelper.GetQualityColor(drop.GetQuality())}>[{drop.GetName()}]</color>" + qt;
@@ -81,9 +81,9 @@ namespace Game
                 foreach (var drop in Drops)
                 {
                     string qt = "";
-                    if (drop.Count > 1)
+                    if (drop.Temp_Number > 1)
                     {
-                        qt = "*" + drop.Count + " ";
+                        qt = "*" + drop.Temp_Number + " ";
                     }
 
                     drops += $"<color=#{QualityConfigHelper.GetQualityColor(drop.GetQuality())}>[{drop.GetName()}]</color>" + qt;
@@ -99,7 +99,7 @@ namespace Game
 
             foreach (Item item in itemList)
             {
-                message += item.Count + "个" + item.GetName() + "，";
+                message += item.Temp_Number + "个" + item.GetName() + "，";
             }
 
             if (gold > 0)
@@ -126,7 +126,7 @@ namespace Game
             {
                 foreach (var item in items)
                 {
-                    message += $",{item.GetName()}*{item.Count}";
+                    message += $",{item.GetName()}*{item.Temp_Number}";
                 }
             }
 

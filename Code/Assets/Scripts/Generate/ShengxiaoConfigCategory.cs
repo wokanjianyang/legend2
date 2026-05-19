@@ -20,8 +20,6 @@ namespace Game
             Shengxiao item = new Shengxiao(configId, quality);
             item.Init(list);
 
-            item.Count = 1;
-
             return item;
         }
 
@@ -52,8 +50,6 @@ namespace Game
 
             Shengxiao item = new Shengxiao(configId, 9);
             //item.Init(list);
-
-            item.Count = 1;
 
             return item;
         }

@@ -527,7 +527,7 @@ namespace Game
             {
                 List<Item> items = new List<Item>();
 
-                e.Item.Count *= e.Nubmer;
+                e.Item.Temp_Number = e.Nubmer;
 
                 items.Add(e.Item);
                 GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
@@ -779,8 +779,8 @@ namespace Game
                 long layer = pet.PetLayer.Data;
                 int quality = pet.GetQuality();
 
-                long expCount = PetConfigCategory.Instance.GetFeeTotal(level) + pet.LevelExp.Data;
-                long layerCount = PetConfigCategory.Instance.GetPetLayerFeeTotal(layer);
+                long expCount = PetAtrConfigCategory.Instance.GetFeeTotal(level) + pet.LevelExp.Data;
+                long layerCount = PetAtrConfigCategory.Instance.GetPetLayerFeeTotal(layer);
 
                 pet.PetLayer.Data = 1;
                 pet.PetLevel.Data = 1;
@@ -790,7 +790,7 @@ namespace Game
                 //Debug.Log("pet exp count:" + expCount);
                 if (expCount > 0)
                 {
-                    Item levelItem = ItemHelper.BuildMaterial(ItemHelper.SpecialId_Pet_Exp, expCount);
+                    Item levelItem = ItemHelper.BuildMaterial(ItemHelper.Pet_Exp, expCount);
                     newList.Add(levelItem);
                 }
 
@@ -1112,24 +1112,26 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
+            long nn = newItem.Temp_Number;
+
             BoxItem boxItem = user.Bags.Find(m => !m.IsFull() && m.Item.GetItemType() == newItem.GetItemType() && m.Item.ConfigId == newItem.ConfigId);  //ͬ
 
             if (boxItem != null)
             {
-                boxItem.AddStack(newItem.Count);
+                boxItem.AddStack(nn);
 
                 //堆叠UI
                 var boxUI = this.items.Find(m => m.boxId == boxItem.BoxId && m.BagType == boxItem.GetBagType());
                 if (boxUI != null)
                 {
-                    boxUI.AddStack(newItem.Count);
+                    boxUI.AddStack(nn);
                 }
             }
             else
             {
                 boxItem = new BoxItem();
                 boxItem.Item = newItem;
-                boxItem.MagicNubmer.Data = newItem.Count;
+                boxItem.MagicNubmer.Data = nn;
                 boxItem.BoxId = -1;
 
                 int bagType = boxItem.GetBagType();
@@ -1345,7 +1347,7 @@ namespace Game
                 {
                     if (newItem.GetItemType() == ItemType.Material_Hide)
                     {
-                        user.SaveHideMaterialCount(newItem.ConfigId, newItem.Count);
+                        user.SaveHideMaterialCount(newItem.ConfigId, newItem.Temp_Number);
                     }
                     else
                     {

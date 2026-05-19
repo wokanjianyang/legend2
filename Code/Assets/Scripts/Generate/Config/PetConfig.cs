@@ -81,33 +81,18 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>Role</summary>
+		/// <summary>CardGroupId</summary>
 		[ProtoMember(3)]
-		public int Role { get; set; }
-		/// <summary>AttrId</summary>
+		public int CardGroupId { get; set; }
+		/// <summary>CardQuality</summary>
 		[ProtoMember(4)]
-		public int AttrId { get; set; }
-		/// <summary>MinValue</summary>
+		public int CardQuality { get; set; }
+		/// <summary>CardAtrList</summary>
 		[ProtoMember(5)]
-		public int MinValue { get; set; }
-		/// <summary>MaxValue</summary>
+		public int[] CardAtrList { get; set; }
+		/// <summary>CardVueList</summary>
 		[ProtoMember(6)]
-		public int MaxValue { get; set; }
-		/// <summary>QualitRise</summary>
-		[ProtoMember(7)]
-		public int QualitRise { get; set; }
-		/// <summary>Percent</summary>
-		[ProtoMember(8)]
-		public int Percent { get; set; }
-		/// <summary>StartQuality</summary>
-		[ProtoMember(9)]
-		public int StartQuality { get; set; }
-		/// <summary>EndQuality</summary>
-		[ProtoMember(10)]
-		public int EndQuality { get; set; }
-		/// <summary>MaxCount</summary>
-		[ProtoMember(11)]
-		public int MaxCount { get; set; }
+		public int[] CardVueList { get; set; }
 
 	}
 }

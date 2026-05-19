@@ -13,7 +13,6 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
     private List<Toggle> toggles;
 
     public Panel_Pet panelPet;
-    public Panel_Pet_Speical panelSpeical;
 
     public Button Btn_Close;
 
@@ -66,16 +65,7 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
 
     private void ShowPanel(int index)
     {
-        if (index == 1)
-        {
-            panelPet.gameObject.SetActive(true);
-            panelSpeical.gameObject.SetActive(false);
-        }
-        else if (index == 2)
-        {
-            panelPet.gameObject.SetActive(false);
-            panelSpeical.gameObject.SetActive(true);
-        }
+        panelPet.gameObject.SetActive(true);
     }
 
 

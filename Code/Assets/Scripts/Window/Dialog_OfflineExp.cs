@@ -148,7 +148,7 @@ namespace Game
             {
                 BoxItem boxItem = new BoxItem();
                 boxItem.Item = item;
-                boxItem.MagicNubmer.Data = Math.Max(1, item.Count);
+                boxItem.MagicNubmer.Data = item.Temp_Number;
                 boxItem.BoxId = -1;
                 user.Bags.Add(boxItem);
             }
@@ -213,7 +213,7 @@ namespace Game
             {
                 if (item.GetItemType() == ItemType.Material_Hide)
                 {
-                    user.SaveHideMaterialCount(item.ConfigId, item.Count);
+                    user.SaveHideMaterialCount(item.ConfigId, item.Temp_Number);
                 }
                 else
                 {
@@ -221,13 +221,13 @@ namespace Game
 
                     if (boxItem != null)
                     {
-                        boxItem.AddStack(item.Count);
+                        boxItem.AddStack(item.Temp_Number);
                     }
                     else
                     {
                         boxItem = new BoxItem();
                         boxItem.Item = item;
-                        boxItem.MagicNubmer.Data = Math.Max(1, item.Count);
+                        boxItem.MagicNubmer.Data = Math.Max(1, item.Temp_Number);
                         boxItem.BoxId = -1;
                         user.Bags.Add(boxItem);
                     }

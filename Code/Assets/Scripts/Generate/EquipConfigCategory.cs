@@ -59,7 +59,6 @@ namespace Game
 
             item.AttrEntryList = AttrEntryList;
 
-            item.Count = 1;
             return item;
         }
 

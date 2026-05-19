@@ -162,61 +162,6 @@ namespace Game
             long pill = user.PillData.Data;
             paramDict.Add("pill", pill + "");
 
-            long pill2 = user.PillData2.Data;
-            paramDict.Add("pill2", pill2 + "");
-
-            long pill3 = user.PillData3.Data;
-            paramDict.Add("pill3", pill3 + "");
-
-            long pet = 0;
-            long petRed = 0;
-            long petDard = 0;
-            List<BoxItem> pets = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Pet).ToList();
-            foreach (var sp in pets)
-            {
-                Pet p = sp.Item as Pet;
-                if (p.GetQuality() == 6)
-                {
-                    petRed += PetConfigCategory.Instance.GetPetTotalFee(p.PetLayer.Data) + 1;
-                }
-                else if (p.GetQuality() == 7)
-                {
-                    pet += PetConfigCategory.Instance.GetPetTotalFee(p.PetLayer.Data) + 1;
-                }
-            }
-            foreach (var p in user.PetList)
-            {
-                if (p.GetQuality() == 6)
-                {
-                    petRed += PetConfigCategory.Instance.GetPetTotalFee(p.PetLayer.Data) + 1;
-                }
-                else if (p.GetQuality() == 7)
-                {
-                    pet += PetConfigCategory.Instance.GetPetTotalFee(p.PetLayer.Data) + 1;
-                }
-            }
-
-            foreach (var sp in user.PetSpeicalLayerData)
-            {
-                long layer = sp.Value.Data;
-                if (layer > 0)
-                {
-                    pet += 10;
-                }
-                petDard += PetConfigCategory.Instance.GetPetTotalFee(layer);
-            }
-
-            pet += GetTotal(user.Bags, ItemHelper.Specail_Pet_Layer[2]);
-            petRed += GetTotal(user.Bags, ItemHelper.Specail_Pet_Layer[1]);
-            petDard += GetTotal(user.Bags, ItemHelper.Specail_Pet_Speical);
-
-            pet += GetTotal(user.Bags, 207, 210);
-            petRed += GetTotal(user.Bags, 204);
-
-            paramDict.Add("pet", pet + "");
-            paramDict.Add("petRed", petRed + "");
-            paramDict.Add("petDark", petDard + "");
-
             long refineTotal = user.MagicEquipRefine.Select(m => m.Value.Data).Sum();
             paramDict.Add("refine", refineTotal + "");
 

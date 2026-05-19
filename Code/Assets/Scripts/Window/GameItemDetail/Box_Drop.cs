@@ -90,7 +90,7 @@ namespace Game
                 }
                 else
                 {
-                    this.Txt_Level.text = GameItem.Count + "";
+                    this.Txt_Level.text = GameItem.Temp_Number + "";
                     this.Txt_Level.gameObject.SetActive(true);
                 }
             }

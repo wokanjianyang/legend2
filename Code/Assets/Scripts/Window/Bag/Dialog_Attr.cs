@@ -41,7 +41,7 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
 
             ,AttributeEnum.Speed, AttributeEnum.MoveSpeed,
 
-            //AttributeEnum.PanelHp, AttributeEnum.PanelAtt, AttributeEnum.PanelDef,
+            AttributeEnum.CardDamage, AttributeEnum.FashionDamage,AttributeEnum.AchievementDamage, AttributeEnum.LegacyDamage,
             //AttributeEnum.PhyDamage,  AttributeEnum.MulPhyDamageRise,
             //AttributeEnum.MagicDamage,AttributeEnum.MulMagicDamageRise,
             //AttributeEnum.SpiritDamage,AttributeEnum.MulSpiritDamageRise,

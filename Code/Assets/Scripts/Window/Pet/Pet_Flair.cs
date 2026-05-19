@@ -20,7 +20,7 @@ public class Pet_Flair : MonoBehaviour
 
     public void SetContent(int fid, long rise, long count)
     {
-        PetConfig config = PetConfigCategory.Instance.Get(fid);
+        PetAtrConfig config = PetAtrConfigCategory.Instance.Get(fid);
 
         double r = rise / ConfigHelper.PetKillPercent;
         double total = r * count;

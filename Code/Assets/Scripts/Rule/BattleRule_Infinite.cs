@@ -173,7 +173,7 @@ public class BattleRule_Infinite : ABattleRule
         {
             foreach (Item item in items)
             {
-                item.Count = item.Count * infiniteDropConfig.Number;
+                item.Temp_Number = infiniteDropConfig.Number;
             }
         }
 

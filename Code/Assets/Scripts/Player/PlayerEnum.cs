@@ -75,7 +75,8 @@ namespace Game
 
         CardDamage = 91,//图鉴增伤
         FashionDamage = 92,//时装增伤
-        LegacyDamage = 93,//传世增伤
+        AchievementDamage = 93,//成就增伤
+        LegacyDamage = 94,//传世增伤
 
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成

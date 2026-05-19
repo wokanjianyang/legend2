@@ -39,7 +39,7 @@ namespace Game
             this.Role = role;
             this.Mid = mid;
 
-            this.Name = PetNameConfigCategory.Instance.Get(mid).Name;
+            this.Name = PetConfigCategory.Instance.Get(mid).Name;
         }
 
         public Dictionary<int, double> GetBaseAttr()
@@ -51,7 +51,7 @@ namespace Game
 
             foreach (var sp in this.Flairs)
             {
-                PetConfig config = PetConfigCategory.Instance.Get(sp.Key);
+                PetAtrConfig config = PetAtrConfigCategory.Instance.Get(sp.Key);
                 int attrId = config.AttrId;
 
                 if (!attrs.ContainsKey(attrId))
@@ -75,7 +75,7 @@ namespace Game
         {
             this.LevelExp.Data += exp;
 
-            long fee = PetConfigCategory.Instance.GetPetFee(PetLevel.Data);
+            long fee = PetAtrConfigCategory.Instance.GetPetFee(PetLevel.Data);
 
             if (this.LevelExp.Data >= fee)
             {
@@ -114,6 +114,27 @@ namespace Game
         public override ShowType GetShowType()
         {
             return ShowType.Pet;
+        }
+
+        public override long ToRecoverDict(Dictionary<int, long> dict, long number)
+        {
+            //四格的回收
+            long rn = CalRecoveryNumber();
+            int rid = ItemHelper.Pet_Exp;
+
+            if (!dict.ContainsKey(rid))
+            {
+                dict[rid] = 0;
+            }
+
+            dict[rid] += rn;
+
+            return 1;
+        }
+
+        private long CalRecoveryNumber()
+        {
+            return this.GetQuality() * 100;
         }
     }
 }

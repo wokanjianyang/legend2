@@ -38,13 +38,13 @@ namespace Game
         private List<Pet_Skill> SkillList;
 
         [Title("导航")]
-        public Button btn_Equip;
-        public Button btn_UnEquip;
-        public Button btn_Recovery;
-        public Button btn_Restore;
+        public Button Btn_Equip;
+        public Button Btn_UnEquip;
+        public Button Btn_Recovery;
 
-        public Button btn_Lock;
-        public Button btn_Unlock;
+        public Button Btn_ToCard;
+        public Button Btn_Lock;
+        public Button Btn_Unlock;
 
         public Button Btn_Close;
 
@@ -55,15 +55,15 @@ namespace Game
         // Start is called before the first frame update
         void Awake()
         {
-            this.btn_Equip.onClick.AddListener(this.OnEquip);
+            this.Btn_Equip.onClick.AddListener(this.OnEquip);
             //this.btn_UnEquip.onClick.AddListener(this.OnUnEquip);
 
 
-            this.btn_Recovery.onClick.AddListener(this.OnRecovery);
-            this.btn_Restore.onClick.AddListener(this.OnClick_Restore);
+            this.Btn_Recovery.onClick.AddListener(this.OnRecovery);
+            this.Btn_ToCard.onClick.AddListener(this.OnClick_ToCard);
 
-            this.btn_Lock.onClick.AddListener(this.OnClick_Lock);
-            this.btn_Unlock.onClick.AddListener(this.OnClick_Unlock);
+            this.Btn_Lock.onClick.AddListener(this.OnClick_Lock);
+            this.Btn_Unlock.onClick.AddListener(this.OnClick_Unlock);
 
             this.Btn_Close.onClick.AddListener(this.OnClick_Close);
 
@@ -100,12 +100,12 @@ namespace Game
             Tf_Talent.gameObject.SetActive(false);
             Tf_Skill.gameObject.SetActive(false);
 
-            this.btn_Equip.gameObject.SetActive(false);
-            this.btn_UnEquip.gameObject.SetActive(false);
-            this.btn_Recovery.gameObject.SetActive(false);
-            this.btn_Restore.gameObject.SetActive(false);
-            this.btn_Lock.gameObject.SetActive(false);
-            this.btn_Unlock.gameObject.SetActive(false);
+            this.Btn_Equip.gameObject.SetActive(false);
+            this.Btn_UnEquip.gameObject.SetActive(false);
+            this.Btn_Recovery.gameObject.SetActive(false);
+            this.Btn_ToCard.gameObject.SetActive(false);
+            this.Btn_Lock.gameObject.SetActive(false);
+            this.Btn_Unlock.gameObject.SetActive(false);
 
             this.boxItem = e.Show_Item;
 
@@ -182,27 +182,27 @@ namespace Game
                 }
             }
 
-            this.btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
+            this.Btn_Equip.gameObject.SetActive(this.boxItem.BoxId != -1);
 
             if (!this.boxItem.Item.IsLock)
             {
                 if (pet.PetLevel.Data > 1)
                 {
-                    this.btn_Restore.gameObject.SetActive(this.boxItem.BoxId != -1);
+                    this.Btn_ToCard.gameObject.SetActive(this.boxItem.BoxId != -1);
                 }
                 else
                 {
-                    this.btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1);
+                    this.Btn_Recovery.gameObject.SetActive(this.boxItem.BoxId != -1);
                 }
             }
 
             if (this.boxItem.Item.IsLock)
             {
-                this.btn_Unlock.gameObject.SetActive(true);
+                this.Btn_Unlock.gameObject.SetActive(true);
             }
             else
             {
-                this.btn_Lock.gameObject.SetActive(true);
+                this.Btn_Lock.gameObject.SetActive(true);
             }
         }
 
@@ -216,26 +216,14 @@ namespace Game
             });
         }
 
-        private void OnClick_Restore()
+        private void OnClick_ToCard()
         {
-            if (this.boxItem.Item.IsLock)
+            this.gameObject.SetActive(false);
+
+            GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "锁定的不能重生", ToastType = ToastTypeEnum.Failure });
-                return;
-            }
-
-            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重生消耗5000兆金币，其他材料全部返回。是否确认？", true,
-                () =>
-                {
-                    this.gameObject.SetActive(false);
-                    GameProcessor.Inst.EventCenter.Raise(new RestoreEvent()
-                    {
-                        BoxItem = this.boxItem,
-                    });
-                }, () =>
-                {
-
-                });
+                BoxItem = this.boxItem,
+            });
         }
 
         private void OnRecovery()
@@ -281,7 +269,7 @@ namespace Game
 
         public void OnClick_Lock()
         {
-            this.btn_Lock.gameObject.SetActive(false);
+            this.Btn_Lock.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new EquipLockEvent()
             {
@@ -289,12 +277,12 @@ namespace Game
                 IsLock = true
             });
 
-            this.btn_Unlock.gameObject.SetActive(true);
+            this.Btn_Unlock.gameObject.SetActive(true);
         }
 
         private void OnClick_Unlock()
         {
-            this.btn_Unlock.gameObject.SetActive(false);
+            this.Btn_Unlock.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new EquipLockEvent()
             {
@@ -302,7 +290,7 @@ namespace Game
                 IsLock = false
             });
 
-            this.btn_Lock.gameObject.SetActive(true);
+            this.Btn_Lock.gameObject.SetActive(true);
         }
     }
 }

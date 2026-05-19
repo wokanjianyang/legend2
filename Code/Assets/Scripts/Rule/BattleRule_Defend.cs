@@ -160,7 +160,7 @@ public class Battle_Defend : ABattleRule
         {
             foreach (Item item in items)
             {
-                item.Count = item.Count * defendDropConfig.Number;
+                item.Temp_Number = defendDropConfig.Number;
             }
         }
 

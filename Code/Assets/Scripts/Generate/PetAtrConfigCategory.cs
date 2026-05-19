@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Game
 {
 
-    public partial class PetConfigCategory
+    public partial class PetAtrConfigCategory
     {
         public Pet BuildPet(int role, int quality, int mid)
         {
@@ -116,7 +116,7 @@ namespace Game
 
         private List<KeyValuePair<int, int>> BuildPetFlair(int role, int quality)
         {
-            List<PetConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
+            List<PetAtrConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
 
             List<KeyValuePair<int, int>> flairs = new List<KeyValuePair<int, int>>();
 
@@ -126,10 +126,10 @@ namespace Game
             {
                 List<int> excludeList = GetExcludeList(configs, flairs);
 
-                List<PetConfig> temps = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
+                List<PetAtrConfig> temps = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
                 int index = RandomHelper.RandomNumber(0, temps.Count);
 
-                PetConfig config = temps[index];
+                PetAtrConfig config = temps[index];
 
                 int attrValue = RandomHelper.RandomSerialNumber(config.MinValue, config.MaxValue);
 
@@ -139,11 +139,11 @@ namespace Game
             return flairs;
         }
 
-        private List<int> GetExcludeList(List<PetConfig> configs, List<KeyValuePair<int, int>> rsList)
+        private List<int> GetExcludeList(List<PetAtrConfig> configs, List<KeyValuePair<int, int>> rsList)
         {
             List<int> excludeList = new List<int>();
 
-            foreach (PetConfig config in configs)
+            foreach (PetAtrConfig config in configs)
             {
                 int count = rsList.Where(m => m.Key == config.Id).Count();
 
@@ -234,7 +234,7 @@ namespace Game
 
             for (int i = 2; i <= layer; i++)
             {
-                int fee = PetConfigCategory.Instance.GetPetLayerFee(i - 1);
+                int fee = PetAtrConfigCategory.Instance.GetPetLayerFee(i - 1);
                 total += fee;
             }
 

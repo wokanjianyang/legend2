@@ -599,24 +599,6 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new UpdateBagPanelUserAttr());
         }
 
-        public int CalStone(Equip equip)
-        {
-            int count = equip.Level / 10 + equip.GetQuality();
-            return count;
-        }
-
-        public long CalSpecailStone(Equip equip)
-        {
-            int level = equip.Level;
-
-            if (level <= 10)
-            {
-                return (long)Math.Pow(2, level);
-            }
-
-            return CompositeConfigCategory.Instance.GetTotalFee(level);
-        }
-
         private void HeroChange(HeroChangeEvent e)
         {
             switch (e.Type)
@@ -1701,25 +1683,20 @@ namespace Game
             gold = 0;
 
             List<Item> recoveryList = items.Where(m => RecoverySet.CheckRecovery(m, RecoveryType.Drop)).ToList();
+
             recoveryCount = recoveryList.Count;
+
             if (recoveryList.Count > 0)
             {
                 Dictionary<int, long> recoveryDict = new Dictionary<int, long>();
 
                 foreach (Item item in recoveryList)
                 {
-                    Dictionary<int, long> dict = Recovery(item, out long recoveryGold);
+                    gold += item.ToRecoverDict(recoveryDict, 1);
 
-                    gold += recoveryGold;
-
-                    foreach (var sp in dict)
+                    if (item.GetItemType() == ItemType.Equip || item.GetItemType() == ItemType.EquipSpeical)
                     {
-                        if (!recoveryDict.ContainsKey(sp.Key))
-                        {
-                            recoveryDict[sp.Key] = 0;
-                        }
-
-                        recoveryDict[sp.Key] += sp.Value;
+                        this.RecoveryTotal++;
                     }
                 }
 
@@ -1736,75 +1713,9 @@ namespace Game
                 items.AddRange(newList);
             }
 
+
+
             return newList;
-        }
-
-        public Dictionary<int, long> Recovery(Item item, out long recoveryGold)
-        {
-            recoveryGold = 0;
-
-            Dictionary<int, long> dict = new Dictionary<int, long>();
-
-            if (item.GetItemType() == ItemType.Equip)
-            {
-                Equip equip = item as Equip;
-
-                if (equip.Config.Cycle == 1)
-                {
-                    dict[ItemHelper.Equip_Strong] = CalStone(equip);
-
-                    if (equip.GetQuality() >= 5)
-                    {
-                        dict[ItemHelper.Equip_Refine] = 1;
-                    }
-                }
-
-                recoveryGold += equip.Config.Price;
-            }
-            else if (item.GetItemType() == ItemType.EquipSpeical)
-            {
-                item.ToRecoverDict(dict);
-            }
-            else if (item.GetItemType() == ItemType.Pet)
-            {
-                Pet pet = item as Pet;
-                int quality = item.GetQuality();
-                dict[ItemHelper.SpecialId_Pet_Exp] = quality * 100;
-
-                if (quality >= 5)
-                {
-                    dict[ItemHelper.Specail_Pet_Layer[quality - 5]] = 1;
-                }
-            }
-            else if (item.GetItemType() == ItemType.Shengxiao)
-            {
-                int quality = item.GetQuality();
-                if (quality <= 5)
-                {
-                    dict[ItemHelper.Specail_Shengxiao] = quality * 500;
-                }
-                else if (quality == 9)
-                {
-                    dict[ItemHelper.Specail_Shengxiao2] = 1;
-                }
-                else
-                {
-                    dict[ItemHelper.Specail_Shengxiao1] = (int)(Math.Pow(3, quality - 6));
-                }
-            }
-            //else if (item.ItemConfig.RecoveryItemId > 0)
-            //{
-            //    int RecoveryItemId = item.ItemConfig.RecoveryItemId;
-
-            //    dict[RecoveryItemId] = item.ItemConfig.RecoveryCount;
-            //}
-            //else
-            //{
-            //    recoveryGold += item.ItemConfig.Price * item.Count;
-            //}
-            this.RecoveryTotal++;
-
-            return dict;
         }
 
         public bool CheckKeepSkill(int skillId, int skillLayer)

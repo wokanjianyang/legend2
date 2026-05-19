@@ -93,12 +93,12 @@ namespace Game
             return ShowType.Equip_Special;
         }
 
-        public override void ToRecoverDict(Dictionary<int, long> dict)
+        public override long ToRecoverDict(Dictionary<int, long> dict, long number)
         {
             if (Config.Cycle == 101)
             {
                 //四格的回收
-                long number = CalRecoveryNumber();
+                long rn = CalRecoveryNumber();
                 int rid = this.Config.RecoveryItemId;
 
                 if (!dict.ContainsKey(rid))
@@ -106,8 +106,10 @@ namespace Game
                     dict[rid] = 0;
                 }
 
-                dict[rid] += number;
+                dict[rid] += rn;
             }
+
+            return 1;
         }
 
         private long CalRecoveryNumber()

@@ -90,9 +90,9 @@ namespace Game
             return 1;
         }
 
-        public virtual void ToRecoverDict(Dictionary<int, long> dict)
+        public virtual long ToRecoverDict(Dictionary<int, long> dict, long number)
         {
-
+            return 0;
         }
 
         public virtual void Grade()

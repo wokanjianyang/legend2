@@ -22,7 +22,7 @@ namespace Game
             this.Master = master;
             this.Self = pet;
             //this.FashionId = pet.Mid;
-            this.FashionId = 1;
+            this.FashionId = pet.Mid;
 
             this.Init();
         }
@@ -99,12 +99,6 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            MagicData dl = new MagicData();
-            dl.Data = Level;
-
-            KeyValuePair<int, MagicData> ds = new KeyValuePair<int, MagicData>(9001, dl);
-            Self.Skills.Add(ds);
-
             //加载技能
             for (int i = 0; i < Self.Skills.Count; i++)
             {
@@ -124,6 +118,10 @@ namespace Game
             }
 
             //加载默认普通攻击
+            SkillData sdf = new SkillData(9001, (int)SkillPosition.Default);
+            SkillPanel spf = new SkillPanel(sdf, null, null, null, false, RuleType, 1);
+            SkillState sf = new SkillState(this, spf, null, 999, 0);
+            SelectSkillList.Add(sf);
 
         }
 

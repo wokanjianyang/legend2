@@ -330,5 +330,36 @@ namespace Game
         {
             return ShowType.Equip;
         }
+
+        public override long ToRecoverDict(Dictionary<int, long> dict, long number)
+        {
+            if (Config.Cycle == 1)
+            {
+                if (!dict.ContainsKey(ItemHelper.Equip_Strong))
+                {
+                    dict[ItemHelper.Equip_Strong] = 0;
+                }
+
+                dict[ItemHelper.Equip_Strong] += CalStone();
+
+                if (this.GetQuality() >= 5)
+                {
+                    if (!dict.ContainsKey(ItemHelper.Equip_Refine))
+                    {
+                        dict[ItemHelper.Equip_Refine] = 0;
+                    }
+
+                    dict[ItemHelper.Equip_Refine] += 1;
+                }
+            }
+
+            return Config.Price;
+        }
+
+        private int CalStone()
+        {
+            int count = Config.LevelRequired / 10 + this.GetQuality();
+            return count;
+        }
     }
 }

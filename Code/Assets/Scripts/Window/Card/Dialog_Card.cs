@@ -17,6 +17,9 @@ public class Dialog_Card : MonoBehaviour
     public Panel_Card_Equip panel1;
     public Panel_Card_Special panel2;
 
+    public Text Txt_Title;
+    private string[] Titles = { "1-30级装备", "40-80级装备", "80-120级装备", "怪物图鉴" };
+
     public Dialog_Card_Equip dialogCardEquip;
 
     public int Order => (int)ComponentOrder.Dialog;
@@ -43,6 +46,7 @@ public class Dialog_Card : MonoBehaviour
     private void ChangePanel(int index)
     {
         this.SelectStage = index;
+        this.Txt_Title.text = Titles[index];
 
         if (index == 3)
         {

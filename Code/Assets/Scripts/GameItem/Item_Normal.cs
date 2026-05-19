@@ -54,6 +54,20 @@ namespace Game
             return this.Config.MaxNum;
         }
 
+        public override long ToRecoverDict(Dictionary<int, long> dict, long number)
+        {
+            if (Config.RecoveryItemId > 0)
+            {
+                if (!dict.ContainsKey(Config.RecoveryItemId))
+                {
+                    dict[Config.RecoveryItemId] = 0;
+                }
+
+                dict[Config.RecoveryItemId] += Config.RecoveryCount * number;
+            }
+
+            return Config.Price * number;
+        }
 
     }
 }

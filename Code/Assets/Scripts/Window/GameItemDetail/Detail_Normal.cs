@@ -98,6 +98,7 @@ namespace Game
             long number = Show_Box.MagicNubmer.Data;
             int requireLevel = item.GetRequired();
             int configId = item.ConfigId;
+            ItemConfig config = ItemConfigCategory.Instance.Get(configId);
 
             User user = GameProcessor.Inst.User;
             string color = user.MagicLevel.Data < requireLevel ? "red" : "green";
@@ -107,7 +108,18 @@ namespace Game
 
             if (e.Box_Type == ComBoxType.Bag)
             {
-                this.Btn_Lose.gameObject.SetActive(true);
+                if (config.RecoveryItemId > 0)
+                {
+                    this.Btn_Recovery.gameObject.SetActive(true);
+                    this.Btn_Recovery_All.gameObject.SetActive(true);
+                    this.Btn_Lose.gameObject.SetActive(false);
+                }
+                else
+                {
+                    this.Btn_Recovery.gameObject.SetActive(false);
+                    this.Btn_Recovery_All.gameObject.SetActive(false);
+                    this.Btn_Lose.gameObject.SetActive(true);
+                }
 
                 switch (item.GetItemType())
                 {

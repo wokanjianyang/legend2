@@ -880,17 +880,19 @@ namespace Game
             this.RecoveryAll(recoveryList, e.RuleType);
         }
 
-        private void RecoverySingle(BoxItem boxItem, int quantity)
+        private void RecoverySingle(BoxItem boxItem, int number)
         {
             User user = GameProcessor.Inst.User;
 
             long gold = 0;
 
-            UseBoxItem(boxItem, quantity);
+            UseBoxItem(boxItem, number);
 
             List<Item> itemList = new List<Item>();
 
-            Dictionary<int, long> recoveryDict = user.Recovery(boxItem.Item, out long recoveryGold);
+            Dictionary<int, long> recoveryDict = new Dictionary<int, long>();
+
+            long recoveryGold = boxItem.Item.ToRecoverDict(recoveryDict, number);
 
             gold += recoveryGold * boxItem.MagicNubmer.Data;
 
@@ -898,7 +900,7 @@ namespace Game
             {
                 if (kvp.Value > 0)
                 {
-                    Item recoveryItem = ItemHelper.BuildMaterial(kvp.Key, kvp.Value * quantity);
+                    Item recoveryItem = ItemHelper.BuildMaterial(kvp.Key, kvp.Value);
                     AddBoxItem(recoveryItem);
                     itemList.Add(recoveryItem);
                 }
@@ -907,7 +909,7 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
             {
                 Type = RuleType.Normal,
-                Message = BattleMsgHelper.BuildAutoRecoveryMessage(quantity, itemList, gold)
+                Message = BattleMsgHelper.BuildAutoRecoveryMessage(number, itemList, gold)
             });
         }
 
@@ -923,21 +925,7 @@ namespace Game
 
             foreach (BoxItem box in recoveryList)
             {
-                Dictionary<int, long> dict = user.Recovery(box.Item, out long recoveryGold);
-
-                gold += recoveryGold;
-
-                foreach (var sp in dict)
-                {
-                    if (!recoveryDict.ContainsKey(sp.Key))
-                    {
-                        recoveryDict[sp.Key] = 0;
-                    }
-
-                    long count = Math.Max(1, box.MagicNubmer.Data);
-                    recoveryDict[sp.Key] += (sp.Value * count);
-                }
-
+                gold += box.Item.ToRecoverDict(recoveryDict, box.MagicNubmer.Data);
 
                 UseBoxItem(box, box.MagicNubmer.Data);
             }

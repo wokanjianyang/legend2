@@ -20,8 +20,6 @@ namespace Game
 
         public Equip_Special(int configId) : base(configId, ItemType.EquipSpeical)
         {
-            this.ConfigId = configId;
-
             this.Config = EquipSpeicalConfigCategory.Instance.Get(configId);
         }
 

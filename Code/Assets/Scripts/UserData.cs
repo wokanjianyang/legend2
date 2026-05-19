@@ -57,7 +57,18 @@ namespace Game
             }
             catch (Exception ex)
             {
-                Debug.Log(ex.Message);
+                Exception innerEx = ex.InnerException;
+                Debug.LogError($"真实错误类型: {innerEx.GetType().Name}");
+                Debug.LogError($"真实错误消息: {innerEx.Message}");
+                Debug.LogError($"堆栈跟踪: {innerEx.StackTrace}");
+
+                // 如果内部异常还有内部异常，可能需要递归查看
+                if (innerEx.InnerException != null)
+                {
+                    Debug.LogError($"深层原因: {innerEx.InnerException.Message}");
+                }
+
+                Debug.LogError(ex.Message);
             }
 
             try

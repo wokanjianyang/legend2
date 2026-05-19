@@ -563,7 +563,8 @@ namespace Game
                             AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), AttributeFrom.Card, sp.Key, config.CardVueList[i]);
                         }
                     }
-                    else {
+                    else
+                    {
                         PetConfig config = PetConfigCategory.Instance.Get(sp.Key);
 
                         for (int i = 0; i < config.CardAtrList.Length; i++)
@@ -868,7 +869,7 @@ namespace Game
 
             if (cycle == 1)
             {
-                List<Equip> equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Config.Role == role).ToList();
+                List<Equip> equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Config.Role == role && m.GetQuality() == 5).ToList();
 
                 layers = equips.Select(m => m.Config.LevelRequired).OrderByDescending(m => m).ToList();
             }

@@ -12,10 +12,7 @@ namespace Game
 
         public Gift_Pack(int configId) : base(configId, ItemType.GiftPack)
         {
-            this.ConfigId = configId;
-
             Config = GiftPackConfigCategory.Instance.Get(configId);
-
         }
 
         //------------------------------------------override----------------

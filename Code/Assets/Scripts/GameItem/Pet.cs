@@ -36,12 +36,11 @@ namespace Game
         [JsonIgnore]
         public PetConfig Config { get; set; }
 
-        public Pet(int role, int id) : base(role, ItemType.Pet)
+        public Pet(int configId, int role) : base(configId, ItemType.Pet)
         {
-            this.ConfigId = id;
             this.Role = role;
-      
-            this.Config = PetConfigCategory.Instance.Get(id);
+
+            this.Config = PetConfigCategory.Instance.Get(configId);
             this.Name = Config.Name;
         }
 

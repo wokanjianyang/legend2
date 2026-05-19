@@ -51,7 +51,6 @@ namespace Game
 
         public Equip(int configId, int runeConfigId, int suitConfigId, int quality) : base(configId, ItemType.Equip)
         {
-            this.ConfigId = configId;
             this.RuneConfigId = runeConfigId;
             this.SuitConfigId = suitConfigId;
 

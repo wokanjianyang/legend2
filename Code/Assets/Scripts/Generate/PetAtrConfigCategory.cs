@@ -20,7 +20,7 @@ namespace Game
                 role = RandomHelper.RandomNumber(1, 4);
             }
 
-            Pet pet = new Pet(role, id);
+            Pet pet = new Pet(id, role);
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
@@ -68,7 +68,7 @@ namespace Game
 
             GiftPackPet config = GiftPackPetCategory.Instance.Get(configId);
 
-            Pet pet = new Pet(config.Role, config.Mid);
+            Pet pet = new Pet(config.Mid, config.Role);
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;

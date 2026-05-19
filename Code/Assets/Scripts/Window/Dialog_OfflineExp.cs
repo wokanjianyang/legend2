@@ -49,7 +49,7 @@ namespace Game
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Level_Stone, 20000));  //羽毛
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Wing_Stone, 100));  //幻境劵
 
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Shuye3, 100)); //专属碎片
+            items.Add(ItemHelper.BuildMaterial(5003, 100)); //专属碎片
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Exclusive_Heart, 100)); //专属之心
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_EquipRefineStone, 1999999999)); //四格碎片
 

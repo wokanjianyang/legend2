@@ -576,6 +576,21 @@ namespace Game
                 }
             }
 
+            //时装
+            foreach (var sp in FashionData)
+            {
+                long fl = sp.Value.Data;
+                if (fl > 0)
+                {
+                    FashionConfig config = FashionConfigCategory.Instance.Get(sp.Key);
+
+                    for (int i = 0; i < config.AttrIdList.Length; i++)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), AttributeFrom.Fashion, sp.Key, config.AttrValueList[i]);
+                    }
+                }
+            }
+
             this.StoneNumber = 0;
             this.SoulRingNumber = 0;
             this.SkillNumber = ConfigHelper.SkillNumber;

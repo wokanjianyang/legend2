@@ -83,4 +83,12 @@ public class Dialog_Fashion : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
+
+    public void ReFresh()
+    {
+        foreach (var sp in Items)
+        {
+            sp.Show();
+        }
+    }
 }

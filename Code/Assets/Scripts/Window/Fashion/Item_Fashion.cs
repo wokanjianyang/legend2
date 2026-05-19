@@ -129,6 +129,8 @@ public class Item_Fashion : MonoBehaviour
             Quantity = fee
         });
 
+        Dialog_Fashion dialog = this.gameObject.GetComponentInParent<Dialog_Fashion>();
+        dialog.ReFresh();
 
         GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
@@ -153,6 +155,9 @@ public class Item_Fashion : MonoBehaviour
 
         this.Btn_Active.gameObject.SetActive(false);
         this.Btn_Up.gameObject.SetActive(false);
+
+        Dialog_Fashion dialog =  this.gameObject.GetComponentInParent<Dialog_Fashion>();
+        dialog.ReFresh();
 
         GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 

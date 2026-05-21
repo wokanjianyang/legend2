@@ -21,6 +21,8 @@ public class Main_Map_Group : MonoBehaviour
 
     private bool expend = false;
 
+    private MapGroupConfig Config;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -31,6 +33,8 @@ public class Main_Map_Group : MonoBehaviour
 
     public void SetContent(MapGroupConfig config)
     {
+        this.Config = config;
+
         Txt_Name.text = config.Name;
         Txt_Desc.text = config.Memo;
 
@@ -66,5 +70,30 @@ public class Main_Map_Group : MonoBehaviour
         }
 
 
+    }
+
+    public void Show()
+    {
+        User user = GameProcessor.Inst.User;
+        if (user == null || this.Config == null)
+        {
+            return;
+        }
+
+        int gid = (user.MapId - 1) / 6 + 1;
+
+        if (Config.Id <= gid)
+        {
+            this.gameObject.SetActive(true);
+
+            foreach (Main_Map_Item item in Item_List)
+            {
+                item.Show();
+            }
+        }
+        else
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }

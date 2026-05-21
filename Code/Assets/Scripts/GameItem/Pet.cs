@@ -79,23 +79,17 @@ namespace Game
 
             long fee = PetAtrConfigCategory.Instance.GetPetFee(PetLevel.Data);
 
-            if (this.LevelExp.Data >= fee)
+            while (this.LevelExp.Data >= fee)
             {
                 this.LevelExp.Data -= fee;
                 this.PetLevel.Data++;
             }
         }
 
-        public long GetSkillPercent()
-        {
-            return 1;
-        }
-
         public void AddKillCount(int rate)
         {
             this.KillCount.Data += rate;
         }
-
 
         //--------------ovveride
         public override int GetQuality()
@@ -120,23 +114,22 @@ namespace Game
 
         public override long ToRecoverDict(Dictionary<int, long> dict, long number)
         {
-            //四格的回收
-            long rn = CalRecoveryNumber();
-            int rid = ItemHelper.Pet_Exp;
+            //long rn = CalRecoveryNumber();
+            //int rid = ItemHelper.Pet_Exp;
 
-            if (!dict.ContainsKey(rid))
-            {
-                dict[rid] = 0;
-            }
+            //if (!dict.ContainsKey(rid))
+            //{
+            //    dict[rid] = 0;
+            //}
 
-            dict[rid] += rn;
+            //dict[rid] += rn;
 
-            return 1;
+            return this.GetQuality() * 10000;
         }
 
-        private long CalRecoveryNumber()
-        {
-            return this.GetQuality() * 100;
-        }
+        //private long CalRecoveryNumber()
+        //{
+        //    return this.GetQuality() * 100;
+        //}
     }
 }

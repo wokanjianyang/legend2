@@ -19,7 +19,7 @@ namespace Game
                 GameProcessor.Inst.PlayerInfo?.SetShow(true);
 
 
-                Debug.Log("open view battle");
+                //Debug.Log("open view battle");
 
                 //重新计算人物属性
                 GameProcessor.Inst.UpdateInfo();

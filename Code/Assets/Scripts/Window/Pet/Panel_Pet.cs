@@ -14,10 +14,6 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
     private GameObject prefab;
     private List<Item_Pet> PetItems = new List<Item_Pet>();
 
-    public Dialog_Pet_Forge DialogPetForge;
-    public Dialog_Pet_Travel DialogPetTravel;
-    public Dialog_Pet_Devour DialogPetDevour;
-
     public int Order => (int)ComponentOrder.Dialog;
 
     private void Awake()
@@ -34,7 +30,6 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
     public void OnBattleStart()
     {
         GameProcessor.Inst.EventCenter.AddListener<PetBattleDownEvent>(this.PetBattleDown);
-        GameProcessor.Inst.EventCenter.AddListener<OpenPetForgeEvent>(this.OpenPetForge);
     }
 
     private void PetBattleDown(PetBattleDownEvent e)
@@ -67,23 +62,6 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
 
         GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
     }
-
-    private void OpenPetForge(OpenPetForgeEvent e)
-    {
-        if (e.Type == 1)
-        {
-            DialogPetForge.Open(e.Item.pet);
-        }
-        //else if (e.Type == 2)
-        //{
-        //    DialogPetTravel.Open(e.Item.pet);
-        //}
-        //else if (e.Type == 3) {
-        //    DialogPetDevour.Open(e.Item.pet);
-        //}
-    }
-
-
 
     // Start is called before the first frame update
     public void Show()

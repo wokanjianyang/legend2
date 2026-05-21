@@ -48,6 +48,8 @@ namespace Game
         {
             this.AttributeBonus = new AttributeBonus();
 
+            double levelRise = (1 + this.Level * 0.01);
+
             double asp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Speed);
             double msp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MoveSpeed);
 
@@ -56,10 +58,10 @@ namespace Game
 
             int role = Self.Role;
 
-            double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role); //职业攻击
+            double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role) * levelRise; //职业攻击
 
-            double mHp = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP);
-            double mDef = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Def);
+            double mHp = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP) * levelRise;
+            double mDef = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Def) * levelRise;
 
             this.AttributeBonus = new AttributeBonus();
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, mHp);
@@ -91,6 +93,11 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyDamage));
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
+
+            AttributeBonus.SetAttr(AttributeEnum.AchievementDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.AchievementDamage));
+            AttributeBonus.SetAttr(AttributeEnum.CardDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CardDamage));
+            AttributeBonus.SetAttr(AttributeEnum.FashionDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.FashionDamage));
+            AttributeBonus.SetAttr(AttributeEnum.LegacyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
 
             SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
         }

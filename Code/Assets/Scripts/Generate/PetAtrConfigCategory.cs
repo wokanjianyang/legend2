@@ -210,7 +210,7 @@ namespace Game
 
         public long GetPetFee(long level)
         {
-            return 1000 + (level - 1) * 100;
+            return 1000 + (level - 1) * 1000;
         }
 
         public long GetFeeTotal(long level)

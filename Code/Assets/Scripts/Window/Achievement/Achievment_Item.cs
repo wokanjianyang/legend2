@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Achievment_Item : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class Achievment_Item : MonoBehaviour
     public Text Txt_Progress;
     public Text Txt_Des;
 
-    public Text Txt_Atr;
+    public Transform Tf_Atr;
+    private List<Text> Txt_Atr_List;
 
     public Text Txt_No;
     public Text Txt_Ok;
@@ -24,6 +26,8 @@ public class Achievment_Item : MonoBehaviour
     void Awake()
     {
         Btn_Active.onClick.AddListener(OnClick_Active);
+
+        Txt_Atr_List = Tf_Atr.GetComponentsInChildren<Text>().ToList();
     }
 
     private void OnEnable()
@@ -65,7 +69,11 @@ public class Achievment_Item : MonoBehaviour
         Txt_Progress.text = string.Format("½ø¶È£º<color=#{0}>{1}</color> /{2}", color, progress, require);
 
         Txt_Des.text = string.Format(Config.Memo, require);
-        Txt_Atr.text = StringHelper.FormatAttrText(Config.AtrId, Config.AtrVue * level, "+");
+
+        for (int i = 0; i < Config.AtrIdList.Length; i++)
+        {
+            Txt_Atr_List[i].text = StringHelper.FormatAttrText(Config.AtrIdList[i], Config.AtrVueList[i] * level, "+");
+        }
 
         if (level >= Config.Max)
         {

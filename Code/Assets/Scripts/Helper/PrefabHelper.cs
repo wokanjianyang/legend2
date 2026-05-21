@@ -16,7 +16,7 @@ namespace Game
         private List<Sprite> ComBoxList = new List<Sprite>();
 
         //private List<GameObject> ComBoxList = new List<GameObject>();
-        private GameObject BoxSelectPrefab = null;
+        private GameObject Pet_Forge_Box_Prefab = null;
         private GameObject BoxDropPrefab = null;
 
         private GameObject Message_Prefab = null;
@@ -92,7 +92,7 @@ namespace Game
                 EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip1"));
             }
 
-            BoxSelectPrefab = Resources.Load<GameObject>("Prefab/Window/GameItem/BoxSelect");
+            Pet_Forge_Box_Prefab = Resources.Load<GameObject>("Prefab/Window/Pet/Pet_Forge_Box");
 
             BoxDropPrefab = Resources.Load<GameObject>("Prefab/Window/GameItem/Box_Drop");
 
@@ -162,10 +162,10 @@ namespace Game
             return comItem;
         }
 
-        public Box_Select CreateBoxSelect(Transform parent, BoxItem item, ComBoxType type, int cycle)
+        public Pet_Forge_Box CreateBoxSelect(Transform parent)
         {
-            var go = GameObject.Instantiate(BoxSelectPrefab);
-            Box_Select comItem = go.GetComponent<Box_Select>();
+            var go = GameObject.Instantiate(Pet_Forge_Box_Prefab);
+            Pet_Forge_Box comItem = go.GetComponent<Pet_Forge_Box>();
             //comItem.SetItem(item, type, cycle);
 
             comItem.transform.SetParent(parent);

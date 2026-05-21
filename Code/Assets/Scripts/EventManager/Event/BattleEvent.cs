@@ -34,12 +34,6 @@ namespace Game
         public Item_Pet Item { get; set; }
     }
 
-    public class OpenPetForgeEvent : SDD.Events.Event
-    {
-        public int Type { get; set; }
-        public Item_Pet Item { get; set; }
-    }
-
     public class PetStartTravelEvent : SDD.Events.Event
     {
         public int MapId { get; set; }
@@ -107,7 +101,7 @@ namespace Game
 
     public class BagRemoveEvent : SDD.Events.Event
     {
-        public BoxItem BoxItem { get; set; }
+
     }
 
     public class ShowTowerWindowEvent : SDD.Events.Event

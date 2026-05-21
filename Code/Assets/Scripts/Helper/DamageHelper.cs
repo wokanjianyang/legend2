@@ -6,6 +6,8 @@ namespace Game
 {
     public class DamageHelper
     {
+        private static AttributeEnum[] DamageLis = { AttributeEnum.CardDamage, AttributeEnum.FashionDamage, AttributeEnum.AchievementDamage, AttributeEnum.LegacyDamage };
+
         public static DamageResult CalcDamage(AttributeBonus attcher, AttributeBonus enemy, SkillPanel skill)
         {
             //计算公式  ((攻击 - 防御) * 百分比系数 + 固定数值) * 暴击?.暴击倍率 * (伤害加成-伤害减免) * (幸运)
@@ -79,20 +81,26 @@ namespace Game
                 atk *= (1 + critDamage / 100.0);
             }
 
-            //图鉴增伤
-            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.CardDamage) / 100.0);
+            //特殊增伤
+            foreach (var sp in DamageLis)
+            {
+                double dm = attcher.CalBattleTotalAttr(sp);
+                if (dm > 0)
+                {
+                    atk *= (1 + dm / 100.0);
+                }
+            }
 
-            //时装增伤
-            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.FashionDamage) / 100.0);
-
-            //传世增伤
-            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.LegacyDamage) / 100.0);
-
-            //增伤
-            atk *= (1 + attcher.CalBattleTotalAttr(AttributeEnum.DamageIncrea) / 100.0);
-
-            //减伤
-            atk = atk / (1 + attcher.CalBattleTotalAttr(AttributeEnum.DamageResist) / 100.0);
+            //伤害加成-伤害减免
+            double dma = attcher.CalBattleTotalAttr(AttributeEnum.DamageIncrea) - enemy.CalBattleTotalAttr(AttributeEnum.DamageResist);
+            if (dma >= 0)
+            {
+                atk *= (1 + dma / 100.0);
+            }
+            else
+            {
+                atk = atk / (1 - (dma / 100.0));
+            }
 
             //承受者的易伤
             double extraDamage = enemy.CalBattleTotalAttr(AttributeEnum.ExtraDamage);

@@ -21,6 +21,8 @@ namespace Game
 
         public IDictionary<int, int> AchievementData { get; set; } = new Dictionary<int, int>();
 
+        public List<Pet> PetList { get; set; } = new List<Pet>();
+
         public Dictionary<int, MagicData> FashionData { get; set; } = new Dictionary<int, MagicData>();
 
         public int FashionUpId { get; set; } = 0;
@@ -183,8 +185,6 @@ namespace Game
         public LegacyData LegacyData { get; set; }
 
         public HeroPhatomData HeroPhatomData { get; set; }
-
-        public List<Pet> PetList { get; set; } = new List<Pet>();
 
         /// <summary>
         /// 包裹
@@ -505,8 +505,10 @@ namespace Game
                 {
                     AchievementConfig config = AchievementConfigCategory.Instance.Get((sp.Key));
 
-                    AttributeBonus.SetAttr((AttributeEnum)config.AtrId, AttributeFrom.Achivement, sp.Key, config.GetAtrVue(al));
-
+                    for (int i = 0; i < config.AtrIdList.Length; i++)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)config.AtrIdList[i], AttributeFrom.Achivement, sp.Key, config.GetAtrVue(i,al));
+                    }
                 }
             }
 
@@ -1069,6 +1071,7 @@ namespace Game
             foreach (Pet sp in PetList)
             {
                 sp.AddKillCount(rate);
+                sp.AddExp(1);
             }
 
             AddAchievementProgeress(AchievementProType.MonsterKillTotal, 1);
@@ -1237,9 +1240,7 @@ namespace Game
 
         public int GetPetSkillRate(int role)
         {
-            long rate = this.PetList.Where(m => m.Role == role).Select(m => m.GetSkillPercent()).Sum();
-
-            return (int)rate;
+            return 0;
         }
 
         public void SetPetCount(int configId)
@@ -1654,16 +1655,6 @@ namespace Game
         internal long GetMaxLevel()
         {
             return Cycle.Data * ConfigHelper.Cycle_Level + ConfigHelper.Max_Level;
-        }
-
-        public bool RemoveBagItem(BoxItem boxItem)
-        {
-            if (Bags.Contains(boxItem))
-            {
-                Bags.Remove(boxItem);
-                return true;
-            }
-            return false;
         }
 
         public int GetBagIdleCount(int index)

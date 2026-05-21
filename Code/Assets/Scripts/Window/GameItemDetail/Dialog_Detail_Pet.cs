@@ -20,9 +20,10 @@ namespace Game
         //public Sprite[] list_BackgroundImgs;
 
         [LabelText("名称")]
-        public Text TxtName;
-        public Text TxtLevel;
-        public Text TxtLayer;
+        public Text Txt_Name;
+        public Text Txt_Level;
+        public Text Txt_Exp;
+        public Text Txt_Layer;
         public Text Txt_Count;
 
         [LabelText("资质")]
@@ -114,9 +115,11 @@ namespace Game
 
             Pet pet = this.boxItem.Item as Pet;
 
-            this.TxtName.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.GetName());
-            this.TxtLevel.text = pet.PetLevel.Data + "";
-            this.TxtLayer.text = pet.PetLayer.Data + "";
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.GetName());
+            this.Txt_Level.text = "宠物等级：" + pet.PetLevel.Data;
+
+            long exp = PetAtrConfigCategory.Instance.GetPetFee(pet.PetLevel.Data);
+            this.Txt_Exp.text = "Exp：" + pet.LevelExp.Data + "/" + exp;
             this.Txt_Count.text = "杀敌数：" + pet.GetTotalKillCount() + "点";
 
             var flairs = pet.Flairs;

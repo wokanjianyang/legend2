@@ -162,7 +162,7 @@ public class Panel_Refine : MonoBehaviour
         }
 
         long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
-        long mc = user.GetMaterialCount(ItemHelper.Equip_Strong);
+        long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
 
         if (mc < fee2)
         {

@@ -444,10 +444,8 @@ namespace Game
                         return;
                     }
 
-                    GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent()
-                    {
-                        BoxItem = boxItem
-                    });
+                    boxItem.Item.IsDelete = true;
+                    GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent() { });
                 }
                 else
                 {
@@ -1042,20 +1040,15 @@ namespace Game
 
         private void OnBagRemove(BagRemoveEvent e)
         {
-            if (GameProcessor.Inst.User.RemoveBagItem(e.BoxItem))
+            List<Com_Box> removeList = items.Where(m => m.BoxItem.Item.IsDelete).ToList();
+
+            foreach (Com_Box sp in removeList)
             {
-                Com_Box boxUI = this.items.Find(m => m.BoxItem == e.BoxItem);
-                if (boxUI != null) //上线自动回收，可能还没加载
-                {
-                    this.items.Remove(boxUI);
-                    GameObject.Destroy(boxUI.gameObject);
-                    boxUI = null;
-                }
+                this.items.Remove(sp);
+                GameObject.Destroy(sp.gameObject);
             }
-            else
-            {
-                throw new Exception("道具不存在");
-            }
+
+            GameProcessor.Inst.User.Bags.RemoveAll(m => m.Item.IsDelete);
         }
 
 

@@ -24,6 +24,8 @@ namespace Game
         public bool IsNew { get; set; } = true;
         public bool IsKeep { get; set; } = false;
 
+        public bool IsDelete { get; set; } = false;
+
         public int Seed { get; set; } = -1;
 
         public ItemType Type { get; set; }

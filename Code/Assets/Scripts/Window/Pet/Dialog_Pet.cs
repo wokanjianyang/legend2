@@ -13,6 +13,7 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
     private List<Toggle> toggles;
 
     public Panel_Pet panelPet;
+    public Panel_Pet_Forge panelPetForge;
 
     public Button Btn_Close;
 
@@ -39,18 +40,6 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
     private void Start()
     {
         this.ShowPanel(1);
-
-        User user = GameProcessor.Inst.User;
-        bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
-
-        if (user.Cycle.Data >= 10 && !ac)
-        {
-            this.toggles[1].gameObject.SetActive(true);
-        }
-        else
-        {
-            this.toggles[1].gameObject.SetActive(false);
-        }
     }
 
     public void OnBattleStart()
@@ -65,7 +54,16 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
 
     private void ShowPanel(int index)
     {
-        panelPet.gameObject.SetActive(true);
+        if (index == 1)
+        {
+            panelPet.gameObject.SetActive(true);
+            panelPetForge.gameObject.SetActive(false);
+        }
+        else
+        {
+            panelPet.gameObject.SetActive(false);
+            panelPetForge.gameObject.SetActive(true);
+        }
     }
 
 

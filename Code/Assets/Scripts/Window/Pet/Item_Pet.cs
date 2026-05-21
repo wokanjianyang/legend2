@@ -15,13 +15,11 @@ namespace Game
         public Text Txt_Layer;
 
         public Button Btn_Down;
-        public Button Btn_Up_Level;
         public Button Btn_Run;
         public Button Btn_Stop;
 
         public Button Btn_Image;
-        public Image image_Background;
-        public Sprite[] list_Backgrounds;
+        public Image Img_Logo;
 
         public Pet pet;
 
@@ -30,7 +28,6 @@ namespace Game
         {
             this.Btn_Image.onClick.AddListener(ShowDetail);
             this.Btn_Down.onClick.AddListener(OnDown);
-            this.Btn_Up_Level.onClick.AddListener(OnUpLevel);
             this.Btn_Run.onClick.AddListener(OnRun);
             this.Btn_Stop.onClick.AddListener(OnStop);
         }
@@ -63,23 +60,12 @@ namespace Game
 
         private void OnDown()
         {
-            //if (pet.RunMapId > 0)
-            //{
-            //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "巡游中不可以下阵", ToastType = ToastTypeEnum.Failure });
-            //    return;
-            //}
-
             this.gameObject.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new PetBattleDownEvent()
             {
                 Item = this
             });
-        }
-
-        private void OnUpLevel()
-        {
-            GameProcessor.Inst.EventCenter.Raise(new OpenPetForgeEvent() { Type = 1, Item = this });
         }
 
         private void OnRun()
@@ -130,7 +116,7 @@ namespace Game
             Txt_Level.color = ColorHelper.GetColorByQuality(pet.GetQuality());
             Txt_Layer.color = ColorHelper.GetColorByQuality(pet.GetQuality());
 
-            this.image_Background.sprite = list_Backgrounds[pet.Role - 1];
+            this.Img_Logo.sprite = PrefabHelper.Instance().GetMonster(pet.ConfigId);
         }
     }
 }

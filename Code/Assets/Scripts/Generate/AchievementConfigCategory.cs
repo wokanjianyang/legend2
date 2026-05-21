@@ -33,9 +33,9 @@ namespace Game
     }
     public partial class AchievementConfig
     {
-        public long GetAtrVue(int level)
+        public long GetAtrVue(int i, int level)
         {
-            return AtrVue + (level - 1) * AtrVueRise;
+            return AtrVueList[i] + (level - 1) * AtrVueRiseList[i];
         }
     }
 

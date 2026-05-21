@@ -58,6 +58,7 @@ namespace Game
 
             {nameof(AttributeEnum.CardDamage), "图鉴增伤" },
             {nameof(AttributeEnum.FashionDamage), "时装增伤" },
+            {nameof(AttributeEnum.AchievementDamage), "成就增伤" },
             {nameof(AttributeEnum.LegacyDamage), "传世增伤" },
 
 

@@ -19,11 +19,6 @@ public class Main_Map_Item : MonoBehaviour
         Btn_Start.onClick.AddListener(OnClick_Start);
     }
 
-    private void OnEnable()
-    {
-        this.Show();
-    }
-
     public void SetContent(MapConfig mapConfig)
     {
         this.Config = mapConfig;
@@ -39,13 +34,15 @@ public class Main_Map_Item : MonoBehaviour
         }
     }
 
-    private void Show()
+    public void Show()
     {
         User user = GameProcessor.Inst.User;
         if (user == null || this.Config == null)
         {
             return;
         }
+
+        //Debug.Log("MapId:" + user.MapId);
 
         if (this.Config.Id <= user.MapId)
         {

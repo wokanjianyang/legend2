@@ -86,53 +86,7 @@ public class Main_Map_Dialog : MonoBehaviour
     {
         foreach (var item in items)
         {
-            item.gameObject.SetActive(false);
-        }
-
-        User user = GameProcessor.Inst.User;
-        bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
-
-        int goupId = (user.MapId - ConfigHelper.MapStartId) / 6 + 1;
-
-        int layer = goupId / 12;
-        this.MaxLayer = layer;
-
-        if (this.SelectLayer < 0)
-        {
-            this.SelectLayer = Math.Min(this.MaxLayer, tgLevelList.Count - 1);
-            tgLevelList[SelectLayer].isOn = true;
-        }
-
-        for (int i = 0; i < tgLevelList.Count; i++)
-        {
-            if (i <= MaxLayer)
-            {
-                tgLevelList[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                tgLevelList[i].gameObject.SetActive(false);
-            }
-        }
-
-        int count = MapGroupConfigCategory.Instance.GetAll().Where(m => m.Value.Id <= goupId).Count();
-
-        int startIndex = this.SelectLayer * LevelCount;
-        int endIndex = startIndex + Math.Min(LevelCount, count - startIndex) - 1;
-
-        Debug.Log("goupId:" + goupId + "SelectLayer: " + SelectLayer);
-        Debug.Log("startIndex:" + startIndex + "endIndex: " + endIndex);
-
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (i >= startIndex && i <= endIndex)
-            {
-                items[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                items[i].gameObject.SetActive(false);
-            }
+            item.Show();
         }
     }
 

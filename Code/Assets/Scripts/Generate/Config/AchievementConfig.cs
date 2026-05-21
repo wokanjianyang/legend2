@@ -102,15 +102,15 @@ namespace Game
 		/// <summary>RewardType</summary>
 		[ProtoMember(9)]
 		public int RewardType { get; set; }
-		/// <summary>AtrId</summary>
+		/// <summary>AtrIdList</summary>
 		[ProtoMember(10)]
-		public int AtrId { get; set; }
-		/// <summary>AtrVue</summary>
+		public int[] AtrIdList { get; set; }
+		/// <summary>AtrVueList</summary>
 		[ProtoMember(11)]
-		public int AtrVue { get; set; }
-		/// <summary>AtrVueRise</summary>
+		public int[] AtrVueList { get; set; }
+		/// <summary>AtrVueRiseList</summary>
 		[ProtoMember(12)]
-		public int AtrVueRise { get; set; }
+		public int[] AtrVueRiseList { get; set; }
 		/// <summary>Memo</summary>
 		[ProtoMember(13)]
 		public string Memo { get; set; }

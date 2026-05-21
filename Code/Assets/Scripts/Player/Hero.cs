@@ -121,6 +121,11 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
 
+            AttributeBonus.SetAttr(AttributeEnum.AchievementDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.AchievementDamage));
+            AttributeBonus.SetAttr(AttributeEnum.CardDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CardDamage));
+            AttributeBonus.SetAttr(AttributeEnum.FashionDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.FashionDamage));
+            AttributeBonus.SetAttr(AttributeEnum.LegacyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
+
             //此处不能回血，因为会修改人物属性之类的
         }
 

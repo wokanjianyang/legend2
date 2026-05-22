@@ -81,39 +81,54 @@ namespace Game
 		/// <summary>Role</summary>
 		[ProtoMember(2)]
 		public int Role { get; set; }
-		/// <summary>ItemId</summary>
+		/// <summary>Part</summary>
 		[ProtoMember(3)]
-		public int ItemId { get; set; }
-		/// <summary>Name</summary>
+		public int Part { get; set; }
+		/// <summary>ItemId</summary>
 		[ProtoMember(4)]
-		public string Name { get; set; }
-		/// <summary>AttrIdList</summary>
+		public int ItemId { get; set; }
+		/// <summary>StartLevel</summary>
 		[ProtoMember(5)]
-		public int[] AttrIdList { get; set; }
-		/// <summary>AttrValueList</summary>
+		public int StartLevel { get; set; }
+		/// <summary>EndLevel</summary>
 		[ProtoMember(6)]
-		public int[] AttrValueList { get; set; }
-		/// <summary>AttrRiseList</summary>
+		public int EndLevel { get; set; }
+		/// <summary>Name</summary>
 		[ProtoMember(7)]
-		public int[] AttrRiseList { get; set; }
-		/// <summary>LayerIdList</summary>
+		public string Name { get; set; }
+		/// <summary>AtrIdList</summary>
 		[ProtoMember(8)]
-		public int[] LayerIdList { get; set; }
-		/// <summary>LayerValueList</summary>
+		public int[] AtrIdList { get; set; }
+		/// <summary>AtrVueList</summary>
 		[ProtoMember(9)]
-		public int[] LayerValueList { get; set; }
-		/// <summary>LayerRiseList</summary>
+		public int[] AtrVueList { get; set; }
+		/// <summary>LevelIdList</summary>
 		[ProtoMember(10)]
-		public int[] LayerRiseList { get; set; }
-		/// <summary>PowerList</summary>
+		public int[] LevelIdList { get; set; }
+		/// <summary>LevelValueList</summary>
 		[ProtoMember(11)]
-		public int[] PowerList { get; set; }
-		/// <summary>DropRate</summary>
+		public int[] LayerValueList { get; set; }
+		/// <summary>LayerIdList</summary>
 		[ProtoMember(12)]
-		public int DropRate { get; set; }
-		/// <summary>RecoveryNubmer</summary>
+		public int[] LayerIdList { get; set; }
+		/// <summary>LayerVueList</summary>
 		[ProtoMember(13)]
-		public int RecoveryNubmer { get; set; }
+		public int[] LayerVueList { get; set; }
+		/// <summary>SpeAtrList</summary>
+		[ProtoMember(14)]
+		public int[] SpeAtrList { get; set; }
+		/// <summary>SpeVueList</summary>
+		[ProtoMember(15)]
+		public long[] SpeVueList { get; set; }
+		/// <summary>SpeLevel</summary>
+		[ProtoMember(16)]
+		public int[] SpeLevel { get; set; }
+		/// <summary>Fee1</summary>
+		[ProtoMember(17)]
+		public long Fee1 { get; set; }
+		/// <summary>Fee2</summary>
+		[ProtoMember(18)]
+		public long Fee2 { get; set; }
 
 	}
 }

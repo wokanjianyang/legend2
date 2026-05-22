@@ -84,26 +84,38 @@ namespace Game
 		/// <summary>Role</summary>
 		[ProtoMember(3)]
 		public int Role { get; set; }
-		/// <summary>Attr</summary>
+		/// <summary>StartLevel</summary>
 		[ProtoMember(4)]
-		public string Attr { get; set; }
-		/// <summary>RiseAttr</summary>
+		public int StartLevel { get; set; }
+		/// <summary>EndLevel</summary>
 		[ProtoMember(5)]
-		public string RiseAttr { get; set; }
-		/// <summary>Def</summary>
+		public int EndLevel { get; set; }
+		/// <summary>Atk</summary>
 		[ProtoMember(6)]
-		public string Def { get; set; }
-		/// <summary>RiseDef</summary>
+		public string Attr { get; set; }
+		/// <summary>AtkRise</summary>
 		[ProtoMember(7)]
-		public string RiseDef { get; set; }
-		/// <summary>HP</summary>
+		public string AtkRise { get; set; }
+		/// <summary>Def</summary>
 		[ProtoMember(8)]
-		public string HP { get; set; }
-		/// <summary>RiseHp</summary>
+		public string Def { get; set; }
+		/// <summary>DefRise</summary>
 		[ProtoMember(9)]
-		public string RiseHp { get; set; }
-		/// <summary>SkillIdList</summary>
+		public string DefRise { get; set; }
+		/// <summary>HP</summary>
 		[ProtoMember(10)]
+		public string HP { get; set; }
+		/// <summary>HpRise</summary>
+		[ProtoMember(11)]
+		public string HpRise { get; set; }
+		/// <summary>LegacyResist</summary>
+		[ProtoMember(12)]
+		public double LegacyResist { get; set; }
+		/// <summary>LegacyRise</summary>
+		[ProtoMember(13)]
+		public double LegacyRise { get; set; }
+		/// <summary>SkillIdList</summary>
+		[ProtoMember(14)]
 		public int[] SkillIdList { get; set; }
 
 	}

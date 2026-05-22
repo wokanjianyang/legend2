@@ -77,41 +77,41 @@ public class BattleRule_Legacy : ABattleRule
 
     private bool checkAuto()
     {
-        User user = GameProcessor.Inst.User;
+        //User user = GameProcessor.Inst.User;
 
-        LegacyMapConfig legacyMapConfig = LegacyMapConfigCategory.Instance.Get(MapId);
+        //LegacyMapConfig legacyMapConfig = LegacyMapConfigCategory.Instance.Get(MapId);
 
-        long needNumber = legacyMapConfig.PowerList[MapId - 1] + (this.Layer - 1) * 500;
+        //long needNumber = legacyMapConfig.PowerList[MapId - 1] + (this.Layer - 1) * 500;
 
-        //Debug.Log("needNumber:" + needNumber);
+        ////Debug.Log("needNumber:" + needNumber);
 
-        long[] powerList = new long[] { 0, 0, 0 };
-        long minCount = 0;
+        //long[] powerList = new long[] { 0, 0, 0 };
+        //long minCount = 0;
 
-        foreach (var kv in user.LegacyLayer)
-        {
-            LegacyConfig legacy = LegacyConfigCategory.Instance.Get(kv.Key);
+        //foreach (var kv in user.LegacyLayer)
+        //{
+        //    LegacyConfig legacy = LegacyConfigCategory.Instance.Get(kv.Key);
 
-            for (int i = 0; i < legacy.PowerList.Length; i++)
-            {
-                powerList[i] += kv.Value.Data * legacy.PowerList[i];
-            }
+        //    for (int i = 0; i < legacy.PowerList.Length; i++)
+        //    {
+        //        powerList[i] += kv.Value.Data * legacy.PowerList[i];
+        //    }
 
-            if (legacy.Role == MapId && kv.Value.Data < this.Layer)
-            {
-                minCount++;
-            }
-        }
+        //    if (legacy.Role == MapId && kv.Value.Data < this.Layer)
+        //    {
+        //        minCount++;
+        //    }
+        //}
 
-        long totalNumber = powerList[MapId - 1];
-        //Debug.Log("totalNumber:" + totalNumber);
+        //long totalNumber = powerList[MapId - 1];
+        ////Debug.Log("totalNumber:" + totalNumber);
 
-        //Debug.Log("minCount:" + minCount);
+        ////Debug.Log("minCount:" + minCount);
 
-        if (minCount <= 0 || totalNumber >= needNumber)
-        {
-            return true;
-        }
+        //if (minCount <= 0 || totalNumber >= needNumber)
+        //{
+        //    return true;
+        //}
 
         return false;
     }

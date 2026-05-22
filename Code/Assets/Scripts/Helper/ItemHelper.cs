@@ -128,6 +128,7 @@ namespace Game
         public static int Equip_Refine = 5002; //黑铁矿
         public static int Fashion_Stone = 5003; //皮肤碎片
         public static int Pet_Exp = 5004; //宠物口粮
+        public static int Legacy_Stone = 5005; //传世精华
 
         public static int SpecialId_Level_Stone = 7001; //等级丹
         public static int SpecialId_Talent_Book = 7002; //天赋书
@@ -141,7 +142,7 @@ namespace Game
         //public static int SpecialId_Exclusive_Core = 4009; //专属精华
         public static int SpecialId_Exclusive_Heart = 4010; //专属之心
         public static int SpecialId_Red_Stone = 4011;  //红装精华
-        public static int SpecialId_Legacy_Stone = 4012; //传世精华
+  
         public static int SpecialId_Legacy_Ticket = 4013; //传世挑战卷
 
         public static int SpecialId_Red_Chip = 4015; //红装粉尘

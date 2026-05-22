@@ -9,9 +9,6 @@ namespace Game
 {
     public class Shengxiao : Item
     {
-
-        public int Quality { get; set; }
-
         public List<KeyValuePair<int, long>> AttrEntryList { get; set; } = new List<KeyValuePair<int, long>>();
 
         public MagicData LevelData { get; set; } = new MagicData();
@@ -95,7 +92,7 @@ namespace Game
         {
             this.LevelData.Data++;
         }
-        public void Grade()
+        public override void Grade()
         {
             this.LayerData.Data++;
 

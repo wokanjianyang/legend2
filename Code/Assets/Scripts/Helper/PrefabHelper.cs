@@ -36,6 +36,8 @@ namespace Game
 
         private Dictionary<int, Sprite> EquipLogoList = new Dictionary<int, Sprite>();
 
+        private Dictionary<int, Sprite> LegacyLogoList = new Dictionary<int, Sprite>();
+
         private Dictionary<int, Sprite> PetBgList = new Dictionary<int, Sprite>();
 
         private Sprite MonsterDefend = null;
@@ -258,6 +260,20 @@ namespace Game
             }
 
             return EquipLogoList[key];
+        }
+
+        public Sprite GetLegacyLogo(int part)
+        {
+            int[] pl = { 1, 2, 3, 4, 5, 7, 9, 10 };
+            int r = (part - 1) / 8 + 1;
+            int p = (part - 1) % 8;
+            int key = r * 100 + p;
+            if (!LegacyLogoList.ContainsKey(key))
+            {
+                LegacyLogoList[key] = Resources.Load<Sprite>("UI/Bag/Equip/" + "Box_Equip_" + r + "_" + p);
+            }
+
+            return LegacyLogoList[key];
         }
 
         public Sprite GetMonsterWorld(int id)

@@ -735,7 +735,7 @@ public sealed class BuglyAgent
             #if UNITY_5
             Application.logMessageReceived += _OnLogCallbackHandler;
             #else
-            Application.RegisterLogCallback (_OnLogCallbackHandler);
+            //Application.RegisterLogCallback (_OnLogCallbackHandler);
             #endif
             AppDomain.CurrentDomain.UnhandledException += _OnUncaughtExceptionHandler;
             
@@ -755,7 +755,7 @@ public sealed class BuglyAgent
             #if UNITY_5
             Application.logMessageReceived -= _OnLogCallbackHandler;
             #else
-            Application.RegisterLogCallback (null);
+            //Application.RegisterLogCallback (null);
             #endif
             System.AppDomain.CurrentDomain.UnhandledException -= _OnUncaughtExceptionHandler;
             DebugLog (null, "Unregister the log callback in unity {0}", Application.unityVersion);

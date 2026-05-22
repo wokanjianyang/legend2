@@ -18,24 +18,24 @@ namespace Game
 
             int showLevel = Math.Max(1, redItem.Level);
 
-            string qn = "橙装";
+            //string qn = "橙装";
 
-            if (quality == 6)
-            {
-                qn = "红装";
-            }
-            else if (quality == 7)
-            {
-                qn = "金装";
-            }
-            else if (quality == 8)
-            {
-                qn = "暗金";
-            }
-            else if (quality == 9)
-            {
-                qn = "混沌";
-            }
+            //if (quality == 6)
+            //{
+            //    qn = "红装";
+            //}
+            //else if (quality == 7)
+            //{
+            //    qn = "金装";
+            //}
+            //else if (quality == 8)
+            //{
+            //    qn = "暗金";
+            //}
+            //else if (quality == 9)
+            //{
+            //    qn = "混沌";
+            //}
 
             int attr = (int)(redItem.Config.AttrValue + (showLevel - 1) * redItem.Config.AttrRise);
 

@@ -8,6 +8,13 @@ namespace Game
 
     public partial class LegacyConfigCategory
     {
+        public LegacyConfig GetByPosition(int part)
+        {
+            return this.list.Where(m => m.Part == part).FirstOrDefault();
+        }
+
+
+
         public List<LegacyConfig> GetRoleList(int role)
         {
             return this.list.Where(m => m.Role == role).ToList();
@@ -15,24 +22,25 @@ namespace Game
 
         public LegacyConfig GetDropItem(int role)
         {
-            List<LegacyConfig> dropList = this.list.Where(m => m.Role == role).ToList();
+            //List<LegacyConfig> dropList = this.list.Where(m => m.Role == role).ToList();
 
-            int total = dropList.Select(m => m.DropRate).Sum();
-            int rd = RandomHelper.RandomNumber(1, total + 1);
+            //int total = dropList.Select(m => m.DropRate).Sum();
+            //int rd = RandomHelper.RandomNumber(1, total + 1);
 
-            int endRate = 0;
-            for (int i = 0; i < dropList.Count; i++)
-            {
-                endRate += dropList[i].DropRate;
+            //int endRate = 0;
+            //for (int i = 0; i < dropList.Count; i++)
+            //{
+            //    endRate += dropList[i].DropRate;
 
-                if (rd <= endRate)
-                {
-                    return dropList[i];
-                }
-            }
+            //    if (rd <= endRate)
+            //    {
+            //        return dropList[i];
+            //    }
+            //}
 
             return null;
         }
+
 
         public int GetDropLayer(int layer)
         {
@@ -65,51 +73,14 @@ namespace Game
 
     public partial class LegacyConfig
     {
-        public int GetRecoveryNumber(int layer)
+
+        public long GetFee1(long level)
         {
-            return layer * RecoveryNubmer;
+            return this.Fee1 * level;
         }
-
-        public long GetLevelAttr(int index, long level)
+        public long GetFee2(long level)
         {
-            if (level < 1)
-            {
-                return 0;
-            }
-
-            return AttrValueList[index] + AttrRiseList[index] * (level - 1);
-        }
-
-        public long GetLayerAttr(int index, long level)
-        {
-            if (level < 1)
-            {
-                return 0;
-            }
-
-            return LayerValueList[index] + LayerRiseList[index] * (level - 1);
-        }
-    }
-
-    public partial class LegacyMapConfig
-    {
-        public long CalMaxLayer(long[] powerList, int extendLevel)
-        {
-            long layer = ConfigHelper.Max_Legacy_Level + extendLevel;
-
-            for (int i = 0; i < PowerList.Length; i++)
-            {
-                long ml = 0;
-
-                if (powerList[i] >= PowerList[i])
-                {
-                    ml = 1 + (powerList[i] - PowerList[i]) / PowerRiseList[i];
-                }
-
-                layer = Math.Min(layer, ml);
-            }
-
-            return layer + 1;
+            return this.Fee2 * level;
         }
     }
 }

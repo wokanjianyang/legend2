@@ -12,40 +12,52 @@ using UnityEngine.UI;
 public class Panel_Legacy : MonoBehaviour
 {
     public Transform Tran_Item_List;
-    private ItemForge[] items;
+    private Box_Legacy[] items;
 
     public Transform Tf_Set_List;
     private Forge_Atr_Item[] SetList;
 
-    public Transform Tf_Atr_List;
-    private Forge_Atr_Item[] AtrList;
+    public Transform Tf_Atr_List_Base;
+    private Forge_Atr_Item[] AtrListBase;
 
-    public Transform Tf_Atr_Spe_List;
-    private Forge_Atr_Item[] AtrSpeList;
+    public Transform Tf_Atr_Spe_List_Base;
+    private Forge_Atr_Item[] AtrSpeListBase;
+
+    public Transform Tf_Atr_List_Level;
+    private Forge_Atr_Item[] AtrListLevel;
+
+    public Transform Tf_Atr_Spe_List_Level;
+    private Forge_Atr_Item[] AtrSpeListLevel;
 
     public Text Txt_Fee1;
     public Text Txt_Fee2;
 
     public Button Btn_Ok;
 
+    private int Role = 1;
     private int SelectPosition = 1;
-    private int ForgeType = 2;
+    private int ForgeType = 4;
 
     // Start is called before the first frame update
     void Awake()
     {
-        AtrList = Tf_Atr_List.GetComponentsInChildren<Forge_Atr_Item>();
-        AtrSpeList = Tf_Atr_Spe_List.GetComponentsInChildren<Forge_Atr_Item>();
+        SetList = Tf_Set_List.GetComponentsInChildren<Forge_Atr_Item>();
 
-        items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
+        AtrListBase = Tf_Atr_List_Base.GetComponentsInChildren<Forge_Atr_Item>();
+        AtrSpeListBase = Tf_Atr_Spe_List_Base.GetComponentsInChildren<Forge_Atr_Item>();
+
+        AtrListLevel = Tf_Atr_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
+        AtrSpeListLevel = Tf_Atr_Spe_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
+
+        items = Tran_Item_List.GetComponentsInChildren<Box_Legacy>();
         Btn_Ok.onClick.AddListener(OnClick_Refine);
     }
 
     // Update is called once per frame
     void Start()
     {
-        //this.Init();
-        //this.Show();
+        this.Init();
+        this.Show();
     }
 
     private void Init()
@@ -56,10 +68,13 @@ public class Panel_Legacy : MonoBehaviour
 
         for (int i = 0; i < items.Count(); i++)
         {
-            int position = i + 1;
-            long level = user.GetRefineLevel(position);
+            int position = i + Role * 8 - 7;
+            long level = user.GetLegacyLayer(position);
 
-            items[i].Init(ForgeType, position, level, toggleGroup);
+            Debug.Log("Legacy P:" + position);
+
+
+            items[i].Init(ForgeType, position, toggleGroup);
         }
     }
 
@@ -72,14 +87,14 @@ public class Panel_Legacy : MonoBehaviour
     private void Show()
     {
         User user = GameProcessor.Inst.User;
-        long MaxLevel = Math.Min(EquipRefineFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
-        long currentLevel = user.GetRefineLevel(SelectPosition);
+        long MaxLevel = user.GetLegacyLayer(SelectPosition);
+        long currentLevel = user.GetLegacyLevel(SelectPosition);
 
-        items[SelectPosition - 1].SetLevel(currentLevel);
+        items[SelectPosition - 1].SetItem();
 
         long nextLevel = currentLevel + 1;
 
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+        LegacyConfig config = LegacyConfigCategory.Instance.Get(SelectPosition);
 
         if (currentLevel >= MaxLevel)
         {
@@ -89,17 +104,17 @@ public class Panel_Legacy : MonoBehaviour
         }
         else
         {
-            long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+            long fee1 = config.GetFee1(nextLevel);
             string color = user.MagicGold.Data >= fee1 ? "#11FF11" : "#FF1111";
 
             string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
             Txt_Fee1.text = string.Format("金币：<color={0}>{1}</color>", color, feeText);
 
 
-            long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+            long fee2 = config.GetFee2(nextLevel);
             long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
             color = mc >= fee2 ? "#11FF11" : "#FF1111";
-            Txt_Fee2.text = string.Format("黑铁矿：<color={0}>{1}</color>/{2}", color, mc, fee2);
+            Txt_Fee2.text = string.Format("传世精华：<color={0}>{1}</color>/{2}", color, mc, fee2);
 
             if (user.MagicGold.Data >= fee1 && mc >= fee2)
             {
@@ -111,26 +126,26 @@ public class Panel_Legacy : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < AtrList.Length; i++)
+        for (int i = 0; i < AtrListBase.Length; i++)
         {
-            if (i < config.AtrList.Length && currentLevel >= config.RequireLevel[i])
+            if (i < config.AtrIdList.Length)
             {
-                int attrId = config.AtrList[i];
+                int attrId = config.AtrIdList[i];
 
                 long atrRise = config.AtrVueList[i];
                 long attrCurrent = config.AtrVueList[i] * currentLevel;
 
-                AtrList[i].SetContent(attrId, attrCurrent, atrRise);
-                AtrList[i].gameObject.SetActive(true);
+                AtrListBase[i].SetContent(attrId, attrCurrent, atrRise);
+                AtrListBase[i].gameObject.SetActive(true);
             }
             else
             {
-                AtrList[i].gameObject.SetActive(false);
+                AtrListBase[i].gameObject.SetActive(false);
             }
 
         }
 
-        for (int i = 0; i < AtrSpeList.Length; i++)
+        for (int i = 0; i < AtrSpeListBase.Length; i++)
         {
             if (i < config.SpeAtrList.Length)
             {
@@ -138,12 +153,12 @@ public class Panel_Legacy : MonoBehaviour
                 long atrVue = config.SpeVueList[i];
                 int rv = config.SpeLevel[i];
 
-                AtrSpeList[i].SetSpContent(attrId, atrVue, rv);
-                AtrSpeList[i].gameObject.SetActive(true);
+                AtrSpeListBase[i].SetSpContent(attrId, atrVue, rv);
+                AtrSpeListBase[i].gameObject.SetActive(true);
             }
             else
             {
-                AtrSpeList[i].gameObject.SetActive(false);
+                AtrSpeListBase[i].gameObject.SetActive(false);
             }
         }
     }
@@ -178,7 +193,7 @@ public class Panel_Legacy : MonoBehaviour
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
             Type = ItemType.Material,
-            ItemId = ItemHelper.Equip_Refine,
+            ItemId = ItemHelper.Legacy_Stone,
             Quantity = fee2
         });
 

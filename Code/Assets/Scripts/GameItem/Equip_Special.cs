@@ -64,7 +64,7 @@ namespace Game
             return GetBaseAttrList();
         }
 
-        public void Grade()
+        public override void Grade()
         {
             this.Layer++;
         }

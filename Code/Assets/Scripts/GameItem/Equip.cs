@@ -232,7 +232,7 @@ namespace Game
             return AttrList;
         }
 
-        public void Grade()
+        public override void Grade()
         {
             this.Layer++;
         }

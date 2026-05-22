@@ -54,8 +54,8 @@ public class MapLegacy : MonoBehaviour, IBattleLife
         param.Add("MapId", e.MapId);
         param.Add("Layer", e.Layer);
 
-        LegacyMapConfig mapConfig = LegacyMapConfigCategory.Instance.Get(e.MapId);
-        Txt_Name.text = mapConfig.Name + "(" + e.Layer + "½×)";
+        //LegacyMapConfig mapConfig = LegacyMapConfigCategory.Instance.Get(e.MapId);
+        //Txt_Name.text = mapConfig.Name + "(" + e.Layer + "½×)";
 
         GameProcessor.Inst.DelayAction(0.1f, () =>
         {

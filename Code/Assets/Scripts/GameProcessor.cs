@@ -52,7 +52,6 @@ namespace Game
         public bool isVersionError = false;
 
         private bool isGameOver { get; set; } = true;
-        public PlayerType winCamp { get; private set; }
 
         public delegate void ShowDialog(string msg, bool showButton, Action doneAction, Action cancleAction);
 
@@ -793,7 +792,6 @@ namespace Game
         {
             this.PlayerInfo.SetShow(false);
             this.isGameOver = true;
-            this.winCamp = winCamp;
         }
 
         public void StartGame()
@@ -814,41 +812,10 @@ namespace Game
                 });
                 yield return new WaitForSeconds(1f);
             }
-            this.EventCenter.Raise(new BattleLoseEvent() { Type = ruleType, Time = time });
 
-            if (ruleType == RuleType.BossFamily)
-            {
-                long bossTicket = User.GetMaterialCount(ItemHelper.SpecialId_Boss_Ticket);
-                int rl = User.GetArtifactValue(ArtifactType.BossBattleRate);
-                int rate = rl + 1;
+            Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Normal, MapId = AppHelper.CurrentMapId });
 
-                //Debug.Log("剩余boss卷:" + bossTicket);
-
-                if (EquipBossFamily_Auto && bossTicket > rate)
-                {
-                    this.AutoStartMap(ruleType);
-                }
-            }
-            else if (ruleType == RuleType.Phantom && Phantom_Auto)
-            {
-                this.AutoStartMap(ruleType);
-            }
-            else if (ruleType == RuleType.World && World_Auto)
-            {
-                this.AutoStartMap(ruleType);
-            }
-            else if (ruleType == RuleType.Babel && Babel_Auto)
-            {
-                if (User.BabelCount.Data > 0)
-                {
-                    this.AutoStartMap(ruleType);
-                }
-            }
-            else if (ruleType == RuleType.Shengxiao && AppHelper.Shengxiao_Auto)
-            {
-                this.AutoStartMap(ruleType);
-            }
-            else if (ruleType == RuleType.Spirit && AppHelper.Spirit_Auto)
+            if (ruleType == RuleType.Phantom && Phantom_Auto)
             {
                 this.AutoStartMap(ruleType);
             }
@@ -914,41 +881,6 @@ namespace Game
                     break;
             }
         }
-
-
-
-        //private void AutoWorld()
-        //{
-        //    GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke(ConfigHelper.AutoStartMapTime + "S后自动挑战神兽", true,
-        //    () =>
-        //    {
-        //        StopCoroutine(ie_autoPhatom);
-        //        AutoStartWorld();
-        //    }, () =>
-        //    {
-        //        StopCoroutine(ie_autoPhatom);
-        //    });
-
-        //    ie_autoPhatom = StartCoroutine(this.ShowAutoStartWorld());
-        //}
-        //private IEnumerator ShowAutoStartWorld()
-        //{
-        //    int cd = ConfigHelper.AutoStartMapTime;
-        //    for (int i = 0; i < cd; i++)
-        //    {
-        //        this.EventCenter.Raise(new SecondaryConfirmTextEvent() { Text = $"{(cd - i)}S后自动挑战神兽" });
-        //        yield return new WaitForSeconds(1f);
-        //    }
-
-        //    this.EventCenter.Raise(new SecondaryConfirmCloseEvent());
-
-        //    AutoStartWorld();
-        //}
-        //private void AutoStartWorld()
-        //{
-        //    this.EventCenter.Raise(new CopyViewCloseEvent());
-        //    this.EventCenter.Raise(new WorldStartEvent() { Id = World_Auto_Id });
-        //}
 
         private IEnumerator AutoExitApp(ExitType type)
         {

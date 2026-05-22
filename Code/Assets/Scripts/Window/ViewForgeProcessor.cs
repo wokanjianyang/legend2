@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 public class ViewForgeProcessor : AViewPage
 {
+    public List<Toggle> Toggle_Nav_List;
+    public List<Transform> Tf_Nav_List;
+
     public Toggle toggle_Refine;
     public Panel_Refine PanelRefine;
 
@@ -21,8 +24,21 @@ public class ViewForgeProcessor : AViewPage
     public Toggle Toggle_Grade;
     public Panel_Grade PanelGrade;
 
+    public Toggle Toggle_Legacy_Level;
+    public Panel_Legacy PanelLegacy;
+
     private void Awake()
     {
+        for (int i = 0; i < Toggle_Nav_List.Count; i++)
+        {
+            int index = i;
+            this.Toggle_Nav_List[index].onValueChanged.AddListener((isOn) =>
+            {
+                this.ChangeType(index, isOn);
+            });
+        }
+
+
         this.Toggle_Composite.onValueChanged.AddListener((isOn) =>
         {
             this.PanelCompound.Show(isOn);
@@ -42,6 +58,16 @@ public class ViewForgeProcessor : AViewPage
         {
             PanelGrade.gameObject.SetActive(isOn);
         });
+
+        this.Toggle_Legacy_Level.onValueChanged.AddListener((isOn) =>
+        {
+            PanelLegacy.gameObject.SetActive(isOn);
+        });
+    }
+
+    private void ChangeType(int index, bool isOn)
+    {
+        Tf_Nav_List[index].gameObject.SetActive(isOn);
     }
 
     void OnEnable()

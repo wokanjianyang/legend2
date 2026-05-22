@@ -25,7 +25,7 @@ namespace Game
 
             var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Time = (int)MapTime, Count = Math.Max(0, Total - enemys.Count) });
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = "测试模式" });
 
             if (enemys.Count >= 5)
             {

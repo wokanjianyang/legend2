@@ -42,11 +42,11 @@ namespace Game
                 double curse = attcher.CalBattleTotalAttr(AttributeEnum.Curse) - enemy.CalBattleTotalAttr(AttributeEnum.Lucky);
                 if (curse > 0)
                 {
-                    double curseRate = CalLuckyRate((int)curse);
+                    double curseRate = CalCurseRate((int)curse);
                     def *= curseRate;
                 }
 
-                atk = Math.Max(1, atk - def * ConfigHelper.Def_Rate);
+                atk = atk * atk / (atk + def);
             }
 
 
@@ -127,6 +127,23 @@ namespace Game
             }
 
             int max = lucky * 400 / 9;
+            int rd = RandomHelper.RandomNumber(0, max);
+
+            return rd / 100.0 + 1;
+        }
+
+        public static double CalCurseRate(int curse)
+        {
+            if (curse <= 0)
+            {
+                return 1;
+            }
+            if (curse >= 9)
+            {
+                return 50;
+            }
+
+            int max = curse * 4000 / 9;
             int rd = RandomHelper.RandomNumber(0, max);
 
             return rd / 100.0 + 1;

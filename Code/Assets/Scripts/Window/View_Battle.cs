@@ -72,22 +72,44 @@ namespace Game
 
         private void OnChangeMap(ChangeMainMapEvent e)
         {
-            AppHelper.CurrentMapId = e.MapId;
             User user = GameProcessor.Inst.User;
-            user.OffLineMapId = AppHelper.CurrentMapId;
 
-            GameProcessor.Inst.OnDestroy();
-            GameProcessor.Inst.SetGameOver(PlayerType.Hero);
-            GameProcessor.Inst.LoadMap(RuleType.Normal, this.transform, null);
+            if (e.Type == RuleType.MainStage)
+            {
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                param.Add("MapTime", TimeHelper.ClientNowSeconds());
+                param.Add("MapId", user.MapId);
 
-            MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
-            //this.Txt_Desc.text = "0S»÷É±0¸ö";
-            this.Txt_MapName.text = config.Name;
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.LoadMap(RuleType.MainStage, this.transform, param);
+                });
+
+                MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
+                this.Txt_MapName.text = config.Name + "-¹Ø¿¨ÌôÕ½";
+            }
+            else
+            {
+                AppHelper.CurrentMapId = e.MapId;
+                user.OffLineMapId = AppHelper.CurrentMapId;
+
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.SetGameOver(PlayerType.Hero);
+                    GameProcessor.Inst.LoadMap(RuleType.Normal, this.transform, null);
+                });
+
+                MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
+                //this.Txt_Desc.text = "0S»÷É±0¸ö";
+                this.Txt_MapName.text = config.Name;
+            }
         }
 
         private void ShowInfo(ShowMainMapInfoEvent e)
         {
-            this.Txt_Desc.text = e.Time + "S»÷É±" + e.Count + "¸ö";
+            this.Txt_Desc.text = e.Message;
         }
 
         private List<Text> msgPool = new List<Text>();
@@ -155,7 +177,9 @@ namespace Game
             }
             else
             {
-                GameProcessor.Inst.EventCenter.Raise(new StartStageEvent());
+                GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.MainStage, MapId = maxId });
+
+                //GameProcessor.Inst.EventCenter.Raise(new StartStageEvent());
             }
         }
 

@@ -25,7 +25,8 @@ namespace Game
 
             var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Time = (int)MapTime, Count = Math.Max(0, Total - enemys.Count) });
+            string msg = (int)MapTime + "S击杀" + Math.Max(0, Total - enemys.Count) + "个";
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
             if (enemys.Count >= 20)
             {

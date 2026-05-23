@@ -181,7 +181,8 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
             //增加宠物经验，神器经验
-            user.KillMonsterEnvent(1, this.Quality);
+            int kc = this.Config.Id + 4 + this.Quality;
+            user.KillMonsterEnvent(kc, this.Quality);
 
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
             double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0; ;

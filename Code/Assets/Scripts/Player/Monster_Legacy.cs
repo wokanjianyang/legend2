@@ -102,11 +102,14 @@ public class Monster_Legacy : APlayer
 
         LegacyConfig config = LegacyConfigCategory.Instance.Get(legacyId);
 
-        int dropLayer = RandomHelper.RandomNumber(Layer - 2, Layer + 2);
+        int dropLayer = Math.Max(1, RandomHelper.RandomNumber(Layer - 2, Layer + 2));
+
+        int max = (int)(user.MagicLevel.Data / 2);
+        dropLayer = Math.Min(dropLayer, max);
 
         int currentLayer = user.GetLegacyLayer(legacyId);
 
-        string message = "掉落 " + string.Format("<color=#{0}>{1}</color> ", QualityConfigHelper.GetQualityColor(1), config.Name + "(" + dropLayer + "阶) ");
+        string message = "掉落 " + string.Format("<color=#{0}>{1}</color> ", QualityConfigHelper.GetQualityColor(5), config.Name + "(" + dropLayer + "阶) ");
 
         int recoveryStone = 0;
         if (dropLayer > currentLayer)
@@ -119,7 +122,7 @@ public class Monster_Legacy : APlayer
             {
                 recoveryStone += currentLayer;
 
-                message += ",并且回收之前的获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(1) + ">传世精华</color>";
+                message += ",并且回收之前的获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
 
                 GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
             }
@@ -128,7 +131,7 @@ public class Monster_Legacy : APlayer
         {
             recoveryStone += dropLayer;
 
-            message += ",自动回收获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(6) + ">传世精华</color>";
+            message += ",自动回收获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
         }
 
         if (recoveryStone > 0)

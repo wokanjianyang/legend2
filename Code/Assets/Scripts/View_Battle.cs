@@ -185,16 +185,17 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
+            int mapId = user.MapId;
             int maxId = MapConfigCategory.Instance.GetMaxMapId();
 
-            if (AppHelper.CurrentMapId > user.MapId)
+            if (mapId > maxId)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您已经超神通关了，请等待开放后续关卡", ToastType = ToastTypeEnum.Failure });
                 return;
             }
             else
             {
-                GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.MainStage, MapId = maxId });
+                GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.MainStage, MapId = mapId });
 
                 //GameProcessor.Inst.EventCenter.Raise(new StartStageEvent());
             }

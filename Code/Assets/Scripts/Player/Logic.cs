@@ -155,17 +155,22 @@ namespace Game
                     ToId = SelfPlayer.ID
                 });
 
-                if (SelfPlayer.Camp != PlayerType.Hero && SelfPlayer.Camp != PlayerType.Hero_Pet)
+                if (SelfPlayer.Camp == PlayerType.Hero)
                 {
-                    StartCoroutine(this.ClearPlayer());
-                }
-                else
-                {
-                    if (SelfPlayer.RuleType == RuleType.Normal)
+                    if (SelfPlayer.RuleType == RuleType.Normal || SelfPlayer.RuleType == RuleType.Legacy)
                     {
                         //自动复活
                         StartCoroutine(this.AutoResurrection());
                     }
+                }
+                else if (SelfPlayer.Camp == PlayerType.Hero_Pet)
+                {
+                    //自动复活
+                    StartCoroutine(this.AutoResurrection());
+                }
+                else
+                {
+                    StartCoroutine(this.ClearPlayer());
                 }
 
             }

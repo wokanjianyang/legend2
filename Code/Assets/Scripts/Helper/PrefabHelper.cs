@@ -262,15 +262,14 @@ namespace Game
             return EquipLogoList[key];
         }
 
-        public Sprite GetLegacyLogo(int part)
+        public Sprite GetLegacyLogo(int role, int part)
         {
             int[] pl = { 1, 2, 3, 4, 5, 7, 9, 10 };
-            int r = (part - 1) / 8 + 1;
-            int p = pl[(part - 1) % 8];
-   
+            int p = pl[part - 1];
+
             if (!LegacyLogoList.ContainsKey(part))
             {
-                LegacyLogoList[part] = Resources.Load<Sprite>("UI/Bag/Equip/" + "Box_Equip_" + r + "_" + p);
+                LegacyLogoList[part] = Resources.Load<Sprite>("UI/Bag/Equip/" + "Box_Equip_" + role + "_" + p);
             }
 
             return LegacyLogoList[part];

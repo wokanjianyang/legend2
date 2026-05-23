@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class ViewSkillProcessor : AViewPage
+    public class View_Skill : AViewPage
     {
         [Title("技能面板")]
         [LabelText("所有技能")]

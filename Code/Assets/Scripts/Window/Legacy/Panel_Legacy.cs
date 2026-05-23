@@ -50,7 +50,7 @@ public class Panel_Legacy : MonoBehaviour
         AtrSpeListLevel = Tf_Atr_Spe_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
 
         items = Tran_Item_List.GetComponentsInChildren<Box_Legacy>();
-        Btn_Ok.onClick.AddListener(OnClick_Refine);
+        Btn_Ok.onClick.AddListener(OnClick_OK);
     }
 
     // Update is called once per frame
@@ -65,9 +65,8 @@ public class Panel_Legacy : MonoBehaviour
 
         for (int i = 0; i < items.Count(); i++)
         {
-            int position = i + Role * 8 - 7;
-
-            items[i].Init(ForgeType, position, toggleGroup);
+            int position = i + 1;
+            items[i].Init(Role, position, toggleGroup);
         }
     }
 
@@ -88,14 +87,17 @@ public class Panel_Legacy : MonoBehaviour
     private void Show()
     {
         User user = GameProcessor.Inst.User;
-        long MaxLevel = user.GetLegacyLayer(SelectPosition);
-        long currentLevel = user.GetLegacyLevel(SelectPosition);
+
+        int part = (Role - 1) * 8 + SelectPosition;
+
+        long MaxLevel = user.GetLegacyLayer(part);
+        long currentLevel = user.GetLegacyLevel(part);
 
         items[SelectPosition - 1].Refresh();
 
         long nextLevel = currentLevel + 1;
 
-        LegacyConfig config = LegacyConfigCategory.Instance.Get(SelectPosition);
+        LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Role, SelectPosition);
 
         if (currentLevel >= MaxLevel)
         {
@@ -113,7 +115,7 @@ public class Panel_Legacy : MonoBehaviour
 
 
             long fee2 = config.GetFee2(nextLevel);
-            long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
+            long mc = user.GetMaterialCount(ItemHelper.Legacy_Stone);
             color = mc >= fee2 ? "#11FF11" : "#FF1111";
             Txt_Fee2.text = string.Format("传世精华：<color={0}>{1}</color>/{2}", color, mc, fee2);
 
@@ -220,15 +222,17 @@ public class Panel_Legacy : MonoBehaviour
         }
     }
 
-    private void OnClick_Refine()
+    private void OnClick_OK()
     {
         User user = GameProcessor.Inst.User;
 
-        long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
+        int part = (Role - 1) * 8 + SelectPosition;
+        long currentLevel = user.GetLegacyLevel(part);
+        long nextLevel = currentLevel + 1;
 
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+        LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Role, SelectPosition);
 
-        long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+        long fee1 = config.GetFee1(nextLevel);
 
         if (user.MagicGold.Data < fee1)
         {
@@ -236,12 +240,12 @@ public class Panel_Legacy : MonoBehaviour
             return;
         }
 
-        long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+        long fee2 = config.GetFee2(nextLevel);
         long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
 
         if (mc < fee2)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的黑铁矿", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的传世精华", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
@@ -255,7 +259,7 @@ public class Panel_Legacy : MonoBehaviour
         });
 
 
-        user.SaveRefineLevel(SelectPosition, 1);
+        user.SaveLegacyLevel(part, 1);
 
         GameProcessor.Inst.UpdateInfo();
 

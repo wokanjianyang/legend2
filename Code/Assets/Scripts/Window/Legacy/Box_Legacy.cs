@@ -21,6 +21,7 @@ namespace Game
         public Image Img_Bg;
         public Image Img_Logo;
 
+        public int Role = 0;
         private int Position = 0;
 
         // Start is called before the first frame update
@@ -48,12 +49,13 @@ namespace Game
             if (this.Position > 0)
             {
                 User user = GameProcessor.Inst.User;
+                int part = (Role - 1) * 8 + Position;
 
-                long layer = user.GetLegacyLayer(Position);
+                long layer = user.GetLegacyLayer(part);
 
                 if (layer > 0)
                 {
-                    long level = user.GetLegacyLevel(Position);
+                    long level = user.GetLegacyLevel(part);
 
                     Tf_Bg.gameObject.SetActive(false);
                     Tf_Box.gameObject.SetActive(true);
@@ -62,12 +64,12 @@ namespace Game
                     this.Txt_Layer.gameObject.SetActive(false);
                     this.Txt_Level.gameObject.SetActive(false);
 
-                    LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Position);
+                    LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Role, Position);
 
                     this.Txt_Name.text = config.Name;
                     this.Txt_Name.color = QualityConfigHelper.GetColor(6);
 
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetLegacyLogo(Position);
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetLegacyLogo(Role, Position);
 
                     if (layer > 0)
                     {
@@ -91,12 +93,13 @@ namespace Game
 
         }
 
-        public void Init(int type, int position, ToggleGroup group)
+        public void Init(int role, int position, ToggleGroup group)
         {
+            this.Role = role;
             this.Position = position;
 
             int[] pl = { 1, 2, 3, 4, 5, 7, 9, 10 };
-            int p = pl[(position - 1) % 8];
+            int p = pl[position - 1];
             this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(p);
 
             this.toggle.group = group;

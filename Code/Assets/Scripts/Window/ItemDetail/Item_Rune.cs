@@ -14,10 +14,15 @@ namespace Game
 
         public void SetContent(int runeId)
         {
+            this.SetContent(runeId, 0);
+        }
+
+        public void SetContent(int runeId, int count)
+        {
             SkillRuneConfig config = SkillRuneConfigCategory.Instance.Get(runeId);
             SkillConfig skillConfig = SkillConfigCategory.Instance.Get(config.SkillId);
 
-            this.Txt_Name.text = skillConfig.Name + config.Name + string.Format("（{0}）：", config.Max);
+            this.Txt_Name.text = skillConfig.Name + config.Name + string.Format("（{0}/{1}）：", count, config.Max);
             this.Txt_Des.text = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate);
         }
     }

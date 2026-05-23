@@ -193,39 +193,36 @@ namespace Game
                 }
             }
 
-            if (equip.QualityAttrList != null && equip.QualityAttrList.Count > 0)
-            {
-                Tf_Quality.gameObject.SetActive(true);
-                Tf_Quality.Find("Tf_Title").Find("Title_Text").GetComponent<Text>().text = "[品质属性]";
-                Transform gridQuality = Tf_Quality.Find("Grid_Quality");
+            //if (equip.QualityAttrList != null && equip.QualityAttrList.Count > 0)
+            //{
+            //    Tf_Quality.gameObject.SetActive(true);
+            //    Tf_Quality.Find("Tf_Title").Find("Title_Text").GetComponent<Text>().text = "[品质属性]";
+            //    Transform gridQuality = Tf_Quality.Find("Grid_Quality");
 
-                var QualityAttrList = equip.QualityAttrList.ToList();
+            //    var QualityAttrList = equip.QualityAttrList.ToList();
 
-                for (int index = 0; index < 4; index++)
-                {
-                    var child = gridQuality.Find(string.Format("Attribute_{0}", index));
+            //    for (int index = 0; index < 4; index++)
+            //    {
+            //        var child = gridQuality.Find(string.Format("Attribute_{0}", index));
 
-                    if (index < QualityAttrList.Count)
-                    {
-                        child.GetComponent<Text>().text = FormatAttrText(QualityAttrList[index].Key, QualityAttrList[index].Value, qualityPercent);
-                        child.gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        child.gameObject.SetActive(false);
-                    }
-                }
-            }
+            //        if (index < QualityAttrList.Count)
+            //        {
+            //            child.GetComponent<Text>().text = FormatAttrText(QualityAttrList[index].Key, QualityAttrList[index].Value, qualityPercent);
+            //            child.gameObject.SetActive(true);
+            //        }
+            //        else
+            //        {
+            //            child.gameObject.SetActive(false);
+            //        }
+            //    }
+            //}
 
             if (equip.SkillRuneConfig != null)
             {
-                List<int> runeIdList = new List<int>();
                 if (equip.RuneConfigId > 0)
                 {
-                    runeIdList.Add(equip.RuneConfigId);
+                    ShowRune(equip.RuneConfigId);
                 }
-
-                ShowRune(runeIdList);
             }
 
             if (equip.SkillSuitConfig != null)
@@ -323,22 +320,16 @@ namespace Game
             }
         }
 
-        private void ShowRune(List<int> runeIdList)
+        private void ShowRune(int rid)
         {
-            Item_Rune[] runes = Tf_Rune.GetComponentsInChildren<Item_Rune>(true);
+            Item_Rune rune = Tf_Rune.GetComponentInChildren<Item_Rune>(true);
 
-            for (int i = 0; i < runes.Length; i++)
-            {
-                if (i < runeIdList.Count)
-                {
-                    runes[i].gameObject.SetActive(true);
-                    runes[i].SetContent(runeIdList[i]);
-                }
-                else
-                {
-                    runes[i].gameObject.SetActive(false);
-                }
-            }
+            User user = GameProcessor.Inst.User;
+            int count = user.GetRuneCount(rid);
+
+            rune.gameObject.SetActive(true);
+            rune.SetContent(rid, count);
+
             Tf_Rune.gameObject.SetActive(true);
         }
 

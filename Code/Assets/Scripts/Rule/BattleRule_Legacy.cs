@@ -48,7 +48,7 @@ public class BattleRule_Legacy : ABattleRule
 
         if (user.LegacyData.Time.Data <= 0)
         {
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Pill, Message = "您已经没有了挑战时间！" });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "您已经没有了挑战时间！" });
 
             GameOver();
 
@@ -62,7 +62,7 @@ public class BattleRule_Legacy : ABattleRule
             user.LegacyData.Time.Data = -60; //如果切后台，导致currentRoundTime特别大
         }
 
-        string msg = "剩余时间：" + user.LegacyData.Time.Data + "S";
+        string msg = "剩余时间：" + (int)user.LegacyData.Time.Data + "S";
         GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
         var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);

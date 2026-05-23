@@ -146,7 +146,7 @@ public class Monster_Legacy : APlayer
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
-            Type = RuleType.Legacy,
+            Type = RuleType.Normal,
             Message = message
         });
     }

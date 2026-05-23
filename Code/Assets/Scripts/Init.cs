@@ -46,21 +46,15 @@ public class Init : MonoBehaviour
                 "Home/View_Bag",
                 "Home/View_Skill",
                 "Home/View_Forge",
-                "Home/View_More"
+                "Home/View_More",
+                "Home/View_TopStatu",
+                "Home/View_BottomNavBar",
             }
         },
         {
             UILayer.Center, new List<string>()
             {
-                "Home/View_TopStatu",
-                "Home/View_BottomNavBar",
-
                 "Map/Map_MainStage",
-                "Map/Map_Phantom",
-                "Map/Map_BossFamily",
-                "Map/Map_Defend",
-                "Map/Map_Infinite",
-                "Map/Map_Legacy",
                 "Map/Map_Babel",
                 "Window/Spirit/Map_Spirit",
 
@@ -88,7 +82,6 @@ public class Init : MonoBehaviour
                 "GameItem/Dialog_Detail_Select",
                 "GameItem/Dialog_Detail_Pet",
 
-                "Player/Player_Info",
                 "Window/Festive/Dialog_FloatButtons",
                 "Window/Loading",
                 "Window/Dialog_Drop",

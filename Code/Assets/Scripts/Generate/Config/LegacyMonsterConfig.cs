@@ -110,13 +110,16 @@ namespace Game
 		public string HpRise { get; set; }
 		/// <summary>LegacyResist</summary>
 		[ProtoMember(12)]
-		public double LegacyResist { get; set; }
+		public int LegacyResist { get; set; }
 		/// <summary>LegacyRise</summary>
 		[ProtoMember(13)]
-		public double LegacyRise { get; set; }
+		public int LegacyRise { get; set; }
 		/// <summary>SkillIdList</summary>
 		[ProtoMember(14)]
 		public int[] SkillIdList { get; set; }
+		/// <summary>Gold</summary>
+		[ProtoMember(15)]
+		public long Gold { get; set; }
 
 	}
 }

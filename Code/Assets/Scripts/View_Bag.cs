@@ -12,7 +12,7 @@ using static Game.PocketAD;
 
 namespace Game
 {
-    public class ViewBagProcessor : AViewPage
+    public class View_Bag : AViewPage
     {
         [Title("人物属性")]
         public Transform Tf_Attr;

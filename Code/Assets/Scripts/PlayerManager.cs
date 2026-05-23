@@ -247,7 +247,7 @@ namespace Game
 
         public bool IsCellCanMove(Vector3Int cell)
         {
-            var allCells = this.AllPlayers.Where(p => p.IsSurvice && p.Camp != PlayerType.Hero && p.Camp != PlayerType.Hero_Pet).Select(p => p.Cell).ToList();
+            var allCells = this.AllPlayers.Where(p => p.IsSurvice || p.Camp == PlayerType.Hero || p.Camp == PlayerType.Hero_Pet).Select(p => p.Cell).ToList();
             return !allCells.Contains(cell);
         }
 

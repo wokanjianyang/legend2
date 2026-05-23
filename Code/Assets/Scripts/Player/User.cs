@@ -51,11 +51,20 @@ namespace Game
             return CardEquipDict[id];
         }
 
-        public int GetCardEquipCount(int cardId)
+        public int GetCardEquipCount(int stage, int cardId)
         {
-            List<int> list = EquipConfigCategory.Instance.GetCardList(cardId).Select(m => m.Id).ToList();
-            int count = CardEquipDict.Where(m => list.Contains(m.Key)).Count();
-            return count;
+            if (stage <= 10)
+            {
+                List<int> list = EquipConfigCategory.Instance.GetCardList(cardId).Select(m => m.Id).ToList();
+                int count = CardEquipDict.Where(m => list.Contains(m.Key)).Count();
+                return count;
+            }
+            else
+            {
+                List<int> list = PetConfigCategory.Instance.GetCardList(cardId).Select(m => m.Id).ToList();
+                int count = CardEquipDict.Where(m => list.Contains(m.Key)).Count();
+                return count;
+            }
         }
 
         public Item GetEquip(int position)
@@ -505,7 +514,7 @@ namespace Game
 
                     for (int i = 0; i < config.AtrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)config.AtrIdList[i], AttributeFrom.Achivement, sp.Key, config.GetAtrVue(i,al));
+                        AttributeBonus.SetAttr((AttributeEnum)config.AtrIdList[i], AttributeFrom.Achivement, sp.Key, config.GetAtrVue(i, al));
                     }
                 }
             }
@@ -578,7 +587,7 @@ namespace Game
             //图鉴组合
             foreach (CardConfig config in CardConfigCategory.Instance.GetAll().Values)
             {
-                int count = this.GetCardEquipCount(config.Id);
+                int count = this.GetCardEquipCount(config.Stage, config.Id);
                 if (count >= config.Count)
                 {
                     for (int i = 0; i < config.AtrIdList.Length; i++)
@@ -674,6 +683,15 @@ namespace Game
         {
             this.SetAttr();
         }
+
+        public int GetRuneCount(int runeId)
+        {
+            //计算装备的词条加成
+            int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.RuneConfigId == runeId).Count();
+
+            return count;
+        }
+
 
         public List<SkillRune> GetRuneList(int skillId, List<SkillRuneConfig> buffList)
         {
@@ -1424,14 +1442,14 @@ namespace Game
             return LegacyLevel[id].Data;
         }
 
-        public void SaveLegacyLevel(int id)
+        public void SaveLegacyLevel(int id, int level)
         {
             if (!LegacyLevel.ContainsKey(id))
             {
                 LegacyLevel[id] = new MagicData();
             }
 
-            LegacyLevel[id].Data++;
+            LegacyLevel[id].Data += level;
         }
 
         public int GetLegacyLayer(int id)

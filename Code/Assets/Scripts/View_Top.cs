@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class TopNav : MonoBehaviour, IBattleLife
+    public class View_Top : MonoBehaviour, IBattleLife
     {
         [Title("顶部导航")]
         [LabelText("名称")]

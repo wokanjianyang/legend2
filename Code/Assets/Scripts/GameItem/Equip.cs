@@ -59,21 +59,7 @@ namespace Game
             Part = Config.Part;
             Position = Config.Position;
             Quality = quality;
-
-            QualityAttrList = new Dictionary<int, long>();
-            if (Quality > 0 && (Part <= 10 || Part >= 21))
-            {
-                EquipQualityConfig qualityConfig = EquipQualityConfigCategory.Instance.Get(quality);
-
-                if (qualityConfig.AttrIdList != null)
-                {
-                    int qualityRate = Level / 10 + 1;
-                    for (int i = 0; i < qualityConfig.AttrIdList.Length; i++)
-                    {
-                        QualityAttrList.Add(qualityConfig.AttrIdList[i], qualityConfig.AttrValueList[i] * qualityRate);
-                    }
-                }
-            }
+            Level = Config.LevelRequired;
 
             if (RuneConfigId > 0 && (Config.Cycle > 0))
             {
@@ -219,15 +205,15 @@ namespace Game
             }
 
             //计算品质属性
-            foreach (int attrId in QualityAttrList.Keys)
-            {
-                if (!AttrList.ContainsKey(attrId))
-                {
-                    AttrList[attrId] = 0;
-                }
+            //foreach (int attrId in QualityAttrList.Keys)
+            //{
+            //    if (!AttrList.ContainsKey(attrId))
+            //    {
+            //        AttrList[attrId] = 0;
+            //    }
 
-                AttrList[attrId] += QualityAttrList[attrId];
-            }
+            //    AttrList[attrId] += QualityAttrList[attrId];
+            //}
 
             return AttrList;
         }

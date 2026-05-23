@@ -15,7 +15,7 @@ namespace Game
         public Button Btn_Map;
         public Main_Map_Dialog MapMain;
 
-        public Button Btn_Info;
+        public Button Btn_Msg;
 
         public Button Btn_Achievement;
         public Dialog_Achievement Dlg_Achievement;
@@ -31,7 +31,7 @@ namespace Game
         void Start()
         {
             this.Btn_Map.onClick.AddListener(this.OnClick_Map);
-            this.Btn_Info.onClick.AddListener(this.OnClick_Info);
+            this.Btn_Msg.onClick.AddListener(this.OnClick_Info);
             this.Btn_Achievement.onClick.AddListener(this.OnClick_Achievement);
             this.Btn_Task.onClick.AddListener(this.OnClick_Task);
             this.Btn_Stage.onClick.AddListener(this.OnClick_ToStage);

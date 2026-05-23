@@ -62,7 +62,7 @@ public class Dialog_Card_Equip : MonoBehaviour
             Tf_List_Equip.gameObject.SetActive(false);
             Tf_List_Pet.gameObject.SetActive(true);
 
-            List<PetConfig> configs = PetConfigCategory.Instance.GetListByCardId(cardId);
+            List<PetConfig> configs = PetConfigCategory.Instance.GetCardList(cardId);
 
             for (int i = 0; i < petList.Count; i++)
             {

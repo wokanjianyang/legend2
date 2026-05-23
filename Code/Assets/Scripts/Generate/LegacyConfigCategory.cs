@@ -8,9 +8,9 @@ namespace Game
 
     public partial class LegacyConfigCategory
     {
-        public LegacyConfig GetByPosition(int part)
+        public LegacyConfig GetByPosition(int role, int part)
         {
-            return this.list.Where(m => m.Part == part).FirstOrDefault();
+            return this.list.Where(m => m.Role == role && m.Part == part).FirstOrDefault();
         }
 
 

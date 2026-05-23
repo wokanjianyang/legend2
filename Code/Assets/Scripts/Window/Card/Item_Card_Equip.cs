@@ -48,7 +48,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            int cardCount = user.GetCardEquipCount(Config.Id);
+            int cardCount = user.GetCardEquipCount(Config.Stage, Config.Id);
 
             string color = cardCount >= Config.Count ? "#00FF00" : "#FF0000";
             string rt = cardCount + "/" + Config.Count;

@@ -56,26 +56,27 @@ public class Panel_Legacy : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        this.Init();
-        this.Show();
+        this.ChangeRole(1);
     }
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
-
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
         for (int i = 0; i < items.Count(); i++)
         {
             int position = i + Role * 8 - 7;
-            long level = user.GetLegacyLayer(position);
-
-            Debug.Log("Legacy P:" + position);
-
 
             items[i].Init(ForgeType, position, toggleGroup);
         }
+    }
+
+    public void ChangeRole(int role)
+    {
+        this.Role = role;
+
+        this.Init();
+        this.Show();
     }
 
     public void SelectItem(int p)
@@ -90,7 +91,7 @@ public class Panel_Legacy : MonoBehaviour
         long MaxLevel = user.GetLegacyLayer(SelectPosition);
         long currentLevel = user.GetLegacyLevel(SelectPosition);
 
-        items[SelectPosition - 1].SetItem();
+        items[SelectPosition - 1].Refresh();
 
         long nextLevel = currentLevel + 1;
 
@@ -160,6 +161,62 @@ public class Panel_Legacy : MonoBehaviour
             {
                 AtrSpeListBase[i].gameObject.SetActive(false);
             }
+        }
+
+        for (int i = 0; i < AtrListLevel.Length; i++)
+        {
+            if (i < config.LevelIdList.Length)
+            {
+                int attrId = config.LevelIdList[i];
+
+                long atrRise = config.LevelValueList[i];
+                long attrCurrent = config.LevelValueList[i] * currentLevel;
+
+                AtrListLevel[i].SetContent(attrId, attrCurrent, atrRise);
+                AtrListLevel[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                AtrListLevel[i].gameObject.SetActive(false);
+            }
+
+        }
+
+        for (int i = 0; i < AtrSpeListLevel.Length; i++)
+        {
+            if (i < config.SpeLevel.Length)
+            {
+                int attrId = config.SpeAtrList[i];
+                long atrVue = config.SpeVueList[i];
+                int rv = config.SpeLevel[i];
+
+                AtrSpeListLevel[i].SetSpContent(attrId, atrVue, rv);
+                AtrSpeListLevel[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                AtrSpeListLevel[i].gameObject.SetActive(false);
+            }
+        }
+
+        LegacySetConfig setConfig = LegacySetConfigCategory.Instance.GetByRole(this.Role);
+        for (int i = 0; i < SetList.Length; i++)
+        {
+            if (i < setConfig.AtrIdList.Length)
+            {
+                int attrId = setConfig.AtrIdList[i];
+
+                long atrRise = setConfig.AtrVueList[i];
+                long attrCurrent = setConfig.AtrVueList[i] * currentLevel;
+
+                SetList[i].SetContent(attrId, attrCurrent, atrRise);
+                SetList[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                SetList[i].gameObject.SetActive(false);
+            }
+
         }
     }
 

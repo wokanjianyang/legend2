@@ -47,57 +47,60 @@ namespace Game
         {
             if (this.Position > 0)
             {
-                Tf_Bg.gameObject.SetActive(false);
-                Tf_Box.gameObject.SetActive(true);
-                Img_Logo.gameObject.SetActive(true);
-
-                this.Txt_Layer.gameObject.SetActive(false);
-                this.Txt_Level.gameObject.SetActive(false);
-
-                LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Position);
-
-                this.Txt_Name.text = config.Name;
-                this.Txt_Name.color = QualityConfigHelper.GetColor(6);
-                this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(6);
-
-                this.Img_Logo.sprite = PrefabHelper.Instance().GetLegacyLogo(Position);
-
                 User user = GameProcessor.Inst.User;
 
                 long layer = user.GetLegacyLayer(Position);
-                long level = user.GetLegacyLevel(Position);
 
                 if (layer > 0)
                 {
-                    this.Txt_Layer.text = ConfigHelper.LayerChinaList[layer] + "阶";
-                    this.Txt_Layer.gameObject.SetActive(true);
-                }
+                    long level = user.GetLegacyLevel(Position);
 
-                if (level > 0)
-                {
-                    this.Txt_Level.text = level + "级";
-                    this.Txt_Level.gameObject.SetActive(true);
+                    Tf_Bg.gameObject.SetActive(false);
+                    Tf_Box.gameObject.SetActive(true);
+                    Img_Logo.gameObject.SetActive(true);
+
+                    this.Txt_Layer.gameObject.SetActive(false);
+                    this.Txt_Level.gameObject.SetActive(false);
+
+                    LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Position);
+
+                    this.Txt_Name.text = config.Name;
+                    this.Txt_Name.color = QualityConfigHelper.GetColor(6);
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetLegacyLogo(Position);
+
+                    if (layer > 0)
+                    {
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[layer] + "阶";
+                        this.Txt_Layer.gameObject.SetActive(true);
+                    }
+
+                    if (level > 0)
+                    {
+                        this.Txt_Level.text = level + "级";
+                        this.Txt_Level.gameObject.SetActive(true);
+                    }
+
+                    return;
                 }
             }
-            else
-            {
-                this.Img_Logo.gameObject.SetActive(false);
-                Tf_Bg.gameObject.SetActive(true);
-                Tf_Box.gameObject.SetActive(false);
-            }
+
+            this.Img_Logo.gameObject.SetActive(false);
+            Tf_Bg.gameObject.SetActive(true);
+            Tf_Box.gameObject.SetActive(false);
+
         }
 
         public void Init(int type, int position, ToggleGroup group)
         {
             this.Position = position;
 
-            this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(Position);
+            int[] pl = { 1, 2, 3, 4, 5, 7, 9, 10 };
+            int p = pl[(position - 1) % 8];
+            this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(p);
 
             this.toggle.group = group;
-        }
 
-        public void SetItem()
-        {
             this.Show();
         }
 
@@ -105,7 +108,6 @@ namespace Game
         {
             this.Show();
         }
-
 
         private void Select(bool isOn)
         {

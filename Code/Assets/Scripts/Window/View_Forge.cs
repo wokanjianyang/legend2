@@ -7,7 +7,7 @@ using Game.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ViewForgeProcessor : AViewPage
+public class View_Forge : AViewPage
 {
     public List<Toggle> Toggle_Nav_List;
     public List<Transform> Tf_Nav_List;
@@ -24,11 +24,14 @@ public class ViewForgeProcessor : AViewPage
     public Toggle Toggle_Grade;
     public Panel_Grade PanelGrade;
 
-    public Toggle Toggle_Legacy_Level;
+    public Transform Tf_Toggle_Legacy;
+    private List<Toggle> Toggle_Legacy_List;
     public Panel_Legacy PanelLegacy;
 
     private void Awake()
     {
+        Toggle_Legacy_List = Tf_Toggle_Legacy.GetComponentsInChildren<Toggle>().ToList();
+
         for (int i = 0; i < Toggle_Nav_List.Count; i++)
         {
             int index = i;
@@ -38,6 +41,14 @@ public class ViewForgeProcessor : AViewPage
             });
         }
 
+        for (int i = 0; i < Toggle_Legacy_List.Count; i++)
+        {
+            int index = i;
+            this.Toggle_Legacy_List[index].onValueChanged.AddListener((isOn) =>
+            {
+                this.ChangeLegacy(index);
+            });
+        }
 
         this.Toggle_Composite.onValueChanged.AddListener((isOn) =>
         {
@@ -58,16 +69,17 @@ public class ViewForgeProcessor : AViewPage
         {
             PanelGrade.gameObject.SetActive(isOn);
         });
-
-        this.Toggle_Legacy_Level.onValueChanged.AddListener((isOn) =>
-        {
-            PanelLegacy.gameObject.SetActive(isOn);
-        });
     }
 
     private void ChangeType(int index, bool isOn)
     {
         Tf_Nav_List[index].gameObject.SetActive(isOn);
+    }
+
+    private void ChangeLegacy(int index)
+    {
+        PanelLegacy.gameObject.SetActive(true);
+        PanelLegacy.ChangeRole(index + 1);
     }
 
     void OnEnable()

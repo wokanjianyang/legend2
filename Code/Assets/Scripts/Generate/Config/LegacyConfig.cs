@@ -102,24 +102,24 @@ namespace Game
 		/// <summary>AtrVueList</summary>
 		[ProtoMember(9)]
 		public int[] AtrVueList { get; set; }
-		/// <summary>LevelIdList</summary>
+		/// <summary>SpeIdList</summary>
 		[ProtoMember(10)]
+		public int[] SpeIdList { get; set; }
+		/// <summary>SpeVueList</summary>
+		[ProtoMember(11)]
+		public int[] SpeVueList { get; set; }
+		/// <summary>SpeLayerList</summary>
+		[ProtoMember(12)]
+		public int[] SpeLayerList { get; set; }
+		/// <summary>LevelIdList</summary>
+		[ProtoMember(13)]
 		public int[] LevelIdList { get; set; }
 		/// <summary>LevelValueList</summary>
-		[ProtoMember(11)]
-		public int[] LayerValueList { get; set; }
-		/// <summary>LayerIdList</summary>
-		[ProtoMember(12)]
-		public int[] LayerIdList { get; set; }
-		/// <summary>LayerVueList</summary>
-		[ProtoMember(13)]
-		public int[] LayerVueList { get; set; }
-		/// <summary>SpeAtrList</summary>
 		[ProtoMember(14)]
-		public int[] SpeAtrList { get; set; }
-		/// <summary>SpeVueList</summary>
+		public int[] LevelValueList { get; set; }
+		/// <summary>SpeAtrList</summary>
 		[ProtoMember(15)]
-		public long[] SpeVueList { get; set; }
+		public int[] SpeAtrList { get; set; }
 		/// <summary>SpeLevel</summary>
 		[ProtoMember(16)]
 		public int[] SpeLevel { get; set; }

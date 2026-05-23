@@ -62,6 +62,7 @@ namespace Game
             {nameof(AttributeEnum.LegacyDamage), "传世增伤" },
 
 
+            {nameof(AttributeEnum.SkillLevelRise), "全技能等级" },
 
             {nameof(AttributeEnum.SpRate), "护盾固防" },
             {nameof(AttributeEnum.RealMulDamageResist), "完全减伤" },

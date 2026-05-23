@@ -72,6 +72,8 @@ namespace Game
 
         private void OnChangeMap(ChangeMainMapEvent e)
         {
+
+
             User user = GameProcessor.Inst.User;
 
             if (e.Type == RuleType.MainStage)
@@ -88,6 +90,21 @@ namespace Game
 
                 MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
                 this.Txt_MapName.text = config.Name + "-关卡挑战";
+            }
+            if (e.Type == RuleType.Legacy)
+            {
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                param.Add("MapTime", TimeHelper.ClientNowSeconds());
+                param.Add("Layer", e.MapId);
+
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.LoadMap(RuleType.Legacy, this.transform, param);
+                });
+
+                MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
+                this.Txt_MapName.text = "传世挑战-" + e.MapId + "阶";
             }
             else
             {

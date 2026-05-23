@@ -46,7 +46,7 @@ public class Map_Spirit_Item : MonoBehaviour
         var dialog = this.GetComponentInParent<Map_Dialog_Spirit>();
         dialog.gameObject.SetActive(false);
 
-        var vm = this.GetComponentInParent<ViewMore>();
+        var vm = this.GetComponentInParent<View_More>();
         vm.HideItem();
 
         GameProcessor.Inst.EventCenter.Raise(new SpiritStartEvent() { Id = Config.Id });

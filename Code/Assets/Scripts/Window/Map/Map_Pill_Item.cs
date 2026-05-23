@@ -34,7 +34,7 @@ public class Map_Pill_Item : MonoBehaviour
         var dialog = this.GetComponentInParent<Map_Dialog_Pill>();
         dialog.gameObject.SetActive(false);
 
-        var vm = this.GetComponentInParent<ViewMore>();
+        var vm = this.GetComponentInParent<View_More>();
         vm.HideItem();
 
         GameProcessor.Inst.EventCenter.Raise(new PillStartEvent() { Layer = Config.Layer, Type = Config.Type });

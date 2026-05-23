@@ -91,7 +91,7 @@ public class Dialog_BossFamily : MonoBehaviour, IBattleLife
     {
         int rate = toggle_Rate.isOn ? this.Rate : 1;
 
-        ViewMore vm = this.GetComponentInParent<ViewMore>();
+        View_More vm = this.GetComponentInParent<View_More>();
         vm.HideItem();
 
         //Start

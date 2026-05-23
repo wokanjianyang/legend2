@@ -53,7 +53,7 @@ namespace Game
 
             GameProcessor.Inst.Phantom_Auto_Id = this.Config.Id;
 
-            var vm = this.GetComponentInParent<ViewMore>();
+            var vm = this.GetComponentInParent<View_More>();
             vm.HideItem();
 
             GameProcessor.Inst.EventCenter.Raise(new PhantomStartEvent() { PhantomId = ConfigId });

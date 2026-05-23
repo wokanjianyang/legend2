@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class ViewMore : AViewPage
+    public class View_More : AViewPage
     {
         [LabelText("¸±±¾ÈÝÆ÷")]
         public RectTransform scrollRect;
@@ -17,7 +17,7 @@ namespace Game
         public Dialog_BossFamily ItemBoss;
 
         public Button Btn_Legacy;
-        public Dialog_Copy_Legacy ItemLegacy;
+        public Legacy_Copy_Info ItemLegacy;
 
         public Button Btn_Defend;
         public Dialog_Defend ItemDefend;

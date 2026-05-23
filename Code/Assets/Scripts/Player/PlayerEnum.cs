@@ -50,27 +50,17 @@ namespace Game
         BurstMul = 53,//连爆
         Miss2 = 54,//二次闪避
 
-
         SecondExp = 61, //每秒经验收益
         SecondGold = 62, //每秒金币收益
         RestoreHp = 63, //固定回血数值
         RestoreHpPercent = 64,//百分比回血数值
 
-
-        WarriorSkillPercent = 71, //战士技能百分比系数
-        WarriorSkillDamage = 72, //战士技能固定系数
-        MageSkillPercent = 73, //法师技能百分比系数
-        MageSkillDamage = 74, //法师技能固定系数
-        WarlockSkillPercent = 75, //道士技能百分比系数
-        WarlockSkillDamage = 76, //道士技能固定系数
-        SkillDeadlyRate = 77,  //技能致命率
-        SkillDeadlyDamage = 78, //技能致命伤害
-        SkillFinalDamage = 79, //技能终伤
-
         GoldIncrea = 81, //金币加成
         ExpIncrea = 82, //经验加成
         QualityIncrea = 83,//品质加成
         BurstIncrea = 84, //爆率加成
+        GoldKillIncrea = 85, //杀敌金币加成
+        ExpKillIncrea = 86, //杀敌经验加成
 
 
         CardDamage = 91,//图鉴增伤
@@ -78,6 +68,7 @@ namespace Game
         AchievementDamage = 93,//成就增伤
         LegacyDamage = 94,//传世增伤
 
+        SkillLevelRise = 222, //全技能等级增加
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成
         IncreaDef = 1002,//防御加成

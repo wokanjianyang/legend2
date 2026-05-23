@@ -25,6 +25,8 @@ namespace Game
 
         public Dictionary<int, MagicData> FashionData { get; set; } = new Dictionary<int, MagicData>();
 
+        public LegacyData LegacyData { get; set; } = new LegacyData();
+
         public int FashionUpId { get; set; } = 0;
 
         public int RecoveryTotal { get; set; } = 0;
@@ -160,8 +162,6 @@ namespace Game
 
         public IDictionary<int, MagicData> PetSpeicalLevelData { get; set; } = new Dictionary<int, MagicData>();
 
-        public MagicData LegacyPoint { get; } = new MagicData();
-
         public RecoverySetting RecoverySet { get; set; } = new RecoverySetting();
 
 
@@ -181,8 +181,6 @@ namespace Game
         public DefendData DefendData { get; set; }
 
         public InfiniteData InfiniteData { get; set; }
-
-        public LegacyData LegacyData { get; set; }
 
         public HeroPhatomData HeroPhatomData { get; set; }
 
@@ -1436,14 +1434,14 @@ namespace Game
             LegacyLevel[id].Data++;
         }
 
-        public long GetLegacyLayer(int id)
+        public int GetLegacyLayer(int id)
         {
             if (!LegacyLayer.ContainsKey(id))
             {
                 LegacyLayer[id] = new MagicData();
             }
 
-            return LegacyLayer[id].Data;
+            return (int)LegacyLayer[id].Data;
         }
 
         public void SaveLegacyLayer(int id, int layer)

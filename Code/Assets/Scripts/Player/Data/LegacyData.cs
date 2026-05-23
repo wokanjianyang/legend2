@@ -10,54 +10,31 @@ namespace Game
 
     public class LegacyData
     {
-        public Dictionary<int, List<int>> DropIdList = new Dictionary<int, List<int>>();
+        public long Ticket { get; set; }
 
-        public Dictionary<int, List<int>> DropLayerList = new Dictionary<int, List<int>>();
+        public MagicDouble Time { get; set; }
 
-        public int GetDropId(int role)
+        private const int DefaultTime = 3600;
+
+        public void Check(long level)
         {
-            if (!DropIdList.ContainsKey(role))
+            if (Time == null)
             {
-                DropIdList[role] = new List<int>();
+                Time = new MagicDouble();
+                Time.Data = DefaultTime;
             }
 
-            List<int> dropList = DropIdList[role];
-            if (dropList.Count < 500)
+            long nt = DateTime.Today.Ticks;
+
+            if (Ticket == 0 || nt > Ticket)
             {
-                for (int i = dropList.Count; i < 500; i++)
+                Ticket = nt;
+
+                if (level > 30 && Time.Data < DefaultTime * 7)
                 {
-                    int dropId = LegacyConfigCategory.Instance.GetDropItem(role).Id;
-                    dropList.Add(dropId);
+                    Time.Data += DefaultTime;
                 }
             }
-
-            int rs = dropList[0];
-            dropList.RemoveAt(0);
-
-            return rs;
-        }
-
-        public int GetDropLayer(int role, int layer)
-        {
-            if (!DropLayerList.ContainsKey(role))
-            {
-                DropLayerList[role] = new List<int>();
-            }
-
-            List<int> dropList = DropLayerList[role];
-            if (dropList.Count < 500)
-            {
-                for (int i = dropList.Count; i < 500; i++)
-                {
-                    int dropId = LegacyConfigCategory.Instance.GetDropLayer(layer);
-                    dropList.Add(dropId);
-                }
-            }
-
-            int rs = dropList[0];
-            dropList.RemoveAt(0);
-
-            return Math.Max(1, layer + rs - 3);
         }
     }
 }

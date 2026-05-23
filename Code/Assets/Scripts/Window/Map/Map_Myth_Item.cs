@@ -52,7 +52,7 @@ public class Map_Myth_Item : MonoBehaviour
         var dialog = this.GetComponentInParent<Map_Dialog_Myth>();
         dialog.gameObject.SetActive(false);
 
-        var vm = this.GetComponentInParent<ViewMore>();
+        var vm = this.GetComponentInParent<View_More>();
         vm.HideItem();
 
         GameProcessor.Inst.EventCenter.Raise(new MythStartEvent() { Id = Config.Id });

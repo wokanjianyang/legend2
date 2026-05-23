@@ -59,7 +59,7 @@ public class Map_Festive_Item : MonoBehaviour
         var dialog = this.GetComponentInParent<Map_Dialog_Festive>();
         dialog.gameObject.SetActive(false);
 
-        var vm = this.GetComponentInParent<ViewMore>();
+        var vm = this.GetComponentInParent<View_More>();
         vm.HideItem();
 
         GameProcessor.Inst.EventCenter.Raise(new FestiveStartEvent() { Id = Config.Id });

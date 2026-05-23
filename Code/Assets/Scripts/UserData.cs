@@ -134,22 +134,6 @@ namespace Game
                     user.InfiniteData = new InfiniteData();
                 }
 
-                if (user.GetLimitId() <= 1030)
-                {
-                    CycleConfigCategory.Instance.Init();
-                }
-
-                if (user.LegacyData == null)
-                {
-                    user.LegacyData = new LegacyData();
-                    user.LegacyData.GetDropId(1);
-                    user.LegacyData.GetDropId(2);
-                    user.LegacyData.GetDropId(3);
-                    user.LegacyData.GetDropLayer(1, 1);
-                    user.LegacyData.GetDropLayer(2, 1);
-                    user.LegacyData.GetDropLayer(3, 1);
-                }
-
                 if (user.DeviceId == "")
                 {
                     user.DeviceId = AppHelper.GetDeviceIdentifier();

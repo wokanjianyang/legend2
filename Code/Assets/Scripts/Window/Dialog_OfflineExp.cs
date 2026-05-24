@@ -102,7 +102,7 @@ namespace Game
             //user.SaveItemMeterialCount(1999994, 100000);
             //user.SaveItemMeterialCount(ItemHelper.SpecialId_Card_Stone, 10000000);
             //user.Cycle.Data = 2;
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 22, 1, 1)); //特戒
+            //items.Add(ItemHelper.BuildMaterial(10001,1)); //时装
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 32, 1, 1)); //普通金宠包
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 33, 1, 1)); //满资质金宠包
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 41, 1, 8)); //神器自选

@@ -640,6 +640,23 @@ namespace Game
                 }
             }
 
+            //传世套装
+            for (int i = 1; i <= 3; i++)
+            {
+                int ls = GetLegacySetLayer(i);
+                if (ls > 0)
+                {
+                    LegacySetConfig setConfig = LegacySetConfigCategory.Instance.GetByRole(i);
+
+                    if (i < setConfig.AtrIdList.Length)
+                    {
+                        long vue = setConfig.AtrVueList[i] * ls;
+
+                        AttributeBonus.SetAttr((AttributeEnum)(setConfig.AtrIdList[i]), AttributeFrom.Legacy, attrKey++, vue);
+                    }
+                }
+            }
+
             this.SkillNumber = ConfigHelper.SkillNumber;
 
             //更新属性面版

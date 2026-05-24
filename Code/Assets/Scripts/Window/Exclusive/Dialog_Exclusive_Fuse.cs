@@ -78,6 +78,23 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
         }
 
 
+        for (int i = 0; i < fuseList.Count; i++)
+        {
+            //Item_Fee
+            if (i < config.MidList.Length)
+            {
+                if (!fuseList[i].SetMaterialContent(config.MidList[i], config.McList[i]))
+                {
+                    Btn_OK.gameObject.SetActive(false);
+                }
+                fuseList[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                fuseList[i].gameObject.SetActive(false);
+            }
+        }
+
         if (user.GetExclusiveLevel(Tid) > 0)
         {
             Btn_OK.gameObject.SetActive(false);
@@ -85,34 +102,15 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
         }
         else
         {
+            Btn_OK.gameObject.SetActive(false);
             Txt_Actived.gameObject.SetActive(false);
-
-            if (config.RequireId == 0 || user.GetExclusiveLevel(config.RequireId) > 0)
-            {
-                Btn_OK.gameObject.SetActive(true);
-
-                for (int i = 0; i < config.MidList.Length; i++)
-                {
-                    //Item_Fee
-                    if (fuseList.Count < i)
-                    {
-                        fuseList[i].gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        if (!fuseList[i].SetMaterialContent(config.MidList[i], config.McList[i]))
-                        {
-                            Btn_OK.gameObject.SetActive(false);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Btn_OK.gameObject.SetActive(false);
-            }
         }
 
+        //Ç°ÖÃ²»Âú×ã
+        if (config.RequireId > 0 && user.GetExclusiveLevel(config.RequireId) > 0)
+        {
+            Btn_OK.gameObject.SetActive(false);
+        }
 
     }
 

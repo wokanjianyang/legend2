@@ -67,7 +67,7 @@ namespace Game
         FashionDamage = 92,//时装增伤
         AchievementDamage = 93,//成就增伤
         LegacyDamage = 94, //传世增伤
-        ExclusiveDamage = 95, //珍品增伤
+        ExclusiveDamage = 95, //珍宝增伤
 
         PetOnLimit = 111,  //宠物备战位
         PetBattleLimit = 112, //宠物出战位

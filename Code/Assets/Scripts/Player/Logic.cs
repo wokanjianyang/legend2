@@ -75,7 +75,7 @@ namespace Game
             {
                 double spDamge = totalDamage;
 
-                double spRate = this.SelfPlayer.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpRate);  //用默认属性不受buff和技能影响
+                double spRate = 0; // this.SelfPlayer.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpRate);  //用默认属性不受buff和技能影响
                 if (spRate > 0)
                 {
                     double maxHp = this.SelfPlayer.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP); //用默认属性，不受buff和技能影响

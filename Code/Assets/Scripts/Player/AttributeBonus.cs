@@ -139,6 +139,7 @@ namespace Game
                 case AttributeEnum.FashionDamage:
                 case AttributeEnum.LegacyDamage:
                 case AttributeEnum.AchievementDamage:
+                case AttributeEnum.ExclusiveDamage:
                     total = CalBattleSingleAttr(attrType);
                     break;
                 default:

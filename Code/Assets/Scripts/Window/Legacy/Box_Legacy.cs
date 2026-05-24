@@ -64,7 +64,7 @@ namespace Game
                     this.Txt_Layer.gameObject.SetActive(false);
                     this.Txt_Level.gameObject.SetActive(false);
 
-                    LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Role, Position);
+                    LegacyConfig config = LegacyConfigCategory.Instance.GetByPart(Role, Position);
 
                     this.Txt_Name.text = config.Name;
                     this.Txt_Name.color = QualityConfigHelper.GetColor(6);

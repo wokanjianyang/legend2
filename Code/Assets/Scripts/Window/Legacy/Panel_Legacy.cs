@@ -24,10 +24,10 @@ public class Panel_Legacy : MonoBehaviour
     private Forge_Atr_Item[] AtrSpeListBase;
 
     public Transform Tf_Atr_List_Level;
-    private Forge_Atr_Item[] AtrListLevel;
+    private Forge_Atr_Item[] AtrGradeList;
 
     public Transform Tf_Atr_Spe_List_Level;
-    private Forge_Atr_Item[] AtrSpeListLevel;
+    private Forge_Atr_Item[] AtrGradeSpeList;
 
     public Text Txt_Fee1;
     public Text Txt_Fee2;
@@ -46,8 +46,8 @@ public class Panel_Legacy : MonoBehaviour
         AtrListBase = Tf_Atr_List_Base.GetComponentsInChildren<Forge_Atr_Item>();
         AtrSpeListBase = Tf_Atr_Spe_List_Base.GetComponentsInChildren<Forge_Atr_Item>();
 
-        AtrListLevel = Tf_Atr_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
-        AtrSpeListLevel = Tf_Atr_Spe_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
+        AtrGradeList = Tf_Atr_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
+        AtrGradeSpeList = Tf_Atr_Spe_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
 
         items = Tran_Item_List.GetComponentsInChildren<Box_Legacy>();
         Btn_Ok.onClick.AddListener(OnClick_OK);
@@ -88,18 +88,20 @@ public class Panel_Legacy : MonoBehaviour
     {
         User user = GameProcessor.Inst.User;
 
-        int part = (Role - 1) * 8 + SelectPosition;
+        int keyId = (Role - 1) * 8 + SelectPosition;
 
-        long MaxLevel = user.GetLegacyLayer(part);
-        long currentLevel = user.GetLegacyLevel(part);
+        int currentLayer = user.GetLegacyLayer(keyId);
+        int currentLevel = user.GetLegacyLevel(keyId);
 
         items[SelectPosition - 1].Refresh();
 
-        long nextLevel = currentLevel + 1;
+        int nextLevel = currentLevel + 1;
 
-        LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Role, SelectPosition);
+        LegacyConfig config = LegacyConfigCategory.Instance.GetByPart(Role, SelectPosition);
 
-        if (currentLevel >= MaxLevel)
+        LegacyGradeConfig gradeConfig = LegacyGradeConfigCategory.Instance.GetConfig(keyId, nextLevel);
+
+        if (currentLevel >= currentLayer)
         {
             Txt_Fee1.text = "已满级";
             Txt_Fee2.text = "已满级";
@@ -107,14 +109,14 @@ public class Panel_Legacy : MonoBehaviour
         }
         else
         {
-            long fee1 = config.GetFee1(nextLevel);
+            long fee1 = gradeConfig.GetFee1(nextLevel);
             string color = user.MagicGold.Data >= fee1 ? "#11FF11" : "#FF1111";
 
             string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
             Txt_Fee1.text = string.Format("金币：<color={0}>{1}</color>", color, feeText);
 
 
-            long fee2 = config.GetFee2(nextLevel);
+            long fee2 = gradeConfig.GetFee2(nextLevel);
             long mc = user.GetMaterialCount(ItemHelper.Legacy_Stone);
             color = mc >= fee2 ? "#11FF11" : "#FF1111";
             Txt_Fee2.text = string.Format("传世精华：<color={0}>{1}</color>/{2}", color, mc, fee2);
@@ -133,28 +135,34 @@ public class Panel_Legacy : MonoBehaviour
         {
             if (i < config.AtrIdList.Length)
             {
-                int attrId = config.AtrIdList[i];
+                int rl = config.RequireList[i];
 
-                long atrRise = config.AtrVueList[i];
-                long attrCurrent = config.AtrVueList[i] * currentLevel;
+                if (currentLayer >= rl)
+                {
+                    int riseLayer = currentLayer - rl;
 
-                AtrListBase[i].SetContent(attrId, attrCurrent, atrRise);
-                AtrListBase[i].gameObject.SetActive(true);
+                    int attrId = config.AtrIdList[i];
+
+                    long atrRise = config.AtrVueList[i];
+                    long attrCurrent = config.AtrVueList[i] * riseLayer;
+
+                    AtrListBase[i].SetContent(attrId, attrCurrent, atrRise);
+                    AtrListBase[i].gameObject.SetActive(true);
+
+                    continue;
+                }
             }
-            else
-            {
-                AtrListBase[i].gameObject.SetActive(false);
-            }
 
+            AtrListBase[i].gameObject.SetActive(false);
         }
 
         for (int i = 0; i < AtrSpeListBase.Length; i++)
         {
-            if (i < config.SpeAtrList.Length)
+            if (i < config.SpeIdList.Length)
             {
-                int attrId = config.SpeAtrList[i];
+                int attrId = config.SpeIdList[i];
                 long atrVue = config.SpeVueList[i];
-                int rv = config.SpeLevel[i];
+                int rv = config.SpeRequireList[i];
 
                 AtrSpeListBase[i].SetSpContent(attrId, atrVue, rv);
                 AtrSpeListBase[i].gameObject.SetActive(true);
@@ -165,42 +173,49 @@ public class Panel_Legacy : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < AtrListLevel.Length; i++)
+        for (int i = 0; i < AtrGradeList.Length; i++)
         {
-            if (i < config.LevelIdList.Length)
+            if (i < gradeConfig.AtrIdList.Length)
             {
-                int attrId = config.LevelIdList[i];
+                int rl = gradeConfig.RequireList[i];
 
-                long atrRise = config.LevelValueList[i];
-                long attrCurrent = config.LevelValueList[i] * currentLevel;
+                if (currentLevel >= rl)
+                {
+                    int riseLevel = currentLevel - rl;
 
-                AtrListLevel[i].SetContent(attrId, attrCurrent, atrRise);
-                AtrListLevel[i].gameObject.SetActive(true);
+                    int attrId = gradeConfig.AtrIdList[i];
+
+                    long atrRise = gradeConfig.AtrVueList[i];
+                    long attrCurrent = gradeConfig.AtrVueList[i] * riseLevel;
+
+                    AtrGradeList[i].SetContent(attrId, attrCurrent, atrRise);
+                    AtrGradeList[i].gameObject.SetActive(true);
+
+                    continue;
+                }
+            }
+
+            AtrGradeList[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < AtrGradeSpeList.Length; i++)
+        {
+            if (i < gradeConfig.SpeIdList.Length)
+            {
+                int attrId = gradeConfig.SpeIdList[i];
+                long atrVue = gradeConfig.SpeVueList[i];
+                int rv = gradeConfig.SpeRequireList[i];
+
+                AtrGradeSpeList[i].SetSpContent(attrId, atrVue, rv);
+                AtrGradeSpeList[i].gameObject.SetActive(true);
             }
             else
             {
-                AtrListLevel[i].gameObject.SetActive(false);
-            }
-
-        }
-
-        for (int i = 0; i < AtrSpeListLevel.Length; i++)
-        {
-            if (i < config.SpeLevel.Length)
-            {
-                int attrId = config.SpeAtrList[i];
-                long atrVue = config.SpeVueList[i];
-                int rv = config.SpeLevel[i];
-
-                AtrSpeListLevel[i].SetSpContent(attrId, atrVue, rv);
-                AtrSpeListLevel[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                AtrSpeListLevel[i].gameObject.SetActive(false);
+                AtrGradeSpeList[i].gameObject.SetActive(false);
             }
         }
 
+        int legacySetLayer = user.GetLegacySetLayer(Role);
         LegacySetConfig setConfig = LegacySetConfigCategory.Instance.GetByRole(this.Role);
         for (int i = 0; i < SetList.Length; i++)
         {
@@ -209,7 +224,7 @@ public class Panel_Legacy : MonoBehaviour
                 int attrId = setConfig.AtrIdList[i];
 
                 long atrRise = setConfig.AtrVueList[i];
-                long attrCurrent = setConfig.AtrVueList[i] * currentLevel;
+                long attrCurrent = setConfig.AtrVueList[i] * legacySetLayer;
 
                 SetList[i].SetContent(attrId, attrCurrent, atrRise);
                 SetList[i].gameObject.SetActive(true);
@@ -226,11 +241,11 @@ public class Panel_Legacy : MonoBehaviour
     {
         User user = GameProcessor.Inst.User;
 
-        int part = (Role - 1) * 8 + SelectPosition;
-        long currentLevel = user.GetLegacyLevel(part);
-        long nextLevel = currentLevel + 1;
+        int keyId = (Role - 1) * 8 + SelectPosition;
+        int currentLevel = user.GetLegacyLevel(keyId);
+        int nextLevel = currentLevel + 1;
 
-        LegacyConfig config = LegacyConfigCategory.Instance.GetByPosition(Role, SelectPosition);
+        LegacyGradeConfig config = LegacyGradeConfigCategory.Instance.GetConfig(keyId, nextLevel);
 
         long fee1 = config.GetFee1(nextLevel);
 
@@ -259,7 +274,7 @@ public class Panel_Legacy : MonoBehaviour
         });
 
 
-        user.SaveLegacyLevel(part, 1);
+        user.SaveLegacyLevel(keyId, 1);
 
         GameProcessor.Inst.UpdateInfo();
 

@@ -270,7 +270,7 @@ namespace Game
 
         private void BuildOfflineMine(User user, long mineTime, ref string message)
         {
-            long runTime = (long)(ConfigHelper.Mine_Time * 100 / (100 + user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MetailFinal)));
+            long runTime = 1; // (long)(ConfigHelper.Mine_Time * 100 / (100 + user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MetailFinal)));
 
             runTime = Math.Max(runTime, 6);
 

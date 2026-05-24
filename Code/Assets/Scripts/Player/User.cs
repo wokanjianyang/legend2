@@ -409,10 +409,6 @@ namespace Game
         public long TempUpExp { get; set; } = 0;
 
         [JsonIgnore]
-        public int StoneNumber = 0;
-        [JsonIgnore]
-        public int SoulRingNumber = 0;
-        [JsonIgnore]
         public int SkillNumber = 0;
 
         public User()
@@ -534,9 +530,9 @@ namespace Game
             }
 
             //宠物属性
+            int attrKey = 1;
             foreach (var sp in this.PetList)
             {
-                int attrKey = 1;
                 Dictionary<int, double> attrList = sp.GetBaseAttr();
                 foreach (var al in attrList)
                 {
@@ -554,7 +550,10 @@ namespace Game
                 {
                     ExclusiveConfig config = ExclusiveConfigCategory.Instance.Get(id);
 
-                    AttributeBonus.SetAttr((AttributeEnum)(config.AttrId), AttributeFrom.Exclusive, config.Id, config.AttrValue);
+                    for (int i = 0; i < config.AtrIdList.Length; i++)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), AttributeFrom.Exclusive, config.Id, config.AtrVueList[i]);
+                    }
                 }
             }
 
@@ -612,8 +611,35 @@ namespace Game
                 }
             }
 
-            this.StoneNumber = 0;
-            this.SoulRingNumber = 0;
+            //传世
+            attrKey = 1;
+            for (int keyId = 1; keyId <= 24; keyId++)
+            {
+                int ly = GetLegacyLayer(keyId);
+                if (ly > 0)
+                {
+                    LegacyConfig config = LegacyConfigCategory.Instance.Get(keyId);
+
+                    Dictionary<int, double> attrList = config.GetTotalAtrList(ly);
+                    foreach (var al in attrList)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), AttributeFrom.Legacy, attrKey++, al.Value);
+                    }
+                }
+
+                int lv = GetLegacyLevel(keyId);
+                if (lv > 0)
+                {
+                    LegacyGradeConfig gradeConfig = LegacyGradeConfigCategory.Instance.GetConfig(keyId, lv);
+
+                    Dictionary<int, double> attrList = gradeConfig.GetTotalAtrList(lv);
+                    foreach (var al in attrList)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), AttributeFrom.Legacy, attrKey++, al.Value);
+                    }
+                }
+            }
+
             this.SkillNumber = ConfigHelper.SkillNumber;
 
             //更新属性面版
@@ -1432,44 +1458,59 @@ namespace Game
             return MagicEquipReform[position].Data;
         }
 
-        public long GetLegacyLevel(int id)
+        public int GetLegacyLevel(int keyId)
         {
-            if (!LegacyLevel.ContainsKey(id))
+            if (!LegacyLevel.ContainsKey(keyId))
             {
-                LegacyLevel[id] = new MagicData();
+                LegacyLevel[keyId] = new MagicData();
             }
 
-            return LegacyLevel[id].Data;
+            return (int)LegacyLevel[keyId].Data;
         }
 
-        public void SaveLegacyLevel(int id, int level)
+        public void SaveLegacyLevel(int keyId, int level)
         {
-            if (!LegacyLevel.ContainsKey(id))
+            if (!LegacyLevel.ContainsKey(keyId))
             {
-                LegacyLevel[id] = new MagicData();
+                LegacyLevel[keyId] = new MagicData();
             }
 
-            LegacyLevel[id].Data += level;
+            LegacyLevel[keyId].Data += level;
         }
 
-        public int GetLegacyLayer(int id)
+        public int GetLegacySetLayer(int role)
         {
-            if (!LegacyLayer.ContainsKey(id))
+            int startPart = (role - 1) * 8 + 1;
+            int endPart = (role - 1) * 8 + 8;
+
+            int count = LegacyLayer.Where(m => m.Key >= startPart && m.Key <= endPart).Count();
+            if (count < 8)
             {
-                LegacyLayer[id] = new MagicData();
+                return 0;
             }
 
-            return (int)LegacyLayer[id].Data;
+            return (int)LegacyLayer.Where(m => m.Key >= startPart && m.Key <= endPart).Select(m => m.Value.Data).Min();
         }
 
-        public void SaveLegacyLayer(int id, int layer)
+
+        public int GetLegacyLayer(int keyId)
         {
-            if (!LegacyLayer.ContainsKey(id))
+            if (!LegacyLayer.ContainsKey(keyId))
             {
-                LegacyLayer[id] = new MagicData();
+                LegacyLayer[keyId] = new MagicData();
             }
 
-            LegacyLayer[id].Data = layer;
+            return (int)LegacyLayer[keyId].Data;
+        }
+
+        public void SaveLegacyLayer(int keyId, int layer)
+        {
+            if (!LegacyLayer.ContainsKey(keyId))
+            {
+                LegacyLayer[keyId] = new MagicData();
+            }
+
+            LegacyLayer[keyId].Data = layer;
         }
 
         public long GetRefineStrenthPercetn(int position)

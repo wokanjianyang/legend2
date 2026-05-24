@@ -35,8 +35,12 @@ namespace Game
             {nameof(AttributeEnum.ExpIncrea), "经验加成" },
             {nameof(AttributeEnum.BurstIncrea), "爆率加成" },
             {nameof(AttributeEnum.GoldIncrea), "金币加成" },
+            {nameof(AttributeEnum.GoldKillIncrea), "杀敌金币" },
+            {nameof(AttributeEnum.ExpKillIncrea), "杀敌经验" },
             {nameof(AttributeEnum.SecondExp), "经验收益" },
             {nameof(AttributeEnum.SecondGold), "金币收益" },
+
+
             {nameof(AttributeEnum.RestoreHp), "固定回血" },
             {nameof(AttributeEnum.RestoreHpPercent), "比例回血" },
             {nameof(AttributeEnum.QualityIncrea), "品质加成" },
@@ -51,8 +55,8 @@ namespace Game
             {nameof(AttributeEnum.RateQuality), "品质增幅" },
             {nameof(AttributeEnum.RateCrit), "暴击增幅" },
             {nameof(AttributeEnum.RateLucky), "幸运增幅" },
-            {nameof(AttributeEnum.MetailFinal), "挖矿速度" },
-            {nameof(AttributeEnum.RelicRise), "神器掌控" },
+            //{nameof(AttributeEnum.MetailFinal), "挖矿速度" },
+            //{nameof(AttributeEnum.RelicRise), "神器掌控" },
             {nameof(AttributeEnum.RateCritDamage), "爆伤增幅" },
             {nameof(AttributeEnum.Shatter), "破韧倍率" },
 
@@ -60,14 +64,16 @@ namespace Game
             {nameof(AttributeEnum.FashionDamage), "时装增伤" },
             {nameof(AttributeEnum.AchievementDamage), "成就增伤" },
             {nameof(AttributeEnum.LegacyDamage), "传世增伤" },
+            {nameof(AttributeEnum.ExclusiveDamage), "珍品增伤" },
 
-
+            {nameof(AttributeEnum.PetOnLimit), "宠物备战位" },
+            {nameof(AttributeEnum.PetBattleLimit), "宠物出战位" },
             {nameof(AttributeEnum.SkillLevelRise), "全技能等级" },
 
-            {nameof(AttributeEnum.SpRate), "护盾固防" },
-            {nameof(AttributeEnum.RealMulDamageResist), "完全减伤" },
-            {nameof(AttributeEnum.RealHpDamage), "血量真伤" },
-            {nameof(AttributeEnum.RealCritRate), "弱点暴击" },
+            //{nameof(AttributeEnum.SpRate), "护盾固防" },
+            //{nameof(AttributeEnum.RealMulDamageResist), "完全减伤" },
+            //{nameof(AttributeEnum.RealHpDamage), "血量真伤" },
+            //{nameof(AttributeEnum.RealCritRate), "弱点暴击" },
 
             {nameof(AttributeEnum.PhyDamage), "物伤加成" },
             {nameof(AttributeEnum.MagicDamage),"魔伤加成" },
@@ -82,9 +88,7 @@ namespace Game
             {nameof(AttributeEnum.EquipQualityIncrea), "装备品质属性" },
             {nameof(AttributeEnum.EquipSetIncrea), "装备套装属性" },
 
-            {nameof(AttributeEnum.AurasDamageIncrea), "最终增伤" },
-            {nameof(AttributeEnum.AurasDamageResist), "最终减伤" },
-            {nameof(AttributeEnum.AurasAttrIncrea), "最终攻击" },
+
 
             {nameof(AttributeEnum.RateHp), "生命增幅" },
             {nameof(AttributeEnum.RateDef), "防御增幅" },
@@ -101,7 +105,7 @@ namespace Game
             //{nameof(AttributeEnum.PanelHp), "最终生命" },
             //{nameof(AttributeEnum.PanelPhyAtt), "最终物攻" },
             //{nameof(AttributeEnum.PanelMagicAtt),"最终魔法" },
-            {nameof(AttributeEnum.SkillValetSpeed), "宠物攻速" },
+            //{nameof(AttributeEnum.SkillValetSpeed), "宠物攻速" },
 
             {nameof(AttributeEnum.MulAtk), "攻击倍率" },
             {nameof(AttributeEnum.MulDef),"防御倍率" },

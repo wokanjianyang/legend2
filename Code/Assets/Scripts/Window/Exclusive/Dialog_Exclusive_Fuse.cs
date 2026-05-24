@@ -13,11 +13,13 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
     public Button Btn_Close;
 
     public Text Txt_Name;
-    public Text Txt_Attr;
+    public Transform Tf_Atr_List;
+    private List<Text> Txt_Atr_List;
     public Text Txt_Talent;
     public Text Txt_Require;
 
-    public List<Item_Metail_Need> fuseList;
+    public Transform Tf_Fuse;
+    private List<Item_Metail_Need> fuseList;
 
     public Button Btn_OK;
     public Text Txt_Actived;
@@ -28,6 +30,8 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
     {
         Btn_Close.onClick.AddListener(OnClick_Close);
         Btn_OK.onClick.AddListener(OnClick_Ok);
+        Txt_Atr_List = Tf_Atr_List.GetComponentsInChildren<Text>().ToList();
+        fuseList = Tf_Fuse.GetComponentsInChildren<Item_Metail_Need>().ToList();
     }
 
     public void Open(int tid)
@@ -46,7 +50,10 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         Txt_Name.text = config.Name;
 
-        Txt_Attr.text = StringHelper.FormatAttrText(config.AttrId, config.AttrValue);
+        for (int i = 0; i < config.AtrIdList.Length; i++)
+        {
+            Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i]);
+        }
 
         if (config.TalentId == 0)
         {
@@ -84,7 +91,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
             {
                 Btn_OK.gameObject.SetActive(true);
 
-                for (int i = 0; i < config.MaterialIdList.Length; i++)
+                for (int i = 0; i < config.MidList.Length; i++)
                 {
                     //Item_Fee
                     if (fuseList.Count < i)
@@ -93,7 +100,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
                     }
                     else
                     {
-                        if (!fuseList[i].SetMaterialContent(config.MaterialIdList[i], config.MaterialCountList[i]))
+                        if (!fuseList[i].SetMaterialContent(config.MidList[i], config.McList[i]))
                         {
                             Btn_OK.gameObject.SetActive(false);
                         }
@@ -122,10 +129,10 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         User user = GameProcessor.Inst.User;
 
-        for (int i = 0; i < config.MaterialIdList.Length; i++)
+        for (int i = 0; i < config.MidList.Length; i++)
         {
-            int mid = config.MaterialIdList[i];
-            int count = config.MaterialCountList[i];
+            int mid = config.MidList[i];
+            int count = config.McList[i];
 
             long stoneTotal = user.GetHideMaterialCount(mid);
             if (stoneTotal < count)
@@ -135,10 +142,10 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < config.MaterialIdList.Length; i++)
+        for (int i = 0; i < config.MidList.Length; i++)
         {
-            int mid = config.MaterialIdList[i];
-            int count = config.MaterialCountList[i];
+            int mid = config.MidList[i];
+            int count = config.McList[i];
 
             user.UseHideMaterialCount(mid, count);
         }

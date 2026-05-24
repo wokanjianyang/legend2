@@ -6,23 +6,25 @@ using UnityEngine;
 namespace Game
 {
 
-    public partial class LegacyConfigCategory
+    public partial class LegacyGradeConfigCategory
     {
-        public LegacyConfig GetByPart(int role, int part)
+        public LegacyGradeConfig GetConfig(int keyId, int level)
         {
-            return this.list.Where(m => m.Role == role && m.Part == part).FirstOrDefault();
+            return this.list.Where(m => m.KeyId == keyId && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
         }
-
-        public List<LegacyConfig> GetRoleList(int role)
-        {
-            return this.list.Where(m => m.Role == role).ToList();
-        }
-
     }
 
-
-    public partial class LegacyConfig
+    public partial class LegacyGradeConfig
     {
+        public long GetFee1(long level)
+        {
+            return this.Fee1 * level;
+        }
+        public long GetFee2(long level)
+        {
+            return this.Fee2 * level;
+        }
+
         public Dictionary<int, double> GetTotalAtrList(int level)
         {
             Dictionary<int, double> dict = new Dictionary<int, double>();

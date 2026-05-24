@@ -11,6 +11,7 @@ namespace Game
     public class Item_Exclusive_Material : MonoBehaviour, IPointerClickHandler
     {
         public Text Txt_Name;
+        public Image Img_Logo;
         public Text Txt_Count;
 
         public ExclusiveMaterialConfig Config { get; set; }

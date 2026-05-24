@@ -1,6 +1,7 @@
 using Game.Data;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,7 +16,9 @@ namespace Game
     public class Item_Exclusive : MonoBehaviour, IPointerClickHandler
     {
         public Text Txt_Name;
-        public Text Txt_Attr;
+        public Image Img_Logo;
+        public Transform Tf_Atr_List;
+        private List<Text> Txt_Atr_List;
         public Text Txt_Desc;
         public Image Img_Active;
         public ExclusiveConfig Config { get; set; }
@@ -24,9 +27,9 @@ namespace Game
         private ExclusiveItemSelectEvent _onSelected = new ExclusiveItemSelectEvent();
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-
+            Txt_Atr_List = Tf_Atr_List.GetComponentsInChildren<Text>().ToList();
         }
 
         // Update is called once per frame
@@ -66,8 +69,12 @@ namespace Game
         {
             this.Config = config;
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.Quality), Config.Name);
-            this.Txt_Attr.text = StringHelper.FormatAttrText(config.AttrId, config.AttrValue);
             this.Txt_Desc.text = Config.Des;
+
+            for (int i = 0; i < config.AtrIdList.Length; i++)
+            {
+                this.Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i]);
+            }
 
             this.Show();
         }

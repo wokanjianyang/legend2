@@ -59,16 +59,19 @@ namespace Game
         ExpIncrea = 82, //经验加成
         QualityIncrea = 83,//品质加成
         BurstIncrea = 84, //爆率加成
-        GoldKillIncrea = 85, //杀敌金币加成
-        ExpKillIncrea = 86, //杀敌经验加成
+        GoldKillIncrea = 85, //杀敌金币基础
+        ExpKillIncrea = 86, //杀敌经验基础
 
 
         CardDamage = 91,//图鉴增伤
         FashionDamage = 92,//时装增伤
         AchievementDamage = 93,//成就增伤
-        LegacyDamage = 94,//传世增伤
+        LegacyDamage = 94, //传世增伤
+        ExclusiveDamage = 95, //珍品增伤
 
-        SkillLevelRise = 222, //全技能等级增加
+        PetOnLimit = 111,  //宠物备战位
+        PetBattleLimit = 112, //宠物出战位
+        SkillLevelRise = 222, //全技能等级
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成
         IncreaDef = 1002,//防御加成
@@ -147,44 +150,44 @@ namespace Game
         EquipSetIncrea = 20004, //装备套装属性百分比
 
         //--废弃
-        MonsterFaster = 107,//副刷新速度加快
-        MetailFinal = 109, //挖矿
-        Talent = 111, //天赋点
-        DefendRate = 112, //防御系数
-        SpRate = 113,//护盾固防
-        RealHpDamage = 114,//真实血量伤害
-        RealMulDamageResist = 115, //溢出减伤迭代计算
-        RealCritRate = 116,//溢出暴击转为伤害加成
-        LuckyHit = 117, //青龙之力-幸运一击
-        Relic2 = 118, //神器2
-        Relic3 = 119, //神器2
-        Relic4 = 120, //神器2
-        Relic5 = 121, //神器2
-        RelicRise = 122, //所有神器等级+1
+        //MonsterFaster = 107,//副刷新速度加快
+        //MetailFinal = 109, //挖矿
+        //Talent = 111, //天赋点
+        //DefendRate = 112, //防御系数
+        //SpRate = 113,//护盾固防
+        //RealHpDamage = 114,//真实血量伤害
+        //RealMulDamageResist = 115, //溢出减伤迭代计算
+        //RealCritRate = 116,//溢出暴击转为伤害加成
+        //LuckyHit = 117, //青龙之力-幸运一击
+        //Relic2 = 118, //神器2
+        //Relic3 = 119, //神器2
+        //Relic4 = 120, //神器2
+        //Relic5 = 121, //神器2
+        //RelicRise = 122, //所有神器等级+1
 
-        AurasDamageResist = 201, //光环减伤
-        AurasDamageIncrea = 202, //光环增伤
-        AurasAttrIncrea = 203,//
+        //AurasDamageResist = 201, //光环减伤
+        //AurasDamageIncrea = 202, //光环增伤
+        //AurasAttrIncrea = 203,//
 
-        SkillUpCount = 301, //技能栏出战数量
-        SkillPhyDamage = 302, //物理伤害
-        SkillMagicDamage = 303,//魔法伤害
-        SkillSpiritDamage = 304, //道术伤害
-        SkillAllDamage = 305, //所有伤害加成
-        SkillValetCount = 306, //召唤数量+1
-        SkillValetSpeed = 307, //攻击速度
-        SkillValetHp = 308, //生命加成
+        //SkillUpCount = 301, //技能栏出战数量
+        //SkillPhyDamage = 302, //物理伤害
+        //SkillMagicDamage = 303,//魔法伤害
+        //SkillSpiritDamage = 304, //道术伤害
+        //SkillAllDamage = 305, //所有伤害加成
+        //SkillValetCount = 306, //召唤数量+1
+        //SkillValetSpeed = 307, //攻击速度
+        //SkillValetHp = 308, //生命加成
 
-        SkillDivine2010 = 12010, //分身神技
-        SkillDivine3010 = 13010, //无极神技
+        //SkillDivine2010 = 12010, //分身神技
+        //SkillDivine3010 = 13010, //无极神技
 
 
-        PanelHp = 11001, //面板生命
-        PanelPhyAtt = 11002, //面板物攻
-        PanelMagicAtt = 11003, //面板魔法
-        PanelSpiritAtt = 11004, //面板道术
-        PanelDef = 11005, //面板防御
-        PanelAtt = 11006,//面板攻击
+        //PanelHp = 11001, //面板生命
+        //PanelPhyAtt = 11002, //面板物攻
+        //PanelMagicAtt = 11003, //面板魔法
+        //PanelSpiritAtt = 11004, //面板道术
+        //PanelDef = 11005, //面板防御
+        //PanelAtt = 11006,//面板攻击
 
 
     }

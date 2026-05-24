@@ -90,18 +90,18 @@ namespace Game
 		/// <summary>TalentId</summary>
 		[ProtoMember(5)]
 		public int TalentId { get; set; }
-		/// <summary>AttrId</summary>
+		/// <summary>AtrIdList</summary>
 		[ProtoMember(6)]
-		public int AttrId { get; set; }
-		/// <summary>AttrValue</summary>
+		public int[] AtrIdList { get; set; }
+		/// <summary>AtrVueList</summary>
 		[ProtoMember(7)]
-		public int AttrValue { get; set; }
-		/// <summary>MaterialIdList</summary>
+		public int[] AtrVueList { get; set; }
+		/// <summary>MidList</summary>
 		[ProtoMember(8)]
-		public int[] MaterialIdList { get; set; }
-		/// <summary>MaterialCountList</summary>
+		public int[] MidList { get; set; }
+		/// <summary>McList</summary>
 		[ProtoMember(9)]
-		public int[] MaterialCountList { get; set; }
+		public int[] McList { get; set; }
 		/// <summary>Quality</summary>
 		[ProtoMember(10)]
 		public int Quality { get; set; }

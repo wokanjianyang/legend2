@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class LegacyConfigCategory : ProtoObject, IMerge
+    public partial class LegacyGradeConfigCategory : ProtoObject, IMerge
     {
-        public static LegacyConfigCategory Instance;
+        public static LegacyGradeConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, LegacyConfig> dict = new Dictionary<int, LegacyConfig>();
+        private Dictionary<int, LegacyGradeConfig> dict = new Dictionary<int, LegacyGradeConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<LegacyConfig> list = new List<LegacyConfig>();
+        private List<LegacyGradeConfig> list = new List<LegacyGradeConfig>();
 		
-        public LegacyConfigCategory()
+        public LegacyGradeConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            LegacyConfigCategory s = o as LegacyConfigCategory;
+            LegacyGradeConfigCategory s = o as LegacyGradeConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (LegacyConfig config in list)
+            foreach (LegacyGradeConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public LegacyConfig Get(int id)
+        public LegacyGradeConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out LegacyConfig item);
+            this.dict.TryGetValue(id, out LegacyGradeConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (LegacyConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (LegacyGradeConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, LegacyConfig> GetAll()
+        public Dictionary<int, LegacyGradeConfig> GetAll()
         {
             return this.dict;
         }
 
-        public LegacyConfig GetOne()
+        public LegacyGradeConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,47 +73,44 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class LegacyConfig: ProtoObject, IConfig
+	public partial class LegacyGradeConfig: ProtoObject, IConfig
 	{
 		/// <summary>ID</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>Role</summary>
-		[ProtoMember(2)]
-		public int Role { get; set; }
-		/// <summary>Part</summary>
-		[ProtoMember(3)]
-		public int Part { get; set; }
 		/// <summary>KeyId</summary>
-		[ProtoMember(4)]
+		[ProtoMember(2)]
 		public int KeyId { get; set; }
 		/// <summary>StartLevel</summary>
-		[ProtoMember(5)]
+		[ProtoMember(3)]
 		public int StartLevel { get; set; }
 		/// <summary>EndLevel</summary>
-		[ProtoMember(6)]
+		[ProtoMember(4)]
 		public int EndLevel { get; set; }
-		/// <summary>Name</summary>
-		[ProtoMember(7)]
-		public string Name { get; set; }
 		/// <summary>AtrIdList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(5)]
 		public int[] AtrIdList { get; set; }
 		/// <summary>AtrVueList</summary>
-		[ProtoMember(9)]
+		[ProtoMember(6)]
 		public int[] AtrVueList { get; set; }
 		/// <summary>RequireList</summary>
-		[ProtoMember(10)]
+		[ProtoMember(7)]
 		public int[] RequireList { get; set; }
 		/// <summary>SpeIdList</summary>
-		[ProtoMember(11)]
+		[ProtoMember(8)]
 		public int[] SpeIdList { get; set; }
 		/// <summary>SpeVueList</summary>
-		[ProtoMember(12)]
+		[ProtoMember(9)]
 		public int[] SpeVueList { get; set; }
 		/// <summary>SpeRequireList</summary>
-		[ProtoMember(13)]
+		[ProtoMember(10)]
 		public int[] SpeRequireList { get; set; }
+		/// <summary>Fee1</summary>
+		[ProtoMember(11)]
+		public long Fee1 { get; set; }
+		/// <summary>Fee2</summary>
+		[ProtoMember(12)]
+		public long Fee2 { get; set; }
 
 	}
 }

@@ -170,7 +170,7 @@ namespace Game
 
             //增加宠物经验，神器经验
             int kc = this.Config.Id * 10 + 10;
-            user.KillMonsterEnvent(kc, this.Quality);
+            user.KillMonsterEnvent(kc, this.Quality, 1);
 
             //区域boss独特掉落
         }

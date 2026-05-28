@@ -12,7 +12,6 @@ namespace Game
         public Transform Tf_Bg;
         public Transform Tf_Box;
 
-        public Toggle toggle;
         public Text Txt_Name;
         public Text Txt_Layer;
         public Text Txt_Level;
@@ -95,25 +94,6 @@ namespace Game
                 Tf_Bg.gameObject.SetActive(true);
                 Tf_Box.gameObject.SetActive(false);
             }
-        }
-
-        public void SetItem(string name, int quality, int count)
-        {
-            //this.Txt_Layer.gameObject.SetActive(false);
-            //this.Txt_Level.gameObject.SetActive(false);
-
-            //this.Txt_Name.text = name;
-            //Color color = ColorHelper.HexToColor(QualityConfigHelper.GetQualityColor(quality));
-            //Txt_Name.color = color;
-            //Txt_Level.color = color;
-
-            //image_Background.sprite = list_Backgrounds[quality - 1];
-
-            //if (count > 1)
-            //{
-            //    this.Txt_Level.text = count + "";
-            //    this.Txt_Level.gameObject.SetActive(true);
-            //}
         }
     }
 }

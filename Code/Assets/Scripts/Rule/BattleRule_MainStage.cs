@@ -29,9 +29,17 @@ public class BattleRule_MainStage : ABattleRule
 
         QualityList = new List<int>();
 
+        for (int i = 0; i < 2; i++)
+        {
+            QualityList.Add(5);
+        }
         for (int i = 0; i < 30; i++)
         {
             QualityList.Add(1);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            QualityList.Add(4);
         }
         for (int i = 0; i < 20; i++)
         {
@@ -41,14 +49,7 @@ public class BattleRule_MainStage : ABattleRule
         {
             QualityList.Add(3);
         }
-        for (int i = 0; i < 5; i++)
-        {
-            QualityList.Add(4);
-        }
-        for (int i = 0; i < 2; i++)
-        {
-            QualityList.Add(5);
-        }
+
     }
 
     public override void DoMapLogic(int roundNum, double currentRoundTime)
@@ -57,7 +58,7 @@ public class BattleRule_MainStage : ABattleRule
 
         MapConfig mapConfig = MapConfigCategory.Instance.Get(MapId);
 
-        string msg = "击杀所有怪物通关，剩余：" + QualityList.Count();
+        string msg = "击杀所有怪物通关，剩余：" + (QualityList.Count() + enemys.Count);
         GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
         if (enemys.Count < MaxQuanlity && QualityList.Count > 0)
@@ -68,7 +69,7 @@ public class BattleRule_MainStage : ABattleRule
             {
                 if (QualityList.Count > 0)
                 {
-                    if (QualityList[0] < 5)
+                    if (QualityList[0] <= 5)
                     {
                         var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, QualityList[0], RuleType.MainStage);
                         GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
@@ -83,7 +84,7 @@ public class BattleRule_MainStage : ABattleRule
             }
         }
 
-        if (Start && QualityList.Count <= 0)
+        if (Start && QualityList.Count <= 0 && enemys.Count <= 0)
         {
             Start = false;
 
@@ -93,7 +94,7 @@ public class BattleRule_MainStage : ABattleRule
                 //闯关成功
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                 {
-                    Message = $"<color=00FF00>挑战主线关卡成功,已自动解锁下一个地图</color>",
+                    Message = $"<color=#00FF00>挑战主线关卡成功,已自动解锁下一个地图</color>",
                     Type = RuleType.Normal
                 });
 

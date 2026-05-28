@@ -58,20 +58,20 @@ namespace Game
 
         private int BuildQuality()
         {
-            int rd = RandomHelper.RandomNumber(1, 1801);
+            int rd = RandomHelper.RandomNumber(1, 9001);
             if (rd < 1)
             {
                 return 5;
             }
-            else if (rd < 6)
+            else if (rd < 10)
             {
                 return 4;
             }
-            else if (rd < 30)
+            else if (rd < 100)
             {
                 return 3;
             }
-            else if (rd < 180)
+            else if (rd < 1000)
             {
                 return 2;
             }

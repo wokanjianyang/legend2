@@ -177,6 +177,8 @@ namespace Game
 
             int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
 
+            tempTime = 3600 * 20;
+
             int mapId = user.OfflineLog[1];
             int total = user.OfflineLog[2];
 
@@ -185,25 +187,19 @@ namespace Game
 
             int killCount = tempTime / ConfigHelper.OfflineTime * total;
 
-            killCount = 3600 * 20 * 5;
-
-            int kc = killCount * (mapConfig.Id + 5);
+            int kc = killCount * (mapConfig.GroupId + 1);
 
             List<Item> items = new List<Item>();
-            long rewardExp = 0;
-            long rewardGold = 0;
+            long exp = 0;
+            long gold = 0;
 
-
-            double burstRise = (user.AttributeBonus.CalBattleSingleMul(AttributeEnum.BurstIncrea) + 100) / 100.0;
-            double qualityRise = (user.AttributeBonus.CalBattleSingleMul(AttributeEnum.QualityIncrea) + 100) / 100.0;
+            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
+            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
             double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
 
-            burstRise = 1;
-            qualityRise = 1;
-
-            long exp = ((long)(monsterConfig.Exp * expRise)) * killCount;
-            long gold = ((long)(monsterConfig.Gold * goldRise)) * killCount;
+            exp += ((long)(monsterConfig.Exp * expRise)) * killCount;
+            gold += ((long)(monsterConfig.Gold * goldRise)) * killCount;
 
             items.AddRange(BuildMapReward1(killCount, mapId, burstRise, qualityRise, ref gold));
 
@@ -223,6 +219,18 @@ namespace Game
             this.Txt_Exp.text = "获得经验：" + exp + "，金币：" + gold;
 
             user.AddExpAndGold(exp, gold);
+
+            int[] qcl = { 1, 10, 100, 1000, 10000 };
+            int tempKill = killCount;
+            for (int q = 5; q >= 2; q--)
+            {
+                int qb = qcl[q - 1];
+                int kqc = killCount / qb;
+                user.KillMonsterEnvent(kc, q, kqc);
+
+                tempKill = tempKill - kqc;
+            }
+            user.KillMonsterEnvent(kc, 1, tempKill);
 
             foreach (var item in items)
             {
@@ -347,11 +355,9 @@ namespace Game
                 }
             }
 
-            var dd = dropDict.OrderByDescending(m => m.Key);
-
             Dictionary<int, long> recoveryDict = new Dictionary<int, long>();
 
-            foreach (var sp in dd)
+            foreach (var sp in dropDict)
             {
                 int count = sp.Value;
 
@@ -399,11 +405,12 @@ namespace Game
                     int keepCount = PetAtrConfigCategory.Instance.GetOfflineKeepCount(count);
                     if (keepCount > 0)
                     {
+                        keepCount = Math.Min(keepCount, 10);
                         int petId = baseConfig.ItemIdList[0];
                         //保留宠物
                         for (int k = 0; k < keepCount; k++)
                         {
-                            Pet pet = PetAtrConfigCategory.Instance.BuildPet(petId, 0, qualityRise);
+                            Pet pet = PetAtrConfigCategory.Instance.BuildOfflinePet(petId, 5);
                             itemList.Add(pet);
                         }
                     }
@@ -424,7 +431,9 @@ namespace Game
                 itemList.Add(ItemHelper.BuildItem(ItemType.Metal, sp.Key, qualityRise, sp.Value));
             }
 
-            return itemList;
+            List<Item> sortList = itemList.OrderByDescending(m => m.GetBagType() * 100000000 + m.ConfigId).ToList();
+
+            return sortList;
         }
 
         private void BuildOfflineMine(User user, long mineTime, ref string message)

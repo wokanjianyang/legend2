@@ -443,6 +443,15 @@ namespace Game
             double atk = CalBaseMaxAtk();
             power += atk;
 
+            AttributeEnum[] DamageLis = { AttributeEnum.CardDamage, AttributeEnum.FashionDamage, AttributeEnum.AchievementDamage, AttributeEnum.LegacyDamage, AttributeEnum.ExclusiveDamage };
+            foreach (var sp in DamageLis)
+            {
+                double dm = CalPanelTotalAttr(sp);
+                if (dm > 0)
+                {
+                    power *= (1 + dm / 100.0);
+                }
+            }
             double def = CalPanelTotalAttr(AttributeEnum.Def);
 
             power += def * 5;

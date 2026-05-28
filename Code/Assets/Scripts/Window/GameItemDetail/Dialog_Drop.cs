@@ -71,11 +71,11 @@ namespace Game
                 }
             }
 
-            foreach (var sp in mergeDict)
-            {
-                Box_Drop box = PrefabHelper.Instance().CreateBoxDrop(Container.content, sp.Key, 1, sp.Value);
-                ItemList.Add(box);
-            }
+            //foreach (var sp in mergeDict)
+            //{
+            //    Box_Drop box = PrefabHelper.Instance().CreateBoxDrop(Container.content, sp.Key, 1, sp.Value);
+            //    ItemList.Add(box);
+            //}
         }
 
         private void MergeDict(Dictionary<string, int> dict, string name)

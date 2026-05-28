@@ -1131,17 +1131,17 @@ namespace Game
         }
 
 
-        public void KillMonsterEnvent(int rate, int quality)
+        public void KillMonsterEnvent(int rate, int quality, int count)
         {
             foreach (Pet sp in PetList)
             {
                 sp.AddKillCount(rate);
-                sp.AddExp(1);
+                sp.AddExp(count);
             }
 
-            AddAchievementProgeress(AchievementProType.MonsterKillTotal, 1);
+            AddAchievementProgeress(AchievementProType.MonsterKillTotal, count);
             AchievementProType mk = (AchievementProType)(301 + quality);
-            AddAchievementProgeress(mk, 1);
+            AddAchievementProgeress(mk, count);
         }
 
         public void AddExpAndGold(double exp, double gold)

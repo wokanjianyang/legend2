@@ -131,7 +131,7 @@ namespace Game
                 index = ~index;
             }
 
-            return index + 1;
+            return array.Length - index;
         }
     }
 }

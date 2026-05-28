@@ -20,6 +20,18 @@ namespace Game
                 role = RandomHelper.RandomNumber(1, 4);
             }
 
+            return this.BuildPet(id, role, quality);
+        }
+
+        public Pet BuildOfflinePet(int id, int quality)
+        {
+            int role = RandomHelper.RandomNumber(1, 4);
+
+            return this.BuildPet(id, role, quality);
+        }
+
+        private Pet BuildPet(int id, int role, int quality)
+        {
             Pet pet = new Pet(id, role);
 
             pet.PetLevel.Data = 1;
@@ -29,7 +41,7 @@ namespace Game
 
             List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, quality);
 
-            //资质紫色1，橙色2，红色3，金色4
+            //资质紫色2，橙色3，红色3，金色4
             foreach (var flair in flairs)
             {
                 int attrId = flair.Key;
@@ -39,7 +51,7 @@ namespace Game
                 pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
             }
 
-            //技能紫色1，橙色2，红色3，金色4
+            //技能紫色2，橙色3，红色3，金色4
             List<KeyValuePair<int, int>> skills = BuildPetSkill(role, pet.Quality);
             foreach (var skill in skills)
             {
@@ -50,7 +62,7 @@ namespace Game
                 pet.Skills.Add(new KeyValuePair<int, MagicData>(skillId, skillLevel));
             }
 
-            //技能橙色1，红色2，金色3
+            //技能橙色2，红色3，金色4
             if (quality >= 4)
             {
                 List<int> talents = BuildPetTalents(skills.Select(m => m.Key).ToList(), pet.Quality);
@@ -62,6 +74,7 @@ namespace Game
 
             return pet;
         }
+
 
         public Pet BuildByPack(int configId)
         {
@@ -106,12 +119,12 @@ namespace Game
 
         private int GetFlairCount(int quality)
         {
-            return Math.Max(1, quality - 3);
+            return Math.Max(1, quality - 2);
         }
 
         private int GetTalentCount(int quality)
         {
-            return Math.Max(1, quality - 4);
+            return Math.Max(1, quality - 3);
         }
 
         private List<KeyValuePair<int, int>> BuildPetFlair(int role, int quality)

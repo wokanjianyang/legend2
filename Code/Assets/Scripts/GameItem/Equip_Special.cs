@@ -96,7 +96,7 @@ namespace Game
             if (Config.Cycle == 101)
             {
                 //四格的回收
-                long rn = CalRecoveryNumber();
+                long rn = CalRecoveryNumber() * number;
                 int rid = this.Config.RecoveryItemId;
 
                 if (!dict.ContainsKey(rid))
@@ -107,7 +107,7 @@ namespace Game
                 dict[rid] += rn;
             }
 
-            return 1;
+            return 1 * number;
         }
 
         private long CalRecoveryNumber()

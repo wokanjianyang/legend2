@@ -131,6 +131,9 @@ namespace Game
                 return;
             }
 
+            //计算泡点经验
+            SecondRewarod();
+
             //每分钟存档一次
             long ct = TimeHelper.ClientNowSeconds();
             if (saveTime == 0)
@@ -198,6 +201,22 @@ namespace Game
 
                 }
             }
+        }
+
+        private void SecondRewarod()
+        {
+            if (User == null)
+            {
+                return;
+            }
+
+            if (isTimeError)
+            {
+                return;
+            }
+
+            User.SecondExpTick = TimeHelper.ClientNowSeconds();
+            User.SecondTotal++;
         }
 
         public bool LoadInit(string str_json, string account, int serial)
@@ -283,6 +302,10 @@ namespace Game
                 //终端时间和网络时间差2分钟
                 isTimeError = true;
             }
+
+            isCheckError = false;
+            isTimeError = false;
+            isVersionError = false;
 
             if (!isTimeError && !isCheckError && !isVersionError && User.SecondExpTick >= 0)
             {
@@ -379,6 +402,9 @@ namespace Game
                         this.BattleRule = new BattleRule_Normal();
                     }
                     break;
+                case RuleType.Offline:
+                    this.BattleRule = new BattleRule_Offline(param);
+                    break;
                 case RuleType.MainStage:
                     this.BattleRule = new BattleRule_MainStage(param);
                     break;
@@ -442,10 +468,11 @@ namespace Game
 
             isLoadMap = true;
 
-            if (ruleType != RuleType.Normal)
-            {
-                this.PlayerInfo.SetShow(true);
-            }
+            this.PlayerInfo.SetShow(false);
+            //if (ruleType != RuleType.Normal)
+            //{
+            //   
+            //}
 
             this.StartGame();
         }
@@ -512,22 +539,22 @@ namespace Game
         }
         public void NewVersion(NewVersionEvent e)
         {
-            if (e.Type == 1)
-            {
-                if (User != null)
-                {
-                    User.OldFile = true;
-                }
-                StartCoroutine(this.AutoExitApp(ExitType.OldFile));
-            }
-            else
-            {
-                if (User != null)
-                {
-                    User.VersionLog[e.Version] = TimeHelper.ClientNowSeconds();
-                }
-                StartCoroutine(this.AutoExitApp(ExitType.Version));
-            }
+            //if (e.Type == 1)
+            //{
+            //    if (User != null)
+            //    {
+            //        User.OldFile = true;
+            //    }
+            //    StartCoroutine(this.AutoExitApp(ExitType.OldFile));
+            //}
+            //else
+            //{
+            //    if (User != null)
+            //    {
+            //        User.VersionLog[e.Version] = TimeHelper.ClientNowSeconds();
+            //    }
+            //    StartCoroutine(this.AutoExitApp(ExitType.Version));
+            //}
         }
 
         private void OnEndCopy(BattlerEndEvent e)

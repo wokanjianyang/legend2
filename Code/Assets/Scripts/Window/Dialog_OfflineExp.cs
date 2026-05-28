@@ -10,10 +10,12 @@ namespace Game
 {
     public class Dialog_OfflineExp : MonoBehaviour
     {
-        [LabelText("离线奖励提示")]
+        public ScrollRect Container;
         public Text Txt_Msg;
+        public Text Txt_Name;
+        public Text Txt_Kill;
+        public Text Txt_Exp;
 
-        [LabelText("领取按钮")]
         public Button Btn_OK;
 
         public Button Btn_Close;
@@ -36,6 +38,7 @@ namespace Game
         private void OnClick_OK()
         {
             this.gameObject.SetActive(false);
+            GameObject.Destroy(this.gameObject);
             //Time.timeScale = 1;
         }
 
@@ -154,63 +157,81 @@ namespace Game
             }
         }
 
-        public void TestInfinityDrop()
-        {
 
-            User user = GameProcessor.Inst.User;
-
-            for (int i = 0; i < 20; i++)
-            {
-                user.InfiniteData.GetDropId(10);
-                List<int> drops = user.InfiniteData.DropList[0];
-                user.InfiniteData.DropList.RemoveAt(0);
-
-                int countT = drops.Where(m => m >= 180032 && m <= 180034).Count();
-                if (countT > 0)
-                {
-                    Debug.Log(i + " drop Talent :" + countT);
-                }
-            }
-        }
 
         public void ShowOffline()
         {
             User user = GameProcessor.Inst.User;
 
+            if (user.OfflineLog.Count != 2)
+            {
+                this.Txt_Name.text = "没有设定离线副本";
+                this.Txt_Exp.text = "没有收益";
+                return;
+            }
+
+            List<Item> itemList = new List<Item>();
+
             long currentTick = TimeHelper.ClientNowSeconds();
             long offlineTime = currentTick - user.SecondExpTick;
 
-            long tempTime = Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
+            int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
+
+            int mapId = user.OfflineLog[1];
+            int total = user.OfflineLog[2];
+
+            MapConfig mapConfig = MapConfigCategory.Instance.Get(mapId);
+            MonsterBase monsterConfig = MonsterBaseCategory.Instance.Get(mapId);
+
+            int killCount = tempTime / ConfigHelper.OfflineTime * total;
+
+            killCount = 3600 * 20 * 5;
+
+            int kc = killCount * (mapConfig.Id + 5);
 
             List<Item> items = new List<Item>();
             long rewardExp = 0;
             long rewardGold = 0;
 
-            string OfflineMessage = "离线时间" + offlineTime + "S";
-            if (tempTime < offlineTime)
-            {
-                OfflineMessage += "，实际计算" + tempTime + "S)";
-            }
-            OfflineMessage += "\n";
 
-            if (user.OffLineMapId > 0)
-            {
+            double burstRise = (user.AttributeBonus.CalBattleSingleMul(AttributeEnum.BurstIncrea) + 100) / 100.0;
+            double qualityRise = (user.AttributeBonus.CalBattleSingleMul(AttributeEnum.QualityIncrea) + 100) / 100.0;
+            double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
+            double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
 
-            }
+            burstRise = 1;
+            qualityRise = 1;
+
+            long exp = ((long)(monsterConfig.Exp * expRise)) * killCount;
+            long gold = ((long)(monsterConfig.Gold * goldRise)) * killCount;
+
+            items.AddRange(BuildMapReward1(killCount, mapId, burstRise, qualityRise, ref gold));
+
+            //itemList.Add(ItemHelper.BuildItem(dropConfig.ItemType, config.DropIdList, 0, sp.Value));
 
             //离线经验，金币
 
             //离线挖矿
-            this.BuildOfflineMine(user, tempTime, ref OfflineMessage);
+            //this.BuildOfflineMine(user, tempTime, ref OfflineMessage);
 
             //测试道具
             this.TestSend(user);
 
             user.SecondExpTick = currentTick;
-            user.MinerTime = currentTick;
+            this.Txt_Name.text = mapConfig.Name + "：离线时间" + tempTime + "秒";
+            this.Txt_Kill.text = "击杀怪物：" + killCount + "，杀敌数+" + kc;
+            this.Txt_Exp.text = "获得经验：" + exp + "，金币：" + gold;
+
+            user.AddExpAndGold(exp, gold);
 
             foreach (var item in items)
             {
+                Box_Drop box = PrefabHelper.Instance().CreateBoxDrop(Container.content, item);
+            }
+
+            foreach (var item in items)
+            {
+
                 if (item.GetItemType() == ItemType.Material_Hide)
                 {
                     user.SaveHideMaterialCount(item.ConfigId, item.Temp_Number);
@@ -239,33 +260,171 @@ namespace Game
             if (saveDate.Day < DateTime.Now.Day || saveDate.Month < DateTime.Now.Month || saveDate.Year < DateTime.Now.Year)
             {
                 user.DefendData.Refresh();
-                user.HeroPhatomData.Refresh();
-                user.PillTime.Check(user.Cycle.Data);
-                user.RedRefreshCount.Data = 0;
+                user.BabelCount.Data = ConfigHelper.BabelCount;
 
-                int BabelCount = ConfigHelper.BabelCount;
-                if (user.BabelData.Data < 10000)
-                {
-                    BabelCount = ConfigHelper.BabelCount + 200;
-                }
-                else if (user.BabelData.Data < 20000)
-                {
-                    BabelCount = ConfigHelper.BabelCount + 100;
-                }
-
-                user.BabelCount.Data = BabelCount;
+                //user.HeroPhatomData.Refresh();
+                //user.PillTime.Check(user.Cycle.Data);
 
                 user.DataDate = DateTime.Now.Ticks;
                 //保存到Tap
             }
-            user.WorldData.Check();
+
             GameProcessor.Inst.SaveData();
+            GameProcessor.Inst.SaveNetData();
 
             this.gameObject.SetActive(true);
-
-            this.Txt_Msg.text = OfflineMessage;
-
             //Time.timeScale = 0;
+        }
+
+        private List<Item> BuildMapReward(int killCount, int mapId, double burstRise, double qualityRise)
+        {
+            User user = GameProcessor.Inst.User;
+
+            List<Item> items = new List<Item>();
+
+            for (int i = 0; i < killCount; i++)
+            {
+                //生成道具奖励
+                items.AddRange(DropConfigCategory.Instance.BuildDropItem(mapId, burstRise, qualityRise));
+            }
+
+            List<Item> recoveryList = user.CheckRecovery(items, out long recoveryGold, out int recoveryCount);
+
+            return items;
+        }
+
+        private List<Item> BuildMapReward1(int killCount, int mapId, double burstRise, double qualityRise, ref long gold)
+        {
+            List<Item> itemList = new List<Item>();
+
+            IDictionary<int, int> dropDict = new Dictionary<int, int>();
+
+            MapConfig config = MapConfigCategory.Instance.Get(mapId);
+
+            for (int i = 0; i < config.DropIdList.Length; i++)
+            {
+                int dropCount = (int)(killCount * burstRise / config.DropRateList[i]);
+
+                if (dropCount > 0)
+                {
+                    int dropId = config.DropIdList[i];
+
+                    DropConfig dropConfig = DropConfigCategory.Instance.Get(dropId);
+
+                    int baseRateTotal = dropConfig.BaseRateList.Sum();
+
+                    for (int k = 0; k < dropConfig.BaseIdList.Length; k++)
+                    {
+                        int baseCount = dropCount * dropConfig.BaseRateList[k] / baseRateTotal;
+
+                        if (baseCount > 0)
+                        {
+                            int baseId = dropConfig.BaseIdList[k];
+                            if (!dropDict.ContainsKey(baseId))
+                            {
+                                dropDict[baseId] = 0;
+                            }
+
+                            dropDict[baseId] += baseCount;
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < config.BaseIdList.Length; i++)
+            {
+                int baseCount = (int)(killCount * burstRise / (config.BaseRateList[i]));
+
+                if (baseCount > 0)
+                {
+                    int baseId = config.BaseIdList[i];
+                    if (!dropDict.ContainsKey(baseId))
+                    {
+                        dropDict[baseId] = 0;
+                    }
+
+                    dropDict[baseId] += baseCount;
+                }
+            }
+
+            var dd = dropDict.OrderByDescending(m => m.Key);
+
+            Dictionary<int, long> recoveryDict = new Dictionary<int, long>();
+
+            foreach (var sp in dd)
+            {
+                int count = sp.Value;
+
+                DropBaseConfig baseConfig = DropBaseConfigCategory.Instance.Get(sp.Key);
+
+                int ic = baseConfig.ItemIdList.Length;
+                int ec = count / ic;
+
+                if (baseConfig.ItemType == (int)ItemType.Equip)
+                {
+                    //保留橙色，其他全部自动回收
+                    int keepCount = EquipConfigCategory.Instance.GetOfflineKeepCount(count);
+
+                    if (keepCount > 0)
+                    {
+                        keepCount = Math.Min(keepCount, 10);
+
+                        //保留粉色装备
+                        for (int k = 0; k < keepCount; k++)
+                        {
+                            int index = RandomHelper.RandomNumber(0, baseConfig.ItemIdList.Length);
+                            int equipId = baseConfig.ItemIdList[index];
+
+                            Item equip = EquipConfigCategory.Instance.BuildOfflineEquip(equipId, 5);
+                            itemList.Add(equip);
+                        }
+                    }
+
+                    long price = EquipConfigCategory.Instance.Get(baseConfig.ItemIdList[0]).Price;
+                    gold += (long)((count - keepCount) * price); //期望回收收益为17000
+                }
+                else if (baseConfig.ItemType == (int)ItemType.EquipSpeical)
+                {
+                    for (int k = 0; k < ic; k++)
+                    {
+                        int equipId = baseConfig.ItemIdList[k];
+                        Equip_Special equip = ItemHelper.BuildItem(ItemType.EquipSpeical, equipId, qualityRise, 1) as Equip_Special;
+
+                        gold += equip.ToRecoverDict(recoveryDict, ec);
+                    }
+                }
+                else if (baseConfig.ItemType == (int)ItemType.Pet)
+                {
+                    //宠物,保留橙色，其他全部自动回收
+                    int keepCount = PetAtrConfigCategory.Instance.GetOfflineKeepCount(count);
+                    if (keepCount > 0)
+                    {
+                        int petId = baseConfig.ItemIdList[0];
+                        //保留宠物
+                        for (int k = 0; k < keepCount; k++)
+                        {
+                            Pet pet = PetAtrConfigCategory.Instance.BuildPet(petId, 0, qualityRise);
+                            itemList.Add(pet);
+                        }
+                    }
+
+                    gold += (long)((count - keepCount) * 17000); //期望回收收益为17000
+                }
+                else
+                {
+                    for (int k = 0; k < ic; k++)
+                    {
+                        itemList.Add(ItemHelper.BuildItem((ItemType)baseConfig.ItemType, baseConfig.ItemIdList[k], qualityRise, ec));
+                    }
+                }
+            }
+
+            foreach (var sp in recoveryDict)
+            {
+                itemList.Add(ItemHelper.BuildItem(ItemType.Metal, sp.Key, qualityRise, sp.Value));
+            }
+
+            return itemList;
         }
 
         private void BuildOfflineMine(User user, long mineTime, ref string message)
@@ -347,28 +506,21 @@ namespace Game
             return list;
         }
 
-        private void Test(User user)
+        public void TestInfinityDrop()
         {
-            for (int count = 1; count <= 10; count++)
+
+            User user = GameProcessor.Inst.User;
+
+            for (int i = 0; i < 20; i++)
             {
-                if (user.InfiniteData.DropList.Count > 0)
-                {
-                    user.InfiniteData.DropList.RemoveAt(0);
-                }
-                user.InfiniteData.GetDropId(1);
+                user.InfiniteData.GetDropId(10);
+                List<int> drops = user.InfiniteData.DropList[0];
+                user.InfiniteData.DropList.RemoveAt(0);
 
-                List<int> dropList = user.InfiniteData.DropList[0];
-
-                for (int i = 1; i < dropList.Count; i++)
+                int countT = drops.Where(m => m >= 180032 && m <= 180034).Count();
+                if (countT > 0)
                 {
-                    if (dropList[i - 1] == 4002)
-                    {
-                        //Debug.Log(count + "次 - " + i + "层 掉落魂骨");
-                    }
-                    else if (dropList[i - 1] >= 180001 && dropList[i - 1] <= 180101)
-                    {
-                        Debug.Log(count + "次 - " + i + "层 掉落法宝");
-                    }
+                    Debug.Log(i + " drop Talent :" + countT);
                 }
             }
         }

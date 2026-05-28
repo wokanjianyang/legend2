@@ -30,6 +30,12 @@ namespace Game
         public int FashionUpId { get; set; } = 0;
 
         public int RecoveryTotal { get; set; } = 0;
+
+        public Dictionary<int, int> OfflineLog { get; set; } = new Dictionary<int, int>();
+
+        public long SecondExpTick { get; set; }
+
+        public long SecondTotal { get; set; } = 0;
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -96,7 +102,7 @@ namespace Game
 
         public long Power { get; set; }
 
-        public long SecondExpTick { get; set; }
+
 
         public int ID { get; set; }
 

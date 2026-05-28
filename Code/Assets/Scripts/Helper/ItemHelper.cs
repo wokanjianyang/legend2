@@ -48,7 +48,7 @@ namespace Game
             }
             else if (type == ItemType.Pet)
             {
-                item = PetAtrConfigCategory.Instance.BuildPet(configId, 0, 0);
+                item = PetAtrConfigCategory.Instance.BuildPet(configId, 0, qualityRise);
             }
             else
             {

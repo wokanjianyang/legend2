@@ -9,9 +9,11 @@ namespace Game
 
     public partial class EquipConfigCategory
     {
+        private int[] rates = { 1, 5, 40, 200, 1000 };
+
         public Item BuildEquip(int configId, double qualityRise, int seed)
         {
-            int quality = RandomQuanlity(qualityRise);
+            int quality = MathHelper.RandomArrayIndex(rates, qualityRise);
 
             EquipConfig config = this.Get(configId);
 
@@ -42,6 +44,25 @@ namespace Game
             return item;
         }
 
+        public Item BuildOfflineEquip(int configId, int quality)
+        {
+            EquipConfig config = this.Get(configId);
+
+            int runeId = 0;
+            int suitId = 0;
+
+            SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, 0);
+
+            runeId = runeConfig.Id;
+
+            suitId = SkillSuitConfigCategory.Instance.RandomSuit(runeConfig.SkillId, quality, 0).Id;
+
+            Equip item = new Equip(configId, runeId, suitId, quality);
+            item.Init(0);
+
+            return item;
+        }
+
         public Equip BuildByPack(int configId)
         {
             GiftPackEquipConfig config = GiftPackEquipConfigCategory.Instance.Get(configId);
@@ -62,31 +83,14 @@ namespace Game
             return item;
         }
 
-        private static int RandomQuanlity(double qualityRise)
-        {
-            int start = 0;
-
-            int[] rates = { 1, 10, 100, 500, 2500 };
-
-            int r = RandomHelper.RandomNumber(0, rates[rates.Length - 1]);
-
-            r = (int)(r / qualityRise);
-
-            for (int i = 0; i < rates.Length; i++)
-            {
-                if (r < rates[i])
-                {
-                    return 5 - i - start;
-                }
-            }
-
-            return 1;
-        }
-
-
         public List<EquipConfig> GetCardList(int cardId)
         {
             return this.list.Where(m => m.CardGroupId == cardId).ToList();
+        }
+
+        public int GetOfflineKeepCount(int count)
+        {
+            return count / rates[rates.Length - 1];
         }
     }
 }

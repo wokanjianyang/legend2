@@ -9,14 +9,18 @@ namespace Game
 {
     public class Box_Drop : MonoBehaviour
     {
-        public Image image_Background;
-        public Sprite[] list_Backgrounds;
+        public Transform Tf_Bg;
+        public Transform Tf_Box;
 
+        public Toggle toggle;
         public Text Txt_Name;
         public Text Txt_Layer;
         public Text Txt_Level;
 
-        public Item GameItem { get; private set; }
+        public Image Img_Bg;
+        public Image Img_Logo;
+
+        private Item CurrentItem;
 
 
         // Start is called before the first frame update
@@ -31,58 +35,45 @@ namespace Game
 
         }
 
-        void OnEnable()
-        {
-            this.ShowName();
-        }
-
         public void SetItem(Item item)
         {
-            this.GameItem = item;
+            this.CurrentItem = item;
 
-            this.Txt_Name.text = item.GetName();
-
-            int quality = item.GetQuality();
-            image_Background.sprite = list_Backgrounds[quality - 1];
-
-            Color color = ColorHelper.HexToColor(QualityConfigHelper.GetQualityColor(quality));
-            Txt_Name.color = color;
-            Txt_Layer.color = color;
-            Txt_Level.color = color;
-
-            this.ShowName();
-        }
-
-        public void SetItem(string name, int quality, int count)
-        {
-            this.Txt_Layer.gameObject.SetActive(false);
-            this.Txt_Level.gameObject.SetActive(false);
-
-            this.Txt_Name.text = name;
-            Color color = ColorHelper.HexToColor(QualityConfigHelper.GetQualityColor(quality));
-            Txt_Name.color = color;
-            Txt_Level.color = color;
-
-            image_Background.sprite = list_Backgrounds[quality - 1];
-
-            if (count > 1)
+            if (this.CurrentItem != null)
             {
-                this.Txt_Level.text = count + "";
-                this.Txt_Level.gameObject.SetActive(true);
-            }
-        }
+                Tf_Bg.gameObject.SetActive(false);
+                Tf_Box.gameObject.SetActive(true);
+                Img_Logo.gameObject.SetActive(true);
 
-        private void ShowName()
-        {
-            this.Txt_Layer.gameObject.SetActive(false);
-            this.Txt_Level.gameObject.SetActive(false);
+                this.Txt_Layer.gameObject.SetActive(false);
+                this.Txt_Level.gameObject.SetActive(false);
 
-            if (this.GameItem != null)
-            {
-                if (GameItem.GetItemType() == ItemType.Equip)
+                int quality = CurrentItem.GetQuality();
+
+                this.Txt_Name.text = CurrentItem.GetName();
+                this.Txt_Name.color = QualityConfigHelper.GetColor(quality);
+
+                this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
+
+                if (CurrentItem.GetItemType() == ItemType.Equip)
                 {
-                    Equip equip = GameItem as Equip;
-                    if (equip.GetQuality() > 5 && equip.Part <= 10)
+                    Equip equip = CurrentItem as Equip;
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
+
+                    if (equip.Layer > 0)
+                    {
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
+                        this.Txt_Layer.gameObject.SetActive(true);
+                    }
+                }
+                else if (CurrentItem.GetItemType() == ItemType.EquipSpeical)
+                {
+                    Equip_Special equip = CurrentItem as Equip_Special;
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
+
+                    if (equip.Layer > 0)
                     {
                         this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
                         this.Txt_Layer.gameObject.SetActive(true);
@@ -90,10 +81,39 @@ namespace Game
                 }
                 else
                 {
-                    this.Txt_Level.text = GameItem.Temp_Number + "";
-                    this.Txt_Level.gameObject.SetActive(true);
+                    if (CurrentItem.Temp_Number > 1)
+                    {
+                        this.Txt_Level.gameObject.SetActive(true);
+                        this.Txt_Level.text = CurrentItem.Temp_Number + "";
+                    }
                 }
+
             }
+            else
+            {
+                this.Img_Logo.gameObject.SetActive(false);
+                Tf_Bg.gameObject.SetActive(true);
+                Tf_Box.gameObject.SetActive(false);
+            }
+        }
+
+        public void SetItem(string name, int quality, int count)
+        {
+            //this.Txt_Layer.gameObject.SetActive(false);
+            //this.Txt_Level.gameObject.SetActive(false);
+
+            //this.Txt_Name.text = name;
+            //Color color = ColorHelper.HexToColor(QualityConfigHelper.GetQualityColor(quality));
+            //Txt_Name.color = color;
+            //Txt_Level.color = color;
+
+            //image_Background.sprite = list_Backgrounds[quality - 1];
+
+            //if (count > 1)
+            //{
+            //    this.Txt_Level.text = count + "";
+            //    this.Txt_Level.gameObject.SetActive(true);
+            //}
         }
     }
 }

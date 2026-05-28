@@ -21,7 +21,7 @@ namespace Game
         public Image Img_Bg;
         public Image Img_Logo;
 
-        public int Role = 0;
+        private int Role = 0;
         private int Position = 0;
 
         // Start is called before the first frame update

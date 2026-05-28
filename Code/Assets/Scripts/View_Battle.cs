@@ -17,8 +17,9 @@ namespace Game
 
         public Button Btn_Msg;
 
-        public Button Btn_Achievement;
-        public Dialog_Achievement Dlg_Achievement;
+        public Button Btn_Offline;
+        public Dialog_State_Offline Dlg_Offline;
+
 
         public Button Btn_Task;
         public Dialog_Task Dlg_Task;
@@ -32,7 +33,7 @@ namespace Game
         {
             this.Btn_Map.onClick.AddListener(this.OnClick_Map);
             this.Btn_Msg.onClick.AddListener(this.OnClick_Info);
-            this.Btn_Achievement.onClick.AddListener(this.OnClick_Achievement);
+            this.Btn_Offline.onClick.AddListener(this.OnClick_Offline);
             this.Btn_Task.onClick.AddListener(this.OnClick_Task);
             this.Btn_Stage.onClick.AddListener(this.OnClick_ToStage);
 
@@ -91,7 +92,7 @@ namespace Game
                 MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
                 this.Txt_MapName.text = config.Name + "-关卡挑战";
             }
-            if (e.Type == RuleType.Legacy)
+            else if (e.Type == RuleType.Legacy)
             {
                 Dictionary<string, object> param = new Dictionary<string, object>();
                 param.Add("MapTime", TimeHelper.ClientNowSeconds());
@@ -105,6 +106,21 @@ namespace Game
 
                 MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
                 this.Txt_MapName.text = "传世挑战-" + e.MapId + "阶";
+            }
+            else if (e.Type == RuleType.Offline)
+            {
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                param.Add("MapTime", TimeHelper.ClientNowSeconds());
+                param.Add("MapId", e.MapId);
+
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.LoadMap(RuleType.Offline, this.transform, param);
+                });
+
+                MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
+                this.Txt_MapName.text = "离线记录-" + config.Name;
             }
             else
             {
@@ -172,9 +188,9 @@ namespace Game
         {
 
         }
-        private void OnClick_Achievement()
+        private void OnClick_Offline()
         {
-            this.Dlg_Achievement.gameObject.SetActive(true);
+            this.Dlg_Offline.gameObject.SetActive(true);
         }
         private void OnClick_Task()
         {

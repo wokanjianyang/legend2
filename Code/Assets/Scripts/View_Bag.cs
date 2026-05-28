@@ -1375,8 +1375,9 @@ namespace Game
 
         public void OnClick_Achievement()
         {
-
+            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Achievement });
         }
+
         public void OnClick_Cycle()
         {
             this.DialogCycle.gameObject.SetActive(true);

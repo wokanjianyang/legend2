@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class Dialog_Achievement : MonoBehaviour
+public class Dialog_Achievement : MonoBehaviour, IBattleLife
 {
     public Button Btn_Close;
 
@@ -36,6 +36,18 @@ public class Dialog_Achievement : MonoBehaviour
         this.Init();
     }
 
+    public void OnBattleStart()
+    {
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
+    }
+
+    private void Open(OpenDialogEvent e)
+    {
+        if (e.Type == DialogType.Achievement)
+        {
+            this.gameObject.SetActive(true);
+        }
+    }
 
     private void Init()
     {
@@ -99,5 +111,7 @@ public class Dialog_Achievement : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
+
+
 }
 

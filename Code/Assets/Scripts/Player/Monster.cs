@@ -185,12 +185,12 @@ namespace Game
             user.KillMonsterEnvent(kc, this.Quality);
 
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
-            double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0; ;
-            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0; ;
+            double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
+            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
             double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
 
-            double exp = Config.Exp * QualityConfig.ExpRate * expRise;
-            double gold = Config.Gold * QualityConfig.GoldRate * goldRise;
+            long exp = (long)(Config.Exp * QualityConfig.ExpRate * expRise);
+            long gold = (long)(Config.Gold * QualityConfig.GoldRate * goldRise);
 
 
             List<Item> items = new List<Item>();

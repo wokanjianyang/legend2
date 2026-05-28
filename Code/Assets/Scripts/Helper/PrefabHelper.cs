@@ -96,7 +96,7 @@ namespace Game
 
             Pet_Forge_Box_Prefab = Resources.Load<GameObject>("Prefab/Window/Pet/Pet_Forge_Box");
 
-            BoxDropPrefab = Resources.Load<GameObject>("Prefab/Window/GameItem/Box_Drop");
+            BoxDropPrefab = Resources.Load<GameObject>("Prefab/GameItem/Box_Drop");
 
             Message_Prefab = Resources.Load<GameObject>("Prefab/Dialog/Msg");
             DropMessage_Prefab = Resources.Load<GameObject>("Prefab/Window/Item/Item_DropMsg");

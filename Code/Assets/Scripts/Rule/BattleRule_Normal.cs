@@ -16,11 +16,6 @@ namespace Game
 
         public override void DoMapLogic(int roundNum, double currentRoundTime)
         {
-            if (roundNum % 2 != 0)
-            {
-                return;
-            }
-
             MapTime += currentRoundTime;
 
             var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);

@@ -77,6 +77,16 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
             Txt_Require.text = string.Format("<color={0}>无前置需求</color>", "#11FF11");
         }
 
+        if (user.GetExclusiveLevel(Tid) > 0)
+        {
+            Btn_OK.gameObject.SetActive(false);
+            Txt_Actived.gameObject.SetActive(true);
+        }
+        else
+        {
+            Btn_OK.gameObject.SetActive(true);
+            Txt_Actived.gameObject.SetActive(false);
+        }
 
         for (int i = 0; i < fuseList.Count; i++)
         {
@@ -93,17 +103,6 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
             {
                 fuseList[i].gameObject.SetActive(false);
             }
-        }
-
-        if (user.GetExclusiveLevel(Tid) > 0)
-        {
-            Btn_OK.gameObject.SetActive(false);
-            Txt_Actived.gameObject.SetActive(true);
-        }
-        else
-        {
-            Btn_OK.gameObject.SetActive(false);
-            Txt_Actived.gameObject.SetActive(false);
         }
 
         //前置不满足

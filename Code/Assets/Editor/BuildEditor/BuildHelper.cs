@@ -112,8 +112,9 @@ namespace ET
         [MenuItem("开发工具/生成测试包32位")]
         public static void BuildDebug()
         {
-            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
+            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
             PlayerSettings.applicationIdentifier = "com.lcgame.anyu2"; //com.lengend.test
             PlayerSettings.Android.useCustomKeystore = false;
             var opa = BuildOptions.CompressWithLz4HC | BuildOptions.Development | BuildOptions.AllowDebugging | BuildOptions.ConnectWithProfiler | BuildOptions.EnableDeepProfilingSupport;

@@ -21,7 +21,7 @@ namespace Game
     {
         Normal = 0, //默认地图
         MainStage, //关卡boss
-
+        Offline,
         Phantom,
         BossFamily,
         Defend,

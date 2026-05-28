@@ -18,6 +18,16 @@ namespace Game
         public int Position { get; set; }
     }
 
+
+    public class OpenDialogEvent : SDD.Events.Event
+    {
+        public DialogType Type { get; set; }
+    }
+
+    public enum DialogType
+    {
+        Achievement = 1,
+    }
     //--------------------------old--------------------------- 
 
     public class SetBackgroundColorEvent : SDD.Events.Event

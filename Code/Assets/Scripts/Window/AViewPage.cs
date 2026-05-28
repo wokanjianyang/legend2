@@ -14,20 +14,20 @@ namespace Game
         {
             this.gameObject.SetActive(this.CheckPageType(e.Page));
 
-            if (e.Page == ViewPageType.View_Battle)
-            {
-                GameProcessor.Inst.PlayerInfo?.SetShow(true);
+            //if (e.Page == ViewPageType.View_Battle)
+            //{
+            //    GameProcessor.Inst.PlayerInfo?.SetShow(true);
 
 
-                //Debug.Log("open view battle");
+            //    //Debug.Log("open view battle");
 
-                //重新计算人物属性
-                GameProcessor.Inst.UpdateInfo();
-            }
-            else
-            {
-                GameProcessor.Inst.PlayerInfo?.SetShow(false);
-            }
+            //    //重新计算人物属性
+            //    GameProcessor.Inst.UpdateInfo();
+            //}
+            //else
+            //{
+            //    GameProcessor.Inst.PlayerInfo?.SetShow(false);
+            //}
 
 
             if (this.CheckPageType(e.Page))

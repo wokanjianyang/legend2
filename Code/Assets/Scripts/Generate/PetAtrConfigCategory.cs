@@ -9,12 +9,12 @@ namespace Game
 
     public partial class PetAtrConfigCategory
     {
-        public Pet BuildPet(int id, int role, int quality)
+        private int[] rates = { 1, 4, 10, 25, 45 };
+
+        public Pet BuildPet(int id, int role, double qualityRise)
         {
-            if (quality == 0)
-            {
-                quality = RandomHelper.RandomNumber(1, 6);
-            }
+            int quality = MathHelper.RandomArrayIndex(rates, qualityRise);
+
             if (role == 0)
             {
                 role = RandomHelper.RandomNumber(1, 4);
@@ -250,6 +250,11 @@ namespace Game
                 total += GetPetLayerFee(i);
             }
             return total;
+        }
+
+        public int GetOfflineKeepCount(int count)
+        {
+            return count / rates[rates.Length - 1];
         }
     }
 }

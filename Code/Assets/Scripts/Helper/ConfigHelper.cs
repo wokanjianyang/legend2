@@ -20,9 +20,9 @@ namespace Game
 
         public const int Version = 1;
 
-        public const long PackTime = 1768816401; //打包时间，防止作弊
+        public const long PackTime = 1759807046; //打包时间，防止作弊
 
-        public const long PackEndTime = 1970544401; //超过此时间,游戏不能使用，需要更新
+        public const long PackEndTime = 1805727046; //超过此时间,游戏不能使用，需要更新
 
         public const long Max_Level = 120000; //最大人物等级和强化等级
 
@@ -126,5 +126,7 @@ namespace Game
         public const double PetKillPercent = 100.0;  //为了符合小数值，杀怪加属性削弱十倍
 
         public const int EnvTest = 2;  //0 不测试 ，1 测试伤害  2测试爆率
+
+        public const int OfflineTime = 60 * 5;
     }
 }

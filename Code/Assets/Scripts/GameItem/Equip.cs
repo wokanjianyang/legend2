@@ -325,7 +325,7 @@ namespace Game
                     dict[ItemHelper.Equip_Strong] = 0;
                 }
 
-                dict[ItemHelper.Equip_Strong] += CalStone();
+                dict[ItemHelper.Equip_Strong] += CalStone() * number;
 
                 if (this.GetQuality() >= 5)
                 {
@@ -334,12 +334,14 @@ namespace Game
                         dict[ItemHelper.Equip_Refine] = 0;
                     }
 
-                    dict[ItemHelper.Equip_Refine] += 1;
+                    dict[ItemHelper.Equip_Refine] += 1 * number;
                 }
             }
 
-            return Config.Price;
+            return (long)(Config.Price * Prices[GetQuality() - 1] * number);
         }
+
+        private double[] Prices = { 1, 1.1, 1.2, 1.5, 2 };
 
         private int CalStone()
         {

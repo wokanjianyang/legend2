@@ -16,8 +16,9 @@ namespace Game
         public Button Btn_Start;
         public Text Txt_Start;
         public Text Txt_Over;
+        public Text Txt_Progress;
 
-        private string[] names = new string[] { "普通", "困难", "噩梦", "地狱", "深渊", "混沌", "虚无", "寂灭" };
+        private string[] names = new string[] { "普通" };  //, "困难", "噩梦", "地狱", "深渊", "混沌", "虚无", "寂灭"
 
         private int Level = 0;
         private int Type = 0;
@@ -42,26 +43,26 @@ namespace Game
 
             long p = user.GetAchievementProgeress(AchievementProType.Defend) - (this.Level - 1) * 100;
 
-            //p = 0;
-            if (p >= 100)
-            {
-                Type = 3;
-                Txt_Start.text = "扫荡";
-                Btn_Start.gameObject.SetActive(true);
-            }
-            else if (p >= 0)
-            {
-                Type = 2;
-                Txt_Start.text = "挑战";
-                Btn_Start.gameObject.SetActive(true);
-            }
-            else
-            {
-                Type = 1;
-                Txt_Start.text = "挑战";
-                Btn_Start.gameObject.SetActive(false);
-            }
-
+            ////p = 0;
+            //if (p >= 100)
+            //{
+            //    Type = 3;
+            //    Txt_Start.text = "扫荡";
+            //    Btn_Start.gameObject.SetActive(true);
+            //}
+            //else if (p >= 0)
+            //{
+            //    Type = 2;
+            //    Txt_Start.text = "挑战";
+            //    Btn_Start.gameObject.SetActive(true);
+            //}
+            //else
+            //{
+            //    Type = 1;
+            //    Txt_Start.text = "挑战";
+            //    Btn_Start.gameObject.SetActive(false);
+            //}
+            this.Txt_Progress.text = "当前进度：" + p + "层";
 
             DefendRecord record = user.DefendData.GetCurrentRecord(this.Level);
             if (record == null)
@@ -94,46 +95,51 @@ namespace Game
 
             record.Count.Data--;
 
-            if (Type < 3)
-            {
-                this.GetComponentInParent<Dialog_Defend>().gameObject.SetActive(false);
-                GameProcessor.Inst.EventCenter.Raise(new CloseViewMoreEvent());
-                GameProcessor.Inst.EventCenter.Raise(new DefendStartEvent());
-            }
-            else
-            {
-                this.Btn_Start.gameObject.SetActive(false);
-                this.Txt_Over.gameObject.SetActive(true);
+            //this.GetComponentInParent<Dialog_Defend>().gameObject.SetActive(false);
 
-                double exp = 0;
-                double gold = 0;
+            GameProcessor.Inst.EventCenter.Raise(new ChangePageEvent() { Page = ViewPageType.View_Battle });
 
-                for (int i = 1; i <= 100; i++)
-                {
-                    DefendConfig rewardConfig = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, i);
+            int mapId = Level;
+            GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Defend, MapId = mapId });
 
-                    exp += rewardConfig.Exp;
-                    gold += rewardConfig.Gold;
-                }
+            //if (Type < 3)
+            //{
 
-                //增加经验,金币
-                user.AddExpAndGold(exp, gold);
+            //}
+            //else
+            //{
+            //    this.Btn_Start.gameObject.SetActive(false);
+            //    this.Txt_Over.gameObject.SetActive(true);
 
-                List<int> dropIdList = user.DefendData.GetDropIdList(this.Level);
+            //    double exp = 0;
+            //    double gold = 0;
 
-                List<Item> items = DropConfigCategory.Instance.BuildByDropBaseIdList(dropIdList, 1, 0);
+            //    for (int i = 1; i <= 100; i++)
+            //    {
+            //        DefendConfig rewardConfig = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, i);
 
-                if (items.Count > 0)
-                {
-                    GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-                }
+            //        exp += rewardConfig.Exp;
+            //        gold += rewardConfig.Gold;
+            //    }
 
-                user.DefendData.Complete();
+            //    //增加经验,金币
+            //    user.AddExpAndGold(exp, gold);
 
-                //显示掉落列表
-                string message = "获得金币：" + StringHelper.FormatNumber(gold) + " 经验：" + StringHelper.FormatNumber(exp) + "";
-                GameProcessor.Inst.EventCenter.Raise(new ShowDropEvent() { Message = message, Items = items });
-            }
+            //    List<int> dropIdList = user.DefendData.GetDropIdList(this.Level);
+
+            //    List<Item> items = DropConfigCategory.Instance.BuildByDropBaseIdList(dropIdList, 1, 0);
+
+            //    if (items.Count > 0)
+            //    {
+            //        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            //    }
+
+            //    user.DefendData.Complete();
+
+            //    //显示掉落列表
+            //    string message = "获得金币：" + StringHelper.FormatNumber(gold) + " 经验：" + StringHelper.FormatNumber(exp) + "";
+            //    GameProcessor.Inst.EventCenter.Raise(new ShowDropEvent() { Message = message, Items = items });
+            //}
         }
     }
 }

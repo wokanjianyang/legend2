@@ -76,11 +76,12 @@ public class Battle_Defend : ABattleRule
             //Load All
             for (int i = 0; i < MonsterList.Length; i++)
             {
-                var enemy = new Monster_DefendNew(this.Level, this.Progress, MonsterList[i]);
+                var enemy = new Monster_Defend(this.Level, this.Progress, MonsterList[i]);
                 GameProcessor.Inst.PlayerManager.LoadMonsterDefend(enemy);
             }
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowDefendInfoEvent() { Count = Progress, PauseCount = PauseCount });
+            string msg = "µ⁄" + Progress + "≤®£¨ £”‡" + PauseCount + "¥Œ∏¥ªÓ";
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
             this.Start = false;
 
@@ -99,7 +100,7 @@ public class Battle_Defend : ABattleRule
                 user.SetAchievementProgeress(AchievementProType.Defend, cp);
             }
 
-            this.BuildRewardNew();
+            this.BuildReward();
 
             this.Start = true;
             this.Progress++;
@@ -128,14 +129,14 @@ public class Battle_Defend : ABattleRule
         }
     }
 
-    private void BuildRewardNew()
+    private void BuildReward()
     {
         DefendConfig rewardConfig = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, (int)this.Progress);
 
         User user = GameProcessor.Inst.User;
 
-        long exp = (long)rewardConfig.Exp;
-        long gold = (long)rewardConfig.Gold;
+        long exp = (long)(rewardConfig.Exp + (this.Progress - 1) * rewardConfig.RiseExp);
+        long gold = exp;
 
         //‘ˆº”æ≠—È,Ω±“
         user.AddExpAndGold(exp, gold);
@@ -173,29 +174,11 @@ public class Battle_Defend : ABattleRule
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
             {
-                Type = RuleType.Defend,
+                Type = RuleType.Normal,
                 Message = BattleMsgHelper.BuildRewardMessage(" ÿŒ¿…≥≥«" + this.Progress + "Ω±¿¯:", exp, gold, items)
             });
         }
     }
-
-    //private void BuildReward()
-    //{
-    //    User user = GameProcessor.Inst.User;
-
-    //    List<Item> items = DropLimitHelper.Build((int)DropLimitType.Defend, 0, 1, 1, 9999999, 1);
-
-    //    if (items.Count > 0)
-    //    {
-    //        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-    //    }
-
-    //    GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-    //    {
-    //        Type = RuleType.Defend,
-    //        Message = BattleMsgHelper.BuildRewardMessage(" ÿŒ¿≥…π¶Ω±¿¯", 0, 0, items)
-    //    });
-    //}
 
     public override void CheckGameResult()
     {
@@ -212,7 +195,7 @@ public class Battle_Defend : ABattleRule
             this.Over = false;
             GameProcessor.Inst.User.DefendData.Complete();
 
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = " ÿŒ¿ ß∞‹" });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = " ÿŒ¿¡˙≥« ß∞‹" });
 
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
 

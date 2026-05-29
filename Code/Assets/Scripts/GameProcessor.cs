@@ -468,7 +468,7 @@ namespace Game
 
             isLoadMap = true;
 
-            this.PlayerInfo.SetShow(false);
+            //this.PlayerInfo.SetShow(false);
             //if (ruleType != RuleType.Normal)
             //{
             //   

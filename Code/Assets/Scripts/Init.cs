@@ -54,10 +54,6 @@ public class Init : MonoBehaviour
         {
             UILayer.Center, new List<string>()
             {
-                "Map/Map_MainStage",
-                "Map/Map_Babel",
-                "Window/Spirit/Map_Spirit",
-
                 "Window/Defend/Dialog_Defend",
                 "Window/Dialog_OfflineExp",
                 "Window/Setting/Dialog_Settings",

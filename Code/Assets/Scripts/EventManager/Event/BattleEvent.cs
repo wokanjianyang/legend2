@@ -22,6 +22,14 @@ namespace Game
         public ViewPageType Page { get; set; }
     }
 
+    public class BattleMsgEvent : SDD.Events.Event
+    {
+        public string Message { get; set; }
+
+        public RuleType Type { get; set; } = RuleType.Normal;
+
+        public int MessageLevel { get; set; }
+    }
     //--------------old
 
     public class PetBattleUpEvent : SDD.Events.Event
@@ -66,14 +74,7 @@ namespace Game
 
 
 
-    public class BattleMsgEvent : SDD.Events.Event
-    {
-        public string Message { get; set; }
 
-        public RuleType Type { get; set; } = RuleType.Normal;
-
-        public int MessageLevel { get; set; }
-    }
 
     public class MineMsgEvent : SDD.Events.Event
     {
@@ -158,11 +159,6 @@ namespace Game
 
     public class DefendStartEvent : SDD.Events.Event
     {
-    }
-    public class ShowDefendInfoEvent : SDD.Events.Event
-    {
-        public long Count { get; set; }
-        public long PauseCount { get; set; }
     }
 
     public class DefendBuffSelectEvent : SDD.Events.Event

@@ -107,6 +107,29 @@ namespace Game
                 MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
                 this.Txt_MapName.text = "传世挑战-" + e.MapId + "阶";
             }
+            else if (e.Type == RuleType.Defend)
+            {
+                DefendRecord record = user.DefendData.GetCurrentRecord(AppHelper.DefendLevel);
+
+                if (record == null)
+                {
+                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有了挑战次数", ToastType = ToastTypeEnum.Failure });
+                    return;
+                }
+
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                param.Add("progress", record.Progress.Data);
+                param.Add("hp", record.Hp.Data);
+                param.Add("count", record.Count.Data);
+
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.LoadMap(RuleType.Defend, this.transform, param);
+                });
+
+                this.Txt_MapName.text = "守卫龙城";
+            }
             else if (e.Type == RuleType.Offline)
             {
                 Dictionary<string, object> param = new Dictionary<string, object>();
@@ -149,10 +172,10 @@ namespace Game
         private int msgId = 0;
         private void OnBattleMsgEvent(BattleMsgEvent e)
         {
-            if (e.Type != RuleType.Normal)
-            {
-                return;
-            }
+            //if (e.Type != RuleType.Normal)
+            //{
+            //    return;
+            //}
 
             msgId++;
             Text txt_msg = null;

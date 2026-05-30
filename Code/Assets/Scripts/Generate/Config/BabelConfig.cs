@@ -84,33 +84,18 @@ namespace Game
 		/// <summary>End</summary>
 		[ProtoMember(3)]
 		public int End { get; set; }
-		/// <summary>ItemType</summary>
+		/// <summary>ItemTypeList</summary>
 		[ProtoMember(4)]
-		public int ItemType { get; set; }
-		/// <summary>ItemId</summary>
+		public int[] ItemTypeList { get; set; }
+		/// <summary>ItemIdList</summary>
 		[ProtoMember(5)]
-		public int ItemId { get; set; }
-		/// <summary>ItemCount</summary>
+		public int[] ItemIdList { get; set; }
+		/// <summary>ItemCountList</summary>
 		[ProtoMember(6)]
-		public int ItemCount { get; set; }
-		/// <summary>ItemType1</summary>
+		public int[] ItemCountList { get; set; }
+		/// <summary>RewardLevelList</summary>
 		[ProtoMember(7)]
-		public int ItemType1 { get; set; }
-		/// <summary>ItemId1</summary>
-		[ProtoMember(8)]
-		public int ItemId1 { get; set; }
-		/// <summary>ItemCount1</summary>
-		[ProtoMember(9)]
-		public int ItemCount1 { get; set; }
-		/// <summary>ItemType2</summary>
-		[ProtoMember(10)]
-		public int ItemType2 { get; set; }
-		/// <summary>ItemId2</summary>
-		[ProtoMember(11)]
-		public int ItemId2 { get; set; }
-		/// <summary>ItemCount2</summary>
-		[ProtoMember(12)]
-		public int ItemCount2 { get; set; }
+		public int[] RewardLevelList { get; set; }
 
 	}
 }

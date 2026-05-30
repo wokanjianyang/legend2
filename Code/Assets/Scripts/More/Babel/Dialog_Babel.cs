@@ -8,19 +8,18 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Map_Dialog_Babel : MonoBehaviour
+public class Dialog_Babel : MonoBehaviour
 {
     public int Order => (int)ComponentOrder.Dialog;
-
-    public Text Txt_Floor2;
-    public Text Txt_Floor1;
-    public Text Txt_Floor0;
 
     public Text Txt_Count;
     public Text Txt_Progress;
     public Text Txt_Reward;
 
-    public Text Txt_Rank;
+    public Text Txt_Rise;
+
+    public Button Btn_Rank;
+    public Button Btn_Atr;
 
     public Toggle toggle_Auto;
 
@@ -54,11 +53,13 @@ public class Map_Dialog_Babel : MonoBehaviour
         if (user.Account != "" && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
         {
             IsNet = true;
-            Txt_Rank.gameObject.SetActive(true);
+            Txt_Rise.gameObject.SetActive(true);
+            Btn_Rank.gameObject.SetActive(true);
         }
         else
         {
-            Txt_Rank.gameObject.SetActive(false);
+            Txt_Rise.gameObject.SetActive(false);
+            Btn_Rank.gameObject.SetActive(false);
         }
 
         if (progress == 0 && user.BabelCount.Data == 0)
@@ -68,11 +69,7 @@ public class Map_Dialog_Babel : MonoBehaviour
 
         long nextProgress = progress + 1;
 
-        Txt_Floor2.text = progress > 1 ? (progress - 1) + "层" : "";
-        Txt_Floor1.text = progress > 0 ? progress + "层" : "";
-        Txt_Floor0.text = nextProgress + "层";
-
-        Txt_Progress.text = "挑战层数:" + nextProgress + "";
+        Txt_Progress.text = "当前层数:" + nextProgress + "";
         Txt_Count.text = "今日挑战次数:" + user.BabelCount.Data;
 
         if (nextProgress > ConfigHelper.BabelMax)
@@ -100,23 +97,23 @@ public class Map_Dialog_Babel : MonoBehaviour
                                 string time = result.Data["time"];
                                 string rank = result.Data["rank"];
 
-                                this.Txt_Rank.text = "最高纪录 " + name + " " + rank + "层" + " (" + time + ")";
+                                this.Txt_Rise.text = "最高纪录 " + name + " " + rank + "层" + " (" + time + ")";
                                 AppHelper.BabelRecord = int.Parse(rank);
                             }
                             else
                             {
-                                this.Txt_Rank.text = "读取失败.";
+                                this.Txt_Rise.text = "读取失败.";
                             }
                         },
                         () =>
                         {
-                            this.Txt_Rank.text = "读取失败.";
+                            this.Txt_Rise.text = "读取失败.";
                         }
                         ));
             }
             catch (Exception ex)
             {
-                this.Txt_Rank.text = "读取失败，请稍等一会重试...";
+                this.Txt_Rise.text = "读取失败，请稍等一会重试...";
             }
         }
     }

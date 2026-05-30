@@ -23,7 +23,7 @@ namespace Game
         public Dialog_Defend ItemDefend;
 
         public Button Btn_Babel;
-        public Map_Dialog_Babel ItemBabel;
+        public Dialog_Babel ItemBabel;
 
 
         public Text Txt_Limit;

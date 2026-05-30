@@ -18,19 +18,18 @@ namespace Game
     {
         public Item BuildItem(long progress)
         {
+            for (int i = this.RewardLevelList.Length - 1; i >= 0; i--)
+            {
+                int rv = this.RewardLevelList[i];
 
-            if (progress % 100 == 0)
-            {
-                return ItemHelper.BuildItem((ItemType)ItemType2, ItemId2, 1, ItemCount2);
+                if (progress % rv == 0)
+                {
+                    return ItemHelper.BuildItem((ItemType)ItemTypeList[i], ItemIdList[i], 1, ItemCountList[i]);
+                }
             }
-            else if (progress % 10 == 0)
-            {
-                return ItemHelper.BuildItem((ItemType)ItemType1, ItemId1, 1, ItemCount1);
-            }
-            else
-            {
-                return ItemHelper.BuildItem((ItemType)ItemType, ItemId, 1, ItemCount);
-            }
+
+            return null;
+
         }
     }
 

@@ -28,7 +28,7 @@ namespace Game
 
         public RuleType Type { get; set; } = RuleType.Normal;
 
-        public int MessageLevel { get; set; }
+        public int Important { get; set; }
     }
     //--------------old
 

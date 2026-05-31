@@ -15,6 +15,7 @@ namespace Game
         public Button Btn_Map;
         public Main_Map_Dialog MapMain;
 
+        public Dialog_Drop_Message Dlg_Drop_Message;
         public Button Btn_Msg;
 
         public Button Btn_Offline;
@@ -32,7 +33,7 @@ namespace Game
         void Start()
         {
             this.Btn_Map.onClick.AddListener(this.OnClick_Map);
-            this.Btn_Msg.onClick.AddListener(this.OnClick_Info);
+            this.Btn_Msg.onClick.AddListener(this.OnClick_Msg);
             this.Btn_Offline.onClick.AddListener(this.OnClick_Offline);
             this.Btn_Task.onClick.AddListener(this.OnClick_Task);
             this.Btn_Stage.onClick.AddListener(this.OnClick_ToStage);
@@ -227,9 +228,9 @@ namespace Game
         {
             MapMain.gameObject.SetActive(true);
         }
-        private void OnClick_Info()
+        private void OnClick_Msg()
         {
-
+            Dlg_Drop_Message.gameObject.SetActive(true);
         }
         private void OnClick_Offline()
         {

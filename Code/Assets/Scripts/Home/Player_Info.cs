@@ -16,7 +16,7 @@ public class Player_Info : MonoBehaviour, IBattleLife
     //public TMP_Text txt_Name;
 
     public Text Txt_Name;
-
+    public Text Txt_Level;
     public HP_Progress hp_Progress;
 
     public HP_Progress sp_Progress;
@@ -84,7 +84,8 @@ public class Player_Info : MonoBehaviour, IBattleLife
 
     private void Init()
     {
-        this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(SelfPlayer.Quality), SelfPlayer.Name);
+        this.Txt_Level.text = "Lv." + SelfPlayer.Level;
+        this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(SelfPlayer.Quality), SelfPlayer.Name );
         if (SelfPlayer.MaxSP > 0)
         {
             this.sp_Progress.gameObject.SetActive(true);

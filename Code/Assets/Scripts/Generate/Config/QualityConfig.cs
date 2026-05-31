@@ -92,16 +92,16 @@ namespace Game
 		public double HpRate { get; set; }
 		/// <summary>金币系数</summary>
 		[ProtoMember(6)]
-		public int GoldRate { get; set; }
+		public double GoldRate { get; set; }
 		/// <summary>经验系数</summary>
 		[ProtoMember(7)]
-		public int ExpRate { get; set; }
+		public double ExpRate { get; set; }
 		/// <summary>掉率系数</summary>
 		[ProtoMember(8)]
-		public int DropRate { get; set; }
+		public double DropRate { get; set; }
 		/// <summary>品质系数</summary>
 		[ProtoMember(9)]
-		public int QualityRate { get; set; }
+		public double QualityRate { get; set; }
 
 	}
 }

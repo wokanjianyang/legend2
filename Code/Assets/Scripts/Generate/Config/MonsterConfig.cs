@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class MonsterBaseCategory : ProtoObject, IMerge
+    public partial class MonsterConfigCategory : ProtoObject, IMerge
     {
-        public static MonsterBaseCategory Instance;
+        public static MonsterConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, MonsterBase> dict = new Dictionary<int, MonsterBase>();
+        private Dictionary<int, MonsterConfig> dict = new Dictionary<int, MonsterConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<MonsterBase> list = new List<MonsterBase>();
+        private List<MonsterConfig> list = new List<MonsterConfig>();
 		
-        public MonsterBaseCategory()
+        public MonsterConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            MonsterBaseCategory s = o as MonsterBaseCategory;
+            MonsterConfigCategory s = o as MonsterConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (MonsterBase config in list)
+            foreach (MonsterConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public MonsterBase Get(int id)
+        public MonsterConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out MonsterBase item);
+            this.dict.TryGetValue(id, out MonsterConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (MonsterBase)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (MonsterConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, MonsterBase> GetAll()
+        public Dictionary<int, MonsterConfig> GetAll()
         {
             return this.dict;
         }
 
-        public MonsterBase GetOne()
+        public MonsterConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,7 +73,7 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class MonsterBase: ProtoObject, IConfig
+	public partial class MonsterConfig: ProtoObject, IConfig
 	{
 		/// <summary>ID</summary>
 		[ProtoMember(1)]

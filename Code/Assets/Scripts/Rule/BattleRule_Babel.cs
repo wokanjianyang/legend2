@@ -12,7 +12,7 @@ public class BattleRule_Babel : ABattleRule
 
     private long Progress = 0;
 
-    private const double TimeMax = 180;
+    private const double TimeMax = 120;
     private double TimeTotal = 0;
 
     private int[] MonsterList1 = new int[] { 1, 1, 1, 1, 1, 1 };
@@ -45,6 +45,8 @@ public class BattleRule_Babel : ABattleRule
 
             foreach (int type in types)
             {
+                GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Title = "Í¨ÌìËþ" + this.Progress + "²ã" });
+
                 var RealBoss = new Monster_Babel(Progress, type);
                 GameProcessor.Inst.PlayerManager.LoadMonster(RealBoss);
             }

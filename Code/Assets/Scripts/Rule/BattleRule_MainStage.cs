@@ -71,7 +71,7 @@ public class BattleRule_MainStage : ABattleRule
                 {
                     if (QualityList[0] <= 5)
                     {
-                        var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, QualityList[0], RuleType.MainStage);
+                        var enemy = MonsterConfigCategory.Instance.BuildMonster(mapConfig, QualityList[0], RuleType.MainStage);
                         GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
                     }
                     else

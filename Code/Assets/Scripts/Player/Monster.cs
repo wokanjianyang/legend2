@@ -9,7 +9,7 @@ namespace Game
     {
         public int MapId;
         public int MonsterId;
-        MonsterBase Config { get; set; }
+        MonsterConfig Config { get; set; }
         QualityConfig QualityConfig { get; set; }
 
         public Monster(int mapId, int quality, RuleType ruleType) : base()
@@ -21,7 +21,7 @@ namespace Game
 
             this.RuleType = ruleType;
 
-            this.Config = MonsterBaseCategory.Instance.Get(MonsterId);
+            this.Config = MonsterConfigCategory.Instance.Get(MonsterId);
             this.QualityConfig = QualityConfigCategory.Instance.Get(Quality);
 
             this.Init();
@@ -34,7 +34,7 @@ namespace Game
 
             this.Name = Config.Name;
 
-            this.Level = (Config.MapId - 999) * 100;
+            this.Level = Config.MapId;
             this.FashionId = Config.ModelId;
 
 
@@ -189,6 +189,9 @@ namespace Game
             double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
             double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
             double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
+
+            burstRise = burstRise * QualityConfig.DropRate;
+            qualityRise = qualityRise * QualityConfig.QualityRate;
 
             long exp = (long)(Config.Exp * QualityConfig.ExpRate * expRise);
             long gold = (long)(Config.Gold * QualityConfig.GoldRate * goldRise);

@@ -12,6 +12,7 @@ namespace Game
 
     public class ShowMainMapInfoEvent : SDD.Events.Event
     {
+        public string Title { get; set; }
         public string Message { get; set; }
     }
 

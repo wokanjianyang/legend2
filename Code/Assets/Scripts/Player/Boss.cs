@@ -10,28 +10,23 @@ namespace Game
     public class Boss : APlayer
     {
         public int BossId;
-        public int MapId;
         BossConfig Config { get; set; }
 
-        public int GoldRate;
-        public long Gold;
-        public float Att;
-        public float Def;
-        public long Exp;
+        QualityConfig QualityConfig { get; set; }
 
-        private int[] excludeSkillList = { 1004, 2007, 2010, 3004, 3007, 3008, 3009 };
+        private int[] excludeSkillList = { };
         //private int[] excludeSuitList = { 6 };
 
-        public Boss(int mapId, RuleType ruleType) : base()
+        public Boss(int bossId, RuleType ruleType) : base()
         {
-            this.BossId = mapId;
-            this.MapId = mapId;
+            this.BossId = bossId;
             this.GroupId = 2;
-            this.Quality = 5;
+            this.Quality = 6;
 
             this.RuleType = ruleType;
 
             this.Config = BossConfigCategory.Instance.Get(BossId);
+            this.QualityConfig = QualityConfigCategory.Instance.Get(Quality);
 
             this.Init();
             this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
@@ -44,16 +39,10 @@ namespace Game
 
             this.Name = Config.Name;
             this.Level = (Config.MapId - 999) * 100;
-            this.FashionId = Config.ModelId;
-
-            this.Exp = Config.Exp;
-            this.Gold = Config.Gold;
-
+            this.FashionId = BossId;
 
             this.SetAttr();  //设置属性值
-
             this.SetSkill();
-
 
             base.Load();
             this.Logic.SetData(null); //设置UI
@@ -66,7 +55,6 @@ namespace Game
             double hpModelRate = 1;
             double attrModelRate = 1;
             double defModelRate = 1;
-
 
             double hp = StringHelper.StringToNumber(Config.HP);
             double atk = StringHelper.StringToNumber(Config.Atk);
@@ -103,10 +91,7 @@ namespace Game
 
             PlayerModel model = null;
 
-            int position = this.MapId % 5 + 1;
-
-            List<PlayerModel> models = PlayerModelCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Quality == 5
-            && m.StartMapId <= MapId && MapId <= m.EndMapId).ToList();
+            List<PlayerModel> models = PlayerModelCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Quality == 0).ToList();
 
             if (models.Count > 0)
             {
@@ -173,6 +158,68 @@ namespace Game
             user.KillMonsterEnvent(kc, this.Quality, 1);
 
             //区域boss独特掉落
+
+
+            double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
+            double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
+            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
+            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
+
+            burstRise = burstRise * QualityConfig.DropRate;
+            qualityRise = qualityRise * QualityConfig.QualityRate;
+
+            long exp = (long)(Config.Exp * QualityConfig.ExpRate * expRise);
+            long gold = (long)(Config.Gold * QualityConfig.GoldRate * goldRise);
+
+            List<Item> items = new List<Item>();
+
+            //生成道具奖励
+            items.AddRange(DropConfigCategory.Instance.BuildBossDropItem(Config.Id, burstRise, qualityRise));
+
+
+            //限时奖励
+            //items.AddRange(DropLimitHelper.Build((int)DropLimitType.Normal, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
+            //items.AddRange(DropLimitHelper.Build((int)DropLimitType.Map, this.MapId, dropRate, modelRate, limit, countRate, dropFinal));
+            //items.AddRange(DropLimitHelper.BuildJieRi(modelRate * dropFinal));
+
+            //double rs = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstMul);
+            //int itemCount = MathHelper.RandomBurstMul(rs);
+            int itemCount = 0;
+
+            bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;
+            if (showMessage)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                {
+                    Type = RuleType,
+                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, 0, 0)
+                });
+            }
+
+            if (itemCount > 0)
+            {
+                exp += exp * itemCount;
+                gold += gold * itemCount;
+                items.AddRange(ItemHelper.BurstMulNew(items, itemCount, qualityRise));
+            }
+
+            //先回收
+            List<Item> recoveryList = user.CheckRecovery(items, out long recoveryGold, out int recoveryCount);
+            if (recoveryCount > 0 && showMessage)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                {
+                    Type = RuleType,
+                    Message = BattleMsgHelper.BuildAutoRecoveryMessage(recoveryCount, recoveryList, recoveryGold)
+                });
+            }
+
+            //增加经验,金币
+            user.AddExpAndGold(exp, gold + recoveryGold);
+            if (items.Count > 0)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+            }
         }
     }
 }

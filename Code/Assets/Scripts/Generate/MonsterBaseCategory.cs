@@ -5,7 +5,7 @@ using System.Linq;
 namespace Game
 {
 
-    public partial class MonsterBaseCategory
+    public partial class MonsterConfigCategory
     {
         public Monster BuildMonster(MapConfig mapConfig, int quality,  RuleType ruleType)
         {
@@ -13,7 +13,7 @@ namespace Game
             return enemy;
         }
 
-        public MonsterBase GetByMapId(int MapId)
+        public MonsterConfig GetByMapId(int MapId)
         {
             return this.list.Where(m => m.MapId == MapId).First();
         }

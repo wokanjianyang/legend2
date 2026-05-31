@@ -87,6 +87,18 @@ namespace Game
 		/// <summary>Memo</summary>
 		[ProtoMember(4)]
 		public string Memo { get; set; }
+		/// <summary>地图Id掉落</summary>
+		[ProtoMember(5)]
+		public int[] DropIdList { get; set; }
+		/// <summary>DropRateList</summary>
+		[ProtoMember(6)]
+		public int[] DropRateList { get; set; }
+		/// <summary>BaseIdList</summary>
+		[ProtoMember(7)]
+		public int[] BaseIdList { get; set; }
+		/// <summary>BaseRateList</summary>
+		[ProtoMember(8)]
+		public int[] BaseRateList { get; set; }
 
 	}
 }

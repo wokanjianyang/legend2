@@ -57,7 +57,7 @@ namespace Game
 
             int quality = 1;
 
-            var enemy = MonsterBaseCategory.Instance.BuildMonster(mapConfig, quality, RuleType.Normal);
+            var enemy = MonsterConfigCategory.Instance.BuildMonster(mapConfig, quality, RuleType.Normal);
             GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
 
             Total++;

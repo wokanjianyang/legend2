@@ -61,6 +61,39 @@ namespace Game
             return list;
         }
 
+        public List<Item> BuildBossDropItem(int groupId, double burstRise, double qualityRise)
+        {
+            MapGroupConfig groupConfig = MapGroupConfigCategory.Instance.Get(groupId);
+
+            List<Item> list = new List<Item>();
+
+            if (groupConfig.BaseIdList != null)
+            {
+                for (int i = 0; i < groupConfig.BaseIdList.Length; i++)
+                {
+                    int realRate = (int)(groupConfig.BaseRateList[i] / burstRise);
+                    if (RandomHelper.RandomDropRate(realRate))
+                    {
+                        list.Add(BuildByDropBaseId(groupConfig.BaseIdList[i], (int)qualityRise, 0));
+                    }
+                }
+            }
+
+            if (groupConfig.DropIdList != null)
+            {
+                for (int i = 0; i < groupConfig.DropIdList.Length; i++)
+                {
+                    int realRate = (int)(groupConfig.DropRateList[i] / burstRise);
+                    if (RandomHelper.RandomDropRate(realRate))
+                    {
+                        list.Add(BuildByDropId(groupConfig.DropIdList[i], (int)qualityRise, 0));
+                    }
+                }
+            }
+
+            return list;
+        }
+
         public Item BuildByDropBaseId(int baseId, int qualityRise, int seed)
         {
             DropBaseConfig config = DropBaseConfigCategory.Instance.Get(baseId);

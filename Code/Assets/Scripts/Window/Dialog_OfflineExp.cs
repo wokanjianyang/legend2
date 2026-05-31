@@ -183,7 +183,7 @@ namespace Game
             int total = user.OfflineLog[2];
 
             MapConfig mapConfig = MapConfigCategory.Instance.Get(mapId);
-            MonsterBase monsterConfig = MonsterBaseCategory.Instance.Get(mapId);
+            MonsterConfig monsterConfig = MonsterConfigCategory.Instance.Get(mapId);
 
             int killCount = tempTime / ConfigHelper.OfflineTime * total;
 

@@ -177,7 +177,15 @@ namespace Game
 
         private void ShowInfo(ShowMainMapInfoEvent e)
         {
-            this.Txt_Desc.text = e.Message;
+            if (!string.IsNullOrEmpty(e.Title))
+            {
+                this.Txt_MapName.text = e.Title;
+            }
+
+            if (!string.IsNullOrEmpty(e.Message))
+            {
+                this.Txt_Desc.text = e.Message;
+            }
         }
 
         private List<Text> msgPool = new List<Text>();

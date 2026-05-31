@@ -7,9 +7,9 @@ namespace Game
 
     public partial class MonsterBabelConfigCategory
     {
-        public MonsterBabelConfig GetByProgressAndType(long progress, int type)
+        public MonsterBabelConfig GetByProgress(long progress)
         {
-            MonsterBabelConfig config = this.list.Where(m => m.StartLevel <= progress && progress <= m.EndLevel && m.Type == type).FirstOrDefault();
+            MonsterBabelConfig config = this.list.Where(m => m.StartLevel <= progress && progress <= m.EndLevel).FirstOrDefault();
 
             return config;
         }

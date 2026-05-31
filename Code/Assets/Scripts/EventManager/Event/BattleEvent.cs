@@ -377,20 +377,6 @@ namespace Game
         public int Layer { get; set; }
     }
 
-    //--pill
-    public class ShowBabelInfoEvent : SDD.Events.Event
-    {
-        public long Progress { get; set; }
-        public double Time { get; set; }
-        public long Count { get; set; }
-    }
-    public class OpenBabelEvent : SDD.Events.Event
-    {
-    }
-    public class BabelStartEvent : SDD.Events.Event
-    {
-    }
-
     //--Myth
     public class OpenMythEvent : SDD.Events.Event
     {

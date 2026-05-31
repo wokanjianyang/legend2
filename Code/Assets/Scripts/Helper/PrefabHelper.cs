@@ -28,6 +28,7 @@ namespace Game
         private Dictionary<int, Sprite> FashionList = new Dictionary<int, Sprite>();
         private List<Sprite> ValetList = new List<Sprite>();
         private Dictionary<int, Sprite> MonsterList = new Dictionary<int, Sprite>();
+        private Dictionary<int, Sprite> BossList = new Dictionary<int, Sprite>();
         private List<Sprite> MonsterWorldList = new List<Sprite>();
 
         private Dictionary<int, Sprite> EquipBgList = new Dictionary<int, Sprite>();
@@ -239,6 +240,16 @@ namespace Game
             }
 
             return MonsterList[id];
+        }
+
+        public Sprite GetBoss(int id)
+        {
+            if (!BossList.ContainsKey(id))
+            {
+                BossList[id] = Resources.Load<Sprite>("UI/Player/Boss/Boss" + id);
+            }
+
+            return BossList[id];
         }
 
         public Sprite GetSkillLog(int skillId)

@@ -15,9 +15,9 @@ public class BattleRule_Babel : ABattleRule
     private const double TimeMax = 180;
     private double TimeTotal = 0;
 
-    private int[] MonsterList1 = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-    private int[] MonsterList2 = new int[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 3 };
-    private int[] MonsterList3 = new int[] { 2, 2, 2, 2, 2, 2, 3, 3, 3, 3 };
+    private int[] MonsterList1 = new int[] { 1, 1, 1, 1, 1, 1 };
+    private int[] MonsterList2 = new int[] { 2, 2, 2, 2 };
+    private int[] MonsterList3 = new int[] { 3, 3 };
 
     protected override RuleType ruleType => RuleType.Babel;
 
@@ -54,7 +54,9 @@ public class BattleRule_Babel : ABattleRule
 
         User user = GameProcessor.Inst.User;
         TimeTotal -= currentRoundTime;
-        GameProcessor.Inst.EventCenter.Raise(new ShowBabelInfoEvent() { Progress = this.Progress, Time = TimeTotal, Count = user.BabelCount.Data });
+
+        string msg = "挑战剩余时间：" + (int)TimeTotal;
+        GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
         var hero = GameProcessor.Inst.PlayerManager.GetHero();
         if (hero.HP <= 0 || TimeTotal <= 0 || user.BabelCount.Data <= 0)
@@ -62,7 +64,7 @@ public class BattleRule_Babel : ABattleRule
             Over = true;
 
             user.BabelCount.Data--;
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Babel, Message = "挑战失败！" });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "挑战失败！" });
             GameProcessor.Inst.HeroDie(RuleType.Babel, 0);
             return;
         }
@@ -77,7 +79,7 @@ public class BattleRule_Babel : ABattleRule
             user.BabelCount.Data--;
             BuildReward(this.Progress);
 
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Babel, Message = "第" + Progress + "关挑战成功！" });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "第" + Progress + "关挑战成功！" });
 
             if (user.BabelCount.Data <= 0)
             {
@@ -122,7 +124,7 @@ public class BattleRule_Babel : ABattleRule
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
-            Type = RuleType.Babel,
+            Type = RuleType.Normal,
             Message = BattleMsgHelper.BuildRewardMessage("通天塔奖励:" + progress + "奖励:", 0, 0, items)
         });
 
@@ -137,10 +139,10 @@ public class BattleRule_Babel : ABattleRule
 
     public override void CheckGameResult()
     {
-        //var hero = GameProcessor.Inst.PlayerManager.GetHero();
-        //if (hero != null && hero.HP == 0)
-        //{
-        //    GameProcessor.Inst.HeroDie(RuleType.Babel, 0);
-        //}
+        var hero = GameProcessor.Inst.PlayerManager.GetHero();
+        if (hero != null && hero.HP == 0)
+        {
+            GameProcessor.Inst.HeroDie(RuleType.Babel, 0);
+        }
     }
 }

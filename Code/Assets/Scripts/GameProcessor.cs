@@ -36,7 +36,7 @@ namespace Game
 
         public EventManager EventCenter { get; private set; }
 
-        public PlayerInfo PlayerInfo { get; set; }
+        public Player_Info PlayerInfo { get; set; }
 
         public long CurrentTimeSecond { get; private set; }
 
@@ -251,7 +251,7 @@ namespace Game
             }
 
             this.EventCenter = new EventManager();
-            this.PlayerInfo = Canvas.FindObjectOfType<PlayerInfo>(true);
+            this.PlayerInfo = Canvas.FindObjectOfType<Player_Info>(true);
 
             //启动就加载用户存档
             this.User = UserData.Load();
@@ -886,7 +886,7 @@ namespace Game
             switch (ruleType)
             {
                 case RuleType.Babel:
-                    this.EventCenter.Raise(new BabelStartEvent() { });
+                    GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Babel, MapId = 0 });
                     break;
                 case RuleType.World:
                     this.EventCenter.Raise(new WorldStartEvent() { Id = World_Auto_Id });

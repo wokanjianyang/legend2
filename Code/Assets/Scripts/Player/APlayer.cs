@@ -74,7 +74,7 @@ namespace Game
         //protected Dictionary<int, List<Effect>> EffectMap = new Dictionary<int, List<Effect>>();
 
 
-        public PlayerInfo Info = null;
+        public Player_Info Info = null;
         //private Dictionary<int, int> SkillUseRoundCache = new Dictionary<int, int>();
 
         public void ChangeMaxHp(int fromId, double total)

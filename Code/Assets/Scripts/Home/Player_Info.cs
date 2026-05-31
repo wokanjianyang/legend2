@@ -11,15 +11,17 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerInfo : MonoBehaviour, IBattleLife
+public class Player_Info : MonoBehaviour, IBattleLife
 {
-    public TMP_Text txt_Name;
+    //public TMP_Text txt_Name;
+
+    public Text Txt_Name;
 
     public HP_Progress hp_Progress;
 
     public HP_Progress sp_Progress;
 
-    public Button btn_Query;
+    public Button Btn_Query;
 
     public APlayer SelfPlayer { get; set; }
 
@@ -82,7 +84,7 @@ public class PlayerInfo : MonoBehaviour, IBattleLife
 
     private void Init()
     {
-        this.txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(SelfPlayer.Quality), SelfPlayer.Name);
+        this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(SelfPlayer.Quality), SelfPlayer.Name);
         if (SelfPlayer.MaxSP > 0)
         {
             this.sp_Progress.gameObject.SetActive(true);

@@ -62,11 +62,6 @@ public class Dialog_Babel : MonoBehaviour
             Btn_Rank.gameObject.SetActive(false);
         }
 
-        if (progress == 0 && user.BabelCount.Data == 0)
-        {
-            user.BabelCount.Data = ConfigHelper.BabelCount * 2;
-        }
-
         long nextProgress = progress + 1;
 
         Txt_Progress.text = "当前层数:" + nextProgress + "";
@@ -83,39 +78,39 @@ public class Dialog_Babel : MonoBehaviour
             Txt_Reward.text = "通过奖励:" + item.GetName() + "*" + item.Temp_Number;
         }
 
-        if (IsNet)
-        {
-            try
-            {
-                //再存储新档
-                StartCoroutine(NetworkHelper.GetRank("babel",
-                        (WebResultWrapper result) =>
-                        {
-                            if (result.Code == StatusMessage.OK)
-                            {
-                                string name = result.Data["name"];
-                                string time = result.Data["time"];
-                                string rank = result.Data["rank"];
+        //if (IsNet)
+        //{
+        //    try
+        //    {
+        //        //再存储新档
+        //        StartCoroutine(NetworkHelper.GetRank("babel",
+        //                (WebResultWrapper result) =>
+        //                {
+        //                    if (result.Code == StatusMessage.OK)
+        //                    {
+        //                        string name = result.Data["name"];
+        //                        string time = result.Data["time"];
+        //                        string rank = result.Data["rank"];
 
-                                this.Txt_Rise.text = "最高纪录 " + name + " " + rank + "层" + " (" + time + ")";
-                                AppHelper.BabelRecord = int.Parse(rank);
-                            }
-                            else
-                            {
-                                this.Txt_Rise.text = "读取失败.";
-                            }
-                        },
-                        () =>
-                        {
-                            this.Txt_Rise.text = "读取失败.";
-                        }
-                        ));
-            }
-            catch (Exception ex)
-            {
-                this.Txt_Rise.text = "读取失败，请稍等一会重试...";
-            }
-        }
+        //                        this.Txt_Rise.text = "最高纪录 " + name + " " + rank + "层" + " (" + time + ")";
+        //                        AppHelper.BabelRecord = int.Parse(rank);
+        //                    }
+        //                    else
+        //                    {
+        //                        this.Txt_Rise.text = "读取失败.";
+        //                    }
+        //                },
+        //                () =>
+        //                {
+        //                    this.Txt_Rise.text = "读取失败.";
+        //                }
+        //                ));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.Txt_Rise.text = "读取失败，请稍等一会重试...";
+        //    }
+        //}
     }
 
 
@@ -135,12 +130,11 @@ public class Dialog_Babel : MonoBehaviour
             return;
         }
 
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
 
-        var vm = this.GetComponentInParent<View_More>();
-        vm.HideItem();
+        GameProcessor.Inst.EventCenter.Raise(new ChangePageEvent() { Page = ViewPageType.View_Battle });
 
-        GameProcessor.Inst.EventCenter.Raise(new BabelStartEvent() { });
+        GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Babel, MapId = 0 });
     }
 
     public void OnClick_Close()

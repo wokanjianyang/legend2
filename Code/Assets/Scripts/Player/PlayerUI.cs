@@ -188,7 +188,14 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
                 }
                 else
                 {
-                    this.image_Background.sprite = PrefabHelper.Instance().GetMonster(SelfPlayer.FashionId);
+                    if (this.SelfPlayer.Quality == 6)
+                    {
+                        this.image_Background.sprite = PrefabHelper.Instance().GetBoss(SelfPlayer.FashionId);
+                    }
+                    else
+                    {
+                        this.image_Background.sprite = PrefabHelper.Instance().GetMonster(SelfPlayer.FashionId);
+                    }
                     break;
                 }
         }

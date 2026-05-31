@@ -74,10 +74,10 @@ public class Init : MonoBehaviour
         {
             UILayer.Top,  new List<string>()
             {
+                "GameItem/Dialog_Detail_Select",
                 "GameItem/Detail_Normal",
                 "GameItem/Detail_Equip",
                 "GameItem/Detail_Equip_Special",
-                "GameItem/Dialog_Detail_Select",
                 "GameItem/Dialog_Detail_Pet",
 
                 "Window/Festive/Dialog_FloatButtons",

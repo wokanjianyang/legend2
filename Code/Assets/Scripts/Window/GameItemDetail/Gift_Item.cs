@@ -84,6 +84,20 @@ namespace Game
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
+                else if (gameItem.GetItemType() == ItemType.Pet)
+                {
+                    Pet pet = gameItem as Pet;
+
+                    this.Img_Logo.sprite = PrefabHelper.Instance().GetMonster(pet.ConfigId);
+                }
+                else
+                {
+                    string logoId = ItemConfigCategory.Instance.GetLogoId(gameItem.ConfigId);
+                    if (!string.IsNullOrEmpty(logoId))
+                    {
+                        this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(logoId);
+                    }
+                }
             }
         }
 

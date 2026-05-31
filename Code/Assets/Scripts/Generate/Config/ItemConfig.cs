@@ -81,32 +81,35 @@ namespace Game
 		/// <summary>道具名字</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>道具类型</summary>
+		/// <summary>LogoId</summary>
 		[ProtoMember(3)]
+		public string LogoId { get; set; }
+		/// <summary>道具类型</summary>
+		[ProtoMember(4)]
 		public int Type { get; set; }
 		/// <summary>道具描述</summary>
-		[ProtoMember(4)]
+		[ProtoMember(5)]
 		public string Des { get; set; }
 		/// <summary>售价</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int Price { get; set; }
 		/// <summary>堆叠数量</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public long MaxNum { get; set; }
 		/// <summary>道具使用等级</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int LevelRequired { get; set; }
 		/// <summary>品质</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int Quality { get; set; }
 		/// <summary>使用效果值</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int UseParam { get; set; }
 		/// <summary>RecoveryItemId</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public int RecoveryItemId { get; set; }
 		/// <summary>RecoveryCount</summary>
-		[ProtoMember(11)]
+		[ProtoMember(12)]
 		public int RecoveryCount { get; set; }
 
 	}

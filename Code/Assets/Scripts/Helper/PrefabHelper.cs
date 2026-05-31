@@ -39,7 +39,7 @@ namespace Game
 
         private Dictionary<int, Sprite> LegacyLogoList = new Dictionary<int, Sprite>();
 
-        private Dictionary<int, Sprite> PetBgList = new Dictionary<int, Sprite>();
+        private Dictionary<string, Sprite> ItemLogoList = new Dictionary<string, Sprite>();
 
         private Sprite MonsterDefend = null;
 
@@ -231,6 +231,16 @@ namespace Game
             return ValetList[id - 1];
         }
 
+
+        public Sprite GetItemLogo(string id)
+        {
+            if (!ItemLogoList.ContainsKey(id))
+            {
+                ItemLogoList[id] = Resources.Load<Sprite>("UI/ItemLogo/" + id);
+            }
+
+            return ItemLogoList[id];
+        }
 
         public Sprite GetMonster(int id)
         {

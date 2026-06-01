@@ -1131,7 +1131,7 @@ namespace Game
         }
 
 
-        public void KillMonsterEnvent(int rate, int quality, int count)
+        public void KillMonsterEnvent(double rate, int quality, int count)
         {
             foreach (Pet sp in PetList)
             {

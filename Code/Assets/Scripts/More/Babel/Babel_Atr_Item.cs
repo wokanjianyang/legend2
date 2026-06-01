@@ -1,0 +1,80 @@
+using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+namespace Game
+{
+    public class Babel_Atr_Item : MonoBehaviour
+    {
+        public Text Txt_Name;
+
+        public Text Txt_Attr;
+
+        public Text Txt_Attr_Add;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        public void SetContent(int attrId, double attrBase, double percent, double attrRise)
+        {
+            this.Txt_Name.text = StringHelper.FormatAttrValueName(attrId);
+
+            if (attrBase > 0)
+            {
+                string attrText = StringHelper.FormatAttrValueText(attrId, attrBase);
+                if (percent > 0)
+                {
+                    double pb = attrBase / 100 * percent;
+                    attrText += "(" + StringHelper.FormatAttrValueText(attrId, pb) + ")";
+                }
+
+                this.Txt_Attr.text = attrText;
+            }
+            else
+            {
+                this.Txt_Attr.text = "";
+            }
+
+            if (attrRise > 0)
+            {
+                this.Txt_Attr_Add.text = " + " + StringHelper.FormatAttrValueText(attrId, attrRise);
+            }
+            else
+            {
+                this.Txt_Attr_Add.text = "";
+            }
+        }
+
+        public void SetContent(int attrId, double attrBase, double attrRise)
+        {
+            this.SetContent(attrId, attrBase, 0, attrRise);
+        }
+
+        public void SetContent(string name, string bt, string rise)
+        {
+            this.Txt_Name.text = name;
+            this.Txt_Attr.text = bt;
+            this.Txt_Attr_Add.text = rise;
+        }
+
+        public void SetSpContent(int atrId, double atrVue, int requireLevel)
+        {
+            this.Txt_Name.text = StringHelper.FormatAttrValueName(atrId);
+            this.Txt_Attr.text = " + " + StringHelper.FormatAttrValueText(atrId, atrVue);
+            this.Txt_Attr_Add.text = "£¨" + requireLevel + "²ã½âËø£©";
+        }
+    }
+}

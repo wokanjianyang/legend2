@@ -6,12 +6,7 @@ namespace Game
 {
     public class BattleMsgHelper
     {
-        public static string BuildMonsterDeadMessage(APlayer monster, double exp, double gold, List<Item> Drops, int burstMul)
-        {
-            return BuildMonsterDeadMessage(monster, exp, gold, Drops, burstMul, 0, 0);
-        }
-
-        public static string BuildMonsterDeadMessage(APlayer monster, double exp, double gold, List<Item> Drops, int burstMul, int soulRise, int newRate)
+        public static string BuildMonsterDeadMessage(APlayer monster, double exp, double gold, List<Item> Drops, int burstMul, double killCount)
         {
             string drops = "";
 
@@ -24,16 +19,16 @@ namespace Game
 
             if (exp > 0)
             {
-                drops += ",经验增加:" + StringHelper.FormatNumber(exp * burstMul);
-                if (newRate > 1)
-                {
-                    drops += "*" + newRate + "(新手福利)";
-                }
+                drops += ",经验+" + StringHelper.FormatNumber(exp * burstMul);
             }
 
             if (gold > 0)
             {
-                drops += ",金币增加:" + StringHelper.FormatNumber(gold * burstMul);
+                drops += ",金币+" + StringHelper.FormatNumber(gold * burstMul);
+            }
+            if (killCount > 0)
+            {
+                drops += ",杀敌+" + killCount;
             }
 
             if (Drops != null && Drops.Count > 0)
@@ -51,11 +46,6 @@ namespace Game
                 }
             }
 
-            if (soulRise > 0)
-            {
-                drops += ",炼魂:<color=#FF6600>魂环碎片</color>*" + soulRise;
-            }
-
             string message = $"<color=#{QualityConfigHelper.GetQualityColor(monster.Quality)}>[{monster.Name}]</color><color=white>死亡{drops}</color>";
 
             return message;
@@ -67,12 +57,12 @@ namespace Game
 
             if (exp > 0)
             {
-                drops += ",经验增加:" + StringHelper.FormatNumber(exp);
+                drops += ",经验+" + StringHelper.FormatNumber(exp);
             }
 
             if (gold > 0)
             {
-                drops += ",金币增加:" + StringHelper.FormatNumber(gold);
+                drops += ",金币+" + StringHelper.FormatNumber(gold);
             }
 
             if (Drops != null && Drops.Count > 0)

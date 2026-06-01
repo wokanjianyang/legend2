@@ -19,9 +19,12 @@ public class Dialog_Babel : MonoBehaviour
     public Text Txt_Rise;
 
     public Button Btn_Rank;
+
     public Button Btn_Atr;
+    public Dialog_Babel_Atr Dlg_Babel_Atr;
 
     public Toggle toggle_Auto;
+    public Dialog_Babel_Rank Dlg_Babel_Rank;
 
     public Button Btn_Start;
     public Button Btn_Close;
@@ -35,6 +38,9 @@ public class Dialog_Babel : MonoBehaviour
         {
             GameProcessor.Inst.Babel_Auto = isOn;
         });
+
+        Btn_Atr.onClick.AddListener(OnClick_Atr);
+        Btn_Rank.onClick.AddListener(OnClick_Rank);
 
         Btn_Start.onClick.AddListener(OnClick_Start);
         Btn_Close.onClick.AddListener(OnClick_Close);
@@ -50,17 +56,17 @@ public class Dialog_Babel : MonoBehaviour
         User user = GameProcessor.Inst.User;
         long progress = user.BabelData.Data;
 
-        if (user.Account != "" && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
-        {
-            IsNet = true;
-            Txt_Rise.gameObject.SetActive(true);
-            Btn_Rank.gameObject.SetActive(true);
-        }
-        else
-        {
-            Txt_Rise.gameObject.SetActive(false);
-            Btn_Rank.gameObject.SetActive(false);
-        }
+        //if (user.Account != "" && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
+        //{
+        //    IsNet = true;
+        //    Txt_Rise.gameObject.SetActive(true);
+        //    Btn_Rank.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    Txt_Rise.gameObject.SetActive(false);
+        //    Btn_Rank.gameObject.SetActive(false);
+        //}
 
         long nextProgress = progress + 1;
 
@@ -135,6 +141,16 @@ public class Dialog_Babel : MonoBehaviour
         GameProcessor.Inst.EventCenter.Raise(new ChangePageEvent() { Page = ViewPageType.View_Battle });
 
         GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Babel, MapId = 0 });
+    }
+
+    public void OnClick_Atr()
+    {
+        this.Dlg_Babel_Atr.gameObject.SetActive(true);
+    }
+
+    public void OnClick_Rank()
+    {
+        this.Dlg_Babel_Rank.gameObject.SetActive(true);
     }
 
     public void OnClick_Close()

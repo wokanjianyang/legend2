@@ -16,9 +16,9 @@ namespace Game
 
         public MagicData LevelExp { get; set; } = new MagicData();
 
-        public MagicData KillCount { get; set; } = new MagicData();
+        public MagicDouble KillCount { get; set; } = new MagicDouble();
 
-        public MagicData InheritCount { get; set; } = new MagicData();
+        public MagicDouble InheritCount { get; set; } = new MagicDouble();
 
         //public MagicData LayerExp { get; set; } = new MagicData();
         public List<KeyValuePair<int, MagicData>> Flairs { get; set; } = new List<KeyValuePair<int, MagicData>>();
@@ -68,7 +68,7 @@ namespace Game
             return attrs;
         }
 
-        public long GetTotalKillCount()
+        public double GetTotalKillCount()
         {
             return this.KillCount.Data + (int)(InheritCount.Data * 0.8);
         }
@@ -86,7 +86,7 @@ namespace Game
             }
         }
 
-        public void AddKillCount(int rate)
+        public void AddKillCount(double rate)
         {
             this.KillCount.Data += rate;
         }

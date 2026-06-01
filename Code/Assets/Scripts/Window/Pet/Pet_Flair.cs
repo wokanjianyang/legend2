@@ -18,7 +18,7 @@ public class Pet_Flair : MonoBehaviour
     }
 
 
-    public void SetContent(int fid, long rise, long count)
+    public void SetContent(int fid, long rise, double count)
     {
         PetAtrConfig config = PetAtrConfigCategory.Instance.Get(fid);
 

@@ -154,7 +154,7 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
             //增加宠物经验，神器经验
-            int kc = this.Config.Id * 10 + 10;
+            double kc = this.Config.Id;
             user.KillMonsterEnvent(kc, this.Quality, 1);
 
             //区域boss独特掉落
@@ -193,7 +193,7 @@ namespace Game
                 {
                     Important = 1,
                     Type = RuleType,
-                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, 0, 0)
+                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, kc)
                 });
             }
 

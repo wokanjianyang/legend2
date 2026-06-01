@@ -182,7 +182,7 @@ namespace Game
 
             //增加宠物经验，神器经验
             MapConfig mapConfig = MapConfigCategory.Instance.Get(MapId);
-            int kc = mapConfig.GroupId + 1 + this.Quality;
+            double kc = (mapConfig.GroupId + 1 + this.Quality) / ConfigHelper.PetKillPercent;
             user.KillMonsterEnvent(kc, this.Quality, 1);
 
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
@@ -217,7 +217,7 @@ namespace Game
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                 {
                     Type = RuleType,
-                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, 0, 0)
+                    Message = BattleMsgHelper.BuildMonsterDeadMessage(this, exp, gold, items, itemCount, kc)
                 });
             }
 

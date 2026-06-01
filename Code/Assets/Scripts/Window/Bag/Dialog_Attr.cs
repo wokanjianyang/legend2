@@ -47,7 +47,7 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
             //AttributeEnum.MagicDamage,AttributeEnum.MulMagicDamageRise,
             //AttributeEnum.SpiritDamage,AttributeEnum.MulSpiritDamageRise,
 
-            //AttributeEnum.MulAttr, AttributeEnum.MulHp, AttributeEnum.MulDef,
+            AttributeEnum.MulAtk, AttributeEnum.MulHp, AttributeEnum.MulDef,
             //AttributeEnum.MulAttrPhy, AttributeEnum.MulAttrMagic, AttributeEnum.MulAttrSpirit,
 
             //AttributeEnum.MulDamageIncrea, AttributeEnum.MulDamageResist,

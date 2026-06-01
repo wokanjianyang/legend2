@@ -187,7 +187,7 @@ namespace Game
 
             int killCount = tempTime / ConfigHelper.OfflineTime * total;
 
-            int kc = killCount * (mapConfig.GroupId + 1);
+            double kc = killCount * (mapConfig.GroupId + 1) / ConfigHelper.PetKillPercent;
 
             List<Item> items = new List<Item>();
             long exp = 0;

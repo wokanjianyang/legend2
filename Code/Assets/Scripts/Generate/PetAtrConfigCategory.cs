@@ -85,14 +85,14 @@ namespace Game
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
-            pet.Quality = config.AttrIdList.Length;
+            pet.Quality = config.FlairIdList.Length;
 
             //É±µÐ×ÊÖÊ
-            for (int i = 0; i < config.AttrIdList.Length; i++)
+            for (int i = 0; i < config.FlairIdList.Length; i++)
             {
-                int attrId = config.AttrIdList[i];
+                int attrId = config.FlairIdList[i];
                 MagicData attrValue = new MagicData();
-                attrValue.Data = config.AttrValueList[i];
+                attrValue.Data = config.FlairVueList[i];
 
                 pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
             }
@@ -144,7 +144,7 @@ namespace Game
 
                 PetAtrConfig config = temps[index];
 
-                int attrValue = RandomHelper.RandomSerialNumber(config.MinValue, config.MaxValue);
+                int attrValue = RandomHelper.RandomSerialNumber(config.FlairMin, config.FlairMax);
 
                 flairs.Add(new KeyValuePair<int, int>(config.Id, attrValue));
             }

@@ -18,14 +18,13 @@ public class Pet_Flair : MonoBehaviour
     }
 
 
-    public void SetContent(int fid, long rise, double count)
+    public void SetContent(int fid, long fv, double kc)
     {
         PetAtrConfig config = PetAtrConfigCategory.Instance.Get(fid);
 
-        double r = rise / ConfigHelper.PetKillPercent;
-        double total = r * count;
+        int total = (int)(kc / fv);
 
-        Txt_Name.text = "每点" + config.Percent + "杀敌数，增加" + StringHelper.FormatAttrValueName(config.AttrId) + r + "";
-        Txt_Total.text = "（累计" + StringHelper.FormatAttrValueName(config.AttrId) + total + "）";
+        Txt_Name.text = "每点" + fv + "杀敌数，增加" + StringHelper.FormatAttrText(config.AtrId, config.AtrVue);
+        Txt_Total.text = "（累计" + StringHelper.FormatAttrValueName(config.AtrId) + total + "）";
     }
 }

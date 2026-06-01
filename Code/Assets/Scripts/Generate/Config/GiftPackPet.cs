@@ -84,12 +84,12 @@ namespace Game
 		/// <summary>Mid</summary>
 		[ProtoMember(3)]
 		public int Mid { get; set; }
-		/// <summary>AttrIdList</summary>
+		/// <summary>FlairIdList</summary>
 		[ProtoMember(4)]
-		public int[] AttrIdList { get; set; }
-		/// <summary>AttrValueList</summary>
+		public int[] FlairIdList { get; set; }
+		/// <summary>FlairVueList</summary>
 		[ProtoMember(5)]
-		public int[] AttrValueList { get; set; }
+		public int[] FlairVueList { get; set; }
 		/// <summary>TalentList</summary>
 		[ProtoMember(6)]
 		public int[] TalentList { get; set; }

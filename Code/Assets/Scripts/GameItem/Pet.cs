@@ -48,29 +48,26 @@ namespace Game
         {
             Dictionary<int, double> attrs = new Dictionary<int, double>();
 
-            long level = PetLevel.Data;
-            long riseRate = 1 + level / 10;
-
             foreach (var sp in this.Flairs)
             {
                 PetAtrConfig config = PetAtrConfigCategory.Instance.Get(sp.Key);
-                int attrId = config.AttrId;
+                int attrId = config.AtrId;
 
                 if (!attrs.ContainsKey(attrId))
                 {
                     attrs[attrId] = 0;
                 }
 
-                double attrValue = (sp.Value.Data * GetTotalKillCount() / ConfigHelper.PetKillPercent) * riseRate;
+                long attrValue = GetTotalKillCount() * config.AtrVue / sp.Value.Data;
                 attrs[attrId] += attrValue;
             }
 
             return attrs;
         }
 
-        public double GetTotalKillCount()
+        public long GetTotalKillCount()
         {
-            return this.KillCount.Data + (int)(InheritCount.Data * 0.8);
+            return (long)(this.KillCount.Data + InheritCount.Data * 0.8);
         }
 
         public void AddExp(long exp)

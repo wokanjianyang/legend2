@@ -154,6 +154,7 @@ namespace Game
 
         public void Do()
         {
+            this.UserCount++;
             this.CD = SkillPanel.CD;
             this.skillLogic.Do(SkillRunType.Normal);
 

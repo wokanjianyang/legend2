@@ -54,39 +54,13 @@ namespace Game
 
                 this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
-                if (CurrentItem.GetItemType() == ItemType.Equip)
+                PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);
+
+                if (CurrentItem.Temp_Number > 1)
                 {
-                    Equip equip = CurrentItem as Equip;
-
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
-
-                    if (equip.Layer > 0)
-                    {
-                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
-                        this.Txt_Layer.gameObject.SetActive(true);
-                    }
+                    this.Txt_Level.gameObject.SetActive(true);
+                    this.Txt_Level.text = CurrentItem.Temp_Number + "";
                 }
-                else if (CurrentItem.GetItemType() == ItemType.EquipSpeical)
-                {
-                    Equip_Special equip = CurrentItem as Equip_Special;
-
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
-
-                    if (equip.Layer > 0)
-                    {
-                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
-                        this.Txt_Layer.gameObject.SetActive(true);
-                    }
-                }
-                else
-                {
-                    if (CurrentItem.Temp_Number > 1)
-                    {
-                        this.Txt_Level.gameObject.SetActive(true);
-                        this.Txt_Level.text = CurrentItem.Temp_Number + "";
-                    }
-                }
-
             }
             else
             {

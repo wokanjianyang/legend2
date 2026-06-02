@@ -27,7 +27,7 @@ namespace Game
 
             GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = "测试模式" });
 
-            if (enemys.Count >= 5)
+            if (enemys.Count >= 1)
             {
                 return;
             }

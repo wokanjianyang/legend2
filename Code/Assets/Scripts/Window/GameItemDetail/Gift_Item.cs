@@ -60,11 +60,11 @@ namespace Game
 
                 this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
+                PrefabHelper.Instance().SetItemLogo(this.Img_Logo, gameItem);
+
                 if (gameItem.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = gameItem as Equip;
-
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
 
                     if (equip.Layer > 0)
                     {
@@ -76,26 +76,10 @@ namespace Game
                 {
                     Equip_Special equip = gameItem as Equip_Special;
 
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
-
                     if (equip.Layer > 0)
                     {
                         this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "½×";
                         this.Txt_Layer.gameObject.SetActive(true);
-                    }
-                }
-                else if (gameItem.GetItemType() == ItemType.Pet)
-                {
-                    Pet pet = gameItem as Pet;
-
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetMonster(pet.ConfigId);
-                }
-                else
-                {
-                    string logoId = ItemConfigCategory.Instance.GetLogoId(gameItem.ConfigId);
-                    if (!string.IsNullOrEmpty(logoId))
-                    {
-                        this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(logoId);
                     }
                 }
             }

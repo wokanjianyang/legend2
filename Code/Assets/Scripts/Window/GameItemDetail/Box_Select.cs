@@ -62,11 +62,11 @@ namespace Game
 
                 this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
+                PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);
+
                 if (CurrentItem.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = CurrentItem as Equip;
-
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
 
                     if (equip.Layer > 0)
                     {
@@ -77,8 +77,6 @@ namespace Game
                 else if (CurrentItem.GetItemType() == ItemType.EquipSpeical)
                 {
                     Equip_Special equip = CurrentItem as Equip_Special;
-
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
 
                     if (equip.Layer > 0)
                     {

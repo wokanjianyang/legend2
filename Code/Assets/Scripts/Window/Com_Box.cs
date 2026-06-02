@@ -163,32 +163,7 @@ namespace Game
                 this.Txt_Count.text = this.Count.ToString();
             }
 
-            if (item.Item.GetItemType() == ItemType.Equip)
-            {
-                Equip equip = item.Item as Equip;
-
-                this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(equip.Config.Role, equip.Config.Part);
-            }
-            else if (item.Item.GetItemType() == ItemType.EquipSpeical)
-            {
-                Equip_Special equip = item.Item as Equip_Special;
-
-                this.Img_Logo.sprite = PrefabHelper.Instance().GetEquipLog(0, equip.Config.Part);
-            }
-            else if (item.Item.GetItemType() == ItemType.Pet)
-            {
-                Pet pet = item.Item as Pet;
-
-                this.Img_Logo.sprite = PrefabHelper.Instance().GetMonster(pet.ConfigId);
-            }
-            else
-            {
-                string logoId = ItemConfigCategory.Instance.GetLogoId(item.Item.ConfigId);
-                if (!string.IsNullOrEmpty(logoId))
-                {
-                    this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(logoId);
-                }
-            }
+            PrefabHelper.Instance().SetItemLogo(Img_Logo, item.Item);
 
             if (item.Item.IsNew && (item.Item.GetItemType() == ItemType.Equip || item.Item.GetItemType() == ItemType.Exclusive))
             {

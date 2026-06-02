@@ -228,7 +228,6 @@ namespace Game
             {
                 if (state.IsCanUse())
                 {
-                    state.UserCount = state.UserCount + 1;
                     return state;
                 }
             }
@@ -263,7 +262,6 @@ namespace Game
 
             if (state != null && state.IsCanUse())
             {
-                state.UserCount = state.UserCount + 1;
                 return state;
             }
 

@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -317,6 +318,42 @@ namespace Game
             else
             {
                 return EquipBgList[1];
+            }
+        }
+
+        //设定道具logo
+        public void SetItemLogo(Image Img_Logo, Item item)
+        {
+            if (item == null || Img_Logo == null)
+            {
+                return;
+            }
+
+            if (item.GetItemType() == ItemType.Equip)
+            {
+                Equip equip = item as Equip;
+
+                Img_Logo.sprite = this.GetEquipLog(equip.Config.Role, equip.Config.Part);
+            }
+            else if (item.GetItemType() == ItemType.EquipSpeical)
+            {
+                Equip_Special equip = item as Equip_Special;
+
+                Img_Logo.sprite = this.GetEquipLog(0, equip.Config.Part);
+            }
+            else if (item.GetItemType() == ItemType.Pet)
+            {
+                Pet pet = item as Pet;
+
+                Img_Logo.sprite = this.GetMonster(pet.ConfigId);
+            }
+            else
+            {
+                string logoId = ItemConfigCategory.Instance.GetLogoId(item.ConfigId);
+                if (!string.IsNullOrEmpty(logoId))
+                {
+                    Img_Logo.sprite = this.GetItemLogo(logoId);
+                }
             }
         }
     }

@@ -260,7 +260,7 @@ namespace Game
             skill = this.GetSkill(0);
             if (skill != null)
             {  //使用技能
-                Debug.Log($"{(this.Name)}使用技能：{(skill.SkillPanel.SkillData.SkillConfig.Name)}-{skill.UserCount}-技能攻速：{skill.SkillPanel.Speed}");
+                Debug.Log($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {(this.Name)}使用技能：{(skill.SkillPanel.SkillData.SkillConfig.Name)}-{skill.UserCount}-技能攻速：{skill.SkillPanel.Speed}");
                 skill.Do();
                 //this.EventCenter.Raise(new ShowAttackIcon ());
 

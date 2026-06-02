@@ -107,8 +107,8 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRate));
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamage));
             AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyRate));
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
-            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
             AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamageResist));
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageIncrea));
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageResist));
@@ -260,11 +260,11 @@ namespace Game
             skill = this.GetSkill(0);
             if (skill != null)
             {  //使用技能
-                //Debug.Log($"{(this.Name)}使用技能:{(skill.SkillPanel.SkillData.SkillConfig.Name)}");
+                Debug.Log($"{(this.Name)}使用技能：{(skill.SkillPanel.SkillData.SkillConfig.Name)}-{skill.UserCount}-技能攻速：{skill.SkillPanel.Speed}");
                 skill.Do();
                 //this.EventCenter.Raise(new ShowAttackIcon ());
 
-                return AttckSpeed;
+                return CalAtkInterval(skill.SkillPanel.Speed);
             }
 
             //5.朝目标移动
@@ -274,7 +274,7 @@ namespace Game
                 if (GameProcessor.Inst.PlayerManager.IsCellCanMove(endPos))
                 {
                     this.Move(endPos);
-                    return MoveSpeed;
+                    return CalMoveInterval();
                 }
             }
 
@@ -298,7 +298,7 @@ namespace Game
                 if (skill != null)
                 {
                     skill.Do();
-                    return AttckSpeed;
+                    return CalAtkInterval(skill.SkillPanel.Speed);
                 }
                 else
                 {
@@ -307,12 +307,13 @@ namespace Game
                     if (GameProcessor.Inst.PlayerManager.IsCellCanMove(endPos))
                     {
                         this.Move(endPos);
-                        return MoveSpeed;
+
+                        return CalMoveInterval();
                     }
                 }
             }
 
-            return AttckSpeed;
+            return CalBaseAtkInterval();
         }
 
         public override APlayer CalcEnemy()

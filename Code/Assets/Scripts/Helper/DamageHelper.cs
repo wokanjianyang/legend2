@@ -73,12 +73,16 @@ namespace Game
                 atk *= (1 + deadlyDamage / 100.0);
             }
 
+            MsgType type = MsgType.Damage;
+
             //暴击
             int critRate = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritRate) + skill.CritRate - enemy.CalBattleTotalAttr(AttributeEnum.CritRateResist));
             if (RandomHelper.RandomCritRate(critRate))
             {
                 long critDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritDamage) + skill.CritDamage - enemy.CalBattleTotalAttr(AttributeEnum.CritDamageResist));
                 atk *= (1 + critDamage / 100.0);
+
+                type = MsgType.Crit;
             }
 
             //特殊增伤
@@ -112,7 +116,7 @@ namespace Game
             //Debug.Log("attack:" + StringHelper.FormatNumber(attack));
 
             //强制最少1点伤害
-            return new DamageResult(Math.Max(1, atk), 0, MsgType.Damage, (RoleType)role, skill.SkillId); //
+            return new DamageResult(Math.Max(1, atk), 0, type, (RoleType)role, skill.SkillId); //
         }
 
         public static double CalLuckyRate(int lucky)

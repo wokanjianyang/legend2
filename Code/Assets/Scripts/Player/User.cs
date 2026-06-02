@@ -445,8 +445,8 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 10);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 10);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 10);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, 150);
-            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroBase, 150);
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, 50);
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroBase, 50);
 
             //等级属性,攻击倍率，生命倍率，等级*1%
             AttributeBonus.SetAttr(AttributeEnum.MulAtk, AttributeFrom.HeroBase, Level * 1);

@@ -16,7 +16,7 @@ namespace Game
         public double Percent { get; set; }
         public int Dis { get; }
         public int EnemyMax { get; }
-        public int CD { get; }
+        public float CD { get; }
 
         public int Rate { get; }
 
@@ -189,6 +189,10 @@ namespace Game
             int suitAc = baseSuitList.Select(m => m.Accuracy).Sum();
             int talentAc = talentList.Select(m => m.Accuracy).Sum();
 
+            int runeSpeed = baseRuneList.Select(m => m.Speed).Sum();
+            int suitSpeed = baseSuitList.Select(m => m.Speed).Sum();
+            int talentSpeed = talentList.Select(m => m.Speed).Sum();
+
             this.Damage += skillData.SkillConfig.Damage + runeDamage + suitDamage + talentDamage + levelDamage;
 
             this.Percent += skillData.SkillConfig.Percent + runePercent + suitPercent + talentPercent + levelPercent;
@@ -196,7 +200,9 @@ namespace Game
             this.IgnoreDef += skillData.SkillConfig.IgnoreDef + runeIgnoreDef + suitIgnoreDef + talentIgnoreDef;
             this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis + talentDis;
             this.EnemyMax += skillData.SkillConfig.EnemyMax + runeEnemyMax + suitEnemyMax + talentEnemyMax;
-            this.CD += Math.Max(skillData.SkillConfig.CD - runeCD - suitCD - talentCD, 0);
+
+            int cd = Math.Min(100, runeCD + suitCD + talentCD);
+            this.CD = (float)(Math.Round(skillData.SkillConfig.CD * (100.0 - cd) / 100.0, 2));
             this.Rate = 1;
             this.Duration = skillData.SkillConfig.Duration + runeDuration + suitDuration + talentDuration;
 
@@ -207,6 +213,7 @@ namespace Game
             this.CritDamage = skillData.SkillConfig.CritDamage + runeCritDamage + suitCritDamage + talentCritDamage;
 
             this.Accuracy = runeAc + suitAc + talentAc;
+            this.Speed = runeSpeed + suitSpeed + talentSpeed;
 
             this.AttrIncrea = 0 + runeAttrIncrea + suitAttrIncrea + talentAttrIncrea;
             this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea + talentFinalIncrea;

@@ -60,8 +60,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.HeroBase, 0);
             AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.HeroBase, 0);
 
-            this.SetAttackSpeed(0);
-            this.SetMoveSpeed(0);
+            this.SetSpeed(0, 0);
 
             //回满当前血量
             SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));

@@ -29,8 +29,12 @@ namespace Game
 
         public long BirthDay { get; set; } = 0;
 
-        public float MoveSpeed { get; private set; } = 1;
-        public float AttckSpeed { get; private set; } = 1;
+
+        private int MoveSpeed = 0;
+        private int AtkSpeed = 0;
+
+        private float MoveInterval = 1;
+        private float AtkInterval = 1;
 
         [JsonIgnore]
         public PlayerType Camp { get; set; }
@@ -181,14 +185,31 @@ namespace Game
             SetHP(maxHP);
         }
 
-        public void SetAttackSpeed(int SpeedPercent)
+        public void SetSpeed(int atkSpeed, int moveSpeed)
         {
-            this.AttckSpeed = Mathf.Max(0.2f, 100f / (100 + SpeedPercent));
+            this.AtkSpeed = atkSpeed;
+            this.MoveSpeed = moveSpeed;
+
+            this.MoveInterval = Mathf.Max(0.2f, 100f / (100 + MoveSpeed));
+            this.AtkInterval = Mathf.Max(0.2f, 100f / (100 + AtkSpeed));
+
         }
-        public void SetMoveSpeed(int SpeedPercent)
+
+        public float CalBaseAtkInterval()
         {
-            this.MoveSpeed = Mathf.Max(0.2f, 100f / (100 + SpeedPercent));
+            return this.AtkInterval;
         }
+
+        public float CalAtkInterval(int skillPercent)
+        {
+            return Mathf.Max(0.2f, 100f / (100 + AtkSpeed + skillPercent));
+        }
+
+        public float CalMoveInterval()
+        {
+            return this.MoveInterval;
+        }
+
 
         public long GetRolePercent(int role)
         {
@@ -288,7 +309,7 @@ namespace Game
             //2.判断控制
             if (GetIsPause())
             {
-                return Math.Min(AttckSpeed, MoveSpeed);
+                return Math.Min(CalBaseAtkInterval(), CalMoveInterval());
             }
 
             //3.普通技能
@@ -305,7 +326,7 @@ namespace Game
 
                 //行动结算
 
-                return AttckSpeed;
+                return CalAtkInterval(skill.SkillPanel.Speed);
             }
 
             return 0f;
@@ -323,7 +344,7 @@ namespace Game
                 {
                     skill.Do();
 
-                    return AttckSpeed;
+                    return CalAtkInterval(skill.SkillPanel.Speed);
                 }
             }
 
@@ -336,12 +357,12 @@ namespace Game
                 {
                     skill.Do();
 
-                    return AttckSpeed;
+                    return CalAtkInterval(skill.SkillPanel.Speed);
                 }
             }
             else
             {
-                return AttckSpeed;
+                return CalBaseAtkInterval();
             }
 
             //3. 移动到首要目标

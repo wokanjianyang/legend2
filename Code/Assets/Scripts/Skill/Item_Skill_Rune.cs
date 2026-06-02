@@ -11,12 +11,10 @@ namespace Game
     {
         public Text Txt_Name;
         public Text Txt_Count;
-        public Text Txt_Desc;
         public Button Btn_Show;
 
-        public Image Img_Bg;
 
-        private bool active = false;
+        private string desc;
 
         // Start is called before the first frame update
         void Start()
@@ -32,9 +30,9 @@ namespace Game
 
         private void OnClick_Show()
         {
-            active = !active;
-            Img_Bg.gameObject.SetActive(active);
-            Txt_Desc.gameObject.SetActive(active);
+            View_Skill view = this.GetComponentInParent<View_Skill>();
+
+            view.ShowRuneDesc(this.desc);
         }
 
         public void SetRune(int runeId, int count)
@@ -50,7 +48,7 @@ namespace Game
 
             Txt_Count.text = count > 0 ? "+" + count + "" : "无";
 
-            Txt_Desc.text = config.Des;
+            this.desc = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate) + "，最大叠加数量" + config.Max;
         }
 
         public void SetSuit(int suitId, int count)
@@ -66,7 +64,7 @@ namespace Game
 
             Txt_Count.text = count > 0 ? "+" + count + "" : "无";
 
-            Txt_Desc.text = config.Des;
+            this.desc = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate, config.DeadlyDamage, config.RateDamage, config.AttrIncrea, config.FinalIncrea) + "，不可叠加";
         }
 
         public void SetTalent(int tid, int count)
@@ -82,7 +80,7 @@ namespace Game
 
             Txt_Count.text = count > 0 ? "+" + count + "" : "无";
 
-            Txt_Desc.text = config.Des;
+            this.desc = config.Des + "，不可叠加";
         }
     }
 }

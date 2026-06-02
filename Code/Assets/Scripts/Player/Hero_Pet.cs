@@ -53,9 +53,6 @@ namespace Game
             double asp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Speed);
             double msp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MoveSpeed);
 
-            this.SetAttackSpeed((int)asp);
-            this.SetMoveSpeed((int)msp);
-
             int role = Self.Role;
 
             double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role) * levelRise; //Ö°Òµ¹¥»÷
@@ -99,6 +96,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.FashionDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.FashionDamage));
             AttributeBonus.SetAttr(AttributeEnum.LegacyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
 
+            this.SetSpeed((int)asp, (int)msp);
             SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
         }
 

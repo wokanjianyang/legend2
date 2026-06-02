@@ -45,7 +45,7 @@ public class Defend : APlayer
     public override float DoEvent()
     {
         this.OnRestore(0, 1);
-        return AttckSpeed;
+        return CalBaseAtkInterval();
     }
 
     public override void OnHit(DamageResult dr)

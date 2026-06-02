@@ -16,6 +16,8 @@ namespace Game
         [LabelText("装载技能")]
         public Transform tran_EquipSkills;
 
+        public Dialog_Rune_Info Dlg_Rune_Info;
+
         //public List<Button> PlanList;
 
         public Transform Tf_Plan;
@@ -126,6 +128,11 @@ namespace Game
                     item.gameObject.SetActive(false);
                 }
             }
+        }
+
+        public void ShowRuneDesc(string desc)
+        {
+            Dlg_Rune_Info.Show(desc);
         }
 
         private void ShowSkillPanel()

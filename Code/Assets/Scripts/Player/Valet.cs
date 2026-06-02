@@ -49,9 +49,6 @@ namespace Game
             double asp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Speed) + this.SkillPanel.Speed;
             double msp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MoveSpeed);
 
-            this.SetAttackSpeed((int)asp);
-            this.SetMoveSpeed((int)msp);
-
             int role = SkillPanel.SkillData.SkillConfig.Role;
 
             double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role); //职业攻击
@@ -90,6 +87,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
 
+            this.SetSpeed((int)asp, (int)msp);
             //回满当前血量
             SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
 

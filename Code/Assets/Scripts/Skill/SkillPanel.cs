@@ -58,7 +58,7 @@ namespace Game
 
         public List<double> AttrValueList = new List<double>();
 
-        public Dictionary<int, Effect_Compent> EffectList { get; } = new Dictionary<int, Effect_Compent>(); //特殊效果 
+        public Dictionary<int, Effect_Data> EffectList { get; } = new Dictionary<int, Effect_Data>(); //特殊效果 
 
         public string Desc { get; set; }
 
@@ -264,7 +264,7 @@ namespace Game
                     int max = effectParams[2];
                     double percent = effectParams[3];
 
-                    AddEffect(effectId, percent, duration, max);
+                    AddEffect(effectId, 0, percent, duration, 1, max);
                 }
             }
 
@@ -273,7 +273,7 @@ namespace Game
             {
                 if (suit.EffectId > 0)
                 {
-                    AddEffect(suit.EffectId, suit.Percent, suit.Duration, suit.EnemyMax);
+                    AddEffect(suit.EffectId, suit.Damage, suit.Percent, suit.Duration, 1, suit.EnemyMax);
                 }
             }
 
@@ -282,7 +282,7 @@ namespace Game
             {
                 if (sp.EffectId > 0)
                 {
-                    AddEffect(sp.EffectId, sp.EffectValue, 0, sp.EffectMax);
+                    AddEffect(sp.EffectId, sp.Damage, sp.EffectValue, 0, 1, sp.EffectMax);
                 }
             }
 
@@ -291,31 +291,31 @@ namespace Game
             {
                 int effectId = effect.Key;
                 EffectConfig effectConfig = EffectConfigCategory.Instance.Get(effectId);
-                Effect_Compent compent = effect.Value;
+                Effect_Data data = effect.Value;
 
 
                 if (effectConfig.Des != "")
                 {
-                    Desc += "," + string.Format(effectConfig.Des, compent.Percent, compent.Max, compent.Duration);
+                    Desc += "," + string.Format(effectConfig.Des, data.Percent, data.Max, data.Duration);
                 }
             }
 
 
         }
 
-        private void AddEffect(int effectId, double percent, int duration, int max)
+        private void AddEffect(int effectId, double damage, double percent, int duration, float cd, int max)
         {
             if (!EffectList.ContainsKey(effectId)) //如果已经存在，就叠加其他参数
             {
                 int fromId = GetFromId(effectId);
-                Effect_Compent compent = new Effect_Compent(effectId, fromId, percent, 0, duration, max);
-                EffectList.Add(effectId, compent);
+                Effect_Data data = new Effect_Data(effectId, fromId, damage, percent, duration, cd, max);
+
+                EffectList.Add(effectId, data);
             }
             else
             {
-                EffectList[effectId].Add(percent, 0, duration, max);
+                EffectList[effectId].MergeParam(damage, percent, duration, cd, max);
             }
-
         }
 
         private int GetFromId(int effectId)
@@ -330,10 +330,11 @@ namespace Game
         {
             foreach (var sp in EffectList)
             {
-                Effect_Compent com = sp.Value;
+                Effect_Data data = sp.Value;
 
-                if (com.Config.RunType == "Before")
+                if (data.Config.RunType == "Before")
                 {
+                    Effect_Compent com = Effect_Compent_Factory.Create(this, data);
                     com.Do(self, enemy, 0);
                 }
             }
@@ -346,10 +347,11 @@ namespace Game
         {
             foreach (var sp in EffectList)
             {
-                Effect_Compent com = sp.Value;
+                Effect_Data data = sp.Value;
 
-                if (com.Config.RunType == "Afer")
+                if (data.Config.RunType == "Afer")
                 {
+                    Effect_Compent com = Effect_Compent_Factory.Create(this, data);
                     com.Do(self, enemy, res.Damage);
                 }
             }

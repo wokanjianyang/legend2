@@ -25,8 +25,7 @@ namespace Game
 
         public void SetSkillAttr(AttributeEnum attrType, int attrKey, double attrValue)
         {
-            int key = (int)attrKey;
-            SkillDict[attrType][key] = attrValue;
+            SkillDict[attrType][attrKey] = attrValue;
         }
 
         public void SetAttr(AttributeEnum attrType, AttributeFrom attrKey, double attrValue)
@@ -140,6 +139,7 @@ namespace Game
                 case AttributeEnum.LegacyDamage:
                 case AttributeEnum.AchievementDamage:
                 case AttributeEnum.ExclusiveDamage:
+                case AttributeEnum.Speed:
                     total = CalBattleSingleAttr(attrType);
                     break;
                 default:

@@ -6,7 +6,11 @@ namespace Game
 {
     public class Effect_Compent
     {
+        public SkillPanel Skill;
+
         public EffectConfig Config { get; set; }
+
+        public int ConfigId { get; }
 
         public int FromId { get; }
         /// <summary>
@@ -20,22 +24,32 @@ namespace Game
         /// <summary>
         /// 持续时间
         /// </summary>
-        public int Duration { get; set; }
+        public double Duration { get; set; }
+
+        public float CD = 1;
+
         /// <summary>
         /// 叠加层数
         /// </summary>
         public int Max { get; set; }
 
-        public Effect_Compent(int configId, int fromId, double percent, long damage, int duration, int max)
-        {
-            this.Config = EffectConfigCategory.Instance.Get(configId);
-            this.FromId = fromId;
 
-            this.Duration = duration;
-            this.Max = max;
-            this.Percent = percent;
-            this.Damage = damage;
+
+        public Effect_Compent(SkillPanel sp, Effect_Data data)
+        {
+            this.Skill = sp;
+            this.ConfigId = data.EffectId;
+            this.FromId = data.FromId;
+            this.Damage = data.Damage;
+            this.Percent = data.Percent;
+            this.Duration = data.Duration;
+            this.CD = (float)data.CD;
+            this.Max = data.Max;
+
+            this.Config = EffectConfigCategory.Instance.Get(ConfigId);
         }
+
+
 
         public void Add(double percent, double damage, int duration, int max)
         {

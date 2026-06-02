@@ -6,41 +6,42 @@ namespace Game
 {
     public class Effect_Compent_Factory
     {
-
-
-
-        public static Effect_Compent Create(int configId, int fromId, double percent, long damage, int duration, int max)
+        public static Effect_Compent Create(SkillPanel sp, Effect_Data data)
         {
-            EffectConfig config = EffectConfigCategory.Instance.Get(configId);
+            Effect_Compent compent;
+
+            EffectConfig config = EffectConfigCategory.Instance.Get(data.EffectId);
 
             if (config.Type == (int)EffectCompentType.Attr)
             {
-                return new Effect_Rise_Attr(configId, fromId, percent, damage, duration, max);
+                compent = new Effect_Rise_Attr(sp, data);
             }
             else if (config.Type == (int)EffectCompentType.Lifesteal‌)
             {
-                return new Effect_Lifesteal(configId, fromId, percent, damage, duration, max);
+                compent = new Effect_Lifesteal(sp, data);
             }
             else if (config.Type == (int)EffectCompentType.CrowdControl)
             {
-                return new Effect_Crowd_Control(configId, fromId, percent, damage, duration, max);
+                compent = new Effect_Crowd_Control(sp, data);
             }
             else if (config.Type == (int)EffectCompentType.ControlImmunity‌)
             {
-                return new Effect_Control_Immunity(configId, fromId, percent, damage, duration, max);
+                compent = new Effect_Control_Immunity(sp, data);
             }
             else if (config.Type == (int)EffectCompentType.Dot)
             {
-                return new Effect_Dot(configId, fromId, percent, damage, duration, max);
+                compent = new Effect_Dot(sp, data);
             }
             else if (config.Type == (int)EffectCompentType.RestorePercent)
             {
-                return new Effect_Restore_Percent(configId, fromId, percent, damage, duration, max);
+                compent = new Effect_Restore_Percent(sp, data);
             }
             else
             {
-                return new Effect_Compent(configId, fromId, percent, damage, duration, max);
+                compent = new Effect_Compent(sp, data);
             }
+
+            return compent;
         }
 
 

@@ -9,7 +9,7 @@ namespace Game
     {
         public APlayer SelfPlayer { get; }
 
-        protected Dictionary<int, Effect_State> StateDict = new Dictionary<int, Effect_State>();
+        public Dictionary<int, Effect_State> StateDict = new Dictionary<int, Effect_State>();
 
         public int Duration { get; set; } //持续时长
 
@@ -43,14 +43,14 @@ namespace Game
 
         public void AddEffect(Effect_Compent compent, Effect_Buff buff)
         {
-            if (StateDict.ContainsKey(buff.EffectId))
-            {
-                StateDict[buff.EffectId] = new Effect_State(compent.Config.Id, compent.Max);
-            }
-            else
-            {
-                StateDict[buff.EffectId].AddBuff(buff);
-            }
+            //if (StateDict.ContainsKey(buff.EffectId))
+            //{
+            //    StateDict[buff.EffectId] = new Effect_State(compent.Config.Id, compent.Max);
+            //}
+            //else
+            //{
+            //    StateDict[buff.EffectId].AddBuff();
+            //}
 
 
 

@@ -4,9 +4,12 @@ using UnityEngine;
 
 namespace Game
 {
+    /// <summary>
+    /// 发球效果
+    /// </summary>
     public class Effect_Dot : Effect_Compent
     {
-        public Effect_Dot(int configId, int fromId, double percent, long damage, int duration, int max) : base(configId, fromId, percent, damage, duration, max)
+        public Effect_Dot(SkillPanel sp, Effect_Data data) : base(sp, data)
         {
 
         }
@@ -16,14 +19,12 @@ namespace Game
             if (this.Duration > 1)
             {
                 //效果持续
-                Effect_Buff buff = new Effect_Buff(this.Config.Id, this.Damage, this.Percent, this.Duration, 1);
-
-                target.AddEffect(this, buff);
+                target.AddEffect(this);
             }
             else
             {
                 //效果就只一个回合
-                double lossHp = damage * Percent / 100;
+                double lossHp = damage * Percent / 100.0;
 
                 DamageResult dr = new DamageResult(FromId, lossHp, MsgType.Effect, RoleType.All);
 

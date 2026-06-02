@@ -4,14 +4,17 @@ using UnityEngine;
 
 namespace Game
 {
+    /// <summary>
+    /// ÎüÑª
+    /// </summary>
     public class Effect_Lifesteal : Effect_Compent
     {
-        public Effect_Lifesteal(int configId, int fromId, double percent, long damage, int duration, int max) : base(configId, fromId, percent, damage, duration, max)
+        public Effect_Lifesteal(SkillPanel sp, Effect_Data data) : base(sp, data)
         {
-            
+
 
         }
-        
+
 
         public override void Do(APlayer self, APlayer target, double damage)
         {

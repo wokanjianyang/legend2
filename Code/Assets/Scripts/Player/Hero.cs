@@ -260,7 +260,7 @@ namespace Game
             skill = this.GetSkill(0);
             if (skill != null)
             {  //使用技能
-                Debug.Log($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {(this.Name)}使用技能：{(skill.SkillPanel.SkillData.SkillConfig.Name)}-{skill.UserCount}-技能攻速：{skill.SkillPanel.Speed}");
+                //Debug.Log($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {(this.Name)}使用技能：{(skill.SkillPanel.SkillData.SkillConfig.Name)}-{skill.UserCount}-技能攻速：{skill.SkillPanel.Speed}");
                 skill.Do();
                 //this.EventCenter.Raise(new ShowAttackIcon ());
 
@@ -313,7 +313,7 @@ namespace Game
                 }
             }
 
-            return CalBaseAtkInterval();
+            return CalAtkInterval(0);
         }
 
         public override APlayer CalcEnemy()
@@ -334,6 +334,8 @@ namespace Game
         }
         public override void OnHit(DamageResult dr)
         {
+            Debug.Log($"{DateTime.Now.ToString("mm:ss.fff")} heor hit damage");
+
             //Debug.Log("heor hit damage:" + StringHelper.FormatNumber(dr.Damage) + " maxHP:" + StringHelper.FormatNumber(this.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP)));
 
             base.OnHit(dr);

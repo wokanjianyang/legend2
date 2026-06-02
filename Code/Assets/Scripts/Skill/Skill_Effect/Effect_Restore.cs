@@ -4,9 +4,12 @@ using UnityEngine;
 
 namespace Game
 {
+    /// <summary>
+    /// »Ø¸´
+    /// </summary>
     public class Effect_Restore : Effect_Compent
     {
-        public Effect_Restore(int configId, int fromId, double percent, long damage, int duration, int max) : base(configId, fromId, percent, damage, duration, max)
+        public Effect_Restore(SkillPanel sp, Effect_Data data) : base(sp, data)
         {
 
         }

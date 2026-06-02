@@ -4,9 +4,12 @@ using UnityEngine;
 
 namespace Game
 {
+    /// <summary>
+    /// ∏ƒ±‰ Ù–‘
+    /// </summary>
     public class Effect_Rise_Attr : Effect_Compent
     {
-        public Effect_Rise_Attr(int configId, int fromId, double percent, long damage, int duration, int max) : base(configId, fromId, percent, damage, duration, max)
+        public Effect_Rise_Attr(SkillPanel sp, Effect_Data data) : base(sp, data)
         {
 
         }
@@ -15,13 +18,20 @@ namespace Game
         {
             if (this.Config.TargetType == (int)EffectCompentTarget.Enemy)
             {
+                Effect_State state = target.AddEffect(this);
 
+                double vue = state.Percent * state.Count;
+
+                target.AttributeBonus.SetSkillAttr((AttributeEnum)Config.TargetAttr, this.FromId, vue);
             }
             else if (this.Config.TargetType == (int)EffectCompentTarget.Self)
             {
+                Effect_State state = self.AddEffect(this);
 
+                double vue = state.Percent * state.Count;
+
+                self.AttributeBonus.SetSkillAttr((AttributeEnum)Config.TargetAttr, this.FromId, vue);
             }
         }
-
     }
 }

@@ -15,8 +15,6 @@ namespace Game
 
         public string Name { get; set; }
 
-        public string Title { get; set; }
-
         public long Level { get; set; }
 
         public double SP { get; set; }
@@ -29,14 +27,8 @@ namespace Game
 
         public long BirthDay { get; set; } = 0;
 
-
-        private int MoveSpeed = 0;
-        private int AtkSpeed = 0;
-
         private float MoveInterval = 1;
-        private float AtkInterval = 1;
 
-        [JsonIgnore]
         public PlayerType Camp { get; set; }
 
         public MondelType ModelType { get; set; } = MondelType.Nomal;
@@ -134,14 +126,12 @@ namespace Game
             this._enemy = null;
         }
 
-        [JsonIgnore]
-        public string UUID { get; set; }
 
-        public List<AAuras> AurasList = null;
+
 
         public APlayer()
         {
-            this.UUID = System.Guid.NewGuid().ToString("N");
+            //this.UUID = System.Guid.NewGuid().ToString("N");
             this.EventCenter = new EventManager();
             this.AttributeBonus = new AttributeBonus();
             this.SelectSkillList = new List<SkillState>();
@@ -187,21 +177,13 @@ namespace Game
 
         public void SetSpeed(int atkSpeed, int moveSpeed)
         {
-            this.AtkSpeed = atkSpeed;
-            this.MoveSpeed = moveSpeed;
-
-            this.MoveInterval = Mathf.Max(0.2f, 100f / (100 + MoveSpeed));
-            this.AtkInterval = Mathf.Max(0.2f, 100f / (100 + AtkSpeed));
-
-        }
-
-        public float CalBaseAtkInterval()
-        {
-            return this.AtkInterval;
+            this.MoveInterval = Mathf.Max(0.2f, 100f / (100 + moveSpeed));
         }
 
         public float CalAtkInterval(int skillPercent)
         {
+            int AtkSpeed = (int)AttributeBonus.CalBattleTotalAttr(AttributeEnum.Speed);
+
             return Mathf.Max(0.2f, 100f / (100 + AtkSpeed + skillPercent));
         }
 
@@ -291,6 +273,20 @@ namespace Game
             EffectManager.RunCD(time);
         }
 
+        public Effect_State AddEffect(Effect_Compent compent)
+        {
+            int key = compent.FromId;
+            if (!EffectManager.StateDict.ContainsKey(key))
+            {
+                EffectManager.StateDict[key] = new Effect_State(compent);
+            }
+
+            Effect_State state = EffectManager.StateDict[key];
+            state.AddBuff();
+
+            return state;
+        }
+
         public virtual float DoEvent()
         {
             this.RoundCounter++;
@@ -307,7 +303,7 @@ namespace Game
             //2.判断控制
             if (GetIsPause())
             {
-                return Math.Min(CalBaseAtkInterval(), CalMoveInterval());
+                return Math.Min(CalAtkInterval(0), CalMoveInterval());
             }
 
             //3.普通技能
@@ -360,7 +356,7 @@ namespace Game
             }
             else
             {
-                return CalBaseAtkInterval();
+                return CalAtkInterval(0);
             }
 
             //3. 移动到首要目标
@@ -377,23 +373,20 @@ namespace Game
                 if (GameProcessor.Inst.PlayerManager.IsCellCanMove(endPos))
                 {
                     this.Move(endPos);
-                    return MoveSpeed;
+                    return MoveInterval;
                 }
             }
             return 1f;
         }
 
-        public void AddEffect(Effect_Compent compent, Effect_Buff buff)
-        {
-            EffectManager.AddEffect(compent, buff);
-        }
+
 
         public void Move(Vector3Int cell)
         {
             this.SetPosition(cell);
             var targetPos = GameProcessor.Inst.MapData.GetWorldPosition(cell);
             this.Transform.DOKill(true);
-            this.Transform.DOLocalMove(targetPos, MoveSpeed);
+            this.Transform.DOLocalMove(targetPos, MoveInterval);
         }
 
         public void SetPosition(Vector3 pos, bool isGraphic = false)

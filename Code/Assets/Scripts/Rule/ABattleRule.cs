@@ -46,7 +46,7 @@ namespace Game
         {
 
         }
-        public void DoMapCellLogic()
+        public void DoMapCellLogic(double currentRoundTime)
         {
             var cells = GameProcessor.Inst.MapData.MapCells.ToList();
             var skillCells = cells.FindAll(m => m.skills.Count > 0);
@@ -71,6 +71,7 @@ namespace Game
                 }
 
                 this.DoMapLogic(roundNum, this.currentRoundTime);
+                this.DoMapCellLogic(this.currentRoundTime);
                 this.currentRoundTime = 0;
 
 
@@ -78,7 +79,6 @@ namespace Game
                 switch (roundType)
                 {
                     case 0:
-                        this.DoMapCellLogic();
                         break;
                     case 1:
                         this.CheckGameResult();

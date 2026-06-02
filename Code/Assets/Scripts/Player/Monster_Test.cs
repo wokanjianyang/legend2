@@ -46,7 +46,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 1);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 1);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 1);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, 1000000);
 
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, 0);
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, 0);
@@ -106,6 +106,7 @@ namespace Game
 
         public override void OnHit(DamageResult dr)
         {
+            Debug.Log($"{DateTime.Now.ToString("mm:ss.fff")} test hit damage£º" + this.AttributeBonus.CalBattleTotalAttr(AttributeEnum.Def));
             //Debug.Log("monster hit damage:" + StringHelper.FormatNumber(dr.Damage));
 
             base.OnHit(dr);

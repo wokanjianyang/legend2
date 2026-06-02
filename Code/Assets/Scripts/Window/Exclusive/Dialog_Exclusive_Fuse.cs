@@ -106,7 +106,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
         }
 
         //Ç°ÖÃ²»Âú×ã
-        if (config.RequireId > 0 && user.GetExclusiveLevel(config.RequireId) > 0)
+        if (config.RequireId > 0 && user.GetExclusiveLevel(config.RequireId) <= 0)
         {
             Btn_OK.gameObject.SetActive(false);
         }

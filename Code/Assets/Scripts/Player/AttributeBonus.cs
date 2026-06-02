@@ -85,6 +85,9 @@ namespace Game
                     total *= (1 + CalBattleSingleAttr(AttributeEnum.IncreaDef) / 100.0);
                     total *= (1 + CalBattleSingleAttr(AttributeEnum.RateDef) / 100.0);
                     total *= CalBattleSingleMul(AttributeEnum.MulDef);
+
+                    double decreDef = CalBattleSingleDiv(AttributeEnum.decreDivDef);
+                    total = total / decreDef;
                     break;
                 case AttributeEnum.Strong:
                     total = CalBattleSingleAttr(AttributeEnum.Strong);
@@ -237,6 +240,37 @@ namespace Game
                 foreach (var item in BuffDict[type])
                 {
                     total *= (1 + item.Value / 100.0);
+                }
+            }
+
+            return total;
+        }
+
+        public double CalBattleSingleDiv(AttributeEnum type)
+        {
+            double total = 1;
+
+            if (AllAttrDict.ContainsKey(type))
+            {
+                foreach (var item in AllAttrDict[type])
+                {
+                    total = total / (1 - item.Value / 100.0);
+                }
+            }
+
+            if (SkillDict.ContainsKey(type))
+            {
+                foreach (var item in SkillDict[type])
+                {
+                    total = total / (1 - item.Value / 100.0);
+                }
+            }
+
+            if (BuffDict.ContainsKey(type))
+            {
+                foreach (var item in BuffDict[type])
+                {
+                    total = total / (1 - item.Value / 100.0);
                 }
             }
 

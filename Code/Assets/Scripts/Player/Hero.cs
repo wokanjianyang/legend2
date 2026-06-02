@@ -334,7 +334,7 @@ namespace Game
         }
         public override void OnHit(DamageResult dr)
         {
-            Debug.Log($"{DateTime.Now.ToString("mm:ss.fff")} heor hit damage");
+            //Debug.Log($"{DateTime.Now.ToString("mm:ss.fff")} heor hit damage");
 
             //Debug.Log("heor hit damage:" + StringHelper.FormatNumber(dr.Damage) + " maxHP:" + StringHelper.FormatNumber(this.AttributeBonus.GetAttackDoubleAttr(AttributeEnum.HP)));
 

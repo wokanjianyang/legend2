@@ -44,15 +44,22 @@ namespace Game
                 return;
             }
 
-            if (DamageHelper.IsMiss(SelfPlayer, enemy, SkillPanel.Accuracy))
-            {
-                enemy.ShowMiss();
-                return;
-            }
+            //无法闪避
+            //if (DamageHelper.IsMiss(SelfPlayer, enemy, SkillPanel.Accuracy))
+            //{
+            //    enemy.ShowMiss();
+            //    return;
+            //}
+
+            //先行特效
+            SkillPanel.RunBefore(this.SelfPlayer, enemy);
 
             var dr = DamageHelper.CalcDamage(this.SelfPlayer.AttributeBonus, enemy.AttributeBonus, this.SkillPanel);
             dr.FromId = this.SelfPlayer.ID;
             enemy.OnHit(dr);
+
+            //后行特效
+            SkillPanel.RunAfter(this.SelfPlayer, enemy, dr);
         }
 
         public override List<AttackData> GetAllTargets()

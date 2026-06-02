@@ -8,7 +8,7 @@ namespace Game
 
         //------------------减益------------------------------
         decreMulHp = -10001, //生命减少倍率
-        decreMulDef = -10002, //防御减少倍率
+        decreDivDef = -10002, //防御减少倍率
         decreMulAtk = -10003, //攻击减少倍率
 
         decreExtraDamage = -10029, //额外承伤倍率

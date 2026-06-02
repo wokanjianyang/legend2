@@ -33,16 +33,18 @@ namespace Game
             //技能攻击加成
             atk *= (1 + skill.AttrIncrea / 100.0);
 
+            //lucky
+            int lucky = (int)(attcher.CalBattleTotalAttr(AttributeEnum.Lucky) - enemy.CalBattleTotalAttr(AttributeEnum.Curse));
+
             //防御减伤为 攻击/防御*0.75
             double def = enemy.CalBattleTotalAttr(AttributeEnum.Def);
 
             if (def >= 1)
             {
                 //诅咒对防御的影响
-                double curse = attcher.CalBattleTotalAttr(AttributeEnum.Curse) - enemy.CalBattleTotalAttr(AttributeEnum.Lucky);
-                if (curse > 0)
+                if (lucky < 0)
                 {
-                    double curseRate = CalCurseRate((int)curse);
+                    double curseRate = CalCurseRate(-lucky);
                     def *= curseRate;
                 }
 
@@ -52,12 +54,9 @@ namespace Game
 
             //技能固伤不受防御影响
             atk += skill.Damage;
-
-            //lucky
-            double lucky = attcher.CalBattleTotalAttr(AttributeEnum.Lucky) - enemy.CalBattleTotalAttr(AttributeEnum.Curse);
             if (lucky > 0)
             {
-                double luckyRate = CalLuckyRate((int)lucky);
+                double luckyRate = CalLuckyRate(lucky);
 
                 atk *= luckyRate;
             }
@@ -65,15 +64,17 @@ namespace Game
             //技能终伤
             atk *= (1 + skill.FinalIncrea / 100.0);
 
+            MsgType type = MsgType.Damage;
+
             //致命
             int deadlyRate = (int)((attcher.CalBattleTotalAttr(AttributeEnum.DeadlyRate) + skill.DeadlyRate));
             if (RandomHelper.RandomCritRate(deadlyRate))
             {
                 int deadlyDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.DeadlyDamage) + skill.DeadlyDamage);
                 atk *= (1 + deadlyDamage / 100.0);
-            }
 
-            MsgType type = MsgType.Damage;
+                type = MsgType.Crit;
+            }
 
             //暴击
             int critRate = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritRate) + skill.CritRate - enemy.CalBattleTotalAttr(AttributeEnum.CritRateResist));

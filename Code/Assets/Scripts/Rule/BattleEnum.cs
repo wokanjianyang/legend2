@@ -78,7 +78,9 @@ namespace Game
         /// 弧线
         /// </summary>
         Arc = 5,
-
+        /// <summary>
+        /// 野蛮追击
+        /// </summary>
         Chase = 8,
         Circle = 9,
     }

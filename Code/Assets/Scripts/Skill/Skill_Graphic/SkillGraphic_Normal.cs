@@ -7,7 +7,7 @@ namespace Game
 {
     public class SkillGraphic_Normal : SkillGraphic
     {
-        const float speed = 0.2f;
+        const float speed = 0.1f;
 
         public SkillGraphic_Normal(APlayer player, SkillPanel skill) : base(player, skill)
         {

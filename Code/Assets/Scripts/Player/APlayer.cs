@@ -370,6 +370,14 @@ namespace Game
             this.Transform.DOLocalMove(targetPos, MoveInterval);
         }
 
+        public void MoveFast(Vector3Int cell)
+        {
+            this.SetPosition(cell);
+            var targetPos = GameProcessor.Inst.MapData.GetWorldPosition(cell);
+            this.Transform.DOKill(true);
+            this.Transform.DOLocalMove(targetPos, 0.1f);
+        }
+
         public void SetPosition(Vector3 pos, bool isGraphic = false)
         {
             this.Cell = new Vector3Int((int)pos.x, (int)pos.y, 0);

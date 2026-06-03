@@ -9,10 +9,7 @@ namespace Game
     {
         public Skill_Yeman(APlayer player, SkillPanel skill, bool isShow) : base(player, skill)
         {
-            if (isShow)
-            {
-                this.skillGraphic = new SkillGraphic_Normal(player, skill);
-            }
+            //this.skillGraphic = new SkillGraphic_Normal(player, skill);
         }
 
         public override bool IsCanUse()
@@ -23,7 +20,7 @@ namespace Game
         public override void Do(SkillRunType runType)
         {
             var moveCell = GetMoveCell();
-            this.SelfPlayer.Move(moveCell);
+            this.SelfPlayer.MoveFast(moveCell);
 
             base.Do(runType);
         }

@@ -93,7 +93,6 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
             try
             {
                 this.SelfPlayer.DoCD(effectTime);
-                this.SelfPlayer.DoEffect(effectTime);
             }
             catch (Exception ex)
             {

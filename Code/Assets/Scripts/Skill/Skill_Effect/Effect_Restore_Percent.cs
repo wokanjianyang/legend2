@@ -9,15 +9,15 @@ namespace Game
     /// </summary>
     public class Effect_Restore_Percent : Effect_Compent
     {
-        public Effect_Restore_Percent(SkillPanel sp, Effect_Data data) : base(sp, data)
-        {
+        //public Effect_Restore_Percent(SkillPanel sp, Effect_Data data) : base(sp, data)
+        //{
 
-        }
+        //}
 
-        public override void Do(APlayer self, APlayer target, double damage)
-        {
+        //public override void Do(APlayer self, APlayer target, double damage)
+        //{
 
-        }
+        //}
 
     }
 }

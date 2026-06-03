@@ -153,17 +153,20 @@ namespace Game
 		/// <summary>附带效果</summary>
 		[ProtoMember(26)]
 		public int EffectId { get; set; }
-		/// <summary></summary>
+		/// <summary>EffectVue</summary>
 		[ProtoMember(27)]
-		public int EffectValue { get; set; }
-		/// <summary></summary>
+		public int EffectVue { get; set; }
+		/// <summary>EffectDuration</summary>
 		[ProtoMember(28)]
+		public int EffectDuration { get; set; }
+		/// <summary>EffectMax</summary>
+		[ProtoMember(29)]
 		public int EffectMax { get; set; }
 		/// <summary>StartQuality</summary>
-		[ProtoMember(29)]
+		[ProtoMember(30)]
 		public int StartQuality { get; set; }
 		/// <summary>EndQuality</summary>
-		[ProtoMember(30)]
+		[ProtoMember(31)]
 		public int EndQuality { get; set; }
 
 	}

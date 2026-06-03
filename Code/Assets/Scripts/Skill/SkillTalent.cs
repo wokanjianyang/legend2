@@ -34,7 +34,9 @@ namespace Game
 
         public int EffectId { get; } //
 
-        public double EffectValue { get; }
+        public double EffectVue { get; }
+
+        public int EffectDuration { get; }
 
         public int EffectMax { get; } //
 
@@ -74,7 +76,8 @@ namespace Game
             if (Config.EffectId > 0)
             {
                 this.EffectId = Config.EffectId;
-                this.EffectValue = Config.EffectValue;
+                this.EffectVue = Config.EffectVue;
+                this.EffectDuration = Config.EffectDuration;
                 this.EffectMax = Config.EffectMax;
             }
 

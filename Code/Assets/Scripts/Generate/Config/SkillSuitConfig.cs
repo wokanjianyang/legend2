@@ -165,8 +165,11 @@ namespace Game
 		/// <summary></summary>
 		[ProtoMember(30)]
 		public int EffectValue { get; set; }
-		/// <summary></summary>
+		/// <summary>EffectDuration</summary>
 		[ProtoMember(31)]
+		public int EffectDuration { get; set; }
+		/// <summary></summary>
+		[ProtoMember(32)]
 		public int EffectMax { get; set; }
 
 	}

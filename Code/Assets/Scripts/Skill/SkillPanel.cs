@@ -260,11 +260,12 @@ namespace Game
                     int[] effectParams = StringHelper.ConvertSkillParams(skillEffect);
 
                     int effectId = effectParams[0];
-                    int duration = effectParams[1];
-                    int max = effectParams[2];
-                    double percent = effectParams[3];
+                    double vue = effectParams[1];
+                    int duration = effectParams[2];
+                    int max = effectParams[3];
 
-                    AddEffect(effectId, 0, percent, duration, 1, max);
+
+                    AddEffect(effectId, vue, duration, max);
                 }
             }
 
@@ -273,7 +274,7 @@ namespace Game
             {
                 if (suit.EffectId > 0)
                 {
-                    AddEffect(suit.EffectId, suit.Damage, suit.Percent, suit.Duration, 1, suit.EnemyMax);
+                    AddEffect(suit.EffectId, suit.EffectVue, suit.EffectDuration, suit.EffectMax);
                 }
             }
 
@@ -282,7 +283,7 @@ namespace Game
             {
                 if (sp.EffectId > 0)
                 {
-                    AddEffect(sp.EffectId, sp.Damage, sp.EffectValue, 0, 1, sp.EffectMax);
+                    AddEffect(sp.EffectId, sp.EffectVue, sp.EffectDuration, sp.EffectMax);
                 }
             }
 
@@ -303,18 +304,18 @@ namespace Game
 
         }
 
-        private void AddEffect(int effectId, double damage, double percent, int duration, float cd, int max)
+        private void AddEffect(int effectId, double vue, int duration, int max)
         {
             if (!EffectList.ContainsKey(effectId)) //如果已经存在，就叠加其他参数
             {
                 int fromId = GetFromId(effectId);
-                Effect_Data data = new Effect_Data(effectId, fromId, damage, percent, duration, cd, max);
+                Effect_Data data = new Effect_Data(effectId, fromId, vue, duration, max);
 
                 EffectList.Add(effectId, data);
             }
             else
             {
-                EffectList[effectId].MergeParam(damage, percent, duration, cd, max);
+                EffectList[effectId].MergeParam(vue, duration, max);
             }
         }
 
@@ -332,10 +333,11 @@ namespace Game
             {
                 Effect_Data data = sp.Value;
 
-                if (data.Config.RunType == "Before")
+                if (data.Config.StartType == "Before")
                 {
-                    Effect_Compent com = Effect_Compent_Factory.Create(this, data);
-                    com.Do(self, enemy, 0);
+                    float cd = self.CalAtkInterval(this.Speed);
+
+                    Effect_State state = Effect_Compent_Factory.Excute(self, enemy, this, data, cd, 0);
                 }
             }
         }
@@ -349,10 +351,11 @@ namespace Game
             {
                 Effect_Data data = sp.Value;
 
-                if (data.Config.RunType == "Afer")
+                if (data.Config.StartType == "After")
                 {
-                    Effect_Compent com = Effect_Compent_Factory.Create(this, data);
-                    com.Do(self, enemy, res.Damage);
+                    float cd = self.CalAtkInterval(this.Speed);
+
+                    Effect_State state = Effect_Compent_Factory.Excute(self, enemy, this, data, cd, res.Damage);
                 }
             }
         }

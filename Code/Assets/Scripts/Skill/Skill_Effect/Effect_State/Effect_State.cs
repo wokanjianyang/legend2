@@ -10,59 +10,80 @@ namespace Game
     /// </summary>
     public class Effect_State
     {
+        public APlayer Attacher;
+        public Effect_Data Data;
+
         public int EffectId { get; }
 
         public double Damage { get; set; }
 
-        public double Percent { get; set; }
-
-        public double Duratioin { get; set; }
-
         public double CD { get; set; }
 
-        private float TotalTime = 0;
+        public float TotalTime { get; set; } = 0;
 
-        private float RunTime = 0f;
+        public float RunTime = 0f;
 
         public int Count = 0;
 
         public int Max { get; } //可叠加层数
 
-        private EffectConfig Config;
 
 
-
-        public Effect_State(Effect_Compent compent)
+        public Effect_State(APlayer player, Effect_Data data, float cd, double damage)
         {
-            this.EffectId = compent.ConfigId;
-            this.Max = compent.Max;
-
-            this.Damage = compent.Damage;
-            this.Percent = compent.Percent;
-            this.Duratioin = compent.Duration;
-            this.CD = compent.CD;
-
-            this.Config = EffectConfigCategory.Instance.Get(EffectId);
+            this.Attacher = player;
+            this.Data = data;
+            this.EffectId = data.EffectId;
+            this.Data = data;
+            this.CD = cd;
+            this.Damage = damage;
         }
 
         public void AddBuff()
         {
-            if (Count < Max)
+            this.TotalTime = 0; //持续时间刷新
+
+            if (Count < Data.Max)
             {
-                Count++;
+                this.Count++;
             }
         }
 
-        public void RunCD(float time)
+        public void StartRun()  //第一次运行
         {
-            TotalTime += time;
-            RunTime += time;
+
         }
 
+        public void IntervalRun(float time)
+        {
+            TotalTime += time;
+
+            if (Data.Config.StartType == "Interval") //循环类型才循环调用
+            {
+                RunTime += time;
+            }
+
+            if (TotalTime >= Data.Duration)
+            {
+                this.Count = 0;
+                Effect_Compent_Factory.Complete(this);
+            }
+
+            if (RunTime >= CD)
+            {
+                RunTime = 0;
+                Effect_Compent_Factory.Run(this);
+            }
+        }
+
+        public double CalVue()
+        {
+            return Data.Percent * Count;
+        }
 
         public bool isPause()
         {
-            if (this.Config.Type == (int)EffectCompentType.CrowdControl && Count > 0)
+            if (this.Data.Config.Type == (int)EffectCompentType.CrowdControl && Count > 0)
             {
                 return true;
             }
@@ -72,7 +93,7 @@ namespace Game
 
         public bool isIgnorePause()
         {
-            if (this.Config.Type == (int)EffectCompentType.ControlImmunity && Count > 0)
+            if (this.Data.Config.Type == (int)EffectCompentType.ControlImmunity && Count > 0)
             {
                 return true;
             }

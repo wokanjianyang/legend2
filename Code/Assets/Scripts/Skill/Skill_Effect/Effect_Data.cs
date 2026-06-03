@@ -13,37 +13,29 @@ namespace Game
 
         public int FromId { get; }
 
-        public double Damage { get; set; }
-
         public double Percent { get; set; }
 
         public double Duration { get; set; }
-
-        public double CD { get; set; }
 
         public int Max { get; set; }
 
         public EffectConfig Config;
 
-        public Effect_Data(int effectId, int fromId, double damage, double percent, double duration, double cd, int max)
+        public Effect_Data(int effectId, int fromId, double percent, double duration, int max)
         {
             this.EffectId = effectId;
             this.FromId = fromId;
-            this.Damage = damage;
             this.Percent = percent;
             this.Duration = duration;
-            this.CD = cd;
             this.Max = max;
 
             this.Config = EffectConfigCategory.Instance.Get(EffectId);
         }
 
-        public void MergeParam(double damage, double percent, double duration, double cd, int max)
+        public void MergeParam(double percent, double duration, int max)
         {
-            this.Damage += damage;
             this.Percent += percent;
             this.Duration += duration;
-            //this.CD = cd;
             this.Max += max;
         }
 

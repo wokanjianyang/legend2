@@ -9,29 +9,27 @@ namespace Game
     /// </summary>
     public class Effect_Rise_Attr : Effect_Compent
     {
-        public Effect_Rise_Attr(SkillPanel sp, Effect_Data data) : base(sp, data)
-        {
 
-        }
+        //public override void Start(APlayer self, APlayer target, float cd, double damage)
+        //{
+        //    base.Start(self, target, cd, damage);
 
-        public override void Do(APlayer self, APlayer target, double damage)
-        {
-            if (this.Config.TargetType == (int)EffectCompentTarget.Enemy)
-            {
-                Effect_State state = target.AddEffect(this);
+        //    if (this.Config.TargetType == (int)EffectCompentTarget.Enemy)
+        //    {
+        //        Effect_State state = target.AddEffect(this);
 
-                double vue = state.Percent * state.Count;
+        //        double vue = state.CalVue();
 
-                target.AttributeBonus.SetSkillAttr((AttributeEnum)Config.TargetAttr, this.FromId, vue);
-            }
-            else if (this.Config.TargetType == (int)EffectCompentTarget.Self)
-            {
-                Effect_State state = self.AddEffect(this);
+        //        target.AttributeBonus.SetSkillAttr((AttributeEnum)Config.TargetAttr, this.FromId, vue);
+        //    }
+        //    else if (this.Config.TargetType == (int)EffectCompentTarget.Self)
+        //    {
+        //        Effect_State state = self.AddEffect(this);
 
-                double vue = state.Percent * state.Count;
+        //        double vue = state.CalVue();
 
-                self.AttributeBonus.SetSkillAttr((AttributeEnum)Config.TargetAttr, this.FromId, vue);
-            }
-        }
+        //        self.AttributeBonus.SetSkillAttr((AttributeEnum)Config.TargetAttr, this.FromId, vue);
+        //    }
+        //}
     }
 }

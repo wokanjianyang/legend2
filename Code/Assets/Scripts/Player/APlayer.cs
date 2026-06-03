@@ -258,33 +258,14 @@ namespace Game
 
         public void DoCD(float time)
         {
+            if (!this.IsSurvice) return;
+
             foreach (SkillState ss in this.SelectSkillList)
             {
                 ss.RunCD(time);
             }
 
             this.EffectManager.RunCD(time);
-        }
-
-        public void DoEffect(float time)
-        {
-            if (!this.IsSurvice) return;
-
-            EffectManager.RunCD(time);
-        }
-
-        public Effect_State AddEffect(Effect_Compent compent)
-        {
-            int key = compent.FromId;
-            if (!EffectManager.StateDict.ContainsKey(key))
-            {
-                EffectManager.StateDict[key] = new Effect_State(compent);
-            }
-
-            Effect_State state = EffectManager.StateDict[key];
-            state.AddBuff();
-
-            return state;
         }
 
         public virtual float DoEvent()

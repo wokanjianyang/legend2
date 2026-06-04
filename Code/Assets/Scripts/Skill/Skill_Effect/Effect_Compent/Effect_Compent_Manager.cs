@@ -66,13 +66,13 @@ namespace Game
             state.AddBuff();
 
             //单次的直接运行
-            if (state.Data.Config.RunCycle == "Single")
+            if (state.Data.Config.RunSeq == "Instantly")
             {
                 state.RunTime = 0;
                 Run(state);
             }
 
-            Debug.Log("Effect Excute：" + sp.SkillData.SkillConfig.Name + " -" + data.EffectId + " -" + data.FromId);
+            //Debug.Log("Effect Excute：" + sp.SkillData.SkillConfig.Name + " -" + data.EffectId + " -" + data.FromId);
 
             return state;
         }
@@ -100,7 +100,7 @@ namespace Game
     public enum EffectCompentType
     {
         Attr = 1,  //增减属性
-        Lifesteal = 2, //伤害回复
+        Lifesteal = 2, //回复
         CrowdControl = 3, //控制
         ControlImmunity‌ = 4, //免疫控制
         Dot = 5, //按伤害百分比持续掉血

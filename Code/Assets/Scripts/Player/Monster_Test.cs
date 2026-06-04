@@ -43,10 +43,10 @@ namespace Game
 
 
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, 1E10);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 1);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 1);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 1);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, 1000000);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 100);
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 100);
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 100);
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, 0); //1000000
 
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, 0);
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, 0);
@@ -66,33 +66,18 @@ namespace Game
             SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
         }
 
-        private void SetSkill()
-        {
-            //加载技能
-            List<SkillData> list = new List<SkillData>();
-            list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
-
-            foreach (SkillData skillData in list)
-            {
-                List<SkillRune> runeList = new List<SkillRune>();
-                List<SkillSuit> suitList = new List<SkillSuit>();
-
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, null, false);
-
-                SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                SelectSkillList.Add(skill);
-            }
-        }
-
         private void SetSkillNew()
         {
             List<SkillData> list = new List<SkillData>();
 
 
             list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
+            list.Add(new SkillData(3004, (int)SkillPosition.Default)); //增加默认技能
 
             foreach (SkillData skillData in list)
             {
+                skillData.MagicLevel.Data = 1;
+
                 List<SkillRune> runeList = new List<SkillRune>();
                 List<SkillSuit> suitList = new List<SkillSuit>();
 
@@ -106,7 +91,10 @@ namespace Game
 
         public override void OnHit(DamageResult dr)
         {
-            Debug.Log($"{DateTime.Now.ToString("mm:ss.fff")} test hit damage：" + this.AttributeBonus.CalBattleTotalAttr(AttributeEnum.Def));
+            if (dr.SkillId >= 2003)
+            {
+                Debug.Log($"{DateTime.Now.ToString("mm:ss.fff")} test hit " + dr.SkillId + " damage：" + this.AttributeBonus.CalBattleTotalAttr(AttributeEnum.DecreExtraDamage));
+            }
             //Debug.Log("monster hit damage:" + StringHelper.FormatNumber(dr.Damage));
 
             base.OnHit(dr);

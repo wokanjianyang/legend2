@@ -19,20 +19,20 @@ namespace Assets.Scripts
             this.skills = new List<SkillMapState>();
         }
 
-        public void AddSkill(Skill_Attack_Map skill)
+        public void AddSkill(Skill_Attack_Map skill, float cd)
         {
-            this.skills.Add(new SkillMapState(skill));
+            this.skills.Add(new SkillMapState(skill, cd));
             //TODO 增加特效
         }
 
-        public void DoEvent()
+        public void DoEvent(float time)
         {
             APlayer player = GameProcessor.Inst.PlayerManager.GetPlayer(cell);
 
             //触发技能
             foreach (SkillMapState skill in skills)
             {
-                skill.Run(player);
+                skill.Run(player, time);
             }
 
             //持续时间到了，移除技能

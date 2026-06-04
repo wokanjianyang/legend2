@@ -84,23 +84,26 @@ namespace Game
 		/// <summary>计算顺序</summary>
 		[ProtoMember(3)]
 		public string StartType { get; set; }
-		/// <summary>运行周期</summary>
+		/// <summary>运行顺序</summary>
 		[ProtoMember(4)]
+		public string RunSeq { get; set; }
+		/// <summary>运行周期</summary>
+		[ProtoMember(5)]
 		public string RunCycle { get; set; }
 		/// <summary>类型</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int Type { get; set; }
 		/// <summary>来源属性</summary>
-		[ProtoMember(6)]
-		public int SourceAttr { get; set; }
-		/// <summary>施法目标</summary>
 		[ProtoMember(7)]
+		public int SrcAtrId { get; set; }
+		/// <summary>施法目标</summary>
+		[ProtoMember(8)]
 		public int TargetType { get; set; }
 		/// <summary>目标属性</summary>
-		[ProtoMember(8)]
-		public int TargetAttr { get; set; }
-		/// <summary>备注</summary>
 		[ProtoMember(9)]
+		public int TarAtrId { get; set; }
+		/// <summary>备注</summary>
+		[ProtoMember(10)]
 		public string Des { get; set; }
 
 	}

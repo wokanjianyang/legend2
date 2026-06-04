@@ -9,31 +9,32 @@ namespace Game
     /// </summary>
     public class Effect_Dot : Effect_Compent
     {
-        //public override void Do(APlayer self, APlayer target, double damage)
-        //{
-        //    if (this.Duration > 1)
-        //    {
-        //        //效果持续
-        //        target.AddEffect(this);
-        //    }
-        //    else
-        //    {
-        //        //效果就只一个回合
-        //        double lossHp = damage * Vue / 100.0;
-
-        //        DamageResult dr = new DamageResult(FromId, lossHp, MsgType.Effect, RoleType.All);
-
-        //        self.OnHit(dr);
-        //    }
-        //}
         public override void Complete(Effect_State state)
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override void Run(Effect_State state)
         {
-            throw new System.NotImplementedException();
+            double damage = 0;
+            int fromId = state.Data.FromId;
+            int atrId = state.Data.Config.SrcAtrId;
+
+            double vue = state.CalVue();
+
+            if (atrId == 0)
+            {
+                damage = state.Damage * vue / 100.0;
+            }
+            else
+            {
+                double atrVue = state.Owner.AttributeBonus.CalBattleTotalAttr((AttributeEnum)atrId);
+                damage = atrVue * vue / 100.0;
+            }
+
+            DamageResult dr = new DamageResult(fromId, damage, MsgType.Dot, 0);
+
+            state.Owner.OnHit(dr);
         }
     }
 }

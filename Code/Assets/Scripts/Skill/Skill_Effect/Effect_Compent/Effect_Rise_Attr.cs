@@ -11,20 +11,20 @@ namespace Game
     {
         public override void Complete(Effect_State state)
         {
-            int vue = 0;
+            double vue = 0;
             int fromId = state.Data.FromId;
-            int atrId = state.Data.Config.TargetAttr;
+            int atrId = state.Data.Config.TarAtrId;
 
-            state.Attacher.AttributeBonus.SetSkillAttr((AttributeEnum)atrId, fromId, vue);
+            state.Owner.AttributeBonus.SetSkillAttr((AttributeEnum)atrId, fromId, vue);
         }
 
         public override void Run(Effect_State state)
         {
             double vue = state.CalVue();
             int fromId = state.Data.FromId;
-            int atrId = state.Data.Config.TargetAttr;
+            int atrId = state.Data.Config.TarAtrId;
 
-            state.Attacher.AttributeBonus.SetSkillAttr((AttributeEnum)atrId, fromId, vue);
+            state.Owner.AttributeBonus.SetSkillAttr((AttributeEnum)atrId, fromId, vue);
         }
     }
 }

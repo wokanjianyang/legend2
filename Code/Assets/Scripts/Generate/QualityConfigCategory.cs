@@ -89,7 +89,7 @@ namespace Game
                 case MsgType.Crit:
                     color = "FFD700";
                     break;
-                case MsgType.Effect:
+                case MsgType.Dot:
                     color = "E3EA6F";
                     break;
                 case MsgType.SP:

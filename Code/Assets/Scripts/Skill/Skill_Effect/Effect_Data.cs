@@ -39,5 +39,9 @@ namespace Game
             this.Max += max;
         }
 
+        public string GetDesc()
+        {
+            return string.Format(this.Config.Des, this.Percent, this.Duration, this.Max);
+        }
     }
 }

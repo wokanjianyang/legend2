@@ -10,30 +10,46 @@ namespace Game
 
         private Skill_Attack_Map skill;
 
-        private int Duration = 0;
+        private float CD = 1;
 
-        public SkillMapState(Skill_Attack_Map skill)
+        private float TotalTime = 0;
+        private float RunTime = 0;
+
+        private bool complete = false;
+
+        public SkillMapState(Skill_Attack_Map skill, float cd)
         {
             //this.SelfPlayer = player;
             this.skill = skill;
-            this.Duration = 0;
+            this.CD = cd;
+            this.TotalTime = 0;
         }
 
-        public void Run(APlayer enemy)
+        public void Run(APlayer enemy, float time)
         {
-            this.Duration++;
+            this.TotalTime += time;
+            this.RunTime += time;
 
-            if (enemy == null)
+            if (enemy == null || complete)
             { //空格子
                 return;
             }
 
-            skill.Run(enemy);
+            if (RunTime >= CD)
+            {
+                RunTime = 0;
+                skill.Run(enemy);
+            }
+
+            if (TotalTime >= skill.SkillPanel.Duration)
+            {
+                complete = true;
+            }
         }
 
         public bool IsOver()
         {
-            return Duration >= skill.SkillPanel.Duration;
+            return complete;
         }
     }
 }

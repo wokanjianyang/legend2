@@ -64,7 +64,7 @@ namespace Game
 
             Txt_Count.text = count > 0 ? "+" + count + "" : "无";
 
-            this.desc = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate, config.DeadlyDamage, config.RateDamage, config.AttrIncrea, config.FinalIncrea) + "，不可叠加";
+            this.desc = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate, config.DeadlyDamage, config.RateDamage, config.AttrIncrea, config.FinalIncrea);
         }
 
         public void SetTalent(int tid, int count)
@@ -80,7 +80,7 @@ namespace Game
 
             Txt_Count.text = count > 0 ? "+" + count + "" : "无";
 
-            this.desc = config.Des + "，不可叠加";
+            this.desc = config.Des;
         }
     }
 }

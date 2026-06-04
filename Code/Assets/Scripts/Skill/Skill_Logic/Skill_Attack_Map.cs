@@ -28,12 +28,14 @@ namespace Game
             List<Vector3Int> allAttackCells = GetPlayCells();
             this.skillGraphic?.PlayAnimation(allAttackCells);
 
+            float cd = SelfPlayer.CalAtkInterval(SkillPanel.Speed);
+
             foreach (var cell in allAttackCells)
             {
                 MapCell mapCell = GameProcessor.Inst.MapData.GetMapCell(cell);
                 if (mapCell != null) //处于地图边缘的时候
                 {
-                    mapCell.AddSkill(this);
+                    mapCell.AddSkill(this, cd);
                 }
             }
         }

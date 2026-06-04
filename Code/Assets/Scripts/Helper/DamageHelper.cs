@@ -108,7 +108,7 @@ namespace Game
             }
 
             //承受者的易伤
-            double extraDamage = enemy.CalBattleTotalAttr(AttributeEnum.ExtraDamage);
+            double extraDamage = enemy.CalBattleTotalAttr(AttributeEnum.DecreExtraDamage);
             if (extraDamage > 0)
             {
                 atk *= 1 + extraDamage / 100.0;

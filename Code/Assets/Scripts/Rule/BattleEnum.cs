@@ -128,7 +128,7 @@ namespace Game
         Damage = 1,
         Restore = 2,
         Crit = 3,
-        Effect = 4,
+        Dot = 4,
         Other = 5,
         SkillName = 6,
         Miss = 7,

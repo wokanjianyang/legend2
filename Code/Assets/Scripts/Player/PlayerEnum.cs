@@ -11,7 +11,8 @@ namespace Game
         decreDivDef = -10002, //防御减少倍率
         decreMulAtk = -10003, //攻击减少倍率
 
-        decreExtraDamage = -10029, //额外承伤倍率
+        DecreRestore = -10028, //禁疗
+        DecreExtraDamage = -10029, //额外承伤倍率
 
         decreHp = -1, //灼烧流血伤害
         //------------------基础------------------------------
@@ -39,7 +40,6 @@ namespace Game
         CritDamageResist = 26, //爆伤减免
         DamageIncrea = 27, //伤害增加
         DamageResist = 28, //伤害减少
-        ExtraDamage = 29,//易伤额外伤害
 
         Strong = 41,//韧性
         Shatter = 42, //破韧

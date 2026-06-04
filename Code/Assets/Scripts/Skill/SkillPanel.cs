@@ -297,7 +297,7 @@ namespace Game
 
                 if (effectConfig.Des != "")
                 {
-                    Desc += "," + string.Format(effectConfig.Des, data.Percent, data.Max, data.Duration);
+                    Desc += "," + data.GetDesc();
                 }
             }
 
@@ -359,7 +359,6 @@ namespace Game
                 }
             }
         }
-
     }
 
 

@@ -42,11 +42,11 @@ namespace Game
         //    }
         //}
 
-        virtual public void DoMapLogic(int roundNum,double currentRoundTime)
+        virtual public void DoMapLogic(int roundNum, double currentRoundTime)
         {
 
         }
-        public void DoMapCellLogic(double currentRoundTime)
+        public void DoMapCellLogic(float currentRoundTime)
         {
             var cells = GameProcessor.Inst.MapData.MapCells.ToList();
             var skillCells = cells.FindAll(m => m.skills.Count > 0);
@@ -54,7 +54,7 @@ namespace Game
             {
                 if (cell.skills.Count > 0)
                 {
-                    cell.DoEvent();
+                    cell.DoEvent(currentRoundTime);
                 }
             }
         }

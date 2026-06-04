@@ -111,7 +111,7 @@ namespace Game
                 case AttributeEnum.DamageResist:
                     total = CalBattleSingleAttr(attrType);
                     break;
-                case AttributeEnum.ExtraDamage:
+                case AttributeEnum.DecreExtraDamage:
                     total = CalBattleSingleAttr(attrType);
                     break;
                 case AttributeEnum.CritRate:
@@ -143,6 +143,7 @@ namespace Game
                 case AttributeEnum.AchievementDamage:
                 case AttributeEnum.ExclusiveDamage:
                 case AttributeEnum.Speed:
+                case AttributeEnum.DecreRestore:
                     total = CalBattleSingleAttr(attrType);
                     break;
                 default:

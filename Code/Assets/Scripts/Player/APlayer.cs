@@ -192,13 +192,6 @@ namespace Game
             return this.MoveInterval;
         }
 
-
-        public long GetRolePercent(int role)
-        {
-            return 1;
-        }
-
-
         virtual public SkillState GetSkill(int priority)
         {
             List<SkillState> list = SelectSkillList.Where(m => m.SkillPanel.SkillData.SkillConfig.Priority >= priority && m.SkillPanel.SkillId != 9001)
@@ -465,10 +458,10 @@ namespace Game
 
         public void OnRestore(int fromId, double hp)
         {
-            if (this.RuleType == RuleType.Infinite && this.Camp == PlayerType.Enemy) //无尽的怪不能回血
-            {
-                return;
-            }
+            double decre = this.AttributeBonus.CalBattleTotalAttr(AttributeEnum.DecreRestore);
+            decre = Math.Min(100, decre);
+
+            hp = hp * (100 - decre) / 100.0;
 
             this.Logic.OnRestore(hp);
         }

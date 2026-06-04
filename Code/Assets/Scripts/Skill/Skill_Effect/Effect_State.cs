@@ -10,7 +10,7 @@ namespace Game
     /// </summary>
     public class Effect_State
     {
-        public APlayer Attacher;
+        public APlayer Owner;
         public Effect_Data Data;
 
         public int EffectId { get; }
@@ -25,9 +25,11 @@ namespace Game
 
         public int Count = 0;
 
+        private bool Active = true;
+
         public Effect_State(APlayer player, Effect_Data data, float cd, double damage)
         {
-            this.Attacher = player;
+            this.Owner = player;
             this.Data = data;
             this.EffectId = data.EffectId;
             this.Data = data;
@@ -38,6 +40,7 @@ namespace Game
         public void AddBuff()
         {
             this.TotalTime = 0; //持续时间刷新
+            this.Active = true; //激活
 
             if (Count < Data.Max)
             {
@@ -54,21 +57,22 @@ namespace Game
         {
             TotalTime += time;
 
-            if (Data.Config.StartType == "Interval") //循环类型才循环调用
+            if (Data.Config.RunCycle == "Interval") //循环类型才循环调用
             {
                 RunTime += time;
+            }
+
+            if (RunTime >= CD && Active)
+            {
+                RunTime = 0;
+                Effect_Compent_Manager.Instance.Run(this);
             }
 
             if (TotalTime >= Data.Duration)
             {
                 this.Count = 0;
+                this.Active = false;
                 Effect_Compent_Manager.Instance.Complete(this);
-            }
-
-            if (RunTime >= CD)
-            {
-                RunTime = 0;
-                Effect_Compent_Manager.Instance.Run(this);
             }
         }
 

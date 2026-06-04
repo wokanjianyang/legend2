@@ -337,7 +337,7 @@ namespace Game
                 {
                     float cd = self.CalAtkInterval(this.Speed);
 
-                    Effect_State state = Effect_Compent_Factory.Excute(self, enemy, this, data, cd, 0);
+                    Effect_State state = Effect_Compent_Manager.Instance.Excute(self, enemy, this, data, cd, 0);
                 }
             }
         }
@@ -355,7 +355,7 @@ namespace Game
                 {
                     float cd = self.CalAtkInterval(this.Speed);
 
-                    Effect_State state = Effect_Compent_Factory.Excute(self, enemy, this, data, cd, res.Damage);
+                    Effect_State state = Effect_Compent_Manager.Instance.Excute(self, enemy, this, data, cd, res.Damage);
                 }
             }
         }

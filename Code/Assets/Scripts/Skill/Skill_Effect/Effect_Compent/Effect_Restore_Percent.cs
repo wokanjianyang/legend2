@@ -18,6 +18,14 @@ namespace Game
         //{
 
         //}
+        public override void Complete(Effect_State state)
+        {
+            throw new System.NotImplementedException();
+        }
 
+        public override void Run(Effect_State state)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

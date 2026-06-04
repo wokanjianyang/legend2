@@ -25,10 +25,6 @@ namespace Game
 
         public int Count = 0;
 
-        public int Max { get; } //¿Éµþ¼Ó²ãÊý
-
-
-
         public Effect_State(APlayer player, Effect_Data data, float cd, double damage)
         {
             this.Attacher = player;
@@ -66,13 +62,13 @@ namespace Game
             if (TotalTime >= Data.Duration)
             {
                 this.Count = 0;
-                Effect_Compent_Factory.Complete(this);
+                Effect_Compent_Manager.Instance.Complete(this);
             }
 
             if (RunTime >= CD)
             {
                 RunTime = 0;
-                Effect_Compent_Factory.Run(this);
+                Effect_Compent_Manager.Instance.Run(this);
             }
         }
 

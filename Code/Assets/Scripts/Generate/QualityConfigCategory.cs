@@ -90,7 +90,7 @@ namespace Game
                     color = "FFD700";
                     break;
                 case MsgType.Dot:
-                    color = "E3EA6F";
+                    color = "C923BB";
                     break;
                 case MsgType.SP:
                     color = "0A2D8";

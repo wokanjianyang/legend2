@@ -34,7 +34,7 @@ namespace Game
         {
             this.SelfPlayer = player;
             this.SkillPanel = skillPanel;
-            this.Priority = skillPanel.SkillData.SkillConfig.Priority; // - skillPanel.SkillData.SkillConfig.Priority;
+            this.Priority = skillPanel.Config.Priority; // - skillPanel.SkillData.SkillConfig.Priority;
             this.Position = position;
             this.CD = 0;
             this.Rate = skillPanel.Rate;
@@ -100,39 +100,39 @@ namespace Game
             {
                 this.skillLogic = new Skill_Jufengpo(player, skillPanel, fromSkill, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Passive)
+            else if (skillPanel.Config.Type == (int)SkillType.Passive)
             {
                 this.skillLogic = new Skill_Passive(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Single_Attack)
+            else if (skillPanel.Config.Type == (int)SkillType.Single_Attack)
             {
                 this.skillLogic = new Skill_Attack_Single(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Mutil_Attack)
+            else if (skillPanel.Config.Type == (int)SkillType.Mutil_Attack)
             {
                 this.skillLogic = new Skill_Attack_Area(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Valet)
+            else if (skillPanel.Config.Type == (int)SkillType.Valet)
             {
                 this.skillLogic = new Skill_Valet(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Map)
+            else if (skillPanel.Config.Type == (int)SkillType.Map)
             {
                 this.skillLogic = new Skill_Attack_Map(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Shield)
+            else if (skillPanel.Config.Type == (int)SkillType.Shield)
             {
                 this.skillLogic = new Skill_Shield(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Expert)
+            else if (skillPanel.Config.Type == (int)SkillType.Expert)
             {
                 this.skillLogic = new Skill_Expert(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Restore)
+            else if (skillPanel.Config.Type == (int)SkillType.Restore)
             {
                 this.skillLogic = new Skill_Restore(player, skillPanel, isShow);
             }
-            else if (skillPanel.SkillData.SkillConfig.Type == (int)SkillType.Row_Attack)
+            else if (skillPanel.Config.Type == (int)SkillType.Row_Attack)
             {
                 this.skillLogic = new Skill_Attack_Row(player, skillPanel, isShow);
             }

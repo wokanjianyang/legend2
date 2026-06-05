@@ -91,7 +91,7 @@ namespace Game
         protected void DoChediding(SkillRunType runType, DamageResult baseDr)
         {
 
-            if (runType != SkillRunType.Double && SkillPanel.SkillData.SkillConfig.Role == (int)RoleType.Warrior)
+            if (runType != SkillRunType.Double && SkillPanel.Config.Role == (int)RoleType.Warrior)
             {
                 //do Chediding
                 SkillState skillChediding = SelfPlayer.SelectSkillList.Where(m => m.SkillPanel.SkillId == 1010).FirstOrDefault();

@@ -13,7 +13,7 @@ namespace Game
 
         public SkillGraphic_Arc(APlayer player, SkillPanel skill) : base(player, skill)
         {
-            SkillModelConfig = SkillModelConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ModelName == this.SkillPanel.SkillData.SkillConfig.ModelName).FirstOrDefault();
+            SkillModelConfig = SkillModelConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ModelName == this.SkillPanel.Config.ModelName).FirstOrDefault();
         }
 
         public override void PlayAnimation(List<Vector3Int> cells)
@@ -37,7 +37,7 @@ namespace Game
             {
                 scale.y = 1;
             }
-            var effectCom = EffectLoader.CreateEffect(this.SkillPanel.SkillData.SkillConfig.ModelName, false, rotation, (float)SkillModelConfig.ModelTime);
+            var effectCom = EffectLoader.CreateEffect(this.SkillPanel.Config.ModelName, false, rotation, (float)SkillModelConfig.ModelTime);
 
             //Log.Info("scale :" + scale.ToString());
             if (effectCom != null)

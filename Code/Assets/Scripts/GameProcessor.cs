@@ -254,7 +254,7 @@ namespace Game
             this.PlayerInfo = Canvas.FindObjectOfType<Player_Info>(true);
 
             //启动就加载用户存档
-            this.User = UserData.Load();
+            this.User = User_Data_Manager.Load();
             if (this.User == null)
             {
                 StartCoroutine(this.AutoExitApp(ExitType.LoadError));
@@ -634,7 +634,7 @@ namespace Game
                 //最近5S前存档了,才会继续存档
                 currentSaveTime = Time.realtimeSinceStartup;
 
-                UserData.Save();
+                User_Data_Manager.Save();
             }
         }
 
@@ -721,7 +721,7 @@ namespace Game
         void OnApplicationQuit()
         {
             //TODO 存档
-            UserData.Save();
+            User_Data_Manager.Save();
         }
 
         public void HeroDie(RuleType ruleType, long time)

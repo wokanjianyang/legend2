@@ -24,7 +24,7 @@ namespace Game
             this.SelfPlayer.EventCenter.Raise(new ShowMsgEvent()
             {
                 Type = MsgType.SkillName,
-                Content = SkillPanel.SkillData.SkillConfig.Name
+                Content = SkillPanel.Config.Name
             });
 
             bool isLoss = this.SelfPlayer.HP < this.SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP); //是否损失了血量

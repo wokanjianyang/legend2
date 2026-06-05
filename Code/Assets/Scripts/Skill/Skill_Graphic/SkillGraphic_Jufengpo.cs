@@ -12,7 +12,7 @@ namespace Game
         SkillModelConfig SkillModelConfig;
         public SkillGraphic_Jufengpo(APlayer player, SkillPanel skill) : base(player, skill)
         {
-            SkillModelConfig = SkillModelConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ModelName == this.SkillPanel.SkillData.SkillConfig.ModelName).FirstOrDefault();
+            SkillModelConfig = SkillModelConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ModelName == this.SkillPanel.Config.ModelName).FirstOrDefault();
         }
 
         public override void PlayAnimation(List<Vector3Int> cells)
@@ -38,7 +38,7 @@ namespace Game
             //}
             //yield return null;
 
-            var effectCom = EffectLoader.CreateEffect(this.SkillPanel.SkillData.SkillConfig.ModelName, false, 0, (float)SkillModelConfig.ModelTime);
+            var effectCom = EffectLoader.CreateEffect(this.SkillPanel.Config.ModelName, false, 0, (float)SkillModelConfig.ModelTime);
             if (effectCom != null)
             {
 

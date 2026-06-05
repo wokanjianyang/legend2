@@ -27,7 +27,7 @@ namespace Game
         private void Init()
         {
             this.Camp = PlayerType.Valet;
-            this.Level = SkillPanel.SkillData.MagicLevel.Data;
+            this.Level = SkillPanel.Level;
 
             this.ModelConfig = ValetModelConfigCategory.Instance.GetAll().Values.Where(m => m.FromSkillId == SkillPanel.SkillId).FirstOrDefault();
 
@@ -49,7 +49,7 @@ namespace Game
             double asp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Speed) + this.SkillPanel.Speed;
             double msp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MoveSpeed);
 
-            int role = SkillPanel.SkillData.SkillConfig.Role;
+            int role = SkillPanel.Config.Role;
 
             double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role); //Ö°Òµ¹¥»÷
 

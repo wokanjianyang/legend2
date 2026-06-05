@@ -17,7 +17,7 @@ namespace Game
             {
                 if (skillPanel.Area == AttackGeometryType.FrontRow)
                 {
-                    SkillModelConfig SkillModelConfig = SkillModelConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ModelName == this.SkillPanel.SkillData.SkillConfig.ModelName).FirstOrDefault();
+                    SkillModelConfig SkillModelConfig = SkillModelConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.ModelName == this.SkillPanel.Config.ModelName).FirstOrDefault();
 
                     if (SkillModelConfig.ScaleType == 1)
                     {

@@ -149,11 +149,11 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
     {
         GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否确认退出？", true, () =>
         {
-            UserData.Save();
+            User_Data_Manager.Save();
             Application.Quit();
         }, () =>
         {
-            UserData.Save();
+            User_Data_Manager.Save();
         });
     }
 

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Game
 {
-    public class UserData
+    public class User_Data_Manager
     {
         static string savePath = "player";
 

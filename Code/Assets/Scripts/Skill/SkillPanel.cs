@@ -9,8 +9,9 @@ namespace Game
 {
     public class SkillPanel
     {
-        public SkillData SkillData { get; set; }
         public int SkillId { get; }
+
+        public SkillConfig Config { get; }
 
         public double Damage { get; }
         public double Percent { get; set; }
@@ -70,7 +71,7 @@ namespace Game
 
         public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, int rise, bool isPlayer)
         {
-            this.SkillData = skillData;
+            this.Config = skillData.SkillConfig;
             this.SkillId = skillData.SkillId;
 
             if (runeList == null)
@@ -250,7 +251,7 @@ namespace Game
 
             if (isPlayer)
             {
-                Desc = string.Format(SkillData.SkillConfig.Des, (int)Percent, (int)Damage, Duration, EnemyMax, Row, Column);
+                Desc = string.Format(Config.Des, (int)Percent, (int)Damage, Duration, EnemyMax, Row, Column);
             }
 
             //技能的特效

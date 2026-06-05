@@ -413,7 +413,7 @@ namespace Game
                             if (GameProcessor.Inst.LoadInit(str_json, account, serial))
                             {
                                 this.txt_Info.text = "读取存档成功,请退出重进";
-                                UserData.Save();
+                                User_Data_Manager.Save();
                                 //GameProcessor.Inst.SaveData(); ;
                             }
                             else

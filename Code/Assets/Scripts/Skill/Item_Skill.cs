@@ -48,7 +48,8 @@ namespace Game
 
             Tg_Recovery.onValueChanged.AddListener((isOn) =>
             {
-                this.SkillPanel.SkillData.Recovery = isOn;
+                SkillData sd = GameProcessor.Inst.User.SkillList.Where(m => m.SkillId == this.SkillPanel.SkillId).FirstOrDefault();
+                sd.Recovery = isOn;
             });
 
 
@@ -66,15 +67,7 @@ namespace Game
         {
             this.SkillPanel = skillPanel;
 
-            string name = SkillPanel.SkillData.SkillConfig.Name;
-            //if (SkillPanel.SkillData.SkillConfig.Name.Length > 2)
-            //{
-            //    name = SkillPanel.SkillData.SkillConfig.Name.Insert(2, "\n");
-            //}
-            //else
-            //{
-            //    name = SkillPanel.SkillData.SkillConfig.Name;
-            //}
+            string name = SkillPanel.Config.Name;
 
             //string color = skillPanel.DivineLevel > 0 ? "FFFFFF" : "000000";
             string color = "FFFFFF";
@@ -153,13 +146,14 @@ namespace Game
 
             User user = GameProcessor.Inst.User;
 
-            int limitLevel = user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig);
+            int limitLevel = user.GetSkillLimit(this.SkillPanel.Config);
             //if (this.SkillPanel.SkillData.MagicLevel.Data >= limitLevel)
             //{
             //    this.Btn_UpLevel.gameObject.SetActive(false);
             //}
+            SkillData sd = user.SkillList.Where(m => m.SkillId == SkillPanel.SkillId).FirstOrDefault();
 
-            Tg_Recovery.isOn = skillPanel.SkillData.Recovery;
+            Tg_Recovery.isOn = sd.Recovery;
 
             this.Txt_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
             this.Txt_CD.text = string.Format("CD：{0}秒", SkillPanel.CD);
@@ -167,7 +161,7 @@ namespace Game
             this.Txt_Des.text = SkillPanel.Desc;
 
             var expProgress = this.GetComponentInChildren<Com_Progress>();
-            expProgress.SetProgress(SkillPanel.SkillData.MagicExp.Data, SkillPanel.SkillData.GetLevelUpExp());
+            expProgress.SetProgress(sd.MagicExp.Data, sd.GetLevelUpExp());
         }
 
         private string formatText(KeyValuePair<string, int> kp)
@@ -190,12 +184,12 @@ namespace Game
             List<int> list = user.GetCurrentSkillList();
             List<SkillData> skillList = user.SkillList.FindAll(m => list.Contains(m.SkillId));
 
-            if (this.SkillPanel == null || this.SkillPanel.SkillData == null || skillList.Count >= user.SkillNumber)
+            if (this.SkillPanel == null || skillList.Count >= user.SkillNumber)
             {
                 return;
             }
 
-            if (this.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Passive || this.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Expert)
+            if (this.SkillPanel.Config.Type == (int)SkillType.Passive || this.SkillPanel.Config.Type == (int)SkillType.Expert)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "被动技能无需上阵", ToastType = ToastTypeEnum.Failure });
                 return;
@@ -206,7 +200,7 @@ namespace Game
                 return;
             }
 
-            int repet = this.SkillPanel.SkillData.SkillConfig.Repet;
+            int repet = this.SkillPanel.Config.Repet;
             if (repet > 0)
             {
                 //查找是否已经上阵了同类技能

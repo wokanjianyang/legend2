@@ -21,7 +21,7 @@ namespace Game
             this.SelfPlayer.EventCenter.Raise(new ShowMsgEvent()
             {
                 Type = MsgType.Ring,
-                Content = SkillPanel.SkillData.SkillConfig.Name
+                Content = SkillPanel.Config.Name
             });
 
             //先行特效

@@ -12,7 +12,7 @@ namespace Game
         {
             //计算公式  ((攻击 - 防御) * 百分比系数 + 固定数值) * 暴击?.暴击倍率 * (伤害加成-伤害减免) * (幸运)
 
-            int role = skill.SkillData.SkillConfig.Role;
+            int role = skill.Config.Role;
 
             double atk = 0;
 

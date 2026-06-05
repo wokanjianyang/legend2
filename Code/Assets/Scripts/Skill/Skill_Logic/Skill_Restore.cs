@@ -51,7 +51,7 @@ namespace Game
         public double CalcFormula()
         {
             //恢复不计暴击增伤幸运等
-            int role = SkillPanel.SkillData.SkillConfig.Role;
+            int role = SkillPanel.Config.Role;
 
             double attack = SelfPlayer.AttributeBonus.CalBattleRoleAtk(role);
             attack = attack * SkillPanel.Percent / 100 + SkillPanel.Damage;

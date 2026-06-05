@@ -194,7 +194,7 @@ namespace Game
 
         virtual public SkillState GetSkill(int priority)
         {
-            List<SkillState> list = SelectSkillList.Where(m => m.SkillPanel.SkillData.SkillConfig.Priority >= priority && m.SkillPanel.SkillId != 9001)
+            List<SkillState> list = SelectSkillList.Where(m => m.SkillPanel.Config.Priority >= priority && m.SkillPanel.SkillId != 9001)
                 .OrderBy(m => m.UserCount * 1000 + m.Priority).ToList();
 
             //long now = TimeHelper.ClientNowSeconds();
@@ -220,6 +220,15 @@ namespace Game
         }
 
 
+        //增加普攻技能
+        protected void AddSkillNormal()
+        {
+            SkillData sd = new SkillData(9001, (int)SkillPosition.Default);
+            SkillPanel sp = new SkillPanel(sd, null, null, null, false);
+            SkillState skill = new SkillState(this, sp, sd.Position, 0);
+            SelectSkillList.Add(skill);
+        }
+
         public virtual void SetSkillAfter()
         {
 
@@ -232,7 +241,7 @@ namespace Game
 
         public SkillState GetSkillByPriority(int priority)
         {
-            SkillState state = SelectSkillList.Where(m => m.SkillPanel.SkillData.SkillConfig.Priority == priority).FirstOrDefault();
+            SkillState state = SelectSkillList.Where(m => m.SkillPanel.Config.Priority == priority).FirstOrDefault();
 
 
             if (state != null && state.IsCanUse())

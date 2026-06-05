@@ -175,41 +175,28 @@ namespace Game
             List<int> rids = list.Select(m => m.SkillId).ToList();
             list.AddRange(user.GetCurrentSkill(rids));
 
-
-            list.Add(new SkillData(9001, (int)SkillPosition.Default));
-
             //Debug.Log("skill list:" + list.Select(m => m.SkillId).ToList().ListToString());
+
+            List<SkillPanel> skills = User_Data.GetSkills();
 
             for (int i = 0; i < list.Count; i++)
             {
-                SkillData skillData = list[i];
+                int sid = list[i].SkillId;
 
-                List<SkillRune> runeList = user.GetRuneList(skillData.SkillId);
-
-                List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
-
-                List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
-
-                int petRate = user.GetPetSkillRate(skillData.SkillConfig.Role);
-
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, true);
+                SkillPanel skillPanel = skills.Where(m => m.SkillId == sid).FirstOrDefault();
 
                 SkillPanel from = null;
-                //if (skillPanel.SkillData.SkillConfig.FromId > 0)
-                //{
-                //    SkillData fromData = user.SkillList.Where(m => m.SkillId == skillPanel.SkillData.SkillConfig.FromId).FirstOrDefault();
-
-                //    if (fromData == null)
-                //    {
-                //        continue;
-                //    }
-
-                //    from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true);
-                //}
+                if (skillPanel.Config.FromId > 0)
+                {
+                    from = skills.Where(m => m.SkillId == skillPanel.Config.FromId).FirstOrDefault();
+                }
 
                 SkillState skill = new SkillState(this, skillPanel, from, i, 0);
                 SelectSkillList.Add(skill);
             }
+
+            //增加被动技能
+            AddSkillNormal();
 
             base.SetSkillAfter();
         }

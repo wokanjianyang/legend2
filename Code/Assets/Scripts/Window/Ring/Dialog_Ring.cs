@@ -187,7 +187,7 @@ public class Dialog_Ring : MonoBehaviour
             skillData.MagicLevel.Data = currentLevel;
             SkillPanel sp = new SkillPanel(skillData, null, null, null, true);
 
-            Txt_Desc.text = sp.SkillData.SkillConfig.Name + "Lv." + currentLevel + " : " + sp.Desc;
+            Txt_Desc.text = sp.Config.Name + "Lv." + currentLevel + " : " + sp.Desc;
         }
         else
         {

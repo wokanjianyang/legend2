@@ -742,6 +742,11 @@ namespace Game
         }
 
 
+        public List<SkillPanel> GetSkillList()
+        {
+            return null;
+        }
+
         public List<SkillRune> GetRuneList(int skillId)
         {
             List<SkillRune> list = new List<SkillRune>();
@@ -754,7 +759,7 @@ namespace Game
             //计算装备的词条加成
             List<int> skillList = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList();
 
-            list.AddRange(SkillRuneConfigCategory.Instance.GetAllRune(skillId, 2)); //测试代码，给技能加上所有词条 test
+            //list.AddRange(SkillRuneConfigCategory.Instance.GetAllRune(skillId, 2)); //测试代码，给技能加上所有词条 test
 
             //金装词条
             skillList.AddRange(this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList());
@@ -811,7 +816,7 @@ namespace Game
                 }
             }
 
-            list.AddRange(SkillSuitConfigCategory.Instance.GetAllSuit(skillId, 10)); //测试代码，给技能加上所有词条 test
+            //list.AddRange(SkillSuitConfigCategory.Instance.GetAllSuit(skillId, 10)); //测试代码，给技能加上所有词条 test
 
             return list;
         }

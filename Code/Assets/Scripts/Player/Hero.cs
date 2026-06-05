@@ -204,7 +204,7 @@ namespace Game
                         continue;
                     }
 
-                    from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId, null), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true, RuleType, petRate);
+                    from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true, RuleType, petRate);
                 }
 
                 SkillState skill = new SkillState(this, skillPanel, from, i, 0);

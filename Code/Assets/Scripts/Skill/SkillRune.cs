@@ -51,27 +51,27 @@ namespace Game
             this.Config = SkillRuneConfigCategory.Instance.Get(runeId);
             this.AvailableQuantity = Math.Min(quantity, Config.Max);
 
-            this.CD = Config.CD;
-            this.Duration = Config.Duration;
-            this.Dis = Config.Dis;
-            this.EnemyMax = Config.EnemyMax;
-            this.Row = Config.Row;
-            this.Column = Config.Column;
+            this.CD = Config.CD * AvailableQuantity;
+            this.Duration = Config.Duration * AvailableQuantity;
+            this.Dis = Config.Dis * AvailableQuantity;
+            this.EnemyMax = Config.EnemyMax * AvailableQuantity;
+            this.Row = Config.Row * AvailableQuantity;
+            this.Column = Config.Column * AvailableQuantity;
 
-            this.Damage = Config.Damage;
-            this.Percent = Config.Percent;
-            this.IgnoreDef = Config.IgnoreDef;
+            this.Damage = Config.Damage * AvailableQuantity;
+            this.Percent = Config.Percent * AvailableQuantity;
+            this.IgnoreDef = Config.IgnoreDef * AvailableQuantity;
 
-            this.CritRate = Config.CritRate;
-            this.CritDamage = Config.CritDamage;
-            this.DeadlyRate = Config.DeadlyRate;
-            this.DeadlyDamage = Config.DeadlyDamage;
+            this.CritRate = Config.CritRate * AvailableQuantity;
+            this.CritDamage = Config.CritDamage * AvailableQuantity;
+            this.DeadlyRate = Config.DeadlyRate * AvailableQuantity;
+            this.DeadlyDamage = Config.DeadlyDamage * AvailableQuantity;
 
-            this.RateDamage = Config.RateDamage;
-            this.AttrIncrea = Config.AttrIncrea;
-            this.FinalIncrea = Config.FinalIncrea;
-            this.Speed = Config.Speed;
-            this.Accuracy = Config.Accuracy;
+            this.RateDamage = Config.RateDamage * AvailableQuantity;
+            this.AttrIncrea = Config.AttrIncrea * AvailableQuantity;
+            this.FinalIncrea = Config.FinalIncrea * AvailableQuantity;
+            this.Speed = Config.Speed * AvailableQuantity;
+            this.Accuracy = Config.Accuracy * AvailableQuantity;
 
             if (Config.EffectId > 0)
             {
@@ -91,5 +91,6 @@ namespace Game
         {
             this.AvailableQuantity = Math.Min(AvailableQuantity + count, Config.Max);
         }
+
     }
 }

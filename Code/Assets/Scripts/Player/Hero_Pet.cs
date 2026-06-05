@@ -110,7 +110,7 @@ namespace Game
                 SkillData skillData = new SkillData(Self.Skills[i].Key, i);
                 skillData.MagicLevel.Data = Self.Skills[i].Value.Data;
 
-                List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
+                List<SkillRune> runeList = user.GetRuneList(skillData.SkillId);
 
                 List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
 

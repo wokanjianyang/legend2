@@ -108,8 +108,6 @@ namespace Game
                     {
                         User user = GameProcessor.Inst.User;
 
-                        List<SkillRuneConfig> buffRuneList = null;
-
                         if (skillData == null)
                         {
                             //°×»¢µÄì«·çÆÆ
@@ -130,10 +128,10 @@ namespace Game
                                 fromData.MagicLevel.Data = SkillPanel.Level;
                             }
 
-                            from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId, null), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true, RuleType, petRate);
+                            from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true, RuleType, petRate);
                         }
 
-                        List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, buffRuneList);
+                        List<SkillRune> runeList = user.GetRuneList(skillData.SkillId);
                         List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
                         List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
                         //if (skillId == 4004)

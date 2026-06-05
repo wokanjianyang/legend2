@@ -195,7 +195,7 @@ namespace Game
                 return;
             }
 
-            if (this.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Passive)
+            if (this.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Passive || this.SkillPanel.SkillData.SkillConfig.Type == (int)SkillType.Expert)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "被动技能无需上阵", ToastType = ToastTypeEnum.Failure });
                 return;

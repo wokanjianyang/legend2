@@ -29,7 +29,7 @@ namespace Game
             if (effectCom != null)
             {
                 effectCom.transform.SetParent(this.SelfPlayer.Transform);
-                effectCom.transform.localPosition = new Vector3(0, 0, 0);
+                effectCom.transform.localPosition = new Vector3(0, 25, 0);
 
                 yield return new WaitForSeconds(this.SkillPanel.Duration); //因为现在1s才是一个回合
                 if (effectCom != null && effectCom.gameObject != null)

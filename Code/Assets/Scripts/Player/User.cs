@@ -742,7 +742,7 @@ namespace Game
         }
 
 
-        public List<SkillRune> GetRuneList(int skillId, List<SkillRuneConfig> buffList)
+        public List<SkillRune> GetRuneList(int skillId)
         {
             List<SkillRune> list = new List<SkillRune>();
 
@@ -756,12 +756,6 @@ namespace Game
 
             //金装词条
             skillList.AddRange(this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList());
-
-            //buff 词条
-            if (buffList != null)
-            {
-                skillList.AddRange(buffList.Select(m => m.Id));
-            }
 
             foreach (int runeId in skillList)
             {

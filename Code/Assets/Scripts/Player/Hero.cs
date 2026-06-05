@@ -184,9 +184,7 @@ namespace Game
             {
                 SkillData skillData = list[i];
 
-                List<SkillRuneConfig> buffRuneList = null;
-
-                List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, buffRuneList);
+                List<SkillRune> runeList = user.GetRuneList(skillData.SkillId);
 
                 List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
 

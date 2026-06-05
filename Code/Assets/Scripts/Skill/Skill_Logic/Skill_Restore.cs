@@ -30,6 +30,9 @@ namespace Game
             {
                 var teamer = GameProcessor.Inst.PlayerManager.GetPlayer(attackData.Tid);
 
+                //先行特效
+                SkillPanel.RunBefore(this.SelfPlayer, teamer);
+
                 var hp = CalcFormula();
 
                 if (teamer.Camp == PlayerType.Defend)
@@ -41,9 +44,7 @@ namespace Game
 
                 //Debug.Log(this.SelfPlayer.Name + "(" + SelfPlayer.ID + ")" + " Restore to +" + teamer.Name + "(" + teamer.ID + ")" + " :" + hp);
 
-                //Buff
-                //先行特效
-                SkillPanel.RunBefore(this.SelfPlayer, teamer);
+ 
             }
         }
 

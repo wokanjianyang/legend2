@@ -18,7 +18,7 @@ namespace Game
 
         public Image Img_Icon;
 
-        public SkillData SkillData { get; private set; }
+        private int SkillId;
 
         // Start is called before the first frame update
         void Start()
@@ -39,15 +39,15 @@ namespace Game
             User user = GameProcessor.Inst.User;
 
             List<int> list = user.GetCurrentSkillList();
-            list.Remove(this.SkillData.SkillId);
+            list.Remove(SkillId);
 
             GameProcessor.Inst.EventCenter.Raise(new SkillDownEvent());
         }
 
-        public void SetItem(SkillData skillData)
+        public void SetItem(int sid)
         {
-            this.SkillData = skillData;
-            this.Img_Icon.sprite = PrefabHelper.Instance().GetSkillLog(skillData.SkillId);
+            this.SkillId = sid;
+            this.Img_Icon.sprite = PrefabHelper.Instance().GetSkillLog(SkillId);
             this.tran_Skill.gameObject.SetActive(true);
         }
 

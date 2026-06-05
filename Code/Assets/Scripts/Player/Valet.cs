@@ -128,7 +128,7 @@ namespace Game
                                 fromData.MagicLevel.Data = SkillPanel.Level;
                             }
 
-                            from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true, RuleType, petRate);
+                            from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true);
                         }
 
                         List<SkillRune> runeList = user.GetRuneList(skillData.SkillId);
@@ -144,7 +144,7 @@ namespace Game
                         //    }
                         //}
 
-                        SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false, RuleType, 0);
+                        SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false);
 
                         SkillState skill = new SkillState(this, skillPanel, from, skillData.Position, 0);
                         SelectSkillList.Add(skill);
@@ -184,7 +184,7 @@ namespace Game
                         long rp = Math.Max(1, ringLevel * skillData.GetDivineLevel() * 20 / 100);
                         sd.MagicLevel.Data = rp;
 
-                        SkillPanel skillPanel = new SkillPanel(sd, null, null, null, false, RuleType, 0);
+                        SkillPanel skillPanel = new SkillPanel(sd, null, null, null, false);
                         SkillState skill = new SkillState(this, skillPanel, 0, 0);
                         SelectSkillList.Add(skill);
                     }

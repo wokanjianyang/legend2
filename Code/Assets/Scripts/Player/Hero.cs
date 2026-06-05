@@ -192,20 +192,20 @@ namespace Game
 
                 int petRate = user.GetPetSkillRate(skillData.SkillConfig.Role);
 
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, true, RuleType, petRate);
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, true);
 
                 SkillPanel from = null;
-                if (skillPanel.SkillData.SkillConfig.FromId > 0)
-                {
-                    SkillData fromData = user.SkillList.Where(m => m.SkillId == skillPanel.SkillData.SkillConfig.FromId).FirstOrDefault();
+                //if (skillPanel.SkillData.SkillConfig.FromId > 0)
+                //{
+                //    SkillData fromData = user.SkillList.Where(m => m.SkillId == skillPanel.SkillData.SkillConfig.FromId).FirstOrDefault();
 
-                    if (fromData == null)
-                    {
-                        continue;
-                    }
+                //    if (fromData == null)
+                //    {
+                //        continue;
+                //    }
 
-                    from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true, RuleType, petRate);
-                }
+                //    from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true);
+                //}
 
                 SkillState skill = new SkillState(this, skillPanel, from, i, 0);
                 SelectSkillList.Add(skill);

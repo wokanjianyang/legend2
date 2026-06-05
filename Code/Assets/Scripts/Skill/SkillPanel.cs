@@ -63,12 +63,12 @@ namespace Game
         public string Desc { get; set; }
 
         public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer)
-            : this(skillData, runeList, suitList, talentList, isPlayer, RuleType.Normal, 0)
+            : this(skillData, runeList, suitList, talentList, 0, isPlayer)
         {
 
         }
 
-        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer, RuleType ruleType, int petRate)
+        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, int rise, bool isPlayer)
         {
             this.SkillData = skillData;
             this.SkillId = skillData.SkillId;
@@ -194,8 +194,10 @@ namespace Game
             int talentSpeed = talentList.Select(m => m.Speed).Sum();
 
             this.Damage += skillData.SkillConfig.Damage + runeDamage + suitDamage + talentDamage + levelDamage;
+            this.Damage = (int)((Damage * (100 + rise)) / 100);
 
             this.Percent += skillData.SkillConfig.Percent + runePercent + suitPercent + talentPercent + levelPercent;
+            this.Percent = (int)((Percent * (100 + rise)) / 100);
 
             this.IgnoreDef += skillData.SkillConfig.IgnoreDef + runeIgnoreDef + suitIgnoreDef + talentIgnoreDef;
             this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis + talentDis;

@@ -116,7 +116,7 @@ namespace Game
 
                 List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
 
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false, RuleType, 1);
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false);
 
                 SkillState skill = new SkillState(this, skillPanel, null, i, 0);
                 SelectSkillList.Add(skill);
@@ -124,7 +124,7 @@ namespace Game
 
             //º”‘ÿƒ¨»œ∆’Õ®π•ª˜
             SkillData sdf = new SkillData(9001, (int)SkillPosition.Default);
-            SkillPanel spf = new SkillPanel(sdf, null, null, null, false, RuleType, 1);
+            SkillPanel spf = new SkillPanel(sdf, null, null, null, false);
             SkillState sf = new SkillState(this, spf, null, 999, 0);
             SelectSkillList.Add(sf);
 

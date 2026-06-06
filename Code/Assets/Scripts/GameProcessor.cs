@@ -823,6 +823,7 @@ namespace Game
 
         public void StartGame()
         {
+            this.PlayerInfo.SetShow(true);
             this.isGameOver = false;
 
             //Debug.Log("StartGame");

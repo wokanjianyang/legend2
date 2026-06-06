@@ -235,7 +235,7 @@ namespace Game
         {
             if (!ItemLogoList.ContainsKey(id))
             {
-                ItemLogoList[id] = Resources.Load<Sprite>("UI/ItemLogo/" + id);
+                ItemLogoList[id] = Resources.Load<Sprite>("UI/" + id);
             }
 
             return ItemLogoList[id];

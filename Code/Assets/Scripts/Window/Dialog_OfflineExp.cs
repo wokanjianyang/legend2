@@ -415,6 +415,21 @@ namespace Game
                         }
                     }
 
+                    if (keepCount < 5)
+                    {
+                        //保留紫色
+                        keepCount += PetAtrConfigCategory.Instance.GetOfflineKeepCount1(count);
+
+                        keepCount = Math.Min(keepCount, 10);
+                        int petId = baseConfig.ItemIdList[0];
+                        //保留宠物
+                        for (int k = 0; k < keepCount; k++)
+                        {
+                            Pet pet = PetAtrConfigCategory.Instance.BuildOfflinePet(petId, 4);
+                            itemList.Add(pet);
+                        }
+                    }
+
                     gold += (long)((count - keepCount) * 17000); //期望回收收益为17000
                 }
                 else

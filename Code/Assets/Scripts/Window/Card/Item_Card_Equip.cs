@@ -59,6 +59,7 @@ namespace Game
         {
             this.Config = config;
             this.Txt_Name.text = config.Name;
+            this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(config.LogoId);
 
             for (int i = 0; i < config.AtrIdList.Length; i++)
             {

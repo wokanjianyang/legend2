@@ -178,11 +178,12 @@ namespace Game
 
             List<KeyValuePair<int, int>> skills = new List<KeyValuePair<int, int>>();
             List<int> ids = new List<int>();
+            int[] excludes = new int[3007];
 
 
             for (int i = 1; i <= count; i++)
             {
-                List<SkillConfig> temps = configs.Where(m => !ids.Contains(m.SkillId)).ToList();
+                List<SkillConfig> temps = configs.Where(m => !ids.Contains(m.SkillId) && !excludes.Contains(m.SkillId)).ToList();
 
                 int index = RandomHelper.RandomNumber(1, temps.Count + 1);
 
@@ -223,7 +224,7 @@ namespace Game
 
         public long GetPetFee(long level)
         {
-            return 1000 + (level - 1) * 1000;
+            return 10000 + (level - 1) * 5000;
         }
 
         public long GetFeeTotal(long level)
@@ -268,6 +269,11 @@ namespace Game
         public int GetOfflineKeepCount(int count)
         {
             return count / rates[rates.Length - 1];
+        }
+
+        public int GetOfflineKeepCount1(int count)
+        {
+            return count / rates[rates.Length - 2];
         }
     }
 }

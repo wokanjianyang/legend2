@@ -18,8 +18,8 @@ public class Dialog_Card : MonoBehaviour
     public Panel_Card_Special panel2;
 
     public Text Txt_Title;
-    private string[] Titles = { "1-30级装备", "40-80级装备", "80-120级装备", "宠物图鉴" };
-    private int[] stages = { 1, 2, 3, 11 };
+    private string[] Titles = { "宠物图鉴", "1-30级装备", "40-80级装备", "80-120级装备" };
+    private int[] stages = { 11, 1, 2, 3 };
 
     public Dialog_Card_Equip dialogCardEquip;
 

@@ -685,8 +685,11 @@ namespace Game
 
             user.PetList.Add(pet);
 
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
+            //更新属性面板
+            GameProcessor.Inst.UpdateInfo();
+
+            //更新技能描述
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
         }
 
         private void FirstRecovery()
@@ -1196,8 +1199,11 @@ namespace Game
             //记录
             AddEquip(position, wearItem);
 
-            //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUseEquipEvent { });
+            //更新属性面板
+            GameProcessor.Inst.UpdateInfo();
+
+            //更新技能描述
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
         }
 
         private void RmoveFromPanel(int position, BoxItem boxItem)
@@ -1216,7 +1222,11 @@ namespace Game
             RemoveEquip(position);
 
             //通知英雄更新属性
-            GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+            //更新属性面板
+            GameProcessor.Inst.UpdateInfo();
+
+            //更新技能描述
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
 
             //UserData.Save();
         }

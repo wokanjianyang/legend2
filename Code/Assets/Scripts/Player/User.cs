@@ -419,10 +419,6 @@ namespace Game
 
         public User()
         {
-
-            GameProcessor.Inst.EventCenter.AddListener<HeroChangeEvent>(HeroChange);
-            GameProcessor.Inst.EventCenter.AddListener<HeroUseEquipEvent>(HeroUseEquip);
-            GameProcessor.Inst.EventCenter.AddListener<HeroUnUseEquipEvent>(HeroUnUseEquip);
             GameProcessor.Inst.EventCenter.AddListener<HeroUseSkillBookEvent>(HeroUseSkillBook);
             GameProcessor.Inst.EventCenter.AddListener<UserAttrChangeEvent>(UserAttrChange);
         }
@@ -667,38 +663,6 @@ namespace Game
 
             //更新属性面版
             GameProcessor.Inst.EventCenter.Raise(new UpdateBagPanelUserAttr());
-        }
-
-        private void HeroChange(HeroChangeEvent e)
-        {
-            switch (e.Type)
-            {
-                case UserChangeType.LevelUp:
-                    if (!this.isInLevelUp)
-                    {
-                        this.isInLevelUp = true;
-                        GameProcessor.Inst.StartCoroutine(LevelUp());
-                    }
-                    break;
-            }
-        }
-
-        private void HeroUseEquip(HeroUseEquipEvent e)
-        {
-            //更新属性面板
-            GameProcessor.Inst.UpdateInfo();
-
-            //更新技能描述
-            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
-        }
-
-        private void HeroUnUseEquip(HeroUnUseEquipEvent e)
-        {
-            //更新属性面板
-            GameProcessor.Inst.UpdateInfo();
-
-            //更新技能描述
-            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
         }
 
         private void HeroUseSkillBook(HeroUseSkillBookEvent e)
@@ -1917,11 +1881,5 @@ namespace Game
 
             return (int)SpiritRecord[cardId].Level.Data;
         }
-    }
-
-    public enum UserChangeType
-    {
-        LevelUp = 0,
-        AttrChange = 1
     }
 }

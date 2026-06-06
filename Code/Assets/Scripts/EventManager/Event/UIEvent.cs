@@ -74,19 +74,6 @@ namespace Game
         public int Version { get; set; }
     }
 
-    public class PlayerDeadEvent : SDD.Events.Event
-    {
-        public int RoundNum { get; set; }
-    }
-
-    public class HeroChangeEvent : SDD.Events.Event
-    {
-        public UserChangeType Type { get; set; }
-    }
-
-    public class HeroUseEquipEvent : SDD.Events.Event
-    {
-    }
     public class HeroUnUseEquipEvent : SDD.Events.Event
     {
     }

@@ -60,7 +60,11 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
             GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
-        GameProcessor.Inst.EventCenter.Raise(new HeroUnUseEquipEvent() { });
+        //更新属性面板
+        GameProcessor.Inst.UpdateInfo();
+
+        //更新技能描述
+        GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
     }
 
     // Start is called before the first frame update

@@ -112,9 +112,7 @@ namespace Game
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box7"));
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box8"));
 
-            ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet1"));
-            ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet2"));
-            ValetList.Add(Resources.Load<Sprite>("UI/Player/Player_Valet3"));
+            ValetList.Add(Resources.Load<Sprite>("UI/Player/Valet/Player_Valet1"));
 
             MonsterWorldList.Add(Resources.Load<Sprite>("UI/Player/Player_World1"));
             MonsterWorldList.Add(Resources.Load<Sprite>("UI/Player/Player_World2"));

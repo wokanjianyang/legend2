@@ -51,7 +51,8 @@ namespace Game
 
             int role = SkillPanel.Config.Role;
 
-            double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role); //职业攻击
+            double levelRise = this.SkillPanel.Percent * 0.01;
+            double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role) * levelRise; //职业攻击
 
             double mHp = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP);
             double mDef = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Def);
@@ -61,7 +62,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroPanel, mAtk);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroPanel, mAtk);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroPanel, mAtk);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, mDef); //降低50%继承
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, mDef); 
 
             AttributeBonus.SetAttr(AttributeEnum.Speed, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed));
             AttributeBonus.SetAttr(AttributeEnum.MoveSpeed, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed));
@@ -70,13 +71,13 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Accuracy));
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Miss));
 
-            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRate) + SkillPanel.CritRate);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamage) + SkillPanel.CritDamage);
-            AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyRate) + SkillPanel.DeadlyRate);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage) + SkillPanel.DeadlyDamage);
+            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRate));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamage));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyRate));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
             AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
             AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamageResist));
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageIncrea) + SkillPanel.DamageIncrea);
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageIncrea));
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageResist));
 
             AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Strong));
@@ -86,6 +87,11 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyDamage));
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
+
+            AttributeBonus.SetAttr(AttributeEnum.AchievementDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.AchievementDamage));
+            AttributeBonus.SetAttr(AttributeEnum.CardDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CardDamage));
+            AttributeBonus.SetAttr(AttributeEnum.FashionDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.FashionDamage));
+            AttributeBonus.SetAttr(AttributeEnum.LegacyDamage, AttributeFrom.HeroPanel, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
 
             this.SetSpeed((int)asp, (int)msp);
             //回满当前血量
@@ -101,122 +107,84 @@ namespace Game
             {
                 foreach (int skillId in this.ModelConfig.SkillList)
                 {
-                    SkillData skillData = GameProcessor.Inst.User.SkillList.Where(m => m.SkillConfig.Id == skillId).FirstOrDefault();
+                    SkillData skillData = new SkillData(skillId, (int)SkillPosition.Default);
+                    skillData.MagicLevel.Data = SkillPanel.Level;
 
+                    SkillPanel skillPanel = new SkillPanel(skillData, null, null, null, false);
 
-                    if (Master.Camp == PlayerType.Hero)
-                    {
-                        User user = GameProcessor.Inst.User;
-
-                        if (skillData == null)
-                        {
-                            //白虎的飓风破
-                            skillData = new SkillData(skillId, (int)SkillPosition.Default);
-                            skillData.MagicLevel.Data = SkillPanel.Level;
-                        }
-
-                        int petRate = user.GetPetSkillRate(skillData.SkillConfig.Role);
-
-                        SkillPanel from = null;
-                        if (skillData.SkillConfig.FromId > 0)
-                        {
-                            SkillData fromData = user.SkillList.Where(m => m.SkillId == skillData.SkillConfig.FromId).FirstOrDefault();
-
-                            if (fromData == null)
-                            {
-                                fromData = new SkillData(skillId, (int)SkillPosition.Default);
-                                fromData.MagicLevel.Data = SkillPanel.Level;
-                            }
-
-                            from = new SkillPanel(fromData, user.GetRuneList(fromData.SkillId), user.GetSuitList(fromData.SkillId), user.GetTalentList(fromData.SkillId), true);
-                        }
-
-                        List<SkillRune> runeList = user.GetRuneList(skillData.SkillId);
-                        List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
-                        List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
-                        //if (skillId == 4004)
-                        //{
-                        //    //飓风破，使用白虎的吸血效果
-                        //    SkillRune rune = user.GetRuneList(3012, null).Where(m => m.EffectId == 101).FirstOrDefault();
-                        //    if (rune != null)
-                        //    {
-                        //        runeList.Add(rune);
-                        //    }
-                        //}
-
-                        SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false);
-
-                        SkillState skill = new SkillState(this, skillPanel, from, skillData.Position, 0);
-                        SelectSkillList.Add(skill);
-                    }
-                    else
-                    {
-                        skillData = new SkillData(skillId, (int)SkillPosition.Default);
-                        skillData.MagicLevel.Data = SkillPanel.Level;
-
-                        List<SkillRune> runeList = new List<SkillRune>();
-                        List<SkillSuit> suitList = new List<SkillSuit>();
-
-
-                        SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, null, false);
-
-                        SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                        SelectSkillList.Add(skill);
-                    }
+                    SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
+                    SelectSkillList.Add(skill);
                 }
             }
 
 
-            if (Master.Camp == PlayerType.Hero) //继承护体戒指
+            if (Master.Camp == PlayerType.Hero)
             {
-                User user = GameProcessor.Inst.User;
-                SkillData skillData = user.SkillList.Where(m => m.SkillConfig.Id == 3010).FirstOrDefault();
-
-                int[] ringId = { 2, 4, }; //6
-                int[] skillId = { 4002, 1008 }; //3008
-
-                if (skillData != null && skillData.GetDivineLevel() > 0)
+                int c1001 = this.SkillPanel.EffectList.Where(m => m.Key == 1001).Count();
+                if (c1001 > 0)
                 {
-                    for (int i = 0; i < ringId.Length; i++)
-                    {
-                        long ringLevel = user.GetRingLevel(ringId[i]);
-                        SkillData sd = new SkillData(skillId[i], 0);
-                        long rp = Math.Max(1, ringLevel * skillData.GetDivineLevel() * 20 / 100);
-                        sd.MagicLevel.Data = rp;
+                    List<SkillPanel> skills = User_Data.GetSkills();
+                    SkillPanel masterSkill = skills.Where(m => m.SkillId == 3002).FirstOrDefault();
 
-                        SkillPanel skillPanel = new SkillPanel(sd, null, null, null, false);
-                        SkillState skill = new SkillState(this, skillPanel, 0, 0);
+                    if (masterSkill != null)
+                    {
+                        SkillState skill = new SkillState(this, masterSkill, null, 1, 0);
                         SelectSkillList.Add(skill);
                     }
-
-                    //for (int i = 0; i < ringId.Length; i++)
-                    //{
-                    //    long ringLevel = user.GetRingLevel(ringId[i]);
-                    //    SkillData sd = new SkillData(skillId[i], 0);
-                    //    long rp = Math.Max(1, ringLevel * skillData.GetDivineLevel() * 20 / 100);
-                    //    sd.MagicLevel.Data = rp;
-
-                    //    List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
-                    //    List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
-
-                    //    SkillPanel skillPanel = new SkillPanel(sd, runeList, suitList, false, RuleType, 0);
-
-                    //    SkillState skill = new SkillState(this, skillPanel, 0, 0);
-                    //    SelectSkillList.Add(skill);
-                    //}
                 }
             }
+
+            AddSkillNormal();
+            //if (Master.Camp == PlayerType.Hero) //继承护体戒指
+            //{
+            //    User user = GameProcessor.Inst.User;
+            //    SkillData skillData = user.SkillList.Where(m => m.SkillConfig.Id == 3010).FirstOrDefault();
+
+            //    int[] ringId = { 2, 4, }; //6
+            //    int[] skillId = { 4002, 1008 }; //3008
+
+            //    if (skillData != null && skillData.GetDivineLevel() > 0)
+            //    {
+            //        for (int i = 0; i < ringId.Length; i++)
+            //        {
+            //            long ringLevel = user.GetRingLevel(ringId[i]);
+            //            SkillData sd = new SkillData(skillId[i], 0);
+            //            long rp = Math.Max(1, ringLevel * skillData.GetDivineLevel() * 20 / 100);
+            //            sd.MagicLevel.Data = rp;
+
+            //            SkillPanel skillPanel = new SkillPanel(sd, null, null, null, false);
+            //            SkillState skill = new SkillState(this, skillPanel, 0, 0);
+            //            SelectSkillList.Add(skill);
+            //        }
+
+            //        for (int i = 0; i < ringId.Length; i++)
+            //        {
+            //            long ringLevel = user.GetRingLevel(ringId[i]);
+            //            SkillData sd = new SkillData(skillId[i], 0);
+            //            long rp = Math.Max(1, ringLevel * skillData.GetDivineLevel() * 20 / 100);
+            //            sd.MagicLevel.Data = rp;
+
+            //            List<SkillRune> runeList = user.GetRuneList(skillData.SkillId, null);
+            //            List<SkillSuit> suitList = user.GetSuitList(skillData.SkillId);
+
+            //            SkillPanel skillPanel = new SkillPanel(sd, runeList, suitList, false, RuleType, 0);
+
+            //            SkillState skill = new SkillState(this, skillPanel, 0, 0);
+            //            SelectSkillList.Add(skill);
+            //        }
+            //    }
+            //}
         }
 
 
 
-        //public override APlayer CalcEnemy()
-        //{
-        //    //攻击主人的目标
-        //    var mm = this.Master.CalcEnemy();
+        public override APlayer CalcEnemy()
+        {
+            //攻击主人的目标
+            var mm = this.Master.CalcEnemy();
 
-        //    return mm != null ? mm : base.CalcEnemy();
-        //}
+            return mm != null ? mm : base.CalcEnemy();
+        }
 
         public override void OnHit(DamageResult dr)
         {

@@ -705,12 +705,6 @@ namespace Game
             return count;
         }
 
-
-        public List<SkillPanel> GetSkillList()
-        {
-            return null;
-        }
-
         public List<SkillRune> GetRuneList(int skillId)
         {
             List<SkillRune> list = new List<SkillRune>();
@@ -974,25 +968,6 @@ namespace Game
             return suit;
         }
 
-        public Dictionary<int, long> GetAurasList()
-        {
-            Dictionary<int, long> list = new Dictionary<int, long>();
-
-            foreach (var sl in SoulRingData)
-            {
-                if (sl.Value.Data > 0)
-                {
-                    long soulLevel = sl.Value.Data;
-                    SoulRingAttrConfig ringConfig = SoulRingConfigCategory.Instance.GetAttrConfig(sl.Key, soulLevel);
-
-                    if (ringConfig.AurasId > 0)
-                    {
-                        list.Add(ringConfig.AurasId, ringConfig.GetAurasLevel(soulLevel));
-                    }
-                }
-            }
-            return list;
-        }
 
         public int GetRecordData(int type)
         {

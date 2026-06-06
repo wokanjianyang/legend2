@@ -166,10 +166,10 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
                 }
                 break;
             case PlayerType.Valet:
-                if (SelfPlayer.FashionId == 3)
-                {
-                    this.image_Background.rectTransform.sizeDelta = new Vector2(300, 300);
-                }
+                //if (SelfPlayer.FashionId == 3)
+                //{
+                //    this.image_Background.rectTransform.sizeDelta = new Vector2(300, 300);
+                //}
                 this.image_Background.sprite = PrefabHelper.Instance().GetValet(SelfPlayer.FashionId);
                 break;
             case PlayerType.Defend:

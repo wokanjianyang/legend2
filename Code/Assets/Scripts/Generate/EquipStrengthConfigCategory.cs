@@ -24,9 +24,7 @@ namespace Game
             {
                 if (level >= RequireLevel[i])
                 {
-                    double vue = AtrVueList[i] * level;
-
-                    list[AtrList[i]] = vue;
+                    list[AtrList[i]] = GetCurrentAtr(i, level);
                 }
             }
 
@@ -40,6 +38,14 @@ namespace Game
 
 
             return list;
+        }
+
+        public long GetCurrentAtr(int i, long level)
+        {
+            long riseLevel = level - this.RequireLevel[i] + 1;
+            long vue = AtrVueList[i] * riseLevel;
+
+            return vue;
         }
     }
 }

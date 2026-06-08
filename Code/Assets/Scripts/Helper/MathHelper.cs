@@ -43,6 +43,28 @@ namespace Game
             return 0;
         }
 
+        public static long GetRiseByType(int type, long level, long bc)
+        {
+            if (type == 0)  //0，不增加
+            {
+                return 0;
+            }
+            else if (type == 1)  //1，固定增加，等级*基础
+            {
+                return bc;
+            }
+            else if (type == 2)//2，线性增加，1+2+3+4
+            {
+                return level * bc;
+            }
+            else if (type == 3)  //3，指数增加，pow(2,10)
+            {
+                return (long)Math.Pow(bc, level - 1);
+            }
+
+            return 0;
+        }
+
         public static double ConvertionDropRate(long rate, int rise)
         {
             double r = 0;

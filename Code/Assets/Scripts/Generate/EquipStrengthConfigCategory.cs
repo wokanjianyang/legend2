@@ -43,7 +43,15 @@ namespace Game
         public long GetCurrentAtr(int i, long level)
         {
             long riseLevel = level - this.RequireLevel[i] + 1;
-            long vue = AtrVueList[i] * riseLevel;
+            long vue = MathHelper.GetSeqByType(AtrTypeList[i], riseLevel, AtrVueList[i]);
+
+            return vue;
+        }
+
+        public long GetRiseAtr(int i, long level)
+        {
+            long riseLevel = level - this.RequireLevel[i] + 1;
+            long vue = MathHelper.GetRiseByType(AtrTypeList[i], riseLevel, AtrVueList[i]);
 
             return vue;
         }

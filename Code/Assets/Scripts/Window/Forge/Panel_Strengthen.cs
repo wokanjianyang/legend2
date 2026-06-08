@@ -130,7 +130,7 @@ public class Panel_Strengthen : MonoBehaviour
             {
                 int attrId = config.AtrList[i];
 
-                long atrRise = config.AtrVueList[i];
+                long atrRise = config.GetRiseAtr(i, currentLevel);
                 long attrCurrent = config.GetCurrentAtr(i, currentLevel);
 
                 AtrList[i].SetContent(attrId, attrCurrent, atrRise);

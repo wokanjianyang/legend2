@@ -90,17 +90,20 @@ namespace Game
 		/// <summary>RequireLevel</summary>
 		[ProtoMember(5)]
 		public int[] RequireLevel { get; set; }
-		/// <summary>FeeBase</summary>
+		/// <summary>AtrTypeList</summary>
 		[ProtoMember(6)]
+		public int[] AtrTypeList { get; set; }
+		/// <summary>FeeBase</summary>
+		[ProtoMember(7)]
 		public int FeeBase { get; set; }
 		/// <summary>SpeAtrList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int[] SpeAtrList { get; set; }
 		/// <summary>SpeVueList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public long[] SpeVueList { get; set; }
 		/// <summary>SpeLevel</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int[] SpeLevel { get; set; }
 
 	}

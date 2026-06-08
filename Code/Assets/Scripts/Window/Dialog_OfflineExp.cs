@@ -218,19 +218,23 @@ namespace Game
             this.Txt_Kill.text = "击杀怪物：" + killCount + "，杀敌数+" + kc;
             this.Txt_Exp.text = "获得经验：" + exp + "，金币：" + gold;
 
+            //金币经验奖励
             user.AddExpAndGold(exp, gold);
 
+            //杀敌数
+            user.KillMonsterEnvent(kc, 1, killCount);
+
+            //增加杀怪成就数量
             int[] qcl = { 1, 10, 100, 1000, 10000 };
-            int tempKill = killCount;
             for (int q = 5; q >= 2; q--)
             {
                 int qb = qcl[q - 1];
                 int kqc = killCount / qb;
-                user.KillMonsterEnvent(kc, q, kqc);
 
-                tempKill = tempKill - kqc;
+                AchievementProType mk = (AchievementProType)(301 + q);
+                user.AddAchievementProgeress(mk, kqc);
             }
-            user.KillMonsterEnvent(kc, 1, tempKill);
+
 
             foreach (var item in items)
             {

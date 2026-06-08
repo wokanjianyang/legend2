@@ -7,7 +7,7 @@ namespace Game
 
     public partial class SkillConfigCategory
     {
-        private int[] exclusiveList = new int[] { 3004, 3007, 1005, 2005, 3005, 3008, 3009, 3012 };
+        private int[] exclusiveList = new int[] { 3007 };
         public List<int> RandomList(int count, int progress)
         {
             int layer = 11;
@@ -33,7 +33,7 @@ namespace Game
 
         public List<SkillConfig> GetAllByRole(int role)
         {
-            return this.list.Where(m => m.Role == role).ToList();
+            return this.list.Where(m => m.Role == role && m.SkillId < 4000 && !(exclusiveList.Contains(m.SkillId))).ToList();
         }
     }
 

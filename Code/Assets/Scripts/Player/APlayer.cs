@@ -155,6 +155,8 @@ namespace Game
             var rect = this.Transform.GetComponent<RectTransform>();
             //rect.sizeDelta = GameProcessor.Inst.MapData.CellSize;
             rect.localScale = UnityEngine.Vector3.one;
+            this.Transform.SetAsFirstSibling();
+
             this.Logic = this.Transform.GetComponent<Logic>();
             var coms = this.Transform.GetComponents<MonoBehaviour>();
             foreach (var com in coms)

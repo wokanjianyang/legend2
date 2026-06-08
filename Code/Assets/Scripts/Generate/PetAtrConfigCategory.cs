@@ -144,7 +144,7 @@ namespace Game
 
                 PetAtrConfig config = temps[index];
 
-                int attrValue = RandomHelper.RandomSerialNumber(config.FlairMin, config.FlairMax);
+                int attrValue = RandomHelper.RandomNumber(config.FlairMin, config.FlairMax + 1);
 
                 flairs.Add(new KeyValuePair<int, int>(config.Id, attrValue));
             }
@@ -178,12 +178,10 @@ namespace Game
 
             List<KeyValuePair<int, int>> skills = new List<KeyValuePair<int, int>>();
             List<int> ids = new List<int>();
-            int[] excludes = new int[3007];
-
 
             for (int i = 1; i <= count; i++)
             {
-                List<SkillConfig> temps = configs.Where(m => !ids.Contains(m.SkillId) && !excludes.Contains(m.SkillId)).ToList();
+                List<SkillConfig> temps = configs.Where(m => !ids.Contains(m.SkillId)).ToList();
 
                 int index = RandomHelper.RandomNumber(1, temps.Count + 1);
 
@@ -224,7 +222,7 @@ namespace Game
 
         public long GetPetFee(long level)
         {
-            return 10000 + (level - 1) * 5000;
+            return 50000 + (level - 1) * 5000;
         }
 
         public long GetFeeTotal(long level)

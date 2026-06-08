@@ -9,10 +9,6 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
 {
     public Com_Power com_Power;
 
-
-
-
-
     public Transform Menu;
 
     public Image btn_Power;
@@ -57,46 +53,44 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
         });
 
         this.Txt_Version.text = "V" + ConfigHelper.Version + "";
-
-        DropLimitConfig dropLimit = DropLimitConfigCategory.Instance.Get(1);
-        long nt = DateTime.Now.Ticks;
-
         this.Btn_AD.onClick.AddListener(OnClick_AD);
 
-        if (nt < DateTime.Parse(dropLimit.EndDate).AddDays(1).Ticks)
-        {
-            this.Txt_Festive.text = dropLimit.Name;
-            this.Btn_Festive.onClick.AddListener(OnClick_Festive);
-        }
-        else
-        {
-            this.Btn_Festive.gameObject.SetActive(false);
-        }
 
-        User user = GameProcessor.Inst.User;
-        long day = (TimeHelper.ClientNowSeconds() - user.First_Create_Time) / 86400 + 1;
+        //DropLimitConfig dropLimit = DropLimitConfigCategory.Instance.Get(1);
+        //long nt = DateTime.Now.Ticks;
 
-        if (day > 30)
-        {
-            this.Btn_Seven_Day.gameObject.SetActive(false);
-        }
-        else
-        {
-            this.Btn_Seven_Day.gameObject.SetActive(true);
-            this.Btn_Seven_Day.onClick.AddListener(OnClick_SevenDay);
-        }
+        //if (nt < DateTime.Parse(dropLimit.EndDate).AddDays(1).Ticks)
+        //{
+        //    this.Txt_Festive.text = dropLimit.Name;
+        //    this.Btn_Festive.onClick.AddListener(OnClick_Festive);
+        //}
+        //else
+        //{
+        //    this.Btn_Festive.gameObject.SetActive(false);
+        //}
 
-        if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
-        {
-            this.Btn_Festive_Week.gameObject.SetActive(false);
-        }
-        else
-        {
-            this.Btn_Festive_Week.gameObject.SetActive(true);
-            this.Btn_Festive_Week.onClick.AddListener(OnClick_Week);
-        }
+        //User user = GameProcessor.Inst.User;
+        //long day = (TimeHelper.ClientNowSeconds() - user.First_Create_Time) / 86400 + 1;
 
+        //if (day > 30)
+        //{
+        //    this.Btn_Seven_Day.gameObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    this.Btn_Seven_Day.gameObject.SetActive(true);
+        //    this.Btn_Seven_Day.onClick.AddListener(OnClick_SevenDay);
+        //}
 
+        //if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+        //{
+        //    this.Btn_Festive_Week.gameObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    this.Btn_Festive_Week.gameObject.SetActive(true);
+        //    this.Btn_Festive_Week.onClick.AddListener(OnClick_Week);
+        //}
     }
 
     public void OnBattleStart()

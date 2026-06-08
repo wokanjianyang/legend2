@@ -36,6 +36,12 @@ namespace Game
         public long SecondExpTick { get; set; }
 
         public long SecondTotal { get; set; } = 0;
+
+        public ADShowData ADShowData { get; set; } = new ADShowData();
+
+        public RecordData Record { get; set; } = new RecordData();
+
+        public AdData AdData { get; } = new AdData();
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -337,11 +343,7 @@ namespace Game
         //幻神记录
         public Dictionary<int, int> PhantomRecord { get; } = new Dictionary<int, int>();
 
-        public ADShowData ADShowData { get; set; } = new ADShowData();
 
-        public RecordData Record { get; set; } = new RecordData();
-
-        public AdData AdData { get; } = new AdData();
 
         public long AdLastTime { get; set; } = 0;
 
@@ -991,7 +993,7 @@ namespace Game
             switch (type)
             {
                 case AchievementProType.Advert:
-                    progress = this.Record.GetRecord((int)RecordType.AdVirtual) + this.Record.GetRecord((int)RecordType.AdReal) * 2;
+                    progress = this.Record.Data.Data;
                     break;
                 case AchievementProType.EquipStrong:
                     progress = this.MagicEquipStrength.Select(m => m.Value.Data).Sum();

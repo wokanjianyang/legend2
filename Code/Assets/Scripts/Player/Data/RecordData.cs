@@ -8,35 +8,26 @@ namespace Game.Data
 
     public class RecordData
     {
-        public Dictionary<int, long> RecordList { get; } = new Dictionary<int, long>();
+        public MagicData Data { get; } = new MagicData();
 
         public string Text { get; set; }
 
-        public void AddRecord(RecordType type, long val)
+        public void AddRecord()
         {
-            int key = (int)type;
+            Data.Data++;
 
-            if (!RecordList.ContainsKey(key))
-            {
-                RecordList[key] = 0;
-            }
-
-            RecordList[key] += val;
             Encryption();
         }
 
         public bool Check()
         {
-            if (RecordList.Count <= 0)
+            if (Data.Data <= 0)
             {
                 return true;
             }
 
             //序列化
-            string str_json = JsonConvert.SerializeObject(RecordList, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+            string str_json = Data.Data + "";
 
             string md5 = EncryptionHelper.Md5(str_json);
 
@@ -53,29 +44,11 @@ namespace Game.Data
 
         private void Encryption()
         {
-            string str_json = JsonConvert.SerializeObject(RecordList, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+            string str_json = Data.Data + "";
 
             string md5 = EncryptionHelper.Md5(str_json);
 
             this.Text = md5;
         }
-
-        public long GetRecord(int type)
-        {
-            if (RecordList.ContainsKey(type))
-            {
-                return RecordList[type];
-            }
-            return 0;
-        }
-    }
-
-    public enum RecordType
-    {
-        AdReal = 0,
-        AdVirtual = 1,
     }
 }

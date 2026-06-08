@@ -9,7 +9,7 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
 {
     public Com_Power com_Power;
 
-    public Com_AD com_AD;
+
 
 
 
@@ -19,13 +19,14 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
 
     public Image btn_Exit;
 
-    public Button btn_AD;
-
     private DragEnum dragType;
 
     public Text Txt_Version;
 
     public Toggle Tg_Expend;
+
+    public Button Btn_AD;
+    public Dialog_AD Dlg_AD;
 
     public Button Btn_Festive;
     public Text Txt_Festive;
@@ -60,7 +61,7 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
         DropLimitConfig dropLimit = DropLimitConfigCategory.Instance.Get(1);
         long nt = DateTime.Now.Ticks;
 
-        this.btn_AD.onClick.AddListener(OnClick_AD);
+        this.Btn_AD.onClick.AddListener(OnClick_AD);
 
         if (nt < DateTime.Parse(dropLimit.EndDate).AddDays(1).Ticks)
         {
@@ -159,7 +160,7 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
 
     private void OnClick_AD()
     {
-        this.com_AD.Open();
+        this.Dlg_AD.Open();
     }
     private Vector2 dragStartPosition = Vector2.zero;
     public void OnPointerDown(PointerEventData eventData)

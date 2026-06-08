@@ -9,54 +9,33 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class Com_AD : MonoBehaviour, IBattleLife
+public class Dialog_AD : MonoBehaviour
 {
-    [LabelText("金币收益次数")]
-    public Text txt_Reward_Gold_Count;
-
-    [LabelText("经验收益次数")]
-    public Text txt_Reward_Exp_Count;
-
-    [LabelText("装备副本次数")]
-    public Text txt_Reward_Copy_Ticket_Count;
-
-    [LabelText("精炼石次数")]
-    public Text txt_Reward_Stone_Count;
-
-    [LabelText("经验加成次数")]
-    public Text txt_Reward_Exp_Add;
-
-    [LabelText("经验加成持续时间")]
-    public Text txt_Reward_Exp_Time;
-
-    [LabelText("金币加成次数")]
-    public Text txt_Reward_Gold_Add;
-
-    [LabelText("金币加成持续时间")]
-    public Text txt_Reward_Gold_Time;
-
+    public Text Txt_Count1;
     public Button Btn_Read1;
+
+    public Text Txt_Count2;
     public Button Btn_Read2;
+
+    public Text Txt_Count3;
     public Button Btn_Read3;
-    public Button Btn_Read4;
 
     public Toggle toggle_Fail;
 
+    public Transform Tf_Skip;
     public Toggle toggle_Skip;
     public Text txt_Skip;
 
     public Text txt_Time;
-    public Text txt_Error_Count;
-    public Text txt_Rule;
-
     public Transform tran_FakeAD;
-
     public Text txt_FakeAD;
 
     private int CD_Time = 0;
 
     private int Time_Success = 30;
     private int Time_Error = 3;
+
+    public Button Btn_Close;
 
     public int Order => (int)ComponentOrder.Dialog;
 
@@ -66,9 +45,8 @@ public class Com_AD : MonoBehaviour, IBattleLife
         Btn_Read1.onClick.AddListener(() => { ReadAd(1); });
         Btn_Read2.onClick.AddListener(() => { ReadAd(2); });
         Btn_Read3.onClick.AddListener(() => { ReadAd(3); });
-        Btn_Read4.onClick.AddListener(() => { ReadAd(4); });
 
-        //txt_Rule.gameObject.SetActive(true);
+        Btn_Close.onClick.AddListener(OnClick_Close);
 
         //string md5 = AppHelper.GetBaseMd5();
         //txt_Rule.text = "md5 length:" + md5.Length + "\n md5:" + md5;
@@ -80,12 +58,6 @@ public class Com_AD : MonoBehaviour, IBattleLife
         long time = TimeHelper.ClientNowSeconds() - GameProcessor.Inst.User.AdLastTime;
         txt_Time.text = "倒计时:" + Math.Max(0, CD_Time - time);
     }
-
-
-    public void OnBattleStart()
-    {
-    }
-
 
     public void Open()
     {
@@ -106,38 +78,13 @@ public class Com_AD : MonoBehaviour, IBattleLife
             switch (@enum)
             {
                 case ADTypeEnum.GoldCount:
-                    this.txt_Reward_Gold_Count.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-                    break;
-                case ADTypeEnum.ExpCount:
-                    this.txt_Reward_Exp_Count.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-
-                    break;
-                case ADTypeEnum.CopyTicketCount:
-                    this.txt_Reward_Copy_Ticket_Count.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-
+                    this.Txt_Count1.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
                     break;
                 case ADTypeEnum.StoneCount:
-                    this.txt_Reward_Stone_Count.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-
+                    this.Txt_Count2.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
                     break;
-                //case ADTypeEnum.ExpAdd:
-                //    this.txt_Reward_Exp_Add.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-
-                //    break;
-                //case ADTypeEnum.ExpTime:
-                //    this.txt_Reward_Exp_Time.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-
-                //    break;
-                //case ADTypeEnum.GoldAdd:
-                //    this.txt_Reward_Gold_Add.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-
-                //    break;
-                //case ADTypeEnum.GoldTime:
-                //    this.txt_Reward_Gold_Time.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
-
-                //    break;
-                case ADTypeEnum.ErrorCount:
-                    this.txt_Error_Count.text = $"失败次数:{data.CurrentShowCount}/{data.MaxShowCount}";
+                case ADTypeEnum.Stone1Count:
+                    this.Txt_Count3.text = $"{data.CurrentShowCount}/{data.MaxShowCount}";
                     break;
             }
         }
@@ -157,28 +104,6 @@ public class Com_AD : MonoBehaviour, IBattleLife
             toggle_Skip.gameObject.SetActive(false);
             txt_Skip.gameObject.SetActive(false);
         }
-    }
-
-    private bool CheckErrorPlatform()
-    {
-        var data = GameProcessor.Inst.User.ADShowData?.GetADShowStatus(ADTypeEnum.ErrorCount);
-        if (data == null)
-        {
-            data = new ADData()
-            {
-                ADType = (int)ADTypeEnum.ErrorCount,
-                CurrentShowCount = 0,
-                MaxShowCount = 20
-            };
-            return false;
-        }
-
-        if (data.CurrentShowCount >= data.MaxShowCount)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private bool CheckCd()
@@ -203,7 +128,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
             {
                 ADType = type,
                 CurrentShowCount = 0,
-                MaxShowCount = 6
+                MaxShowCount = 3
             });
         }
 
@@ -221,17 +146,15 @@ public class Com_AD : MonoBehaviour, IBattleLife
         Btn_Read1.gameObject.SetActive(false);
         Btn_Read2.gameObject.SetActive(false);
         Btn_Read3.gameObject.SetActive(false);
-        Btn_Read4.gameObject.SetActive(false);
     }
 
     public IEnumerator EnableButton()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         Btn_Read1.gameObject.SetActive(true);
         Btn_Read2.gameObject.SetActive(true);
         Btn_Read3.gameObject.SetActive(true);
-        Btn_Read4.gameObject.SetActive(true);
     }
 
     private void ReadAd(int type)
@@ -274,12 +197,6 @@ public class Com_AD : MonoBehaviour, IBattleLife
 
         User user = GameProcessor.Inst.User;
 
-        //if (user.IsDz())
-        //{
-        //    RewardAd(type, true);
-        //    return;
-        //}
-
         if (toggle_Skip.isOn || true)
         {
             int skipCount = user.AdData.GetSkipCount();
@@ -300,7 +217,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
             return;
         }
 
-        if (CheckErrorPlatform() && toggle_Fail.isOn)
+        if (toggle_Fail.isOn)
         {   //无法播放,直接给播白屏
             StartCoroutine(ShowFakeAD(() =>
             {
@@ -314,20 +231,16 @@ public class Com_AD : MonoBehaviour, IBattleLife
         switch (type)
         {
             case 1:
-                des = "金币和经验收益2小时";
-                action = "gold_count_2_hour";
+                des = "金币奖励";
+                action = "ad1";
                 break;
             case 2:
-                des = "BOSS挑战卷";
-                action = "exp_count_2_hour";
+                des = "铜矿石奖励";
+                action = "ad2";
                 break;
             case 3:
-                des = "副本挑战卷";
-                action = "ticket_count_8";
-                break;
-            case 4:
-                des = "精炼石";
-                action = "stone_count_100";
+                des = "黑铁矿奖励";
+                action = "ad3";
                 break;
             default:
                 break;
@@ -346,7 +259,7 @@ public class Com_AD : MonoBehaviour, IBattleLife
             }
             else if (code == (int)AdStateEnum.NotSupport || code == (int)AdStateEnum.LoadFail)
             {
-                ErrorAd();
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "广告加载失败,请稍候再试", ToastType = ToastTypeEnum.Failure });
 
                 GameProcessor.Inst.User.AdLastTime = TimeHelper.ClientNowSeconds();
                 this.CD_Time = this.Time_Error;
@@ -365,12 +278,12 @@ public class Com_AD : MonoBehaviour, IBattleLife
 
         var data = user.ADShowData?.GetADShowStatus((ADTypeEnum)type);
 
-        if (data.CurrentShowCount >= 6)
+        if (data.CurrentShowCount >= 3)
         {
             return;
         }
 
-        data.CurrentShowCount += 2;
+        data.CurrentShowCount++;
 
         if (!user.Record.Check())
         {
@@ -380,90 +293,56 @@ public class Com_AD : MonoBehaviour, IBattleLife
         switch (type)
         {
             case 1:
-                RewardExpAndGold(2, real);
+                RewardExpAndGold(real);
                 break;
             case 2:
-                RewardBossTicket(2, real);
+                RewardStone(real);
                 break;
             case 3:
-                RewardCopyTicket(2, real);
-                break;
-            case 4:
-                RewardStone(2, real);
+                RewardStone1(real);
                 break;
             default:
                 break;
         }
 
-        user.Record.AddRecord(RecordType.AdReal, 1);
-
-        this.UpdateAdData();
-    }
-
-    private void ErrorAd()
-    {
-        var errorData = GameProcessor.Inst.User.ADShowData?.GetADShowStatus(ADTypeEnum.ErrorCount);
-        errorData.CurrentShowCount++;
-        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "广告加载失败,请稍候再试", ToastType = ToastTypeEnum.Failure });
+        user.Record.AddRecord();
 
         this.UpdateAdData();
     }
 
 
-    private void RewardExpAndGold(int rate, bool real)  //看的真广告还是假广告
+    private void RewardExpAndGold(bool real)  //看的真广告还是假广告
     {
         User user = GameProcessor.Inst.User;
 
         //发放奖励
-        double gold = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondGold);
-        double exp = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SecondExp);
+        double gold = 100 * 10000;
 
-        int atRate = user.GetArtifactValue(ArtifactType.ExpGoldAd);
+        double atRate = user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.GoldIncrea);
+        atRate = 1 + atRate / 100.0;
 
-        gold = gold * 2160 * rate; //3小时/5 = 2160
-        exp = exp * 2160 * rate; //3小时/5 = 2160
-
-        gold = gold + gold / 100 * atRate;
-        exp = exp + exp / 100 * atRate;
+        gold = gold * atRate;
 
         if (real)
         {
             gold = (long)(gold * 1.2);
-            exp = (long)(exp * 1.2);
         }
 
-        user.AddExpAndGold(exp, gold);
-
-        int number = (5 + atRate / 100) * rate;
-
-        if (real)
-        {
-            number += 10;
-        }
-
-        List<Item> items = new List<Item>();
-        items.Add(ItemHelper.BuildItem(ItemType.Material_Usable, ItemHelper.SpecialId_Level_Stone, 1, number));
-        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        user.AddExpAndGold(0, gold);
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
-            Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", exp, gold, items)
+            Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", 0, gold, null)
         });
     }
 
-    private void RewardBossTicket(int rate, bool real)
+    private void RewardStone(bool real)
     {
         User user = GameProcessor.Inst.User;
 
-        int atRate = user.GetArtifactValue(ArtifactType.BossTicketAd);
+        int number = 1000;
 
-        int nubmer = rate * (4 + atRate);
-        if (real)
-        {
-            nubmer += 6;
-        }
-
-        Item item = ItemHelper.BuildMaterial(ItemHelper.SpecialId_Boss_Ticket, nubmer);
+        Item item = ItemHelper.BuildMaterial(ItemHelper.Equip_Strong, number);
 
         List<Item> items = new List<Item>();
         items.Add(item);
@@ -478,57 +357,21 @@ public class Com_AD : MonoBehaviour, IBattleLife
             Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", 0, 0, items)
         });
     }
-
-    private void RewardCopyTicket(int rate, bool real)
+    private void RewardStone1(bool real)
     {
         User user = GameProcessor.Inst.User;
 
-        int atRate = user.GetArtifactValue(ArtifactType.EquipTicketAd);
-        int number = (8 + atRate) * rate;
+        int number = 100;
 
         if (real)
         {
-            number += 60;
+            number = (int)(number * 1.2);
         }
 
-        List<Item> items = new List<Item>();
-        items.Add(ItemHelper.BuildItem(ItemType.Ticket, ItemHelper.SpecialId_Copy_Ticket, 1, number));
-        GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-
-        GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
-        {
-            Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", 0, 0, items)
-        });
-    }
-
-    private void RewardStone(int rate, bool real)
-    {
-        User user = GameProcessor.Inst.User;
-        int atRate = user.GetArtifactValue(ArtifactType.EquipStoneAd);
-
-        int MapNo = (user.MapId - ConfigHelper.MapStartId + 1);
-        int stoneRate = (MapNo / 2) + 1;
-
-        stoneRate = stoneRate + stoneRate * atRate / 100;
-
-        long refineStone = 600 * MapNo * stoneRate * rate;
-
-        if (real)
-        {
-            refineStone = (int)(refineStone * 1.2);
-        }
-
-        Item item = ItemHelper.BuildRefineStone(refineStone);
+        Item item = ItemHelper.BuildMaterial(ItemHelper.Equip_Refine, number);
 
         List<Item> items = new List<Item>();
         items.Add(item);
-
-        int legacyRate = user.GetArtifactValue(ArtifactType.LegacyTicketAd);
-        if (legacyRate > 0)
-        {
-            Item itemLegacy = ItemHelper.BuildItem(ItemType.Ticket, ItemHelper.SpecialId_Legacy_Ticket, 1, legacyRate * 2);
-            items.Add(itemLegacy);
-        }
 
         GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent()
         {

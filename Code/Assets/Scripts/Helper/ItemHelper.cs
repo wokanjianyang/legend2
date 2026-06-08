@@ -59,22 +59,6 @@ namespace Game
 
             return item;
         }
-
-        public static Item BuildSoulRingShard(int quantity)
-        {
-            return BuildMaterial(SpecialId_SoulRingShard, quantity);
-        }
-
-        public static Item BuildRefineStone(long quantity)
-        {
-            return BuildMaterial(Equip_Refine, quantity);
-        }
-
-        public static Item BuildGifPack(int configId)
-        {
-            return null;
-        }
-
         public static Item BuildMaterial(int configId, long count)
         {
             Item item = new Item_Normal(configId);
@@ -98,31 +82,7 @@ namespace Game
             return newList;
         }
 
-        //public static IEnumerable<Item> BurstMul(List<Item> items, int count, double qualityRate, RuleType ruleType, int maxQuality)
-        //{
-        //    List<Item> newList = new List<Item>();
-        //    for (int c = 0; c < count; c++)
-        //    {
-        //        for (int i = 0; i < items.Count; i++)
-        //        {
-
-        //            if (items[i].GetItemType() == ItemType.Shengxiao)
-        //            {
-        //                Item newItem = ShengxiaoConfigCategory.Instance.Build(items[i].ConfigId, qualityRate, maxQuality, 0);
-
-        //                newList.Add(newItem);
-        //            }
-        //            else
-        //            {
-        //                Item newItem = ItemHelper.BuildItem(items[i].GetItemType(), items[i].ConfigId, (int)qualityRate, items[i].Count, ruleType);
-
-        //                newList.Add(newItem);
-        //            }
-        //        }
-        //    }
-
-        //    return newList;
-        //}
+        //----------------------------------------------------------
 
         public static int Equip_Strong = 5001; //Í­¿óÊ¯
         public static int Equip_Refine = 5002; //ºÚÌú¿ó

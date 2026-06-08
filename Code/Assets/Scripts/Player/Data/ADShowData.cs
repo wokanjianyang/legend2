@@ -7,14 +7,13 @@ namespace Game.Data
     public enum ADTypeEnum
     {
         GoldCount = 1,
-        ExpCount = 2,
-        CopyTicketCount = 3,
-        StoneCount = 4,
+        StoneCount = 2,
+        Stone1Count = 4,
         //ExpAdd,
         //ExpTime,
         //GoldAdd,
         //GoldTime,
-        ErrorCount = 99,
+        //ErrorCount = 10,
     }
     [Serializable]
     public class ADData
@@ -45,31 +44,19 @@ namespace Game.Data
             {
                 ADType = (int)ADTypeEnum.GoldCount,
                 CurrentShowCount = 0,
-                MaxShowCount = 6
-            });
-            ADDatas.Add(new ADData()
-            {
-                ADType = (int)ADTypeEnum.ExpCount,
-                CurrentShowCount = 0,
-                MaxShowCount = 6
-            });
-            ADDatas.Add(new ADData()
-            {
-                ADType = (int)ADTypeEnum.CopyTicketCount,
-                CurrentShowCount = 0,
-                MaxShowCount = 6
+                MaxShowCount = 3
             });
             ADDatas.Add(new ADData()
             {
                 ADType = (int)ADTypeEnum.StoneCount,
                 CurrentShowCount = 0,
-                MaxShowCount = 6
+                MaxShowCount = 3
             });
             ADDatas.Add(new ADData()
             {
-                ADType = (int)ADTypeEnum.ErrorCount,
+                ADType = (int)ADTypeEnum.Stone1Count,
                 CurrentShowCount = 0,
-                MaxShowCount = 6
+                MaxShowCount = 3
             });
         }
 

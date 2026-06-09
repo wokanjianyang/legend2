@@ -1165,7 +1165,7 @@ namespace Game
 
             if (this.MagicLevel.Data < 10000 && this.Cycle.Data <= 0)
             {
-                GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+                GameProcessor.Inst.UpdateInfo();
             }
 
             //TaskHelper.CheckTask(TaskType.Cycle, this.Cycle.Data);

@@ -132,7 +132,7 @@ public class Item_Fashion : MonoBehaviour
         Dialog_Fashion dialog = this.gameObject.GetComponentInParent<Dialog_Fashion>();
         dialog.ReFresh();
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.UpdateInfo();
 
     }
 
@@ -159,7 +159,7 @@ public class Item_Fashion : MonoBehaviour
         Dialog_Fashion dialog =  this.gameObject.GetComponentInParent<Dialog_Fashion>();
         dialog.ReFresh();
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.UpdateInfo();
 
 
     }

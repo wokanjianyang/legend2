@@ -124,9 +124,7 @@ public class Panel_Pill : MonoBehaviour
 
         Show();
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-
-        //GameProcessor.Inst.SaveData();
+        GameProcessor.Inst.UpdateInfo();
     }
 
     private bool strong()
@@ -174,6 +172,6 @@ public class Panel_Pill : MonoBehaviour
 
         Show();
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.UpdateInfo();
     }
 }

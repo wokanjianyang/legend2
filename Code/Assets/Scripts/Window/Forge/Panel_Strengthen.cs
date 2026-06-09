@@ -151,7 +151,7 @@ public class Panel_Strengthen : MonoBehaviour
                 long atrVue = config.SpeVueList[i];
                 int rv = config.SpeLevel[i];
 
-                AtrSpeList[i].SetSpContent(attrId, atrVue, rv);
+                AtrSpeList[i].SetSpContent(attrId, atrVue, rv, currentLevel);
                 AtrSpeList[i].gameObject.SetActive(true);
             }
             else

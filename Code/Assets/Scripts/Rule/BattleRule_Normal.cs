@@ -63,12 +63,17 @@ namespace Game
 
         private int BuildQuality()
         {
+            if (mapConfig.Id <= 1)  //第一张新手地图，不刷新高级品质怪
+            {
+                return 1;
+            }
+
             if (mapConfig.BossId > 0 && RandomHelper.RandomDropRate(1000))  //40000
             {
                 return 6;
             }
 
-            int rd = RandomHelper.RandomNumber(1, 3000);
+            int rd = RandomHelper.RandomNumber(1, 5000);
             if (rd < 1)
             {
                 return 5;

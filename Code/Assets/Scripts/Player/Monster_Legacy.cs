@@ -124,7 +124,7 @@ public class Monster_Legacy : APlayer
 
                 message += ",并且回收之前的获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
 
-                GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+                GameProcessor.Inst.UpdateInfo();
             }
         }
         else

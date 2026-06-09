@@ -110,7 +110,7 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
             this.Show();
 
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.UpdateInfo();
 
             Dialog_Talent parent = this.GetComponentInParent<Dialog_Talent>();
             parent.Refresh();
@@ -144,7 +144,7 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         this.Show();
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.UpdateInfo();
 
         Dialog_Talent parent = this.GetComponentInParent<Dialog_Talent>();
         parent.Refresh();

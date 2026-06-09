@@ -151,8 +151,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         this.gameObject.SetActive(false);
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-        GameProcessor.Inst.EventCenter.Raise(new SkillChangePlanEvent());
+        GameProcessor.Inst.UpdateInfo();
 
         Panel_Exclusive parent = this.GetComponentInParent<Panel_Exclusive>();
         parent.Refresh();

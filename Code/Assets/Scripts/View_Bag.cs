@@ -600,8 +600,7 @@ namespace Game
 
             user.SkillPanelIndex = index;
 
-            GameProcessor.Inst.EventCenter.Raise(new SkillChangePlanEvent());
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.UpdateInfo();
         }
 
         private void ShowBagPanel(int index)
@@ -629,7 +628,7 @@ namespace Game
 
             user.CardEquipDict[item.ConfigId] = 1;
 
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.UpdateInfo();
         }
 
 
@@ -1438,11 +1437,6 @@ namespace Game
         public override void OnOpen()
         {
             base.OnOpen();
-
-            Debug.Log("open view bag");
-
-            //重新计算人物属性
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
         }
     }
 }

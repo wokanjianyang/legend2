@@ -84,8 +84,7 @@ namespace Game
         {
             //GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 3, Index = i });
 
-            GameProcessor.Inst.EventCenter.Raise(new SkillChangePlanEvent());
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.UpdateInfo();
         }
 
         public void OnClick_Close()

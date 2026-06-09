@@ -187,7 +187,7 @@ public class Dialog_Cycle : MonoBehaviour
         user.MagicLevel.Data = 1;
 
         GameProcessor.Inst.EventCenter.Raise(new SetPlayerLevelEvent { Cycle = user.Cycle.Data, Level = user.MagicLevel.Data });
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.UpdateInfo();
 
         this.Show(this.Type);
     }

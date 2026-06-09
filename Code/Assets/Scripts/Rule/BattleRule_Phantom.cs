@@ -71,7 +71,7 @@ public class BattleRule_Phantom : ABattleRule
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Phantom, Message = RealBoss.Name + "：强大的勇士,您已经通过了考验！" });
 
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.UpdateInfo();
 
             GameProcessor.Inst.HeroDie(RuleType.Phantom, MapTime);
 

@@ -164,7 +164,7 @@ public class Panel_Legacy : MonoBehaviour
                 long atrVue = config.SpeVueList[i];
                 int rv = config.SpeRequireList[i];
 
-                AtrSpeListBase[i].SetSpContent(attrId, atrVue, rv);
+                AtrSpeListBase[i].SetSpContent(attrId, atrVue, rv, currentLayer);
                 AtrSpeListBase[i].gameObject.SetActive(true);
             }
             else
@@ -188,7 +188,7 @@ public class Panel_Legacy : MonoBehaviour
                     long atrRise = gradeConfig.AtrVueList[i];
                     long attrCurrent = gradeConfig.AtrVueList[i] * riseLevel;
 
-                    AtrGradeList[i].SetContent(attrId, attrCurrent, atrRise);
+                    AtrGradeList[i].SetContent(attrId, attrCurrent, atrRise, currentLevel);
                     AtrGradeList[i].gameObject.SetActive(true);
 
                     continue;
@@ -206,7 +206,7 @@ public class Panel_Legacy : MonoBehaviour
                 long atrVue = gradeConfig.SpeVueList[i];
                 int rv = gradeConfig.SpeRequireList[i];
 
-                AtrGradeSpeList[i].SetSpContent(attrId, atrVue, rv);
+                AtrGradeSpeList[i].SetSpContent(attrId, atrVue, rv, currentLevel);
                 AtrGradeSpeList[i].gameObject.SetActive(true);
             }
             else

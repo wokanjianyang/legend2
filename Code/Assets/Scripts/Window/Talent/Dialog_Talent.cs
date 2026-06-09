@@ -171,7 +171,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
         user.TalentData.Clear();
         user.TalentPoint = 0;
 
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+        GameProcessor.Inst.UpdateInfo();
         this.Refresh();
     }
 }

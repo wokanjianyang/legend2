@@ -80,7 +80,8 @@ namespace Game
 
                             halidomData.Data++;
                             this.SetContent(this.Config, halidomData.Data);
-                            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+
+                            GameProcessor.Inst.UpdateInfo();
                         }, () =>
                         {
                         });
@@ -103,9 +104,8 @@ namespace Game
 
                     halidomData.Data++;
                     this.SetContent(this.Config, halidomData.Data);
-                    GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
 
-                    GameProcessor.Inst.SaveData();
+                    GameProcessor.Inst.UpdateInfo();
                 }
             }
             else
@@ -136,12 +136,8 @@ namespace Game
 
                     halidomData.Data++;
                     this.SetContent(this.Config, halidomData.Data);
-                    GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-                    //}, () =>
-                    //{
-                    //});
 
-
+                    GameProcessor.Inst.UpdateInfo();
                 }
                 else
                 {

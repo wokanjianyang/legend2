@@ -129,7 +129,7 @@ public class Dialog_Halidom : MonoBehaviour
                 items[i].Refresh();
             }
 
-            GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
+            GameProcessor.Inst.UpdateInfo();
         }, () =>
         {
         });

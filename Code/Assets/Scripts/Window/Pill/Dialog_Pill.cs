@@ -15,8 +15,6 @@ public class Dialog_Pill : MonoBehaviour
     public Toggle toggle3;
 
     public Panel_Pill pp;
-    public Panel_Pill2 pp2;
-    public Panel_Pill3 pp3;
 
     public Button Btn_Close;
 
@@ -52,19 +50,13 @@ public class Dialog_Pill : MonoBehaviour
         if (index == 1)
         {
             pp.gameObject.SetActive(true);
-            pp2.gameObject.SetActive(false);
-            pp3.gameObject.SetActive(false);
         }
         else if (index == 2)
         {
             pp.gameObject.SetActive(false);
-            pp2.gameObject.SetActive(true);
-            pp3.gameObject.SetActive(false);
         }
         else if (index == 3) {
             pp.gameObject.SetActive(false);
-            pp2.gameObject.SetActive(false);
-            pp3.gameObject.SetActive(true);
         }
 
     }

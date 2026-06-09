@@ -73,11 +73,19 @@ namespace Game
             this.Txt_Attr_Add.text = rise;
         }
 
-        public void SetSpContent(int atrId, double atrVue, int requireLevel)
+        public void SetSpContent(int atrId, double atrVue, long requireLevel, long currentLevel)
         {
             this.Txt_Name.text = StringHelper.FormatAttrValueName(atrId);
             this.Txt_Attr.text = " + " + StringHelper.FormatAttrValueText(atrId, atrVue);
-            this.Txt_Attr_Add.text = "（" + requireLevel + "级解锁特殊属性）";
+
+            if (currentLevel >= requireLevel)
+            {
+                this.Txt_Attr_Add.text = "（已解锁）";
+            }
+            else
+            {
+                this.Txt_Attr_Add.text = "（" + requireLevel + "级解锁特殊属性）";
+            }
         }
     }
 }

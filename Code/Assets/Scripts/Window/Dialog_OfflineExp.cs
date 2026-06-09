@@ -386,8 +386,15 @@ namespace Game
                         }
                     }
 
-                    long price = EquipConfigCategory.Instance.Get(baseConfig.ItemIdList[0]).Price;
-                    gold += (long)((count - keepCount) * price); //期望回收收益为17000
+                    int recoveryCount = count - keepCount;
+                    if (recoveryCount > 0)
+                    {
+                        int equipId = baseConfig.ItemIdList[0];
+                        Equip equip = EquipConfigCategory.Instance.BuildOfflineEquip(equipId, 1) as Equip;
+
+                        gold += equip.ToRecoverDict(recoveryDict, recoveryCount);
+
+                    }
                 }
                 else if (baseConfig.ItemType == (int)ItemType.EquipSpeical)
                 {

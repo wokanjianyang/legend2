@@ -266,10 +266,8 @@ public class Dialog_Ring : MonoBehaviour
         user.AddRingLevel(config.Id);
 
         this.ShowItem(currentItem);
-        GameProcessor.Inst.EventCenter.Raise(new UserAttrChangeEvent());
-        GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
 
-        GameProcessor.Inst.SaveData();
+        GameProcessor.Inst.UpdateInfo();
     }
 
     public void OnClick_Close()

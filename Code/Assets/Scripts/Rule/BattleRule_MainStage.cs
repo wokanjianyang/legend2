@@ -29,28 +29,36 @@ public class BattleRule_MainStage : ABattleRule
 
         QualityList = new List<int>();
 
-        for (int i = 0; i < 2; i++)
+        if (MapId <= 12)
         {
-            QualityList.Add(5);
+            BuildCount(new int[] { 1, 2, 3, 5, 10 });
         }
-        for (int i = 0; i < 30; i++)
+        else if (MapId <= 24)
         {
-            QualityList.Add(1);
+            BuildCount(new int[] { 2, 4, 10, 15, 25 });
         }
-        for (int i = 0; i < 5; i++)
+        else if (MapId <= 36)
         {
-            QualityList.Add(4);
+            BuildCount(new int[] { 3, 6, 15, 20, 30 });
         }
-        for (int i = 0; i < 20; i++)
+        else
         {
-            QualityList.Add(2);
+            BuildCount(new int[] { 10, 20, 30, 50, 100 });
         }
-        for (int i = 0; i < 10; i++)
-        {
-            QualityList.Add(3);
-        }
-
     }
+
+    private void BuildCount(int[] list)
+    {
+        for (int i = 0; i < list.Length; i++)
+        {
+            int quality = 5 - i;
+            for (int k = 0; k < list[i]; k++)
+            {
+                QualityList.Add(quality);
+            }
+        }
+    }
+
 
     public override void DoMapLogic(int roundNum, double currentRoundTime)
     {

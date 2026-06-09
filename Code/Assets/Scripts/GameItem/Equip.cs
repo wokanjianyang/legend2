@@ -43,11 +43,8 @@ namespace Game
         [JsonIgnore]
         public int Part { get; set; }
 
-        [JsonIgnore]
-        /// <summary>
-        /// 品质属性
-        /// </summary>
-        public IDictionary<int, long> QualityAttrList { get; set; }
+        private int[] QualityRate = { 100, 110, 120, 150, 200 };
+
 
         public Equip(int configId, int runeConfigId, int suitConfigId, int quality) : base(configId, ItemType.Equip)
         {
@@ -81,7 +78,7 @@ namespace Game
 
                 if (Config.Cycle == 1)
                 {
-                    AttributeBase = AttributeBase * (Quality * 10 + 90) / 100;
+                    AttributeBase = AttributeBase * QualityRate[Quality - 1] / 100;
                 }
 
                 BaseAttrList.Add(Config.AttrIdList[i], AttributeBase);

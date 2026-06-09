@@ -11,7 +11,7 @@ namespace Game
     {
         public int Progress;
         DefendConfig Config { get; set; }
-        QualityConfig QualityConfig { get; set; }
+        MonsterQualityConfig QualityConfig { get; set; }
 
         private int Layer = 0;
 
@@ -25,7 +25,7 @@ namespace Game
 
             this.Config = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Layer, this.Progress);
 
-            this.QualityConfig = QualityConfigCategory.Instance.Get(this.Quality);
+            this.QualityConfig = MonsterQualityConfigCategory.Instance.Get(this.Quality);
 
             this.Init();
         }

@@ -75,35 +75,6 @@ namespace Game
 
             this.Img_Icon.sprite = PrefabHelper.Instance().GetSkillLog(skillPanel.SkillId);
 
-            //if (skillPanel.DivineAttrConfig != null)
-            //{
-            //    if (skillPanel.DivineAttrConfig.LevelRequire <= skillPanel.SkillData.MagicLevel.Data)
-            //    {
-            //        this.Btn_Divine.gameObject.SetActive(true);
-            //        this.Txt_Divine.gameObject.SetActive(false);
-            //    }
-            //    else
-            //    {
-            //        this.Btn_Divine.gameObject.SetActive(false);
-            //        this.Txt_Divine.gameObject.SetActive(true);
-
-            //        this.Txt_Divine.text = "技能" + skillPanel.DivineAttrConfig.LevelRequire + "级解锁神技";
-            //    }
-            //}
-            //else
-            //{
-            //    this.Btn_Divine.gameObject.SetActive(false);
-            //}
-
-            //if (skillPanel.SkillData.SkillConfig.UpItemId > 0)
-            //{
-            //    this.Btn_UpLevel.gameObject.SetActive(true);
-            //}
-            //else
-            //{
-            //    this.Btn_UpLevel.gameObject.SetActive(false);
-            //}
-
             for (int i = 0; i < tList.Count; i++)
             {
                 if (i < skillPanel.TalentTextList.Count)
@@ -144,7 +115,17 @@ namespace Game
                 }
             }
 
+            this.Show();
+        }
+
+        public void Show()
+        {
             User user = GameProcessor.Inst.User;
+            if (user == null || SkillPanel == null)
+            {
+                return;
+            }
+
 
             int limitLevel = user.GetSkillLimit(this.SkillPanel.Config);
             //if (this.SkillPanel.SkillData.MagicLevel.Data >= limitLevel)

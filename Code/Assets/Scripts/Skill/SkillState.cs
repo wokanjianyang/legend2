@@ -10,6 +10,8 @@ namespace Game
 
         public SkillPanel FromSkill { get; set; }
 
+        public SkillData SkillData { get; set; }
+
         public APlayer SelfPlayer { get; set; }
 
         public int Priority { get; }
@@ -30,10 +32,15 @@ namespace Game
 
         }
 
-        public SkillState(APlayer player, SkillPanel skillPanel, SkillPanel fromSkill, int position, int useRound)
+        public SkillState(APlayer player, SkillPanel skillPanel, SkillPanel fromSkill, int position, int useRound) : this(player, skillPanel, fromSkill, null, position, useRound)
+        {
+        }
+
+        public SkillState(APlayer player, SkillPanel skillPanel, SkillPanel fromSkill, SkillData skillData, int position, int useRound)
         {
             this.SelfPlayer = player;
             this.SkillPanel = skillPanel;
+            this.SkillData = skillData;
             this.Priority = skillPanel.Config.Priority; // - skillPanel.SkillData.SkillConfig.Priority;
             this.Position = position;
             this.CD = 0;
@@ -157,6 +164,11 @@ namespace Game
             this.UserCount++;
             this.CD = SkillPanel.CD;
             this.skillLogic.Do(SkillRunType.Normal);
+
+            if (this.SkillData != null && !this.SkillData.IsFull())
+            {
+                this.SkillData.AddExp(1);
+            }
 
             //––∂ØΩ·À„
             this.SelfPlayer.SkillAfter();

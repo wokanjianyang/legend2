@@ -38,7 +38,7 @@ namespace Game
 
         public const long RestoreGold = 5000000000000000L;
 
-        public const double Def_Rate = 5; //防御系数
+        public const double Def_Rate = 3; //防御系数
 
         public static int[] RuneRate = new int[] { 1, 3, 8, 18, 39, 85 }; //紫色一下装备产生概率
         public static int[] RuneRate1 = new int[] { 1, 3, 6, 10, 15, 20, 25 }; //0-350橙色装备产生概率 

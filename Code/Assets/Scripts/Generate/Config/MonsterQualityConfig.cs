@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class QualityConfigCategory : ProtoObject, IMerge
+    public partial class MonsterQualityConfigCategory : ProtoObject, IMerge
     {
-        public static QualityConfigCategory Instance;
+        public static MonsterQualityConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, QualityConfig> dict = new Dictionary<int, QualityConfig>();
+        private Dictionary<int, MonsterQualityConfig> dict = new Dictionary<int, MonsterQualityConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<QualityConfig> list = new List<QualityConfig>();
+        private List<MonsterQualityConfig> list = new List<MonsterQualityConfig>();
 		
-        public QualityConfigCategory()
+        public MonsterQualityConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            QualityConfigCategory s = o as QualityConfigCategory;
+            MonsterQualityConfigCategory s = o as MonsterQualityConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (QualityConfig config in list)
+            foreach (MonsterQualityConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public QualityConfig Get(int id)
+        public MonsterQualityConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out QualityConfig item);
+            this.dict.TryGetValue(id, out MonsterQualityConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (QualityConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (MonsterQualityConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, QualityConfig> GetAll()
+        public Dictionary<int, MonsterQualityConfig> GetAll()
         {
             return this.dict;
         }
 
-        public QualityConfig GetOne()
+        public MonsterQualityConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,7 +73,7 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class QualityConfig: ProtoObject, IConfig
+	public partial class MonsterQualityConfig: ProtoObject, IConfig
 	{
 		/// <summary>_id</summary>
 		[ProtoMember(1)]

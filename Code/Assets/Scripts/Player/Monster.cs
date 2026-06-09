@@ -10,7 +10,7 @@ namespace Game
         public int MapId;
         public int MonsterId;
         MonsterConfig Config { get; set; }
-        QualityConfig QualityConfig { get; set; }
+        MonsterQualityConfig QualityConfig { get; set; }
 
         public Monster(int mapId, int quality, RuleType ruleType) : base()
         {
@@ -22,7 +22,7 @@ namespace Game
             this.RuleType = ruleType;
 
             this.Config = MonsterConfigCategory.Instance.Get(MonsterId);
-            this.QualityConfig = QualityConfigCategory.Instance.Get(Quality);
+            this.QualityConfig = MonsterQualityConfigCategory.Instance.Get(Quality);
 
             this.Init();
             this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
@@ -53,23 +53,40 @@ namespace Game
             this.Logic.SetData(null); //…Ë÷√UI
         }
 
+
         private void SetAttr()
         {
             this.AttributeBonus = new AttributeBonus();
 
-            double hpModelRate = 1;
-            double attrModelRate = 1;
-            double defModelRate = 1;
+            double hpRate = 1;
+            double atkRate = 1;
+            double defRate = 1;
+
+            if (this.RuleType == RuleType.MainStage)
+            {
+                if (this.MapId <= 12)
+                {
+                    atkRate = 1.2;
+                    defRate = 1.1;
+                    hpRate = 1.5;
+                }
+                else
+                {
+                    atkRate = 1.5;
+                    defRate = 1.2;
+                    hpRate = 2;
+                }
+            }
 
             double hp = StringHelper.StringToNumber(Config.HP);
             double atk = StringHelper.StringToNumber(Config.Atk);
             double def = StringHelper.StringToNumber(Config.Def);
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, (hp * hpModelRate * QualityConfig.HpRate));
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, (atk * attrModelRate * QualityConfig.AttrRate));
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, (atk * attrModelRate * QualityConfig.AttrRate));
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, (atk * attrModelRate * QualityConfig.AttrRate));
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, (def * defModelRate * QualityConfig.DefRate));
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, (hp * hpRate * QualityConfig.HpRate));
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, (atk * atkRate * QualityConfig.AttrRate));
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, (atk * atkRate * QualityConfig.AttrRate));
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, (atk * atkRate * QualityConfig.AttrRate));
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, (def * defRate * QualityConfig.DefRate));
 
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, Config.DamageIncrea);
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, Config.DamageResist);

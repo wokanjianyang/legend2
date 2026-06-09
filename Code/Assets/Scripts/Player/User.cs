@@ -688,7 +688,7 @@ namespace Game
             else
             {
                 skillData = this.SkillList.Find(b => b.SkillId == configId);
-                skillData.AddExp(100 * e.Number);
+                skillData.AddExp(1000 * e.Number);
             }
 
             GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());

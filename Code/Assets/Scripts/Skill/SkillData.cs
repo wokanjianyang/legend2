@@ -29,9 +29,9 @@ namespace Game
 
         public long GetLevelUpExp()
         {
-            long rate = MagicLevel.Data + 1;
+            long rate = MagicLevel.Data;
 
-            return rate * 10 * SkillConfig.Exp;
+            return rate * SkillConfig.Exp;
         }
 
         public SkillData(int skillId, int position)
@@ -52,6 +52,21 @@ namespace Game
                 this.MagicLevel.Data++;
                 this.MagicExp.Data -= upExp;
             }
+        }
+
+        public bool IsFull()
+        {
+            if (this.MagicLevel.Data < 10)
+            {
+                return false;
+            }
+
+            if (this.MagicExp.Data < GetLevelUpExp())
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public long GetDivineItemLevel(int divinePart)

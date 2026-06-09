@@ -48,7 +48,7 @@ namespace Game
                     def *= curseRate;
                 }
 
-                atk = atk * atk / (atk + def);
+                atk = atk * atk / (atk + def * ConfigHelper.Def_Rate);
             }
 
 

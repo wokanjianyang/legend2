@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Game
 {
 
-    public partial class QualityConfigCategory
+    public partial class MonsterQualityConfigCategory
     {
 
     }

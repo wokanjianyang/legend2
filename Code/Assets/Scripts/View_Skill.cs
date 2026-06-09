@@ -39,6 +39,22 @@ namespace Game
             Toggle_Role_List = Tf_Role.GetComponentsInChildren<Toggle>().ToList();
         }
 
+        void OnEnable()
+        {
+            this.Refresh();
+        }
+
+        private void Refresh()
+        {
+            if (learnSkills != null)
+            {
+                foreach (var sp in learnSkills)
+                {
+                    sp.Show();
+                }
+            }
+        }
+
         public override void OnBattleStart()
         {
             base.OnBattleStart();
@@ -177,6 +193,11 @@ namespace Game
         private void ShowSkillBattle()
         {
             var user = GameProcessor.Inst.User;
+
+            if (user == null)
+            {
+                return;
+            }
 
             for (int i = 0; i < AllEquipSkills.Length; i++)
             {

@@ -181,6 +181,7 @@ namespace Game
 
             for (int i = 0; i < list.Count; i++)
             {
+
                 int sid = list[i].SkillId;
 
                 SkillPanel skillPanel = skills.Where(m => m.SkillId == sid).FirstOrDefault();
@@ -191,7 +192,9 @@ namespace Game
                     from = skills.Where(m => m.SkillId == skillPanel.Config.FromId).FirstOrDefault();
                 }
 
-                SkillState skill = new SkillState(this, skillPanel, from, i, 0);
+                SkillData sd = sid < 4000 ? list[i] : null;  //3系职业，使用的时候自动加经验
+
+                SkillState skill = new SkillState(this, skillPanel, from, sd, i, 0);
                 SelectSkillList.Add(skill);
             }
 

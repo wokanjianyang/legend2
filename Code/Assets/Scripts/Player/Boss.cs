@@ -12,8 +12,6 @@ namespace Game
         public int BossId;
         BossConfig Config { get; set; }
 
-        QualityConfig QualityConfig { get; set; }
-
         private int[] excludeSkillList = { };
         //private int[] excludeSuitList = { 6 };
 
@@ -26,7 +24,6 @@ namespace Game
             this.RuleType = ruleType;
 
             this.Config = BossConfigCategory.Instance.Get(BossId);
-            this.QualityConfig = QualityConfigCategory.Instance.Get(Quality);
 
             this.Init();
             this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
@@ -163,11 +160,8 @@ namespace Game
             double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
             double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
 
-            burstRise = burstRise * QualityConfig.DropRate;
-            qualityRise = qualityRise * QualityConfig.QualityRate;
-
-            long exp = (long)(Config.Exp * QualityConfig.ExpRate * expRise);
-            long gold = (long)(Config.Gold * QualityConfig.GoldRate * goldRise);
+            long exp = (long)(Config.Exp * expRise);
+            long gold = (long)(Config.Gold  * goldRise);
 
             List<Item> items = new List<Item>();
 

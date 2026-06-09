@@ -47,28 +47,12 @@ namespace Game
             List<Item> items = new List<Item>();
 
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Legacy_Ticket, 300)); //传世卷
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Copy_Ticket, 6000)); //装备卷
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Boss_Ticket, 300)); //BOSS卷
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Level_Stone, 20000));  //羽毛
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Wing_Stone, 100));  //幻境劵
 
             //items.Add(ItemHelper.BuildMaterial(5001, 1000000)); //铜矿石
             //items.Add(ItemHelper.BuildMaterial(5002, 10000)); //黑铁石
             //items.Add(ItemHelper.BuildMaterial(5003, 300)); //皮肤碎片
 
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_EquipRefineStone, 999999999)); //铜矿石
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Red_Stone, 999)); //黑铁石
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Golden_Stone, 999)); //皮肤碎片
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Dark_Stone, 999)); //暗金精华
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Equip_Hundun, 999)); //混沌精华
-
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Exclusive_Golden, 999)); //传奇精华
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Exclusive_Dark, 999)); //不朽精华
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Stone_Set, 999)); //开孔石
-
-            //items.Add(ItemHelper.BuildMaterial(50000106, 10000)); //十六阶装备升阶石
-
-            //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecailEquipRefreshId, 99999)); //橙装精华
 
             //items.Add(ItemHelper.BuildItem(ItemType.Card, 2000010, 10, 5));
 
@@ -86,18 +70,6 @@ namespace Game
             //user.SaveArtifactLevel(180019, 1); //副本杀手
 
             //user.SaveArtifactLevel(180005, 10); //卖身契
-            //user.SaveArtifactLevel(180006, 10); //万界图
-            //user.SaveArtifactLevel(180007, 1); //破限
-            //user.SaveArtifactLevel(180008, 1); //魔法
-            //user.SaveArtifactLevel(180009, 1); //圣者
-            //user.SaveArtifactLevel(180011, 1); //锤子
-            //user.SaveArtifactLevel(180013, 1); //金蛟剪
-            //user.SaveArtifactLevel(180015, 1); //财富契约
-            //user.SaveArtifactLevel(180020, 1); //传世之源
-            //user.SaveArtifactLevel(180021, 1); //神戒之源
-            //user.SaveArtifactLevel(180030, 45); //极。卖身契
-            //user.SaveArtifactLevel(180033, 45); //极。BOSS
-            //user.SaveArtifactLevel(180035, 45); //极。魔法
 
             //user.Record.AddRecord(RecordType.AdReal, -800);
             //user.MagicGold.Data = 10000000000L;//10京金币
@@ -106,42 +78,11 @@ namespace Game
             //user.SaveItemMeterialCount(ItemHelper.SpecialId_Card_Stone, 10000000);
             //user.Cycle.Data = 2;
             //items.Add(ItemHelper.BuildMaterial(10001,1)); //时装
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 32, 1, 1)); //
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 33, 1, 1)); //
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 41, 1, 8)); //
 
-
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 26, 1, 1));  //神技
-
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 28, 1, 6));  //魂骨
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 29, 1, 3));  //11技能
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 42, 1, 1)); //12技能自选
-
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 106, 1, 3)); //白银
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 107, 1, 1)); //黄金
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 108, 1, 1)); //钻石
-
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 109, 1, 5));  //战士经验
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 110, 1, 1)); //法师经验
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 111, 1, 1)); //道士经验
-
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 112, 1, 10));  //战士输出
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 113, 1, 1)); //法师输出
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 114, 1, 1)); //道士输出
-
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 127, 1, 1)); //金装自选
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 128, 1, 1)); //暗金自选
-
-            //items.AddRange(AddGoldenEquip());
-            //items.AddRange(AddExclusiveDaoshi());
-            //items.AddRange(AddRedEquip1());
-
-            //user.SaveItemMeterialCount(2100001, 11125); //英灵关羽
-            //user.SaveItemMeterialCount(2100002, 11125); //英灵刘备
-            //user.SaveItemMeterialCount(2100003, 11125); //英灵诸葛
-            //user.SaveItemMeterialCount(2100004, 11125); //英灵关羽
-            //user.SaveItemMeterialCount(2100005, 11125); //英灵关羽
-            //user.SaveItemMeterialCount(2100006, 11125); //英灵关羽
+            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 1, 1, 1)); //1-9技能自选
+            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 10, 1, 1)); //新手宠物礼包
+            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 11, 1, 1)); //四格碎片包
+            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 12, 1, 1)); //区域1-4珍品材料自选
 
             foreach (var item in items)
             {

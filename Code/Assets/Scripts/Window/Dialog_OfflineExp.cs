@@ -52,7 +52,7 @@ namespace Game
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Level_Stone, 20000));  //羽毛
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_Wing_Stone, 100));  //幻境劵
 
-            //items.Add(ItemHelper.BuildMaterial(5003, 1000000)); //铜矿石
+            //items.Add(ItemHelper.BuildMaterial(5001, 1000000)); //铜矿石
             //items.Add(ItemHelper.BuildMaterial(5002, 10000)); //黑铁石
             //items.Add(ItemHelper.BuildMaterial(5003, 300)); //皮肤碎片
 
@@ -100,7 +100,7 @@ namespace Game
             //user.SaveArtifactLevel(180035, 45); //极。魔法
 
             //user.Record.AddRecord(RecordType.AdReal, -800);
-            //user.MagicGold.Data = 100000000000000000L;//10京金币
+            //user.MagicGold.Data = 10000000000L;//10京金币
 
             //user.SaveItemMeterialCount(1999994, 100000);
             //user.SaveItemMeterialCount(ItemHelper.SpecialId_Card_Stone, 10000000);

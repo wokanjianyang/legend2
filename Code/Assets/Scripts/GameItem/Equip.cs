@@ -163,13 +163,8 @@ namespace Game
             if (level > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(level);
-                basePercent += refineConfig.GetBaseAttrPercent(level);
-                qualityPercent += refineConfig.GetQualityAttrPercent(level);
-            }
-            else if (Part >= 21 && Quality >= 7)
-            {
-                basePercent = 100;
-                qualityPercent = 100 * Layer;
+                basePercent += refineConfig.GetRisePercent(level, 1);
+                qualityPercent += refineConfig.GetRisePercent(level, 2);
             }
 
             //根据基础属性和词条属性，计算总属性

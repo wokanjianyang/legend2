@@ -17,6 +17,8 @@ namespace Game
 
         public double Damage { get; set; }
 
+        public double SrcVue { get; set; }
+
         public double CD { get; set; }
 
         public float TotalTime { get; set; } = 0;
@@ -27,7 +29,7 @@ namespace Game
 
         private bool Active = true;
 
-        public Effect_State(APlayer player, Effect_Data data, float cd, double damage)
+        public Effect_State(APlayer player, Effect_Data data, float cd, double damage,double srcVue)
         {
             this.Owner = player;
             this.Data = data;
@@ -35,6 +37,7 @@ namespace Game
             this.Data = data;
             this.CD = cd;
             this.Damage = damage;
+            this.SrcVue = srcVue;
         }
 
         public void AddBuff()

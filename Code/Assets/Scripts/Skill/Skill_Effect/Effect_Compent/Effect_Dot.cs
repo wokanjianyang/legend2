@@ -28,8 +28,7 @@ namespace Game
             }
             else
             {
-                double atrVue = state.Owner.AttributeBonus.CalBattleTotalAttr((AttributeEnum)atrId);
-                damage = atrVue * vue / 100.0;
+                damage = state.SrcVue * vue / 100.0;
             }
 
             DamageResult dr = new DamageResult(fromId, damage, MsgType.Dot, 0);

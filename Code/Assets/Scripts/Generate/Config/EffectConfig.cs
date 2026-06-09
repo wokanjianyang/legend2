@@ -93,17 +93,20 @@ namespace Game
 		/// <summary>类型</summary>
 		[ProtoMember(6)]
 		public int Type { get; set; }
-		/// <summary>来源属性</summary>
+		/// <summary>SrcType</summary>
 		[ProtoMember(7)]
+		public int SrcType { get; set; }
+		/// <summary>来源属性</summary>
+		[ProtoMember(8)]
 		public int SrcAtrId { get; set; }
 		/// <summary>施法目标</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int TargetType { get; set; }
 		/// <summary>目标属性</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int TarAtrId { get; set; }
 		/// <summary>备注</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public string Des { get; set; }
 
 	}

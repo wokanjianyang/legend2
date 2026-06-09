@@ -267,6 +267,9 @@ namespace Game
                     int duration = effectParams[2];
                     int max = effectParams[3];
 
+                    if (vue < 0) {
+                        vue = Percent;
+                    }
 
                     AddEffect(effectId, vue, duration, max);
                 }

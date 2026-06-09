@@ -30,25 +30,10 @@ namespace Game
 
     public partial class EquipRefineConfig
     {
-
-        public long GetFee(long level)
+        public long GetRisePercent(long level, int type)
         {
-            return 0;
-        }
-
-        public long GetBaseAttrPercent(long level)
-        {
-            return level;
-        }
-
-        public long GetQualityAttrPercent(long level)
-        {
-            return Math.Max(0, level - 49);
-        }
-
-        public long GetStengthPercent(long level)
-        {
-            return Math.Max(0, level - 399);
+            long riseLevel = level - this.RequireLevel[type - 1];
+            return riseLevel * this.AtrVueList[type - 1];
         }
     }
 

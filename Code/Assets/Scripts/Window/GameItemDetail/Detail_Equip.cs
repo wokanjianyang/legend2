@@ -128,8 +128,8 @@ namespace Game
             if (refineLevel > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
-                basePercent = refineConfig.GetBaseAttrPercent(refineLevel);
-                qualityPercent = refineConfig.GetQualityAttrPercent(refineLevel);
+                basePercent = refineConfig.GetRisePercent(refineLevel, 1);
+                qualityPercent = refineConfig.GetRisePercent(refineLevel, 2);
             }
             else if (equip.Part >= 21 && equip.Quality >= 7)
             {

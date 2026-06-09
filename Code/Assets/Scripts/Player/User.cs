@@ -1480,20 +1480,6 @@ namespace Game
             LegacyLayer[keyId].Data = layer;
         }
 
-        public long GetRefineStrenthPercetn(int position)
-        {
-            long refineLevel = GetRefineLevel(position);
-
-            if (refineLevel <= 0)
-            {
-                return 0;
-            }
-
-            long percent = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel).GetStengthPercent(refineLevel);
-
-            return percent;
-        }
-
         public long GetRingLevel(int ringId)
         {
             if (!RingData.ContainsKey(ringId))

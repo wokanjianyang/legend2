@@ -41,6 +41,7 @@ namespace Game
 
             APlayer target;
             Effect_Manager manger;
+            double srcVue = 0;
 
             if (config.TargetType == (int)EffectCompentTarget.Enemy)
             {
@@ -55,11 +56,23 @@ namespace Game
                 manger = attcher.EffectManager;
             }
 
+            if (config.SrcAtrId > 0)
+            {
+                if (config.SrcType == 1)
+                {
+                    srcVue = attcher.AttributeBonus.CalBattleTotalAttr((AttributeEnum)config.SrcAtrId);
+                }
+                else
+                {
+                    srcVue = enemy.AttributeBonus.CalBattleTotalAttr((AttributeEnum)config.SrcAtrId);
+                }
+            }
+
             int key = data.FromId;
 
             if (!manger.StateDict.ContainsKey(key))
             {
-                manger.StateDict[key] = new Effect_State(target, data, cd, damage);
+                manger.StateDict[key] = new Effect_State(target, data, cd, damage, srcVue);
             }
 
             Effect_State state = manger.StateDict[key];

@@ -11,6 +11,8 @@ namespace Game
     {
         [Title("基础")]
         public Text Txt_Name;
+
+        public Button Btn_Level;
         public Text Txt_Level;
         public Text Txt_CD;
         public Text Txt_Des;
@@ -40,6 +42,8 @@ namespace Game
             tList = Tf_Talent.GetComponentsInChildren<Item_Skill_Rune>().ToList();
             rList = Tf_Rune.GetComponentsInChildren<Item_Skill_Rune>().ToList();
             sList = Tf_Suit.GetComponentsInChildren<Item_Skill_Rune>().ToList();
+
+            this.Btn_Level.onClick.AddListener(OnClick_Preview_Level);
         }
 
         // Start is called before the first frame update
@@ -136,7 +140,8 @@ namespace Game
 
             Tg_Recovery.isOn = sd.Recovery;
 
-            this.Txt_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
+            //this.Txt_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
+            this.Txt_Level.text = string.Format("LV:{0} (预览)", SkillPanel.Level);
             this.Txt_CD.text = string.Format("CD：{0}秒", SkillPanel.CD);
             this.Txt_Dis.text = string.Format("距离：{0}", SkillPanel.Dis);
             this.Txt_Des.text = SkillPanel.Desc;
@@ -194,6 +199,13 @@ namespace Game
 
             list.Add(this.SkillPanel.SkillId);
             GameProcessor.Inst.EventCenter.Raise(new SkillUpEvent());
+        }
+
+        public void OnClick_Preview_Level()
+        {
+            View_Skill view = this.GetComponentInParent<View_Skill>();
+
+            view.ShowLevelInfo(this.SkillPanel.Config, this.SkillPanel.Level);
         }
 
         //public void Click_UpLevel()

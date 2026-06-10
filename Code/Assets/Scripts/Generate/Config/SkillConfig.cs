@@ -162,11 +162,20 @@ namespace Game
 		/// <summary>伤害加成</summary>
 		[ProtoMember(29)]
 		public int DamageIncrea { get; set; }
-		/// <summary>附带效果</summary>
+		/// <summary>等级增加的属性id</summary>
 		[ProtoMember(30)]
+		public int[] RiseId { get; set; }
+		/// <summary>增加的值</summary>
+		[ProtoMember(31)]
+		public int[] RiseVue { get; set; }
+		/// <summary>等级增加的属性值</summary>
+		[ProtoMember(32)]
+		public int[] RiseRequireLevel { get; set; }
+		/// <summary>附带效果</summary>
+		[ProtoMember(33)]
 		public string[] EffectList { get; set; }
 		/// <summary>升级经验</summary>
-		[ProtoMember(31)]
+		[ProtoMember(34)]
 		public int Exp { get; set; }
 
 	}

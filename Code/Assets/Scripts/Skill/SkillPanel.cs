@@ -195,10 +195,7 @@ namespace Game
             int talentSpeed = talentList.Select(m => m.Speed).Sum();
 
             this.Damage += skillData.SkillConfig.Damage + runeDamage + suitDamage + talentDamage + levelDamage;
-            this.Damage = (int)((Damage * (100 + rise)) / 100);
-
             this.Percent += skillData.SkillConfig.Percent + runePercent + suitPercent + talentPercent + levelPercent;
-            this.Percent = (int)((Percent * (100 + rise)) / 100);
 
             this.IgnoreDef += skillData.SkillConfig.IgnoreDef + runeIgnoreDef + suitIgnoreDef + talentIgnoreDef;
             this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis + talentDis;
@@ -222,6 +219,68 @@ namespace Game
             this.FinalIncrea = 0 + runeFinalIncrea + suitFinalIncrea + talentFinalIncrea;
 
             this.Area = EnumHelper.FromString<AttackGeometryType>(skillData.SkillConfig.Area);
+
+            //等级加成
+            if (Config.RiseId != null)
+            {
+                for (int i = 0; i < Config.RiseId.Length; i++)
+                {
+                    int rv = Config.RiseRequireLevel[i];
+
+                    int riseId = Config.RiseId[i];
+                    int riseVue = Config.RiseVue[i];
+
+                    if (Level >= rv)
+                    {
+                        switch (riseId)
+                        {
+                            case 1:
+                                this.Percent += riseVue;
+                                break;
+                            case 2:
+                                this.Damage += riseVue;
+                                break;
+                            case 3:
+                                this.Duration += riseVue;
+                                break;
+                            case 4:
+                                this.EnemyMax += riseVue;
+                                break;
+                            case 5:
+                                this.Row += riseVue;
+                                break;
+                            case 6:
+                                this.Column += riseVue;
+                                break;
+                            case 7:
+                                this.Speed += riseVue;
+                                break;
+                            case 8:
+                                this.CD += riseVue;
+                                break;
+                            case 9:
+                                this.Dis += riseVue;
+                                break;
+                            case 10:
+                                this.AttrIncrea += riseVue;
+                                break;
+                            case 11:
+                                this.FinalIncrea += riseVue;
+                                break;
+                            case 12:
+                                this.CritRate += riseVue;
+                                break;
+                            case 13:
+                                this.DeadlyRate += riseVue;
+                                break;
+                        }
+                    }
+                }
+            }
+
+            //精通的额外加成
+            this.Damage = (int)((Damage * (100 + rise)) / 100);
+            this.Percent = (int)((Percent * (100 + rise)) / 100);
 
             //技能属性
             if (SkillId == 1001)
@@ -267,7 +326,8 @@ namespace Game
                     int duration = effectParams[2];
                     int max = effectParams[3];
 
-                    if (vue < 0) {
+                    if (vue < 0)
+                    {
                         vue = Percent;
                     }
 
@@ -309,6 +369,8 @@ namespace Game
 
 
         }
+
+
 
         private void AddEffect(int effectId, double vue, int duration, int max)
         {

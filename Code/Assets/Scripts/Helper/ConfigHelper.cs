@@ -127,5 +127,7 @@ namespace Game
         public const int EnvTest = 0;  //0 不测试 ，1 测试伤害  2测试爆率
 
         public const int OfflineTime = 60 * 2;
+
+        public const int SkillBoxExp = 500;
     }
 }

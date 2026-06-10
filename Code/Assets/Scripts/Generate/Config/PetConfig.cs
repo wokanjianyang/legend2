@@ -93,6 +93,12 @@ namespace Game
 		/// <summary>CardVueList</summary>
 		[ProtoMember(6)]
 		public int[] CardVueList { get; set; }
+		/// <summary>Perk‌AtrIdList</summary>
+		[ProtoMember(7)]
+		public int[] Perk‌AtrIdList { get; set; }
+		/// <summary>Perk‌AtrVueList</summary>
+		[ProtoMember(8)]
+		public double[] Perk‌AtrVueList { get; set; }
 
 	}
 }

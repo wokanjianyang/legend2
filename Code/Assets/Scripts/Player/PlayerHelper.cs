@@ -35,17 +35,18 @@ namespace Game
             {nameof(AttributeEnum.ExpIncrea), "经验加成" },
             {nameof(AttributeEnum.BurstIncrea), "爆率加成" },
             {nameof(AttributeEnum.GoldIncrea), "金币加成" },
+            {nameof(AttributeEnum.QualityIncrea), "品质加成" },
             {nameof(AttributeEnum.GoldKillIncrea), "杀敌金币" },
             {nameof(AttributeEnum.ExpKillIncrea), "杀敌经验" },
             {nameof(AttributeEnum.SecondExp), "经验收益" },
             {nameof(AttributeEnum.SecondGold), "金币收益" },
 
 
-            {nameof(AttributeEnum.RestoreHp), "固定回血" },
-            {nameof(AttributeEnum.RestoreHpPercent), "比例回血" },
-            {nameof(AttributeEnum.QualityIncrea), "品质加成" },
-            {nameof(AttributeEnum.Miss), "闪避" },
+
             {nameof(AttributeEnum.Accuracy), "命中" },
+            {nameof(AttributeEnum.Miss), "闪避" },
+            {nameof(AttributeEnum.RestoreIncrea), "回复加成" },
+
             {nameof(AttributeEnum.Strong), "韧性" },
             {nameof(AttributeEnum.Protect), "绝对减伤" },
             {nameof(AttributeEnum.BurstMul), "多次掉落" },

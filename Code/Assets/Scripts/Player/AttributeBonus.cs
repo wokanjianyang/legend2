@@ -144,6 +144,7 @@ namespace Game
                 case AttributeEnum.ExclusiveDamage:
                 case AttributeEnum.Speed:
                 case AttributeEnum.DecreRestore:
+                case AttributeEnum.RestoreIncrea:
                     total = CalBattleSingleAttr(attrType);
                     break;
                 default:

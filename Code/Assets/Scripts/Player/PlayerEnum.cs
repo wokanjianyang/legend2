@@ -31,6 +31,7 @@ namespace Game
         MoveSpeed = 12, //移动速度
         Accuracy = 13, //命中
         Miss = 14, //闪避
+        RestoreIncrea = 15, //回复加成-对吸血和治疗都有效
 
         CritRate = 21, //暴击率
         CritDamage = 22, //暴害增加
@@ -52,8 +53,7 @@ namespace Game
 
         SecondExp = 61, //每秒经验收益
         SecondGold = 62, //每秒金币收益
-        RestoreHp = 63, //固定回血数值
-        RestoreHpPercent = 64,//百分比回血数值
+
 
         GoldIncrea = 81, //金币加成
         ExpIncrea = 82, //经验加成

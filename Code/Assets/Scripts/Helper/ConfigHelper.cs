@@ -114,7 +114,6 @@ namespace Game
         public const int Infinit_Max = 6000;
 
         public static string[] RoleName = { "战士", "法师", "道士" };
-        public static string[] PetName = { "战魂", "法魂", "道魂" };
         public const int PetMax = 2;
 
         public const int MaxWorld = 800;
@@ -127,6 +126,6 @@ namespace Game
 
         public const int EnvTest = 0;  //0 不测试 ，1 测试伤害  2测试爆率
 
-        public const int OfflineTime = 60 * 5;
+        public const int OfflineTime = 60 * 2;
     }
 }

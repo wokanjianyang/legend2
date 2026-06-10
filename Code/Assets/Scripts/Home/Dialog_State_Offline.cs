@@ -41,7 +41,7 @@ public class Dialog_State_Offline : MonoBehaviour
 
             MapConfig config = MapConfigCategory.Instance.Get(mapId);
 
-            Txt_Content.text = string.Format("记录离线副本为：{0}，\n300秒杀怪效率为：{1}个", config.Name, total);
+            Txt_Content.text = string.Format("记录离线副本为：{0}，\n" + ConfigHelper.OfflineTime + "秒杀怪效率为：{1}个", config.Name, total);
         }
         else
         {

@@ -470,10 +470,11 @@ namespace Game
         public void OnRestore(int fromId, double hp)
         {
             double decre = this.AttributeBonus.CalBattleTotalAttr(AttributeEnum.DecreRestore);
-            decre = Math.Min(100, decre);
+            double incre = this.AttributeBonus.CalBattleTotalAttr(AttributeEnum.RestoreIncrea);
 
-            hp = hp * (100 - decre) / 100.0;
+            double rise = Math.Max(0, 100 + incre - decre);
 
+            hp = hp * rise / 100.0;
             this.Logic.OnRestore(hp);
         }
 

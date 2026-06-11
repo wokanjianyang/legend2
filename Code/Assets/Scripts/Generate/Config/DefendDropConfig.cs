@@ -81,9 +81,9 @@ namespace Game
 		/// <summary>Layer</summary>
 		[ProtoMember(2)]
 		public int Layer { get; set; }
-		/// <summary>DropId</summary>
+		/// <summary>DropBaseId</summary>
 		[ProtoMember(3)]
-		public int DropId { get; set; }
+		public int DropBaseId { get; set; }
 		/// <summary>Name</summary>
 		[ProtoMember(4)]
 		public string Name { get; set; }

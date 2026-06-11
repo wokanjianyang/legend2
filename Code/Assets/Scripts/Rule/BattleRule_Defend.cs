@@ -18,7 +18,8 @@ public class Battle_Defend : ABattleRule
 
     private long PauseCount = 0;
 
-    private int[] MonsterList = new int[] { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1 };
+    private int[] MonsterList = new int[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, };
+    private int[] MonsterList1 = new int[] { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1 };
 
     protected override RuleType ruleType => RuleType.Defend;
 
@@ -73,10 +74,13 @@ public class Battle_Defend : ABattleRule
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "第" + this.Progress + "波发起了进攻" });
             }
 
+
             //Load All
-            for (int i = 0; i < MonsterList.Length; i++)
+            int[] ml = this.Progress % 10 == 0 ? MonsterList1 : MonsterList;
+
+            for (int i = 0; i < ml.Length; i++)
             {
-                var enemy = new Monster_Defend(this.Level, this.Progress, MonsterList[i]);
+                var enemy = new Monster_Defend(this.Level, this.Progress, ml[i]);
                 GameProcessor.Inst.PlayerManager.LoadMonsterDefend(enemy);
             }
 

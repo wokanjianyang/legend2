@@ -10,7 +10,7 @@ namespace Game
 
         public DefendDropConfig GetConfig(int layer, int dropId)
         {
-            return this.list.Where(m => m.DropId == dropId && m.Layer == layer).FirstOrDefault();
+            return this.list.Where(m => m.DropBaseId == dropId && m.Layer == layer).FirstOrDefault();
         }
 
         public List<int> GetAllDropIdList(int layer)
@@ -39,7 +39,7 @@ namespace Game
 
                 if (rd <= endRate)
                 {
-                    return dropConfigs[i].DropId;
+                    return dropConfigs[i].DropBaseId;
                 }
             }
 
@@ -54,11 +54,11 @@ namespace Game
 
             foreach (DefendDropConfig config in configs)
             {
-                int total = excludeList.Where(m => m == config.DropId).Count();
+                int total = excludeList.Where(m => m == config.DropBaseId).Count();
 
-                if (config.DropId >= 180001 && config.DropId <= 180100) //ÉñÆ÷
+                if (config.DropBaseId >= 180001 && config.DropBaseId <= 180100) //ÉñÆ÷
                 {
-                    ArtifactConfig artifactConfig = ArtifactConfigCategory.Instance.GetByItemId(config.DropId);
+                    ArtifactConfig artifactConfig = ArtifactConfigCategory.Instance.GetByItemId(config.DropBaseId);
                     int atLevel = GameProcessor.Inst.User.GetArtifactLevel(artifactConfig.Id);
 
                     if (total + atLevel >= artifactConfig.MaxCount)

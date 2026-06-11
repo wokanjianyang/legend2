@@ -102,8 +102,11 @@ namespace Game
 		/// <summary>ItemCountList</summary>
 		[ProtoMember(9)]
 		public int[] ItemCountList { get; set; }
-		/// <summary>Des</summary>
+		/// <summary>堆叠数量</summary>
 		[ProtoMember(10)]
+		public long MaxNum { get; set; }
+		/// <summary>Des</summary>
+		[ProtoMember(11)]
 		public string Des { get; set; }
 
 	}

@@ -111,11 +111,11 @@ namespace Game
 
             if (Type == 3)
             {
-                SkillIdList = new int[] { 2002, 2007 };
+                SkillIdList = new int[] { 2002, 1004, 2007 };
             }
             else if (Type == 2)
             {
-                SkillIdList = new int[] { 2002 };
+                SkillIdList = new int[] { 2002, 2003 };
             }
             else
             {

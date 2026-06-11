@@ -31,6 +31,11 @@ namespace Game
             return this.Config.Des;
         }
 
+        public override long GetMaxNum()
+        {
+            return this.Config.MaxNum;
+        }
+
         public override ShowType GetShowType()
         {
             if (Config.GiftType == 1)

@@ -153,10 +153,6 @@ namespace Game
         public int Rate { get; set; }
     }
 
-    public class OpenDefendEvent : SDD.Events.Event
-    {
-    }
-
     public class DefendStartEvent : SDD.Events.Event
     {
     }

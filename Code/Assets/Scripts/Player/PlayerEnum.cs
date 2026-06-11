@@ -27,6 +27,7 @@ namespace Game
         Lucky = 7, //幸运
         Curse‌ = 8, //诅咒
 
+        Cd = 10, //技能冷却
         Speed = 11, //攻速
         MoveSpeed = 12, //移动速度
         Accuracy = 13, //命中
@@ -50,9 +51,6 @@ namespace Game
         Protect = 52,//免疫
         BurstMul = 53,//连爆
         Miss2 = 54,//二次闪避
-
-        SecondExp = 61, //每秒经验收益
-        SecondGold = 62, //每秒金币收益
 
 
         GoldIncrea = 81, //金币加成

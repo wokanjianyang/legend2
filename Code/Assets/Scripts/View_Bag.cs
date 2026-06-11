@@ -182,7 +182,8 @@ namespace Game
             AttributeEnum[] list = new AttributeEnum[] {
             AttributeEnum.HP, AttributeEnum.Def
             ,AttributeEnum.PhyAtk,  AttributeEnum.MagicAtk
-            ,AttributeEnum.SpiritAtk, AttributeEnum.Lucky
+            ,AttributeEnum.SpiritAtk, AttributeEnum.Cd
+            ,AttributeEnum.Lucky, AttributeEnum.Curse
             ,AttributeEnum.DamageIncrea,   AttributeEnum.DamageResist
             ,AttributeEnum.CritRate,  AttributeEnum.CritDamage
             ,AttributeEnum.Speed,AttributeEnum.MoveSpeed

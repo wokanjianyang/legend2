@@ -157,7 +157,7 @@ namespace Game
 
                 if (SelfPlayer.Camp == PlayerType.Hero)
                 {
-                    if (SelfPlayer.RuleType == RuleType.Normal || SelfPlayer.RuleType == RuleType.Legacy)
+                    if (SelfPlayer.RuleType != RuleType.MainStage)
                     {
                         //自动复活
                         StartCoroutine(this.AutoResurrection());

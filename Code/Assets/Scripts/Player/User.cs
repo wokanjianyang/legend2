@@ -199,9 +199,9 @@ namespace Game
 
         public IDictionary<int, int> RecordData { get; set; } = new Dictionary<int, int>();
 
-        public DefendData DefendData { get; set; }
+        public Defend_Data DefendData { get; set; } = new Defend_Data();
 
-        public InfiniteData InfiniteData { get; set; }
+        public InfiniteData InfiniteData { get; set; } = new InfiniteData();
 
         public HeroPhatomData HeroPhatomData { get; set; }
 

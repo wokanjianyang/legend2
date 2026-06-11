@@ -21,7 +21,6 @@ namespace Game
         private string[] names = new string[] { "普通" };  //, "困难", "噩梦", "地狱", "深渊", "混沌", "虚无", "寂灭"
 
         private int Level = 0;
-        private int Type = 0;
 
         // Update is called once per frame
         void Start()
@@ -41,7 +40,7 @@ namespace Game
         {
             User user = GameProcessor.Inst.User;
 
-            long p = user.GetAchievementProgeress(AchievementProType.Defend) - (this.Level - 1) * 100;
+            //long p = user.GetAchievementProgeress(AchievementProType.Defend) - (this.Level - 1) * 100;
 
             ////p = 0;
             //if (p >= 100)
@@ -62,10 +61,19 @@ namespace Game
             //    Txt_Start.text = "挑战";
             //    Btn_Start.gameObject.SetActive(false);
             //}
-            this.Txt_Progress.text = "当前进度：" + p + "层";
 
             DefendRecord record = user.DefendData.GetCurrentRecord(this.Level);
-            if (record == null)
+
+            if (record.Progress > 100)
+            {
+                this.Txt_Progress.text = "完美通关";
+            }
+            else
+            {
+                this.Txt_Progress.text = "当前进度：" + record.Progress + "层";
+            }
+
+            if (record.Count <= 0)
             {
                 this.Txt_Over.gameObject.SetActive(true);
                 Btn_Start.gameObject.SetActive(false);
@@ -87,20 +95,17 @@ namespace Game
             User user = GameProcessor.Inst.User;
             DefendRecord record = user.DefendData.GetCurrentRecord(this.Level);
 
-            if (record == null || record.Count.Data <= 0)
+            if (record == null || record.Count <= 0)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有了挑战次数", ToastType = ToastTypeEnum.Failure });
                 return;
             }
 
-            record.Count.Data--;
-
-            //this.GetComponentInParent<Dialog_Defend>().gameObject.SetActive(false);
+            record.Count--;
 
             GameProcessor.Inst.EventCenter.Raise(new ChangePageEvent() { Page = ViewPageType.View_Battle });
 
-            int mapId = Level;
-            GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Defend, MapId = mapId });
+            GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Defend, MapId = Level });
 
             //if (Type < 3)
             //{

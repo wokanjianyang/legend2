@@ -73,7 +73,7 @@ namespace Game
 
         private void OnClick_Defend()
         {
-            this.ItemDefend.gameObject.SetActive(true);
+            this.ItemDefend.Show();
         }
         public void HideItem()
         {

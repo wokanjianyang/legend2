@@ -208,7 +208,6 @@ namespace Game
             DateTime saveDate = new DateTime(user.DataDate);
             if (saveDate.Day < DateTime.Now.Day || saveDate.Month < DateTime.Now.Month || saveDate.Year < DateTime.Now.Year)
             {
-                user.DefendData.Refresh();
                 user.BabelCount.Data = ConfigHelper.BabelCount;
 
                 //user.HeroPhatomData.Refresh();

@@ -17,6 +17,7 @@ namespace Game
             {nameof(AttributeEnum.SpiritAtk), "道术攻击" },
 
             {nameof(AttributeEnum.DefIgnore), "忽视防御" },
+            {nameof(AttributeEnum.Cd), "冷却" },
             {nameof(AttributeEnum.Speed), "攻速" },
             {nameof(AttributeEnum.MoveSpeed), "移动速度" },
             {nameof(AttributeEnum.Lucky), "幸运" },
@@ -38,8 +39,6 @@ namespace Game
             {nameof(AttributeEnum.QualityIncrea), "品质加成" },
             {nameof(AttributeEnum.GoldKillIncrea), "杀敌金币" },
             {nameof(AttributeEnum.ExpKillIncrea), "杀敌经验" },
-            {nameof(AttributeEnum.SecondExp), "经验收益" },
-            {nameof(AttributeEnum.SecondGold), "金币收益" },
 
 
 

@@ -51,11 +51,7 @@ namespace Game
 
         public void HeroAttrChange(HeroAttrChangeEvent e)
         {
-
-
             User user = GameProcessor.Inst.User;
-
-            Debug.Log("HeroAttrChangeEvent atk:" + user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyAtk));
 
             this.SetAttr(user);  //…Ë÷√ Ù–‘÷µ
         }

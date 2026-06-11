@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Game
 {
 
-    public class DefendData
+    public class Defend_Data
     {
 
         public long Ticket { get; set; }
@@ -19,67 +19,56 @@ namespace Game
 
         public Dictionary<int, List<List<int>>> DropDict = new Dictionary<int, List<List<int>>>();
 
-        public DefendRecord GetCurrentRecord(int level)
+        public void Check()
         {
-            CurrentDict.TryGetValue(level, out DefendRecord Current);
-            return Current;
-        }
+            long nt = DateTime.Today.Ticks;
 
-        public void BuildCurrent()
-        {
-            for (int level = 1; level <= ConfigHelper.DefendMaxLevel; level++)
+            if (nt > Ticket)
             {
-                CurrentDict.TryGetValue(level, out DefendRecord Current);
+                //Debug.Log("nt:" + nt + "  Ticket:" + Ticket);
 
-                if (Current != null && Current.Count.Data <= 0)
+                Ticket = nt;
+
+                CurrentDict.Clear();
+
+                for (int i = 1; i <= ConfigHelper.DefendMaxLevel; i++)
                 {
-                    Current = null;
-                    CurrentDict.Remove(level);
+                    BuildNewData(i);
                 }
-
-                if (!CountDict.ContainsKey(level))
-                {
-                    MagicData data = new MagicData();
-                    data.Data = 1;
-                    CountDict[level] = data;
-                }
-
-                CountDict.TryGetValue(level, out MagicData Count);
-                if (Current == null && Count.Data > 0)
-                {
-                    Current = new DefendRecord();
-                    Current.Progress.Data = 1;
-                    Current.Hp.Data = ConfigHelper.DefendHp;
-                    Current.Count.Data = 10;
-                    CurrentDict[level] = Current;
-
-                    Count.Data--;
-
-                    if (DropDict.TryGetValue(level, out List<List<int>> dropList))
-                    {
-                        if (dropList.Count > 0)
-                        {
-                            dropList.RemoveAt(0);
-                        }
-                    }
-                }
-
             }
         }
 
-        public void Refresh()
+        public DefendRecord GetCurrentRecord(int level)
         {
-            CurrentDict.Clear();
-
-            foreach (var Count in CountDict)
+            if (!CurrentDict.ContainsKey(level))
             {
-                Count.Value.Data = 1;
+                BuildNewData(level);
+            }
+
+            return CurrentDict[level];
+        }
+
+
+        private void BuildNewData(int level)
+        {
+            DefendRecord record = new DefendRecord();
+            record.Init();
+
+            CurrentDict[level] = record;
+
+            if (DropDict.TryGetValue(level, out List<List<int>> dropList))
+            {
+                if (dropList.Count > 0)
+                {
+                    dropList.RemoveAt(0);
+                }
             }
         }
 
         public void Complete()
         {
-            this.CurrentDict.Remove(AppHelper.DefendLevel);
+            DefendRecord record = this.CurrentDict[AppHelper.DefendLevel];
+            record.Count = 0;
         }
 
         public int GetDropId(int layer, int progress)
@@ -161,12 +150,19 @@ namespace Game
 
     public class DefendRecord
     {
-        public MagicData Progress { get; set; } = new MagicData();
+        public int Progress { get; set; } = 0;
 
-        public MagicData Hp { get; set; } = new MagicData();
+        public int Hp { get; set; } = 0;
 
-        public MagicData Count { get; set; } = new MagicData();
+        public int Count { get; set; } = 0;
 
         public Dictionary<int, int> BuffDict = new Dictionary<int, int>();
+
+        public void Init()
+        {
+            this.Progress = 1;
+            this.Hp = ConfigHelper.DefendHp;
+            this.Count = 10;
+        }
     }
 }

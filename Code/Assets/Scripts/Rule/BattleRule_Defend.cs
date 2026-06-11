@@ -12,11 +12,11 @@ public class Battle_Defend : ABattleRule
     private bool Over = true;
 
     private int Level = 0;
-    private long Progress = 0;
+    private int Progress = 0;
 
     private const int MaxProgress = 100; //
 
-    private long PauseCount = 0;
+    private int PauseCount = 0;
 
     private int[] MonsterList = new int[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, };
     private int[] MonsterList1 = new int[] { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1 };
@@ -29,16 +29,16 @@ public class Battle_Defend : ABattleRule
         param.TryGetValue("hp", out object hp);
         param.TryGetValue("count", out object count);
 
-        this.Progress = (long)progress;
-        this.PauseCount = (long)count;
+        this.Progress = (int)progress;
+        this.PauseCount = (int)count;
         this.Level = AppHelper.DefendLevel;
 
-        this.LoadDefend((long)hp);
+        this.LoadDefend((int)hp);
     }
 
     private Defend defendPlayer = null;
 
-    private void LoadDefend(long hp)
+    private void LoadDefend(int hp)
     {
         this.defendPlayer = new Defend(hp);
         GameProcessor.Inst.PlayerManager.LoadDefend(this.defendPlayer);
@@ -111,8 +111,8 @@ public class Battle_Defend : ABattleRule
 
             DefendRecord record = user.DefendData.GetCurrentRecord(this.Level);
 
-            record.Progress.Data = this.Progress;
-            record.Hp.Data = (long)defendPlayer.HP;
+            record.Progress = this.Progress;
+            record.Hp = (int)defendPlayer.HP;
 
             return;
         }
@@ -189,7 +189,6 @@ public class Battle_Defend : ABattleRule
         var hero = GameProcessor.Inst.PlayerManager.GetHero();
         if (hero.HP == 0)
         {
-            GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
             GameProcessor.Inst.HeroDie(RuleType.Defend, 0);
         }
 

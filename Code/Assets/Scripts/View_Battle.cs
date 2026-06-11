@@ -119,9 +119,9 @@ namespace Game
                 }
 
                 Dictionary<string, object> param = new Dictionary<string, object>();
-                param.Add("progress", record.Progress.Data);
-                param.Add("hp", record.Hp.Data);
-                param.Add("count", record.Count.Data);
+                param.Add("progress", record.Progress);
+                param.Add("hp", record.Hp);
+                param.Add("count", record.Count);
 
                 GameProcessor.Inst.DelayAction(0.1f, () =>
                 {

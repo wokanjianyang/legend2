@@ -64,12 +64,12 @@ namespace Game
         public string Desc { get; set; }
 
         public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer)
-            : this(skillData, runeList, suitList, talentList, 0, isPlayer)
+            : this(skillData, runeList, suitList, talentList, 0, 0, isPlayer)
         {
 
         }
 
-        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, int rise, bool isPlayer)
+        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, int rise, double cd, bool isPlayer)
         {
             this.Config = skillData.SkillConfig;
             this.SkillId = skillData.SkillId;
@@ -201,8 +201,8 @@ namespace Game
             this.Dis += skillData.SkillConfig.Dis + runeDis + suitDis + talentDis;
             this.EnemyMax += skillData.SkillConfig.EnemyMax + runeEnemyMax + suitEnemyMax + talentEnemyMax;
 
-            int cd = Math.Min(100, runeCD + suitCD + talentCD);
-            this.CD = (float)(Math.Round(skillData.SkillConfig.CD * (100.0 - cd) / 100.0, 2));
+            cd = (cd + runeCD + suitCD + talentCD) / 100.0 + 1;
+            this.CD = (float)(Math.Round(skillData.SkillConfig.CD / cd, 2));
             this.Rate = 1;
             this.Duration = skillData.SkillConfig.Duration + runeDuration + suitDuration + talentDuration;
 

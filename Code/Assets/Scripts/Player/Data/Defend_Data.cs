@@ -65,12 +65,6 @@ namespace Game
             }
         }
 
-        public void Complete()
-        {
-            DefendRecord record = this.CurrentDict[AppHelper.DefendLevel];
-            record.Count = 0;
-        }
-
         public int GetDropId(int layer, int progress)
         {
             return GetDropIdList(layer)[progress - 1];
@@ -163,6 +157,11 @@ namespace Game
             this.Progress = 1;
             this.Hp = ConfigHelper.DefendHp;
             this.Count = 10;
+        }
+
+        public void Complete()
+        {
+            this.Count = 0;
         }
     }
 }

@@ -40,6 +40,8 @@ namespace Game
 
             List<SkillPanel> list = new List<SkillPanel>();
 
+            double cd = user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Cd);
+
             //先加载3个精通
             int[] experts = new int[] { 1006, 2006, 3006 };
             Dictionary<int, int> dictExpert = new Dictionary<int, int>();
@@ -52,7 +54,7 @@ namespace Game
                 SkillData skill = skills.Where(m => m.SkillId == sid).FirstOrDefault();
                 if (skill != null)
                 {
-                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), true);
+                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), 0, cd, true);
                     list.Add(skillPanel);
 
                     dictExpert[i] = (int)skillPanel.Percent;
@@ -65,7 +67,7 @@ namespace Game
                 if (skill.SkillConfig.Type != (int)SkillType.Expert)
                 {
                     int risePercent = dictExpert[skill.SkillConfig.Role - 1];
-                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), risePercent, true);
+                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), risePercent, cd, true);
 
                     list.Add(skillPanel);
                 }

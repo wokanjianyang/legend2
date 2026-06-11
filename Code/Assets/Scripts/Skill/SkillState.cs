@@ -151,7 +151,9 @@ namespace Game
 
         public bool IsCanUse()
         {
-            return (this.CD <= 0) && this.skillLogic.IsCanUse();
+            return (this.CD <= 0.02) && this.skillLogic.IsCanUse();  //·ÀÖ¹Îó²î
+
+            //return (this.CD <= 0) && this.skillLogic.IsCanUse();
         }
 
         public void RunCD(float time)

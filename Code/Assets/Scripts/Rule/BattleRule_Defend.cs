@@ -12,28 +12,24 @@ public class Battle_Defend : ABattleRule
     private bool Over = true;
 
     private int Level = 0;
-    private int Progress = 0;
 
     private const int MaxProgress = 100; //
-
-    private int PauseCount = 0;
 
     private int[] MonsterList = new int[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, };
     private int[] MonsterList1 = new int[] { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1 };
 
     protected override RuleType ruleType => RuleType.Defend;
 
+    private DefendRecord CurrentRecord = null;
+
     public Battle_Defend(Dictionary<string, object> param)
     {
-        param.TryGetValue("progress", out object progress);
-        param.TryGetValue("hp", out object hp);
-        param.TryGetValue("count", out object count);
+        User user = GameProcessor.Inst.User;
+        this.CurrentRecord = user.DefendData.GetCurrentRecord(AppHelper.DefendLevel);
 
-        this.Progress = (int)progress;
-        this.PauseCount = (int)count;
         this.Level = AppHelper.DefendLevel;
 
-        this.LoadDefend((int)hp);
+        this.LoadDefend(CurrentRecord.Hp);
     }
 
     private Defend defendPlayer = null;
@@ -60,9 +56,9 @@ public class Battle_Defend : ABattleRule
             return;
         }
 
-        if (enemys.Count <= 0 && this.Progress <= MaxProgress && this.Start)
+        if (enemys.Count <= 0 && this.CurrentRecord.Progress <= MaxProgress && this.Start)
         {
-            int si = (int)(this.Progress - 1) / 10 + 1;
+            int si = (int)(this.CurrentRecord.Progress - 1) / 10 + 1;
 
             if (!GameProcessor.Inst.User.DefendData.GetCurrentRecord(this.Level).BuffDict.ContainsKey(si))
             {
@@ -71,20 +67,20 @@ public class Battle_Defend : ABattleRule
 
             if (GameProcessor.Inst.User.InfoColor <= 1)
             {
-                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "第" + this.Progress + "波发起了进攻" });
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "第" + this.CurrentRecord.Progress + "波发起了进攻" });
             }
 
 
             //Load All
-            int[] ml = this.Progress % 10 == 0 ? MonsterList1 : MonsterList;
+            int[] ml = this.CurrentRecord.Progress % 10 == 0 ? MonsterList1 : MonsterList;
 
             for (int i = 0; i < ml.Length; i++)
             {
-                var enemy = new Monster_Defend(this.Level, this.Progress, ml[i]);
+                var enemy = new Monster_Defend(this.Level, this.CurrentRecord.Progress, ml[i]);
                 GameProcessor.Inst.PlayerManager.LoadMonsterDefend(enemy);
             }
 
-            string msg = "第" + Progress + "波，剩余" + PauseCount + "次复活";
+            string msg = "第" + this.CurrentRecord.Progress + "波，剩余" + CurrentRecord.Count + "次复活";
             GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
             this.Start = false;
@@ -98,7 +94,7 @@ public class Battle_Defend : ABattleRule
         {
             //check 
             long progess = user.GetAchievementProgeress(AchievementProType.Defend);
-            long cp = (this.Level - 1) * 100 + this.Progress;
+            long cp = (this.Level - 1) * 100 + this.CurrentRecord.Progress;
             if (progess < cp)
             {
                 user.SetAchievementProgeress(AchievementProType.Defend, cp);
@@ -107,21 +103,17 @@ public class Battle_Defend : ABattleRule
             this.BuildReward();
 
             this.Start = true;
-            this.Progress++;
-
-            DefendRecord record = user.DefendData.GetCurrentRecord(this.Level);
-
-            record.Progress = this.Progress;
-            record.Hp = (int)defendPlayer.HP;
+            this.CurrentRecord.Progress++;
+            this.CurrentRecord.Hp = (int)defendPlayer.HP;
 
             return;
         }
 
-        if (this.Progress > MaxProgress && this.Over)
+        if (this.CurrentRecord.Progress > MaxProgress && this.Over)
         {
             this.Over = false;
 
-            user.DefendData.Complete();
+            CurrentRecord.Complete();
 
             //BuildReward();
 
@@ -135,11 +127,11 @@ public class Battle_Defend : ABattleRule
 
     private void BuildReward()
     {
-        DefendConfig rewardConfig = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, (int)this.Progress);
+        DefendConfig rewardConfig = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, this.CurrentRecord.Progress);
 
         User user = GameProcessor.Inst.User;
 
-        long exp = (long)(rewardConfig.Exp + (this.Progress - 1) * rewardConfig.RiseExp);
+        long exp = (long)(rewardConfig.Exp + (this.CurrentRecord.Progress - 1) * rewardConfig.RiseExp);
         long gold = exp;
 
         //增加经验,金币
@@ -148,17 +140,17 @@ public class Battle_Defend : ABattleRule
         List<KeyValuePair<double, DropConfig>> dropList = new List<KeyValuePair<double, DropConfig>>();
 
         //掉落道具
-        int dropId = user.DefendData.GetDropId(this.Level, (int)this.Progress);
+        int dropId = user.DefendData.GetDropId(this.Level, this.CurrentRecord.Progress);
 
-        int seed = AppHelper.GetDeviceIdentifier().GetHashCode();
-        if (user != null && user.Account != null)
-        {
-            seed = user.Account.GetHashCode();
-        }
-        seed += TimeHelper.TodaySeed() + (int)this.Progress;
+        //int seed = AppHelper.GetDeviceIdentifier().GetHashCode();
+        //if (user != null && user.Account != null)
+        //{
+        //    seed = user.Account.GetHashCode();
+        //}
+        //seed += TimeHelper.TodaySeed() + this.CurrentRecord.Progress;
 
         List<Item> items = new List<Item>();
-        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, seed));
+        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, 0));
 
         DefendDropConfig defendDropConfig = DefendDropConfigCategory.Instance.GetConfig(this.Level, dropId);
         if (defendDropConfig != null && defendDropConfig.Number > 1)
@@ -179,7 +171,7 @@ public class Battle_Defend : ABattleRule
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
             {
                 Type = RuleType.Normal,
-                Message = BattleMsgHelper.BuildRewardMessage("守卫沙城" + this.Progress + "奖励:", exp, gold, items)
+                Message = BattleMsgHelper.BuildRewardMessage("守卫沙城" + this.CurrentRecord.Progress + "奖励:", exp, gold, items)
             });
         }
     }
@@ -187,22 +179,36 @@ public class Battle_Defend : ABattleRule
     public override void CheckGameResult()
     {
         var hero = GameProcessor.Inst.PlayerManager.GetHero();
-        if (hero.HP == 0)
+
+        if (hero.HP <= 0)
         {
-            GameProcessor.Inst.HeroDie(RuleType.Defend, 0);
+            CurrentRecord.Count--;
+            string msg = "第" + CurrentRecord.Progress + "波，剩余" + CurrentRecord.Count + "次复活";
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
+
+            if (CurrentRecord.Count > 0)
+            {
+                GameProcessor.Inst.HeroDie(RuleType.Defend, 0);
+            }
+            else
+            {
+                GameOver();
+            }
         }
 
         var defend = GameProcessor.Inst.PlayerManager.GetDefend();
         if (defend.HP <= 0)
         {
-            this.Over = false;
-            GameProcessor.Inst.User.DefendData.Complete();
-
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "守卫龙城失败" });
-
-            GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-
-            GameProcessor.Inst.CloseBattle(RuleType.Defend, 0);
+            GameOver();
         }
+    }
+
+    private void GameOver()
+    {
+        this.Over = false;
+        CurrentRecord.Complete();
+        GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "守卫龙城失败，请明天再来" });
+        GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
+        GameProcessor.Inst.CloseBattle(RuleType.Defend, 0);
     }
 }

@@ -124,7 +124,7 @@ namespace Game
             }
             else
             {
-                Debug.LogError("计算出错!");
+                Debug.LogWarning("计算出错!");
             }
 #if UNITY_EDITOR
 
@@ -204,12 +204,12 @@ namespace Game
                     }
                     else
                     {
-                        Debug.LogError("寻路失败：计算出错!");
+                        Debug.LogWarning("寻路失败：计算出错!");
                     }
                 }
                 else
                 {
-                    Debug.LogError("寻路失败：计算出错!");
+                    Debug.LogWarning("寻路失败：计算出错!");
                 }
             };
 

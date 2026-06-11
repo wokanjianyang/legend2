@@ -60,6 +60,12 @@ namespace Game
 
         private void OnDown()
         {
+            if (this.pet.Status == 1)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "出战中，不能下阵", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
             this.gameObject.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new PetBattleDownEvent()
@@ -77,7 +83,7 @@ namespace Game
 
             if (count >= 1)
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "只能出站一个", ToastType = ToastTypeEnum.Failure });
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "只能出战一个", ToastType = ToastTypeEnum.Failure });
                 return;
             }
 

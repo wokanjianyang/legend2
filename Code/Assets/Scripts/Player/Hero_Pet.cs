@@ -104,6 +104,7 @@ namespace Game
         private void SetSkill()
         {
             User user = GameProcessor.Inst.User;
+            double cd = user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Cd);
 
             //º”‘ÿººƒ‹
             for (int i = 0; i < Self.Skills.Count; i++)
@@ -117,7 +118,7 @@ namespace Game
 
                 List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
 
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false);
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, 0, cd, false);
 
                 SkillState skill = new SkillState(this, skillPanel, null, i, 0);
                 SelectSkillList.Add(skill);

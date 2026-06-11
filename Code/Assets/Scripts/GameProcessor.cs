@@ -734,6 +734,8 @@ namespace Game
             {
 
                 case RuleType.MainStage:
+                case RuleType.Babel:
+
                 case RuleType.BossFamily:
                 case RuleType.HeroPhantom:
                 case RuleType.Phantom:
@@ -741,7 +743,6 @@ namespace Game
                 case RuleType.World:
                 case RuleType.Pill2:
                 case RuleType.Pill3:
-                case RuleType.Babel:
                 case RuleType.Festive:
                 case RuleType.Spirit:
                 case RuleType.Shengxiao:

@@ -78,7 +78,7 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
             this.doTime = this.SelfPlayer.DoEvent();
         }
 
-        if (effectTime > 0.2f)
+        if (effectTime > 0)  //0.2f
         {
             //if (this.SelfPlayer.Camp == PlayerType.Hero && effectTime > 1)
             //{

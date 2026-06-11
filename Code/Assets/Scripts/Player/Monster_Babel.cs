@@ -122,12 +122,13 @@ namespace Game
                 SkillIdList = new int[] { 1002 };
             }
 
+            int skl = this.Progress / 100 + 1;
             for (int i = 0; i < SkillIdList.Length; i++)
             {
                 int skillId = SkillIdList[i];
 
                 SkillData skillData = new SkillData(skillId, i);
-                skillData.MagicLevel.Data = skillData.SkillConfig.MaxLevel;
+                skillData.MagicLevel.Data = Math.Min(skl, skillData.SkillConfig.MaxLevel);
                 list.Add(skillData);
             }
 

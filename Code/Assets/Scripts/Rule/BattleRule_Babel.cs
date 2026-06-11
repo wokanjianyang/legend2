@@ -144,6 +144,7 @@ public class BattleRule_Babel : ABattleRule
         var hero = GameProcessor.Inst.PlayerManager.GetHero();
         if (hero != null && hero.HP == 0)
         {
+            GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
             GameProcessor.Inst.HeroDie(RuleType.Babel, 0);
         }
     }

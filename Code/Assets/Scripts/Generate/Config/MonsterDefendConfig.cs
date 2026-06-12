@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class DefendConfigCategory : ProtoObject, IMerge
+    public partial class MonsterDefendConfigCategory : ProtoObject, IMerge
     {
-        public static DefendConfigCategory Instance;
+        public static MonsterDefendConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, DefendConfig> dict = new Dictionary<int, DefendConfig>();
+        private Dictionary<int, MonsterDefendConfig> dict = new Dictionary<int, MonsterDefendConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<DefendConfig> list = new List<DefendConfig>();
+        private List<MonsterDefendConfig> list = new List<MonsterDefendConfig>();
 		
-        public DefendConfigCategory()
+        public MonsterDefendConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            DefendConfigCategory s = o as DefendConfigCategory;
+            MonsterDefendConfigCategory s = o as MonsterDefendConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (DefendConfig config in list)
+            foreach (MonsterDefendConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public DefendConfig Get(int id)
+        public MonsterDefendConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out DefendConfig item);
+            this.dict.TryGetValue(id, out MonsterDefendConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (DefendConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (MonsterDefendConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, DefendConfig> GetAll()
+        public Dictionary<int, MonsterDefendConfig> GetAll()
         {
             return this.dict;
         }
 
-        public DefendConfig GetOne()
+        public MonsterDefendConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,7 +73,7 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class DefendConfig: ProtoObject, IConfig
+	public partial class MonsterDefendConfig: ProtoObject, IConfig
 	{
 		/// <summary>ID</summary>
 		[ProtoMember(1)]

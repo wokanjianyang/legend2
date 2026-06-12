@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class LegacyMonsterConfigCategory : ProtoObject, IMerge
+    public partial class MonsterLegacyConfigCategory : ProtoObject, IMerge
     {
-        public static LegacyMonsterConfigCategory Instance;
+        public static MonsterLegacyConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, LegacyMonsterConfig> dict = new Dictionary<int, LegacyMonsterConfig>();
+        private Dictionary<int, MonsterLegacyConfig> dict = new Dictionary<int, MonsterLegacyConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<LegacyMonsterConfig> list = new List<LegacyMonsterConfig>();
+        private List<MonsterLegacyConfig> list = new List<MonsterLegacyConfig>();
 		
-        public LegacyMonsterConfigCategory()
+        public MonsterLegacyConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            LegacyMonsterConfigCategory s = o as LegacyMonsterConfigCategory;
+            MonsterLegacyConfigCategory s = o as MonsterLegacyConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (LegacyMonsterConfig config in list)
+            foreach (MonsterLegacyConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public LegacyMonsterConfig Get(int id)
+        public MonsterLegacyConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out LegacyMonsterConfig item);
+            this.dict.TryGetValue(id, out MonsterLegacyConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (LegacyMonsterConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (MonsterLegacyConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, LegacyMonsterConfig> GetAll()
+        public Dictionary<int, MonsterLegacyConfig> GetAll()
         {
             return this.dict;
         }
 
-        public LegacyMonsterConfig GetOne()
+        public MonsterLegacyConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,7 +73,7 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class LegacyMonsterConfig: ProtoObject, IConfig
+	public partial class MonsterLegacyConfig: ProtoObject, IConfig
 	{
 		/// <summary>ID</summary>
 		[ProtoMember(1)]
@@ -117,9 +117,12 @@ namespace Game
 		/// <summary>SkillIdList</summary>
 		[ProtoMember(14)]
 		public int[] SkillIdList { get; set; }
-		/// <summary>Gold</summary>
+		/// <summary>Exp</summary>
 		[ProtoMember(15)]
-		public long Gold { get; set; }
+		public double Exp { get; set; }
+		/// <summary>RiseExp</summary>
+		[ProtoMember(16)]
+		public double RiseExp { get; set; }
 
 	}
 }

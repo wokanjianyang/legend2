@@ -127,7 +127,7 @@ public class Battle_Defend : ABattleRule
 
     private void BuildReward()
     {
-        DefendConfig rewardConfig = DefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, this.CurrentRecord.Progress);
+        MonsterDefendConfig rewardConfig = MonsterDefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, this.CurrentRecord.Progress);
 
         User user = GameProcessor.Inst.User;
 

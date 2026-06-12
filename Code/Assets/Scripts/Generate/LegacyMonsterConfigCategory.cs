@@ -5,9 +5,9 @@ using System.Linq;
 namespace Game
 {
 
-    public partial class LegacyMonsterConfigCategory
+    public partial class MonsterLegacyConfigCategory
     {
-        public LegacyMonsterConfig GetByRole(int role)
+        public MonsterLegacyConfig GetByRole(int role)
         {
             return this.list.Where(m => m.Role == role).FirstOrDefault();
         }

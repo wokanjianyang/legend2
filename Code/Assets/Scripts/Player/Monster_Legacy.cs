@@ -7,7 +7,7 @@ using System;
 
 public class Monster_Legacy : APlayer
 {
-    LegacyMonsterConfig config;
+    MonsterLegacyConfig MonsterConfig;
 
     int Role = 0;
     int Layer = 0;
@@ -20,7 +20,7 @@ public class Monster_Legacy : APlayer
         this.Layer = layer;
         this.Quality = 3;
 
-        config = LegacyMonsterConfigCategory.Instance.GetByRole(Role);
+        MonsterConfig = MonsterLegacyConfigCategory.Instance.GetByRole(Role);
 
         this.Init();
         this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
@@ -29,7 +29,7 @@ public class Monster_Legacy : APlayer
     private void Init()
     {
         this.Camp = PlayerType.Enemy;
-        this.Name = config.Name + "(" + Layer + "阶)";
+        this.Name = MonsterConfig.Name + "(" + Layer + "阶)";
         this.Level = Layer;
 
         this.SetAttr();  //设置属性值
@@ -44,11 +44,11 @@ public class Monster_Legacy : APlayer
         //加载技能
         List<SkillData> list = new List<SkillData>();
 
-        if (config.SkillIdList != null)
+        if (MonsterConfig.SkillIdList != null)
         {
-            for (int i = 0; i < config.SkillIdList.Length; i++)
+            for (int i = 0; i < MonsterConfig.SkillIdList.Length; i++)
             {
-                list.Add(new SkillData(config.SkillIdList[i], i)); //增加默认技能
+                list.Add(new SkillData(MonsterConfig.SkillIdList[i], i)); //增加默认技能
             }
         }
 
@@ -74,9 +74,9 @@ public class Monster_Legacy : APlayer
         //Debug.Log("attrRate:" + attrRate);
         //Debug.Log("advanceRate:" + advanceRate);
 
-        double attr = Double.Parse(config.Attr) * attrRate;
-        double hp = Double.Parse(config.HP) * attrRate;
-        double def = Double.Parse(config.Def) * attrRate;
+        double attr = Double.Parse(MonsterConfig.Attr) * attrRate;
+        double hp = Double.Parse(MonsterConfig.HP) * attrRate;
+        double def = Double.Parse(MonsterConfig.Def) * attrRate;
 
 
         AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp);
@@ -98,59 +98,99 @@ public class Monster_Legacy : APlayer
     {
         User user = GameProcessor.Inst.User;
 
-        int legacyId = (Role - 1) * 8 + RandomHelper.RandomNumber(1, 9);
+        double kc = (this.Layer * 10) / ConfigHelper.PetKillPercent;
+        user.KillMonsterEnvent(kc, 1, 1);
 
-        LegacyConfig config = LegacyConfigCategory.Instance.Get(legacyId);
+        double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
+        double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
+        double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
+        double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
 
-        int dropLayer = Math.Max(1, RandomHelper.RandomNumber(Layer - 2, Layer + 2));
+        double expKI = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpKillIncrea);
+        double goldKI = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldKillIncrea);
+
+        double baseExp = MonsterConfig.Exp + (this.Layer - 1) * MonsterConfig.RiseExp;
+
+        long exp = (long)((baseExp + expKI) * expRise);
+        long gold = (long)((baseExp + goldKI) * goldRise);
+
+        string message = "[" + MonsterConfig.Name + "]死亡,经验+" + exp + "金币，+" + gold + ",杀敌+" + kc;
 
         int max = (int)(user.MagicLevel.Data / 2);
-        dropLayer = Math.Min(dropLayer, max);
+        int dropLayer = this.RandomDropLayer(max);
 
-        int currentLayer = user.GetLegacyLayer(legacyId);
-
-        string message = "掉落 " + string.Format("<color=#{0}>{1}</color> ", QualityConfigHelper.GetQualityColor(5), config.Name + "(" + dropLayer + "阶) ");
-
-        int recoveryStone = 0;
-        if (dropLayer > currentLayer)
+        if (dropLayer > 0)
         {
-            user.SaveLegacyLayer(legacyId, dropLayer);
+            int legacyId = (Role - 1) * 8 + RandomHelper.RandomNumber(1, 9);
 
-            message += ",自动装备";
-            //auto Replace
-            if (currentLayer > 0)
+            LegacyConfig config = LegacyConfigCategory.Instance.Get(legacyId);
+
+            int currentLayer = user.GetLegacyLayer(legacyId);
+
+            message += string.Format(",掉落<color=#{0}>{1}</color> ", QualityConfigHelper.GetQualityColor(5), config.Name + "(" + dropLayer + "阶) ");
+
+            int recoveryStone = 0;
+            if (dropLayer > currentLayer)
             {
-                recoveryStone += currentLayer;
+                user.SaveLegacyLayer(legacyId, dropLayer);
 
-                message += ",并且回收之前的获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
+                message += ",自动装备";
+                //auto Replace
+                if (currentLayer > 0)
+                {
+                    recoveryStone += currentLayer;
 
-                GameProcessor.Inst.UpdateInfo();
+                    message += ",并且回收之前的获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
+
+                    GameProcessor.Inst.UpdateInfo();
+                }
+            }
+            else
+            {
+                recoveryStone += dropLayer;
+
+                message += ",自动回收获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
+            }
+
+            if (recoveryStone > 0)
+            {
+                Item item = ItemHelper.BuildMaterial(ItemHelper.Legacy_Stone, recoveryStone);
+
+                List<Item> items = new List<Item>();
+                items.Add(item);
+
+                if (items.Count > 0)
+                {
+                    GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+                }
             }
         }
-        else
-        {
-            recoveryStone += dropLayer;
 
-            message += ",自动回收获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
-        }
-
-        if (recoveryStone > 0)
-        {
-            Item item = ItemHelper.BuildMaterial(ItemHelper.Legacy_Stone, recoveryStone);
-
-            List<Item> items = new List<Item>();
-            items.Add(item);
-
-            if (items.Count > 0)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
-            }
-        }
+        user.AddExpAndGold(exp, gold);
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
             Type = RuleType.Normal,
             Message = message
         });
+    }
+
+    private int[] rates = { 1, 3, 7, 15, 31 };
+    private int RandomDropLayer(int maxLayer)
+    {
+        //掉率 千分之一
+        if (RandomHelper.RandomNumber(0, 100) > 0)
+        {
+            return 0;
+        }
+
+        int dropLayer = MathHelper.RandomArrayIndex(rates, 1);
+        dropLayer = this.Layer + dropLayer - 3;
+
+        dropLayer = Math.Max(dropLayer, 1);
+
+        dropLayer = Math.Min(dropLayer, maxLayer);
+
+        return dropLayer;
     }
 }

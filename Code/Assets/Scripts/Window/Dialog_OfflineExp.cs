@@ -56,9 +56,9 @@ namespace Game
 
             //items.Add(ItemHelper.BuildItem(ItemType.Card, 2000010, 10, 5));
 
-            //for (int i = 6; i < 10; i++)
+            //for (int i = 0; i < 10; i++)
             //{
-            //    items.Add(PetAtrConfigCategory.Instance.BuildPet(i, 3, 10000));
+            //    items.Add(PetAtrConfigCategory.Instance.BuildPet(i + 27, 3, 10000));
             //}
 
             //items.Add(ItemHelper.BuildItem(ItemType.SkillBox, 1010, 1, 1));

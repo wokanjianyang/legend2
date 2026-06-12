@@ -140,5 +140,9 @@ namespace Game
         public int Level { get; set; }
 
         public int Type { get; set; }
+
+        public PetTrait() { 
+        
+        }
     }
 }

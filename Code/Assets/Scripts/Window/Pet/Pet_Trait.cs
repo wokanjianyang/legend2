@@ -28,8 +28,9 @@ namespace Game
             for (int i = 0; i < config.AtrIdList.Length; i++)
             {
                 int vue = type == 1 ? config.AtrVueList[i] : config.AtrVueList1[i];
-
+                desc += i == 0 ? "" : "£¬";
                 desc += StringHelper.FormatAttrText(config.AtrIdList[i], vue, "+");
+        
             }
 
             this.Txt_Desc.text = desc;

@@ -26,6 +26,10 @@ namespace Game
         public Text Txt_Layer;
         public Text Txt_Count;
 
+        [LabelText("特性")]
+        public Transform Tf_Trait;
+        private List<Pet_Trait> TraitList;
+
         [LabelText("资质")]
         public Transform Tf_Flair;
         private List<Pet_Flair> FlairList;
@@ -68,6 +72,7 @@ namespace Game
 
             this.Btn_Close.onClick.AddListener(this.OnClick_Close);
 
+            TraitList = Tf_Trait.GetComponentsInChildren<Pet_Trait>().ToList();
             FlairList = Tf_Flair.GetComponentsInChildren<Pet_Flair>().ToList();
             TalentList = Tf_Talent.GetComponentsInChildren<Pet_Talent>().ToList();
             SkillList = Tf_Skill.GetComponentsInChildren<Pet_Skill>().ToList();
@@ -121,6 +126,25 @@ namespace Game
             long exp = PetAtrConfigCategory.Instance.GetPetFee(pet.PetLevel.Data);
             this.Txt_Exp.text = "Exp：" + pet.LevelExp.Data + "/" + exp;
             this.Txt_Count.text = "杀敌数：" + pet.GetTotalKillCount() + "点";
+
+            for (int i = 0; i < TraitList.Count; i++)
+            {
+                if (i == 0)
+                {
+                    TraitList[0].SetContent(pet.Config.TraitId, pet.Config.TraitLevel, pet.TraitType);
+                }
+                else
+                {
+                    if (i <= pet.TraitList.Count)
+                    {
+                        TraitList[i].SetContent(pet.TraitList[i - 1].Id, pet.TraitList[i - 1].Level, pet.TraitList[i - 1].Type);
+                    }
+                    else
+                    {
+                        TraitList[i].gameObject.SetActive(false);
+                    }
+                }
+            }
 
             var flairs = pet.Flairs;
 

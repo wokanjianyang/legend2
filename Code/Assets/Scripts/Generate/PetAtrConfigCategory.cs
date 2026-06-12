@@ -38,10 +38,21 @@ namespace Game
             pet.PetLayer.Data = 1;
             pet.Quality = quality;
 
+            //特性，橙色额外随机一个特性
+            //随机默认特性是否变异
 
-            List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, quality);
+            pet.TraitType = PetTraitConfigCategory.Instance.BuildTraitType();
+
+            if (quality >= 5)
+            {
+                List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, role, quality);
+
+                pet.TraitList.AddRange(traits);
+            }
+
 
             //资质紫色2，橙色3，红色3，金色4
+            List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, quality);
             foreach (var flair in flairs)
             {
                 int attrId = flair.Key;

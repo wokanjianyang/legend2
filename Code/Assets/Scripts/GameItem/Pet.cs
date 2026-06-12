@@ -25,6 +25,10 @@ namespace Game
 
         public List<KeyValuePair<int, MagicData>> Skills { get; set; } = new List<KeyValuePair<int, MagicData>>();
 
+        public List<PetTrait> TraitList { get; set; } = new List<PetTrait>();
+
+        public int TraitType { get; set; } = 1;
+
         public List<int> Talents { get; set; } = new List<int>();
 
         public int Role { get; set; }
@@ -128,5 +132,13 @@ namespace Game
         //{
         //    return this.GetQuality() * 100;
         //}
+    }
+
+    public class PetTrait
+    {
+        public int Id { get; set; }
+        public int Level { get; set; }
+
+        public int Type { get; set; }
     }
 }

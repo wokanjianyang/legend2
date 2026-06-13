@@ -56,17 +56,17 @@ public class Dialog_Babel : MonoBehaviour
         User user = GameProcessor.Inst.User;
         long progress = user.BabelData.Data;
 
-        //if (user.Account != "" && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
-        //{
-        //    IsNet = true;
-        //    Txt_Rise.gameObject.SetActive(true);
-        //    Btn_Rank.gameObject.SetActive(true);
-        //}
-        //else
-        //{
-        //    Txt_Rise.gameObject.SetActive(false);
-        //    Btn_Rank.gameObject.SetActive(false);
-        //}
+        if (user.Account != "" && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
+        {
+            IsNet = true;
+            Txt_Rise.gameObject.SetActive(true);
+            Btn_Rank.gameObject.SetActive(true);
+        }
+        else
+        {
+            Txt_Rise.gameObject.SetActive(false);
+            Btn_Rank.gameObject.SetActive(false);
+        }
 
         long nextProgress = progress + 1;
 
@@ -84,39 +84,39 @@ public class Dialog_Babel : MonoBehaviour
             Txt_Reward.text = "通过奖励:" + item.GetName() + "*" + item.Temp_Number;
         }
 
-        //if (IsNet)
-        //{
-        //    try
-        //    {
-        //        //再存储新档
-        //        StartCoroutine(NetworkHelper.GetRank("babel",
-        //                (WebResultWrapper result) =>
-        //                {
-        //                    if (result.Code == StatusMessage.OK)
-        //                    {
-        //                        string name = result.Data["name"];
-        //                        string time = result.Data["time"];
-        //                        string rank = result.Data["rank"];
+        if (IsNet)
+        {
+            try
+            {
+                //再存储新档
+                StartCoroutine(NetworkHelper.GetRank("babel",
+                        (WebResultWrapper result) =>
+                        {
+                            if (result.Code == StatusMessage.OK)
+                            {
+                                string name = result.Data["name"];
+                                string time = result.Data["time"];
+                                string rank = result.Data["rank"];
 
-        //                        this.Txt_Rise.text = "最高纪录 " + name + " " + rank + "层" + " (" + time + ")";
-        //                        AppHelper.BabelRecord = int.Parse(rank);
-        //                    }
-        //                    else
-        //                    {
-        //                        this.Txt_Rise.text = "读取失败.";
-        //                    }
-        //                },
-        //                () =>
-        //                {
-        //                    this.Txt_Rise.text = "读取失败.";
-        //                }
-        //                ));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        this.Txt_Rise.text = "读取失败，请稍等一会重试...";
-        //    }
-        //}
+                                this.Txt_Rise.text = "最高纪录 " + name + " " + rank + "层" + " (" + time + ")";
+                                AppHelper.BabelRecord = int.Parse(rank);
+                            }
+                            else
+                            {
+                                this.Txt_Rise.text = "读取失败.";
+                            }
+                        },
+                        () =>
+                        {
+                            this.Txt_Rise.text = "读取失败.";
+                        }
+                        ));
+            }
+            catch (Exception ex)
+            {
+                this.Txt_Rise.text = "读取失败，请稍等一会重试...";
+            }
+        }
     }
 
 

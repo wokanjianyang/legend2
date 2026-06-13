@@ -105,11 +105,14 @@ namespace Game
 		/// <summary>AtrVueList1</summary>
 		[ProtoMember(10)]
 		public int[] AtrVueList1 { get; set; }
-		/// <summary>StartQuality</summary>
+		/// <summary>RiseType</summary>
 		[ProtoMember(11)]
+		public int[] RiseType { get; set; }
+		/// <summary>StartQuality</summary>
+		[ProtoMember(12)]
 		public int StartQuality { get; set; }
 		/// <summary>EndQuality</summary>
-		[ProtoMember(12)]
+		[ProtoMember(13)]
 		public int EndQuality { get; set; }
 
 	}

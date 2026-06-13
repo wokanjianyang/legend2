@@ -537,7 +537,7 @@ namespace Game
             int attrKey = 1;
             foreach (var sp in this.PetList)
             {
-                Dictionary<int, double> attrList = sp.GetBaseAttr();
+                Dictionary<int, double> attrList = sp.GetTotalAttr();
                 foreach (var al in attrList)
                 {
                     AttributeBonus.SetAttr((AttributeEnum)(al.Key), AttributeFrom.Pet, attrKey++, al.Value);

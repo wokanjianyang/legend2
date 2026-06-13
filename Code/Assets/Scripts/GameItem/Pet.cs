@@ -48,7 +48,7 @@ namespace Game
             this.Name = Config.Name;
         }
 
-        public Dictionary<int, double> GetBaseAttr()
+        public Dictionary<int, double> GetTotalAttr()
         {
             Dictionary<int, double> attrs = new Dictionary<int, double>();
 
@@ -64,6 +64,38 @@ namespace Game
 
                 long attrValue = GetTotalKillCount() * config.AtrVue / sp.Value.Data;
                 attrs[attrId] += attrValue;
+            }
+
+            if (Config.TraitId > 0)
+            {
+                PetTraitConfig trait = PetTraitConfigCategory.Instance.Get(Config.TraitId);
+                for (int i = 0; i < trait.AtrIdList.Length; i++)
+                {
+                    int attrId = trait.AtrIdList[i];
+                    if (!attrs.ContainsKey(attrId))
+                    {
+                        attrs[attrId] = 0;
+                    }
+
+                    long atrVue = trait.GetVue(i, Config.TraitLevel, this.TraitType);
+                    attrs[attrId] += atrVue;
+                }
+            }
+
+            for (int t = 0; t < this.TraitList.Count; t++)
+            {
+                PetTraitConfig trait = PetTraitConfigCategory.Instance.Get(this.TraitList[t].Id);
+                for (int i = 0; i < trait.AtrIdList.Length; i++)
+                {
+                    int attrId = trait.AtrIdList[i];
+                    if (!attrs.ContainsKey(attrId))
+                    {
+                        attrs[attrId] = 0;
+                    }
+
+                    long atrVue = trait.GetVue(i, this.TraitList[t].Level, this.TraitList[t].Type);
+                    attrs[attrId] += atrVue;
+                }
             }
 
             return attrs;
@@ -141,8 +173,9 @@ namespace Game
 
         public int Type { get; set; }
 
-        public PetTrait() { 
-        
+        public PetTrait()
+        {
+
         }
     }
 }

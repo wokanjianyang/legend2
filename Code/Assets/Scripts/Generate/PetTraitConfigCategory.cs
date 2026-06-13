@@ -54,4 +54,13 @@ namespace Game
             return traits;
         }
     }
+    public partial class PetTraitConfig
+    {
+        public long GetVue(int i, int level, int type)
+        {
+            int bv = type == 1 ? this.AtrVueList[i] : this.AtrVueList1[i];
+            long vue = MathHelper.GetSeqByType(this.RiseType[i], level, bv);
+            return vue;
+        }
+    }
 }

@@ -318,7 +318,7 @@ public class Dialog_AD : MonoBehaviour
         //发放奖励
         double gold = 100 * 10000;
 
-        double atRate = user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.GoldIncrea);
+        double atRate = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea);
         atRate = 1 + atRate / 100.0;
 
         gold = gold * atRate;

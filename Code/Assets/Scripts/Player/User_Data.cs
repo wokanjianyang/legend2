@@ -40,7 +40,7 @@ namespace Game
 
             List<SkillPanel> list = new List<SkillPanel>();
 
-            double cd = user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Cd);
+            double cd = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Cd);
 
             //先加载3个精通
             int[] experts = new int[] { 1006, 2006, 3006 };

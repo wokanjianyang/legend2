@@ -68,6 +68,11 @@ namespace Game
                 return 1;
             }
 
+            if (this.Total < 100)
+            {
+                return 1;
+            }
+
             if (mapConfig.BossId > 0 && RandomHelper.RandomDropRate(1000))  //40000
             {
                 return 6;

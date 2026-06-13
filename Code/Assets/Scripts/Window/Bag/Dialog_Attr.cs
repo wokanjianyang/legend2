@@ -42,7 +42,7 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
             ,AttributeEnum.Speed, AttributeEnum.MoveSpeed,
 
             AttributeEnum.CardDamage, AttributeEnum.FashionDamage,AttributeEnum.AchievementDamage, AttributeEnum.LegacyDamage
-            , AttributeEnum.ExclusiveDamage,
+            , AttributeEnum.ExclusiveDamage,  AttributeEnum.BabelDamage,
             //AttributeEnum.PhyDamage,  AttributeEnum.MulPhyDamageRise,
             //AttributeEnum.MagicDamage,AttributeEnum.MulMagicDamageRise,
             //AttributeEnum.SpiritDamage,AttributeEnum.MulSpiritDamageRise,
@@ -69,7 +69,7 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
                 item.gameObject.SetActive(true);
 
                 AttributeEnum attrId = list[i];
-                item.SetContent((int)attrId, user.AttributeBonus.CalPanelSingleAttr(attrId));
+                item.SetContent((int)attrId, user.AttributeBonus.CalPanelAtr(attrId));
             }
             else
             {

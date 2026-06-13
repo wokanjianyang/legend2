@@ -50,8 +50,8 @@ namespace Game
 
             double levelRise = (1 + this.Level * 0.01);
 
-            double asp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Speed);
-            double msp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MoveSpeed);
+            double asp = this.Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed);
+            double msp = this.Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed);
 
             int role = Self.Role;
 
@@ -104,7 +104,7 @@ namespace Game
         private void SetSkill()
         {
             User user = GameProcessor.Inst.User;
-            double cd = user.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Cd);
+            double cd = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Cd);
 
             //º”‘ÿººƒ‹
             for (int i = 0; i < Self.Skills.Count; i++)

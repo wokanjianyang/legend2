@@ -11,8 +11,8 @@ namespace Game
         decreDivDef = -10002, //防御减少倍率
         decreMulAtk = -10003, //攻击减少倍率
 
-        DecreRestore = -10028, //禁疗
-        DecreExtraDamage = -10029, //额外承伤倍率
+        DecreRestore = -15, //禁疗
+        DecreExtraDamage = -28, //额外承伤倍率
 
         decreHp = -1, //灼烧流血伤害
         //------------------基础------------------------------
@@ -66,6 +66,7 @@ namespace Game
         AchievementDamage = 93,//成就增伤
         LegacyDamage = 94, //传世增伤
         ExclusiveDamage = 95, //珍宝增伤
+        BabelDamage = 96,//通天增伤
 
         PetOnLimit = 111,  //宠物备战位
         PetBattleLimit = 112, //宠物出战位

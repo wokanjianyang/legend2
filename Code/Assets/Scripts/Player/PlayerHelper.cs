@@ -65,6 +65,7 @@ namespace Game
             {nameof(AttributeEnum.AchievementDamage), "成就增伤" },
             {nameof(AttributeEnum.LegacyDamage), "传世增伤" },
             {nameof(AttributeEnum.ExclusiveDamage), "珍宝增伤" },
+            {nameof(AttributeEnum.BabelDamage), "通天增伤" },
 
             {nameof(AttributeEnum.PetOnLimit), "宠物备战位" },
             {nameof(AttributeEnum.PetBattleLimit), "宠物出战位" },

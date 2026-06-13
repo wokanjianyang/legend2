@@ -29,15 +29,15 @@ public class BattleRule_MainStage : ABattleRule
 
         QualityList = new List<int>();
 
-        if (MapId <= 12)
+        if (MapId <= 18)
         {
             BuildCount(new int[] { 1, 2, 3, 5, 10 });
         }
-        else if (MapId <= 24)
+        else if (MapId <= 36)
         {
             BuildCount(new int[] { 2, 4, 10, 15, 25 });
         }
-        else if (MapId <= 36)
+        else if (MapId <= 54)
         {
             BuildCount(new int[] { 3, 6, 15, 20, 30 });
         }

@@ -46,8 +46,8 @@ namespace Game
 
         private void SetAttr()
         {
-            double asp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.Speed) + this.SkillPanel.Speed;
-            double msp = this.Master.AttributeBonus.CalPanelSingleAttr(AttributeEnum.MoveSpeed);
+            double asp = this.Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed) + this.SkillPanel.Speed;
+            double msp = this.Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed);
 
             int role = SkillPanel.Config.Role;
 

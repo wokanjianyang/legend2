@@ -165,8 +165,11 @@ namespace Game
                 }
                 else if (SelfPlayer.Camp == PlayerType.Hero_Pet)
                 {
-                    //自动复活
-                    StartCoroutine(this.AutoResurrection());
+                    if (SelfPlayer.RuleType != RuleType.MainStage && SelfPlayer.RuleType != RuleType.Babel)
+                    {
+                        //自动复活
+                        StartCoroutine(this.AutoResurrection());
+                    }
                 }
                 else
                 {

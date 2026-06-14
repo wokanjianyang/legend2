@@ -188,7 +188,7 @@ public class Panel_Legacy : MonoBehaviour
                     long atrRise = gradeConfig.AtrVueList[i];
                     long attrCurrent = gradeConfig.AtrVueList[i] * riseLevel;
 
-                    AtrGradeList[i].SetContent(attrId, attrCurrent, atrRise, currentLevel);
+                    AtrGradeList[i].SetContent(attrId, attrCurrent, atrRise);
                     AtrGradeList[i].gameObject.SetActive(true);
 
                     continue;

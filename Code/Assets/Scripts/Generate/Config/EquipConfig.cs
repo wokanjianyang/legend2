@@ -120,6 +120,15 @@ namespace Game
 		/// <summary>CardVueList</summary>
 		[ProtoMember(15)]
 		public int[] CardVueList { get; set; }
+		/// <summary></summary>
+		[ProtoMember(16)]
+		public int[] SpeAtrIdList { get; set; }
+		/// <summary></summary>
+		[ProtoMember(17)]
+		public long[] SpeAtrVueList { get; set; }
+		/// <summary>Quality</summary>
+		[ProtoMember(18)]
+		public int Quality { get; set; }
 
 	}
 }

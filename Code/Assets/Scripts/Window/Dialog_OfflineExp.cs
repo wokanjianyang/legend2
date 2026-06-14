@@ -210,6 +210,7 @@ namespace Game
             {
                 user.BabelCount.Data = ConfigHelper.BabelCount;
 
+                user.AddAchievementProgeress(AchievementProType.DayCount, 1);
                 //user.HeroPhatomData.Refresh();
                 //user.PillTime.Check(user.Cycle.Data);
 

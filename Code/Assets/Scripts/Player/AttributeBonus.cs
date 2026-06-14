@@ -106,32 +106,14 @@ namespace Game
                     total *= (1 + CalBattleSingleAttr(AttributeEnum.RateSpiritDamage) / 100.0);
                     break;
                 case AttributeEnum.DamageIncrea:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.DamageResist:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.DecreExtraDamage:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.CritRate:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.CritDamage:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.CritRateResist:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.CritDamageResist:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.DeadlyRate:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.DeadlyDamage:
-                    total = CalBattleSingleAttr(attrType);
-                    break;
                 case AttributeEnum.Lucky:
                 case AttributeEnum.Curse:
                 case AttributeEnum.Accuracy:
@@ -147,6 +129,10 @@ namespace Game
                 case AttributeEnum.DecreRestore:
                 case AttributeEnum.RestoreIncrea:
                     total = CalBattleSingleAttr(attrType);
+                    break;
+                case AttributeEnum.MulDamageIncrea:
+                case AttributeEnum.MulDamageResist:
+                    total = CalBattleSingleMul(attrType);
                     break;
                 default:
                     Debug.LogError("not implete type:" + attrType.ToString());

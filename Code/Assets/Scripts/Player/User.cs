@@ -42,6 +42,7 @@ namespace Game
         public RecordData Record { get; set; } = new RecordData();
 
         public AdData AdData { get; } = new AdData();
+
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -616,7 +617,6 @@ namespace Game
             }
 
             //传世
-            attrKey = 1;
             for (int keyId = 1; keyId <= 24; keyId++)
             {
                 int ly = GetLegacyLayer(keyId);
@@ -652,11 +652,12 @@ namespace Game
                 {
                     LegacySetConfig setConfig = LegacySetConfigCategory.Instance.GetByRole(i);
 
-                    if (i < setConfig.AtrIdList.Length)
+                    for (int k = 0; k < setConfig.AtrIdList.Length; k++)
                     {
-                        long vue = setConfig.AtrVueList[i] * ls;
+                        int atrId = setConfig.AtrIdList[k];
+                        long vue = setConfig.AtrVueList[k] * ls;
 
-                        AttributeBonus.SetAttr((AttributeEnum)(setConfig.AtrIdList[i]), AttributeFrom.Legacy, attrKey++, vue);
+                        AttributeBonus.SetAttr((AttributeEnum)(atrId), AttributeFrom.Legacy, attrKey++, vue);
                     }
                 }
             }

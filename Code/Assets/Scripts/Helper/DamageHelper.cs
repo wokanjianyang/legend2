@@ -114,6 +114,22 @@ namespace Game
                 atk *= 1 + extraDamage / 100.0;
             }
 
+            //增伤倍率
+            double mdi = attcher.CalBattleTotalAttr(AttributeEnum.MulDamageIncrea);
+            if (mdi > 1)
+            {
+                atk *= mdi;
+            }
+
+            double mdr = enemy.CalBattleTotalAttr(AttributeEnum.MulDamageResist);
+            if (mdr > 1)
+            {
+                atk = atk / mdr;
+            }
+
+
+            //减伤倍率
+
             //Debug.Log("attack:" + StringHelper.FormatNumber(attack));
 
             //强制最少1点伤害

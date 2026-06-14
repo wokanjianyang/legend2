@@ -16,7 +16,7 @@ public class Monster_Legacy : APlayer
     {
         this.GroupId = 2;
         this.Role = RandomHelper.RandomNumber(1, 4);
-        this.FashionId = layer;
+        this.FashionId = layer / 3 + this.Role;
         this.Layer = layer;
         this.Quality = 3;
 
@@ -73,10 +73,14 @@ public class Monster_Legacy : APlayer
 
         //Debug.Log("attrRate:" + attrRate);
         //Debug.Log("advanceRate:" + advanceRate);
+        User user = GameProcessor.Inst.User;
 
-        double attr = Double.Parse(MonsterConfig.Attr) * attrRate;
-        double hp = Double.Parse(MonsterConfig.HP) * attrRate;
-        double def = Double.Parse(MonsterConfig.Def) * attrRate;
+        int layerRise = (int)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
+        layerRise = (this.Layer - 1) * 3 - layerRise;
+
+        double attr = double.Parse(MonsterConfig.Attr) * attrRate;
+        double hp = double.Parse(MonsterConfig.HP) * attrRate;
+        double def = double.Parse(MonsterConfig.Def) * attrRate;
 
 
         AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp);
@@ -84,6 +88,12 @@ public class Monster_Legacy : APlayer
         AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, attr);
         AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, def);
+
+        if (layerRise > 0)  //(如果玩家的套装等级等于怪物等级，则给怪增加30%*差距的免伤倍率)
+        {
+            //Debug.Log("legacy layerRise:" + layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.HeroBase, 10 * layerRise);
+        }
 
         double MaxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
         SetHP(MaxHP);
@@ -114,10 +124,11 @@ public class Monster_Legacy : APlayer
         long exp = (long)((baseExp + expKI) * expRise);
         long gold = (long)((baseExp + goldKI) * goldRise);
 
-        string message = "[" + MonsterConfig.Name + "]死亡,经验+" + exp + "金币，+" + gold + ",杀敌+" + kc;
+        string message = "[" + MonsterConfig.Name + "]死亡，经验+" + exp + "，金币+" + gold + "，杀敌+" + kc;
 
         int max = (int)(user.MagicLevel.Data / 2);
         int dropLayer = this.RandomDropLayer(max);
+        int importantMsg = 0;
 
         if (dropLayer > 0)
         {
@@ -133,7 +144,7 @@ public class Monster_Legacy : APlayer
             if (dropLayer > currentLayer)
             {
                 user.SaveLegacyLayer(legacyId, dropLayer);
-
+                importantMsg = 1;
                 message += ",自动装备";
                 //auto Replace
                 if (currentLayer > 0)
@@ -171,7 +182,8 @@ public class Monster_Legacy : APlayer
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
             Type = RuleType.Normal,
-            Message = message
+            Message = message,
+            Important = importantMsg
         });
     }
 

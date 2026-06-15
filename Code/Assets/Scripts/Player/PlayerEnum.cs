@@ -70,6 +70,8 @@ namespace Game
 
         PetOnLimit = 111,  //宠物备战位
         PetBattleLimit = 112, //宠物出战位
+        SkillBattleNumber = 113, //技能栏
+        SkillSuitCount = 114, //词条套装数量
         SkillLevelRise = 222, //全技能等级
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成
@@ -105,14 +107,14 @@ namespace Game
         RateMagicDamage = 2008,//魔伤增幅
         RateSpiritDamage = 2009, //道伤增幅
 
-        RateLucky = 2013, //幸运增幅
+        //RateLucky = 2013, //幸运增幅
         //RateAccuracy = 2014, //命中增幅
         //RateMiss = 2015, //闪避增幅
 
-        RateCrit = 2021,//暴击增幅
-        RateCritDamage = 2022, //爆伤增幅
-        RateDeadly = 2023, //致命率增幅
-        RateDeadlyDamage = 2024, //致命伤害增幅
+        //RateCrit = 2021,//暴击增幅
+        //RateCritDamage = 2022, //爆伤增幅
+        //RateDeadly = 2023, //致命率增幅
+        //RateDeadlyDamage = 2024, //致命伤害增幅
 
         //RateDamageIncrea = 27, //伤害增加增幅
         //RateDamageResist = 28, //伤害减少增幅

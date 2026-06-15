@@ -53,11 +53,11 @@ namespace Game
             {nameof(AttributeEnum.RateGold), "金币增幅" },
             {nameof(AttributeEnum.RateBurst), "爆率增幅" },
             {nameof(AttributeEnum.RateQuality), "品质增幅" },
-            {nameof(AttributeEnum.RateCrit), "暴击增幅" },
-            {nameof(AttributeEnum.RateLucky), "幸运增幅" },
+            //{nameof(AttributeEnum.RateCrit), "暴击增幅" },
+            //{nameof(AttributeEnum.RateLucky), "幸运增幅" },
             //{nameof(AttributeEnum.MetailFinal), "挖矿速度" },
             //{nameof(AttributeEnum.RelicRise), "神器掌控" },
-            {nameof(AttributeEnum.RateCritDamage), "爆伤增幅" },
+            //{nameof(AttributeEnum.RateCritDamage), "爆伤增幅" },
             {nameof(AttributeEnum.Shatter), "破韧倍率" },
 
             {nameof(AttributeEnum.CardDamage), "图鉴增伤" },
@@ -69,6 +69,8 @@ namespace Game
 
             {nameof(AttributeEnum.PetOnLimit), "宠物备战位" },
             {nameof(AttributeEnum.PetBattleLimit), "宠物出战位" },
+            {nameof(AttributeEnum.SkillBattleNumber), "技能出战栏" },
+            {nameof(AttributeEnum.SkillSuitCount), "词条需求减少" },
             {nameof(AttributeEnum.SkillLevelRise), "全技能等级" },
 
             //{nameof(AttributeEnum.SpRate), "护盾固防" },

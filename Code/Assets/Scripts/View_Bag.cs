@@ -184,6 +184,7 @@ namespace Game
             ,AttributeEnum.PhyAtk,  AttributeEnum.MagicAtk
             ,AttributeEnum.SpiritAtk, AttributeEnum.Cd
             ,AttributeEnum.Lucky, AttributeEnum.Curse
+            ,AttributeEnum.Accuracy, AttributeEnum.Miss
             ,AttributeEnum.DamageIncrea,   AttributeEnum.DamageResist
             ,AttributeEnum.CritRate,  AttributeEnum.CritDamage
             ,AttributeEnum.Speed,AttributeEnum.MoveSpeed

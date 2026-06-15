@@ -73,7 +73,7 @@ namespace Game
 
             for (int i = 0; i < config.AtrIdList.Length; i++)
             {
-                this.Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i]);
+                this.Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i], "+");
             }
 
             this.Show();

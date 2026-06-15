@@ -52,7 +52,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         for (int i = 0; i < config.AtrIdList.Length; i++)
         {
-            Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i]);
+            Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i], "+");
         }
 
         if (config.TalentId == 0)

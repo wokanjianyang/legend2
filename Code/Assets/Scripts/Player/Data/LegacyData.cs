@@ -14,14 +14,12 @@ namespace Game
 
         public MagicDouble Time { get; set; }
 
-        private const int DefaultTime = 3600;
-
         public void Check(long level)
         {
             if (Time == null)
             {
                 Time = new MagicDouble();
-                Time.Data = DefaultTime;
+                Time.Data = ConfigHelper.LegacyDefaultTime;
             }
 
             long nt = DateTime.Today.Ticks;
@@ -30,9 +28,9 @@ namespace Game
             {
                 Ticket = nt;
 
-                if (level > 30 && Time.Data < DefaultTime * 7)
+                if (level > 30 && Time.Data < ConfigHelper.LegacyDefaultTime * 7)
                 {
-                    Time.Data += DefaultTime;
+                    Time.Data += ConfigHelper.LegacyDefaultTime;
                 }
             }
         }

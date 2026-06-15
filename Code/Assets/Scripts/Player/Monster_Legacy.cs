@@ -92,7 +92,8 @@ public class Monster_Legacy : APlayer
         if (layerRise > 0)  //(如果玩家的套装等级等于怪物等级，则给怪增加30%*差距的免伤倍率)
         {
             //Debug.Log("legacy layerRise:" + layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.HeroBase, 10 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, 10 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, 10 * layerRise);
         }
 
         double MaxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);

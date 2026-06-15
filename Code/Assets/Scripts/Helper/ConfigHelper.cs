@@ -30,31 +30,19 @@ namespace Game
 
         public const long Cycle_Max = 32;
 
-        public const long Max_Legacy_Level = 20; //最大传世副本等级 
-
-        public const long Max_Floor = 20000000; //最大闯关
-
-        public const int FastFloor = 10000000;
 
         public const long RestoreGold = 5000000000000000L;
 
         public const double Def_Rate = 3; //防御系数
 
-        public static int[] RuneRate = new int[] { 1, 3, 8, 18, 39, 85 }; //紫色一下装备产生概率
-        public static int[] RuneRate1 = new int[] { 1, 3, 6, 10, 15, 20, 25 }; //0-350橙色装备产生概率 
-        public static int[] RuneRate2 = new int[] { 1, 4, 9, 15, 25, 35, 45, 55 }; //350-650橙色装备产生概率 
-        public static int[] RuneRate3 = new int[] { 1, 4, 9, 15, 25, 35, 45, 55, 60 }; //700以上橙色装备产生概率 
-
-        public static int[] RuneRate99 = new int[] { 1, 3, 6, 9, 15, 24, 39, 59, 85 }; //专属产生概率
 
         public const long MaxOfflineTime = 3600 * 24;  //最长离线时间
 
         //public const int MaxBagCount = 210;  // 包裹数量
         public static int[] BagCount = new int[] { 200, 200, 200, 450, 550 };
 
-        public const int LegacyTicketCd = 5400; //1小时 
+        public const int LegacyDefaultTime = 1200; //20分钟 
 
-        public const int LegacyTiketMax = 200; //传世挑战最大次数
 
         //public static int[] PercentAttrIdList = { 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 43, 45, 50, 51, 52, 53, 54, 55, 60, 91, 92, 93, 94, 101, 102, 103, 108, 109, 110, 201, 202, 203, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 };
 

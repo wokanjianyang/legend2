@@ -82,6 +82,15 @@ namespace Game
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                 }
+                else
+                {
+                    long number = CurrentItem.Item.Temp_Number;
+                    if (number > 1)
+                    {
+                        this.Txt_Level.text = number + "";
+                        this.Txt_Level.gameObject.SetActive(true);
+                    }
+                }
             }
         }
 

@@ -14,13 +14,27 @@ namespace Game
         /// </summary>
         public List<KeyValuePair<int, long>> AttrEntryList { get; set; } = new List<KeyValuePair<int, long>>();
 
+
+        private EquipSpeicalConfig _config;
+
         [JsonIgnore]
-        public EquipSpeicalConfig Config { get; set; }
+        public EquipSpeicalConfig Config
+        {
+            get
+            {
+                if (_config == null)
+                {
+                    _config = EquipSpeicalConfigCategory.Instance.GetConfig(ConfigId, this.Layer);
+                }
+
+                return _config;
+            }
+        }
 
 
         public Equip_Special(int configId) : base(configId, ItemType.EquipSpeical)
         {
-            this.Config = EquipSpeicalConfigCategory.Instance.Get(configId);
+
         }
 
         public IDictionary<int, double> GetBaseAttrList()
@@ -31,8 +45,9 @@ namespace Game
             {
                 int ai = Config.AttrIdList[i];
                 double av = Config.AttrValueList[i];
+                int riseLayer = Layer - Config.StartLayer;
 
-                BaseAttrList.Add(ai, av + Config.AttrRiseList[i] * Layer);
+                BaseAttrList.Add(ai, av + Config.AttrRiseList[i] * riseLayer);
             }
 
             return BaseAttrList;

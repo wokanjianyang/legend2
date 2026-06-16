@@ -35,6 +35,11 @@ namespace Game
 
             return item;
         }
+
+        public EquipSpeicalConfig GetConfig(int sid, int layer)
+        {
+            return this.list.Where(m => m.Sid == sid && m.StartLayer <= layer && layer <= m.EndLayer).FirstOrDefault();
+        }
     }
 
     //public class EquipHelper

@@ -16,7 +16,7 @@ public class Monster_Legacy : APlayer
     {
         this.GroupId = 2;
         this.Role = RandomHelper.RandomNumber(1, 4);
-        this.FashionId = layer / 3 + this.Role;
+        this.FashionId = (layer / 3 + this.Role) % 72 + 1;
         this.Layer = layer;
         this.Quality = 3;
 
@@ -92,8 +92,9 @@ public class Monster_Legacy : APlayer
         if (layerRise > 0)  //(如果玩家的套装等级等于怪物等级，则给怪增加30%*差距的免伤倍率)
         {
             //Debug.Log("legacy layerRise:" + layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, 10 * layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, 10 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.IncreaAtk, AttributeFrom.HeroBase, 30 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, 30 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, 30 * layerRise);
         }
 
         double MaxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
@@ -133,7 +134,7 @@ public class Monster_Legacy : APlayer
 
         if (dropLayer > 0)
         {
-            int legacyId = (Role - 1) * 8 + RandomHelper.RandomNumber(1, 9);
+            int legacyId = RandomPart();
 
             LegacyConfig config = LegacyConfigCategory.Instance.Get(legacyId);
 
@@ -188,10 +189,10 @@ public class Monster_Legacy : APlayer
         });
     }
 
-    private int[] rates = { 1, 3, 7, 15, 31 };
+    private int[] rates = { 1, 5, 20, 40, 100 };
     private int RandomDropLayer(int maxLayer)
     {
-        //掉率 千分之一
+        //掉率 1/100
         if (RandomHelper.RandomNumber(0, 100) > 0)
         {
             return 0;
@@ -205,5 +206,13 @@ public class Monster_Legacy : APlayer
         dropLayer = Math.Min(dropLayer, maxLayer);
 
         return dropLayer;
+    }
+
+    private int[] rates1 = { 1, 2, 4, 6, 8, 10, 12, 14 };
+    private int RandomPart()
+    {
+        int part = MathHelper.RandomArrayIndex(rates1, 1);
+
+        return part;
     }
 }

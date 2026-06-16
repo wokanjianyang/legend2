@@ -45,10 +45,11 @@ public class Legacy_Copy_Info : MonoBehaviour
         User user = GameProcessor.Inst.User;
 
         long time = (int)user.LegacyData.Time.Data;
-        Txt_Time.text = "副本剩余时间："+time + "秒";
+        Txt_Time.text = "副本剩余时间：" + time + "秒";
 
-        int min = (int)Math.Max(1, user.LegacyLayer.Select(m => m.Value.Data).Min());
+        int min = (int)Math.Max(1, user.LegacyLayer.Select(m => m.Value.Data).Min()) + 1;
         int max = (int)Math.Max(1, user.LegacyLayer.Select(m => m.Value.Data).Max());
+        max = Math.Min(max, min + 4);
 
         Txt_Layer_1.text = "（" + min + "阶，人物最低的传世装备等阶）";
         Txt_Layer_2.text = "（" + max + "阶，人物最高的传世装备等阶）";

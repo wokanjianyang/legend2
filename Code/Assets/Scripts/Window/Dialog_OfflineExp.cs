@@ -316,13 +316,33 @@ namespace Game
                     {
                         keepCount = Math.Min(keepCount, 10);
 
-                        //保留粉色装备
+                        //保留橙色装备
                         for (int k = 0; k < keepCount; k++)
                         {
                             int index = RandomHelper.RandomNumber(0, baseConfig.ItemIdList.Length);
                             int equipId = baseConfig.ItemIdList[index];
 
                             Item equip = EquipConfigCategory.Instance.BuildOfflineEquip(equipId, 5);
+                            itemList.Add(equip);
+                        }
+                    }
+                    else
+                    {
+                        //如果没有橙色，则保留紫色
+                        keepCount = EquipConfigCategory.Instance.GetOfflineKeepCount1(count);
+                        if (keepCount > 0)
+                        {
+                            keepCount = Math.Min(keepCount, 10);
+
+                        }
+
+                        //保留紫色装备
+                        for (int k = 0; k < keepCount; k++)
+                        {
+                            int index = RandomHelper.RandomNumber(0, baseConfig.ItemIdList.Length);
+                            int equipId = baseConfig.ItemIdList[index];
+
+                            Item equip = EquipConfigCategory.Instance.BuildOfflineEquip(equipId, 4);
                             itemList.Add(equip);
                         }
                     }

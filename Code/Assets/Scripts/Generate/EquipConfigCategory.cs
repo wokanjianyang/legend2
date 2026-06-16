@@ -92,5 +92,10 @@ namespace Game
         {
             return count / rates[rates.Length - 1];
         }
+
+        public int GetOfflineKeepCount1(int count)
+        {
+            return count / rates[rates.Length - 2];
+        }
     }
 }

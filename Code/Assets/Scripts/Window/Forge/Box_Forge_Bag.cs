@@ -8,23 +8,20 @@ using TMPro;
 
 namespace Game
 {
-    public class Box_Forge : MonoBehaviour
+    public class Box_Forge_Bag : MonoBehaviour
     {
-        public Transform Tf_Bg;
         public Transform Tf_Box;
 
         public Toggle toggle;
         public Text Txt_Name;
-        public Text Txt_Layer;
-        public Text Txt_Level;
 
         public Image Img_Bg;
         public Image Img_Logo;
 
-        private Item CurrentItem;
+        public Item CurrentItem;
 
         private int Type = 0;
-        private int Position = 0;
+        private int BoxId = 0;
 
         // Start is called before the first frame update
         void Start()
@@ -41,21 +38,12 @@ namespace Game
 
         }
 
-        void OnEnable()
-        {
-            this.Show();
-        }
-
         private void Show()
         {
             if (this.CurrentItem != null)
             {
-                Tf_Bg.gameObject.SetActive(false);
                 Tf_Box.gameObject.SetActive(true);
                 Img_Logo.gameObject.SetActive(true);
-
-                this.Txt_Layer.gameObject.SetActive(false);
-                this.Txt_Level.gameObject.SetActive(false);
 
                 int quality = CurrentItem.GetQuality();
 
@@ -69,25 +57,21 @@ namespace Game
             else
             {
                 this.Img_Logo.gameObject.SetActive(false);
-                Tf_Bg.gameObject.SetActive(true);
                 Tf_Box.gameObject.SetActive(false);
             }
-        }
-
-        public void Init(int type, int position, ToggleGroup group)
-        {
-            this.Type = type;
-            this.Position = position;
-
-            this.Img_Bg.sprite = PrefabHelper.Instance().GetEquipBg(Position);
-
-            this.toggle.group = group;
         }
 
         public void SetItem(Item item)
         {
             this.CurrentItem = item;
             this.Show();
+        }
+
+        public void Init(int type, int boxId, ToggleGroup group)
+        {
+            this.Type = type;
+            this.BoxId = boxId;
+            this.toggle.group = group;
         }
 
         public void Refresh()
@@ -100,14 +84,10 @@ namespace Game
         {
             if (isOn)
             {
-                if (Type == 3)
+                if (Type == 1)
                 {
-                    Panel_Grade panel = this.gameObject.GetComponentInParent<Panel_Grade>();
-                    panel.SelectItem(this.Position, CurrentItem, this);
-                }
-                else if (Type == 4) {
                     Panel_Legend panel = this.gameObject.GetComponentInParent<Panel_Legend>();
-                    panel.SelectItem(this.Position, CurrentItem, this);
+                    panel.SelectBag(this.BoxId, CurrentItem, this);
                 }
             }
         }

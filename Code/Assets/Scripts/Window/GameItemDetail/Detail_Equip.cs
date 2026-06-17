@@ -180,10 +180,9 @@ namespace Game
                     {
                         int attrId = AttrEntryList[index].Key;
                         long attrBaseValue = AttrEntryList[index].Value;
-                        long attrHoneVal = equip.GetHoneValue(index);
-                        long attrRiseValue = (attrBaseValue + attrHoneVal) * qualityPercent / 100;
+                        long attrRiseValue = (attrBaseValue) * qualityPercent / 100;
 
-                        child.GetComponent<Text>().text = FormatEquipAttrText(attrId, attrBaseValue, attrHoneVal, attrRiseValue);
+                        child.GetComponent<Text>().text = FormatEquipAttrText(attrId, attrBaseValue, 0, attrRiseValue);
                         child.gameObject.SetActive(true);
                     }
                     else

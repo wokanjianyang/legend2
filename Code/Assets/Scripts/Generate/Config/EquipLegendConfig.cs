@@ -129,6 +129,12 @@ namespace Game
 		/// <summary>SetId</summary>
 		[ProtoMember(18)]
 		public int SetId { get; set; }
+		/// <summary>Fee</summary>
+		[ProtoMember(19)]
+		public double Fee { get; set; }
+		/// <summary>Mc</summary>
+		[ProtoMember(20)]
+		public int Mc { get; set; }
 
 	}
 }

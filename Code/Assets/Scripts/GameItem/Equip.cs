@@ -187,7 +187,7 @@ namespace Game
             for (int i = 0; i < AttrEntryList.Count; i++)
             {
                 int attrId = AttrEntryList[i].Key;
-                long attrTotalValue = AttrEntryList[i].Value + GetHoneValue(i);
+                long attrTotalValue = AttrEntryList[i].Value;
                 attrTotalValue = attrTotalValue * qualityPercent / 100;
 
                 if (!AttrList.ContainsKey(attrId))
@@ -217,39 +217,12 @@ namespace Game
             this.Layer++;
         }
 
-        public void Hone(int index)
+        public void ToLegend(int lgId, int lgFliar)
         {
-            if (!HoneList.ContainsKey(index))
-            {
-                HoneList[index] = 0;
-            }
-
-            HoneList[index]++;
+            this.LegendData = new KeyValuePair<int, int>(lgId, lgFliar);
         }
 
-        public int GetHoneLevel(int index)
-        {
-            if (HoneList.ContainsKey(index))
-            {
-                return HoneList[index];
-            }
-            return 0;
-        }
 
-        public int GetHoneValue(int index)
-        {
-            int level = GetHoneLevel(index);
-            int attrId = this.AttrEntryList[index].Key;
-            int attrValue = (int)this.AttrEntryList[index].Value;
-
-            if (level > 0)
-            {
-                EquipHoneConfig config = EquipHoneConfigCategory.Instance.GetByAttrId(attrId);
-                return Math.Min(level * config.AttrValue, config.StartValue + Layer * config.AttrValue - attrValue);
-            }
-
-            return 0;
-        }
 
         public long GetAttrRateCount()
         {

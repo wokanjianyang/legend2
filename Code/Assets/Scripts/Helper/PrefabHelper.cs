@@ -18,6 +18,7 @@ namespace Game
 
         //private List<GameObject> ComBoxList = new List<GameObject>();
         private GameObject Pet_Forge_Box_Prefab = null;
+        private GameObject Box_Forge_Bag_Prefab = null;
         private GameObject BoxDropPrefab = null;
 
         private GameObject Message_Prefab = null;
@@ -97,6 +98,7 @@ namespace Game
             }
 
             Pet_Forge_Box_Prefab = Resources.Load<GameObject>("Prefab/Window/Pet/Pet_Forge_Box");
+            Box_Forge_Bag_Prefab = Resources.Load<GameObject>("Prefab/Window/Forge/Equip/Box_Forge_Bag");
 
             BoxDropPrefab = Resources.Load<GameObject>("Prefab/GameItem/Box_Drop");
 
@@ -168,6 +170,19 @@ namespace Game
         {
             var go = GameObject.Instantiate(Pet_Forge_Box_Prefab);
             Pet_Forge_Box comItem = go.GetComponent<Pet_Forge_Box>();
+            //comItem.SetItem(item, type, cycle);
+
+            comItem.transform.SetParent(parent);
+            comItem.transform.localPosition = Vector3.zero;
+            comItem.transform.localScale = Vector3.one;
+
+            return comItem;
+        }
+
+        public Box_Forge_Bag CreateForgeBag(Transform parent)
+        {
+            var go = GameObject.Instantiate(Box_Forge_Bag_Prefab);
+            Box_Forge_Bag comItem = go.GetComponent<Box_Forge_Bag>();
             //comItem.SetItem(item, type, cycle);
 
             comItem.transform.SetParent(parent);

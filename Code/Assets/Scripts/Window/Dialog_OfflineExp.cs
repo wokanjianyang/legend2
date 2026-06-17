@@ -50,7 +50,7 @@ namespace Game
 
             //items.Add(ItemHelper.BuildMaterial(5001, 1000000)); //铜矿石
             //items.Add(ItemHelper.BuildMaterial(5002, 10000)); //黑铁石
-            items.Add(ItemHelper.BuildMaterial(5006, 100)); //皮肤碎片
+            //items.Add(ItemHelper.BuildMaterial(5006, 100)); //皮肤碎片
 
             //items.Add(ItemHelper.BuildMaterial(ItemHelper.SpecialId_EquipRefineStone, 999999999)); //铜矿石
 

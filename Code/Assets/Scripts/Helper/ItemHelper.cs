@@ -89,6 +89,7 @@ namespace Game
         public static int Fashion_Stone = 5003; //皮肤碎片
         public static int Pet_Exp = 5004; //宠物口粮
         public static int Legacy_Stone = 5005; //传世精华
+        public static int Equip_Legend = 5006; //传奇精华
 
         public static int SpecialId_Level_Stone = 7001; //等级丹
         public static int SpecialId_Talent_Book = 7002; //天赋书

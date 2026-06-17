@@ -13,9 +13,23 @@ namespace Game
 
         public Item BuildEquip(int configId, double qualityRise, int seed)
         {
-            int quality = MathHelper.RandomArrayIndex(rates, qualityRise);
-
             EquipConfig config = this.Get(configId);
+
+            if (config.Cycle == 1)
+            {
+                return BuildCycle1(config, qualityRise, seed);
+            }
+            else if (config.Cycle == 10)
+            {
+                return BuildCycle10(config, seed);
+            }
+
+            return null;
+        }
+
+        public Equip BuildCycle1(EquipConfig config, double qualityRise, int seed)
+        {
+            int quality = MathHelper.RandomArrayIndex(rates, qualityRise);
 
             int runeId = 0;
             int suitId = 0;
@@ -27,7 +41,7 @@ namespace Game
                 if (runeConfig == null)
                 {
 
-                    Debug.LogError("erro config equip id£º" + configId);
+                    Debug.LogError("erro config equip id£º" + config.Id);
                 }
 
                 runeId = runeConfig.Id;
@@ -38,8 +52,20 @@ namespace Game
                 }
             }
 
-            Equip item = new Equip(configId, runeId, suitId, quality);
+            Equip item = new Equip(config.Id, runeId, suitId, quality);
             item.Init(seed);
+
+            return item;
+        }
+
+        public Equip BuildCycle10(EquipConfig config, int seed)
+        {
+            Equip item = new Equip(config.Id, 0, 0, config.Quality);
+
+            int lgId = item.Config.LegendId;
+            int lgFlair = RandomHelper.RandomSerialNumber(50, 100);
+
+            item.LegendData = new KeyValuePair<int, int>(lgId, lgFlair);
 
             return item;
         }

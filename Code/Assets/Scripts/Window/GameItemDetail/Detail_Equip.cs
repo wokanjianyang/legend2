@@ -23,7 +23,7 @@ namespace Game
 
         public Transform Tf_Random;
 
-        public Transform Tf_Quality;
+        public Transform Tf_Legend;
 
         public Transform Tf_Rune;
 
@@ -87,7 +87,7 @@ namespace Game
             this.gameObject.SetActive(true);
             Tf_Base.gameObject.SetActive(false);
             Tf_Random.gameObject.SetActive(false);
-            Tf_Quality.gameObject.SetActive(false);
+            Tf_Legend.gameObject.SetActive(false);
             Tf_Rune.gameObject.SetActive(false);
             Tf_Suit.gameObject.SetActive(false);
             Tf_Set.gameObject.SetActive(false);
@@ -193,29 +193,37 @@ namespace Game
                 }
             }
 
-            //if (equip.QualityAttrList != null && equip.QualityAttrList.Count > 0)
-            //{
-            //    Tf_Quality.gameObject.SetActive(true);
-            //    Tf_Quality.Find("Tf_Title").Find("Title_Text").GetComponent<Text>().text = "[品质属性]";
-            //    Transform gridQuality = Tf_Quality.Find("Grid_Quality");
+            if (equip.LegendData.Key > 0)
+            {
+                Tf_Legend.gameObject.SetActive(true);
+                Tf_Legend.Find("Tf_Title").Find("Title_Flair").GetComponent<Text>().text = "资质：" + equip.LegendData.Value;
 
-            //    var QualityAttrList = equip.QualityAttrList.ToList();
+                Transform gridLegend = Tf_Legend.Find("Grid_Legend");
 
-            //    for (int index = 0; index < 4; index++)
-            //    {
-            //        var child = gridQuality.Find(string.Format("Attribute_{0}", index));
+                int lgId = equip.LegendData.Key;
+                EquipLegendConfig config = EquipLegendConfigCategory.Instance.Get(lgId);
 
-            //        if (index < QualityAttrList.Count)
-            //        {
-            //            child.GetComponent<Text>().text = FormatAttrText(QualityAttrList[index].Key, QualityAttrList[index].Value, qualityPercent);
-            //            child.gameObject.SetActive(true);
-            //        }
-            //        else
-            //        {
-            //            child.gameObject.SetActive(false);
-            //        }
-            //    }
-            //}
+                for (int index = 0; index < 2; index++)
+                {
+                    var child = gridLegend.Find(string.Format("Attribute_{0}", index));
+
+                    if (index < config.AtrIdList.Length)
+                    {
+                        int atrId = config.AtrIdList[index];
+                        long atrVue = config.AtrVueList[index];
+
+                        child.GetComponent<Text>().text = FormatAttrText(atrId, atrVue, 0);
+                        child.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
+
+                this.ShowLegend(config.SetId, equip.LegendData.Value);
+            }
+
 
             if (equip.SkillRuneConfig != null)
             {
@@ -238,7 +246,7 @@ namespace Game
                 this.ShowSuit(suitIdList, suitCountList, user.GetSuitMax());
             }
 
-            if (equip.Part >= 0)
+            if (equip.Config.Cycle < 10)
             {
                 Tf_Set.gameObject.SetActive(true);
 
@@ -318,6 +326,14 @@ namespace Game
                     reds[i].gameObject.SetActive(false);
                 }
             }
+        }
+
+        private void ShowLegend(int setId, int flair)
+        {
+            Item_Suit rune = Tf_Legend.GetComponentInChildren<Item_Suit>(true);
+
+            rune.gameObject.SetActive(true);
+            rune.SetLegend(setId, flair);
         }
 
         private void ShowRune(int rid)

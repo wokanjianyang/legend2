@@ -61,11 +61,11 @@ namespace Game
                 if (BoxItem.Item.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = BoxItem.Item as Equip;
-                    if (equip.GetQuality() > 5 && (equip.Part <= 10 || equip.Part >= 21))
-                    {
-                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
-                        this.Txt_Layer.gameObject.SetActive(true);
-                    }
+                    //if (equip.GetQuality() > 5 && (equip.Part <= 10 || equip.Part >= 21))
+                    //{
+                    //    this.Txt_Layer.text = ConfigHelper.LayerChinaList[equip.Layer] + "阶";
+                    //    this.Txt_Layer.gameObject.SetActive(true);
+                    //}
                 }
                 else if (BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
                 {

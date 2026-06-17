@@ -82,6 +82,8 @@ namespace Game
         public override void Grade()
         {
             this.Layer++;
+
+            _config = EquipSpeicalConfigCategory.Instance.GetConfig(ConfigId, this.Layer);
         }
 
         //------------------------------------------override----------------

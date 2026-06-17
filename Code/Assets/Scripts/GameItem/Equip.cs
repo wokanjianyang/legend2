@@ -24,6 +24,8 @@ namespace Game
         public int RefreshCount { get; set; }
         public long RefreshDate { get; set; }
 
+        public KeyValuePair<int, int> LegendData { get; set; } = new KeyValuePair<int, int>();
+
         public Dictionary<int, int> HoneList { get; set; } = new Dictionary<int, int>();
 
         public EquipData Data { get; set; } = new EquipData();
@@ -329,11 +331,21 @@ namespace Game
                     dict[ItemHelper.Equip_Refine] += 1 * number;
                 }
             }
+            else if (Config.Cycle == 10)
+            {
+                if (!dict.ContainsKey(ItemHelper.Equip_Legend))
+                {
+                    dict[ItemHelper.Equip_Legend] = 0;
+                }
+
+                int count = Config.LevelRequired / 10;
+                dict[ItemHelper.Equip_Legend] += count * number;
+            }
 
             return (long)(Config.Price * Prices[GetQuality() - 1] * number);
         }
 
-        private double[] Prices = { 1, 1.1, 1.2, 1.5, 2 };
+        private double[] Prices = { 1, 1.1, 1.2, 1.5, 2, 3, 4 };
 
         private int CalStone()
         {

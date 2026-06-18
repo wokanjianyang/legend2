@@ -68,12 +68,12 @@ namespace Game
                 return 1;
             }
 
-            if (this.Total < 100)
+            if (this.Total < 100)  //前100个怪只有白色
             {
                 return 1;
             }
 
-            if (mapConfig.BossId > 0 && RandomHelper.RandomDropRate(1000))  //40000
+            if (mapConfig.BossId > 0 && RandomHelper.RandomDropRate(1000))  //40000，区域boss刷新概率
             {
                 return 6;
             }

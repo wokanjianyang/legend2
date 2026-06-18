@@ -266,7 +266,7 @@ namespace Game
             return total;
         }
 
-        //获取最终面板属性
+        //最终面板属性
         public double CalPanelTotalAttr(AttributeEnum attrType)
         {
             double total = 0;
@@ -331,7 +331,7 @@ namespace Game
             return total;
         }
 
-        //获取单项面板属性
+        //计算最终面板的中间方法
         public double CalPanelAtr(AttributeEnum type)
         {
             int t = (int)type;
@@ -351,6 +351,31 @@ namespace Game
             else if (t >= 10000)
             {
                 return 1 + CalPanelSingleMul(type) / 100.0;
+            }
+
+            return 0;
+        }
+
+        //高级面板属性
+        public double CalPanelSingleAtr(AttributeEnum type)
+        {
+            int t = (int)type;
+
+            if (t <= -10000)
+            {
+                return CalPanelSingleMul(type);
+            }
+            else if (t < 0)
+            {
+                return CalPanelSingleAdd(type);
+            }
+            else if (t < 10000)
+            {
+                return CalPanelSingleAdd(type);
+            }
+            else if (t >= 10000)
+            {
+                return CalPanelSingleMul(type);
             }
 
             return 0;

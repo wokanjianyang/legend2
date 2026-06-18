@@ -62,7 +62,7 @@ public class Init : MonoBehaviour
                 "Window/SoulRing/Dialog_SoulRing",
                 "Window/Talent/Dialog_Talent",
                 "Window/Fashion/Dialog_Fashion",
-                "Window/Dialog_Attr",
+                "Home/Bag/Dialog_Attr",
                 "Window/Pet/Dialog_Pet",
 
                 "Window/More/Dialog_Mine",

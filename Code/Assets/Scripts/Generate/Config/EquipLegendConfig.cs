@@ -78,62 +78,23 @@ namespace Game
 		/// <summary>_id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>Cycle</summary>
-		[ProtoMember(2)]
-		public int Cycle { get; set; }
-		/// <summary>LevelRequired</summary>
-		[ProtoMember(3)]
-		public int LevelRequired { get; set; }
 		/// <summary>Name</summary>
-		[ProtoMember(4)]
+		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>Part</summary>
-		[ProtoMember(5)]
-		public int Part { get; set; }
-		/// <summary>Position</summary>
-		[ProtoMember(6)]
-		public int[] Position { get; set; }
-		/// <summary>基础属性列表</summary>
-		[ProtoMember(7)]
-		public int[] AttrIdList { get; set; }
-		/// <summary>基础属性值</summary>
-		[ProtoMember(8)]
-		public long[] AttrValueList { get; set; }
-		/// <summary>Price</summary>
-		[ProtoMember(9)]
-		public long Price { get; set; }
-		/// <summary>Role</summary>
-		[ProtoMember(10)]
-		public int Role { get; set; }
-		/// <summary>RecoveryItemId</summary>
-		[ProtoMember(11)]
-		public int RecoveryItemId { get; set; }
-		/// <summary>CardGroupId</summary>
-		[ProtoMember(12)]
-		public int CardGroupId { get; set; }
-		/// <summary>CardQuality</summary>
-		[ProtoMember(13)]
-		public int CardQuality { get; set; }
-		/// <summary>CardAtrList</summary>
-		[ProtoMember(14)]
-		public int[] CardAtrList { get; set; }
-		/// <summary>CardVueList</summary>
-		[ProtoMember(15)]
-		public int[] CardVueList { get; set; }
 		/// <summary>AtrIdList</summary>
-		[ProtoMember(16)]
+		[ProtoMember(3)]
 		public int[] AtrIdList { get; set; }
 		/// <summary>AtrVueList</summary>
-		[ProtoMember(17)]
+		[ProtoMember(4)]
 		public long[] AtrVueList { get; set; }
 		/// <summary>SetId</summary>
-		[ProtoMember(18)]
+		[ProtoMember(5)]
 		public int SetId { get; set; }
 		/// <summary>Fee</summary>
-		[ProtoMember(19)]
+		[ProtoMember(6)]
 		public double Fee { get; set; }
 		/// <summary>Mc</summary>
-		[ProtoMember(20)]
+		[ProtoMember(7)]
 		public int Mc { get; set; }
 
 	}

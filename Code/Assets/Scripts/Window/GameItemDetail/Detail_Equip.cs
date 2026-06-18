@@ -220,7 +220,9 @@ namespace Game
                     }
                 }
 
-                this.ShowLegend(config.SetId, equip.LegendData.Value);
+                int lgCount = user.GetLegendCount(config.SetId);
+
+                this.ShowLegend(config.SetId, lgCount, equip.LegendData.Value);
             }
 
 
@@ -327,12 +329,12 @@ namespace Game
             }
         }
 
-        private void ShowLegend(int setId, int flair)
+        private void ShowLegend(int setId, int lgCount, int flair)
         {
             Item_Suit rune = Tf_Legend.GetComponentInChildren<Item_Suit>(true);
 
             rune.gameObject.SetActive(true);
-            rune.SetLegend(setId, flair);
+            rune.SetLegend(setId, lgCount, flair);
         }
 
         private void ShowRune(int rid)

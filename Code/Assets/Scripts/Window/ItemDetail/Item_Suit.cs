@@ -31,11 +31,11 @@ namespace Game
             this.Txt_Des.text = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate, config.DeadlyDamage, config.RateDamage, config.AttrIncrea, config.FinalIncrea);
         }
 
-        public void SetLegend(int setId, int flair)
+        public void SetLegend(int setId, int lgCount, int flair)
         {
             EquipLegendSetConfig config = EquipLegendSetConfigCategory.Instance.Get(setId);
 
-            this.Txt_Name.text = string.Format("{0}£¨{1}/{2}£©£º", config.Name, 0, config.Count);
+            this.Txt_Name.text = string.Format("{0}£¨{1}/{2}£©£º", config.Name, lgCount, config.Count);
 
             if (config.AtrIdList.Length == 1)
             {

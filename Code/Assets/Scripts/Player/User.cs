@@ -839,6 +839,13 @@ namespace Game
             return count;
         }
 
+        public int GetLegendCount(int setId)
+        {
+            int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.LegendConfig != null && m.Value.LegendConfig.SetId == setId).Count();
+
+            return count;
+        }
+
         public List<EquipGroupConfig> GetEquipGroups()
         {
             var currentPanel = this.EquipPanelList[EquipPanelIndex];

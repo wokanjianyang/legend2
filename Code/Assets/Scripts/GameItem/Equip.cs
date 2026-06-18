@@ -37,6 +37,22 @@ namespace Game
         public SkillSuitConfig SkillSuitConfig { get; set; }
 
         [JsonIgnore]
+        private EquipLegendConfig _LegendConfig;
+        [JsonIgnore]
+        public EquipLegendConfig LegendConfig
+        {
+            get
+            {
+                if (_LegendConfig == null && LegendData.Key > 0)
+                {
+                    _LegendConfig = EquipLegendConfigCategory.Instance.Get(LegendData.Key);
+                }
+
+                return _LegendConfig;
+            }
+        }
+
+        [JsonIgnore]
         public EquipConfig Config { get; set; }
 
         [JsonIgnore]
@@ -88,16 +104,6 @@ namespace Game
 
             return BaseAttrList;
         }
-
-        //private int GetLayerRate(int layer)
-        //{
-        //    int b = 1;
-        //    for (int i = 1; i < layer; i++)
-        //    {
-        //        b = b * 2;
-        //    }
-        //    return 1;
-        //}
 
         public void CheckReFreshCount()
         {
@@ -198,16 +204,22 @@ namespace Game
                 AttrList[attrId] += attrTotalValue;
             }
 
-            //计算品质属性
-            //foreach (int attrId in QualityAttrList.Keys)
-            //{
-            //    if (!AttrList.ContainsKey(attrId))
-            //    {
-            //        AttrList[attrId] = 0;
-            //    }
+            //计算传奇属性
+            if (LegendData.Key > 0)
+            {
+                EquipLegendConfig legendConfig = EquipLegendConfigCategory.Instance.Get(LegendData.Key);
+                for (int i = 0; i < legendConfig.AtrIdList.Length; i++)
+                {
+                    int atrId = legendConfig.AtrIdList[i];
+                    double atrVue = legendConfig.AtrVueList[i];
+                    if (!AttrList.ContainsKey(atrId))
+                    {
+                        AttrList[atrId] = 0;
+                    }
 
-            //    AttrList[attrId] += QualityAttrList[attrId];
-            //}
+                    AttrList[atrId] += atrVue;
+                }
+            }
 
             return AttrList;
         }
@@ -220,6 +232,8 @@ namespace Game
         public void ToLegend(int lgId, int lgFliar)
         {
             this.LegendData = new KeyValuePair<int, int>(lgId, lgFliar);
+
+            _LegendConfig = EquipLegendConfigCategory.Instance.Get(LegendData.Key);
         }
 
 

@@ -17,6 +17,12 @@ namespace Game
 
         public int LuckyTotal { get; set; } = 0;
 
+        public int CurseTotal { get; set; } = 0;
+
+        public int SpeedTotal { get; set; } = 0;
+
+        public int CdTotal { get; set; } = 0;
+
         public int DropRate { get; set; } = 0;
 
         public int DropQuality { get; set; } = 0;
@@ -27,62 +33,14 @@ namespace Game
 
         public Dictionary<int, bool> EquipRole { get; private set; } = new Dictionary<int, bool>();
 
-        //红色装备
-        public bool RedRecovery { get; set; } = false;
 
-        public bool RedKeep { get; set; } = false;
-
-        public int RedExpTotal { get; set; } = 0;
-
-        public int RedGoldTotal { get; set; } = 0;
-
-        public int RedDropRate { get; set; } = 0;
-
-        public int RedDropQuality { get; set; } = 0;
-
-        //金色装备
-        public bool EquipiGoldenRecovery { get; set; } = false;
-
-        public bool EquipiGoldenKeep { get; set; } = false;
-
-        public int EquipGoldenTotal { get; set; } = 0;
-
-        //暗金装备
-        public bool EquipiDarkRecovery { get; set; } = false;
-
-        public bool EquipiDarkKeep { get; set; } = false;
-
-        public int EquipDarkTotal { get; set; } = 0;
-
-        //混沌装备
-        public int Equip_Hundun_Recovery { get; set; } = 0;
-        public bool Equip_Hundun_Keep { get; set; } = false;
-
-        public int Equip_Hundun_Total { get; set; } = 0;
-
-        //普通专属
-        public int Exclusive_Recovery { get; set; } = 0;
-        public int Exclusive_Keep { get; set; } = 0;
-
-        //传奇专属
-        public int Exclusive_Recovery_Golden { get; set; } = 0;
-        public int Exclusive_Keep_Golden { get; set; } = 0;
-
-        //不朽专属
-        public int Exclusive_Recovery_Dark { get; set; } = 0;
-        public int Exclusive_Keep_Dark { get; set; } = 0;
+        //传奇装备
+        public int LegendLevel { get; set; } = 0;
 
         //其他回收
-
         public int SpecailLevel { get; set; } = 0;
 
-        public int HalidomLevel { get; set; } = 0;
-
-        public int RedStoneLevel { get; set; } = 0;
-
         public int PetQuality { get; set; } = 0;
-
-        public int ShengxiaoQuality { get; set; } = 0;
 
         private int KeepStartQuality = 3;
 
@@ -119,15 +77,8 @@ namespace Game
                     //keepSkill = GameProcessor.Inst.User.CheckKeepSkill(equip.SkillRuneConfig.SkillId, equip.SkillRuneConfig.SkillLayer);
                 }
 
-                if (cycle == 0)
-                {
-                    //四格回收
-                    if (cycle == 0 && level < SpecailLevel)
-                    {
-                        return true;
-                    }
-                }
-                else if (cycle == 1)
+
+                if (cycle == 1)
                 {
                     //普通回收
 
@@ -164,6 +115,35 @@ namespace Game
                             }
                         }
 
+                        if (CurseTotal > 0)
+                        {
+                            long curse = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.Curse).Select(m => m.Value).Sum();
+                            if (curse >= LuckyTotal)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+                        }
+
+                        if (CurseTotal > 0)
+                        {
+                            long speed = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.Speed).Select(m => m.Value).Sum();
+                            if (speed >= SpeedTotal)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+                        }
+
+                        if (CurseTotal > 0)
+                        {
+                            long cd = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.Cd).Select(m => m.Value).Sum();
+                            if (cd >= CdTotal)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+                        }
                         if (DropRate > 0)
                         {
                             long rateTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.BurstIncrea).Select(m => m.Value).Sum();
@@ -192,6 +172,7 @@ namespace Game
                                 return false;
                             }
                         }
+
                     }
 
                     if (equip.Level < EquipLevel || EquipRole.GetValueOrDefault(role, false) || quality <= EquipQualityRecovery)
@@ -199,140 +180,14 @@ namespace Game
                         return true;
                     }
                 }
-                else if (cycle == 2)
+                else if (cycle == 10)
                 {
-                    if (!RedRecovery)
-                    {
-                        return false;
-                    }
-
-                    //红装回收
-                    if (RedGoldTotal > 0)
-                    {
-                        long gt = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.GoldIncrea).Select(m => m.Value).Count();
-                        if (gt >= RedGoldTotal)
-                        {
-                            item.IsKeep = true;
-                            return false;
-                        }
-                    }
-
-                    if (RedExpTotal > 0)
-                    {
-                        long et = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.ExpIncrea).Select(m => m.Value).Count();
-                        if (et >= RedExpTotal)
-                        {
-                            item.IsKeep = true;
-                            return false;
-                        }
-                    }
-
-                    if (RedDropRate > 0)
-                    {
-                        long rateTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.BurstIncrea).Select(m => m.Value).Count();
-                        if (rateTotal >= RedDropRate)
-                        {
-                            item.IsKeep = true;
-                            return false;
-                        }
-                    }
-
-                    if (RedDropQuality > 0)
-                    {
-                        long qualityTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.QualityIncrea).Select(m => m.Value).Count();
-                        if (qualityTotal >= RedDropQuality)
-                        {
-                            item.IsKeep = true;
-                            return false;
-                        }
-                    }
-
-                    if (keepSkill && RedKeep)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    return true;
-                }
-                else if (cycle == 3)
-                {
-                    if (!EquipiGoldenRecovery)
-                    {
-                        return false;
-                    }
-
-                    //金装回收
-                    if (EquipGoldenTotal > 0 && equip.GetAttrRateCount() >= EquipGoldenTotal)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    if (keepSkill && EquipiGoldenKeep)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    return true;
-                }
-                else if (cycle == 4)
-                {
-                    if (!EquipiDarkRecovery)
-                    {
-                        return false;
-                    }
-
-                    //暗金回收
-                    if (EquipDarkTotal > 0 && equip.GetAttrRateCount() >= EquipDarkTotal)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    if (keepSkill && EquipiDarkKeep)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    return true;
-                }
-                else if (cycle == 5)
-                {
-                    if (Equip_Hundun_Total > 0 && equip.GetAttrRateCount() >= Equip_Hundun_Total)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    if (keepSkill && Equip_Hundun_Keep)
-                    {
-                        item.IsKeep = true;
-                        return false;
-                    }
-
-                    if (quality <= Equip_Hundun_Recovery)
+                    if (LegendLevel > 0 && equip.Config.LevelRequired < LegendLevel)
                     {
                         return true;
                     }
                 }
             }
-            //else if (item.GetItemType() == ItemType.Halidom && type == RecoveryType.Drop)
-            //{
-            //    if (item.ConfigId >= 40000051 && item.ConfigId <= 41000000 && item.ItemConfig.UseParam < HalidomLevel)
-            //    {
-            //        return true;
-            //    }
-            //}
-            //else if (item.GetItemType() == ItemType.Material && type == RecoveryType.Drop)
-            //{
-            //    if (item.ConfigId >= 50000001 && item.ConfigId <= 51000000 && item.ItemConfig.UseParam < RedStoneLevel)
-            //    {
-            //        return true;
-            //    }
-            //}
             else if (item.GetItemType() == ItemType.EquipSpeical)
             {
                 //四格回收
@@ -344,15 +199,7 @@ namespace Game
             else if (item.GetItemType() == ItemType.Pet)
             {
                 Pet pet = item as Pet;
-                if (item.GetQuality() <= PetQuality && pet.PetLayer.Data == 1 && pet.PetLevel.Data == 1)
-                {
-                    return true;
-                }
-            }
-            else if (item.GetItemType() == ItemType.Shengxiao)
-            {
-                Shengxiao shengxaio = item as Shengxiao;
-                if (item.GetQuality() <= ShengxiaoQuality && shengxaio.LayerData.Data < 1 && shengxaio.LevelData.Data < 1)
+                if (item.GetQuality() <= PetQuality && pet.KillCount.Data <= 0)
                 {
                     return true;
                 }

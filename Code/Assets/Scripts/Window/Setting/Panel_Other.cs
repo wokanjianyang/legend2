@@ -18,7 +18,7 @@ using Game.Data;
 
 namespace Game
 {
-    public class Com_Other : MonoBehaviour
+    public class Panel_Other : MonoBehaviour
     {
         [LabelText("显示怪物技能特效")]
         public Toggle tog_Monster_Skill;

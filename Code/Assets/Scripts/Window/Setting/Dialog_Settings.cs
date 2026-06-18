@@ -14,9 +14,9 @@ namespace Game
 {
     public class Dialog_Settings : MonoBehaviour, IBattleLife
     {
-        public Com_Recovery com_Recovery;
-        public Com_Other com_Other;
-        public Com_Settings com_Settings;
+        public Panel_Recovery com_Recovery;
+        public Panel_Other com_Other;
+        public Panel_Code com_Settings;
 
         public Toggle tog_Recovery;
         public Toggle tog_Base;

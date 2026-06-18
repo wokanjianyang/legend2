@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace Game
 {
-    public class Com_Settings : MonoBehaviour
+    public class Panel_Code : MonoBehaviour
     {
         public Transform tf_Name;
         [LabelText("名字输入框")]

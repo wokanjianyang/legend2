@@ -460,15 +460,35 @@ namespace Game
             //设置升级属性
             SetUpExp();
 
+            Dictionary<int, int> lgCount = new Dictionary<int, int>();
+            Dictionary<int, int> lgFlair = new Dictionary<int, int>();
 
             //装备属性-普通装备
             foreach (KeyValuePair<int, Equip> kvp in EquipPanelList[EquipPanelIndex])
             {
+                Equip equip = kvp.Value;
                 long refineLevel = GetRefineLevel(kvp.Key);
 
-                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList(refineLevel))
+                foreach (KeyValuePair<int, double> a in equip.GetTotalAttrList(refineLevel))
                 {
                     AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
+                }
+
+                if (equip.LegendConfig != null)
+                {
+                    int lgId = equip.LegendData.Key;
+                    if (!lgCount.ContainsKey(lgId))
+                    {
+                        lgCount[lgId] = 0;
+                    }
+
+                    if (!lgFlair.ContainsKey(lgId))
+                    {
+                        lgFlair[lgId] = 0;
+                    }
+
+                    lgCount[lgId]++;
+                    lgFlair[lgId] += equip.LegendData.Value;
                 }
             }
 
@@ -481,6 +501,11 @@ namespace Game
                     AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
                 }
             }
+
+            //传奇装备套装
+
+
+
 
             //套装属性
             //List<EquipGroupConfig> suitList = GetEquipGroups();
@@ -978,6 +1003,51 @@ namespace Game
             return suit;
         }
 
+        //---传奇套装
+        public List<EquipLegendSet> GetEquipLegendSets()
+        {
+            Dictionary<int, EquipLegendSet> dict = new Dictionary<int, EquipLegendSet>();
+
+            foreach (var sp in this.EquipPanelList[EquipPanelIndex])
+            {
+                Equip equip = sp.Value;
+                int lgId = equip.LegendData.Key;
+
+                if (lgId > 0)
+                {
+                    int setId = equip.LegendConfig.SetId;
+                    if (!dict.ContainsKey(setId))
+                    {
+                        EquipLegendSet set = new EquipLegendSet(setId);
+                        dict[setId] = set;
+                    }
+
+                    dict[setId].Add(equip.LegendData.Value);
+                }
+
+            }
+
+            return dict.Select(m => m.Value).Where(m => m.IsActive()).ToList();
+        }
+
+        public EquipLegendSet GetEquipLegendSet(int setId)
+        {
+            EquipLegendSet set = new EquipLegendSet(setId);
+
+            foreach (var sp in this.EquipPanelList[EquipPanelIndex])
+            {
+                Equip equip = sp.Value;
+                int lgId = equip.LegendData.Key;
+
+                if (lgId == setId)
+                {
+                    set.Add(equip.LegendData.Value);
+                }
+
+            }
+
+            return set;
+        }
 
         public int GetRecordData(int type)
         {

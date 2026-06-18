@@ -114,7 +114,7 @@ namespace Game
 
             int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
 
-            tempTime = 3600 * 20;
+            //tempTime = 3600 * 20;
 
             int mapId = user.OfflineLog[1];
             int total = user.OfflineLog[2];

@@ -87,41 +87,41 @@ namespace Game
             //    this.AttributeBonus.SetBuffList(buffList);
             //}
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP));
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Def));
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyAtk));
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicAtk));
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritAtk));
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP));
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Def));
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyAtk));
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicAtk));
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritAtk));
 
-            AttributeBonus.SetAttr(AttributeEnum.Speed, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed));
-            AttributeBonus.SetAttr(AttributeEnum.MoveSpeed, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed));
-            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Lucky));
-            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Curse));
-            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Accuracy));
-            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Miss));
-            AttributeBonus.SetAttr(AttributeEnum.RestoreIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.RestoreIncrea));
+            AttributeBonus.SetAttr(AttributeEnum.Speed, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed));
+            AttributeBonus.SetAttr(AttributeEnum.MoveSpeed, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed));
+            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Lucky));
+            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Curse));
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Accuracy));
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Miss));
+            AttributeBonus.SetAttr(AttributeEnum.RestoreIncrea, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.RestoreIncrea));
 
-            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRate));
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamage));
-            AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyRate));
-            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
-            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
-            AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamageResist));
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageIncrea));
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageResist));
+            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRate));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamage));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyRate));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
+            AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamageResist));
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageIncrea));
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageResist));
 
-            AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Strong));
-            AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Shatter));
-            AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Parry));
+            AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Strong));
+            AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Shatter));
+            AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Parry));
 
-            AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyDamage));
-            AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
-            AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
+            AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
+            AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
 
-            AttributeBonus.SetAttr(AttributeEnum.AchievementDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.AchievementDamage));
-            AttributeBonus.SetAttr(AttributeEnum.CardDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CardDamage));
-            AttributeBonus.SetAttr(AttributeEnum.FashionDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.FashionDamage));
-            AttributeBonus.SetAttr(AttributeEnum.LegacyDamage, AttributeFrom.HeroPanel, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.AchievementDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.AchievementDamage));
+            AttributeBonus.SetAttr(AttributeEnum.CardDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CardDamage));
+            AttributeBonus.SetAttr(AttributeEnum.FashionDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.FashionDamage));
+            AttributeBonus.SetAttr(AttributeEnum.LegacyDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
 
             //此处不能回血，因为会修改人物属性之类的
         }

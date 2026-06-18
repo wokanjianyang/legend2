@@ -439,29 +439,29 @@ namespace Game
 
             long Level = MagicLevel.Data;
 
+            //宠物属性
+            int attrKey = 1;
+
             //基础属性，攻击10，防御0，生命1000，爆伤150，致命伤害150
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, 1000);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 10);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 10);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 10);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, 50);
-            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.HeroBase, 50);
+            AttributeBonus.SetAttr(AttributeEnum.HP, attrKey++, 1000);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, attrKey++, 10);
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, attrKey++, 10);
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, attrKey++, 10);
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, attrKey++, 50);
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, attrKey++, 50);
 
             //等级属性,攻击倍率，生命倍率，等级*1%
-            AttributeBonus.SetAttr(AttributeEnum.MulAtk, AttributeFrom.HeroBase, Level * 1);
-            AttributeBonus.SetAttr(AttributeEnum.MulHp, AttributeFrom.HeroBase, Level * 1);
+            AttributeBonus.SetAttr(AttributeEnum.MulAtk, attrKey++, Level * 1);
+            AttributeBonus.SetAttr(AttributeEnum.MulHp, attrKey++, Level * 1);
 
             if (ConfigHelper.EnvTest == 2)
             {
-                AttributeBonus.SetAttr(AttributeEnum.BurstIncrea, AttributeFrom.Test + 1, 10000);
-                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, AttributeFrom.Test + 1, 10000);
+                AttributeBonus.SetAttr(AttributeEnum.BurstIncrea, attrKey++, 10000);
+                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, attrKey++, 10000);
             }
 
             //设置升级属性
             SetUpExp();
-
-            Dictionary<int, int> lgCount = new Dictionary<int, int>();
-            Dictionary<int, int> lgFlair = new Dictionary<int, int>();
 
             //装备属性-普通装备
             foreach (KeyValuePair<int, Equip> kvp in EquipPanelList[EquipPanelIndex])
@@ -471,24 +471,7 @@ namespace Game
 
                 foreach (KeyValuePair<int, double> a in equip.GetTotalAttrList(refineLevel))
                 {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
-                }
-
-                if (equip.LegendConfig != null)
-                {
-                    int lgId = equip.LegendData.Key;
-                    if (!lgCount.ContainsKey(lgId))
-                    {
-                        lgCount[lgId] = 0;
-                    }
-
-                    if (!lgFlair.ContainsKey(lgId))
-                    {
-                        lgFlair[lgId] = 0;
-                    }
-
-                    lgCount[lgId]++;
-                    lgFlair[lgId] += equip.LegendData.Value;
+                    AttributeBonus.SetAttr((AttributeEnum)a.Key, attrKey++, a.Value);
                 }
             }
 
@@ -498,11 +481,21 @@ namespace Game
             {
                 foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList())
                 {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquipBase, kvp.Key, a.Value);
+                    AttributeBonus.SetAttr((AttributeEnum)a.Key, attrKey++, a.Value);
                 }
             }
 
             //传奇装备套装
+            List<EquipLegendSet> legs = this.GetActiveLegendSetList();
+            foreach (var sp in legs)
+            {
+                Dictionary<int, double> atrList = sp.GetAtrList();
+
+                foreach (var atr in atrList)
+                {
+                    AttributeBonus.SetAttr((AttributeEnum)(atr.Key), attrKey++, atr.Value);
+                }
+            }
 
 
 
@@ -526,7 +519,7 @@ namespace Game
 
                 foreach (KeyValuePair<int, double> a in strengthConfig.GetTotalAtrList(sp.Value.Data))
                 {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, AttributeFrom.EquiStrong, sp.Key, a.Value);
+                    AttributeBonus.SetAttr((AttributeEnum)a.Key, attrKey++, a.Value);
                 }
             }
 
@@ -540,7 +533,7 @@ namespace Game
 
                     for (int i = 0; i < config.AtrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)config.AtrIdList[i], AttributeFrom.Achivement, sp.Key, config.GetAtrVue(i, al));
+                        AttributeBonus.SetAttr((AttributeEnum)config.AtrIdList[i], attrKey++, config.GetAtrVue(i, al));
                     }
                 }
             }
@@ -554,19 +547,17 @@ namespace Game
 
                     for (int i = 0; i < sp.AttrIdList.Count; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(sp.AttrIdList[i]), AttributeFrom.Skill, sp.SkillId, sp.AttrValueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(sp.AttrIdList[i]), attrKey++, sp.AttrValueList[i]);
                     }
                 }
             }
 
-            //宠物属性
-            int attrKey = 1;
             foreach (var sp in this.PetList)
             {
                 Dictionary<int, double> attrList = sp.GetTotalAttr();
                 foreach (var al in attrList)
                 {
-                    AttributeBonus.SetAttr((AttributeEnum)(al.Key), AttributeFrom.Pet, attrKey++, al.Value);
+                    AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
                 }
             }
 
@@ -582,7 +573,7 @@ namespace Game
 
                     for (int i = 0; i < config.AtrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), AttributeFrom.Exclusive, config.Id, config.AtrVueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i]);
                     }
                 }
             }
@@ -598,7 +589,7 @@ namespace Game
 
                         for (int i = 0; i < config.CardAtrList.Length; i++)
                         {
-                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), AttributeFrom.Card, sp.Key, config.CardVueList[i]);
+                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), attrKey++, config.CardVueList[i]);
                         }
                     }
                     else
@@ -607,7 +598,7 @@ namespace Game
 
                         for (int i = 0; i < config.CardAtrList.Length; i++)
                         {
-                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), AttributeFrom.Card, sp.Key, config.CardVueList[i]);
+                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), attrKey++, config.CardVueList[i]);
                         }
                     }
                 }
@@ -621,7 +612,7 @@ namespace Game
                 {
                     for (int i = 0; i < config.AtrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), AttributeFrom.Card, config.Id + 1000000, config.AtrVueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i]);
                     }
                 }
             }
@@ -636,7 +627,7 @@ namespace Game
 
                     for (int i = 0; i < config.AttrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), AttributeFrom.Fashion, sp.Key, config.AttrValueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), attrKey++, config.AttrValueList[i]);
                     }
                 }
             }
@@ -652,7 +643,7 @@ namespace Game
                     Dictionary<int, double> attrList = config.GetTotalAtrList(ly);
                     foreach (var al in attrList)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), AttributeFrom.Legacy, attrKey++, al.Value);
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
                     }
                 }
 
@@ -664,7 +655,7 @@ namespace Game
                     Dictionary<int, double> attrList = gradeConfig.GetTotalAtrList(lv);
                     foreach (var al in attrList)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), AttributeFrom.Legacy, attrKey++, al.Value);
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
                     }
                 }
             }
@@ -682,7 +673,7 @@ namespace Game
                         int atrId = setConfig.AtrIdList[k];
                         long vue = setConfig.AtrVueList[k] * ls;
 
-                        AttributeBonus.SetAttr((AttributeEnum)(atrId), AttributeFrom.Legacy, attrKey++, vue);
+                        AttributeBonus.SetAttr((AttributeEnum)(atrId), attrKey++, vue);
                     }
                 }
             }
@@ -864,13 +855,6 @@ namespace Game
             return count;
         }
 
-        public int GetLegendCount(int setId)
-        {
-            int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.LegendConfig != null && m.Value.LegendConfig.SetId == setId).Count();
-
-            return count;
-        }
-
         public List<EquipGroupConfig> GetEquipGroups()
         {
             var currentPanel = this.EquipPanelList[EquipPanelIndex];
@@ -1004,7 +988,7 @@ namespace Game
         }
 
         //---传奇套装
-        public List<EquipLegendSet> GetEquipLegendSets()
+        public List<EquipLegendSet> GetActiveLegendSetList()
         {
             Dictionary<int, EquipLegendSet> dict = new Dictionary<int, EquipLegendSet>();
 
@@ -1039,11 +1023,10 @@ namespace Game
                 Equip equip = sp.Value;
                 int lgId = equip.LegendData.Key;
 
-                if (lgId == setId)
+                if (lgId > 0 && equip.LegendConfig.SetId == setId)
                 {
                     set.Add(equip.LegendData.Value);
                 }
-
             }
 
             return set;

@@ -35,7 +35,7 @@ namespace Game
 
         public bool IsActive()
         {
-            return this.Count > Config.Count;
+            return this.Count >= Config.Count;
         }
 
         public Dictionary<int, double> GetAtrList()

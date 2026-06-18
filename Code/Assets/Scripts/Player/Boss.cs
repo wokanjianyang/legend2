@@ -32,7 +32,6 @@ namespace Game
         private void Init()
         {
             this.Camp = PlayerType.Enemy;
-            this.ModelType = MondelType.Boss;
 
             this.Name = Config.Name;
             this.Level = (Config.MapId - 999) * 100;
@@ -57,23 +56,23 @@ namespace Game
             double atk = StringHelper.StringToNumber(Config.Atk);
             double def = StringHelper.StringToNumber(Config.Def);
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, (hp * hpModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, (atk * attrModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, (atk * attrModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, (atk * attrModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, (def * defModelRate));
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, (hp * hpModelRate));
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, (atk * attrModelRate));
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, (atk * attrModelRate));
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, (atk * attrModelRate));
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, (def * defModelRate));
 
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, Config.DamageIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, Config.DamageResist);
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, Config.DamageIncrea);
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, Config.DamageResist);
 
-            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroBase, Config.CritRate);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, Config.CritDamage);
-            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.HeroBase, Config.CritRateResist);
+            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.ConfigBase, Config.CritRate);
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.ConfigBase, Config.CritDamage);
+            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.ConfigBase, Config.CritRateResist);
 
-            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroBase, Config.Accuracy);
-            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroBase, Config.Miss);
-            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.HeroBase, Config.Lucky);
-            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.HeroBase, Config.Curse);
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy);
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss);
+            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.ConfigBase, Config.Lucky);
+            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.ConfigBase, Config.Curse);
 
             this.SetSpeed(Config.Speed, Config.MoveSpeed);
 

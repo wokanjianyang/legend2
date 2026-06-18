@@ -42,23 +42,23 @@ namespace Game
             this.AttributeBonus = new AttributeBonus();
 
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, 1E10);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 100);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 100);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 100);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, 0); //1000000
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, 1E10);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, 100);
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, 100);
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, 100);
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, 0); //1000000
 
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, 0);
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, 0);
 
-            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroBase, 0);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, 0);
-            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.HeroBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.ConfigBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.ConfigBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.ConfigBase, 0);
 
-            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroBase, 0);
-            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroBase, 0);
-            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.HeroBase, 0);
-            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.HeroBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.ConfigBase, 0);
+            AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.ConfigBase, 0);
 
             this.SetSpeed(0, 0);
 

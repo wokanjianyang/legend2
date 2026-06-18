@@ -198,48 +198,9 @@ namespace Game
     /// </summary>
     public enum AttributeFrom
     {
-        HeroPanel = 0, //人物面板总属性
-        HeroBase = 1, //人物升级属性
-        EquipBase = 2, //装备基础属性
-        EquiStrong = 3, //装备强化属性
-        Skill = 4,//技能增幅
-        Tower = 5,//无尽塔
-        Phantom = 6,//幻神
-        EquipSuit = 7, //装备套装
-        SoulRing = 8, //魂环
-        Auras = 9, //光环
-        Achivement = 10, //成就
-        Exclusive = 11, //专属
-        Card = 12,//图鉴
-        Wing = 13, //翅膀
-        Fashion = 14, //时装
-        EquipRed = 15, //装备套装
-        Halidom = 16, //遗物
-        Metal = 17,//矿石
-        Legacy = 18,//传世
-        Ring = 19,//特戒
-        Cycle = 20,//转生
-        Pill = 21,//修炼
-        SoulBone = 22, //魂骨
-        Talent = 23, //天赋
-        EquipReform = 24, //改造
-        Pet = 25,//宠物
-        Relic = 26,//神器
-        Stone = 27,//宝石
-        Pill2 = 28,
-        CardSpeical = 29,//暗金图鉴
-        FashionSpeical = 30,//暗金时装
-        Pill3 = 31,
-        PetSpeical = 32,
-        Shengxiao = 33,
-        Festive = 34,
-        Spirit = 35,
-
-        Dingzhi = 98,
-        /// <summary>
-        /// 测试属性
-        /// </summary>
-        Test = 99,
+        UserBase = 0, //人物面板总属性
+        ConfigBase = 3, //人物升级属性
+        Skill = 5,//技能增幅
     }
 
     public enum PlayerType
@@ -253,115 +214,6 @@ namespace Game
         Duplication,
     }
 
-    public enum MondelType
-    {
-        Nomal = 1,
-        Boss = 2,
-        YueLing = 5,
-    }
-
-    public enum SlotType
-    {
-        [LabelText("武器")]
-        武器 = 1,
-        [LabelText("衣服")]
-        衣服 = 2,
-        [LabelText("项链")]
-        项链 = 3,
-        [LabelText("头盔")]
-        头盔 = 4,
-        [LabelText("左手镯")]
-        左手镯 = 5,
-        [LabelText("右手镯")]
-        右手镯 = 6,
-        [LabelText("左戒指")]
-        左戒指 = 7,
-        [LabelText("右戒指")]
-        右戒指 = 8,
-        [LabelText("腰带")]
-        腰带 = 9,
-        [LabelText("鞋子")]
-        鞋子 = 10,
-        [LabelText("斗笠")]
-        斗笠 = 11,
-        [LabelText("护盾")]
-        护盾 = 12,
-        [LabelText("神符")]
-        神符 = 13,
-        [LabelText("魔石")]
-        魔石 = 14,
-
-        [LabelText("专属1")]
-        神圣怒斩 = 15,
-        [LabelText("专属2")]
-        神圣噬魂 = 16,
-        [LabelText("专属3")]
-        神圣血饮 = 17,
-        [LabelText("专属4")]
-        神圣屠龙 = 18,
-        [LabelText("专属5")]
-        神圣倚天 = 19,
-        [LabelText("专属6")]
-        神圣命运 = 20,
-
-        [LabelText("金武器")]
-        金武器 = 21,
-        [LabelText("金衣服")]
-        金衣服 = 22,
-        [LabelText("金项链")]
-        金项链 = 23,
-        [LabelText("金头盔")]
-        金头盔 = 24,
-        [LabelText("金左镯")]
-        金左镯 = 25,
-        [LabelText("金右镯")]
-        金右镯 = 26,
-        [LabelText("金左戒")]
-        金左戒 = 27,
-        [LabelText("金右戒")]
-        金右戒 = 28,
-        [LabelText("金腰带")]
-        金腰带 = 29,
-        [LabelText("金鞋子")]
-        金鞋子 = 30,
-
-        [LabelText("暗金武器")]
-        暗金武器 = 31,
-        [LabelText("暗金衣服")]
-        暗金衣服 = 32,
-        [LabelText("暗金项链")]
-        暗金项链 = 33,
-        [LabelText("暗金头盔")]
-        暗金头盔 = 34,
-        [LabelText("暗金左镯")]
-        暗金左镯 = 35,
-        [LabelText("暗金右镯")]
-        暗金右镯 = 36,
-        [LabelText("暗金左戒")]
-        暗金左戒 = 37,
-        [LabelText("暗金右戒")]
-        暗金右戒 = 38,
-        [LabelText("暗金腰带")]
-        暗金腰带 = 39,
-        [LabelText("暗金鞋子")]
-        暗金鞋子 = 40,
-
-        混沌武器 = 41,
-        混沌衣服 = 42,
-        混沌项链 = 43,
-        混沌头盔 = 44,
-        混沌左镯 = 45,
-        混沌右镯 = 46,
-        混沌左戒 = 47,
-        混沌右戒 = 48,
-        混沌腰带 = 49,
-        混沌鞋子 = 50,
-
-        [LabelText("主专属")]
-        主专属 = 101,
-        [LabelText("副专属")]
-        副专属 = 102,
-    }
     public enum ProgressType
     {
         [LabelText("角色经验")]
@@ -372,27 +224,6 @@ namespace Game
 
         [LabelText("角色经验")]
         PlayerHP = 2,
-    }
-
-    public enum CopyType
-    {
-        [LabelText("装备副本")]
-        装备副本 = 1,
-        [LabelText("幻影挑战")]
-        幻影挑战 = 2,
-        [LabelText("BOSS之家")]
-        BossFamily = 3,
-        [LabelText("未知暗殿")]
-        AnDian = 4,
-        [LabelText("守卫沙城")]
-        Defend = 5,
-        HeorPhantom = 6,
-        Mine = 7,
-        Infinite = 8,
-        Legacy = 9,
-        Pill,
-        Babel,
-        Myth,
     }
 
     public enum RoleType

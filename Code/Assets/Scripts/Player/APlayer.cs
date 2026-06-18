@@ -31,8 +31,6 @@ namespace Game
 
         public PlayerType Camp { get; set; }
 
-        public MondelType ModelType { get; set; } = MondelType.Nomal;
-
         public RuleType RuleType = RuleType.Normal;
 
         public int FashionId { get; set; } = 0;

@@ -18,7 +18,6 @@ public class Defend : APlayer
     {
         this.Camp = PlayerType.Defend;
         this.Name = "龙城";
-        this.ModelType = MondelType.Boss;
 
         this.SetAttr(hp);  //设置属性值
         this.SetSkill(); //设置技能
@@ -33,11 +32,11 @@ public class Defend : APlayer
 
     private void SetAttr(long hp)
     {
-        AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, ConfigHelper.DefendHp);
-        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, 0);
-        AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, 0);
-        AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, 0);
-        AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, 0);
+        AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, ConfigHelper.DefendHp);
+        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, 0);
+        AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, 0);
+        AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, 0);
+        AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, 0);
 
         SetHP(hp);
     }

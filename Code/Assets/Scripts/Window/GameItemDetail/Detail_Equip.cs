@@ -220,8 +220,6 @@ namespace Game
                     }
                 }
 
-                int lgCount = user.GetLegendCount(config.SetId);
-
                 EquipLegendSet legendSet = user.GetEquipLegendSet(config.SetId);
 
                 this.ShowLegend(legendSet);

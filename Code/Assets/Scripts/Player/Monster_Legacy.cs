@@ -83,18 +83,18 @@ public class Monster_Legacy : APlayer
         double def = double.Parse(MonsterConfig.Def) * attrRate;
 
 
-        AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp);
-        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, attr);
-        AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.HeroBase, attr);
-        AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.HeroBase, attr);
-        AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, def);
+        AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, hp);
+        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, attr);
+        AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, attr);
+        AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, attr);
+        AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, def);
 
         if (layerRise > 0)  //(如果玩家的套装等级等于怪物等级，则给怪增加30%*差距的免伤倍率)
         {
             //Debug.Log("legacy layerRise:" + layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.IncreaAtk, AttributeFrom.HeroBase, 30 * layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, 30 * layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, 30 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.IncreaAtk, AttributeFrom.ConfigBase, 30 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, 30 * layerRise);
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, 30 * layerRise);
         }
 
         double MaxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);

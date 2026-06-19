@@ -25,14 +25,25 @@ public class Task_Item : MonoBehaviour
         Btn_Active.onClick.AddListener(OnClick_Active);
     }
 
-    private void OnEnable()
+    float time = 0;
+
+    void Start()
+    {
+        this.Show();
+    }
+
+    private void Update()
     {
         if (Config != null)
         {
-            this.Show();
+            time += Time.unscaledDeltaTime;
+            if (time > 1)
+            {
+                time = 0;
+                this.Show();
+            }
         }
     }
-
     public void SetContent(AchievementTaskConfig config)
     {
         this.Config = config;

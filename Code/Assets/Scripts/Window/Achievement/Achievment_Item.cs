@@ -72,7 +72,7 @@ public class Achievment_Item : MonoBehaviour
 
         for (int i = 0; i < Config.AtrIdList.Length; i++)
         {
-            Txt_Atr_List[i].text = StringHelper.FormatAttrText(Config.AtrIdList[i], Config.AtrVueList[i] * level, "+");
+            Txt_Atr_List[i].text = StringHelper.FormatAttrText(Config.AtrIdList[i], Config.GetAtrVue(i, level), "+");
         }
 
         if (level >= Config.Max)

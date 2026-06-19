@@ -55,6 +55,15 @@ namespace Game
                 item = new Item_Normal(configId);
             }
 
+            if (item.GetItemType() == ItemType.Equip || item.GetItemType() == ItemType.EquipSpeical)
+            {
+                GameProcessor.Inst.User.AddAchievementProgeress(AchievementProType.EquipTotal, 1);
+            }
+            else if (item.GetItemType() == ItemType.Pet)
+            {
+                GameProcessor.Inst.User.AddAchievementProgeress(AchievementProType.PetTotal, 1);
+            }
+
             item.Temp_Number = number;
 
             return item;
@@ -103,7 +112,7 @@ namespace Game
         //public static int SpecialId_Exclusive_Core = 4009; //专属精华
         public static int SpecialId_Exclusive_Heart = 4010; //专属之心
         public static int SpecialId_Red_Stone = 4011;  //红装精华
-  
+
         public static int SpecialId_Legacy_Ticket = 4013; //传世挑战卷
 
         public static int SpecialId_Red_Chip = 4015; //红装粉尘

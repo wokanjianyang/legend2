@@ -29,8 +29,6 @@ namespace Game
 
         public int FashionUpId { get; set; } = 0;
 
-        public int RecoveryTotal { get; set; } = 0;
-
         public Dictionary<int, int> OfflineLog { get; set; } = new Dictionary<int, int>();
 
         public long SecondExpTick { get; set; }
@@ -1081,8 +1079,6 @@ namespace Game
                     return this.MapId - 1;
                 case AchievementProType.RecoverySet:
                     return this.RecoverySet.SetTotal;
-                case AchievementProType.RecoveryTotal:
-                    return this.RecoveryTotal;
                 default:
                     {
                         int ct = (int)type;
@@ -1770,7 +1766,7 @@ namespace Game
 
                     if (item.GetItemType() == ItemType.Equip || item.GetItemType() == ItemType.EquipSpeical)
                     {
-                        this.RecoveryTotal++;
+                        this.AddAchievementProgeress(AchievementProType.RecoveryTotal, 1);
                     }
                 }
 

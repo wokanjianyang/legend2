@@ -108,9 +108,9 @@ namespace Game
 		/// <summary>AtrVueList</summary>
 		[ProtoMember(11)]
 		public int[] AtrVueList { get; set; }
-		/// <summary>AtrVueRiseList</summary>
+		/// <summary>AtrRiseTypeList</summary>
 		[ProtoMember(12)]
-		public int[] AtrVueRiseList { get; set; }
+		public int[] AtrRiseTypeList { get; set; }
 		/// <summary>Memo</summary>
 		[ProtoMember(13)]
 		public string Memo { get; set; }

@@ -47,7 +47,7 @@ public class Task_Item : MonoBehaviour
 
         long require = Config.ConRequire;
         Txt_Des.text = string.Format(Config.Desc, require);
-        Txt_Reward.text = Config.RewardText;
+        Txt_Reward.text = string.Format(Config.RewardText, StringHelper.FormatNumber(Config.RewardGold), Config.NumberList[0]);
 
         User user = GameProcessor.Inst.User;
         user.TaskLog.TryGetValue(Config.Id, out bool complete);

@@ -35,7 +35,8 @@ namespace Game
     {
         public long GetAtrVue(int i, int level)
         {
-            return AtrVueList[i] + (level - 1) * AtrVueRiseList[i];
+            int riseLevel = level;
+            return MathHelper.GetSeqByType(this.AtrRiseTypeList[i], riseLevel, AtrVueList[i]);
         }
     }
 
@@ -58,7 +59,6 @@ namespace Game
         EquipWear = 4,  //穿戴装备数量
         RecoverySet = 5,  //回收设定
         RecoveryTotal = 6,
-        EquipCopy = 7,
         Defend = 8,
         Infinite = 9, //
         SkillCount = 10, //技能总数量

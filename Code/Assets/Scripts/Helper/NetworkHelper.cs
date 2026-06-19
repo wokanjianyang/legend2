@@ -128,10 +128,6 @@ namespace Game
             }
             paramDict.Add("divine", divineTotal + "");
 
-            long copy = user.GetAchievementProgeress(AchievementProType.EquipCopy);
-            copy += user.GetTicketCount(ItemHelper.SpecialId_Copy_Ticket);
-            paramDict.Add("equip", copy + "");
-
             long equip1 = 0;
             foreach (var sp in user.EquipPanelGoldenList[user.EquipGoldenIndex])
             {

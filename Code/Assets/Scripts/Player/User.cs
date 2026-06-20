@@ -41,6 +41,8 @@ namespace Game
 
         public AdData AdData { get; } = new AdData();
 
+        public Babel_Data BabelData { get; set; } = new Babel_Data();
+
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -133,9 +135,6 @@ namespace Game
         public MagicData MagicGold { get; } = new MagicData();
 
         public MagicData MagicExp { get; } = new MagicData();
-
-        public MagicData BabelData { get; } = new MagicData();
-        public MagicData BabelCount { get; } = new MagicData();
 
         public MagicData RedRefreshCount { get; } = new MagicData();
 
@@ -320,14 +319,8 @@ namespace Game
 
         private bool isInLevelUp;
 
-        public int MapId { get; set; } = 1000;
+        public int MapId { get; set; } = 1;
 
-
-
-        //副本次数记录
-        public long CopyTicketTime { get; set; } = 0;
-
-        public long LegacyTicketTime { get; set; } = 0;
 
         public MagicData LegacyTikerCount { get; } = new MagicData();
 
@@ -368,17 +361,11 @@ namespace Game
 
         public MagicData PillData { get; set; } = new MagicData();
 
-        public MagicData PillData2 { get; set; } = new MagicData();
-
-        public MagicData PillData3 { get; set; } = new MagicData();
 
         public PillTime PillTime { get; set; } = new PillTime();
 
         public Dictionary<int, MagicData> ItemMeterialData { get; } = new Dictionary<int, MagicData>();
 
-        public Dictionary<int, MagicData> CardData { get; } = new Dictionary<int, MagicData>();
-
-        public Dictionary<int, MagicData> CardSpecialData { get; } = new Dictionary<int, MagicData>();
 
         public Dictionary<int, MagicData> HalidomData { get; } = new Dictionary<int, MagicData>();
 
@@ -388,7 +375,6 @@ namespace Game
 
         public Dictionary<int, SpiritData> SpiritRecord { get; } = new Dictionary<int, SpiritData>();
 
-        public List<DropData> DropDataList { get; } = new List<DropData>();
 
         public FestiveWeekData WeekData = new FestiveWeekData();
 

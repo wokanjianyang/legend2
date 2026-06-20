@@ -95,7 +95,7 @@ namespace Game
             long artifactMetal = user.ArtifactData.Where(m => m.Key >= 30).Select(m => m.Value.Data).Sum();
             paramDict.Add("artifactMetal", artifactMetal + "");
 
-            long babel = user.BabelData.Data;
+            long babel = user.BabelData.Progress.Data;
             paramDict.Add("babel", babel + "");
 
             long soulBoneTotal = user.SoulBoneData.Select(m => m.Value.Data).Sum();

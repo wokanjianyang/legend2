@@ -35,6 +35,12 @@ namespace Game
             long riseLevel = level - this.RequireLevel[type - 1];
             return riseLevel * this.AtrVueList[type - 1];
         }
+
+        public long GetAtrVue(int p, long level)
+        {
+            long riseLevel = level - this.RequireLevel[p];
+            return this.AtrVueList[p] * riseLevel;
+        }
     }
 
 }

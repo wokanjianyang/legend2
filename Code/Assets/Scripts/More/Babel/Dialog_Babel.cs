@@ -54,7 +54,9 @@ public class Dialog_Babel : MonoBehaviour
     private void Show()
     {
         User user = GameProcessor.Inst.User;
-        long progress = user.BabelData.Data;
+        user.BabelData.Check();
+
+        long progress = user.BabelData.Progress.Data;
 
         if (user.Account != "" && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
         {
@@ -71,7 +73,7 @@ public class Dialog_Babel : MonoBehaviour
         long nextProgress = progress + 1;
 
         Txt_Progress.text = "当前层数:" + nextProgress + "";
-        Txt_Count.text = "今日挑战次数:" + user.BabelCount.Data;
+        Txt_Count.text = "今日挑战次数:" + user.BabelData.Count;
 
         if (nextProgress > ConfigHelper.BabelMax)
         {
@@ -124,13 +126,13 @@ public class Dialog_Babel : MonoBehaviour
     {
         User user = GameProcessor.Inst.User;
 
-        if (user.BabelCount.Data <= 0)
+        if (user.BabelData.Count <= 0)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "挑战次数不足", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        if (user.BabelData.Data >= ConfigHelper.BabelMax)
+        if (user.BabelData.Progress.Data >= ConfigHelper.BabelMax)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "你已经通关了，请等待开放上限", ToastType = ToastTypeEnum.Failure });
             return;

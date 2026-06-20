@@ -310,6 +310,12 @@ public class Dialog_AD : MonoBehaviour
         this.UpdateAdData();
     }
 
+    private double GetMapRate(int mapId)
+    {
+        int mapRise = mapId - ConfigHelper.MapStartId;
+
+        return mapRise * 5 / 100.0;
+    }
 
     private void RewardExpAndGold(bool real)  //看的真广告还是假广告
     {
@@ -321,7 +327,9 @@ public class Dialog_AD : MonoBehaviour
         double atRate = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea);
         atRate = 1 + atRate / 100.0;
 
-        gold = gold * atRate;
+        double mapRate = 1 + GetMapRate(user.MapId);
+
+        gold = gold * atRate * mapRate;
 
         if (real)
         {
@@ -341,6 +349,10 @@ public class Dialog_AD : MonoBehaviour
         User user = GameProcessor.Inst.User;
 
         int number = 1000;
+
+        double mapRate = 1 + GetMapRate(user.MapId);
+
+        number = (int)(number * mapRate);
 
         Item item = ItemHelper.BuildMaterial(ItemHelper.Equip_Strong, number);
 
@@ -362,6 +374,10 @@ public class Dialog_AD : MonoBehaviour
         User user = GameProcessor.Inst.User;
 
         int number = 100;
+
+        double mapRate = 1 + GetMapRate(user.MapId);
+
+        number = (int)(number * mapRate);
 
         if (real)
         {

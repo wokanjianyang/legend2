@@ -62,7 +62,7 @@ namespace Game
                 pet.Flairs.Add(new KeyValuePair<int, MagicData>(attrId, attrValue));
             }
 
-            //技能紫色2，橙色3，红色3，金色4
+            //技能紫2，橙色3，红色3，金色4
             List<KeyValuePair<int, int>> skills = BuildPetSkill(role, pet.Quality);
             foreach (var skill in skills)
             {

@@ -25,10 +25,10 @@ public class BattleRule_Babel : ABattleRule
     {
         User user = GameProcessor.Inst.User;
 
-        this.Progress = user.BabelData.Data + 1;
+        this.Progress = user.BabelData.Progress.Data + 1;
         TimeTotal = TimeMax;
 
-        user.BabelCount.Data--;
+        user.BabelData.Count--;
     }
 
     public override void DoMapLogic(int roundNum, double currentRoundTime)
@@ -61,11 +61,11 @@ public class BattleRule_Babel : ABattleRule
         GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
         var hero = GameProcessor.Inst.PlayerManager.GetHero();
-        if (hero.HP <= 0 || TimeTotal <= 0 || user.BabelCount.Data <= 0)
+        if (hero.HP <= 0 || TimeTotal <= 0 || user.BabelData.Count <= 0)
         {
             Over = true;
 
-            user.BabelCount.Data--;
+            user.BabelData.Count--;
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "挑战失败！" });
             GameProcessor.Inst.HeroDie(RuleType.Babel, 0);
             return;
@@ -77,13 +77,13 @@ public class BattleRule_Babel : ABattleRule
         {
             //Over = true;
 
-            user.BabelData.Data++;
-            user.BabelCount.Data--;
+            user.BabelData.Progress.Data++;
+            user.BabelData.Count--;
             BuildReward(this.Progress);
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "第" + Progress + "关挑战成功！" });
 
-            if (user.BabelCount.Data <= 0)
+            if (user.BabelData.Count <= 0)
             {
                 GameProcessor.Inst.CloseBattle(RuleType.Babel, 0);
             }
@@ -93,7 +93,7 @@ public class BattleRule_Babel : ABattleRule
                 Start = false;
             }
 
-            this.Progress = GameProcessor.Inst.User.BabelData.Data + 1;
+            this.Progress = user.BabelData.Progress.Data + 1;
 
             return;
         }

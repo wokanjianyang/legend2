@@ -51,7 +51,7 @@ public class Dialog_Babel_Atr : MonoBehaviour
             return;
         }
 
-        int progress = (int)user.BabelData.Data;
+        int progress = (int)user.BabelData.Progress.Data;
 
         List<BabelAtrConfig> configs = BabelAtrConfigCategory.Instance.GetNormalListByProgress(progress + 1);
 

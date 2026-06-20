@@ -47,7 +47,7 @@ public class Legacy_Copy_Info : MonoBehaviour
         long time = (int)user.LegacyData.Time.Data;
         Txt_Time.text = "副本剩余时间：" + time + "秒";
 
-        int min = (int)Math.Max(1, user.LegacyLayer.Select(m => m.Value.Data).Min()) + 1;
+        int min = (int)(user.LegacyLayer.Select(m => m.Value.Data).Min() + 1);
         int max = (int)Math.Max(1, user.LegacyLayer.Select(m => m.Value.Data).Max());
         max = Math.Min(max, min + 4);
 

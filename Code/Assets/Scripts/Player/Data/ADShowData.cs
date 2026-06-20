@@ -8,7 +8,7 @@ namespace Game.Data
     {
         GoldCount = 1,
         StoneCount = 2,
-        Stone1Count = 4,
+        Stone1Count = 3,
         //ExpAdd,
         //ExpTime,
         //GoldAdd,

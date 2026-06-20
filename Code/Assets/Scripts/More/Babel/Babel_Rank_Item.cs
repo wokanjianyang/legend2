@@ -1,3 +1,4 @@
+using Game.Data;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,11 +29,11 @@ namespace Game
 
         }
 
-        public void SetContent(int rank, string name, int progress)
+        public void SetContent(int rank, BabelRank data)
         {
             this.Txt_Rank.text = rank + "";
-            this.Txt_Name.text = name;
-            this.Txt_Progress.text = progress + "²ã";
+            this.Txt_Name.text = data.Name;
+            this.Txt_Progress.text = data.Rank + "²ã";
         }
     }
 }

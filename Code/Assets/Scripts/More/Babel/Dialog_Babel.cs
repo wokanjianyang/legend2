@@ -91,17 +91,29 @@ public class Dialog_Babel : MonoBehaviour
             try
             {
                 //再存储新档
-                StartCoroutine(NetworkHelper.GetRank("babel",
+                StartCoroutine(NetworkHelper.GetRank("Babel",
                         (WebResultWrapper result) =>
                         {
                             if (result.Code == StatusMessage.OK)
                             {
-                                string name = result.Data["name"];
-                                string time = result.Data["time"];
-                                string rank = result.Data["rank"];
+                                List<BabelRank> list = result.List.ToObject<List<BabelRank>>();
+                                Dlg_Babel_Rank.Init(list);
 
-                                this.Txt_Rise.text = "最高纪录 " + name + " " + rank + "层" + " (" + time + ")";
-                                AppHelper.BabelRecord = int.Parse(rank);
+                                if (list.Count > 0)
+                                {
+                                    AppHelper.BabelMaxRecord = list[0].Rank;
+                                    AppHelper.BabelMinRecord = list[^1].Rank;
+
+                                    long total = AppHelper.BabelMaxRecord - GameProcessor.Inst.User.BabelData.Progress.Data - 1;
+                                    total = total > 0 ? total * 2 : 0;
+
+                                    this.Txt_Rise.text = "最高纪录 " + list[0].Name + " " + list[0].Rank + "层" + " (怪物额外承伤" + total + "%)";
+                                }
+                                else
+                                {
+
+                                }
+                                //AppHelper.BabelRecord = int.Parse(rank);
                             }
                             else
                             {
@@ -152,7 +164,7 @@ public class Dialog_Babel : MonoBehaviour
 
     public void OnClick_Rank()
     {
-        this.Dlg_Babel_Rank.gameObject.SetActive(true);
+        this.Dlg_Babel_Rank.Show();
     }
 
     public void OnClick_Close()

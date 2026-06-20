@@ -11,7 +11,7 @@ namespace Game
     {
         public int Progress;
         public int Type;
-        private int Record = 0;
+        private int RiseRecord = 0;
 
         MonsterBabelConfig Config { get; set; }
 
@@ -25,7 +25,7 @@ namespace Game
 
             this.Progress = (int)progress;
             this.Type = type;
-            this.Record = AppHelper.BabelRecord;
+            this.RiseRecord = (AppHelper.BabelMaxRecord - this.Progress - 1);
 
             this.Config = MonsterBabelConfigCategory.Instance.GetByProgress(progress);
 
@@ -94,6 +94,11 @@ namespace Game
 
             AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.ConfigBase, damageMul);
             AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, resistMul);
+
+            if (RiseRecord > 0)
+            {
+                AttributeBonus.SetAttr(AttributeEnum.DecreExtraDamage, AttributeFrom.ConfigBase, RiseRecord * 2);
+            }
 
             this.SetSpeed(Config.Speed, Config.Speed);
 

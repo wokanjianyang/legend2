@@ -20,6 +20,8 @@ namespace Game.Data
         public int LoadCount { get; set; }
 
         public Dictionary<string, string> Data { get; set; }
+
+        public JToken List { get; set; }
     }
 
 

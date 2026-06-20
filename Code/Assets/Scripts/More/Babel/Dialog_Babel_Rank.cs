@@ -15,50 +15,44 @@ public class Dialog_Babel_Rank : MonoBehaviour
 
     public Transform Tf_Atr_List;
 
-    private List<Babel_Rank_Item> ItemList = new List<Babel_Rank_Item>();
+    private List<Babel_Rank_Item> ItemList;
 
-    private GameObject ItemPrefab = null;
-
+    private List<BabelRank> DataList;
 
     // Start is called before the first frame update
     void Awake()
     {
         Btn_Close.onClick.AddListener(OnClick_Close);
+
+        ItemList = Tf_Atr_List.GetComponentsInChildren<Babel_Rank_Item>().ToList();
+
     }
 
     // Update is called once per frame
     void Start()
     {
-        ItemPrefab = Resources.Load<GameObject>("Prefab/More/Babel/Babel_Rank_Item");
-
-        this.Init();
     }
 
-    private void Init()
+    public void Init(List<BabelRank> list)
     {
-        foreach (var sp in ItemList)
-        {
-            sp.gameObject.SetActive(false);
-        }
-
-        this.Show();
+        this.DataList = list;
     }
 
-
-    private void Show()
+    public void Show()
     {
+        this.gameObject.SetActive(true);
+
         //Log.Debug("ShowStrengthInfo");
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < ItemList.Count; i++)
         {
-            var item = GameObject.Instantiate(ItemPrefab);
-            Babel_Rank_Item com = item.GetComponentInChildren<Babel_Rank_Item>();
-
-            com.SetContent(i + 1, "ÕÅÈý", 999);
-
-            item.transform.SetParent(Tf_Atr_List);
-            item.transform.localScale = Vector3.one;
-
-            ItemList.Add(com);
+            if (i < DataList.Count)
+            {
+                ItemList[i].SetContent(i + 1, DataList[i]);
+            }
+            else
+            {
+                ItemList[i].gameObject.SetActive(false);
+            }
         }
     }
 

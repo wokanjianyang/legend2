@@ -132,9 +132,8 @@ public class BattleRule_Babel : ABattleRule
 
         GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
-        if (AppHelper.BabelRecord > 0 && progress >= AppHelper.BabelRecord + 10)
+        if (AppHelper.BabelMinRecord > 0 && progress >= AppHelper.BabelMinRecord)
         {
-            AppHelper.BabelRecord = (int)progress;
             GameProcessor.Inst.SaveRecord("babel", progress + "");
         }
     }

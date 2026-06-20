@@ -692,7 +692,7 @@ namespace Game
                         {
                             if (result.Code == StatusMessage.OK)
                             {
-                                this.EventCenter.Raise(new ShowGameMsgEvent() { Content = "更新纪录成功", ToastType = ToastTypeEnum.Success });
+                                //this.EventCenter.Raise(new ShowGameMsgEvent() { Content = "更新纪录成功", ToastType = ToastTypeEnum.Success });
                             }
                             else
                             {

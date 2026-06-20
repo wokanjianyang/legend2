@@ -20,7 +20,8 @@ namespace Game
 
         public static int DefendLevel = 0;
 
-        public static int BabelRecord = 0;
+        public static int BabelMaxRecord = 0;
+        public static int BabelMinRecord = 0;
 
         public static int SaveFailCount = 0;
 

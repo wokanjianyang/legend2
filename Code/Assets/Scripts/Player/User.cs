@@ -428,14 +428,13 @@ namespace Game
 
             //基础属性，攻击10，防御0，生命1000，爆伤150，致命伤害150
             AttributeBonus.SetAttr(AttributeEnum.HP, attrKey++, 1000);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, attrKey++, 10);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, attrKey++, 10);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, attrKey++, 10);
+            AttributeBonus.SetAttr(AttributeEnum.Atk, attrKey++, 10);
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, attrKey++, 50);
             AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, attrKey++, 50);
 
             //等级属性,攻击倍率，生命倍率，等级*1%
             AttributeBonus.SetAttr(AttributeEnum.MulAtk, attrKey++, Level * 1);
+            AttributeBonus.SetAttr(AttributeEnum.MulDef, attrKey++, Level * 1);
             AttributeBonus.SetAttr(AttributeEnum.MulHp, attrKey++, Level * 1);
 
             if (ConfigHelper.EnvTest == 2)

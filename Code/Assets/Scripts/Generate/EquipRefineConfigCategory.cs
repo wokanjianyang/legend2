@@ -33,13 +33,27 @@ namespace Game
         public long GetRisePercent(long level, int type)
         {
             long riseLevel = level - this.RequireLevel[type - 1];
-            return riseLevel * this.AtrVueList[type - 1];
+            if (riseLevel <= 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return riseLevel * this.AtrVueList[type - 1];
+            }
         }
 
         public long GetAtrVue(int p, long level)
         {
             long riseLevel = level - this.RequireLevel[p];
-            return this.AtrVueList[p] * riseLevel;
+            if (riseLevel <= 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return this.AtrVueList[p] * riseLevel;
+            }
         }
     }
 

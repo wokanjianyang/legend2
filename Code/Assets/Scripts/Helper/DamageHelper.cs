@@ -142,12 +142,12 @@ namespace Game
             {
                 return 1;
             }
-            if (lucky >= 9)
+            if (lucky >= 15)
             {
                 return 5;
             }
 
-            int max = lucky * 400 / 9;
+            int max = lucky * 400 / 15;
             int rd = RandomHelper.RandomNumber(0, max);
 
             return rd / 100.0 + 1;
@@ -159,12 +159,12 @@ namespace Game
             {
                 return 1;
             }
-            if (curse >= 9)
+            if (curse >= 15)
             {
-                return 50;
+                return 10;
             }
 
-            int max = curse * 4000 / 9;
+            int max = curse * 800 / 15;
             int rd = RandomHelper.RandomNumber(0, max);
 
             return rd / 100.0 + 1;

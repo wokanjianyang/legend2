@@ -64,6 +64,36 @@ namespace Game
 
                 this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
+                if (CurrentItem.GetItemType() == ItemType.Equip)
+                {
+                    Equip equip = CurrentItem as Equip;
+                    if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
+                    {
+                        this.Txt_Layer.text = string.Format("<color=#{0}>´«</color>", QualityConfigHelper.GetQualityColor(7));
+                        this.Txt_Layer.gameObject.SetActive(true);
+                    }
+                    if (equip.RefineLevel.Data > 0)
+                    {
+                        this.Txt_Level.text = string.Format("¾«{0}", equip.RefineLevel.Data);
+                        this.Txt_Level.gameObject.SetActive(true);
+                    }
+                }
+                else if (CurrentItem.GetItemType() == ItemType.EquipSpeical)
+                {
+                    Equip_Special item = CurrentItem as Equip_Special;
+
+                    if (item.Level > 0)
+                    {
+                        this.Txt_Level.text = item.Level + "¼¶";
+                        this.Txt_Level.gameObject.SetActive(true);
+                    }
+                    if (item.Layer > 0)
+                    {
+                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[item.Layer] + "½×";
+                        this.Txt_Layer.gameObject.SetActive(true);
+                    }
+                }
+
                 PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);
             }
             else
@@ -100,12 +130,18 @@ namespace Game
         {
             if (isOn)
             {
-                if (Type == 3)
+                if (Type == 2)
+                {
+                    Panel_Refine panel = this.gameObject.GetComponentInParent<Panel_Refine>();
+                    panel.SelectItem(this.Position, CurrentItem, this);
+                }
+                else if (Type == 3)
                 {
                     Panel_Grade panel = this.gameObject.GetComponentInParent<Panel_Grade>();
                     panel.SelectItem(this.Position, CurrentItem, this);
                 }
-                else if (Type == 4) {
+                else if (Type == 4)
+                {
                     Panel_Legend panel = this.gameObject.GetComponentInParent<Panel_Legend>();
                     panel.SelectItem(this.Position, CurrentItem, this);
                 }

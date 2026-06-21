@@ -4,6 +4,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using Game.Data;
 
 namespace Game
 {
@@ -23,6 +24,8 @@ namespace Game
         public int SuitSeed { get; set; }
         public int RefreshCount { get; set; }
         public long RefreshDate { get; set; }
+
+        public MagicData RefineLevel { get; set; } = new MagicData();
 
         public KeyValuePair<int, int> LegendData { get; set; } = new KeyValuePair<int, int>();
 
@@ -227,6 +230,11 @@ namespace Game
         public override void Grade()
         {
             this.Layer++;
+        }
+
+        public void Refine()
+        {
+            this.RefineLevel.Data++;
         }
 
         public void ToLegend(int lgId, int lgFliar)

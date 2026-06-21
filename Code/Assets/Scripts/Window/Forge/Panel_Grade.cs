@@ -40,7 +40,8 @@ public class Panel_Grade : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Start()
+
+    private void OnEnable()
     {
         this.Init();
         this.Show();
@@ -49,6 +50,10 @@ public class Panel_Grade : MonoBehaviour
     private void Init()
     {
         User user = User_Data_Manager.Data;
+        if (user == null)
+        {
+            return;
+        }
 
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 

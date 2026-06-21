@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class Panel_Refine : MonoBehaviour
 {
     public Transform Tran_Item_List;
-    private ItemForge[] items;
+    private Box_Forge[] items;
 
     public Transform Tf_Atr_List;
     private Forge_Atr_Item[] AtrList;
@@ -26,6 +26,9 @@ public class Panel_Refine : MonoBehaviour
     public Button Btn_Ok;
 
     private int SelectPosition = 1;
+    private Item CurrentItem;
+    private Box_Forge CurrentBox;
+
     private int ForgeType = 2;
 
     // Start is called before the first frame update
@@ -34,12 +37,18 @@ public class Panel_Refine : MonoBehaviour
         AtrList = Tf_Atr_List.GetComponentsInChildren<Forge_Atr_Item>();
         AtrSpeList = Tf_Atr_Spe_List.GetComponentsInChildren<Forge_Atr_Item>();
 
-        items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
+        items = Tran_Item_List.GetComponentsInChildren<Box_Forge>();
         Btn_Ok.onClick.AddListener(OnClick_Refine);
     }
 
     // Update is called once per frame
-    void Start()
+    //void Start()
+    //{
+    //    this.Init();
+    //    this.Show();
+    //}
+
+    private void OnEnable()
     {
         this.Init();
         this.Show();
@@ -48,21 +57,28 @@ public class Panel_Refine : MonoBehaviour
     private void Init()
     {
         User user = User_Data_Manager.Data;
+        if (user == null)
+        {
+            return;
+        }
 
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
         for (int i = 0; i < items.Count(); i++)
         {
             int position = i + 1;
-            long level = user.GetRefineLevel(position);
 
-            items[i].Init(ForgeType, position, level, toggleGroup);
+            items[i].Init(ForgeType, position, toggleGroup);
+            items[i].SetItem(user.GetEquip(position));
         }
     }
 
-    public void SelectItem(int p)
+    public void SelectItem(int p, Item item, Box_Forge box)
     {
         this.SelectPosition = p;
+        this.CurrentItem = item;
+        this.CurrentBox = box;
+
         this.Show();
     }
 
@@ -72,7 +88,7 @@ public class Panel_Refine : MonoBehaviour
         long MaxLevel = Math.Min(EquipRefineFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
         long currentLevel = user.GetRefineLevel(SelectPosition);
 
-        items[SelectPosition - 1].SetLevel(currentLevel);
+        items[SelectPosition - 1].Refresh();
 
         long nextLevel = currentLevel + 1;
 
@@ -149,6 +165,8 @@ public class Panel_Refine : MonoBehaviour
     {
         User user = User_Data_Manager.Data;
 
+        Equip equip = CurrentItem as Equip;
+
         long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
 
         EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
@@ -179,8 +197,11 @@ public class Panel_Refine : MonoBehaviour
             Quantity = fee2
         });
 
+        equip.Refine();
 
-        user.SaveRefineLevel(SelectPosition, 1);
+        CurrentBox.Refresh();
+
+        //user.SaveRefineLevel(SelectPosition, 1);
 
         GameProcessor.Inst.UpdateInfo();
 

@@ -66,6 +66,11 @@ namespace Game
                         this.Txt_Layer.text = string.Format("<color=#{0}>传</color>", QualityConfigHelper.GetQualityColor(7));
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
+                    if (equip.RefineLevel.Data > 0)
+                    {
+                        this.Txt_Count.text = string.Format("精{0}", equip.RefineLevel.Data);
+                        this.Txt_Count.gameObject.SetActive(true);
+                    }
                 }
                 else if (BoxItem.Item.GetItemType() == ItemType.EquipSpeical)
                 {

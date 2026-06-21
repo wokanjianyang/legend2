@@ -72,11 +72,6 @@ namespace Game
                     Panel_Strengthen panel = this.gameObject.GetComponentInParent<Panel_Strengthen>();
                     panel.SelectItem(this.Position);
                 }
-                else if (Type == 2)
-                {
-                    Panel_Refine panel = this.gameObject.GetComponentInParent<Panel_Refine>();
-                    panel.SelectItem(this.Position);
-                }
             }
         }
     }

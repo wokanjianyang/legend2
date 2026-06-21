@@ -16,6 +16,8 @@ namespace Game
     {
         public static User Data;
 
+        public static LoadingData NetData;
+
         static string savePath = "player";
 
         static string fileName = "wj2.xml"; //文件名

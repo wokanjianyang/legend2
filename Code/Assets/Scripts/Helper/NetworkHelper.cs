@@ -457,5 +457,10 @@ namespace Game
                 }
             }
         }
+
+        public static IEnumerator Loading(Action<WebResultWrapper> successAction, Action failAction)
+        {
+            return SendRequest("loading", null, successAction, failAction);
+        }
     }
 }

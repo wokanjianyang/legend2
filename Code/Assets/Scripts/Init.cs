@@ -12,6 +12,8 @@ using SA.Android.App;
 using CodeStage.AntiCheat.Detectors;
 using System.Text;
 using UnityEngine.UI;
+using Game.Data;
+using Newtonsoft.Json.Linq;
 
 public class Init : MonoBehaviour
 {
@@ -30,6 +32,8 @@ public class Init : MonoBehaviour
     public GameProcessor Game;
 
     public Transform Tran_Loading;
+
+    public Text Txt_Memo;
     // public Transform MapRoot;
 
     public Transform Bottom;
@@ -118,12 +122,6 @@ public class Init : MonoBehaviour
     {
         this.Tran_Loading.gameObject.SetActive(true);
 
-        this.LoadConfig();  //先加载配置
-
-        User_Data_Manager.Load();  //再加载存档
-
-        //再加载net数据
-
         long currentTimeSecond = 0;  //最后加载网络时间
 
         if (ConfigHelper.Channel == ConfigHelper.Channel_Tap)
@@ -134,7 +132,6 @@ public class Init : MonoBehaviour
         }
         else
         {
-
             var timeTaks = TimeCheatingDetector.GetOnlineTimeTask("https://www.baidu.com/");
             await timeTaks;
             currentTimeSecond = (long)timeTaks.Result.onlineSecondsUtc;
@@ -143,9 +140,50 @@ public class Init : MonoBehaviour
 
         AppHelper.StartTime = currentTimeSecond;
 
+        this.LoadConfig();  //先加载配置
 
+        User_Data_Manager.Load();  //再加载存档
 
-        StartCoroutine(AsyncLoadWindows(currentTimeSecond));
+        //再加载net数据
+        try
+        {
+            if (User_Data_Manager.Data.Account != "")
+            {
+                this.Txt_Memo.text = "加载服务器数据中...";
+
+                StartCoroutine(NetworkHelper.Loading(
+                    (WebResultWrapper result) =>
+                    {
+                        if (result.Code == StatusMessage.OK)
+                        {
+                            User_Data_Manager.NetData = result.List.ToObject<LoadingData>();
+
+                            StartCoroutine(AsyncLoadWindows(currentTimeSecond));
+                        }
+                        else
+                        {
+                            this.Txt_Memo.text = "加载服务器数据失败...";
+                            StartCoroutine(AsyncLoadWindows(currentTimeSecond));
+                        }
+
+                    },
+                     () =>
+                     {
+                         this.Txt_Memo.text = "加载服务器数据失败...";
+                         StartCoroutine(AsyncLoadWindows(currentTimeSecond));
+                     }));
+            }
+            else
+            {
+                StartCoroutine(AsyncLoadWindows(currentTimeSecond));
+            }
+        }
+        catch (Exception ex)
+        {
+            this.Txt_Memo.text = "加载服务器数据失败...";
+            StartCoroutine(AsyncLoadWindows(currentTimeSecond));
+        }
+
     }
 
     private void LoadConfig()

@@ -103,15 +103,8 @@ namespace Game
 
         //-----------------------old--------------------------
 
-
         public bool OldFile { get; set; } = false;
         public int Serial { get; set; } = 0;
-
-        public long Power { get; set; }
-
-
-
-        public int ID { get; set; }
 
         public string DeviceId { get; set; } = "";
 
@@ -119,14 +112,11 @@ namespace Game
         public string Name { get; set; }
 
         public long DataDate { get; set; } = 0;
-        public int DataProgeress { get; set; } = 0;
 
         public int OffLineMapId { get; set; }
 
         public bool SpiritOfflineFlag { get; set; } = false;
         public Dictionary<int, int> SpiritOfflineLog { get; set; } = new Dictionary<int, int>();
-
-        public RandomRecord RandomRecord { get; set; } = new RandomRecord();
 
         public MagicData Cycle { get; set; } = new MagicData();
 
@@ -157,9 +147,6 @@ namespace Game
         public IDictionary<int, string> PlanNameList { get; set; } = new Dictionary<int, string>();
 
         public bool EquipGoldenSetting { get; set; } = false;
-        public bool EquipDarkGoldSetting { get; set; } = false;
-
-        public bool EquipHundunSetting { get; set; } = false;
 
         public int EquipGoldenIndex { get; set; } = 0;
 
@@ -183,16 +170,11 @@ namespace Game
 
         public RecoverySetting RecoverySet { get; set; } = new RecoverySetting();
 
-
-
         public int InfoColor { get; set; } = 1;
 
         public List<SkillData> SkillList { get; set; } = new List<SkillData>();
 
         public IDictionary<int, List<int>> SkillPanelList { get; set; } = new Dictionary<int, List<int>>();
-
-
-
 
 
         public IDictionary<int, int> RecordData { get; set; } = new Dictionary<int, int>();
@@ -657,6 +639,18 @@ namespace Game
 
                         AttributeBonus.SetAttr((AttributeEnum)(atrId), attrKey++, vue);
                     }
+                }
+            }
+
+            //net属性
+            LoadingData ldData = User_Data_Manager.NetData;
+            if (ldData != null && ldData.AtrList.Count > 0)
+            {
+                for (int i = 0; i < ldData.AtrList.Count; i++)
+                {
+                    int atrId = ldData.AtrList[i].AtrId;
+                    double vue = ldData.AtrList[i].AtrVue;
+                    AttributeBonus.SetAttr((AttributeEnum)(atrId), attrKey++, vue);
                 }
             }
 

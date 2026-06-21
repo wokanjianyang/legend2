@@ -69,7 +69,7 @@ public class Dialog_FloatButtons : MonoBehaviour, IBattleLife, IPointerDownHandl
         //    this.Btn_Festive.gameObject.SetActive(false);
         //}
 
-        //User user = GameProcessor.Inst.User;
+        //User user = User_Data_Manager.Data;
         //long day = (TimeHelper.ClientNowSeconds() - user.First_Create_Time) / 86400 + 1;
 
         //if (day > 30)

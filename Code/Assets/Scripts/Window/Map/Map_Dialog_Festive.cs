@@ -38,7 +38,7 @@ public class Map_Dialog_Festive : MonoBehaviour
 
     private void ShowItemMax()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user == null)
         {
@@ -57,13 +57,13 @@ public class Map_Dialog_Festive : MonoBehaviour
 
     public void ShowCount()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         Txt_Count.text = " £”‡ÃÙ’Ω¥Œ ˝£∫" + user.FestiveMapData01.Number.Data;
     }
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
         if (DropLimitConfigCategory.Instance.CheckIsTime())

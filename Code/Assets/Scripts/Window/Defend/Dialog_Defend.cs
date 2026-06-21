@@ -26,7 +26,7 @@ public class Dialog_Defend : MonoBehaviour
     {
         this.gameObject.SetActive(true);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         user.DefendData.Check();
 
         for (int i = 0; i < ItemList.Count; i++)

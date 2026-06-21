@@ -48,7 +48,7 @@ namespace Game
         {
             if (this.Position > 0)
             {
-                User user = GameProcessor.Inst.User;
+                User user = User_Data_Manager.Data;
                 int part = (Role - 1) * 8 + Position;
 
                 long layer = user.GetLegacyLayer(part);

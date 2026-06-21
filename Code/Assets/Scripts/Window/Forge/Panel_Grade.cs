@@ -48,7 +48,7 @@ public class Panel_Grade : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
@@ -80,7 +80,7 @@ public class Panel_Grade : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (CurrentItem == null)
         {
@@ -135,7 +135,7 @@ public class Panel_Grade : MonoBehaviour
 
     private void OnClick_OK()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int nextLayer = CurrentItem.Layer + 1;
 

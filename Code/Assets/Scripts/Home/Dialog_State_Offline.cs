@@ -32,7 +32,7 @@ public class Dialog_State_Offline : MonoBehaviour
 
     public void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.OfflineLog != null && user.OfflineLog.Count == 2)
         {

@@ -40,7 +40,7 @@ namespace Game
 
         public void Show()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user.GetCardEquipLevel(Config.Id) > 0)
             {
                 this.Img_Active.gameObject.SetActive(false);

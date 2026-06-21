@@ -49,7 +49,7 @@ public class Map_Dialog_World : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user == null)
         {
@@ -81,7 +81,7 @@ public class Map_Dialog_World : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
         if (user.WorldData.Check())

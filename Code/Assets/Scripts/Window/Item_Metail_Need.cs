@@ -30,7 +30,7 @@ namespace Game
             ItemConfig config = ItemConfigCategory.Instance.Get(metailId);
             this.Txt_Name.text = config.Name;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == metailId).Select(m => m.MagicNubmer.Data).Sum();
 
             string color = stoneTotal >= upCount ? "#11FF11" : "#FF0000";
@@ -44,7 +44,7 @@ namespace Game
             ItemConfig config = ItemConfigCategory.Instance.Get(mid);
             this.Txt_Name.text = config.Name;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             long stoneTotal = user.GetHideMaterialCount(mid);
 
             string color = stoneTotal >= nubmer ? "#11FF11" : "#FF0000";

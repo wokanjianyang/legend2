@@ -46,7 +46,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
     {
         ExclusiveConfig config = ExclusiveConfigCategory.Instance.Get(this.Tid);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         Txt_Name.text = config.Name;
 
@@ -124,7 +124,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         ExclusiveConfig config = ExclusiveConfigCategory.Instance.Get(this.Tid);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         for (int i = 0; i < config.MidList.Length; i++)
         {

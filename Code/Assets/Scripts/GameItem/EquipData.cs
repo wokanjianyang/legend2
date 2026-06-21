@@ -46,7 +46,7 @@ namespace Game
             //    }
             //    else
             //    {
-            //        AttrList.Add(AttrEntryConfigCategory.Instance.BuildNew(part, cycle, quality, role, GameProcessor.Inst.User.RandomRecord));
+            //        AttrList.Add(AttrEntryConfigCategory.Instance.BuildNew(part, cycle, quality, role, User_Data_Manager.Data.RandomRecord));
             //    }
 
             //    SkillRuneConfig config = SkillRuneConfigCategory.Instance.RandomRune(-1, -1, role, 1, quality, 750);

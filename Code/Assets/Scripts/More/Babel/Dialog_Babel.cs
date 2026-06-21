@@ -53,7 +53,7 @@ public class Dialog_Babel : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         user.BabelData.Check();
 
         long progress = user.BabelData.Progress.Data;
@@ -104,7 +104,7 @@ public class Dialog_Babel : MonoBehaviour
                                     AppHelper.BabelMaxRecord = list[0].Rank;
                                     AppHelper.BabelMinRecord = list[^1].Rank;
 
-                                    long total = AppHelper.BabelMaxRecord - GameProcessor.Inst.User.BabelData.Progress.Data - 1;
+                                    long total = AppHelper.BabelMaxRecord - User_Data_Manager.Data.BabelData.Progress.Data - 1;
                                     total = total > 0 ? total * 2 : 0;
 
                                     this.Txt_Rise.text = "最高纪录 " + list[0].Name + " " + list[0].Rank + "层" + " (怪物额外承伤" + total + "%)";
@@ -136,7 +136,7 @@ public class Dialog_Babel : MonoBehaviour
 
     public void OnClick_Start()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.BabelData.Count <= 0)
         {

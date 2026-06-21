@@ -83,7 +83,7 @@ namespace Game
 
         public static List<Item> Build(int type, int mapId, double rateRise, double modelRise, int limit, double countRise, double dropFinal)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             List<Item> list = new List<Item>();
 

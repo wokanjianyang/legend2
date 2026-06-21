@@ -92,7 +92,7 @@ public class Monster_Specail : APlayer
 
     //private void BuildReword()
     //{
-    //    User user = GameProcessor.Inst.User;
+    //    User user = User_Data_Manager.Data;
 
     //    //生成道具奖励
     //    List<KeyValuePair<double, DropConfig>> dropList = new List<KeyValuePair<double, DropConfig>>();

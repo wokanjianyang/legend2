@@ -33,7 +33,7 @@ public class Dialog_BossFamily : MonoBehaviour, IBattleLife
             BtnStartList[i].onClick.AddListener(() => this.OnClick_Start(index));
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         this.Rate = user.GetArtifactValue(ArtifactType.BossBattleRate) + 1;
         //if (user.IsDz())
         //{
@@ -66,7 +66,7 @@ public class Dialog_BossFamily : MonoBehaviour, IBattleLife
 
     private void OnOpenBossFamily(OpenBossFamilyEvent e)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
         int layer = (user.MapId - ConfigHelper.MapStartId) / 35;

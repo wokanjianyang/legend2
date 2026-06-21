@@ -33,14 +33,14 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
            
         }
 
         public void Show()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             long count = user.GetHideMaterialCount(Config.ItemId);
 

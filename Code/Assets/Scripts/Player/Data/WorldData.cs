@@ -27,7 +27,7 @@ namespace Game
             List<WorldConfig> worlds = WorldConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
             int seed = AppHelper.GetDeviceIdentifier().GetHashCode();
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user != null && user.Account != null)
             {
                 seed = user.Account.GetHashCode();

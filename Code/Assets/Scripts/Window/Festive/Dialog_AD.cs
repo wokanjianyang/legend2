@@ -55,7 +55,7 @@ public class Dialog_AD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        long time = TimeHelper.ClientNowSeconds() - GameProcessor.Inst.User.AdLastTime;
+        long time = TimeHelper.ClientNowSeconds() - User_Data_Manager.Data.AdLastTime;
         txt_Time.text = "倒计时:" + Math.Max(0, CD_Time - time);
     }
 
@@ -70,7 +70,7 @@ public class Dialog_AD : MonoBehaviour
         var @enums = Enum.GetValues(typeof(ADTypeEnum));
         foreach (ADTypeEnum @enum in @enums)
         {
-            var data = GameProcessor.Inst.User.ADShowData?.GetADShowStatus(@enum);
+            var data = User_Data_Manager.Data.ADShowData?.GetADShowStatus(@enum);
             if (data == null)
             {
                 continue;
@@ -89,7 +89,7 @@ public class Dialog_AD : MonoBehaviour
             }
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         int skipCount = user.AdData.GetSkipCount();
         txt_Skip.text = skipCount + "";
 
@@ -108,11 +108,11 @@ public class Dialog_AD : MonoBehaviour
 
     private bool CheckCd()
     {
-        long time = TimeHelper.ClientNowSeconds() - GameProcessor.Inst.User.AdLastTime;
+        long time = TimeHelper.ClientNowSeconds() - User_Data_Manager.Data.AdLastTime;
 
         if (time > CD_Time)
         {
-            GameProcessor.Inst.User.AdLastTime = TimeHelper.ClientNowSeconds();
+            User_Data_Manager.Data.AdLastTime = TimeHelper.ClientNowSeconds();
             return true;
         }
 
@@ -121,10 +121,10 @@ public class Dialog_AD : MonoBehaviour
 
     private bool CheckCount(int type)
     {
-        var data = GameProcessor.Inst.User.ADShowData?.GetADShowStatus((ADTypeEnum)type);
+        var data = User_Data_Manager.Data.ADShowData?.GetADShowStatus((ADTypeEnum)type);
         if (data == null)
         {
-            GameProcessor.Inst.User.ADShowData.ADDatas.Add(new ADData()
+            User_Data_Manager.Data.ADShowData.ADDatas.Add(new ADData()
             {
                 ADType = type,
                 CurrentShowCount = 0,
@@ -168,7 +168,7 @@ public class Dialog_AD : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int skipCount = user.AdData.GetSkipCount();
 
@@ -195,7 +195,7 @@ public class Dialog_AD : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (toggle_Skip.isOn || true)
         {
@@ -254,14 +254,14 @@ public class Dialog_AD : MonoBehaviour
 
                 RewardAd(type, true);
 
-                GameProcessor.Inst.User.AdLastTime = TimeHelper.ClientNowSeconds();
+                User_Data_Manager.Data.AdLastTime = TimeHelper.ClientNowSeconds();
                 this.CD_Time = this.Time_Success;
             }
             else if (code == (int)AdStateEnum.NotSupport || code == (int)AdStateEnum.LoadFail)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "广告加载失败,请稍候再试", ToastType = ToastTypeEnum.Failure });
 
-                GameProcessor.Inst.User.AdLastTime = TimeHelper.ClientNowSeconds();
+                User_Data_Manager.Data.AdLastTime = TimeHelper.ClientNowSeconds();
                 this.CD_Time = this.Time_Error;
             }
             else
@@ -274,7 +274,7 @@ public class Dialog_AD : MonoBehaviour
 
     public void RewardAd(int type, bool real)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         var data = user.ADShowData?.GetADShowStatus((ADTypeEnum)type);
 
@@ -319,7 +319,7 @@ public class Dialog_AD : MonoBehaviour
 
     private void RewardExpAndGold(bool real)  //看的真广告还是假广告
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         //发放奖励
         double gold = 100 * 10000;
@@ -346,7 +346,7 @@ public class Dialog_AD : MonoBehaviour
 
     private void RewardStone(bool real)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int number = 1000;
 
@@ -371,7 +371,7 @@ public class Dialog_AD : MonoBehaviour
     }
     private void RewardStone1(bool real)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int number = 100;
 

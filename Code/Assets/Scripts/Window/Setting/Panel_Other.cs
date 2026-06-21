@@ -93,7 +93,7 @@ namespace Game
         {
             //Debug.Log("dropDown：" + value);
 
-            GameProcessor.Inst.User.InfoColor = value + 1;
+            User_Data_Manager.Data.InfoColor = value + 1;
         }
 
         private bool CheckShow()
@@ -112,7 +112,7 @@ namespace Game
                 return;
             }
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             string account = user.Account;
             if (account == "")
             {
@@ -167,7 +167,7 @@ namespace Game
         public void Init()
         {
             Debug.Log("Other init");
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             tog_Monster_Skill.isOn = AppHelper.ShowMonsterSkill;
             tog_Monster_Damage.isOn = AppHelper.ShowMonsterDamage;
@@ -254,9 +254,9 @@ namespace Game
                  {
                      if (result.Code == StatusMessage.OK)
                      {
-                         GameProcessor.Inst.User.Account = account;
+                         User_Data_Manager.Data.Account = account;
 
-                         if (GameProcessor.Inst.User.MagicEquipRefine.Count > 0)
+                         if (User_Data_Manager.Data.MagicEquipRefine.Count > 0)
                          {
                              GameProcessor.Inst.SaveData();
                          }
@@ -269,7 +269,7 @@ namespace Game
                          this.txt_Memo.text = buildMeme(account);
 
                          //update
-                         //  string param = NetworkHelper.BuildUpdateParam(GameProcessor.Inst.User);
+                         //  string param = NetworkHelper.BuildUpdateParam(User_Data_Manager.Data);
                          //  StartCoroutine(NetworkHelper.UpdateInfo(param,
                          // (WebResultWrapper result) =>
                          // {
@@ -321,7 +321,7 @@ namespace Game
 
         private void saveData()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             user.SaveTickeTimeHand = TimeHelper.ClientNowSeconds();
             btn_Save.gameObject.SetActive(false);
 
@@ -369,7 +369,7 @@ namespace Game
 
         private void loadData()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             user.LoadTicketTime = TimeHelper.ClientNowSeconds();
 
             btn_Load.gameObject.SetActive(false);
@@ -452,7 +452,7 @@ namespace Game
 
         //private void loadData()
         //{
-        //    User user = GameProcessor.Inst.User;
+        //    User user = User_Data_Manager.Data;
         //    user.LoadTicketTime = TimeHelper.ClientNowSeconds();
 
         //    btn_Load.gameObject.SetActive(false);

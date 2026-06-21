@@ -43,7 +43,7 @@ namespace Game
 
         public void AddExp(long exp)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             this.MagicExp.Data += exp;
             while (this.MagicExp.Data >= GetLevelUpExp() && this.MagicLevel.Data < user.GetSkillLimit(SkillConfig))

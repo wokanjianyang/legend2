@@ -56,7 +56,7 @@ namespace Game
     //        if (config.Cycle == 5)
     //        {
     //            //»ìãç×°±¸
-    //            User user = GameProcessor.Inst.User;
+    //            User user = User_Data_Manager.Data;
     //            if (user != null)
     //            {
     //                int dropLimitId = AppHelper.EquipHundun_MaxDropId;

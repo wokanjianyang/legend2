@@ -68,7 +68,7 @@ namespace Game
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
             GameProcessor.Inst.CloseBattle(RuleType.Offline, 0);
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             user.OfflineLog[1] = this.MapId;
             user.OfflineLog[2] = this.Total;

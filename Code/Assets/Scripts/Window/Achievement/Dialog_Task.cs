@@ -76,7 +76,7 @@ public class Dialog_Task : MonoBehaviour
         }
         items.Clear();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetCurrent(gid, user.TaskLog);
 

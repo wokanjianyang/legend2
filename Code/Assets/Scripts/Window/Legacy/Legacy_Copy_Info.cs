@@ -31,7 +31,7 @@ public class Legacy_Copy_Info : MonoBehaviour
 
     private void Start()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         user.LegacyData.Check(user.MagicLevel.Data);
     }
 
@@ -42,7 +42,7 @@ public class Legacy_Copy_Info : MonoBehaviour
 
     public void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long time = (int)user.LegacyData.Time.Data;
         Txt_Time.text = "副本剩余时间：" + time + "秒";

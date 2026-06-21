@@ -93,7 +93,7 @@ public class Com_Power : MonoBehaviour
         this.gameObject.SetActive(true);
         this.Slider.value = 0;
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         if (user != null)
         {
             MapConfig config = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);

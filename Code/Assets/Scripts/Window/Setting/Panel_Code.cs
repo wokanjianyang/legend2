@@ -51,7 +51,7 @@ namespace Game
         public void OnClick_ChangeName()
         {
             var name = this.SplitNameByUTF8(this.if_Name.text.Trim());
-            GameProcessor.Inst.User.Name = name;
+            User_Data_Manager.Data.Name = name;
             GameProcessor.Inst.SaveData();
             //设置名称
             GameProcessor.Inst.EventCenter.Raise(new SetPlayerNameEvent
@@ -83,7 +83,7 @@ namespace Game
 
                     ticket = ct;
 
-                    User user = GameProcessor.Inst.User;
+                    User user = User_Data_Manager.Data;
                     string str_json = JsonConvert.SerializeObject(user, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
                     str_json = EncryptionHelper.AesEncrypt(str_json);
 
@@ -127,7 +127,7 @@ namespace Game
 
         private void NormalCode(string code)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (user.GiftListNew.ContainsKey(code))
             {
@@ -179,7 +179,7 @@ namespace Game
 
         private void SpecialCode(string code)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (user.GiftListNew.ContainsKey(code))
             {

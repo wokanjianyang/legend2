@@ -41,7 +41,7 @@ namespace Game
 
         public void OnClickOk()
         {
-            this.level = GameProcessor.Inst.User.WorldData.GetLayer(this.Config.Id);
+            this.level = User_Data_Manager.Data.WorldData.GetLayer(this.Config.Id);
 
             if (this.level > ConfigHelper.MaxWorld)
             {
@@ -62,7 +62,7 @@ namespace Game
 
         public void Show()
         {
-            this.level = GameProcessor.Inst.User.WorldData.GetLayer(this.Config.Id);
+            this.level = User_Data_Manager.Data.WorldData.GetLayer(this.Config.Id);
 
             this.Txt_Name.text = Config.MapName;
 

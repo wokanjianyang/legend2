@@ -78,7 +78,7 @@ public class Item_Composite : MonoBehaviour
 
         this.gameObject.SetActive(true);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         this.check = true;
 
@@ -140,7 +140,7 @@ public class Item_Composite : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long number = 99999999;
 

@@ -58,7 +58,7 @@ namespace Game
                 return;
             }
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             long count = user.GetMaterialCount(Config.ItemId);
             this.Txt_Count.text = count + "";
         }

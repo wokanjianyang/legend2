@@ -30,7 +30,7 @@ public class BattleRule_Infinite : ABattleRule
         param.TryGetValue("count", out object count);
 
         //this.Progress = (long)progress;
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
         if (ac)
         {
@@ -64,7 +64,7 @@ public class BattleRule_Infinite : ABattleRule
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         InfiniteRecord record = user.InfiniteData.GetCurrentRecord();
 
         long currentProgres = record.Progress.Data;
@@ -139,7 +139,7 @@ public class BattleRule_Infinite : ABattleRule
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long exp = (long)rewardConfig.Exp;
         long gold = (long)rewardConfig.Gold;
@@ -207,7 +207,7 @@ public class BattleRule_Infinite : ABattleRule
         var hero = GameProcessor.Inst.PlayerManager.GetHero();
         if (hero != null && hero.HP <= 0)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             InfiniteRecord record = user.InfiniteData.GetCurrentRecord();
 
             if (record == null)

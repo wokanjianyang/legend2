@@ -98,7 +98,7 @@ namespace Game
 
         public void ShowOffline()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (user.OfflineLog.Count != 2)
             {
@@ -225,7 +225,7 @@ namespace Game
 
         private List<Item> BuildMapReward(int killCount, int mapId, double burstRise, double qualityRise)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             List<Item> items = new List<Item>();
 
@@ -499,7 +499,7 @@ namespace Game
         public void TestInfinityDrop()
         {
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             for (int i = 0; i < 20; i++)
             {

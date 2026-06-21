@@ -38,7 +38,7 @@ namespace Game
 
         private void Show()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             //long p = user.GetAchievementProgeress(AchievementProType.Defend) - (this.Level - 1) * 100;
 
@@ -92,7 +92,7 @@ namespace Game
         {
             AppHelper.DefendLevel = Level;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             DefendRecord record = user.DefendData.GetCurrentRecord(this.Level);
 
             if (record == null || record.Count <= 0)

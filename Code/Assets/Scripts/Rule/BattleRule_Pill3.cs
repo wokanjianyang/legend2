@@ -65,7 +65,7 @@ public class BattleRule_Pill3 : ABattleRule
             this.Over = true;
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Pill3, Message = "ÃÙ’ΩÕ®πÿ£°" });
-            GameProcessor.Inst.User.PillTime.Time.Data -= ConfigHelper.PillDefaultTime * 10 - 1;
+            User_Data_Manager.Data.PillTime.Time.Data -= ConfigHelper.PillDefaultTime * 10 - 1;
 
             BuildReward();
 
@@ -77,7 +77,7 @@ public class BattleRule_Pill3 : ABattleRule
     {
         List<Item> items = new List<Item>();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int percent = user.GetArtifactValue(ArtifactType.Pill3);
         int count = (Layer * 20 + 220) * (100 + percent) / 100;

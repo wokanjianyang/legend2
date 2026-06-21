@@ -211,7 +211,7 @@ public class BattleRule_Spirit : ABattleRule
         //    return;
         //}
 
-        //User user = GameProcessor.Inst.User;
+        //User user = User_Data_Manager.Data;
 
         //List<Item> items = new List<Item>();
 

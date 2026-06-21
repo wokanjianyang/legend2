@@ -60,7 +60,7 @@ public class Dialog_Cycle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         string account = user.Account;
         long day = (TimeHelper.ClientNowSeconds() - user.First_Create_Time) / 86400 + 1;
@@ -70,16 +70,16 @@ public class Dialog_Cycle : MonoBehaviour
             Btn_Ok.onClick.AddListener(OnClick_Ok);
         }
 
-        if (GameProcessor.Inst.User.Cycle.Data < 10)
+        if (User_Data_Manager.Data.Cycle.Data < 10)
         {
             toggle_Type2.gameObject.SetActive(false);
         }
 
-        if (GameProcessor.Inst.User.Cycle.Data < 20)
+        if (User_Data_Manager.Data.Cycle.Data < 20)
         {
             toggle_Type3.gameObject.SetActive(false);
         }
-        if (GameProcessor.Inst.User.Cycle.Data < 30)
+        if (User_Data_Manager.Data.Cycle.Data < 30)
         {
             toggle_Type4.gameObject.SetActive(false);
         }
@@ -95,7 +95,7 @@ public class Dialog_Cycle : MonoBehaviour
         this.Type = type;
         this.Txt_Ok.text = BtnName[type];
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long cycle = user.Cycle.Data;
         long maxCycle = (type + 1) * 10;
@@ -171,7 +171,7 @@ public class Dialog_Cycle : MonoBehaviour
     {
         Btn_Ok.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long RequireLevel = user.GetMaxLevel();
 
         long level = user.MagicLevel.Data;

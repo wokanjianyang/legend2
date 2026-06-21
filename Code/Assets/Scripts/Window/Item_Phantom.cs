@@ -29,7 +29,7 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             user.PhantomRecord.TryGetValue(ConfigId, out int phLevel);
 
             if (phLevel > this.Config.EndLevel)
@@ -61,7 +61,7 @@ namespace Game
 
         public void SetContent(PhantomConfig config, int level)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user.Cycle.Data < config.RequireCycle)
             {
                 this.gameObject.SetActive(false);

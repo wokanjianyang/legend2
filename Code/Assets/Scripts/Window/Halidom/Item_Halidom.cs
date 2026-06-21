@@ -33,7 +33,7 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             MagicData halidomData = user.HalidomData[Config.Id];
             int maxLevel = user.GetHolidomLimit();
@@ -155,7 +155,7 @@ namespace Game
 
         public void Refresh()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             long level = user.GetHalidomLevel(this.Config.Id);
             this.Show(level);
         }

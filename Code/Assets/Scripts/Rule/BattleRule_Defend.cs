@@ -24,7 +24,7 @@ public class Battle_Defend : ABattleRule
 
     public Battle_Defend(Dictionary<string, object> param)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         this.CurrentRecord = user.DefendData.GetCurrentRecord(AppHelper.DefendLevel);
 
         this.Level = AppHelper.DefendLevel;
@@ -60,12 +60,12 @@ public class Battle_Defend : ABattleRule
         {
             int si = (int)(this.CurrentRecord.Progress - 1) / 10 + 1;
 
-            if (!GameProcessor.Inst.User.DefendData.GetCurrentRecord(this.Level).BuffDict.ContainsKey(si))
+            if (!User_Data_Manager.Data.DefendData.GetCurrentRecord(this.Level).BuffDict.ContainsKey(si))
             {
                 GameProcessor.Inst.EventCenter.Raise(new DefendBuffSelectEvent() { Index = si, Level = this.Level });
             }
 
-            if (GameProcessor.Inst.User.InfoColor <= 1)
+            if (User_Data_Manager.Data.InfoColor <= 1)
             {
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "第" + this.CurrentRecord.Progress + "波发起了进攻" });
             }
@@ -88,7 +88,7 @@ public class Battle_Defend : ABattleRule
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (enemys.Count <= 0 && !this.Start)
         {
@@ -129,7 +129,7 @@ public class Battle_Defend : ABattleRule
     {
         MonsterDefendConfig rewardConfig = MonsterDefendConfigCategory.Instance.GetByLayerAndLevel(this.Level, this.CurrentRecord.Progress);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long exp = (long)(rewardConfig.Exp + (this.CurrentRecord.Progress - 1) * rewardConfig.RiseExp);
         long gold = exp;

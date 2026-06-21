@@ -116,7 +116,7 @@ namespace Game
 
             string color = "green";
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             IDictionary<int, long> BaseAttrList = equip.GetBaseAttrList();
 

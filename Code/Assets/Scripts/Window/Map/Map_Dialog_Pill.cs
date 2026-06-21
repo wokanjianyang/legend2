@@ -50,7 +50,7 @@ public class Map_Dialog_Pill : MonoBehaviour
         Btn_Close.onClick.AddListener(OnClick_Close);
         this.Init(1);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         if (user.Cycle.Data < 10)
         {
             toggle2.gameObject.SetActive(false);
@@ -64,7 +64,7 @@ public class Map_Dialog_Pill : MonoBehaviour
 
     void OnEnable()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         Txt_Time.text = (int)user.PillTime.Time.Data + "S";
     }
 
@@ -72,7 +72,7 @@ public class Map_Dialog_Pill : MonoBehaviour
     {
         Debug.Log("init panel:" + index);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         user.PillTime.Check(user.Cycle.Data);
 
         ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Pill/Map_Pill_Item");

@@ -118,7 +118,13 @@ public class Init : MonoBehaviour
     {
         this.Tran_Loading.gameObject.SetActive(true);
 
-        long currentTimeSecond = 0;
+        this.LoadConfig();  //先加载配置
+
+        User_Data_Manager.Load();  //再加载存档
+
+        //再加载net数据
+
+        long currentTimeSecond = 0;  //最后加载网络时间
 
         if (ConfigHelper.Channel == ConfigHelper.Channel_Tap)
         {
@@ -133,12 +139,11 @@ public class Init : MonoBehaviour
             await timeTaks;
             currentTimeSecond = (long)timeTaks.Result.onlineSecondsUtc;
             Log.Debug("net time:" + currentTimeSecond);
-
         }
 
         AppHelper.StartTime = currentTimeSecond;
 
-        this.LoadConfig();
+
 
         StartCoroutine(AsyncLoadWindows(currentTimeSecond));
     }

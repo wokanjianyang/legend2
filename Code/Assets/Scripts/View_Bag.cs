@@ -150,7 +150,10 @@ namespace Game
 
             GameProcessor.Inst.EventCenter.AddListener<PetBattleUpEvent>(this.PetBattleUp);
 
-            int EquipPanelIndex = GameProcessor.Inst.User.EquipPanelIndex;
+            GameProcessor.Inst.EventCenter.AddListener<HeroUseSkillBookEvent>(HeroUseSkillBook);
+            GameProcessor.Inst.EventCenter.AddListener<UserAttrChangeEvent>(UserAttrChange);
+
+            int EquipPanelIndex = User_Data_Manager.Data.EquipPanelIndex;
             Toggle_Plan_List[EquipPanelIndex].isOn = true;
             this.InitPlanName();
 
@@ -173,7 +176,7 @@ namespace Game
 
         private void InitAttr()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user == null)
             {
                 return;
@@ -218,7 +221,7 @@ namespace Game
 
         private IEnumerator LoadBox()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             GameProcessor.Inst.EventCenter.AddListener<HeroBagUpdateEvent>(this.OnHeroBagUpdateEvent);
 
             this.items = new List<Com_Box>();
@@ -286,7 +289,7 @@ namespace Game
 
         private void OnRefreshBag()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoverySet.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
             this.RecoveryAll(recoveryList, RuleType.Normal);
 
@@ -307,7 +310,7 @@ namespace Game
                 name = name.Substring(0, 2);
             }
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             user.PlanNameList[user.EquipPanelIndex] = name;
 
@@ -317,7 +320,7 @@ namespace Game
 
         private void InitPlanName()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             for (int i = 0; i < Toggle_Plan_List.Count; i++)
             {
@@ -343,7 +346,7 @@ namespace Game
             }
             items.Clear();
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (user.Bags != null)
             {
@@ -357,7 +360,7 @@ namespace Game
         private void BuildBag(int index)
         {
             ScrollRect bagRect = this.Bag_List[index];
-            List<BoxItem> list = GameProcessor.Inst.User.Bags.Where(m => m.GetBagType() == index).OrderBy(m => m.GetBagSort()).ToList();
+            List<BoxItem> list = User_Data_Manager.Data.Bags.Where(m => m.GetBagType() == index).OrderBy(m => m.GetBagSort()).ToList();
 
             for (int BoxId = 0; BoxId < list.Count; BoxId++)
             {
@@ -394,7 +397,7 @@ namespace Game
             CompositeConfig Config = e.Config;
             long number = e.Number;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             for (int i = 0; i < Config.ItemIdList.Length; i++)
             {
@@ -438,7 +441,7 @@ namespace Game
             {
                 if (i == 0)
                 {
-                    User user = GameProcessor.Inst.User;
+                    User user = User_Data_Manager.Data;
                     BoxItem boxItem = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Exclusive && m.Item.GetQuality() == 5 && !m.Item.IsLock).FirstOrDefault();
 
                     if (boxItem == null)
@@ -470,7 +473,7 @@ namespace Game
 
         private void OnSystemUse(SystemUseEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             List<BoxItem> list = user.Bags.Where(m => m.Item.GetItemType() == e.Type && m.Item.ConfigId == e.ItemId).ToList();
 
@@ -536,7 +539,7 @@ namespace Game
 
         //private void OnChangeExclusiveEvent(ChangeExclusiveEvent e)
         //{
-        //    User user = GameProcessor.Inst.User;
+        //    User user = User_Data_Manager.Data;
         //    user.ExclusiveIndex = e.Index;
 
         //    for (int i = 15; i <= 20; i++)
@@ -554,7 +557,7 @@ namespace Game
 
         private void OnChangeEquipPlanEvent(ChangeEquipPlanEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (e.Type == 1)
             {
@@ -589,7 +592,7 @@ namespace Game
 
         private void ChangePlan(int index)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             user.EquipPanelIndex = index;
 
             GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 1, Index = index });
@@ -622,7 +625,7 @@ namespace Game
 
         private void OnEquipToCard(EquipToCardEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             Item item = e.BoxItem.Item;
 
@@ -636,7 +639,7 @@ namespace Game
 
         private void OnEquipOneEvent(EquipOneEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             int type = e.BoxItem.GetBagType();
             int total = user.GetBagIdleCount(type);
 
@@ -662,7 +665,7 @@ namespace Game
 
         private void PetBattleUp(PetBattleUpEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             int pg = Math.Min(3, user.GetPetSpeicalGroupLevel() / 3);
 
@@ -693,9 +696,43 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
         }
 
+        private void HeroUseSkillBook(HeroUseSkillBookEvent e)
+        {
+            User user = User_Data_Manager.Data;
+
+            int configId = e.BoxItem.Item.ConfigId;
+
+            SkillData skillData;
+
+            bool learned = user.SkillList.Find(m => m.SkillId == configId) != null;
+
+            if (!learned)
+            {
+                //第一次学习，创建技能数据
+                skillData = new SkillData(configId, 0);
+                skillData.Status = SkillStatus.Learn;
+                skillData.MagicLevel.Data = 1;
+                skillData.MagicExp.Data = 0;
+
+                user.SkillList.Add(skillData);
+            }
+            else
+            {
+                skillData = user.SkillList.Find(b => b.SkillId == configId);
+                skillData.AddExp(ConfigHelper.SkillBoxExp * e.Number);
+            }
+
+            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
+        }
+
+        private void UserAttrChange(UserAttrChangeEvent e)
+        {
+            User_Data_Manager.Data.Init();
+        }
+
         private void FirstRecovery()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoverySet.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
             this.RecoveryAll(recoveryList, RuleType.Normal);
         }
@@ -722,7 +759,7 @@ namespace Game
             BoxItem boxItem = e.BoxItem;
             int bagType = boxItem.GetBagType();
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             int haveCount = user.GetBagIdleCount(bagType);
 
@@ -854,7 +891,7 @@ namespace Game
 
         private void OnLoseEvent(LoseEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             BoxItem boxItem = e.BoxItem;
 
@@ -877,14 +914,14 @@ namespace Game
 
         private void OnAutoRecoveryEvent(AutoRecoveryEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             List<BoxItem> recoveryList = user.Bags.Where(m => !m.Item.IsLock && user.RecoverySet.CheckRecovery(m.Item, RecoveryType.Other)).ToList();
             this.RecoveryAll(recoveryList, e.RuleType);
         }
 
         private void RecoverySingle(BoxItem boxItem, int number)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             long gold = 0;
 
@@ -917,7 +954,7 @@ namespace Game
 
         private void RecoveryAll(List<BoxItem> recoveryList, RuleType ruleType)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             List<Item> itemList = new List<Item>();
 
@@ -959,7 +996,7 @@ namespace Game
 
         private void OnBagUseEvent(BagUseEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             BoxItem boxItem = e.BoxItem;
             long number = e.Number <= 0 ? boxItem.MagicNubmer.Data : e.Number;
@@ -1052,7 +1089,7 @@ namespace Game
                 GameObject.Destroy(sp.gameObject);
             }
 
-            GameProcessor.Inst.User.Bags.RemoveAll(m => m.Item.IsDelete);
+            User_Data_Manager.Data.Bags.RemoveAll(m => m.Item.IsDelete);
         }
 
 
@@ -1071,7 +1108,7 @@ namespace Game
 
         private bool UseBoxItem(BoxItem boxItem, long quantity)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             //逻辑处理
 
@@ -1107,7 +1144,7 @@ namespace Game
 
         private void AddBoxItem(Item newItem)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             long nn = newItem.Temp_Number;
 
@@ -1244,7 +1281,7 @@ namespace Game
 
             if (position <= 10)
             {
-                int pi = GameProcessor.Inst.User.EquipPanelIndex;
+                int pi = User_Data_Manager.Data.EquipPanelIndex;
 
                 slot = EquipPanel.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
@@ -1258,7 +1295,7 @@ namespace Game
 
         private Item GetEquip(int position)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (position <= 10)
             {
@@ -1284,7 +1321,7 @@ namespace Game
 
         private void RemoveEquip(int position)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (position <= 10)
             {
@@ -1299,7 +1336,7 @@ namespace Game
 
         private void AddEquip(int position, Item equip)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (position <= 10)
             {
@@ -1342,7 +1379,7 @@ namespace Game
 
         private void OnHeroBagUpdateEvent(HeroBagUpdateEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user.Bags != null)
             {
                 var newItems = e.ItemList;

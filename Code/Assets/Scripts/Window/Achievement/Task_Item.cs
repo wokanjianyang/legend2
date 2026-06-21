@@ -60,7 +60,7 @@ public class Task_Item : MonoBehaviour
         Txt_Des.text = string.Format(Config.Desc, require);
         Txt_Reward.text = string.Format(Config.RewardText, StringHelper.FormatNumber(Config.RewardGold), Config.NumberList[0]);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         user.TaskLog.TryGetValue(Config.Id, out bool complete);
         if (complete)
         {
@@ -87,7 +87,7 @@ public class Task_Item : MonoBehaviour
         Btn_Active.gameObject.SetActive(false);
         Txt_Ok.gameObject.SetActive(true);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         user.TaskLog.TryGetValue(Config.Id, out bool complete);
         if (complete)

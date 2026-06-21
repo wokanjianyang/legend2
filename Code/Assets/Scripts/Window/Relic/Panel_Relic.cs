@@ -53,7 +53,7 @@ public class Panel_Relic : MonoBehaviour
 
         RelicGroupConfig groupConfig = RelicGroupConfigCategory.Instance.Get(Rid);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int startId = 1 + (Rid - 1) * 8;
         int endId = Rid * 8;
@@ -107,7 +107,7 @@ public class Panel_Relic : MonoBehaviour
         this.SelectId = id;
         this.Btn_Active.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int level = user.GetRelicLevel(id);
         int rise = user.GetRelicRise();
@@ -146,7 +146,7 @@ public class Panel_Relic : MonoBehaviour
     {
         this.Btn_Active.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         RelicConfig config = RelicConfigCategory.Instance.Get(this.SelectId);
         long materialCount = user.GetMaterialCount(config.ItemId);

@@ -28,7 +28,7 @@ namespace Game
                 return;
             }
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             long level = user.GetTalentLevel(Config.Id);
 

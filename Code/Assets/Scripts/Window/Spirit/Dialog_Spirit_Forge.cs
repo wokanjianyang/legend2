@@ -48,7 +48,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
     {
         this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.Quality), Config.Name);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long currentLevel = user.GetSpiritLevel(ConfigId);
 
         this.Txt_Level.text = currentLevel + "¼¶£¨Âú¼¶" + MaxLevel + "¼¶£©";
@@ -112,7 +112,7 @@ public class Dialog_Spirit_Forge : MonoBehaviour
     {
         this.Btn_Ok.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = user.GetSpiritLevel(ConfigId);
         long nextLevel = currentLevel + 1;

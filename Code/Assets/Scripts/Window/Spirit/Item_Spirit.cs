@@ -40,7 +40,7 @@ namespace Game
 
         public void Show()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             long spiritLevel = user.GetSpiritLevel(Config.Id);
 

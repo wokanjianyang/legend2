@@ -34,10 +34,10 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
 
     private void PetBattleDown(PetBattleDownEvent e)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         //判断空格
-        int ic = GameProcessor.Inst.User.GetBagIdleCount(3);
+        int ic = User_Data_Manager.Data.GetBagIdleCount(3);
         if (ic < 10)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留10个对应的包裹格子", ToastType = ToastTypeEnum.Failure });
@@ -72,7 +72,7 @@ public class Panel_Pet : MonoBehaviour, IBattleLife
     {
         //Debug.Log("pet onable");
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         if (user == null)
         {
             return;

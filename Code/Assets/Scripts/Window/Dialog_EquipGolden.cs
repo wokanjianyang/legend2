@@ -23,7 +23,7 @@ namespace Game
 
             toggle.onValueChanged.AddListener((isOn) =>
             {
-                GameProcessor.Inst.User.EquipGoldenSetting = isOn;
+                User_Data_Manager.Data.EquipGoldenSetting = isOn;
             });
         }
 
@@ -58,13 +58,13 @@ namespace Game
         {
             this.gameObject.SetActive(true);
 
-            toggle.isOn = GameProcessor.Inst.User.EquipGoldenSetting;
+            toggle.isOn = User_Data_Manager.Data.EquipGoldenSetting;
             this.InitPlanName();
         }
 
         private void InitPlanName()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             int EquipGoldenIndex = user.EquipGoldenIndex;
             Toggle_Plan_List[EquipGoldenIndex].isOn = true;

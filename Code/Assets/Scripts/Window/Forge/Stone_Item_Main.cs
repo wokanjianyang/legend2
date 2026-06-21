@@ -75,7 +75,7 @@ namespace Game
             }
             //this.Txt_Name.text = Config.Name.Insert(2, "\n"); ;
 
-            //User user = GameProcessor.Inst.User;
+            //User user = User_Data_Manager.Data;
             //int level = user.GetRelicLevel(Config.Id);
             //this.Txt_Level.text = level + "";
         }

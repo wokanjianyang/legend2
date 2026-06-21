@@ -53,7 +53,7 @@ namespace Game
 
         public void Show()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user.GetExclusiveLevel(Config.Id) > 0)
             {
                 this.Img_Active.gameObject.SetActive(false);

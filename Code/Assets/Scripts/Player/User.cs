@@ -406,8 +406,7 @@ namespace Game
 
         public User()
         {
-            GameProcessor.Inst.EventCenter.AddListener<HeroUseSkillBookEvent>(HeroUseSkillBook);
-            GameProcessor.Inst.EventCenter.AddListener<UserAttrChangeEvent>(UserAttrChange);
+
         }
 
         public void Init()
@@ -667,37 +666,7 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new UpdateBagPanelUserAttr());
         }
 
-        private void HeroUseSkillBook(HeroUseSkillBookEvent e)
-        {
-            int configId = e.BoxItem.Item.ConfigId;
 
-            SkillData skillData;
-
-            bool learned = SkillList.Find(m => m.SkillId == configId) != null;
-
-            if (!learned)
-            {
-                //第一次学习，创建技能数据
-                skillData = new SkillData(configId, 0);
-                skillData.Status = SkillStatus.Learn;
-                skillData.MagicLevel.Data = 1;
-                skillData.MagicExp.Data = 0;
-
-                this.SkillList.Add(skillData);
-            }
-            else
-            {
-                skillData = this.SkillList.Find(b => b.SkillId == configId);
-                skillData.AddExp(ConfigHelper.SkillBoxExp * e.Number);
-            }
-
-            GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
-        }
-
-        private void UserAttrChange(UserAttrChangeEvent e)
-        {
-            this.SetAttr();
-        }
 
         public int GetRuneCount(int runeId)
         {
@@ -1775,7 +1744,7 @@ namespace Game
 
         public bool CheckKeepSkill(int skillId, int skillLayer)
         {
-            int c = GameProcessor.Inst.User.SkillList.Where(m => (m.SkillId == skillId || m.SkillConfig.SkillLayer == skillLayer) && m.Recovery).Count();
+            int c = this.SkillList.Where(m => (m.SkillId == skillId || m.SkillConfig.SkillLayer == skillLayer) && m.Recovery).Count();
 
             return c > 0;
         }

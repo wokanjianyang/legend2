@@ -62,7 +62,7 @@ public class Item_Fashion : MonoBehaviour
 
         Txt_Attr_Active.text = "³öÕ½ÊôÐÔ£º" + StringHelper.FormatAttrText(this.Config.UpAttrId, this.Config.UpAttrValue);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long fashionLevel = user.GetFashionLevel(this.Config.Id);
 
@@ -100,7 +100,7 @@ public class Item_Fashion : MonoBehaviour
     {
         this.Btn_Active.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long fashionLevel = user.GetFashionLevel(Config.Id);
 
         if (fashionLevel > 0)
@@ -142,7 +142,7 @@ public class Item_Fashion : MonoBehaviour
 
         this.Btn_Up.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long fashionLevel = user.GetFashionLevel(Config.Id);
 
         if (fashionLevel <= 0)

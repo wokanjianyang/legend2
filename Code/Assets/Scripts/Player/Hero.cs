@@ -35,14 +35,14 @@ namespace Game
         {
             base.Reset();
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             this.SetSkill(user); //设置技能,先设置技能，因为技能会影响属性
             this.SetAttr(user);  //设置属性值
         }
 
         private void LevelUp(HeroLevelUp e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             this.Level = user.MagicLevel.Data;
 
             this.SetAttr(user);  //设置属性值
@@ -51,7 +51,7 @@ namespace Game
 
         public void HeroAttrChange(HeroAttrChangeEvent e)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             this.SetAttr(user);  //设置属性值
         }
@@ -59,7 +59,7 @@ namespace Game
 
         private void Init()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             this.Camp = PlayerType.Hero;
             this.Name = user.Name;
             this.Level = user.MagicLevel.Data;
@@ -131,7 +131,7 @@ namespace Game
             //计算Buff
             //if (RuleType == RuleType.Defend)
             //{
-            //    List<DefendBuffConfig> buffList = GameProcessor.Inst.User.DefendData.GetBuffList();
+            //    List<DefendBuffConfig> buffList = User_Data_Manager.Data.DefendData.GetBuffList();
             //    this.AttributeBonus.SetBuffList(buffList);
 
             //    double maxHP = AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP);
@@ -214,7 +214,7 @@ namespace Game
                 SkillCDCache[skillState.SkillPanel.SkillId] = skillState.CD;
             }
 
-            var user = GameProcessor.Inst.User;
+            var user = User_Data_Manager.Data;
 
             this.SetSkill(user);
 

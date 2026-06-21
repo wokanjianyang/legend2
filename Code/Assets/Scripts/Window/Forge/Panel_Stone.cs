@@ -119,7 +119,7 @@ public class Panel_Stone : MonoBehaviour
 
     private void ShowForgeItem()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         StoneRecord record = user.GetStoneRecord(SelectPosition);
 
         int setCount = record.GetSetCount();
@@ -195,7 +195,7 @@ public class Panel_Stone : MonoBehaviour
         this.Btn_OK.gameObject.SetActive(false);
         this.Btn_OK_Batch.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         StoneRecord record = user.GetStoneRecord(SelectPosition);
 
         int stoneId = record.GetStoneId(MainIndex);
@@ -260,7 +260,7 @@ public class Panel_Stone : MonoBehaviour
     private void ShowStone()
     {
         //显示属性，费用
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         StoneRecord record = user.GetStoneRecord(SelectPosition);
 
         int level = record.GetStoneLevel(MainIndex);
@@ -291,7 +291,7 @@ public class Panel_Stone : MonoBehaviour
         this.Btn_OK.gameObject.SetActive(false);
         this.Btn_OK_Batch.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         StoneRecord record = user.GetStoneRecord(SelectPosition);
 
@@ -332,7 +332,7 @@ public class Panel_Stone : MonoBehaviour
         this.Btn_OK.gameObject.SetActive(false);
         this.Btn_OK_Batch.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         StoneRecord record = user.GetStoneRecord(SelectPosition);
 
@@ -370,7 +370,7 @@ public class Panel_Stone : MonoBehaviour
     {
         this.Btn_Active.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         StoneRecord record = user.GetStoneRecord(SelectPosition);
 
@@ -415,7 +415,7 @@ public class Panel_Stone : MonoBehaviour
     {
         this.Btn_Restore.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 200)
         {

@@ -39,7 +39,7 @@ public class Map_Dialog_Shengxiao : MonoBehaviour
 
     private void ShowItemMax()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user == null)
         {
@@ -63,7 +63,7 @@ public class Map_Dialog_Shengxiao : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Map/Map_Shengxiao_Item");
 

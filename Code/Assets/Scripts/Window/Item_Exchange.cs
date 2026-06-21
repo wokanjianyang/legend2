@@ -67,7 +67,7 @@ public class Item_Exchange : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         this.check = true;
 

@@ -13,7 +13,7 @@ namespace Game
             //Debug.Log("BuildMetal seed:" + seed);
             Dictionary<int, int> drops = new Dictionary<int, int>();
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             int levelN = user.GetLimitMineCount();
 

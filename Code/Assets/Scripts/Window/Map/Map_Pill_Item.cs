@@ -21,7 +21,7 @@ public class Map_Pill_Item : MonoBehaviour
 
     private void OnClick_NavigateMap()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int minTime = Config.Type == 1 ? 5 : ConfigHelper.PillDefaultTime * 10 - 1;
 

@@ -99,7 +99,7 @@ namespace Game
             int requireLevel = item.GetRequired();
             int configId = item.ConfigId;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             string color = user.MagicLevel.Data < requireLevel ? "red" : "green";
 
             Txt_Des.text = item.GetDes();

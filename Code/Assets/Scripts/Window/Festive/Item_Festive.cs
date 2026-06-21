@@ -56,7 +56,7 @@ public class Item_Festive : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         int MaxCount = user.GetFestiveCount(Config.Id);
 
         TargetName.text = Config.TargetName;
@@ -90,7 +90,7 @@ public class Item_Festive : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         this.CurrentStep = user.GetFestiveStep();
         if (Config.Step > this.CurrentStep || user.Cycle.Data < Config.RequireCycle)
@@ -149,7 +149,7 @@ public class Item_Festive : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.GetFestiveCount(Config.Id);
@@ -203,7 +203,7 @@ public class Item_Festive : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.GetFestiveCount(Config.Id);

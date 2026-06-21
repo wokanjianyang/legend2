@@ -50,7 +50,7 @@ public class Panel_Strengthen : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
@@ -84,7 +84,7 @@ public class Panel_Strengthen : MonoBehaviour
     {
         //Log.Debug("ShowStrengthInfo");
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long MaxLevel = Math.Min(EquipStrengthFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
         long currentLevel = user.GetStrengthLevel(SelectPosition);
 
@@ -163,7 +163,7 @@ public class Panel_Strengthen : MonoBehaviour
 
     private void OnClick_Strengthen()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long nextLevel = user.GetStrengthLevel(SelectPosition) + 1;
 

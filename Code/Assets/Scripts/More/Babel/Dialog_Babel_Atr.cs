@@ -44,7 +44,7 @@ public class Dialog_Babel_Atr : MonoBehaviour
     {
         //Log.Debug("ShowStrengthInfo");
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user == null)
         {

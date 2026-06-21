@@ -32,7 +32,7 @@ public class Map_Dialog_Myth : MonoBehaviour
 
     private void ShowItemMax()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user == null)
         {
@@ -49,7 +49,7 @@ public class Map_Dialog_Myth : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
         user.MythData.Check();

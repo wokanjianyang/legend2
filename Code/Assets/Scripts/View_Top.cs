@@ -33,7 +33,7 @@ namespace Game
         public void OnBattleStart()
         {
             this.gameObject.SetActive(true);
-            this.user = GameProcessor.Inst.User;
+            this.user = User_Data_Manager.Data;
             this.tmp_Name.text = user.Name;
 
             this.OnHeroInfoUpdateEvent(null);

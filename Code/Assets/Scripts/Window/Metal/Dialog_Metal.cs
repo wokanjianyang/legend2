@@ -29,7 +29,7 @@ public class Dialog_Metal : MonoBehaviour
     {
         List<MetalConfig> configs = MetalConfigCategory.Instance.GetAll().Select(m => m.Value).OrderBy(m => m.Id).OrderBy(m => m.Quality).ToList();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         for (int i = 0; i < configs.Count; i++)
         {
@@ -62,7 +62,7 @@ public class Dialog_Metal : MonoBehaviour
 
         List<MetalConfig> configs = MetalConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         for (int i = 0; i < configs.Count; i++)
         {

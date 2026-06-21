@@ -57,11 +57,11 @@ namespace Game
 
             if (item.GetItemType() == ItemType.Equip || item.GetItemType() == ItemType.EquipSpeical)
             {
-                GameProcessor.Inst.User.AddAchievementProgeress(AchievementProType.EquipTotal, 1);
+                User_Data_Manager.Data.AddAchievementProgeress(AchievementProType.EquipTotal, 1);
             }
             else if (item.GetItemType() == ItemType.Pet)
             {
-                GameProcessor.Inst.User.AddAchievementProgeress(AchievementProType.PetTotal, 1);
+                User_Data_Manager.Data.AddAchievementProgeress(AchievementProType.PetTotal, 1);
             }
 
             item.Temp_Number = number;

@@ -47,7 +47,7 @@ public class Dialog_Halidom : MonoBehaviour
     {
         List<HalidomConfig> configs = HalidomConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         for (int i = 0; i < configs.Count; i++)
         {
@@ -94,7 +94,7 @@ public class Dialog_Halidom : MonoBehaviour
         () =>
         {
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 20000.0)
             {

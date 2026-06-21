@@ -96,7 +96,7 @@ public class BattleRule_MainStage : ABattleRule
         {
             Start = false;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user.MapId == mapConfig.Id)
             {
                 //´³¹Ø³É¹¦

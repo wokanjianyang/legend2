@@ -48,7 +48,7 @@ public class MapWorld : MonoBehaviour, IBattleLife
     {
         this.gameObject.SetActive(true);
 
-        int layer = GameProcessor.Inst.User.WorldData.GetLayer(e.Id);
+        int layer = User_Data_Manager.Data.WorldData.GetLayer(e.Id);
 
         if (layer > ConfigHelper.MaxWorld)
         {

@@ -34,7 +34,7 @@ public class Dialog_Mine : MonoBehaviour, IBattleLife
 
     void OnEnable()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         if (user == null)
         {
             return;

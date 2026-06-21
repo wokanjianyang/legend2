@@ -36,7 +36,7 @@ namespace Game
         {
             Clear();
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             List<int> list = user.GetCurrentSkillList();
             list.Remove(SkillId);

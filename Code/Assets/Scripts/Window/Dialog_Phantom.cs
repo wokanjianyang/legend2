@@ -77,7 +77,7 @@ public class Dialog_Phantom : MonoBehaviour, IBattleLife
 
     public void UpadateItem()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         Dictionary<int, int> recordList = user.PhantomRecord;
 

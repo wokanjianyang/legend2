@@ -63,7 +63,7 @@ namespace Game
             this.learnSkills = new List<Item_Skill>();
             this.equipSkills = new List<Item_Skill_Selected>();
 
-            var user = GameProcessor.Inst.User;
+            var user = User_Data_Manager.Data;
 
             GameProcessor.Inst.EventCenter.AddListener<SkillShowEvent>(OnSkillShow);
             GameProcessor.Inst.EventCenter.AddListener<SkillUpEvent>(OnSkillUp);
@@ -109,10 +109,10 @@ namespace Game
 
         private void InitPlanName()
         {
-            int SkillPanelIndex = GameProcessor.Inst.User.SkillPanelIndex;
+            int SkillPanelIndex = User_Data_Manager.Data.SkillPanelIndex;
             Toggle_Plan_List[SkillPanelIndex].isOn = true;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             for (int i = 0; i < Toggle_Plan_List.Count; i++)
             {
@@ -127,7 +127,7 @@ namespace Game
 
         private void ChangePlan(int index)
         {
-            GameProcessor.Inst.User.SkillPanelIndex = index;
+            User_Data_Manager.Data.SkillPanelIndex = index;
             this.ShowSkillBattle();
         }
 
@@ -159,7 +159,7 @@ namespace Game
 
         private void ShowSkillPanel()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             List<SkillData> skills = user.SkillList;
 
             List<SkillPanel> list = User_Data.GetSkills();
@@ -198,7 +198,7 @@ namespace Game
 
         private void ShowSkillBattle()
         {
-            var user = GameProcessor.Inst.User;
+            var user = User_Data_Manager.Data;
 
             if (user == null)
             {

@@ -57,7 +57,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
     {
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         List<SkillDivineConfig> configs = SkillDivineConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
@@ -88,7 +88,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
     {
         Btn_Restore.gameObject.SetActive(true);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         List<SkillDivineConfig> configs = SkillDivineConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
         skillData = user.SkillList.Where(m => m.SkillId == SkillId).FirstOrDefault();
@@ -131,7 +131,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
             return; //not init;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         SkillDivineConfig config = currentItem.Config;
 
@@ -192,7 +192,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
         Item_Divine currentItem = items.Where(m => m.toggle.isOn).FirstOrDefault();
         SkillDivineConfig config = currentItem.Config;
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long currentLevel = skillData.GetDivineItemLevel(config.Id);
 
         long total = user.GetBagItemCount(config.ItemId);
@@ -221,7 +221,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
     {
         Btn_Restore.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.MagicGold.Data <= ConfigHelper.RestoreGold)
         {
@@ -250,7 +250,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
 
     private void Restore()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         skillData = user.SkillList.Where(m => m.SkillId == SkillId).FirstOrDefault();
 
         List<Item> newList = new List<Item>();
@@ -280,7 +280,7 @@ public class Dialog_Divine : MonoBehaviour, IBattleLife
     {
         Btn_Batch.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 2)
         {

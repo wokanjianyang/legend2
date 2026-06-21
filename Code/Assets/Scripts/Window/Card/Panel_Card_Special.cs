@@ -43,7 +43,7 @@ public class Panel_Card_Special : MonoBehaviour
 
     //    this.Init();
 
-    //    User user = GameProcessor.Inst.User;
+    //    User user = User_Data_Manager.Data;
 
     //    int groupLevel = user.GetCardSpecialGroupLevel(); //user.GetRelicGroupLevel(Rid);
 
@@ -84,7 +84,7 @@ public class Panel_Card_Special : MonoBehaviour
     //    this.SelectId = id;
     //    this.Btn_Active.gameObject.SetActive(false);
 
-    //    User user = GameProcessor.Inst.User;
+    //    User user = User_Data_Manager.Data;
 
     //    int level = user.GetCardSpecialLevel(id);
 
@@ -122,7 +122,7 @@ public class Panel_Card_Special : MonoBehaviour
     //{
     //    this.Btn_Active.gameObject.SetActive(false);
 
-    //    User user = GameProcessor.Inst.User;
+    //    User user = User_Data_Manager.Data;
 
     //    CardSpecialConfig config = CardSpecialConfigCategory.Instance.Get(this.SelectId);
     //    long materialCount = user.GetHideMaterialCount(config.ItemId);

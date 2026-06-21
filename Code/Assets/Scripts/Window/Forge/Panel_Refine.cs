@@ -47,7 +47,7 @@ public class Panel_Refine : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
@@ -68,7 +68,7 @@ public class Panel_Refine : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long MaxLevel = Math.Min(EquipRefineFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
         long currentLevel = user.GetRefineLevel(SelectPosition);
 
@@ -147,7 +147,7 @@ public class Panel_Refine : MonoBehaviour
 
     private void OnClick_Refine()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
 

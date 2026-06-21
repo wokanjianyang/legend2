@@ -69,7 +69,7 @@ public class Panel_Pet_Forge : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         if (user == null)
         {
             return;

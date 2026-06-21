@@ -46,7 +46,7 @@ namespace Game
 
         public void Show()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             int cardCount = user.GetCardEquipCount(Config.Stage, Config.Id);
 

@@ -74,7 +74,7 @@ namespace Game
                 bool keepSkill = false;
                 if (equip.SkillSuitConfig != null)
                 {
-                    //keepSkill = GameProcessor.Inst.User.CheckKeepSkill(equip.SkillRuneConfig.SkillId, equip.SkillRuneConfig.SkillLayer);
+                    //keepSkill = User_Data_Manager.Data.CheckKeepSkill(equip.SkillRuneConfig.SkillId, equip.SkillRuneConfig.SkillLayer);
                 }
 
 

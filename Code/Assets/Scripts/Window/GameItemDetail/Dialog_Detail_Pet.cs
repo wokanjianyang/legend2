@@ -115,7 +115,7 @@ namespace Game
 
             this.boxItem = e.Show_Item;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             string titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 
             Pet pet = this.boxItem.Item as Pet;

@@ -50,7 +50,7 @@ public class Achievment_Item : MonoBehaviour
         Txt_No.gameObject.SetActive(false);
         Txt_Ok.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int level = user.GetAchievementLevel(Config.Id);
         long progress = user.GetAchievementProgeress((AchievementProType)Config.ConType);
@@ -93,7 +93,7 @@ public class Achievment_Item : MonoBehaviour
 
     private void OnClick_Active()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int level = user.GetAchievementLevel(Config.Id);
         long progress = user.GetAchievementProgeress((AchievementProType)Config.ConType);

@@ -32,7 +32,7 @@ public class Map_Festive_Item : MonoBehaviour
 
     private void Show()
     {
-        int maxId = GameProcessor.Inst.User.FestiveMapData01.Record;
+        int maxId = User_Data_Manager.Data.FestiveMapData01.Record;
 
         if (this.Config.Id - 1 == maxId)
         {
@@ -48,7 +48,7 @@ public class Map_Festive_Item : MonoBehaviour
 
     private void OnClick_NavigateMap()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.FestiveMapData01.Number.Data <= 0)
         {
@@ -67,7 +67,7 @@ public class Map_Festive_Item : MonoBehaviour
 
     private void OnClick_Auto()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.FestiveMapData01.Number.Data <= 0)
         {

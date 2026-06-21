@@ -115,7 +115,7 @@ namespace Game
             }
 
             //判断空格
-            int ic = GameProcessor.Inst.User.GetBagIdleCount(SelectItem.GetBagType());
+            int ic = User_Data_Manager.Data.GetBagIdleCount(SelectItem.GetBagType());
             if (ic < 10)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留10个对应的包裹格子", ToastType = ToastTypeEnum.Failure });
@@ -146,7 +146,7 @@ namespace Game
             }
 
             //判断空格
-            int ic = GameProcessor.Inst.User.GetBagIdleCount(SelectItem.GetBagType());
+            int ic = User_Data_Manager.Data.GetBagIdleCount(SelectItem.GetBagType());
             if (ic < 10)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留10个对应的包裹格子", ToastType = ToastTypeEnum.Failure });

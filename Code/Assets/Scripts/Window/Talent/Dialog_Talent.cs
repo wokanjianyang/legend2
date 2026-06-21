@@ -98,7 +98,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long total = user.TalentExp.Data / LevelExp;
         long used = user.TalentPoint;
@@ -120,7 +120,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
     public void Refresh()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long total = user.TalentExp.Data / LevelExp;
         long used = user.TalentPoint;
@@ -158,7 +158,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
     private void ResetTalent()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 20000.0)
         {

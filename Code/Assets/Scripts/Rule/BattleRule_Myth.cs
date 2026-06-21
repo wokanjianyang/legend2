@@ -72,7 +72,7 @@ public class BattleRule_Myth : ABattleRule
             this.Start = false;
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Myth, Message = "ÃÙ’ΩÕ®πÿ£°" });
-            GameProcessor.Inst.User.MythData.SetOver(this.MapId);
+            User_Data_Manager.Data.MythData.SetOver(this.MapId);
             BuildReward(MapId);
 
             GameProcessor.Inst.CloseBattle(RuleType.Myth, 13);

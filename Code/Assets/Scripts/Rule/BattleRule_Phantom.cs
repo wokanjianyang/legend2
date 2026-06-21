@@ -34,7 +34,7 @@ public class BattleRule_Phantom : ABattleRule
         RealBoss = null;
         Time = MaxTime;
 
-        GameProcessor.Inst.User.PhantomRecord.TryGetValue(PhanId, out int lv);
+        User_Data_Manager.Data.PhantomRecord.TryGetValue(PhanId, out int lv);
         Layer = lv;
     }
 
@@ -67,7 +67,7 @@ public class BattleRule_Phantom : ABattleRule
 
         if (RealBoss.HP <= 0 && Time > 0)
         {
-            GameProcessor.Inst.User.PhantomRecord[PhanId] = Layer + 1;
+            User_Data_Manager.Data.PhantomRecord[PhanId] = Layer + 1;
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Phantom, Message = RealBoss.Name + "：强大的勇士,您已经通过了考验！" });
 
@@ -166,11 +166,11 @@ public class BattleRule_Phantom : ABattleRule
 
     //    if (RealBoss.HP <= 0 && Time > 0)
     //    {
-    //        GameProcessor.Inst.User.PhantomRecord[PhanId] = Layer + 1;
+    //        User_Data_Manager.Data.PhantomRecord[PhanId] = Layer + 1;
 
     //        GameProcessor.Inst.EventCenter.Raise(new BattlePhantomMsgEvent() { Message = RealBoss.Name + "：强大的勇士,您已经通过了考验！" });
 
-    //        GameProcessor.Inst.User.EventCenter.Raise(new UserAttrChangeEvent());
+    //        User_Data_Manager.Data.EventCenter.Raise(new UserAttrChangeEvent());
 
     //        GameProcessor.Inst.HeroDie(RuleType.Phantom, MapTime);
 

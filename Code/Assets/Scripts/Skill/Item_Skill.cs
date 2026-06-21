@@ -52,7 +52,7 @@ namespace Game
 
             Tg_Recovery.onValueChanged.AddListener((isOn) =>
             {
-                SkillData sd = GameProcessor.Inst.User.SkillList.Where(m => m.SkillId == this.SkillPanel.SkillId).FirstOrDefault();
+                SkillData sd = User_Data_Manager.Data.SkillList.Where(m => m.SkillId == this.SkillPanel.SkillId).FirstOrDefault();
                 sd.Recovery = isOn;
             });
 
@@ -124,7 +124,7 @@ namespace Game
 
         public void Show()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user == null || SkillPanel == null)
             {
                 return;
@@ -165,7 +165,7 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             List<int> list = user.GetCurrentSkillList();
             List<SkillData> skillList = user.SkillList.FindAll(m => list.Contains(m.SkillId));
@@ -215,7 +215,7 @@ namespace Game
         //    int metailId = this.SkillPanel.SkillData.SkillConfig.UpItemId;
         //    ItemConfig itemConfig = ItemConfigCategory.Instance.Get(metailId);
 
-        //    User user = GameProcessor.Inst.User;
+        //    User user = User_Data_Manager.Data;
         //    long total = user.Bags.Where(m => m.Item.Type == ItemType.Material && m.Item.ConfigId == metailId).Select(m => m.MagicNubmer.Data).Sum();
 
         //    //Debug.Log("max skill level:" + user.GetSkillLimit(this.SkillPanel.SkillData.SkillConfig));

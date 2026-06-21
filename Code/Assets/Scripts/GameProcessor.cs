@@ -21,7 +21,7 @@ namespace Game
 
         public MapData MapData { get; private set; }
 
-        public User User { get; private set; }
+        //public User User { get; private set; }
 
         public PlayerManager PlayerManager;
 
@@ -126,7 +126,7 @@ namespace Game
                 this.MineRule?.OnUpdate();
             }
 
-            if (this.User == null)
+            if (User_Data_Manager.Data == null)
             {
                 return;
             }
@@ -149,14 +149,14 @@ namespace Game
 
                 //Debug.Log("onlineTime:" + onlineTime);
 
-                if (this.User.Account != "" && onlineTime > 10 && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
+                if (User_Data_Manager.Data.Account != "" && onlineTime > 10 && ConfigHelper.Channel != ConfigHelper.Channel_Tap)
                 {
-                    long at = this.User.LastUploadTime;
+                    long at = User_Data_Manager.Data.LastUploadTime;
                     if (ct - at > 1800)
                     {
-                        this.User.LastUploadTime = ct;
+                        User_Data_Manager.Data.LastUploadTime = ct;
 
-                        string str_json = JsonConvert.SerializeObject(this.User, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+                        string str_json = JsonConvert.SerializeObject(User_Data_Manager.Data, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
                         str_json = EncryptionHelper.AesEncrypt(str_json);
 
                         string md5 = EncryptionHelper.Md5(str_json);
@@ -170,7 +170,7 @@ namespace Game
                                 {
                                     if (result.Code == StatusMessage.OK)
                                     {
-                                        this.User.SaveTicketTime = ct;
+                                        User_Data_Manager.Data.SaveTicketTime = ct;
                                         this.EventCenter.Raise(new ShowGameMsgEvent() { Content = "自动存档成功", ToastType = ToastTypeEnum.Success });
                                     }
 
@@ -180,12 +180,12 @@ namespace Game
                         return;
                     }
 
-                    long bt = this.User.LastSaveTime;
+                    long bt = User_Data_Manager.Data.LastSaveTime;
                     if (ct - bt > 900)
                     {
-                        this.User.LastSaveTime = ct;
+                        User_Data_Manager.Data.LastSaveTime = ct;
 
-                        string param = NetworkHelper.BuildUpdateParam(this.User);
+                        string param = NetworkHelper.BuildUpdateParam(User_Data_Manager.Data);
 
                         StartCoroutine(NetworkHelper.UpdateInfo(param,
                                 (WebResultWrapper result) =>
@@ -205,7 +205,7 @@ namespace Game
 
         private void SecondRewarod()
         {
-            if (User == null)
+            if (User_Data_Manager.Data == null)
             {
                 return;
             }
@@ -215,8 +215,8 @@ namespace Game
                 return;
             }
 
-            User.SecondExpTick = TimeHelper.ClientNowSeconds();
-            User.SecondTotal++;
+            User_Data_Manager.Data.SecondExpTick = TimeHelper.ClientNowSeconds();
+            User_Data_Manager.Data.SecondTotal++;
         }
 
         public bool LoadInit(string str_json, string account, int serial)
@@ -231,10 +231,10 @@ namespace Game
 
             if (user != null)
             {
-                this.User = user;
-                this.User.Account = account;
-                this.User.Serial = serial;
-                this.User.LoadTicketTime = TimeHelper.ClientNowSeconds();
+                User_Data_Manager.Data = user;
+                User_Data_Manager.Data.Account = account;
+                User_Data_Manager.Data.Serial = serial;
+                User_Data_Manager.Data.LoadTicketTime = TimeHelper.ClientNowSeconds();
                 //this.User.DataDate = DateTime.Now.Ticks;
 
                 return true;
@@ -254,15 +254,14 @@ namespace Game
             this.PlayerInfo = Canvas.FindObjectOfType<Player_Info>(true);
 
             //启动就加载用户存档
-            this.User = User_Data_Manager.Load();
-            if (this.User == null)
+            if (User_Data_Manager.Data == null)
             {
                 StartCoroutine(this.AutoExitApp(ExitType.LoadError));
                 return;
                 //加载失败
             }
 
-            this.User.Init();
+            User_Data_Manager.Data.Init();
 
 
             //判断是否非法时间
@@ -278,18 +277,18 @@ namespace Game
                 isVersionError = true;
             }
 
-            if (this.User.SecondExpTick > AppHelper.StartTime)
+            if (User_Data_Manager.Data.SecondExpTick > AppHelper.StartTime)
             {
                 //收益时间已经大于启动时间了，必然是往后改了
                 isTimeError = true;
             }
 
-            if (!this.User.Record.Check())
+            if (!User_Data_Manager.Data.Record.Check())
             {
                 isCheckError = true;
             }
 
-            int MaxVersion = User.VersionLog.Select(m => m.Key).Max();
+            int MaxVersion = User_Data_Manager.Data.VersionLog.Select(m => m.Key).Max();
             if (ConfigHelper.Version < MaxVersion)
             {
                 isVersionError = true;
@@ -307,7 +306,7 @@ namespace Game
             isTimeError = false;
             isVersionError = false;
 
-            if (!isTimeError && !isCheckError && !isVersionError && User.SecondExpTick >= 0)
+            if (!isTimeError && !isCheckError && !isVersionError && User_Data_Manager.Data.SecondExpTick >= 0)
             {
                 Dialog_OfflineExp offlineExp = Canvas.FindObjectOfType<Dialog_OfflineExp>(true);
                 offlineExp.ShowOffline();
@@ -360,18 +359,18 @@ namespace Game
                 StartCoroutine(this.AutoExitApp(ExitType.Version));
                 return;
             }
-            if (this.User.OldFile)
+            if (User_Data_Manager.Data.OldFile)
             {
                 StartCoroutine(this.AutoExitApp(ExitType.OldFile));
                 return;
             }
-            if (isCheckError || User.GameDoCheat211)
+            if (isCheckError || User_Data_Manager.Data.GameDoCheat211)
             {
                 StartCoroutine(this.AutoExitApp(ExitType.Change));
                 return;
             }
 
-            this.User.AdData.Check();
+            User_Data_Manager.Data.AdData.Check();
         }
 
         public void LoadMin()
@@ -507,7 +506,7 @@ namespace Game
 
         public void UpdateInfo()
         {
-            if (this.User != null)
+            if (User_Data_Manager.Data != null)
             {
                 this.EventCenter.Raise(new UserAttrChangeEvent());
             }
@@ -535,9 +534,9 @@ namespace Game
 
         private void CheckGameCheat(CheckGameCheatEvent e)
         {
-            if (User != null)
+            if (User_Data_Manager.Data != null)
             {
-                User.GameDoCheat211 = true;
+                User_Data_Manager.Data.GameDoCheat211 = true;
             }
             StartCoroutine(this.AutoExitApp(ExitType.Change));
         }
@@ -646,7 +645,7 @@ namespace Game
         {
             try
             {
-                User user = GameProcessor.Inst.User;
+                User user = User_Data_Manager.Data;
                 string str_json = JsonConvert.SerializeObject(user, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
                 str_json = EncryptionHelper.AesEncrypt(str_json);
 
@@ -679,7 +678,7 @@ namespace Game
         {
             try
             {
-                User user = GameProcessor.Inst.User;
+                User user = User_Data_Manager.Data;
 
                 if (user.Account == "")
                 {

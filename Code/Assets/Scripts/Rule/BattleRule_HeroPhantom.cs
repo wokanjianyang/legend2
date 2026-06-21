@@ -22,7 +22,7 @@ public class BattleRule_HeroPhantom : ABattleRule
         this.MapTime = (long)mapTime;
         Start = true;
 
-        Level = (int)GameProcessor.Inst.User.HeroPhatomData.Current.Progress.Data;
+        Level = (int)User_Data_Manager.Data.HeroPhatomData.Current.Progress.Data;
 
         this.LoadPhantom();
     }
@@ -56,7 +56,7 @@ public class BattleRule_HeroPhantom : ABattleRule
 
         if (enemys.Count <= 0)
         {
-            GameProcessor.Inst.User.HeroPhatomData.Current.Next();
+            User_Data_Manager.Data.HeroPhatomData.Current.Next();
             //reward
 
             BuildReward();
@@ -72,7 +72,7 @@ public class BattleRule_HeroPhantom : ABattleRule
 
     private void BuildReward()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         List<Item> items = DropLimitHelper.Build((int)DropLimitType.HeroPhatom, 0, 1, 1, 9999999, 1);
 

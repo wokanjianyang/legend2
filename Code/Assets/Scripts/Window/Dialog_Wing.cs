@@ -39,7 +39,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long currentLevel = user.WingData.Data;
         long nextLevel = currentLevel + 1;
         //Debug.Log("currentLevel show:" + currentLevel);
@@ -99,7 +99,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
     public void OnStrong()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = user.WingData.Data;
         long nextLevel = currentLevel + 1;

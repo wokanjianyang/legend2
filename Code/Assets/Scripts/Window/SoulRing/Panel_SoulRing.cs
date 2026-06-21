@@ -53,7 +53,7 @@ public class Panel_SoulRing : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         for (int i = 0; i < RingList.Count; i++)
         {
@@ -128,7 +128,7 @@ public class Panel_SoulRing : MonoBehaviour
     {
         this.Sid = sid;
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = 0;
 
@@ -221,7 +221,7 @@ public class Panel_SoulRing : MonoBehaviour
 
     public void OnStrong()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = 0;
 

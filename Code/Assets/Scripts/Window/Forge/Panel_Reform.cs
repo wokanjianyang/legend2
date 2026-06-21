@@ -45,7 +45,7 @@ public class Panel_Reform : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
@@ -60,7 +60,7 @@ public class Panel_Reform : MonoBehaviour
 
     private void ShowRefine()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long MaxLevel = user.GetReformLimit(Refine_Position);
         long currentLevel = user.GetReformLevel(Refine_Position);
@@ -137,7 +137,7 @@ public class Panel_Reform : MonoBehaviour
 
     private void OnClick_Refine()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = user.GetReformLevel(Refine_Position);
 

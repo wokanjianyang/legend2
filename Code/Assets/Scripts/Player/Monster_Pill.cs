@@ -98,7 +98,7 @@ public class Monster_Pill : APlayer
 
     //private void BuildReward()
     //{
-    //    User user = GameProcessor.Inst.User;
+    //    User user = User_Data_Manager.Data;
 
     //    List<Item> items = DropLimitHelper.Build((int)DropLimitType.Pill, 0, 1, 1, 9999999, 1);
 
@@ -109,7 +109,7 @@ public class Monster_Pill : APlayer
 
     //    if (items.Count > 0)
     //    {
-    //        GameProcessor.Inst.User.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+    //        User_Data_Manager.Data.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
     //    }
 
     //    double rs = user.AttributeBonus.GetTotalAttr(AttributeEnum.BurstMul);

@@ -31,7 +31,7 @@ public class BattleRule_Mine
     {
         //Debug.Log("Mine Build Reward ");
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long nt = TimeHelper.ClientNowSeconds();
 

@@ -56,7 +56,7 @@ public class Item_Festive_Week : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         int MaxCount = user.WeekData.GetFestiveWeekCount(Config.Id);
 
         TargetName.text = Config.TargetName;
@@ -72,7 +72,7 @@ public class Item_Festive_Week : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.Cycle.Data < Config.Cycle)
         {
@@ -130,7 +130,7 @@ public class Item_Festive_Week : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.WeekData.GetFestiveWeekCount(Config.Id);
@@ -184,7 +184,7 @@ public class Item_Festive_Week : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.WeekData.GetFestiveWeekCount(Config.Id);

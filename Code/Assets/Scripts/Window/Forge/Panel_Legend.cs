@@ -64,7 +64,7 @@ public class Panel_Legend : MonoBehaviour
 
     private void Refresh()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user == null)
         {
@@ -115,7 +115,7 @@ public class Panel_Legend : MonoBehaviour
 
     private void Select_Main()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         Equip equip = this.CurrentItem as Equip;
         int part = equip.Config.Part;
@@ -170,7 +170,7 @@ public class Panel_Legend : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         Tf_Fee.gameObject.SetActive(false);
         if (CurrentItem == null)
@@ -227,7 +227,7 @@ public class Panel_Legend : MonoBehaviour
     {
         Btn_Ok.gameObject.SetActive(true);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         Equip equip = CurrentItem as Equip;
         Equip me = bagList[SelectBagIndex].CurrentItem as Equip;

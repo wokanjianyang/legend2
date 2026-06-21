@@ -27,10 +27,10 @@ namespace Game
 
     //    private void Init()
     //    {
-    //        User user = GameProcessor.Inst.User;
+    //        User user = User_Data_Manager.Data;
     //        this.Camp = PlayerType.HeroPhatom;
 
-    //        int configId = GameProcessor.Inst.User.HeroPhatomData.Current.ConfigId;
+    //        int configId = User_Data_Manager.Data.HeroPhatomData.Current.ConfigId;
 
     //        if (configId > 0)
     //        {
@@ -90,7 +90,7 @@ namespace Game
     //    {
     //        SelectSkillList = new List<SkillState>();
 
-    //        List<int> skillIdList = GameProcessor.Inst.User.HeroPhatomData.Current.SkillIdList;
+    //        List<int> skillIdList = User_Data_Manager.Data.HeroPhatomData.Current.SkillIdList;
 
     //        //Debug.Log("Hero Phantom  " + JsonConvert.SerializeObject(skillIdList));
 

@@ -78,7 +78,7 @@ namespace Game
         {
             Btn_Run.gameObject.SetActive(false);
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             int count = user.PetList.Where(m => m.Status == 1).Count();
 
             if (count >= 1)

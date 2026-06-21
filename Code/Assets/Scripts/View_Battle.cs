@@ -43,7 +43,7 @@ namespace Game
 
         private void Init()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             if (user.OffLineMapId <= 0)
             {
                 user.OffLineMapId = 1;
@@ -76,7 +76,7 @@ namespace Game
         {
 
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             if (e.Type == RuleType.MainStage)
             {
@@ -243,7 +243,7 @@ namespace Game
 
         private void OnClick_ToStage()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             int mapId = user.MapId;
             int maxId = MapConfigCategory.Instance.GetMaxMapId();

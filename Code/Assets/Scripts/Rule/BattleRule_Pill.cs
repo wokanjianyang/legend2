@@ -27,7 +27,7 @@ public class BattleRule_Pill : ABattleRule
 
         Start = true;
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         user.PillTime.Time.Data -= 3;
 
         MapTime = 0;
@@ -44,7 +44,7 @@ public class BattleRule_Pill : ABattleRule
         MapTime += currentRoundTime;
         //Debug.Log("create pill MapTime:" + MapTime);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         double time = user.PillTime.Time.Data;
 
         if (time <= 0)

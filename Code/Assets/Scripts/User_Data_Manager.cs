@@ -14,15 +14,16 @@ namespace Game
 {
     public class User_Data_Manager
     {
+        public static User Data;
+
         static string savePath = "player";
 
         static string fileName = "wj2.xml"; //文件名
         static string ppKey = "pk";
         static string mdKey = "mk";
 
-        public static User Load()
+        public static void Load()
         {
-            User user = null;
 
             string filePath = GetSavePath();
             Debug.Log($"存档路径：{filePath}");
@@ -46,7 +47,7 @@ namespace Game
                         {
                             str_json = EncryptionHelper.AesDecrypt(str_json, key);
 
-                            user = JsonConvert.DeserializeObject<User>(str_json, new JsonSerializerSettings
+                            Data = JsonConvert.DeserializeObject<User>(str_json, new JsonSerializerSettings
                             {
                                 TypeNameHandling = TypeNameHandling.Auto
                             });
@@ -73,67 +74,67 @@ namespace Game
 
             try
             {
-                if (user == null)
+                if (Data == null)
                 {
-                    user = new User();
+                    Data = new User();
                     //首次初始化
-                    user.MagicLevel.Data = 1;
-                    user.MagicExp.Data = 0;
-                    user.Name = "传奇";
-                    user.MapId = ConfigHelper.MapStartId;
-                    user.MagicGold.Data = 0;
-                    user.First_Create_Time = TimeHelper.ClientNowSeconds();
+                    Data.MagicLevel.Data = 1;
+                    Data.MagicExp.Data = 0;
+                    Data.Name = "传奇";
+                    Data.MapId = ConfigHelper.MapStartId;
+                    Data.MagicGold.Data = 0;
+                    Data.First_Create_Time = TimeHelper.ClientNowSeconds();
                 }
 
-                if (user.EquipPanelList.Count < 7)
+                if (Data.EquipPanelList.Count < 7)
                 {
                     for (int i = 0; i < 7; i++)
                     {
-                        if (!user.EquipPanelList.ContainsKey(i))
+                        if (!Data.EquipPanelList.ContainsKey(i))
                         {
-                            user.EquipPanelList[i] = new Dictionary<int, Equip>();
+                            Data.EquipPanelList[i] = new Dictionary<int, Equip>();
                         }
                     }
                 }
 
-                if (user.EquipPanelGoldenList.Count < 7)
+                if (Data.EquipPanelGoldenList.Count < 7)
                 {
                     for (int i = 0; i < 7; i++)
                     {
-                        if (!user.EquipPanelGoldenList.ContainsKey(i))
+                        if (!Data.EquipPanelGoldenList.ContainsKey(i))
                         {
-                            user.EquipPanelGoldenList[i] = new Dictionary<int, Equip>();
+                            Data.EquipPanelGoldenList[i] = new Dictionary<int, Equip>();
                         }
                     }
                 }
 
-                if (user.DeviceId == "")
+                if (Data.DeviceId == "")
                 {
-                    user.DeviceId = AppHelper.GetDeviceIdentifier();
+                    Data.DeviceId = AppHelper.GetDeviceIdentifier();
                 }
 
                 //记录版号
-                user.VersionLog[ConfigHelper.Version] = TimeHelper.ClientNowSeconds();
+                Data.VersionLog[ConfigHelper.Version] = TimeHelper.ClientNowSeconds();
             }
             catch (Exception e)
             {
                 Debug.LogError("Load Error:" + e.Message);
             }
 
-            return user;
+            //return user;
         }
 
         public static void Save()
         {
-            if (GameProcessor.Inst == null || GameProcessor.Inst.User == null)
-            {
-                return;
-            }
-            var user = GameProcessor.Inst.User;
+            //if (GameProcessor.Inst == null || User_Data_Manager.Data == null)
+            //{
+            //    return;
+            //}
+            //var user = User_Data_Manager.Data;
             //user.LastOut = TimeHelper.ClientNowSeconds();
 
             //序列化
-            string str_json = JsonConvert.SerializeObject(user, new JsonSerializerSettings
+            string str_json = JsonConvert.SerializeObject(Data, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });

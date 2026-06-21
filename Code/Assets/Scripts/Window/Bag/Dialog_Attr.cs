@@ -95,7 +95,7 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
     public void Show()
     {
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         AttributeEnum[] array = list[SelectType];
 

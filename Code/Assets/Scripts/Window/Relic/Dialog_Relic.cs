@@ -26,7 +26,7 @@ public class Dialog_Relic : MonoBehaviour, IBattleLife
 
         Btn_Full.onClick.AddListener(OnClick_Close);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
         for (int i = 0; i < toggles.Count; i++)

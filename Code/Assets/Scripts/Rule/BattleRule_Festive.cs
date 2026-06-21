@@ -88,7 +88,7 @@ public class BattleRule_Festive : ABattleRule
         }
 
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         List<Item> items = new List<Item>();
 

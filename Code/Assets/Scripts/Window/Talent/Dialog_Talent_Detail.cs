@@ -43,7 +43,7 @@ public class Dialog_Talent_Detail : MonoBehaviour
     {
         TalentConfig config = TalentConfigCategory.Instance.Get(this.Tid);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long totalPoint = user.TalentExp.Data / 10000;
         long usedPoint = user.TalentPoint;
@@ -96,7 +96,7 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         TalentConfig config = TalentConfigCategory.Instance.Get(this.Tid);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long total = user.TalentExp.Data / 10000;
         long use = user.TalentPoint;
@@ -124,7 +124,7 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         TalentConfig config = TalentConfigCategory.Instance.Get(this.Tid);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int level = (int)user.GetTalentLevel(this.Tid);
 

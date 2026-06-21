@@ -53,7 +53,7 @@ namespace Game
         public static string BuildCode()
         {
             //string deviceId = AppHelper.GetDeviceIdentifier();
-            //string fileId = GameProcessor.Inst.User.DeviceId;
+            //string fileId = User_Data_Manager.Data.DeviceId;
             string skey = AppHelper.GetBaseMd5();
             //string code = EncryptionHelper.AesEncrypt(skey, (deviceId + fileId).Substring(0, 16));
 
@@ -63,7 +63,7 @@ namespace Game
         public static string BuildSign()
         {
             string deviceId = AppHelper.GetDeviceIdentifier();
-            string fileId = GameProcessor.Inst.User.DeviceId;
+            string fileId = User_Data_Manager.Data.DeviceId;
             string skey = AppHelper.getKey();
 
             string code = EncryptionHelper.AesEncrypt(deviceId, skey);
@@ -344,8 +344,8 @@ namespace Game
             {
                 using (var db = new DownloadHandlerBuffer())
                 {
-                    string account = GameProcessor.Inst.User.Account;
-                    string fileId = GameProcessor.Inst.User.DeviceId;
+                    string account = User_Data_Manager.Data.Account;
+                    string fileId = User_Data_Manager.Data.DeviceId;
                     string deviceId = AppHelper.GetDeviceIdentifier();
 
                     request.SetRequestHeader("account", account);
@@ -385,7 +385,7 @@ namespace Game
             {
                 using (var uh = new UploadHandlerRaw(bytes))
                 {
-                    User user = GameProcessor.Inst.User;
+                    User user = User_Data_Manager.Data;
                     string account = user.Account;
                     string deviceId = AppHelper.GetDeviceIdentifier();
                     string fileId = user.DeviceId;

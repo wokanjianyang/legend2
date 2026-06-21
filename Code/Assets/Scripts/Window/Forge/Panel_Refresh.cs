@@ -166,7 +166,7 @@ public class Panel_Refresh : MonoBehaviour
         }
         items.Clear();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         if (user == null)
         {
             return;
@@ -256,7 +256,7 @@ public class Panel_Refresh : MonoBehaviour
             this.Btn_Refesh.gameObject.SetActive(false);
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         this.txt_Total.text = "今日洗练总次数：" + user.RedRefreshCount.Data + "次";
         int specialId = ItemHelper.SpecailEquipRefreshId;
         int upCount = GetUpCount();
@@ -273,7 +273,7 @@ public class Panel_Refresh : MonoBehaviour
 
     private int GetUpCount()
     {
-        long total = GameProcessor.Inst.User.RedRefreshCount.Data;
+        long total = User_Data_Manager.Data.RedRefreshCount.Data;
         long layer = Math.Min(total / 200 + 1, 10);
 
         return (int)(layer * 10);
@@ -308,7 +308,7 @@ public class Panel_Refresh : MonoBehaviour
         int specialId = ItemHelper.SpecailEquipRefreshId;
         int upCount = GetUpCount();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long stoneTotal = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == specialId).Select(m => m.MagicNubmer.Data).Sum();
         if (stoneTotal < upCount)
@@ -331,7 +331,7 @@ public class Panel_Refresh : MonoBehaviour
 
     private void ShowResult(int type)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         List<KeyValuePair<int, long>> keyValues = SelectEquip.Data.GetAttrList();
 

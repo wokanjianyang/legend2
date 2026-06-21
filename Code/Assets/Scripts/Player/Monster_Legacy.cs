@@ -73,7 +73,7 @@ public class Monster_Legacy : APlayer
 
         //Debug.Log("attrRate:" + attrRate);
         //Debug.Log("advanceRate:" + advanceRate);
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int layerRise = (int)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
         layerRise = (this.Layer - 1) * 3 - layerRise;
@@ -108,7 +108,7 @@ public class Monster_Legacy : APlayer
 
     private void BuildReward()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         double kc = (this.Layer * 10) / ConfigHelper.PetKillPercent;
         user.KillMonsterEnvent(kc, 1, 1);

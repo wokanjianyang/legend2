@@ -86,7 +86,7 @@ public class Panel_Legacy : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int keyId = (Role - 1) * 8 + SelectPosition;
 
@@ -239,7 +239,7 @@ public class Panel_Legacy : MonoBehaviour
 
     private void OnClick_OK()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         int keyId = (Role - 1) * 8 + SelectPosition;
         int currentLevel = user.GetLegacyLevel(keyId);

@@ -138,7 +138,7 @@ namespace Game
             AddSkillNormal();
             //if (Master.Camp == PlayerType.Hero) //¼Ì³Ð»¤Ìå½äÖ¸
             //{
-            //    User user = GameProcessor.Inst.User;
+            //    User user = User_Data_Manager.Data;
             //    SkillData skillData = user.SkillList.Where(m => m.SkillConfig.Id == 3010).FirstOrDefault();
 
             //    int[] ringId = { 2, 4, }; //6

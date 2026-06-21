@@ -35,7 +35,7 @@ namespace Game
 
         public static List<SkillPanel> GetSkills()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             List<SkillData> skills = user.SkillList;
 
             List<SkillPanel> list = new List<SkillPanel>();

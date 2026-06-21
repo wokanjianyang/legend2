@@ -101,7 +101,7 @@ namespace Game
 
         private void SetSkill()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             double cd = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Cd);
 
             //º”‘ÿººƒ‹

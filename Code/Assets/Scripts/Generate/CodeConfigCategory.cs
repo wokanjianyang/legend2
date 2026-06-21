@@ -10,7 +10,7 @@ namespace Game
         public CodeConfig GetSpeicalConfig(string code)
         {
             string skey = AppHelper.getKey();
-            string account = EncryptionHelper.Md5(GameProcessor.Inst.User.DeviceId);
+            string account = EncryptionHelper.Md5(User_Data_Manager.Data.DeviceId);
 
             string realCode = EncryptionHelper.AesDecrypt(code, account);
 

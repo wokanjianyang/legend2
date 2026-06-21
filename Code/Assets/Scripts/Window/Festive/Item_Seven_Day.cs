@@ -56,7 +56,7 @@ public class Item_Seven_Day : MonoBehaviour
 
     private void Init()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         int MaxCount = user.GetSevenDayCount(Config.Id);
 
         TargetName.text = Config.TargetName;
@@ -84,7 +84,7 @@ public class Item_Seven_Day : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         this.check = true;
 
@@ -131,7 +131,7 @@ public class Item_Seven_Day : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.GetSevenDayCount(Config.Id);
@@ -185,7 +185,7 @@ public class Item_Seven_Day : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long total = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
 
         int maxCount = Config.Max - user.GetSevenDayCount(Config.Id);

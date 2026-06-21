@@ -26,7 +26,7 @@ public class BattleRule_Legacy : ABattleRule
 
         Start = true;
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         user.LegacyData.Time.Data -= 3;
 
         MapTime = 0;
@@ -44,7 +44,7 @@ public class BattleRule_Legacy : ABattleRule
         MapTime += currentRoundTime;
         //Debug.Log("create pill MapTime:" + MapTime);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.LegacyData.Time.Data <= 0)
         {

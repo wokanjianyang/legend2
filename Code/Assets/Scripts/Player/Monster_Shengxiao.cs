@@ -158,7 +158,7 @@ public class Monster_Shengxiao : APlayer
     //{
     //    int maxQuality = this.config.Id + 5;
 
-    //    User user = GameProcessor.Inst.User;
+    //    User user = User_Data_Manager.Data;
 
     //    double exp = (this.config.Exp * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.ExpIncrea)) / 100);
     //    double gold = (this.config.Gold * (100.0 + user.AttributeBonus.GetTotalAttr(AttributeEnum.GoldIncrea)) / 100);

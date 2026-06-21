@@ -66,7 +66,7 @@ namespace Game
 
             //¼ÓÔØ³èÎï
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             List<Pet> pets = user.PetList.Where(m => m.Status == 1).ToList();
             foreach (Pet pet in pets)
             {

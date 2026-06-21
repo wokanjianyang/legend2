@@ -34,7 +34,7 @@ public class Dialog_Spirit_Offline : MonoBehaviour
 
     public void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.SpiritOfflineFlag)
         {
@@ -71,21 +71,21 @@ public class Dialog_Spirit_Offline : MonoBehaviour
     {
         Btn_Ok.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         if (user.SpiritOfflineLog == null || user.SpiritOfflineLog.Count != 3)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请先通关副本", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        GameProcessor.Inst.User.SpiritOfflineFlag = true;
+        User_Data_Manager.Data.SpiritOfflineFlag = true;
         Btn_Cancle.gameObject.SetActive(true);
 
     }
 
     public void OnCancle()
     {
-        GameProcessor.Inst.User.SpiritOfflineFlag = false;
+        User_Data_Manager.Data.SpiritOfflineFlag = false;
         Btn_Cancle.gameObject.SetActive(false);
         Btn_Ok.gameObject.SetActive(true);
     }

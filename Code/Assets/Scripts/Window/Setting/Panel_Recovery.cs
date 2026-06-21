@@ -108,7 +108,7 @@ namespace Game
 
 
             //
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             RecoverySetting setting = user.RecoverySet;
 
             if (setting.EquipQualityKeep > 0)
@@ -159,7 +159,7 @@ namespace Game
 
         private void SaveSetting()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             RecoverySetting setting = user.RecoverySet;
 

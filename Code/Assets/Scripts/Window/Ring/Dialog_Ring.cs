@@ -52,7 +52,7 @@ public class Dialog_Ring : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
         if (user.Cycle.Data >= 15 && !ac)
@@ -91,7 +91,7 @@ public class Dialog_Ring : MonoBehaviour
 
         this.Init();
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         List<RingConfig> configs = RingConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Type == Type).ToList();
         for (int i = 0; i < configs.Count; i++)
         {
@@ -126,7 +126,7 @@ public class Dialog_Ring : MonoBehaviour
 
     private void ShowItem(Item_Ring currentItem)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         RingConfig config = currentItem.Config;
         this.CurrentConfig = config;
@@ -222,7 +222,7 @@ public class Dialog_Ring : MonoBehaviour
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         int key = CurrentConfig.Id;
         if (isOn)
         {
@@ -245,7 +245,7 @@ public class Dialog_Ring : MonoBehaviour
         Item_Ring currentItem = items.Where(m => m.toggle.isOn).FirstOrDefault();
         RingConfig config = currentItem.Config;
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long currentLevel = user.GetRingLevel(config.Id);
 
         long total = user.GetBagItemCount(config.ItemId);

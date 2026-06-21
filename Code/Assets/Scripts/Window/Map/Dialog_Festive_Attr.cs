@@ -41,7 +41,7 @@ public class Dialog_Festive_Attr : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         long currentLevel = user.GetFestiveAttrLevel(GroupId);
         long nextLevel = currentLevel + 1;
 
@@ -102,7 +102,7 @@ public class Dialog_Festive_Attr : MonoBehaviour
     {
         this.Btn_Strong.gameObject.SetActive(false);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = user.GetFestiveAttrLevel(GroupId);
         long nextLevel = currentLevel + 1;

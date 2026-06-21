@@ -145,7 +145,7 @@ namespace Game
 
         private void BuildReword()
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             //增加宠物经验，神器经验
             double kc = this.Config.Id;

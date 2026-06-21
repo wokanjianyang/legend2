@@ -20,7 +20,7 @@ namespace Game
 
     //    private void Init()
     //    {
-    //        User user = GameProcessor.Inst.User;
+    //        User user = User_Data_Manager.Data;
     //        this.Camp = PlayerType.Hero;
     //        this.Name = user.Name;
     //        this.Level = user.MagicLevel.Data;

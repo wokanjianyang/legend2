@@ -23,7 +23,7 @@ public class BattleRule_Babel : ABattleRule
 
     public BattleRule_Babel(Dictionary<string, object> param)
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         this.Progress = user.BabelData.Progress.Data + 1;
         TimeTotal = TimeMax;
@@ -54,7 +54,7 @@ public class BattleRule_Babel : ABattleRule
             return;
         }
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
         TimeTotal -= currentRoundTime;
 
         string msg = "ÃÙ’Ω £”‡ ±º‰£∫" + (int)TimeTotal;

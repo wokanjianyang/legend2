@@ -36,7 +36,7 @@ namespace Game
 
         public void OnBattleStart()
         {
-            this.user = GameProcessor.Inst.User;
+            this.user = User_Data_Manager.Data;
             switch (this.ProgressType)
             {
                 case ProgressType.PlayerExp:

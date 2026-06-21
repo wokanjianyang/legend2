@@ -72,7 +72,7 @@ public class Dialog_Festive_Week : MonoBehaviour
 
     private void OnFestiveUIFresh(FestiveUIFreshEvent e)
     {
-        long count = GameProcessor.Inst.User.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
+        long count = User_Data_Manager.Data.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
         this.Txt_Total.text = count + " ¸ö";
 
         foreach (Item_Festive_Week item in itemList)
@@ -83,10 +83,10 @@ public class Dialog_Festive_Week : MonoBehaviour
 
     public void Open()
     {
-        long count = GameProcessor.Inst.User.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
+        long count = User_Data_Manager.Data.Bags.Where(m => m.Item.GetItemType() == ItemType.Material && m.Item.ConfigId == ItemHelper.SpecialId_Chunjie).Select(m => m.MagicNubmer.Data).Sum();
         this.Txt_Total.text = count + " ¸ö";
 
-        GameProcessor.Inst.User.WeekData.Check();
+        User_Data_Manager.Data.WeekData.Check();
 
         this.gameObject.SetActive(true);
     }

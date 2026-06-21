@@ -30,7 +30,7 @@ namespace Game
 
         public static void CheckTask(TaskType type, long condition)
         {
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             AchievementTaskConfig config = AchievementTaskConfigCategory.Instance.GetById(1);
 

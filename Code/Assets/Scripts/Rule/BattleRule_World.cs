@@ -55,7 +55,7 @@ public class BattleRule_World : ABattleRule
         {
             this.Start = false;
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             int type = 100 + MapId;
             long progess = user.GetRecordData(type);
@@ -89,7 +89,7 @@ public class BattleRule_World : ABattleRule
     {
         //Debug.Log("BuildReward layer:" + layer);
 
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         //µôÂäµÀ¾ß
         List<Item> items = new List<Item>();

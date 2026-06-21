@@ -30,7 +30,7 @@ public class Map_Myth_Item : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.MythData.GetOver(Config.Id))
         {
@@ -41,7 +41,7 @@ public class Map_Myth_Item : MonoBehaviour
 
     private void OnClick_NavigateMap()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         if (user.MythData.GetOver(this.Config.Id))
         {

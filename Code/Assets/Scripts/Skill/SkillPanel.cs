@@ -114,7 +114,7 @@ namespace Game
                     SuitTextList.Add(new KeyValuePair<int, int>(config.Id, count));
                 }
 
-                //User user = GameProcessor.Inst.User;
+                //User user = User_Data_Manager.Data;
                 //RingConfig ringConfig = RingConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.SkillId == SkillId).FirstOrDefault();
                 //if (ringConfig != null)
                 //{

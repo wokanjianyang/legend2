@@ -45,7 +45,7 @@ public class Panel_Pill : MonoBehaviour
 
     private void Show()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = user.PillData.Data;
         //Debug.Log("currentLevel show:" + currentLevel);
@@ -118,7 +118,7 @@ public class Panel_Pill : MonoBehaviour
 
     public void OnStrong()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         strong();
 
@@ -129,7 +129,7 @@ public class Panel_Pill : MonoBehaviour
 
     private bool strong()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         long currentLevel = user.PillData.Data;
         long PillLayer = (currentLevel / 2000);
@@ -160,7 +160,7 @@ public class Panel_Pill : MonoBehaviour
 
     private void OnBatch()
     {
-        User user = GameProcessor.Inst.User;
+        User user = User_Data_Manager.Data;
 
         for (int i = 0; i < 100; i++)
         {

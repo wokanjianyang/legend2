@@ -116,7 +116,7 @@ namespace Game
             var titleColor = QualityConfigHelper.GetQualityColor(equip.GetQuality());
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             string color = user.MagicLevel.Data >= equip.Config.LevelRequired ? "green" : "red";
 
             this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, equip.Config.LevelRequired);
@@ -341,7 +341,7 @@ namespace Game
         {
             Item_Rune rune = Tf_Rune.GetComponentInChildren<Item_Rune>(true);
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
             int count = user.GetRuneCount(rid);
 
             rune.gameObject.SetActive(true);

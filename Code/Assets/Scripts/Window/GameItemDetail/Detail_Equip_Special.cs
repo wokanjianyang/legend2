@@ -108,7 +108,7 @@ namespace Game
 
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
-            User user = GameProcessor.Inst.User;
+            User user = User_Data_Manager.Data;
 
             string color = user.MagicLevel.Data >= config.LevelRequired ? "green" : "red";
             this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, config.LevelRequired);

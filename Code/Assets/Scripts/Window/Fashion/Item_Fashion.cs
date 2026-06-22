@@ -13,7 +13,7 @@ public class Item_Fashion : MonoBehaviour
     public Text Txt_Name;
 
     public Transform Tf_Attr;
-    private List<Forge_Atr_Item> AttrList;
+    private List<Item_Attr> AttrList;
 
     public Text Txt_Fee;
     public Text Txt_Attr_Active;
@@ -29,7 +29,7 @@ public class Item_Fashion : MonoBehaviour
         Btn_Active.onClick.AddListener(OnActive);
         Btn_Up.onClick.AddListener(OnUp);
 
-        AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
+        AttrList = Tf_Attr.GetComponentsInChildren<Item_Attr>().ToList();
     }
 
     // Update is called once per frame
@@ -57,7 +57,7 @@ public class Item_Fashion : MonoBehaviour
 
         for (int i = 0; i < AttrList.Count; i++)
         {
-            AttrList[i].SetContent(this.Config.AttrIdList[i], this.Config.AttrValueList[i], 0);
+            AttrList[i].SetContent(this.Config.AttrIdList[i], this.Config.AttrValueList[i]);
         }
 
         Txt_Attr_Active.text = "³öÕ½ÊôÐÔ£º" + StringHelper.FormatAttrText(this.Config.UpAttrId, this.Config.UpAttrValue);
@@ -156,7 +156,7 @@ public class Item_Fashion : MonoBehaviour
         this.Btn_Active.gameObject.SetActive(false);
         this.Btn_Up.gameObject.SetActive(false);
 
-        Dialog_Fashion dialog =  this.gameObject.GetComponentInParent<Dialog_Fashion>();
+        Dialog_Fashion dialog = this.gameObject.GetComponentInParent<Dialog_Fashion>();
         dialog.ReFresh();
 
         GameProcessor.Inst.UpdateInfo();

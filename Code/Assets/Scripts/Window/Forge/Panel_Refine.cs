@@ -85,8 +85,18 @@ public class Panel_Refine : MonoBehaviour
     private void Show()
     {
         User user = User_Data_Manager.Data;
-        long MaxLevel = Math.Min(EquipRefineFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
-        long currentLevel = user.GetRefineLevel(SelectPosition);
+
+        if (this.CurrentItem == null)
+        {
+            //Tf_Fee.gameObject.SetActive(false);
+            //Txt_Info.text = "此部位没有装备";
+            return;
+        }
+
+        Equip equip = this.CurrentItem as Equip;
+        long currentLevel = equip.RefineLevel.Data;
+
+        long MaxLevel = equip.Config.RefineMax;
 
         items[SelectPosition - 1].Refresh();
 
@@ -102,14 +112,14 @@ public class Panel_Refine : MonoBehaviour
         }
         else
         {
-            long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+            long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel, equip.Config.RefineFee);
             string color = user.MagicGold.Data >= fee1 ? "#11FF11" : "#FF1111";
 
             string feeText = fee1 > 1000000 ? StringHelper.FormatNumber(fee1) : fee1 + "";
             Txt_Fee1.text = string.Format("金币：<color={0}>{1}</color>", color, feeText);
 
 
-            long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+            long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel, equip.Config.RefineFee);
             long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
             color = mc >= fee2 ? "#11FF11" : "#FF1111";
             Txt_Fee2.text = string.Format("黑铁矿：<color={0}>{1}</color>/{2}", color, mc, fee2);
@@ -167,11 +177,11 @@ public class Panel_Refine : MonoBehaviour
 
         Equip equip = CurrentItem as Equip;
 
-        long nextLevel = user.GetRefineLevel(SelectPosition) + 1;
+        long nextLevel = equip.RefineLevel.Data + 1;
 
         EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
 
-        long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel) * config.FeeBase;
+        long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel, equip.Config.RefineFee);
 
         if (user.MagicGold.Data < fee1)
         {
@@ -179,7 +189,7 @@ public class Panel_Refine : MonoBehaviour
             return;
         }
 
-        long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel) * config.FeeBase;
+        long fee2 = EquipRefineFeeConfigCategory.Instance.GetFee2(nextLevel, equip.Config.RefineFee);
         long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
 
         if (mc < fee2)

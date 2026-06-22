@@ -120,11 +120,17 @@ namespace Game
 		/// <summary>CardVueList</summary>
 		[ProtoMember(15)]
 		public int[] CardVueList { get; set; }
-		/// <summary>传奇ID</summary>
+		/// <summary>RefineFee</summary>
 		[ProtoMember(16)]
+		public long RefineFee { get; set; }
+		/// <summary>RefineMax</summary>
+		[ProtoMember(17)]
+		public long RefineMax { get; set; }
+		/// <summary>传奇ID</summary>
+		[ProtoMember(18)]
 		public int LegendId { get; set; }
 		/// <summary>Quality</summary>
-		[ProtoMember(17)]
+		[ProtoMember(19)]
 		public int Quality { get; set; }
 
 	}

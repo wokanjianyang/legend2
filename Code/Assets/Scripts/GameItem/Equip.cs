@@ -29,8 +29,6 @@ namespace Game
 
         public KeyValuePair<int, int> LegendData { get; set; } = new KeyValuePair<int, int>();
 
-        public Dictionary<int, int> HoneList { get; set; } = new Dictionary<int, int>();
-
         public EquipData Data { get; set; } = new EquipData();
 
         [JsonIgnore]
@@ -166,11 +164,12 @@ namespace Game
         /// <summary>
         /// 属性列表
         /// </summary>
-        public IDictionary<int, double> GetTotalAttrList(long level)
+        public IDictionary<int, double> GetTotalAttrList()
         {
             long basePercent = 100;
             long qualityPercent = 100;
 
+            long level = this.RefineLevel.Data;
             if (level > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(level);

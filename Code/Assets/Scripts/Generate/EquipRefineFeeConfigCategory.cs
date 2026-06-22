@@ -22,26 +22,42 @@ namespace Game
             return null;
         }
 
-        public long GetFee1(long level)
+        public long GetFee1(long level, long baseFee)
         {
             EquipRefineFeeConfig config = this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
             long riseLevel = level - config.StartLevel;
 
-            return config.Fee1 + config.RiseFee1 * riseLevel;
+            return (config.Fee1 + config.RiseFee1 * riseLevel) * baseFee;
         }
 
-        public long GetFee2(long level)
+        public long GetFee2(long level, long baseFee)
         {
             EquipRefineFeeConfig config = this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
             long riseLevel = level - config.StartLevel;
 
-            return config.Fee2 + config.RiseFee2 * riseLevel;
+            return (config.Fee2 + config.RiseFee2 * riseLevel) * baseFee;
         }
 
-
-        public long GetMaxLevel()
+        public long GetTotalFee1(long level, long baseFee)
         {
-            return this.list.Select(m => m.EndLevel).Max();
+            long total = 0;
+            for (int i = 1; i <= level; i++)
+            {
+                total += GetFee1(i, baseFee);
+            }
+
+            return total;
+        }
+
+        public long GetTotalFee2(long level, long baseFee)
+        {
+            long total = 0;
+            for (int i = 1; i <= level; i++)
+            {
+                total += GetFee2(i, baseFee);
+            }
+
+            return total;
         }
     }
 

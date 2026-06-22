@@ -124,7 +124,7 @@ namespace Game
             long basePercent = 0;
             long qualityPercent = 0;
 
-            long refineLevel = user.GetRefineLevel(e.Position);
+            long refineLevel = equip.RefineLevel.Data;
             if (refineLevel > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
@@ -264,19 +264,19 @@ namespace Game
                 this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
                 this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
 
-                if (equip.Layer > 1) //升阶过的只能重生
+                if (equip.RefineLevel.Data >= 1) //升阶过的只能重生
                 {
                     this.btn_Restore.gameObject.SetActive(!this.boxItem.Item.IsLock);
                 }
                 else  //没升阶的只能回收
                 {
                     this.btn_Recovery.gameObject.SetActive(!this.boxItem.Item.IsLock);
-                }
-                if (equip.GetQuality() == equip.Config.CardQuality && user.GetCardEquipLevel(equip.ConfigId) <= 0)
-                {
-                    this.btn_Card.gameObject.SetActive(true);
-                }
 
+                    if (equip.GetQuality() == equip.Config.CardQuality && user.GetCardEquipLevel(equip.ConfigId) <= 0)
+                    {
+                        this.btn_Card.gameObject.SetActive(true);
+                    }
+                }
             }
             else if (e.Box_Type == ComBoxType.OnEquip)
             {
@@ -451,7 +451,7 @@ namespace Game
                 return;
             }
 
-            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重生消耗5000兆金币，其他材料全额返回。是否确认？", true,
+            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重生消耗10000金币，其他材料全额返回。是否确认？", true,
                 () =>
                 {
                     this.gameObject.SetActive(false);

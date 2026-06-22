@@ -31,7 +31,7 @@ namespace Game
         public const long Cycle_Max = 32;
 
 
-        public const long RestoreGold = 5000000000000000L;
+        public const long RestoreGold = 10000;
 
         public const double Def_Rate = 3; //防御系数
 

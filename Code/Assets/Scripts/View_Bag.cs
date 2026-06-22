@@ -762,10 +762,11 @@ namespace Game
             User user = User_Data_Manager.Data;
 
             int haveCount = user.GetBagIdleCount(bagType);
+            long backGold = 0;
 
             if (user.MagicGold.Data <= ConfigHelper.RestoreGold)
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足5000兆", ToastType = ToastTypeEnum.Failure });
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足10000", ToastType = ToastTypeEnum.Failure });
                 return;
             }
 
@@ -774,32 +775,12 @@ namespace Game
             if (boxItem.Item.GetItemType() == ItemType.Equip)
             {
                 Equip equip = boxItem.Item as Equip;
-                int layer = equip.Layer;
 
-                //for (int l = 1; l < layer; l++)
-                //{
-                //    EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Part == equip.Part && m.Layer == l).FirstOrDefault();
+                long number = EquipRefineFeeConfigCategory.Instance.GetTotalFee2(equip.RefineLevel.Data, equip.Config.RefineFee);
+                backGold = EquipRefineFeeConfigCategory.Instance.GetTotalFee1(equip.RefineLevel.Data, equip.Config.RefineFee);
 
-                //    Item item = ItemHelper.BuildMaterial(config.MetailId, config.MetailCount);
-                //    newList.Add(item);
-
-                //    Item item1 = ItemHelper.BuildMaterial(config.MetailId1, config.MetailCount1);
-                //    newList.Add(item1);
-
-                //}
-
-                int redNumber = 0;
-                foreach (var kv in equip.HoneList)
-                {
-                    int honeLevel = kv.Value;
-                    redNumber += EquipHoneConfigCategory.Instance.GetTotalNeedNumber(honeLevel);
-                }
-
-                if (redNumber > 0)
-                {
-                    Item redItem = ItemHelper.BuildMaterial(ItemHelper.SpecialId_Red_Stone, redNumber);
-                    newList.Add(redItem);
-                }
+                Item item = ItemHelper.BuildMaterial(ItemHelper.Equip_Refine, number);
+                newList.Add(item);
 
                 if (haveCount < newList.Count)
                 {
@@ -807,8 +788,8 @@ namespace Game
                     return;
                 }
 
-                equip.Layer = 1;
-                equip.HoneList = new Dictionary<int, int>();
+                equip.RefineLevel.Data = 0;
+
                 newList.Add(equip);
             }
             else if (boxItem.Item.GetItemType() == ItemType.Pet)
@@ -875,18 +856,17 @@ namespace Game
 
             //Fee
             user.SubGold(ConfigHelper.RestoreGold);
+            user.AddExpAndGold(0, backGold);
 
-            //销毁旧的
+            //从包裹移除，销毁旧的
             user.Bags.Remove(boxItem);
             Com_Box boxUI = this.items.Find(m => m.BoxItem == boxItem);
-            if (boxUI != null) //上线自动回收，可能还没加载
-            {
-                this.items.Remove(boxUI);
-                GameObject.Destroy(boxUI.gameObject);
 
-                //生成新的
-                GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
-            }
+            this.items.Remove(boxUI);
+            GameObject.Destroy(boxUI.gameObject);
+
+            //生成新的
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = newList });
         }
 
         private void OnLoseEvent(LoseEvent e)

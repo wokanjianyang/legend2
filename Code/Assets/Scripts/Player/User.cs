@@ -431,9 +431,8 @@ namespace Game
             foreach (KeyValuePair<int, Equip> kvp in EquipPanelList[EquipPanelIndex])
             {
                 Equip equip = kvp.Value;
-                long refineLevel = GetRefineLevel(kvp.Key);
 
-                foreach (KeyValuePair<int, double> a in equip.GetTotalAttrList(refineLevel))
+                foreach (KeyValuePair<int, double> a in equip.GetTotalAttrList())
                 {
                     AttributeBonus.SetAttr((AttributeEnum)a.Key, attrKey++, a.Value);
                 }
@@ -1405,20 +1404,20 @@ namespace Game
         }
 
 
-        public long GetRefineLevel(int position)
-        {
-            if (!MagicEquipRefine.ContainsKey(position))
-            {
-                MagicEquipRefine[position] = new MagicData();
-            }
+        //public long GetRefineLevel(int position)
+        //{
+        //    if (!MagicEquipRefine.ContainsKey(position))
+        //    {
+        //        MagicEquipRefine[position] = new MagicData();
+        //    }
 
-            return MagicEquipRefine[position].Data;
-        }
+        //    return MagicEquipRefine[position].Data;
+        //}
 
-        public void SaveRefineLevel(int position, int level)
-        {
-            MagicEquipRefine[position].Data += level;
-        }
+        //public void SaveRefineLevel(int position, int level)
+        //{
+        //    MagicEquipRefine[position].Data += level;
+        //}
 
         public long GetReformLevel(int position)
         {

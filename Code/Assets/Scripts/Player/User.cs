@@ -420,8 +420,10 @@ namespace Game
 
             if (ConfigHelper.EnvTest == 2)
             {
-                AttributeBonus.SetAttr(AttributeEnum.BurstIncrea, attrKey++, 10000);
-                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, attrKey++, 10000);
+                AttributeBonus.SetAttr(AttributeEnum.ExpIncrea, attrKey++, 500);
+                AttributeBonus.SetAttr(AttributeEnum.GoldIncrea, attrKey++, 500);
+                AttributeBonus.SetAttr(AttributeEnum.BurstIncrea, attrKey++, 500);
+                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, attrKey++, 500);
             }
 
             //设置升级属性

@@ -136,6 +136,7 @@ namespace Game
 
         private void MakeReward(DeadRewarddEvent dead)
         {
+            AppHelper.Boss = false;
             //Log.Info("Boss :" + this.ToString() + " dead");
             if (RuleType != RuleType.MainStage)
             {
@@ -160,7 +161,7 @@ namespace Game
             double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
 
             long exp = (long)(Config.Exp * expRise);
-            long gold = (long)(Config.Gold  * goldRise);
+            long gold = (long)(Config.Gold * goldRise);
 
             List<Item> items = new List<Item>();
 

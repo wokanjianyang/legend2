@@ -46,6 +46,8 @@ namespace Game
         public static bool Spirit_Auto = false;
         public static int Spirit_Id = 1;
 
+        public static bool Boss = true; //区域boss
+
         public static IDictionary<int, int> EquipRecord { get; set; } = new Dictionary<int, int>();
 
         //-------设置

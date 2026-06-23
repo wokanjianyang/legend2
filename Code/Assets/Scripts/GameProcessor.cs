@@ -382,6 +382,7 @@ namespace Game
         {
             MapData = map.GetComponentInChildren<MapData>();
             MapData.Clear();
+            AppHelper.Map_Serial++;
 
             this.PlayerRoot = MapData.transform.parent.Find("[PlayerRoot]").transform;
 

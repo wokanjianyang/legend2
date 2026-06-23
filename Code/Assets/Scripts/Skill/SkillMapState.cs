@@ -30,12 +30,7 @@ namespace Game
             this.TotalTime += time;
             this.RunTime += time;
 
-            if (enemy == null || complete)
-            { //空格子
-                return;
-            }
-
-            if (RunTime >= CD)
+            if (enemy != null && !complete && RunTime >= CD)
             {
                 RunTime = 0;
                 skill.Run(enemy);

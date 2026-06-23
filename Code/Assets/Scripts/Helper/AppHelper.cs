@@ -13,6 +13,7 @@ namespace Game
 
         public static int Map_Cell_Size_X = 118;
         public static int Map_Cell_Size_Y = 118;
+        public static int Map_Serial = 1;
 
         public static long StartTime = 0;
         public static int CurrentMapId = 1;

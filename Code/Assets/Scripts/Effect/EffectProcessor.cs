@@ -20,11 +20,11 @@ namespace Game
 
         [LabelText("重设图片大小")]
         public bool NeedReSize = true;
-        
+
         private Sprite[] imgs;
         private int currentIndex = 0;
         private int totalCount = 0;
-        
+
         private bool hasEffect = false;
 
         private float currentTime = 0f;
@@ -33,10 +33,12 @@ namespace Game
 
         private float AnimaTime = 0.75f;
 
+        private int MapSerial = 0;
+
         private void Start()
         {
             this.imgs = Resources.LoadAll<Sprite>(this.EffectPath);
-            if (imgs != null && imgs.Length>0)
+            if (imgs != null && imgs.Length > 0)
             {
                 this.hasEffect = this.imgs.Length > 0;
                 this.totalCount = this.imgs.Length;
@@ -68,13 +70,21 @@ namespace Game
                         this.gameObject.SetActive(this.Loop);
                     }
                 }
+
+                if (this.MapSerial < AppHelper.Map_Serial)
+                {
+                    //切换地图了，隐藏
+                    this.Loop = false;
+
+                }
             }
         }
 
 
 
-        public void SetData(bool loop, float rotation,float animaTime)
+        public void SetData(bool loop, float rotation, float animaTime)
         {
+            this.MapSerial = AppHelper.Map_Serial;
             this.Loop = loop;
             this.rotation = rotation;
             if (animaTime > 0)

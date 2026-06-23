@@ -72,13 +72,6 @@ namespace Game
         private Coroutine ie_autoStartMap = null;
 
         //副本临时设置
-        public bool EquipBossFamily_Auto = false;
-        public bool Babel_Auto = false;
-        public bool Phantom_Auto = false;
-        public int Phantom_Auto_Id = 0;
-
-        public bool World_Auto = false;
-        public int World_Auto_Id = 0;
 
         public bool Yundang = false;
         public bool Net = true;
@@ -728,30 +721,6 @@ namespace Game
             User_Data_Manager.Save();
         }
 
-        public void HeroDie(RuleType ruleType, long time)
-        {
-            switch (ruleType)
-            {
-
-                case RuleType.MainStage:
-                case RuleType.Babel:
-
-                case RuleType.BossFamily:
-                case RuleType.HeroPhantom:
-                case RuleType.Phantom:
-                case RuleType.Myth:
-                case RuleType.World:
-                case RuleType.Pill2:
-                case RuleType.Pill3:
-                case RuleType.Festive:
-                case RuleType.Spirit:
-                case RuleType.Shengxiao:
-                    ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time, ConfigHelper.AutoExitMapTime));
-                    break;
-                default:
-                    break;
-            }
-        }
 
         public void CloseBattle(RuleType ruleType, long time)
         {
@@ -846,11 +815,13 @@ namespace Game
                 yield return new WaitForSeconds(1f);
             }
 
-            Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Normal, MapId = AppHelper.CurrentMapId });
-
-            if (ruleType == RuleType.Phantom && Phantom_Auto)
+            if (ruleType == RuleType.Babel && AppHelper.Babel_Auto)
             {
                 this.AutoStartMap(ruleType);
+            }
+            else  //不自动挑战的，就自动回到主线副本
+            {
+                Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Normal, MapId = AppHelper.CurrentMapId });
             }
         }
 
@@ -895,10 +866,10 @@ namespace Game
                     GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Babel, MapId = 0 });
                     break;
                 case RuleType.World:
-                    this.EventCenter.Raise(new WorldStartEvent() { Id = World_Auto_Id });
+                    this.EventCenter.Raise(new WorldStartEvent() { Id = AppHelper.World_Auto_Id });
                     break;
                 case RuleType.Phantom:
-                    this.EventCenter.Raise(new PhantomStartEvent() { PhantomId = Phantom_Auto_Id });
+                    this.EventCenter.Raise(new PhantomStartEvent() { PhantomId = AppHelper.Phantom_Auto_Id });
                     break;
                 case RuleType.BossFamily:
                     this.EventCenter.Raise(new AutoStartBossFamily());

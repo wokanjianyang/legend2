@@ -24,7 +24,7 @@ public class Dialog_BossFamily : MonoBehaviour, IBattleLife
     {
         toggle_Auto.onValueChanged.AddListener((isOn) =>
         {
-            GameProcessor.Inst.EquipBossFamily_Auto = isOn;
+            AppHelper.BossFamily_Auto = isOn;
         });
 
         for (int i = 0; i < BtnStartList.Count; i++)
@@ -55,7 +55,7 @@ public class Dialog_BossFamily : MonoBehaviour, IBattleLife
 
     void OnEnable()
     {
-        this.toggle_Auto.isOn = GameProcessor.Inst.EquipBossFamily_Auto;
+        this.toggle_Auto.isOn = AppHelper.BossFamily_Auto;
     }
 
     public void OnBattleStart()

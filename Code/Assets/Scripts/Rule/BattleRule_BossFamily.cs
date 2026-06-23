@@ -73,7 +73,7 @@ public class Battle_BossFamily : ABattleRule
         if (Start && enemys.Count <= 0 && QualityList.Count <= 0)
         {
             Start = false;
-            GameProcessor.Inst.HeroDie(RuleType.BossFamily, MapTime);
+            GameProcessor.Inst.CloseBattle(RuleType.BossFamily, MapTime);
         }
     }
 
@@ -83,7 +83,7 @@ public class Battle_BossFamily : ABattleRule
         if (heroCamp.HP == 0)
         {
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.BossFamily, MapTime);
+            GameProcessor.Inst.CloseBattle(RuleType.BossFamily, MapTime);
         }
     }
 }

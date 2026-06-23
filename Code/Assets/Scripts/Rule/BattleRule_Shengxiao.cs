@@ -87,7 +87,7 @@ public class BattleRule_Shengxiao : ABattleRule
             AppHelper.Shengxiao_Id = this.MapId;
 
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.Shengxiao, 18);
+            GameProcessor.Inst.CloseBattle(RuleType.Shengxiao, 18);
 
         }
     }

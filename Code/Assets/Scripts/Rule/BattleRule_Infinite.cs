@@ -221,7 +221,7 @@ public class BattleRule_Infinite : ABattleRule
             if (record.Count.Data > 0)
             {
                 GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-                GameProcessor.Inst.HeroDie(RuleType.Infinite, 0);
+                GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
             }
             else
             {

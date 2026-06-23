@@ -36,7 +36,7 @@ public class Dialog_Babel : MonoBehaviour
     {
         toggle_Auto.onValueChanged.AddListener((isOn) =>
         {
-            GameProcessor.Inst.Babel_Auto = isOn;
+            AppHelper.Babel_Auto = isOn;
         });
 
         Btn_Atr.onClick.AddListener(OnClick_Atr);

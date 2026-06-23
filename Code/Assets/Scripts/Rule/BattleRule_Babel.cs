@@ -65,9 +65,7 @@ public class BattleRule_Babel : ABattleRule
         {
             Over = true;
 
-            user.BabelData.Count--;
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "ÃÙ’Ω ß∞‹£°" });
-            GameProcessor.Inst.HeroDie(RuleType.Babel, 0);
             return;
         }
 
@@ -144,7 +142,7 @@ public class BattleRule_Babel : ABattleRule
         if (hero != null && hero.HP == 0)
         {
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.Babel, 0);
+            GameProcessor.Inst.CloseBattle(RuleType.Babel, 0);
         }
     }
 }

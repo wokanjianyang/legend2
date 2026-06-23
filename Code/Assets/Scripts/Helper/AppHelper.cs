@@ -57,6 +57,16 @@ namespace Game
         public static bool ShowMonsterSkill = true; //是否显示怪物技能
         public static int InfoColor = 1; //掉落信息显示颜色
 
+        //=-------自动挑战
+        public static bool Babel_Auto = false;
+        public static bool BossFamily_Auto = false;
+
+        public static bool Phantom_Auto = false;
+        public static int Phantom_Auto_Id = 0;
+
+        public static bool World_Auto = false;
+        public static int World_Auto_Id = 0;
+
         public static int GetLossQuality()
         {
             //如果次数少于500次，则品质-1

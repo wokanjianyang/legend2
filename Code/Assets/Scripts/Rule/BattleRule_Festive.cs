@@ -127,7 +127,7 @@ public class BattleRule_Festive : ABattleRule
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Festive, Message = "ÃÙ’Ω ß∞‹£°" });
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.Festive, 17);
+            GameProcessor.Inst.CloseBattle(RuleType.Festive, 17);
         }
     }
 }

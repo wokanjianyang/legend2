@@ -80,7 +80,7 @@ public class Battle_Defend : ABattleRule
                 GameProcessor.Inst.PlayerManager.LoadMonsterDefend(enemy);
             }
 
-            string msg = "第" + this.CurrentRecord.Progress + "波，剩余" + CurrentRecord.Count + "次复活";
+            string msg = "第" + this.CurrentRecord.Progress + "波，剩余" + CurrentRecord.Count + "次挑战机会";
             GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
             this.Start = false;
@@ -183,16 +183,16 @@ public class Battle_Defend : ABattleRule
         if (hero.HP <= 0)
         {
             CurrentRecord.Count--;
-            string msg = "第" + CurrentRecord.Progress + "波，剩余" + CurrentRecord.Count + "次复活";
+            string msg = "第" + this.CurrentRecord.Progress + "波，剩余" + CurrentRecord.Count + "次挑战机会";
             GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
-            if (CurrentRecord.Count > 0)
+            if (CurrentRecord.Count <= 0)
             {
-                GameProcessor.Inst.HeroDie(RuleType.Defend, 0);
+                GameOver();
             }
             else
             {
-                GameOver();
+                GameProcessor.Inst.SetGameOver(PlayerType.Enemy);  //停止地图逻辑
             }
         }
 

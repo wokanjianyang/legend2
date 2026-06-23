@@ -97,7 +97,7 @@ public class BattleRule_Pill2 : ABattleRule
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Pill2, Message = "ÃÙ’Ω ß∞‹£°" });
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.Pill2, 0);
+            GameProcessor.Inst.CloseBattle(RuleType.Pill2, 0);
         }
     }
 }

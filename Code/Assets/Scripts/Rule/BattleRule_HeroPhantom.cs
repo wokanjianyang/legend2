@@ -100,6 +100,6 @@ public class BattleRule_HeroPhantom : ABattleRule
     private void GameOver()
     {
         GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-        GameProcessor.Inst.HeroDie(RuleType.HeroPhantom, MapTime);
+        GameProcessor.Inst.CloseBattle(RuleType.HeroPhantom, MapTime);
     }
 }

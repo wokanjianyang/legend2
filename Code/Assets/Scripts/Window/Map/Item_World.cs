@@ -52,7 +52,7 @@ namespace Game
             var dialog = this.GetComponentInParent<Map_Dialog_World>();
             dialog.gameObject.SetActive(false);
 
-            GameProcessor.Inst.World_Auto_Id = this.Config.Id;
+            AppHelper.World_Auto_Id = this.Config.Id;
 
             var vm = this.GetComponentInParent<View_More>();
             vm.HideItem();

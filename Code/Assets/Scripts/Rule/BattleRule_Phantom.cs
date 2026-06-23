@@ -73,7 +73,7 @@ public class BattleRule_Phantom : ABattleRule
 
             GameProcessor.Inst.UpdateInfo();
 
-            GameProcessor.Inst.HeroDie(RuleType.Phantom, MapTime);
+            GameProcessor.Inst.CloseBattle(RuleType.Phantom, MapTime);
 
             PhanStart = false;
             return;
@@ -82,7 +82,7 @@ public class BattleRule_Phantom : ABattleRule
         if (Time <= 0)
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Phantom, Message = RealBoss.Name + "：你没有通过挑战..." });
-            GameProcessor.Inst.HeroDie(RuleType.Phantom, MapTime);
+            GameProcessor.Inst.CloseBattle(RuleType.Phantom, MapTime);
             PhanStart = false;
             return;
         }
@@ -99,7 +99,7 @@ public class BattleRule_Phantom : ABattleRule
         if (heroCamp.HP == 0)
         {
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.Phantom, MapTime);
+            GameProcessor.Inst.CloseBattle(RuleType.Phantom, MapTime);
         }
     }
 

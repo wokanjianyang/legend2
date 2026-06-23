@@ -117,7 +117,7 @@ public class BattleRule_World : ABattleRule
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.World, Message = "ÃÙ’Ω ß∞‹£°" });
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.World, 14);
+            GameProcessor.Inst.CloseBattle(RuleType.World, 14);
         }
     }
 }

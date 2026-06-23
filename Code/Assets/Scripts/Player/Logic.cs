@@ -42,18 +42,9 @@ namespace Game
 
         public void ResetData()
         {
-            //var dict = new Dictionary<AttributeEnum, object>();
-            //foreach (var kvp in BaseAttributeMap)
-            //{
-            //    dict[kvp.Key] = kvp.Value;
-            //}
-            SetData(null);
             IsSurvice = true;
-
-            //BattleAttributeMap.Clear();
-
             SelfPlayer.Reset();
-            //this.SelfPlayer.SetPosition(GameProcessor.Inst.PlayerManager.RandomCell(this.SelfPlayer.Cell));
+            SetData(null);
         }
 
         public void OnDamage(DamageResult dr)

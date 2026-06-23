@@ -30,7 +30,7 @@ public class Map_Dialog_World : MonoBehaviour
 
         toggle_Auto.onValueChanged.AddListener((isOn) =>
         {
-            GameProcessor.Inst.World_Auto = isOn;
+            AppHelper.World_Auto = isOn;
         });
     }
 

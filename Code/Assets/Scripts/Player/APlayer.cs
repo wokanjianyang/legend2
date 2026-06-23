@@ -524,6 +524,11 @@ namespace Game
         /// </summary>
         public void Resurrection()
         {
+            if (this.Camp == PlayerType.Hero)
+            {
+                GameProcessor.Inst.StartGame();
+            }
+
             this.Logic.ResetData();
             this._enemy = null;
         }

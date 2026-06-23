@@ -109,7 +109,7 @@ public class BattleRule_MainStage : ABattleRule
                 user.MapId = mapConfig.Id + 1;
             }
 
-            GameProcessor.Inst.HeroDie(RuleType.MainStage, MapTime);
+            GameProcessor.Inst.CloseBattle(RuleType.MainStage, MapTime);
         }
     }
 
@@ -125,7 +125,7 @@ public class BattleRule_MainStage : ABattleRule
             });
 
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.MainStage, MapTime);
+            GameProcessor.Inst.CloseBattle(RuleType.MainStage, MapTime);
         }
     }
 }

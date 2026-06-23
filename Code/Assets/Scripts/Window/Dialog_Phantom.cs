@@ -20,7 +20,7 @@ public class Dialog_Phantom : MonoBehaviour, IBattleLife
     {
         toggle_Auto.onValueChanged.AddListener((isOn) =>
         {
-            GameProcessor.Inst.Phantom_Auto = isOn;
+            AppHelper.Phantom_Auto = isOn;
         });
     }
 

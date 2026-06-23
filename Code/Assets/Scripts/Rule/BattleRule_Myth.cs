@@ -103,7 +103,7 @@ public class BattleRule_Myth : ABattleRule
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Myth, Message = "ÃÙ’Ω ß∞‹£°" });
             GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-            GameProcessor.Inst.HeroDie(RuleType.Myth, 13);
+            GameProcessor.Inst.CloseBattle(RuleType.Myth, 13);
         }
     }
 }

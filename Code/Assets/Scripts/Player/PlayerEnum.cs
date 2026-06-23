@@ -72,7 +72,8 @@ namespace Game
         PetBattleLimit = 112, //宠物出战位
         SkillBattleNumber = 113, //技能栏
         SkillSuitCount = 114, //词条套装数量
-        SkillLevelRise = 222, //全技能等级
+        fk = 222, //词条套装数量
+
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成
         IncreaDef = 1002,//防御加成
@@ -150,6 +151,29 @@ namespace Game
         EquipRandomIncrea = 20003, //装备随机属性百分比
         EquipQualityIncrea = 20004, //传奇属性百分比
 
+        //-----------技能加成
+        SkillLevelRise = 21000, //全技能等级
+        SkillLevelRiseP1 = 21001, //战士1技能+1
+        SkillLevelRiseP2 = 21002, //战士2技能+1
+        SkillLevelRiseP3 = 21003, //战士3技能+1
+        SkillLevelRiseP4 = 21004, //战士4技能+1
+        SkillLevelRiseP5 = 21005, //战士5技能+1
+        SkillLevelRiseP6 = 21006, //战士6技能+1
+        SkillLevelRiseP7 = 21007, //战士7技能+1
+        SkillLevelRiseM1 = 22001, //法师1技能+1
+        SkillLevelRiseM2 = 22002, //法师2技能+1
+        SkillLevelRiseM3 = 22003, //法师3技能+1
+        SkillLevelRiseM4 = 22004, //法师4技能+1
+        SkillLevelRiseM5 = 22005, //法师5技能+1
+        SkillLevelRiseM6 = 22006, //法师6技能+1
+        SkillLevelRiseM7 = 22007, //法师7技能+1
+        SkillLevelRiseS1 = 23001, //道士1技能+1
+        SkillLevelRiseS2 = 23002, //道士2技能+1
+        SkillLevelRiseS3 = 23003, //道士3技能+1
+        SkillLevelRiseS4 = 23004, //道士4技能+1
+        SkillLevelRiseS5 = 23005, //道士5技能+1
+        SkillLevelRiseS6 = 23006, //道士6技能+1
+        SkillLevelRiseS7 = 23007, //道士7技能+1
 
         //--废弃
         //MonsterFaster = 107,//副刷新速度加快

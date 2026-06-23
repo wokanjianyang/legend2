@@ -64,12 +64,12 @@ namespace Game
         public string Desc { get; set; }
 
         public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer)
-            : this(skillData, runeList, suitList, talentList, 0, 0, isPlayer)
+            : this(skillData, runeList, suitList, talentList, 0, 0, 0, isPlayer)
         {
 
         }
 
-        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, int rise, double cd, bool isPlayer)
+        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, int risePercent, int riseLevel, double cd, bool isPlayer)
         {
             this.Config = skillData.SkillConfig;
             this.SkillId = skillData.SkillId;
@@ -88,7 +88,6 @@ namespace Game
                 talentList = new List<SkillTalent>();
             }
 
-            long riseLevel = 0;
             if (isPlayer)
             {
 
@@ -279,8 +278,8 @@ namespace Game
             }
 
             //精通的额外加成
-            this.Damage = (int)((Damage * (100 + rise)) / 100);
-            this.Percent = (int)((Percent * (100 + rise)) / 100);
+            this.Damage = (int)((Damage * (100 + risePercent)) / 100);
+            this.Percent = (int)((Percent * (100 + risePercent)) / 100);
 
             //技能属性
             if (SkillId == 1001)

@@ -340,17 +340,21 @@ namespace Game
             {
                 return 1 + CalPanelSingleMul(type) / 100.0;
             }
-            else if (t < 0)
+            else if (t > -10000 && t < 0)
             {
                 return CalPanelSingleAdd(type);
             }
-            else if (t < 10000)
+            else if (t >= 0 && t < 10000)
             {
                 return CalPanelSingleAdd(type);
             }
-            else if (t >= 10000)
+            else if (t >= 10000 && t < 20000)
             {
                 return 1 + CalPanelSingleMul(type) / 100.0;
+            }
+            else if (t >= 20000)
+            {
+                return CalPanelSingleAdd(type);
             }
 
             return 0;

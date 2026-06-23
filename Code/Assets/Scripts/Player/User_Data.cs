@@ -46,15 +46,22 @@ namespace Game
             int[] experts = new int[] { 1006, 2006, 3006 };
             Dictionary<int, int> dictExpert = new Dictionary<int, int>();
 
+            int riseLevel = (int)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SkillLevelRise));
+
             for (int i = 0; i < 3; i++)
             {
                 int sid = experts[i];
+
+                int atrId = sid + 20000;
+                int atrLevel = (int)(user.AttributeBonus.CalPanelTotalAttr((AttributeEnum)atrId));
+
+
                 dictExpert[i] = 0;
 
                 SkillData skill = skills.Where(m => m.SkillId == sid).FirstOrDefault();
                 if (skill != null)
                 {
-                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), 0, cd, true);
+                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), 0, riseLevel + atrLevel, cd, true);
                     list.Add(skillPanel);
 
                     dictExpert[i] = (int)skillPanel.Percent;
@@ -64,10 +71,13 @@ namespace Game
             //再根据精通加载其他技能
             foreach (var skill in skills)
             {
+                int atrId = skill.SkillId + 20000;
+                int atrLevel = (int)(user.AttributeBonus.CalPanelTotalAttr((AttributeEnum)atrId));
+
                 if (skill.SkillConfig.Type != (int)SkillType.Expert)
                 {
                     int risePercent = dictExpert[skill.SkillConfig.Role - 1];
-                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), risePercent, cd, true);
+                    SkillPanel skillPanel = new SkillPanel(skill, user.GetRuneList(skill.SkillId), user.GetSuitList(skill.SkillId), user.GetTalentList(skill.SkillId), risePercent, riseLevel + atrLevel, cd, true);
 
                     list.Add(skillPanel);
                 }

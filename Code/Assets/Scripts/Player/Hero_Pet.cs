@@ -116,7 +116,7 @@ namespace Game
 
                 List<SkillTalent> talentList = user.GetTalentList(skillData.SkillId);
 
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, 0, cd, false);
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, 0, 0, cd, false);
 
                 SkillState skill = new SkillState(this, skillPanel, null, i, 0);
                 SelectSkillList.Add(skill);

@@ -14,7 +14,7 @@ namespace Game
 
         public void SetContent(EquipSetItem redItem, int quality)
         {
-            string color = redItem.Count >= redItem.Config.Count ? QualityConfigHelper.GetQualityColor(quality) : "CCCCCC";
+            string color = redItem.IsActive() ? QualityConfigHelper.GetQualityColor(quality) : "CCCCCC";
 
             int showLevel = Math.Max(1, redItem.Level);
 
@@ -44,7 +44,7 @@ namespace Game
 
         public void SetEquipSpecial(EquipSetItem redItem, EquipSpeicalConfig config)
         {
-            string color = redItem.Count >= redItem.Config.Count ? QualityConfigHelper.GetQualityColor(config.Quality) : "CCCCCC";
+            string color = redItem.IsActive() ? QualityConfigHelper.GetQualityColor(config.Quality) : "CCCCCC";
 
             int showLevel = Math.Max(1, redItem.Level);
 

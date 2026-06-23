@@ -28,5 +28,10 @@ namespace Game
             int atrVue = (int)(Config.AttrValue + (Level - 1) * Config.AttrRise);
             return atrVue;
         }
+
+        public bool IsActive()
+        {
+            return this.Count >= this.Config.Count;
+        }
     }
 }

@@ -456,11 +456,11 @@ namespace Game
             for (int i = 1; i <= 3; i++)
             {
                 EquipSetSuit suit = GetEquipSet(i, 1);
-                foreach (EquipSetItem redItem in suit.List)
+                foreach (EquipSetItem setItem in suit.List)
                 {
-                    if (redItem.Level > 0)
+                    if (setItem.IsActive() && setItem.Level > 0)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(redItem.Config.AttrId), attrKey++, redItem.GetAtrVue());
+                        AttributeBonus.SetAttr((AttributeEnum)(setItem.Config.AttrId), attrKey++, setItem.GetAtrVue());
                     }
                 }
             }
@@ -478,11 +478,11 @@ namespace Game
             if (EquipSpecialList.Count >= 4)
             {
                 EquipSetSuit suit = GetEquipSpecialSet(101);
-                foreach (EquipSetItem redItem in suit.List)
+                foreach (EquipSetItem setItem in suit.List)
                 {
-                    if (redItem.Level > 0)
+                    if (setItem.IsActive() && setItem.Level > 0)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(redItem.Config.AttrId), attrKey++, redItem.GetAtrVue());
+                        AttributeBonus.SetAttr((AttributeEnum)(setItem.Config.AttrId), attrKey++, setItem.GetAtrVue());
                     }
                 }
             }

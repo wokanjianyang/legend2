@@ -84,6 +84,9 @@ namespace Game
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 11, 1, 1)); //四格碎片包
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 12, 1, 1)); //区域1-4珍品材料自选
 
+
+            //items.AddRange(AddGoldenEquip());
+
             foreach (var item in items)
             {
                 BoxItem boxItem = new BoxItem();
@@ -99,6 +102,9 @@ namespace Game
         public void ShowOffline()
         {
             User user = User_Data_Manager.Data;
+
+            //测试道具
+            this.TestSend(user);
 
             if (user.OfflineLog.Count != 2)
             {
@@ -146,9 +152,6 @@ namespace Game
 
             //离线挖矿
             //this.BuildOfflineMine(user, tempTime, ref OfflineMessage);
-
-            //测试道具
-            this.TestSend(user);
 
             user.SecondExpTick = currentTick;
             this.Txt_Name.text = mapConfig.Name + "：离线时间" + tempTime + "秒";
@@ -475,21 +478,21 @@ namespace Game
             //list.Add(ItemHelper.BuildEquip(22205802, 9, 1, 0)); //混沌道
 
             int role = 3; //战士1，法师2，道士3
-            int quality = 8; //6红，7金，8暗金，9混沌
+            int quality = 5; //6红，7金，8暗金，9混沌
 
             //金色
             for (int i = 0; i < 1; i++)
             {
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5801, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5802, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5803, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5804, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5805, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5805, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5807, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5807, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5809, quality, 0)); //
-                list.Add(EquipConfigCategory.Instance.BuildEquip(20000000 + role * 1000000 + (quality - 5) * 100000 + 5810, quality, 0)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 1, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 2, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 3, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 4, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 5, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 5, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 6, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 6, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 7, 5)); //
+                list.Add(EquipConfigCategory.Instance.BuildOfflineEquip(200000 + role * 10000 + (quality - 5) * 1000 + 8, 5)); //
             }
 
 

@@ -170,7 +170,7 @@ namespace Game
             {
                 Tf_Set.gameObject.SetActive(true);
 
-                EquipSetSuit red = user.GetEquipSet(0, equip.Config.Cycle);
+                EquipSetSuit red = user.GetEquipSpecialSet(equip.Config.Cycle);
 
                 this.ShowRed(red, config);
             }

@@ -440,16 +440,6 @@ namespace Game
                 }
             }
 
-
-            //装备属性-四格装备
-            foreach (KeyValuePair<int, Equip_Special> kvp in EquipSpecialList)
-            {
-                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList())
-                {
-                    AttributeBonus.SetAttr((AttributeEnum)a.Key, attrKey++, a.Value);
-                }
-            }
-
             //传奇装备套装
             List<EquipLegendSet> legs = this.GetActiveLegendSetList();
             foreach (var sp in legs)
@@ -462,18 +452,40 @@ namespace Game
                 }
             }
 
-
-
-
             //套装属性
-            //List<EquipGroupConfig> suitList = GetEquipGroups();
-            //foreach (EquipGroupConfig item in suitList)
-            //{
-            //    for (int i = 0; i < item.AttrIdList.Length; i++)
-            //    {
-            //        AttributeBonus.SetAttr((AttributeEnum)item.AttrIdList[i], AttributeFrom.EquipSuit, item.Position, item.AttrValueList[i]);
-            //    }
-            //}
+            for (int i = 1; i <= 3; i++)
+            {
+                EquipSetSuit suit = GetEquipSet(i, 1);
+                foreach (EquipSetItem redItem in suit.List)
+                {
+                    if (redItem.Level > 0)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(redItem.Config.AttrId), attrKey++, redItem.GetAtrVue());
+                    }
+                }
+            }
+
+            //装备属性-四格装备
+            foreach (KeyValuePair<int, Equip_Special> kvp in EquipSpecialList)
+            {
+                foreach (KeyValuePair<int, double> a in kvp.Value.GetTotalAttrList())
+                {
+                    AttributeBonus.SetAttr((AttributeEnum)a.Key, attrKey++, a.Value);
+                }
+            }
+
+            //四格套装
+            if (EquipSpecialList.Count >= 4)
+            {
+                EquipSetSuit suit = GetEquipSpecialSet(101);
+                foreach (EquipSetItem redItem in suit.List)
+                {
+                    if (redItem.Level > 0)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(redItem.Config.AttrId), attrKey++, redItem.GetAtrVue());
+                    }
+                }
+            }
 
 
             //强化属性
@@ -593,6 +605,11 @@ namespace Game
                     for (int i = 0; i < config.AttrIdList.Length; i++)
                     {
                         AttributeBonus.SetAttr((AttributeEnum)(config.AttrIdList[i]), attrKey++, config.AttrValueList[i]);
+                    }
+
+                    if (sp.Key == FashionUpId)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(config.UpAttrId), attrKey++, config.UpAttrValue);
                     }
                 }
             }
@@ -802,27 +819,6 @@ namespace Game
             return count;
         }
 
-        public List<EquipGroupConfig> GetEquipGroups()
-        {
-            var currentPanel = this.EquipPanelList[EquipPanelIndex];
-
-            List<EquipGroupConfig> list = new List<EquipGroupConfig>();
-
-            for (int i = 1; i < 10; i = i + 2)
-            {  //1,3,5,7,9
-                if (currentPanel.TryGetValue(i, out Equip equip))
-                {
-                    EquipSuit es = GetEquipSuit(equip.Config);
-                    if (es.Active && es.Config != null)
-                    {
-                        list.Add(es.Config);
-                    }
-                }
-            }
-
-            return list;
-        }
-
         public ShengxiaoGroup GetShengxiaoGroup()
         {
             List<Shengxiao> equips = this.ShengxiaoList.Select(m => m.Value).ToList();
@@ -867,14 +863,44 @@ namespace Game
 
                 layers = equips.Select(m => m.Config.LevelRequired).OrderByDescending(m => m).ToList();
             }
-            else if (cycle == 101)
+
+            List<EquipSetConfig> list = EquipSetConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Role == role && m.Cycle == cycle).ToList();
+
+            List<EquipSetItem> redList = new List<EquipSetItem>();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                EquipSetConfig config = list[i];
+
+                int redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
+                redLevel = redLevel / 10 + 1;
+
+                EquipSetItem redItem = new EquipSetItem();
+                redItem.Level = redLevel;
+                redItem.Count = layers.Where(m => m >= redLevel).Count();
+                redItem.Config = config;
+
+                redList.Add(redItem);
+            }
+
+            EquipSetSuit red = new EquipSetSuit();
+            red.List = redList;
+
+            return red;
+        }
+
+        public EquipSetSuit GetEquipSpecialSet(int cycle)
+        {
+            List<int> layers = null;
+
+            if (cycle == 101)
             {
                 List<Equip_Special> equips = this.EquipSpecialList.Select(m => m.Value).Where(m => m.Config.Cycle == cycle).ToList();
 
                 layers = equips.Select(m => m.Layer).OrderByDescending(m => m).ToList();
             }
 
-            List<EquipSetConfig> list = EquipSetConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Role == role && m.Cycle == cycle).ToList();
+            List<EquipSetConfig> list = EquipSetConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Cycle == cycle).ToList();
 
             List<EquipSetItem> redList = new List<EquipSetItem>();
 
@@ -896,42 +922,6 @@ namespace Game
             red.List = redList;
 
             return red;
-        }
-
-        public EquipSuit GetEquipSuit(EquipConfig config)
-        {
-            EquipSuit suit = new EquipSuit();
-
-            suit.Self = new EquipSuitItem(config.Id, config.Name, true);
-
-            int gid = 0; //关联套装Id
-            if (config.Part == 5 || config.Part == 7)
-            {
-                gid = config.Id;
-            }
-            else
-            {
-                gid = config.Part % 2 == 1 ? config.Id + 1 : config.Id - 1;
-            }
-
-            EquipConfig gc = EquipConfigCategory.Instance.Get(gid);
-            EquipSuitItem target = new EquipSuitItem(gc.Id, gc.Name, false);
-
-            int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.Config.Id == gid).Count();
-            if ((gid != config.Id && count >= 1) || count >= 2) //非手镯戒指只要一个，手镯戒指要2个
-            {
-                target.Active = true;
-                suit.Active = true;
-            }
-
-            suit.ItemList.Add(suit.Self);
-            suit.ItemList.Add(target);
-
-            EquipGroupConfig groupConfig = EquipGroupConfigCategory.Instance.GetByLevelAndPart(config.LevelRequired, Math.Min(config.Part, gc.Part));
-
-            suit.Config = groupConfig;
-
-            return suit;
         }
 
         //---传奇套装

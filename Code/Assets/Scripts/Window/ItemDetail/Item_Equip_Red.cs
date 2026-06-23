@@ -37,7 +37,7 @@ namespace Game
             //    qn = "»ìãç";
             //}
 
-            int attr = (int)(redItem.Config.AttrValue + (showLevel - 1) * redItem.Config.AttrRise);
+            int attr = redItem.GetAtrVue();
 
             this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"), redItem.Count, redItem.Config.Count);
         }
@@ -48,7 +48,7 @@ namespace Game
 
             int showLevel = Math.Max(1, redItem.Level);
 
-            int attr = (int)(redItem.Config.AttrValue + (showLevel - 1) * redItem.Config.AttrRise);
+            int attr = redItem.GetAtrVue();
 
             this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"), redItem.Count, redItem.Config.Count);
         }

@@ -208,11 +208,12 @@ public class Monster_Legacy : APlayer
         return dropLayer;
     }
 
-    private int[] rates1 = { 1, 2, 4, 6, 8, 10, 12, 14 };
+    private int[] rates1 = { 1, 2, 7, 12, 17, 22, 27, 32 };
     private int RandomPart()
     {
         int part = MathHelper.RandomArrayIndex(rates1, 1);
+        int role = RandomHelper.RandomNumber(0, 3);
 
-        return part;
+        return part + role * 8;
     }
 }

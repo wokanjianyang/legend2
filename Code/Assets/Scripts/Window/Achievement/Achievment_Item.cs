@@ -56,14 +56,8 @@ public class Achievment_Item : MonoBehaviour
         long progress = user.GetAchievementProgeress((AchievementProType)Config.ConType);
         long require = AchievementConfigCategory.Instance.CalRequire(Config, level + 1);
 
-        if (level > 0)
-        {
-            Txt_Name.text = Config.Name + "（Lv" + level + "）";
-        }
-        else
-        {
-            Txt_Name.text = Config.Name + "（未激活）";
-        }
+        string lvName = level > 0 ? "（Lv" + level + "）" : "（未激活）";
+        Txt_Name.text = string.Format("【{0}<color=#FDFD00>{1}</color>】", Config.Name, lvName);
 
         string color = progress >= require ? "00FF00" : "FF0000";
         Txt_Progress.text = string.Format("进度：<color=#{0}>{1}</color> /{2}", color, progress, require);
@@ -72,7 +66,9 @@ public class Achievment_Item : MonoBehaviour
 
         for (int i = 0; i < Config.AtrIdList.Length; i++)
         {
-            Txt_Atr_List[i].text = StringHelper.FormatAttrText(Config.AtrIdList[i], Config.GetAtrVue(i, level), "+");
+            string atrIdName = StringHelper.FormatAttrValueName(Config.AtrIdList[i]);
+            string atrVueName = StringHelper.FormatAttrValueText(Config.AtrIdList[i], Config.GetAtrVue(i, level));
+            Txt_Atr_List[i].text = string.Format("{0}<color=#FDFD00>+{1}</color>", atrIdName, atrVueName);
         }
 
         if (level >= Config.Max)

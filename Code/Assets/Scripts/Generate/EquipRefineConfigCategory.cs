@@ -7,22 +7,7 @@ namespace Game
 
     public partial class EquipRefineConfigCategory
     {
-
-        public EquipRefineConfig GetByLevel(long level)
-        {
-            try
-            {
-                return this.list.First();
-            }
-            catch
-            {
-
-            }
-
-            return null;
-        }
-
-        public EquipRefineConfig GetByPositioin(int position)
+        public EquipRefineConfig GetByPart(int position)
         {
             return this.list.Where(m => m.Position == position).FirstOrDefault();
         }

@@ -106,6 +106,27 @@ namespace Game
             return BaseAttrList;
         }
 
+        public IDictionary<int, double> GetRefineSpeAtrList()
+        {
+            IDictionary<int, double> RefineSpeAtrList = new Dictionary<int, double>();
+
+            long level = this.RefineLevel.Data;
+            if (level > 0)
+            {
+                EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(Config.Part);
+
+                for (int i = 0; i < refineConfig.SpeAtrList.Length; i++)
+                {
+                    if (level >= refineConfig.SpeLevel[i])
+                    {
+                        RefineSpeAtrList.Add(refineConfig.SpeAtrList[i], refineConfig.SpeVueList[i]);
+                    }
+                }
+            }
+
+            return RefineSpeAtrList;
+        }
+
         public void CheckReFreshCount()
         {
             long tk = DateTime.Today.Ticks;
@@ -172,9 +193,9 @@ namespace Game
             long level = this.RefineLevel.Data;
             if (level > 0)
             {
-                EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(level);
+                EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(Config.Part);
                 basePercent += refineConfig.GetRisePercent(level, 1);
-                qualityPercent += refineConfig.GetRisePercent(level, 2);
+                qualityPercent += refineConfig.GetRisePercent(level, 3);
             }
 
             //根据基础属性和词条属性，计算总属性
@@ -205,6 +226,19 @@ namespace Game
 
                 AttrList[attrId] += attrTotalValue;
             }
+
+
+            IDictionary<int, double> RefineAttrList = this.GetRefineSpeAtrList();
+            foreach (int attrId in RefineAttrList.Keys)
+            {
+                if (!AttrList.ContainsKey(attrId))
+                {
+                    AttrList[attrId] = 0;
+                }
+
+                AttrList[attrId] += RefineAttrList[attrId];
+            }
+
 
             //计算传奇属性
             if (LegendData.Key > 0)

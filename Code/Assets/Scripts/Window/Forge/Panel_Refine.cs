@@ -102,7 +102,7 @@ public class Panel_Refine : MonoBehaviour
 
         long nextLevel = currentLevel + 1;
 
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPart(SelectPosition);
 
         if (currentLevel >= MaxLevel)
         {
@@ -179,7 +179,7 @@ public class Panel_Refine : MonoBehaviour
 
         long nextLevel = equip.RefineLevel.Data + 1;
 
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPositioin(SelectPosition);
+        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPart(SelectPosition);
 
         long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel, equip.Config.RefineFee);
 

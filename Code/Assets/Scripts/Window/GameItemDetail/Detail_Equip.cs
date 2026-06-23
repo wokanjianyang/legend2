@@ -127,14 +127,9 @@ namespace Game
             long refineLevel = equip.RefineLevel.Data;
             if (refineLevel > 0)
             {
-                EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByLevel(refineLevel);
+                EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(equip.Config.Part);
                 basePercent = refineConfig.GetRisePercent(refineLevel, 1);
-                qualityPercent = refineConfig.GetRisePercent(refineLevel, 2);
-            }
-            else if (equip.Part >= 21 && equip.Quality >= 7)
-            {
-                basePercent = 0;
-                qualityPercent = 100 * (equip.Layer - 1);
+                qualityPercent = refineConfig.GetRisePercent(refineLevel, 3);
             }
 
             IDictionary<int, double> BaseAttrList = equip.GetBaseAttrList();
@@ -147,10 +142,12 @@ namespace Game
                 Transform gridBase = Tf_Base.Find("Grid_Base");
 
                 List<KeyValuePair<int, double>> btList = BaseAttrList.ToList();
+                List<KeyValuePair<int, double>> refineList = equip.GetRefineSpeAtrList().ToList();
 
                 for (int index = 0; index < 8; index++)
                 {
                     var child = gridBase.Find(string.Format("Attribute_{0}", index));
+                    int bc = btList.Count();
 
                     if (index < btList.Count())
                     {
@@ -159,7 +156,16 @@ namespace Game
                     }
                     else
                     {
-                        child.gameObject.SetActive(false);
+                        if (index < bc + refineList.Count)
+                        {
+                            string txt = FormatAttrText(refineList[index - bc].Key, refineList[index - bc].Value);
+                            child.GetComponent<Text>().text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(2), txt);
+                            child.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            child.gameObject.SetActive(false);
+                        }
                     }
                 }
             }
@@ -182,7 +188,7 @@ namespace Game
                         long attrBaseValue = AttrEntryList[index].Value;
                         long attrRiseValue = (attrBaseValue) * qualityPercent / 100;
 
-                        child.GetComponent<Text>().text = FormatEquipAttrText(attrId, attrBaseValue, 0, attrRiseValue);
+                        child.GetComponent<Text>().text = FormatAttrText(attrId, attrBaseValue, qualityPercent);
                         child.gameObject.SetActive(true);
                     }
                     else
@@ -211,7 +217,7 @@ namespace Game
                         int atrId = config.AtrIdList[index];
                         long atrVue = config.AtrVueList[index];
 
-                        child.GetComponent<Text>().text = FormatAttrText(atrId, atrVue, 0);
+                        child.GetComponent<Text>().text = FormatAttrText(atrId, atrVue);
                         child.gameObject.SetActive(true);
                     }
                     else
@@ -369,6 +375,13 @@ namespace Game
             Tf_Suit.gameObject.SetActive(true);
         }
 
+        private string FormatAttrText(int attr, double val)
+        {
+            string text = StringHelper.FormatAttrText(attr, (long)val, "+");
+
+            return text;
+        }
+
         private string FormatAttrText(int attr, double val, long percent)
         {
             string unit = "";
@@ -387,35 +400,7 @@ namespace Game
                 refineText = "+" + StringHelper.FormatNumber(refineAttr);
             }
 
-            string text = StringHelper.FormatNumber(val) + refineText + unit + PlayerHelper.PlayerAttributeMap[((AttributeEnum)attr).ToString()];
-
-            return text;
-        }
-
-        private string FormatEquipAttrText(int attrId, long baseValue, long riseValue, long percentValue)
-        {
-            string unit = "";
-
-            List<int> percents = ConfigHelper.BaseAttrIdList.ToList().ToList(); ;
-
-            if (!percents.Contains(attrId))
-            {
-                unit = "%";
-            }
-
-            string text = baseValue + "";
-            if (riseValue > 0)
-            {
-                text = "(" + baseValue + "+" + riseValue + ")";
-            }
-
-            if (percentValue > 0)
-            {
-                text += "+" + percentValue;
-            }
-
-
-            text = text + unit + PlayerHelper.PlayerAttributeMap[((AttributeEnum)attrId).ToString()];
+            string text = PlayerHelper.PlayerAttributeMap[((AttributeEnum)attr).ToString()] + "+" + StringHelper.FormatNumber(val) + refineText + unit;
 
             return text;
         }

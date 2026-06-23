@@ -146,9 +146,10 @@ namespace Game
 
         //----------特殊-------------
         EquipBaseIncrea = 20001, //装备基础属性百分比
-        EquipRandomIncrea = 20002, //装备随机属性百分比
-        EquipQualityIncrea = 20003, //装备品质属性百分比
-        EquipSetIncrea = 20004, //装备套装属性百分比
+        EquipSetIncrea = 20002, //装备套装属性百分比
+        EquipRandomIncrea = 20003, //装备随机属性百分比
+        EquipQualityIncrea = 20004, //传奇属性百分比
+
 
         //--废弃
         //MonsterFaster = 107,//副刷新速度加快

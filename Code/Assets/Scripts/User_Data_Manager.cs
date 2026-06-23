@@ -128,12 +128,10 @@ namespace Game
 
         public static void Save()
         {
-            //if (GameProcessor.Inst == null || User_Data_Manager.Data == null)
-            //{
-            //    return;
-            //}
-            //var user = User_Data_Manager.Data;
-            //user.LastOut = TimeHelper.ClientNowSeconds();
+            if (GameProcessor.Inst == null || Data == null)
+            {
+                return;
+            }
 
             //序列化
             string str_json = JsonConvert.SerializeObject(Data, new JsonSerializerSettings

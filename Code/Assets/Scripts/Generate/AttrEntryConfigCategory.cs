@@ -8,7 +8,7 @@ namespace Game
 
     public partial class AttrEntryConfigCategory
     {
-        public List<KeyValuePair<int, long>> Build(int part, int cycle, int level, int quality, int role, int seed)
+        public List<KeyValuePair<int, long>> Build(int part, int cycle, int level, int quality, int role, int offline)
         {
             List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();
 
@@ -25,21 +25,16 @@ namespace Game
 
             for (int i = 0; i < quality - 1; i++)
             {
-                seed = AppHelper.RefreshDaySeed(seed);
-
                 List<int> excludeList = GetExcludeList(rsList);
 
                 List<AttrEntryConfig> fcList = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
                 List<int> rates = fcList.Select(m => m.Rate).ToList();
 
-                int rd = RandomHelper.RandomListRateIndex(rates, seed);
+                int rd = RandomHelper.RandomListRateIndex(rates);
 
                 AttrEntryConfig config = fcList[rd];
 
-                long attrValue = 0;
-
-                seed = AppHelper.RefreshDaySeed(seed);
-                attrValue = RandomHelper.RandomNumber(seed, config.MinValue, config.MaxValue + 1);
+                long attrValue = RandomVue(config, offline);
 
                 rsList.Add(new KeyValuePair<int, long>(config.AttrId, attrValue));
             }
@@ -47,39 +42,40 @@ namespace Game
             return rsList;
         }
 
-
-        public List<KeyValuePair<int, long>> BuildNew(int part, int cycle, int quality, int role, RandomRecord record)
+        public long RandomVue(AttrEntryConfig config, int offline)
         {
-            List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();
-
-            List<AttrEntryConfig> configs = list.FindAll(m =>
-            m.PartList.Contains(part)
-            && m.Cycle == cycle
-            && (m.Role == role || m.Role == 0));
-
-            if (configs.Count <= 0)
+            if (config.RateType == 1)
             {
-                return rsList;
+                //均匀随机
+                return RandomHelper.RandomNumber(config.MinValue, config.MaxValue + 1);
+
+            }
+            else if (config.RateType == 2)
+            {
+                //线性随机
+                int max = config.MaxValue + 1;
+                if (offline > 0)
+                { //离线模式
+                    max = (config.MaxValue - config.MinValue) / 2 + config.MinValue;
+                }
+                if (max <= config.MinValue)
+                {
+                    max = config.MinValue + 1;
+                }
+
+                return RandomHelper.RandomSerialNumber(config.MinValue, max);
+            }
+            else if (config.RateType == 3)
+            {
+                //指数随机
+                if (offline > 0)
+                { //离线模式
+                    return config.MinValue;
+                }
+                return RandomHelper.RandomPowNumber(config.MinValue, config.MaxValue + 1);
             }
 
-            for (int i = 0; i < quality; i++)
-            {
-                List<int> excludeList = GetExcludeList(rsList);
-
-                var fcList = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
-
-                int rd = RandomTableHelper.Instance().Random(0, fcList.Count, record);
-
-                AttrEntryConfig config = fcList[rd];
-
-                long attrValue = 0;
-
-                attrValue = RandomTableHelper.Instance().Random(config.MinValue, config.MaxValue + 1, record);
-
-                rsList.Add(new KeyValuePair<int, long>(config.AttrId, attrValue));
-            }
-
-            return rsList;
+            return config.MinValue;
         }
 
         private List<int> GetExcludeList(List<KeyValuePair<int, long>> rsList)
@@ -100,10 +96,10 @@ namespace Game
             return excludeList;
         }
 
-        public List<AttrEntryConfig> GetRedAttrList()
-        {
-            return this.list.Where(m => m.Cycle == 2).ToList();
-        }
+        //public List<AttrEntryConfig> GetRedAttrList()
+        //{
+        //    return this.list.Where(m => m.Cycle == 2).ToList();
+        //}
 
         public AttrEntryConfig GetRedConfig(int attrId, int cycle)
         {

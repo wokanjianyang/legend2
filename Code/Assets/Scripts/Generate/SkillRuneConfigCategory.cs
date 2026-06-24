@@ -23,7 +23,7 @@ namespace Game
             }
 
             List<int> rates = tempList.Select(m => m.EquipRate).ToList();
-            int rd = RandomHelper.RandomListRateIndex(rates, seed);
+            int rd = RandomHelper.RandomListRateIndex(rates);
 
             return tempList[rd];
         }

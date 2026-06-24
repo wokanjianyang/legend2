@@ -405,20 +405,20 @@ public class Panel_Refresh : MonoBehaviour
         {
             var itemPrefab = Resources.Load<GameObject>("Prefab/Window/Forge/Refresh_Setting_Item");
 
-            List<AttrEntryConfig> attrs = AttrEntryConfigCategory.Instance.GetRedAttrList();
-            for (int i = 0; i < attrs.Count; i++)
-            {
-                var item = GameObject.Instantiate(itemPrefab);
-                item.transform.SetParent(Tf_Setting_Item_List);
-                item.transform.localScale = Vector3.one;
-                item.gameObject.SetActive(true);
+            //List<AttrEntryConfig> attrs = AttrEntryConfigCategory.Instance.GetRedAttrList();
+            //for (int i = 0; i < attrs.Count; i++)
+            //{
+            //    var item = GameObject.Instantiate(itemPrefab);
+            //    item.transform.SetParent(Tf_Setting_Item_List);
+            //    item.transform.localScale = Vector3.one;
+            //    item.gameObject.SetActive(true);
 
 
-                var com = item.GetComponent<Refresh_Setting_Item>();
-                com.SetItem(attrs[i].AttrId);
+            //    var com = item.GetComponent<Refresh_Setting_Item>();
+            //    com.SetItem(attrs[i].AttrId);
 
-                ItemList.Add(com);
-            }
+            //    ItemList.Add(com);
+            //}
         }
 
         this.Tf_Setting.gameObject.SetActive(true);

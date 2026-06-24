@@ -58,10 +58,10 @@ namespace Game
             }
         }
 
-        internal static int RandomListRateIndex(List<int> rates, int seed)
+        internal static int RandomListRateIndex(List<int> rates)
         {
             int maxRate = rates.Sum();
-            int rd = RandomNumber(seed, 1, maxRate + 1);
+            int rd = RandomNumber(1, maxRate + 1);
 
             int tempRate = 0;
             for (int i = 0; i < rates.Count; i++)

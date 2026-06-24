@@ -105,8 +105,11 @@ namespace Game
 		/// <summary>Rate</summary>
 		[ProtoMember(10)]
 		public int Rate { get; set; }
-		/// <summary>Role</summary>
+		/// <summary>RateType</summary>
 		[ProtoMember(11)]
+		public int RateType { get; set; }
+		/// <summary>Role</summary>
+		[ProtoMember(12)]
 		public int Role { get; set; }
 
 	}

@@ -665,7 +665,7 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            int pg = Math.Min(3, user.GetPetSpeicalGroupLevel() / 3);
+            int pg = (int)user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetOnLimit);
 
             if (user.PetList.Count >= ConfigHelper.PetMax + pg)
             {
@@ -674,13 +674,6 @@ namespace Game
             }
 
             Pet pet = e.BoxItem.Item as Pet;
-
-            int roleCount = user.PetList.Where(m => m.Role == pet.Role).Count();
-            if (roleCount >= 3)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "同种宠物上阵数量已满", ToastType = ToastTypeEnum.Failure });
-                return;
-            }
 
             //从包袱移除
             UseBoxItem(e.BoxItem, 1);

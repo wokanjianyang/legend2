@@ -80,7 +80,7 @@ namespace Game
 
             Txt_Count.text = count > 0 ? "+" + count + "" : "无";
 
-            this.desc = config.Des;
+            this.desc = string.Format(config.Des, config.Percent);
         }
     }
 }

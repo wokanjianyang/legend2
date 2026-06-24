@@ -79,11 +79,13 @@ namespace Game
             Btn_Run.gameObject.SetActive(false);
 
             User user = User_Data_Manager.Data;
+
+            int maxCount = (int)user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetBattleLimit) + 1;
             int count = user.PetList.Where(m => m.Status == 1).Count();
 
-            if (count >= 1)
+            if (count >= maxCount)
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "只能出战一个", ToastType = ToastTypeEnum.Failure });
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经出战上限了", ToastType = ToastTypeEnum.Failure });
                 return;
             }
 

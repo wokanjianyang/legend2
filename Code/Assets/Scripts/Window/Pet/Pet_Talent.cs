@@ -19,7 +19,7 @@ namespace Game
             SkillConfig skillConfig = SkillConfigCategory.Instance.Get(config.SkillId);
 
             this.Txt_Name.text = skillConfig.Name + "" + config.Name;
-            this.Txt_Des.text = config.Des;
+            this.Txt_Des.text = string.Format(config.Des, config.Percent);
         }
     }
 }

@@ -201,34 +201,16 @@ namespace Game
             if (equip.LegendData.Key > 0)
             {
                 Tf_Legend.gameObject.SetActive(true);
-                Tf_Legend.Find("Tf_Title").Find("Title_Flair").GetComponent<Text>().text = "资质：" + equip.LegendData.Value;
-
-                Transform gridLegend = Tf_Legend.Find("Grid_Legend");
 
                 int lgId = equip.LegendData.Key;
                 EquipLegendConfig config = EquipLegendConfigCategory.Instance.Get(lgId);
 
-                for (int index = 0; index < 2; index++)
-                {
-                    var child = gridLegend.Find(string.Format("Attribute_{0}", index));
+                List<Equip_Item_Legend> lgs = Tf_Legend.GetComponentsInChildren<Equip_Item_Legend>().ToList();
+                lgs[0].ShowBase(config, equip.LegendData.Value);  //显示传奇部件属性
 
-                    if (index < config.AtrIdList.Length)
-                    {
-                        int atrId = config.AtrIdList[index];
-                        long atrVue = config.AtrVueList[index];
-
-                        child.GetComponent<Text>().text = FormatAttrText(atrId, atrVue);
-                        child.gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        child.gameObject.SetActive(false);
-                    }
-                }
-
-                EquipLegendSet legendSet = user.GetEquipLegendSet(config.SetId);
-
-                this.ShowLegend(legendSet);
+                Equip_Item_Legend lgSet = Tf_Legend.Find("Item_Equip_Legend_1").GetComponent<Equip_Item_Legend>();
+                EquipLegendSet legendSet = user.GetEquipLegendSet(config.SetId);  //显示传奇套装石属性
+                lgs[1].ShowSet(legendSet);
             }
 
 
@@ -333,14 +315,6 @@ namespace Game
                     reds[i].gameObject.SetActive(false);
                 }
             }
-        }
-
-        private void ShowLegend(EquipLegendSet legendSet)
-        {
-            Item_Suit rune = Tf_Legend.GetComponentInChildren<Item_Suit>(true);
-
-            rune.gameObject.SetActive(true);
-            rune.SetLegend(legendSet);
         }
 
         private void ShowRune(int rid)

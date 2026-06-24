@@ -226,6 +226,17 @@ namespace Game
 
         private void OnClick_Map()
         {
+            long ns = TimeHelper.ClientNowSeconds();
+            if (ns - AppHelper.ChangeMapTime < 5)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请稍后点击，间隔少于5秒", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+            else
+            {
+                AppHelper.ChangeMapTime = ns;
+            }
+
             MapMain.gameObject.SetActive(true);
         }
         private void OnClick_Msg()
@@ -243,6 +254,17 @@ namespace Game
 
         private void OnClick_ToStage()
         {
+            long ns = TimeHelper.ClientNowSeconds();
+            if (ns - AppHelper.ChangeMapTime < 10)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请稍后点击，间隔少于10秒", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+            else
+            {
+                AppHelper.ChangeMapTime = ns;
+            }
+
             User user = User_Data_Manager.Data;
 
             int mapId = user.MapId;

@@ -58,6 +58,8 @@ namespace Game
         public static int InfoColor = 1; //掉落信息显示颜色
 
         //=-------自动挑战
+        public static long ChangeMapTime = 0;
+
         public static bool Babel_Auto = false;
         public static bool BossFamily_Auto = false;
 

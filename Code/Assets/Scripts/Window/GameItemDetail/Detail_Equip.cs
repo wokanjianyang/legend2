@@ -388,7 +388,7 @@ namespace Game
 
             List<int> percents = ConfigHelper.BaseAttrIdList.ToList().ToList(); ;
 
-            if (!percents.Contains(attr))
+            if (!percents.Contains(attr) && attr < 21000)
             {
                 unit = "%";
             }

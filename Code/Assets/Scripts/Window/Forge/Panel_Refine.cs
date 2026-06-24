@@ -20,6 +20,8 @@ public class Panel_Refine : MonoBehaviour
     public Transform Tf_Atr_Spe_List;
     private Forge_Atr_Item[] AtrSpeList;
 
+    public Text Txt_Info;
+
     public Text Txt_Fee1;
     public Text Txt_Fee2;
 
@@ -88,9 +90,17 @@ public class Panel_Refine : MonoBehaviour
 
         if (this.CurrentItem == null)
         {
-            //Tf_Fee.gameObject.SetActive(false);
-            //Txt_Info.text = "此部位没有装备";
+            Txt_Info.gameObject.SetActive(true);
+            Tf_Atr_List.gameObject.SetActive(false);
+            Tf_Atr_Spe_List.gameObject.SetActive(false);
+            Txt_Info.text = "此部位没有装备";
             return;
+        }
+        else
+        {
+            Txt_Info.gameObject.SetActive(false);
+            Tf_Atr_List.gameObject.SetActive(true);
+            Tf_Atr_Spe_List.gameObject.SetActive(true);
         }
 
         Equip equip = this.CurrentItem as Equip;
@@ -102,7 +112,7 @@ public class Panel_Refine : MonoBehaviour
 
         long nextLevel = currentLevel + 1;
 
-        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPart(SelectPosition);
+        EquipRefineConfig config = EquipRefineConfigCategory.Instance.GetByPart(equip.Config.Part);
 
         if (currentLevel >= MaxLevel)
         {

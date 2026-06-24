@@ -107,8 +107,33 @@ public class Panel_Legend : MonoBehaviour
         }
         bagList.Clear();
 
-        Tf_Fee.gameObject.SetActive(false);
-        Txt_Info.text = "请选择材料";
+
+        if (this.CurrentItem == null)
+        {
+            Txt_Info.text = "此部位没有装备";
+            return;
+        }
+        else
+        {
+            Equip equip = this.CurrentItem as Equip;
+
+            if (equip.Config.Cycle >= 10)
+            {
+                Txt_Info.text = "此部位没有装备";
+                return;
+            }
+            else if (equip.LegendData.Key > 0)
+            {
+                Txt_Info.text = "此装备已经继承过了";
+                return;
+            }
+            else
+            {
+                Tf_Fee.gameObject.SetActive(false);
+                Txt_Info.text = "请选择材料";
+            }
+        }
+
 
         this.Select_Main();
     }
@@ -118,6 +143,7 @@ public class Panel_Legend : MonoBehaviour
         User user = User_Data_Manager.Data;
 
         Equip equip = this.CurrentItem as Equip;
+
         int part = equip.Config.Part;
 
         var equips = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Equip && m.Item.ConfigId >= 201001 && m.Item.ConfigId <= 209999).ToList();

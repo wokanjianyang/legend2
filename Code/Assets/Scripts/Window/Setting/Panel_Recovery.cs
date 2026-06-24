@@ -24,6 +24,7 @@ namespace Game
         public InputField if_Exp;
         public InputField if_DropRate;
         public InputField if_DropQuality;
+        public InputField if_Sk;
 
         public Dropdown Dp_Equip_Base;
 
@@ -135,8 +136,10 @@ namespace Game
             if_Gold.text = setting.GoldTotal.ToString();
             if_DropRate.text = setting.DropRate.ToString();
             if_DropQuality.text = setting.DropQuality.ToString();
+            if_Sk.text = setting.SkLevel.ToString();
 
             if_EquipLevel.text = setting.EquipLevel.ToString();
+
 
             foreach (int key in setting.EquipRole.Keys)
             {
@@ -192,6 +195,9 @@ namespace Game
 
             int.TryParse(if_DropQuality.text, out int dropQuality);
             setting.DropQuality = dropQuality;
+
+            int.TryParse(if_Sk.text, out int sk);
+            setting.SkLevel = sk;
 
             int.TryParse(if_EquipLevel.text, out int equipLevel);
             setting.EquipLevel = equipLevel;

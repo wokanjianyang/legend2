@@ -31,6 +31,8 @@ namespace Game
 
         public int EquipLevel { get; set; } = 0;
 
+        public int SkLevel { get; set; } = 0;
+
         public Dictionary<int, bool> EquipRole { get; private set; } = new Dictionary<int, bool>();
 
 
@@ -158,6 +160,16 @@ namespace Game
                         {
                             long qualityTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.QualityIncrea).Select(m => m.Value).Sum();
                             if (qualityTotal >= DropQuality)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+                        }
+
+                        if (SkLevel > 0)
+                        {
+                            long skTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.SkillLevelRise).Select(m => m.Value).Sum();
+                            if (skTotal >= SkLevel)
                             {
                                 item.IsKeep = true;
                                 return false;

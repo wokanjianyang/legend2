@@ -158,12 +158,6 @@ namespace Game
             long pill = user.PillData.Data;
             paramDict.Add("pill", pill + "");
 
-            long refineTotal = user.MagicEquipRefine.Select(m => m.Value.Data).Sum();
-            paramDict.Add("refine", refineTotal + "");
-
-            long reformTotal = user.MagicEquipReform.Select(m => m.Value.Data).Sum();
-            paramDict.Add("reform", reformTotal + "");
-
             long ringTotal = user.RingData.Where(m => m.Key <= 6).Select(m => m.Value.Data).Sum();
             ringTotal += GetTotal(user.Bags, 190001, 190006);
             ringTotal += GetTotal(user.Bags, 22);

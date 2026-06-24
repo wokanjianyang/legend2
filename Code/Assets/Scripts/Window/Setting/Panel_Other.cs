@@ -256,7 +256,7 @@ namespace Game
                      {
                          User_Data_Manager.Data.Account = account;
 
-                         if (User_Data_Manager.Data.MagicEquipRefine.Count > 0)
+                         if (User_Data_Manager.Data.MagicEquipStrength.Count > 0)
                          {
                              GameProcessor.Inst.SaveData();
                          }

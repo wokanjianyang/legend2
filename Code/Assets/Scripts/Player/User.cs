@@ -154,8 +154,6 @@ namespace Game
 
         public IDictionary<int, MagicData> MagicEquipStrength { get; set; } = new Dictionary<int, MagicData>();
 
-        public IDictionary<int, MagicData> MagicEquipRefine { get; set; } = new Dictionary<int, MagicData>();
-
         public IDictionary<int, MagicData> MagicEquipReform { get; set; } = new Dictionary<int, MagicData>();
 
         public IDictionary<int, MagicData> LegacyLevel { get; set; } = new Dictionary<int, MagicData>();
@@ -997,7 +995,7 @@ namespace Game
                     progress = this.MagicEquipStrength.Select(m => m.Value.Data).Sum();
                     break;
                 case AchievementProType.EquipRefine:
-                    progress = this.MagicEquipRefine.Select(m => m.Value.Data).Sum();
+                    progress = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value.RefineLevel.Data).Sum();
                     break;
                 case AchievementProType.EquipWear:
                     progress = this.EquipPanelList[EquipPanelIndex].Count;

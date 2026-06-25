@@ -813,36 +813,25 @@ namespace Game
 
                 newList.Add(pet);
             }
-            else if (boxItem.Item.GetItemType() == ItemType.Shengxiao)
+            else if (boxItem.Item.GetItemType() == ItemType.EquipSpeical)
             {
-                Shengxiao pet = boxItem.Item as Shengxiao;
-                long level = pet.LevelData.Data;
-                long layer = pet.LayerData.Data;
-                int quality = pet.GetQuality();
+                Equip_Special equip = boxItem.Item as Equip_Special;
+                int layer = equip.Layer;
 
-                pet.LevelData.Data = 0;
-                pet.LayerData.Data = 0;
-
-                //Debug.Log("pet exp count:" + expCount);
-                if (level > 0)
-                {
-                    Item levelItem = ItemHelper.BuildMaterial(ItemHelper.Specail_Shengxiao, 5000000 * level);
-                    newList.Add(levelItem);
-
-                    Item layerItem1 = ItemHelper.BuildMaterial(ItemHelper.Specail_Shengxiao1, 30 * level);
-                    newList.Add(layerItem1);
-                }
+                equip.Layer = 0;
 
                 if (layer > 0)
                 {
-                    Item layerItem = ItemHelper.BuildMaterial(ItemHelper.Specail_Shengxiao1, 20 * layer);
-                    newList.Add(layerItem);
+                    Dictionary<int, long> mcList = EquipGradeConfigCategory.Instance.GetTotalFee(equip.Config.Part, layer);
 
-                    Item layerItem1 = ItemHelper.BuildMaterial(ItemHelper.Specail_Shengxiao2, layer);
-                    newList.Add(layerItem1);
+                    foreach (var sp in mcList)
+                    {
+                        Item layerItem = ItemHelper.BuildMaterial(sp.Key, sp.Value);
+                        newList.Add(layerItem);
+                    }
                 }
 
-                newList.Add(pet);
+                newList.Add(equip);
             }
 
             //Fee

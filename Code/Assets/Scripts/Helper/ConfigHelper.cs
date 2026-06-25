@@ -104,6 +104,7 @@ namespace Game
         public const int Infinit_Max = 6000;
 
         public static string[] RoleName = { "战士", "法师", "道士" };
+        public static string[] RoleName1 = { "战", "法", "道" };
         public const int PetMax = 2;
 
         public const int MaxWorld = 800;

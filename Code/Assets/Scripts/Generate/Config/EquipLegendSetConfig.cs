@@ -93,11 +93,8 @@ namespace Game
 		/// <summary>RiseList</summary>
 		[ProtoMember(6)]
 		public double[] RiseList { get; set; }
-		/// <summary>BuffId</summary>
-		[ProtoMember(7)]
-		public int BuffId { get; set; }
 		/// <summary>Desc</summary>
-		[ProtoMember(8)]
+		[ProtoMember(7)]
 		public string Desc { get; set; }
 
 	}

@@ -60,20 +60,27 @@ namespace Game
         {
             List<int> vues = new List<int>();
 
-            for (int i = 0; i < Config.AtrIdList.Length; i++)
+            if (Config.AtrIdList != null)
             {
-                int atrVue = Config.AtrVueList[i];
-
-                if (IsActive())
+                for (int i = 0; i < Config.AtrIdList.Length; i++)
                 {
+                    int atrVue = Config.AtrVueList[i];
 
-                    atrVue += (int)(this.Total_Fliar * Config.RiseList[i] / 5);
+                    if (IsActive())
+                    {
+
+                        atrVue += (int)(this.Total_Fliar * Config.RiseList[i] / 5);
+                    }
+
+                    vues.Add(atrVue);
                 }
-
-                vues.Add(atrVue);
             }
 
-            if (Config.AtrIdList.Length == 1)
+            if (Config.AtrIdList == null)
+            {
+                return Config.Desc;
+            }
+            else if (Config.AtrIdList.Length == 1)
             {
                 return string.Format(Config.Desc, vues[0]);
             }

@@ -175,6 +175,24 @@ namespace Game
         SkillLevelRiseS6 = 23006, //道士6技能+1
         SkillLevelRiseS7 = 23007, //道士7技能+1
 
+        //-----------------特殊效果
+        Buff1_Rate = 30001, //重击效果概率
+        Buff1_Vue = 30002, //重击效果加成
+        Buff2_Vue = 30011, //弱点追踪加成
+
+        Buff3_Rate1 = 30021,//天命1概率
+        Buff3_Vue1 = 30022,//天命1加成
+        Buff3_Rate2 = 30023,//天命1概率
+        Buff3_Vue2 = 30024,//天命1加成
+        Buff3_Rate3 = 30025,//天命1概率
+        Buff3_Vue3 = 30026,//天命1加成
+        Buff3_Rate4 = 30027,//天命1概率
+        Buff3_Vue4 = 30028,//天命1加成
+        Buff3_Rate5 = 30029,//天命1概率
+        Buff3_Vue5 = 30020,//天命1加成
+
+        Buff4_Vue = 30031, //致命节奏加成
+
         //--废弃
         //MonsterFaster = 107,//副刷新速度加快
         //MetailFinal = 109, //挖矿

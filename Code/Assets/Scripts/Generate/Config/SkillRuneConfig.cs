@@ -99,77 +99,83 @@ namespace Game
 		/// <summary>EndQuality</summary>
 		[ProtoMember(8)]
 		public int EndQuality { get; set; }
-		/// <summary>词条叠加数量</summary>
+		/// <summary>StartLevel</summary>
 		[ProtoMember(9)]
+		public int StartLevel { get; set; }
+		/// <summary>EndLevel</summary>
+		[ProtoMember(10)]
+		public int EndLevel { get; set; }
+		/// <summary>词条叠加数量</summary>
+		[ProtoMember(11)]
 		public int Max { get; set; }
 		/// <summary>减少冷却时间</summary>
-		[ProtoMember(10)]
+		[ProtoMember(12)]
 		public int CD { get; set; }
 		/// <summary>持续时间</summary>
-		[ProtoMember(11)]
+		[ProtoMember(13)]
 		public int Duration { get; set; }
 		/// <summary>增加攻击距离</summary>
-		[ProtoMember(12)]
+		[ProtoMember(14)]
 		public int Dis { get; set; }
 		/// <summary>增加最大敌人数量</summary>
-		[ProtoMember(13)]
+		[ProtoMember(15)]
 		public int EnemyMax { get; set; }
 		/// <summary>行</summary>
-		[ProtoMember(14)]
+		[ProtoMember(16)]
 		public int Row { get; set; }
 		/// <summary>列</summary>
-		[ProtoMember(15)]
+		[ProtoMember(17)]
 		public int Column { get; set; }
 		/// <summary>固定伤害</summary>
-		[ProtoMember(16)]
+		[ProtoMember(18)]
 		public int Damage { get; set; }
 		/// <summary>增加伤害比例</summary>
-		[ProtoMember(17)]
+		[ProtoMember(19)]
 		public int Percent { get; set; }
 		/// <summary>无视防御</summary>
-		[ProtoMember(18)]
+		[ProtoMember(20)]
 		public int IgnoreDef { get; set; }
 		/// <summary>暴击率</summary>
-		[ProtoMember(19)]
+		[ProtoMember(21)]
 		public int CritRate { get; set; }
 		/// <summary>暴击倍率</summary>
-		[ProtoMember(20)]
+		[ProtoMember(22)]
 		public int CritDamage { get; set; }
 		/// <summary>致命率</summary>
-		[ProtoMember(21)]
+		[ProtoMember(23)]
 		public int DeadlyRate { get; set; }
 		/// <summary>致命伤害</summary>
-		[ProtoMember(22)]
+		[ProtoMember(24)]
 		public int DeadlyDamage { get; set; }
 		/// <summary>伤害加成</summary>
-		[ProtoMember(23)]
+		[ProtoMember(25)]
 		public int RateDamage { get; set; }
 		/// <summary>攻击加成</summary>
-		[ProtoMember(24)]
+		[ProtoMember(26)]
 		public int AttrIncrea { get; set; }
 		/// <summary>最终加成</summary>
-		[ProtoMember(25)]
+		[ProtoMember(27)]
 		public int FinalIncrea { get; set; }
 		/// <summary>Accuracy</summary>
-		[ProtoMember(26)]
+		[ProtoMember(28)]
 		public int Accuracy { get; set; }
 		/// <summary>Speed</summary>
-		[ProtoMember(27)]
+		[ProtoMember(29)]
 		public int Speed { get; set; }
 		/// <summary>附加属性</summary>
-		[ProtoMember(28)]
+		[ProtoMember(30)]
 		public int AttrId { get; set; }
 		/// <summary>属性值</summary>
-		[ProtoMember(29)]
+		[ProtoMember(31)]
 		public double AttrValue { get; set; }
 		/// <summary>附带效果</summary>
-		[ProtoMember(30)]
+		[ProtoMember(32)]
 		public int EffectId { get; set; }
 		/// <summary></summary>
-		[ProtoMember(31)]
+		[ProtoMember(33)]
 		public int EffectValue { get; set; }
 		/// <summary></summary>
-		[ProtoMember(32)]
+		[ProtoMember(34)]
 		public int EffectMax { get; set; }
 
 	}

@@ -120,20 +120,11 @@ namespace Game
 		/// <summary>RefineMax</summary>
 		[ProtoMember(15)]
 		public long RefineMax { get; set; }
-		/// <summary>CardGroupId</summary>
-		[ProtoMember(16)]
-		public int CardGroupId { get; set; }
-		/// <summary>CardAtrList</summary>
-		[ProtoMember(17)]
-		public int[] CardAtrList { get; set; }
-		/// <summary>CardVueList</summary>
-		[ProtoMember(18)]
-		public int[] CardVueList { get; set; }
 		/// <summary>传奇ID</summary>
-		[ProtoMember(19)]
+		[ProtoMember(16)]
 		public int LegendId { get; set; }
 		/// <summary>Quality</summary>
-		[ProtoMember(20)]
+		[ProtoMember(17)]
 		public int Quality { get; set; }
 
 	}

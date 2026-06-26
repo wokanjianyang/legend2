@@ -554,19 +554,22 @@ namespace Game
             //图鉴属性
             foreach (var sp in CardRecord)
             {
-                int exp = sp.Value;
-                CardConfig config = CardConfigCategory.Instance.Get(sp.Key);
-                int level = config.CalLevel(exp);
-                if (level > 0)
+                if (sp.Key > 0)
                 {
-                    for (int i = 0; i < config.AtrIdList.Length; i++)
+                    int exp = sp.Value;
+                    CardConfig config = CardConfigCategory.Instance.Get(sp.Key);
+                    int level = config.CalLevel(exp);
+                    if (level > 0)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i] * level);
-                    }
+                        for (int i = 0; i < config.AtrIdList.Length; i++)
+                        {
+                            AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i] * level);
+                        }
 
-                    if (level >= config.MaxLevel)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.SpeAtrId), attrKey++, config.SpeAtrVue);
+                        if (level >= config.MaxLevel)
+                        {
+                            AttributeBonus.SetAttr((AttributeEnum)(config.SpeAtrId), attrKey++, config.SpeAtrVue);
+                        }
                     }
                 }
             }

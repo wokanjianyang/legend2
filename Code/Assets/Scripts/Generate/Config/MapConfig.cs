@@ -99,6 +99,12 @@ namespace Game
 		/// <summary>BaseRateList</summary>
 		[ProtoMember(8)]
 		public int[] BaseRateList { get; set; }
+		/// <summary>DropRise</summary>
+		[ProtoMember(9)]
+		public int DropRise { get; set; }
+		/// <summary>QualtityRise</summary>
+		[ProtoMember(10)]
+		public int QualtityRise { get; set; }
 
 	}
 }

@@ -201,8 +201,8 @@ namespace Game
 
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
             double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
-            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
-            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
+            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100 + mapConfig.DropRise) / 100.0;
+            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100 + mapConfig.QualtityRise) / 100.0;
 
             double expKI = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpKillIncrea);
             double goldKI = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldKillIncrea);

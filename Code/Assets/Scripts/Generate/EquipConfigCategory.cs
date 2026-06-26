@@ -36,7 +36,7 @@ namespace Game
 
             if (quality >= 3)
             {
-                SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, seed);
+                SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, config.LevelRequired);
 
                 if (runeConfig == null)
                 {
@@ -77,7 +77,7 @@ namespace Game
             int runeId = 0;
             int suitId = 0;
 
-            SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, 0);
+            SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, config.LevelRequired);
 
             runeId = runeConfig.Id;
 
@@ -109,10 +109,6 @@ namespace Game
             return item;
         }
 
-        public List<EquipConfig> GetCardList(int cardId)
-        {
-            return this.list.Where(m => m.CardGroupId == cardId).ToList();
-        }
 
         public int GetOfflineKeepCount(int count)
         {

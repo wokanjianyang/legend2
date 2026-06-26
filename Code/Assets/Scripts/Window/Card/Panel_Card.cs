@@ -7,19 +7,19 @@ using Game.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Panel_Card_Equip : MonoBehaviour
+public class Panel_Card : MonoBehaviour
 {
     public ScrollRect sr_Boss;
 
     private int Stage = 0;
 
-    private List<Item_Card_Equip> items = new List<Item_Card_Equip>();
+    private List<Item_Card> items = new List<Item_Card>();
 
     private GameObject ItemPrefab;
 
     void Awake()
     {
-        ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Card/Item_Card_Equip");
+        ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Card/Item_Card");
     }
 
     public void Show(int stage)
@@ -38,7 +38,7 @@ public class Panel_Card_Equip : MonoBehaviour
         for (int i = 0; i < configs.Count; i++)
         {
             var item = GameObject.Instantiate(ItemPrefab);
-            var com = item.GetComponentInChildren<Item_Card_Equip>();
+            var com = item.GetComponentInChildren<Item_Card>();
 
             com.SetContent(configs[i]);
 

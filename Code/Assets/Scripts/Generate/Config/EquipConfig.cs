@@ -108,29 +108,32 @@ namespace Game
 		/// <summary>RecoveryItemId</summary>
 		[ProtoMember(11)]
 		public int RecoveryItemId { get; set; }
-		/// <summary>CardGroupId</summary>
+		/// <summary>CardId</summary>
 		[ProtoMember(12)]
-		public int CardGroupId { get; set; }
+		public int CardId { get; set; }
 		/// <summary>CardQuality</summary>
 		[ProtoMember(13)]
 		public int CardQuality { get; set; }
-		/// <summary>CardAtrList</summary>
-		[ProtoMember(14)]
-		public int[] CardAtrList { get; set; }
-		/// <summary>CardVueList</summary>
-		[ProtoMember(15)]
-		public int[] CardVueList { get; set; }
 		/// <summary>RefineFee</summary>
-		[ProtoMember(16)]
+		[ProtoMember(14)]
 		public long RefineFee { get; set; }
 		/// <summary>RefineMax</summary>
-		[ProtoMember(17)]
+		[ProtoMember(15)]
 		public long RefineMax { get; set; }
-		/// <summary>传奇ID</summary>
+		/// <summary>CardGroupId</summary>
+		[ProtoMember(16)]
+		public int CardGroupId { get; set; }
+		/// <summary>CardAtrList</summary>
+		[ProtoMember(17)]
+		public int[] CardAtrList { get; set; }
+		/// <summary>CardVueList</summary>
 		[ProtoMember(18)]
+		public int[] CardVueList { get; set; }
+		/// <summary>传奇ID</summary>
+		[ProtoMember(19)]
 		public int LegendId { get; set; }
 		/// <summary>Quality</summary>
-		[ProtoMember(19)]
+		[ProtoMember(20)]
 		public int Quality { get; set; }
 
 	}

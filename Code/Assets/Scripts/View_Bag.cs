@@ -625,13 +625,20 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            Item item = e.BoxItem.Item;
-
             UseBoxItem(e.BoxItem, 1);
 
-            user.CardEquipDict[item.ConfigId] = 1;
+            CardConfig config = CardConfigCategory.Instance.Get(e.CardId);
 
-            GameProcessor.Inst.UpdateInfo();
+            int lv = config.CalLevel(user.GetCardExp(e.CardId));
+
+            user.CardRecord[e.CardId] += 1;
+
+            int lvn = config.CalLevel(user.GetCardExp(e.CardId));
+
+            if (lvn > lv)
+            {
+                GameProcessor.Inst.UpdateInfo();
+            }
         }
 
 

@@ -230,7 +230,7 @@ namespace Game
                     this.Btn_Recovery.gameObject.SetActive(!this.boxItem.Item.IsLock);
                 }
 
-                if (pet.GetQuality() == pet.Config.CardQuality && user.GetCardEquipLevel(pet.ConfigId) <= 0)
+                if (pet.GetQuality() == pet.Config.CardQuality && !user.IsCardMax(pet.Config.CardId))
                 {
                     this.Btn_ToCard.gameObject.SetActive(true);
                 }
@@ -257,9 +257,12 @@ namespace Game
         {
             this.gameObject.SetActive(false);
 
+            Pet pet = this.boxItem.Item as Pet;
+
             GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
             {
                 BoxItem = this.boxItem,
+                CardId = pet.Config.CardId,
             });
         }
 

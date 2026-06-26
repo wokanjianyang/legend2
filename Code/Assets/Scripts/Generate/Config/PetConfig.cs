@@ -81,23 +81,17 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>CardGroupId</summary>
-		[ProtoMember(3)]
-		public int CardGroupId { get; set; }
 		/// <summary>CardQuality</summary>
-		[ProtoMember(4)]
+		[ProtoMember(3)]
 		public int CardQuality { get; set; }
-		/// <summary>CardAtrList</summary>
-		[ProtoMember(5)]
-		public int[] CardAtrList { get; set; }
-		/// <summary>CardVueList</summary>
-		[ProtoMember(6)]
-		public int[] CardVueList { get; set; }
+		/// <summary>CardId</summary>
+		[ProtoMember(4)]
+		public int CardId { get; set; }
 		/// <summary>TraitId</summary>
-		[ProtoMember(7)]
+		[ProtoMember(5)]
 		public int TraitId { get; set; }
 		/// <summary>TraitLevel</summary>
-		[ProtoMember(8)]
+		[ProtoMember(6)]
 		public int TraitLevel { get; set; }
 
 	}

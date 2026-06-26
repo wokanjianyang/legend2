@@ -7,73 +7,45 @@ namespace Game
 
     public partial class CardConfigCategory
     {
-        public CardConfig GetQualityRiseConfig(int quality)
-        {
-            return this.list.FirstOrDefault();
-        }
+
     }
+
+
 
     public partial class CardConfig
     {
+        private int[] exps = { 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047 };
 
-        public long CalUpLevel(long currentLevel, long materialNubmer, long limitLevel, out long useNumber)
+        public int CalLevel(int exp)
         {
-            useNumber = 0;
-            long upLevel = 0;
-
-            while (materialNubmer > 0)
+            if (exp <= 0)
             {
-                if (currentLevel + upLevel >= limitLevel)
-                {
-                    break;
-                }
-
-                long tempUpNumber = CalNewUpNumber(currentLevel + upLevel);
-
-                if (tempUpNumber <= materialNubmer)
-                {
-                    upLevel++;
-                    useNumber += tempUpNumber;
-                }
-
-
-                materialNubmer -= tempUpNumber;
+                return 0;
             }
 
-            return upLevel;
-        }
+            for (int i = exps.Length - 1; i >= 0; i--)
+            {
+                if (exp >= exps[i] * this.BaseFee)
+                {
+                    return i + 1;
+                }
+            }
 
-        public long CalNewUpNumber(long currentLevel)
-        {
-            return 0;
-
-        }
-
-        public long GetCardRiseValue(long cardLevel, int groupLevel)
-        {
             return 0;
         }
 
-        //public long CalOldUpNumber(long currentLevel)
-        //{
-        //    long rise = currentLevel / RiseLevel;
-        //    rise = rise * RiseNumber + StartNubmer;
-        //    return rise;
-        //}
+        public int CalNextExp(int exp)
+        {
+            foreach (int nx in exps)
+            {
+                if (nx > exp)
+                {
+                    return nx * this.BaseFee;
+                }
+            }
 
-        //public long CalReturnNumber(long currentLevel)
-        //{
-        //    long newTotal = 0;
-        //    long oldTotal = 0;
-
-        //    for (int i = 0; i < currentLevel; i++)
-        //    {
-        //        newTotal += CalNewUpNumber(i);
-        //        oldTotal += CalOldUpNumber(i);
-        //    }
-
-        //    return oldTotal - newTotal;
-        //}
+            return int.MaxValue;
+        }
     }
 
 }

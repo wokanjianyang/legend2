@@ -9,14 +9,16 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class Item_Card_Equip : MonoBehaviour, IPointerClickHandler
+    public class Item_Card : MonoBehaviour, IPointerClickHandler
     {
         public Image Img_Logo;
         public Text Txt_Name;
-        public Text Txt_Require;
+        public Text Txt_Level;
 
         public Transform Tf_Akt;
         private List<Text> Txt_Atk_List;
+
+        public Text Txt_Atr_Spe;
 
         public CardConfig Config { get; set; }
 
@@ -39,20 +41,49 @@ namespace Game
         {
             Debug.Log("click card item");
 
-            Dialog_Card panel = this.GetComponentInParent<Dialog_Card>();
+            //Dialog_Card panel = this.GetComponentInParent<Dialog_Card>();
 
-            panel.SelectItem(Config.Id);
+            //panel.SelectItem(Config.Id);
         }
 
         public void Show()
         {
             User user = User_Data_Manager.Data;
 
-            int cardCount = user.GetCardEquipCount(Config.Stage, Config.Id);
+            CardConfig config = CardConfigCategory.Instance.Get(Config.Id);
 
-            string color = cardCount >= Config.Count ? "#00FF00" : "#FF0000";
-            string rt = cardCount + "/" + Config.Count;
-            this.Txt_Require.text = string.Format("<color={0}>{1}</color>", color, rt);
+            int cardExp = user.GetCardExp(Config.Id);
+
+            int cardLevel = config.CalLevel(cardExp);
+
+            if (cardLevel >= config.MaxLevel)
+            {
+                this.Txt_Level.text = string.Format("Lv.{0}£¨Max{1}£©", cardLevel, config.MaxLevel);
+
+                this.Txt_Atr_Spe.text = StringHelper.FormatAttrText(config.SpeAtrId, config.SpeAtrVue, "£º+");
+            }
+            else
+            {
+                int nextExp = config.CalNextExp(cardExp);
+                this.Txt_Level.text = string.Format("Lv.{0}£¨Exp{1}/{2}£©", cardLevel, cardExp, nextExp);
+
+                this.Txt_Atr_Spe.gameObject.SetActive(false);
+            }
+
+
+            for (int i = 0; i < config.AtrIdList.Length; i++)
+            {
+                if (i < Txt_Atk_List.Count)
+                {
+                    this.Txt_Atk_List[i].gameObject.SetActive(true);
+                    this.Txt_Atk_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i] * cardLevel, "£º+");
+                }
+                else
+                {
+                    this.Txt_Atk_List[i].gameObject.SetActive(false);
+                }
+            }
+
         }
 
         public void SetContent(CardConfig config)
@@ -61,18 +92,7 @@ namespace Game
             this.Txt_Name.text = config.Name;
             this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(config.LogoId);
 
-            for (int i = 0; i < config.AtrIdList.Length; i++)
-            {
-                if (i < Txt_Atk_List.Count)
-                {
-                    this.Txt_Atk_List[i].gameObject.SetActive(true);
-                    this.Txt_Atk_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i], "£º+");
-                }
-                else
-                {
-                    this.Txt_Atk_List[i].gameObject.SetActive(false);
-                }
-            }
+
 
             this.Show();
         }

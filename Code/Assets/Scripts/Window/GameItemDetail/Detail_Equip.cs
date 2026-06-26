@@ -260,7 +260,7 @@ namespace Game
                 {
                     this.btn_Recovery.gameObject.SetActive(!this.boxItem.Item.IsLock);
 
-                    if (equip.GetQuality() == equip.Config.CardQuality && user.GetCardEquipLevel(equip.ConfigId) <= 0)
+                    if (equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.Config.CardGroupId))
                     {
                         this.btn_Card.gameObject.SetActive(true);
                     }
@@ -444,9 +444,12 @@ namespace Game
         {
             this.gameObject.SetActive(false);
 
+            Equip equip = this.boxItem.Item as Equip;
+
             GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
             {
                 BoxItem = this.boxItem,
+                CardId = equip.Config.CardGroupId
             });
         }
 

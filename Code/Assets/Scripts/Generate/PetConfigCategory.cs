@@ -10,10 +10,6 @@ namespace Game
     public partial class PetConfigCategory
     {
 
-        public List<PetConfig> GetCardList(int cardId)
-        {
-            return this.list.Where(m => m.CardGroupId == cardId).ToList();
-        }
     }
 
 

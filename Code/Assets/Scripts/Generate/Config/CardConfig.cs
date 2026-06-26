@@ -93,9 +93,18 @@ namespace Game
 		/// <summary>AtrVueList</summary>
 		[ProtoMember(6)]
 		public int[] AtrVueList { get; set; }
-		/// <summary>Count</summary>
+		/// <summary>SpeAtrId</summary>
 		[ProtoMember(7)]
-		public int Count { get; set; }
+		public int SpeAtrId { get; set; }
+		/// <summary>SpeAtrVue</summary>
+		[ProtoMember(8)]
+		public int SpeAtrVue { get; set; }
+		/// <summary>BaseFee</summary>
+		[ProtoMember(9)]
+		public int BaseFee { get; set; }
+		/// <summary>MaxLevel</summary>
+		[ProtoMember(10)]
+		public int MaxLevel { get; set; }
 
 	}
 }

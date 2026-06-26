@@ -14,14 +14,11 @@ public class Dialog_Card : MonoBehaviour
     public Transform Tf_Nav;
     private List<Toggle> toggleStageList = new List<Toggle>();
 
-    public Panel_Card_Equip panel1;
-    public Panel_Card_Special panel2;
+    public Panel_Card panel1;
 
     public Text Txt_Title;
-    private string[] Titles = { "宠物图鉴", "1-30级装备", "40-80级装备", "80-120级装备" };
+    private string[] Titles = { "宠物图鉴", "1-50级装备", "60-120级装备", "130-180级装备" };
     private int[] stages = { 11, 1, 2, 3 };
-
-    public Dialog_Card_Equip dialogCardEquip;
 
     public int Order => (int)ComponentOrder.Dialog;
 
@@ -49,11 +46,6 @@ public class Dialog_Card : MonoBehaviour
         this.SelectStage = index;
         this.Txt_Title.text = Titles[index];
         this.panel1.Show(this.stages[index]);
-    }
-
-    public void SelectItem(int cardId)
-    {
-        dialogCardEquip.show(cardId);
     }
 
     public void OnClick_Close()

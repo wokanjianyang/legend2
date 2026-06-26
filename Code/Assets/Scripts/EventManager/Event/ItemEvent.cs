@@ -8,6 +8,8 @@ namespace Game
     public class EquipToCardEvent : SDD.Events.Event
     {
         public BoxItem BoxItem { get; set; }
+
+        public int CardId { get; set; }
     }
 
     public class EquipOneEvent : SDD.Events.Event

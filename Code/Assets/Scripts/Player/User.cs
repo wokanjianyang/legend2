@@ -13,7 +13,9 @@ namespace Game
     {
         public Dictionary<int, int> ExclusiveDict = new Dictionary<int, int>();
 
-        public Dictionary<int, int> CardEquipDict = new Dictionary<int, int>();
+        //public Dictionary<int, int> CardEquipDict = new Dictionary<int, int>();
+
+        public Dictionary<int, int> CardRecord = new Dictionary<int, int>();
 
         public IDictionary<int, MagicData> GameRecord { get; set; } = new Dictionary<int, MagicData>();
 
@@ -54,31 +56,27 @@ namespace Game
             return ExclusiveDict[id];
         }
 
-        public int GetCardEquipLevel(int id)
+        public int GetCardExp(int id)
         {
-            if (!this.CardEquipDict.ContainsKey(id))
+            if (!this.CardRecord.ContainsKey(id))
             {
-                return 0;
+                this.CardRecord[id] = 0;
             }
 
-            return CardEquipDict[id];
+            return this.CardRecord[id];
         }
 
-        public int GetCardEquipCount(int stage, int cardId)
+        public bool IsCardMax(int id)
         {
-            if (stage <= 10)
-            {
-                List<int> list = EquipConfigCategory.Instance.GetCardList(cardId).Select(m => m.Id).ToList();
-                int count = CardEquipDict.Where(m => list.Contains(m.Key)).Count();
-                return count;
-            }
-            else
-            {
-                List<int> list = PetConfigCategory.Instance.GetCardList(cardId).Select(m => m.Id).ToList();
-                int count = CardEquipDict.Where(m => list.Contains(m.Key)).Count();
-                return count;
-            }
+            int exp = GetCardExp(id);
+
+            CardConfig config = CardConfigCategory.Instance.Get(id);
+
+            int level = config.CalLevel(exp);
+
+            return level >= config.MaxLevel;
         }
+
 
         public Item GetEquip(int position)
         {
@@ -554,40 +552,21 @@ namespace Game
             }
 
             //图鉴属性
-            foreach (var sp in this.CardEquipDict)
+            foreach (var sp in CardRecord)
             {
-                if (sp.Value > 0)
-                {
-                    if (sp.Key >= 210001)
-                    {
-                        EquipConfig config = EquipConfigCategory.Instance.Get(sp.Key);
-
-                        for (int i = 0; i < config.CardAtrList.Length; i++)
-                        {
-                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), attrKey++, config.CardVueList[i]);
-                        }
-                    }
-                    else
-                    {
-                        PetConfig config = PetConfigCategory.Instance.Get(sp.Key);
-
-                        for (int i = 0; i < config.CardAtrList.Length; i++)
-                        {
-                            AttributeBonus.SetAttr((AttributeEnum)(config.CardAtrList[i]), attrKey++, config.CardVueList[i]);
-                        }
-                    }
-                }
-            }
-
-            //图鉴组合
-            foreach (CardConfig config in CardConfigCategory.Instance.GetAll().Values)
-            {
-                int count = this.GetCardEquipCount(config.Stage, config.Id);
-                if (count >= config.Count)
+                int exp = sp.Value;
+                CardConfig config = CardConfigCategory.Instance.Get(sp.Key);
+                int level = config.CalLevel(exp);
+                if (level > 0)
                 {
                     for (int i = 0; i < config.AtrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i] * level);
+                    }
+
+                    if (level >= config.MaxLevel)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(config.SpeAtrId), attrKey++, config.SpeAtrVue);
                     }
                 }
             }

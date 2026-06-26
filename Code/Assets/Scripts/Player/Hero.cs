@@ -123,6 +123,18 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.FashionDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.FashionDamage));
             AttributeBonus.SetAttr(AttributeEnum.LegacyDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
 
+            //传奇Set
+            AttributeEnum[] buffs = new AttributeEnum[] { AttributeEnum.Buff1_Rate, AttributeEnum.Buff1_Vue, AttributeEnum.Buff2_Vue, AttributeEnum.Buff4_Vue,
+            AttributeEnum.Buff3_Rate1,AttributeEnum.Buff3_Vue1,AttributeEnum.Buff3_Rate2,AttributeEnum.Buff3_Vue2,AttributeEnum.Buff3_Rate3,AttributeEnum.Buff3_Vue3,
+            AttributeEnum.Buff3_Rate4,AttributeEnum.Buff3_Vue4,AttributeEnum.Buff3_Rate5,AttributeEnum.Buff3_Vue5,
+            };
+
+            foreach (var sp in buffs)
+            {
+                AttributeBonus.SetAttr(sp, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(sp));
+            }
+
+
             //此处不能回血，因为会修改人物属性之类的
         }
 

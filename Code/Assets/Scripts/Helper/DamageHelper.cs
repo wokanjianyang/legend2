@@ -12,6 +12,8 @@ namespace Game
         {
             //计算公式  ((攻击 - 防御) * 百分比系数 + 固定数值) * 暴击?.暴击倍率 * (伤害加成-伤害减免) * (幸运)
 
+            DamageResult dr = new DamageResult();
+
             int role = skill.Config.Role;
 
             double atk = 0;
@@ -64,8 +66,6 @@ namespace Game
             //技能终伤
             atk *= (1 + skill.FinalIncrea / 100.0);
 
-            MsgType type = MsgType.Damage;
-
             //致命
             int deadlyRate = (int)((attcher.CalBattleTotalAttr(AttributeEnum.DeadlyRate) + skill.DeadlyRate));
             if (RandomHelper.RandomCritRate(deadlyRate))
@@ -73,7 +73,7 @@ namespace Game
                 int deadlyDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.DeadlyDamage) + skill.DeadlyDamage);
                 atk *= (1 + deadlyDamage / 100.0);
 
-                type = MsgType.Crit;
+                dr.IsDeadly = true;
             }
 
             //暴击
@@ -83,7 +83,7 @@ namespace Game
                 long critDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritDamage) + skill.CritDamage - enemy.CalBattleTotalAttr(AttributeEnum.CritDamageResist));
                 atk *= (1 + critDamage / 100.0);
 
-                type = MsgType.Crit;
+                dr.IsCrit = true;
             }
 
             //特殊增伤
@@ -121,19 +121,87 @@ namespace Game
                 atk *= mdi;
             }
 
+            //减伤倍率
             double mdr = enemy.CalBattleTotalAttr(AttributeEnum.MulDamageResist);
             if (mdr > 1)
             {
                 atk = atk / mdr;
             }
 
-
-            //减伤倍率
-
             //Debug.Log("attack:" + StringHelper.FormatNumber(attack));
 
-            //强制最少1点伤害
-            return new DamageResult(Math.Max(1, atk), 0, type, (RoleType)role, skill.SkillId); //
+            dr.Damage = Math.Max(1, atk);             //强制最少1点伤害
+            dr.ExtendDamage = 0;
+            dr.RoleType = (RoleType)role;
+            dr.SkillId = skill.SkillId;
+            dr.FromId = 0;
+            dr.Type = (dr.IsCrit || dr.IsDeadly) ? MsgType.Crit : MsgType.Damage;
+
+            DoBuff(attcher, enemy, dr);
+
+            return dr;
+        }
+
+        public static void DoBuff(AttributeBonus attcher, AttributeBonus enemy, DamageResult dr)
+        {
+            int bf1_rate = (int)attcher.CalBattleSingleAdd(AttributeEnum.Buff1_Rate);
+            if (bf1_rate > 0)
+            {
+                if (RandomHelper.RandomCritRate(bf1_rate))
+                {
+                    double bf1_vue = 1 + attcher.CalBattleSingleAdd(AttributeEnum.Buff1_Vue) / 100.0;
+                    dr.Damage *= bf1_vue;
+                }
+            }
+
+            if (dr.IsCrit)
+            {
+                double bf2_vue = attcher.CalBattleSingleAdd(AttributeEnum.Buff2_Vue);
+                if (bf2_vue > 0)
+                {
+                    dr.Damage *= 1 + bf2_vue / 100.0;
+                }
+            }
+
+            double bf3_vue1 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue1);
+            if (bf3_vue1 > 0)
+            {
+                double bf3_vue2 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue2);
+                double bf3_vue3 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue3);
+                double bf3_vue4 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue4);
+                double bf3_vue5 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue5);
+
+                int rd = RandomHelper.RandomNumber(0, 1000);
+                if (rd < 1)
+                {
+                    dr.Damage *= 1 + (bf3_vue1) / 100.0;
+                }
+                else if (rd < 11)
+                {
+                    dr.Damage *= 1 + bf3_vue2 / 100.0;
+                }
+                else if (rd < 111)
+                {
+                    dr.Damage *= 1 + bf3_vue3 / 100.0;
+                }
+                else if (rd < 511)
+                {
+                    dr.Damage *= 1 + bf3_vue4 / 100.0;
+                }
+                else
+                {
+                    dr.Damage *= Math.Max(1 - bf3_vue5 / 100.0, 0);
+                }
+            }
+
+            if (dr.IsDeadly)
+            {
+                double bf4_vue = attcher.CalBattleSingleAdd(AttributeEnum.Buff4_Vue);
+                if (bf4_vue > 0)
+                {
+                    dr.Damage *= 1 + bf4_vue / 100.0;
+                }
+            }
         }
 
         public static double CalLuckyRate(int lucky)
@@ -198,6 +266,10 @@ namespace Game
 
     public class DamageResult
     {
+        public DamageResult()
+        {
+        }
+
         public DamageResult(double damage, double extendDamage, MsgType type, RoleType roleType, int skillId)
         {
             this.Damage = damage;
@@ -223,5 +295,9 @@ namespace Game
         public int FromId { get; set; }
 
         public int SkillId { get; set; }
+
+        public bool IsCrit { get; set; }
+
+        public bool IsDeadly { get; set; }
     }
 }

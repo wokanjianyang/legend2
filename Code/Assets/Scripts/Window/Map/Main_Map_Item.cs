@@ -56,6 +56,17 @@ public class Main_Map_Item : MonoBehaviour
 
     private void OnClick_Start()
     {
+        long ns = TimeHelper.ClientNowSeconds();
+        if (ns - AppHelper.ChangeMapTime < 5)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请稍后点击，间隔少于5秒", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+        else
+        {
+            AppHelper.ChangeMapTime = ns;
+        }
+
         var dialog = this.GetComponentInParent<Main_Map_Dialog>();
         dialog.gameObject.SetActive(false);
 

@@ -74,7 +74,8 @@ namespace Game
                 return 1;
             }
 
-            if (mapConfig.BossId > 0 && !AppHelper.Boss && RandomHelper.RandomDropRate(1000))  //40000，区域boss刷新概率
+            int maxRate = 10000 + mapConfig.GroupId * 1000;
+            if (mapConfig.BossId > 0 && !AppHelper.Boss && RandomHelper.RandomDropRate(maxRate))  //40000，区域boss刷新概率
             {
                 AppHelper.Boss = true;
                 return 6;

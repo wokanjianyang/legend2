@@ -410,9 +410,9 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, attrKey++, 50);
 
             //等级属性,攻击倍率，生命倍率，等级*1%
-            AttributeBonus.SetAttr(AttributeEnum.MulAtk, attrKey++, Level * 1);
-            AttributeBonus.SetAttr(AttributeEnum.MulDef, attrKey++, Level * 1);
-            AttributeBonus.SetAttr(AttributeEnum.MulHp, attrKey++, Level * 1);
+            AttributeBonus.SetAttr(AttributeEnum.RateAtk, attrKey++, Level * 1);
+            AttributeBonus.SetAttr(AttributeEnum.RateDef, attrKey++, Level * 1);
+            AttributeBonus.SetAttr(AttributeEnum.RateHp, attrKey++, Level * 1);
 
             if (ConfigHelper.EnvTest == 2)
             {

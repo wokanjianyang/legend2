@@ -16,8 +16,6 @@ namespace Game
 
         private MapConfig mapConfig;
 
-        private List<BossLog> logs = new List<BossLog>();
-
         public BattleRule_Normal()
         {
             mapConfig = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
@@ -28,9 +26,12 @@ namespace Game
                 List<BossConfig> configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id <= mapConfig.BossId).ToList();
                 foreach (BossConfig config in configs)
                 {
-                    BossLog log = new BossLog(config.Id, config.Rate);
-
-                    logs.Add(log);
+                    BossLog log = AppHelper.BossLogs.Where(m => m.BossId == config.Id).FirstOrDefault();
+                    if (log == null)
+                    {
+                        log = new BossLog(config.Id, config.Rate);
+                        AppHelper.BossLogs.Add(log);
+                    }
                 }
             }
         }
@@ -58,7 +59,7 @@ namespace Game
             if (roundNum % BossLog.TimeNumber <= 1)
             { //每刷新100个怪，判定一次刷新boss
 
-                foreach (var sp in logs)
+                foreach (var sp in AppHelper.BossLogs)
                 {
                     if (sp.RandomRefresh())
                     {
@@ -90,6 +91,14 @@ namespace Game
             if (this.Total < 100)  //前100个怪只有白色
             {
                 return 1;
+            }
+
+            foreach (var sp in AppHelper.BossLogs)
+            {
+                if (sp.BossId <= mapConfig.BossId)
+                {
+                    sp.Count += 20; //20倍测试
+                }
             }
 
             int rd = RandomHelper.RandomNumber(1, 5000);
@@ -146,8 +155,6 @@ namespace Game
 
         public bool RandomRefresh()
         {
-            this.Count += TimeNumber;
-
             Debug.Log("boss count：" + Count);
 
             if (AppHelper.Boss) //已经刷新了，不再刷新
@@ -167,7 +174,7 @@ namespace Game
                 return true;
             }
 
-            if (RandomHelper.RandomNumber(0, this.Rate) <= 0)
+            if (RandomHelper.RandomNumber(0, this.Rate) < TimeNumber)
             {
                 AppHelper.Boss = true;
                 this.Count = 0;

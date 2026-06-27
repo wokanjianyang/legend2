@@ -140,7 +140,7 @@ namespace Game
             //Log.Info("Boss :" + this.ToString() + " dead");
             if (RuleType != RuleType.MainStage)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 20; i++)
                 {
                     BuildReword();
                 }

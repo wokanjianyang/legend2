@@ -322,7 +322,7 @@ public class Dialog_AD : MonoBehaviour
         User user = User_Data_Manager.Data;
 
         //发放奖励
-        double gold = 100 * 10000;
+        double gold = 200 * 10000;
 
         double atRate = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea);
         atRate = 1 + atRate / 100.0;
@@ -349,7 +349,7 @@ public class Dialog_AD : MonoBehaviour
     {
         User user = User_Data_Manager.Data;
 
-        int number = 1000;
+        int number = 2000;
 
         double mapRate = 1 + GetMapRate(user.MapId);
 

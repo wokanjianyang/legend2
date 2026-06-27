@@ -159,35 +159,55 @@ namespace Game
         }
 
         /// <summary>
-        /// 按指数级概率生成随机数
+        /// 按10的指数级概率生成随机数，uperr必须小于5,lower必须等于1
         /// </summary>
         /// <param name="lower"></param>
         /// <param name="upper"></param>
         /// <returns></returns>
         public static int RandomPowNumber(int lower, int upper)
         {
-            int max = (int)Math.Pow(2, upper);
-            int value = random.Next(lower, max);
+            int[] array = new int[upper - lower + 1];
+            int k = 1;
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = k;
+                k *= 10;
+            }
 
-            int p = (int)Math.Log(value, 2) + 1;
-            return p;
+
+            int t = RandomNumber(array[0], array[array.Length - 1] + 1);
+            int index = Array.BinarySearch(array, t);
+
+            if (index < 0)
+            {
+                index = ~index;
+            }
+
+            return array.Length - index;
         }
-
+        
+        /// <summary>
+        /// 按线性概率生成随机，50-100的话，100的概率大概7/1000,
+        /// </summary>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <returns></returns>
         public static int RandomSerialNumber(int lower, int upper)
         {
-            int max = upper * (upper + 1) / 2;
-            int value = random.Next(lower, max + 1);
+            int min = lower * lower - lower;
+            int max = upper * upper;
+            int value = random.Next(min, max + 1);
 
-            for (int i = 1; i < upper; i++)
+            for (int i = lower; i <= upper; i++)
             {
-                int m = i * (i + 1) / 2;
+                int m = i * i;
                 if (value <= m)
                 {
-                    return i;
+                    return upper + lower - i;
                 }
             }
 
-            return upper;
+            return lower;
         }
 
 

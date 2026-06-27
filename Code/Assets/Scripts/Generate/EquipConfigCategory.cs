@@ -63,7 +63,7 @@ namespace Game
             Equip item = new Equip(config.Id, 0, 0, config.Quality);
 
             int lgId = item.Config.LegendId;
-            int lgFlair = RandomHelper.RandomSerialNumber(50, 100);
+            int lgFlair = seed > 0 ? 50 : RandomHelper.RandomNumber(50, 100 + 1);
 
             item.LegendData = new KeyValuePair<int, int>(lgId, lgFlair);
 

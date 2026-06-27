@@ -55,7 +55,7 @@ namespace Game
             GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
 
 
-            if (roundNum % BossLog.TimeNumber == 1)
+            if (roundNum % BossLog.TimeNumber <= 1)
             { //每刷新100个怪，判定一次刷新boss
 
                 foreach (var sp in logs)
@@ -92,13 +92,6 @@ namespace Game
                 return 1;
             }
 
-            int maxRate = 10000 + mapConfig.GroupId * 1000;
-            if (mapConfig.BossId > 0 && !AppHelper.Boss && RandomHelper.RandomDropRate(maxRate))  //40000，区域boss刷新概率
-            {
-                AppHelper.Boss = true;
-                return 6;
-            }
-
             int rd = RandomHelper.RandomNumber(1, 5000);
             if (rd < 1)
             {
@@ -125,7 +118,7 @@ namespace Game
 
     public class BossLog
     {
-        public static int TimeNumber = 100;
+        public static int TimeNumber = 20;
 
         public BossLog(int bossId, int rate)
         {

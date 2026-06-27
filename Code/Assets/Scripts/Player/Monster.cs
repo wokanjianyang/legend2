@@ -184,7 +184,10 @@ namespace Game
         {
             //Log.Info("Monster :" + this.ToString() + " dead");
 
-            BuildReword();
+            for (int i = 0; i < 10; i++)
+            {
+                BuildReword();
+            }
 
             //´æµµ
             //UserData.Save();

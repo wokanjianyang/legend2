@@ -178,18 +178,21 @@ namespace Game
                     {
                         User_Data_Manager.Data.LastSaveTime = ct;
 
-                        string param = NetworkHelper.BuildUpdateParam(User_Data_Manager.Data);
+                        if (User_Data_Manager.Data.Account != "")
+                        {
+                            string param = NetworkHelper.BuildUpdateParam(User_Data_Manager.Data);
 
-                        StartCoroutine(NetworkHelper.UpdateInfo(param,
-                                (WebResultWrapper result) =>
-                                {
-                                    if (result.Code == StatusMessage.OK)
+                            StartCoroutine(NetworkHelper.UpdateInfo(param,
+                                    (WebResultWrapper result) =>
                                     {
-                                        //Debug.Log("update info success");
-                                    }
-                                },
-                               null));
-                        return;
+                                        if (result.Code == StatusMessage.OK)
+                                        {
+                                            //Debug.Log("update info success");
+                                        }
+                                    },
+                                   null));
+                            return;
+                        }
                     }
 
                 }

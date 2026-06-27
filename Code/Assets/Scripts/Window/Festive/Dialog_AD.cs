@@ -340,6 +340,7 @@ public class Dialog_AD : MonoBehaviour
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
+            Important = 1,
             Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", 0, gold, null)
         });
     }
@@ -366,6 +367,7 @@ public class Dialog_AD : MonoBehaviour
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
+            Important = 1,
             Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", 0, 0, items)
         });
     }
@@ -396,6 +398,7 @@ public class Dialog_AD : MonoBehaviour
 
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
+            Important = 1,
             Message = BattleMsgHelper.BuildGiftPackMessage("广告奖励", 0, 0, items)
         });
     }

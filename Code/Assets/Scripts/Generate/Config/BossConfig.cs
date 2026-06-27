@@ -138,6 +138,9 @@ namespace Game
 		/// <summary>掉落金币</summary>
 		[ProtoMember(21)]
 		public long Gold { get; set; }
+		/// <summary>Rate</summary>
+		[ProtoMember(22)]
+		public int Rate { get; set; }
 
 	}
 }

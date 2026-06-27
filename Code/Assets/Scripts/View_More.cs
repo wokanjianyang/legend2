@@ -61,20 +61,41 @@ namespace Game
         {
             this.ItemBoss.gameObject.SetActive(true);
         }
-        private void OnClick_Legacy()
-        {
-            this.ItemLegacy.gameObject.SetActive(true);
-        }
 
         private void OnClick_Babel()
         {
+            User user = User_Data_Manager.Data;
+            if (user.MagicLevel.Data < 25)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "25级才解锁", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
             this.ItemBabel.gameObject.SetActive(true);
         }
 
         private void OnClick_Defend()
         {
+            User user = User_Data_Manager.Data;
+            if (user.MagicLevel.Data < 30)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "30级才解锁", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
             this.ItemDefend.Show();
         }
+        private void OnClick_Legacy()
+        {
+            User user = User_Data_Manager.Data;
+            if (user.MagicLevel.Data < 35)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "35级才解锁", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+            this.ItemLegacy.gameObject.SetActive(true);
+        }
+
         public void HideItem()
         {
             this.scrollRect.gameObject.SetActive(false);

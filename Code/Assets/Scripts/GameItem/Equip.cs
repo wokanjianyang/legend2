@@ -188,14 +188,14 @@ namespace Game
         public IDictionary<int, double> GetTotalAttrList()
         {
             long basePercent = 100;
-            long qualityPercent = 100;
+            long randomPercent = 100;
 
             long level = this.RefineLevel.Data;
             if (level > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(Config.Part);
                 basePercent += refineConfig.GetRisePercent(level, 1);
-                qualityPercent += refineConfig.GetRisePercent(level, 3);
+                randomPercent += refineConfig.GetRisePercent(level, 2);
             }
 
             //根据基础属性和词条属性，计算总属性
@@ -217,7 +217,7 @@ namespace Game
             {
                 int attrId = AttrEntryList[i].Key;
                 long attrTotalValue = AttrEntryList[i].Value;
-                attrTotalValue = attrTotalValue * qualityPercent / 100;
+                attrTotalValue = attrTotalValue * randomPercent / 100;
 
                 if (!AttrList.ContainsKey(attrId))
                 {

@@ -122,14 +122,14 @@ namespace Game
             this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, equip.Config.LevelRequired);
 
             long basePercent = 0;
-            long qualityPercent = 0;
+            long randomPercent = 0;
 
             long refineLevel = equip.RefineLevel.Data;
             if (refineLevel > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(equip.Config.Part);
                 basePercent = refineConfig.GetRisePercent(refineLevel, 1);
-                qualityPercent = refineConfig.GetRisePercent(refineLevel, 3);
+                randomPercent = refineConfig.GetRisePercent(refineLevel, 2);
             }
 
             IDictionary<int, double> BaseAttrList = equip.GetBaseAttrList();
@@ -186,9 +186,9 @@ namespace Game
                     {
                         int attrId = AttrEntryList[index].Key;
                         long attrBaseValue = AttrEntryList[index].Value;
-                        long attrRiseValue = (attrBaseValue) * qualityPercent / 100;
+                        long attrRiseValue = (attrBaseValue) * randomPercent / 100;
 
-                        child.GetComponent<Text>().text = FormatAttrText(attrId, attrBaseValue, qualityPercent);
+                        child.GetComponent<Text>().text = FormatAttrText(attrId, attrBaseValue, randomPercent);
                         child.gameObject.SetActive(true);
                     }
                     else

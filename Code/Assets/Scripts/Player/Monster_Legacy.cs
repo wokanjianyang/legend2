@@ -207,8 +207,7 @@ public class Monster_Legacy : APlayer
     private int RandomPart()
     {
         int part = MathHelper.RandomArrayIndex(rates1, 1);
-        int role = RandomHelper.RandomNumber(0, 3);
 
-        return part + role * 8;
+        return part + (this.Role - 1) * 8;
     }
 }

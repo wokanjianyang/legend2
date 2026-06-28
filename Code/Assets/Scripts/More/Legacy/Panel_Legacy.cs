@@ -256,7 +256,7 @@ public class Panel_Legacy : MonoBehaviour
         }
 
         long fee2 = config.GetFee2(nextLevel);
-        long mc = user.GetMaterialCount(ItemHelper.Equip_Refine);
+        long mc = user.GetMaterialCount(ItemHelper.Legacy_Stone);
 
         if (mc < fee2)
         {

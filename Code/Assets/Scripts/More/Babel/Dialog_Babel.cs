@@ -136,6 +136,8 @@ public class Dialog_Babel : MonoBehaviour
 
     public void OnClick_Start()
     {
+        this.gameObject.SetActive(false);
+
         User user = User_Data_Manager.Data;
 
         if (user.BabelData.Count <= 0)

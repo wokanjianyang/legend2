@@ -90,6 +90,9 @@ namespace Game
 
         private void OnClick_Start()
         {
+            Dialog_Defend dlg = this.GetComponentInParent<Dialog_Defend>();
+            dlg.gameObject.SetActive(false);
+
             AppHelper.DefendLevel = Level;
 
             User user = User_Data_Manager.Data;

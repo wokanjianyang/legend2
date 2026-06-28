@@ -85,7 +85,10 @@ public class Panel_Strengthen : MonoBehaviour
         //Log.Debug("ShowStrengthInfo");
 
         User user = User_Data_Manager.Data;
-        long MaxLevel = Math.Min(EquipStrengthFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data);
+
+        long MaxLevel = Math.Min(EquipStrengthFeeConfigCategory.Instance.GetMaxLevel(), user.MagicLevel.Data - 10);
+        MaxLevel = Math.Max(10, MaxLevel); //最低10级，不能超过配置，人物等级-10
+
         long currentLevel = user.GetStrengthLevel(SelectPosition);
 
         items[SelectPosition - 1].SetLevel(currentLevel);

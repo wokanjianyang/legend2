@@ -20,17 +20,17 @@ namespace Game
                 role = RandomHelper.RandomNumber(1, 4);
             }
 
-            return this.BuildPet(id, role, quality);
+            return this.BuildPet(id, role, quality, 0);
         }
 
         public Pet BuildOfflinePet(int id, int quality)
         {
             int role = RandomHelper.RandomNumber(1, 4);
 
-            return this.BuildPet(id, role, quality);
+            return this.BuildPet(id, role, quality, 1);
         }
 
-        private Pet BuildPet(int id, int role, int quality)
+        private Pet BuildPet(int id, int role, int quality, int offline)
         {
             Pet pet = new Pet(id, role);
 
@@ -45,7 +45,7 @@ namespace Game
 
             if (quality >= 5)
             {
-                List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, role, quality);
+                List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, role, quality,offline);
 
                 pet.TraitList.AddRange(traits);
             }
@@ -198,7 +198,7 @@ namespace Game
 
                 SkillConfig config = temps[index - 1];
 
-                int level = 11 - RandomHelper.RandomPowNumber(1, 10) + quality / 2;
+                int level = RandomHelper.RandomSerialNumber(1, 8) + quality / 2;
 
                 skills.Add(new KeyValuePair<int, int>(config.SkillId, level));
                 ids.Add(config.SkillId);

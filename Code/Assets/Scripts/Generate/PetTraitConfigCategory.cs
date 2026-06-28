@@ -18,7 +18,7 @@ namespace Game
             return tt;
         }
 
-        public List<PetTrait> BuildTraitList(int petId, int role, int quality)
+        public List<PetTrait> BuildTraitList(int petId, int role, int quality, int offline)
         {
             List<PetTraitConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartPetId <= petId && petId <= m.EndPetId
             && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
@@ -37,7 +37,7 @@ namespace Game
 
                 int level = RandomHelper.RandomNumber(1, maxLevel + 1);
 
-                if (RandomHelper.RandomDropRate(100))
+                if (offline == 0 && RandomHelper.RandomDropRate(100)) //离线才能变异
                 {
                     level++;
                 }

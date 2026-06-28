@@ -11,14 +11,16 @@ public class Monster_Legacy : APlayer
 
     int Role = 0;
     int Layer = 0;
+    int Type = 0;
 
-    public Monster_Legacy(int layer)
+    public Monster_Legacy(int layer, int type)
     {
         this.GroupId = 2;
         this.Role = RandomHelper.RandomNumber(1, 4);
         this.FashionId = (layer / 3 + this.Role) % 72 + 1;
         this.Layer = layer;
         this.Quality = 3;
+        this.Type = type;
 
         MonsterConfig = MonsterLegacyConfigCategory.Instance.GetByRole(Role);
 
@@ -68,34 +70,24 @@ public class Monster_Legacy : APlayer
 
     private void SetAttr()
     {
-        double attrRate = Layer;
-        double advanceRate = Layer;
+        double riseHp = Math.Pow(MonsterConfig.HpRise, Layer - 1);
+        double riseDef = Math.Pow(MonsterConfig.DefRise, Layer - 1);
+        double riseAkt = Math.Pow(MonsterConfig.AtkRise, Layer - 1);
+
+        double riseRate = Math.Pow(2, Type);
 
         //Debug.Log("attrRate:" + attrRate);
         //Debug.Log("advanceRate:" + advanceRate);
-        User user = User_Data_Manager.Data;
 
-        int layerRise = (int)(user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.LegacyDamage));
-        layerRise = (this.Layer - 1) * 3 - layerRise;
+        double atk = double.Parse(MonsterConfig.Atk) * riseAkt;
+        double hp = double.Parse(MonsterConfig.HP) * riseHp;
+        double def = double.Parse(MonsterConfig.Def) * riseDef;
 
-        double attr = double.Parse(MonsterConfig.Attr) * attrRate;
-        double hp = double.Parse(MonsterConfig.HP) * attrRate;
-        double def = double.Parse(MonsterConfig.Def) * attrRate;
-
-
-        AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, hp);
-        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, attr);
-        AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, attr);
-        AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, attr);
-        AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, def);
-
-        if (layerRise > 0)  //(如果玩家的套装等级等于怪物等级，则给怪增加30%*差距的免伤倍率)
-        {
-            //Debug.Log("legacy layerRise:" + layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.IncreaAtk, AttributeFrom.ConfigBase, 30 * layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, 30 * layerRise);
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, 30 * layerRise);
-        }
+        AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, hp * riseRate);
+        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, atk * riseRate);
+        AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, atk * riseRate);
+        AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, atk * riseRate);
+        AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, def * riseRate);
 
         double MaxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
         SetHP(MaxHP);
@@ -103,7 +95,10 @@ public class Monster_Legacy : APlayer
 
     private void MakeReward(DeadRewarddEvent dead)
     {
-        BuildReward();
+        for (int i = 0; i < ConfigHelper.TestRate; i++)
+        {
+            BuildReward();
+        }
     }
 
     private void BuildReward()

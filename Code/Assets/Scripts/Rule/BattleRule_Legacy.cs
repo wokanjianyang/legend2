@@ -9,6 +9,7 @@ public class BattleRule_Legacy : ABattleRule
 {
     private bool Start = false;
 
+    private int Type = 0;
     private int Layer = 0;
 
     private double MapTime = 0;
@@ -19,14 +20,17 @@ public class BattleRule_Legacy : ABattleRule
     public BattleRule_Legacy(Dictionary<string, object> param)
     {
         param.TryGetValue("MapTime", out object mapTime);
-        param.TryGetValue("Layer", out object layer);
+        param.TryGetValue("MapId", out object type);
 
         this.MapTime = (long)mapTime;
-        this.Layer = (int)layer;
+        this.Type = (int)type;
+
 
         Start = true;
 
         User user = User_Data_Manager.Data;
+
+        this.Layer = user.GetLegacyCurrentSet();
         user.LegacyData.Time.Data -= 3;
 
         MapTime = 0;
@@ -71,7 +75,7 @@ public class BattleRule_Legacy : ABattleRule
             return;
         }
 
-        var enemy = new Monster_Legacy(Layer);
+        var enemy = new Monster_Legacy(Layer, Type);
         GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
 
     }

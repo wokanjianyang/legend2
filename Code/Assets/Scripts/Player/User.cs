@@ -1435,6 +1435,17 @@ namespace Game
             return (int)LegacyLayer.Where(m => m.Key >= startPart && m.Key <= endPart).Select(m => m.Value.Data).Min();
         }
 
+        public int GetLegacyCurrentSet() {
+
+            int r1 = GetLegacySetLayer(1);
+            int r2 = GetLegacySetLayer(2);
+            int r3 = GetLegacySetLayer(3);
+
+            int currentLayer = MathHelper.GetMiddleNumber(r1, r2, r3) + 1;
+
+            return currentLayer;
+        }
+
 
         public int GetLegacyLayer(int keyId)
         {

@@ -97,7 +97,7 @@ namespace Game
             {
                 Dictionary<string, object> param = new Dictionary<string, object>();
                 param.Add("MapTime", TimeHelper.ClientNowSeconds());
-                param.Add("Layer", e.MapId);
+                param.Add("MapId", e.MapId);
 
                 GameProcessor.Inst.DelayAction(0.1f, () =>
                 {

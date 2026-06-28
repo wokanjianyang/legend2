@@ -92,22 +92,22 @@ namespace Game
 		public int EndLevel { get; set; }
 		/// <summary>Atk</summary>
 		[ProtoMember(6)]
-		public string Attr { get; set; }
+		public string Atk { get; set; }
 		/// <summary>AtkRise</summary>
 		[ProtoMember(7)]
-		public string AtkRise { get; set; }
+		public double AtkRise { get; set; }
 		/// <summary>Def</summary>
 		[ProtoMember(8)]
 		public string Def { get; set; }
 		/// <summary>DefRise</summary>
 		[ProtoMember(9)]
-		public string DefRise { get; set; }
+		public double DefRise { get; set; }
 		/// <summary>HP</summary>
 		[ProtoMember(10)]
 		public string HP { get; set; }
 		/// <summary>HpRise</summary>
 		[ProtoMember(11)]
-		public string HpRise { get; set; }
+		public double HpRise { get; set; }
 		/// <summary>LegacyResist</summary>
 		[ProtoMember(12)]
 		public int LegacyResist { get; set; }

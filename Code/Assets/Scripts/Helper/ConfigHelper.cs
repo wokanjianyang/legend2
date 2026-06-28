@@ -120,5 +120,7 @@ namespace Game
         public const int OfflineTime = 60 * 2;
 
         public const int SkillBoxExp = 500;
+
+        public const int TestRate = 20;
     }
 }

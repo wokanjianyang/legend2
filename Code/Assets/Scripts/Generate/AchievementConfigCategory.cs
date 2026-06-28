@@ -69,6 +69,7 @@ namespace Game
         EquipTotal = 201, //累计获取装备数量
         EquipRefine = 202, //精炼等级
         EquipStrong = 203, //强化等级
+        LegacyStrong = 204, //传世强化等级
         StageCount = 300, //闯关数
         MonsterKillTotal = 301, //累计杀敌数量
         MonsterKill1 = 302, //累计白怪数量

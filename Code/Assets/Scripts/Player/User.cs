@@ -973,6 +973,9 @@ namespace Game
                 case AchievementProType.Advert:
                     progress = this.Record.Data.Data;
                     break;
+                case AchievementProType.LegacyStrong:
+                    progress = this.LegacyLevel.Select(m => m.Value.Data).Sum();
+                    break;
                 case AchievementProType.EquipStrong:
                     progress = this.MagicEquipStrength.Select(m => m.Value.Data).Sum();
                     break;

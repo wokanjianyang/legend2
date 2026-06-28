@@ -35,7 +35,7 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-           
+
         }
 
         public void Show()
@@ -51,6 +51,9 @@ namespace Game
         {
             this.Config = config;
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.Quality), Config.Name);
+
+            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(Config.ItemId);
+            this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(itemConfig.LogoId);
 
             this.Show();
         }

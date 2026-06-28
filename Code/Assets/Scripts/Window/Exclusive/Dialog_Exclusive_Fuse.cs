@@ -57,7 +57,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         if (config.TalentId == 0)
         {
-            Txt_Talent.text = "没有特殊效果";
+            Txt_Talent.text = config.Des;
         }
         else
         {

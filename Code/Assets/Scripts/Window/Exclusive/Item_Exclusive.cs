@@ -71,9 +71,17 @@ namespace Game
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.Quality), Config.Name);
             this.Txt_Desc.text = Config.Des;
 
-            for (int i = 0; i < config.AtrIdList.Length; i++)
+            for (int i = 0; i < Txt_Atr_List.Count; i++)
             {
-                this.Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i], "+");
+                if (i < config.AtrIdList.Length)
+                {
+                    this.Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i], "+");
+                    this.Txt_Atr_List[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    this.Txt_Atr_List[i].gameObject.SetActive(false);
+                }
             }
 
             this.Show();

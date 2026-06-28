@@ -21,17 +21,15 @@ namespace Game
             mapConfig = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
             AppHelper.Boss = false;
 
-            if (mapConfig.BossId > 0)
+
+            List<BossConfig> configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id <= mapConfig.BossId || m.Id < mapConfig.GroupId).ToList();
+            foreach (BossConfig config in configs)
             {
-                List<BossConfig> configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id <= mapConfig.BossId).ToList();
-                foreach (BossConfig config in configs)
+                BossLog log = AppHelper.BossLogs.Where(m => m.BossId == config.Id).FirstOrDefault();
+                if (log == null)
                 {
-                    BossLog log = AppHelper.BossLogs.Where(m => m.BossId == config.Id).FirstOrDefault();
-                    if (log == null)
-                    {
-                        log = new BossLog(config.Id, config.Rate);
-                        AppHelper.BossLogs.Add(log);
-                    }
+                    log = new BossLog(config.Id, config.Rate);
+                    AppHelper.BossLogs.Add(log);
                 }
             }
         }

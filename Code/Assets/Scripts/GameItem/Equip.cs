@@ -330,6 +330,11 @@ namespace Game
 
         public override int GetBagType()
         {
+            if (Config.Cycle >= 10)
+            {
+                return 3;
+            }
+
             return Config.Role - 1;
         }
 

@@ -14,7 +14,11 @@ namespace Game
 
         public long CalRequire(AchievementConfig config, int level)
         {
-            if (config.ConRiseType == 1)
+            if (config.ConRiseType == 0)
+            {
+                return 0;
+            }
+            else if (config.ConRiseType == 1)
             {
                 return config.Condition + (level - 1) * config.CondRiseVue;
             }
@@ -29,6 +33,32 @@ namespace Game
 
 
             return long.MaxValue;
+        }
+
+        public int RandomKillType(int type)
+        {
+            User user = User_Data_Manager.Data;
+
+            List<AchievementConfig> list = this.list.Where(m => m.ConType == type).ToList();
+
+            List<int> ids = new List<int>();
+
+            foreach (AchievementConfig config in list)
+            {
+                int achLevel = user.GetAchievementLevel(config.Id);
+                if (achLevel < config.Max)
+                {
+                    ids.Add(config.Id);
+                }
+            }
+
+            if (ids.Count > 0)
+            {
+                int index = RandomHelper.RandomNumber(0, ids.Count);
+                return ids[index];
+            }
+
+            return 0;
         }
     }
     public partial class AchievementConfig

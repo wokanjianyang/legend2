@@ -228,6 +228,24 @@ namespace Game
             {
                 GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
+
+
+            //∏≈¬ ªÒ»°≤ µ∞
+            if (RandomHelper.RandomNumber(0, 100) <= 0)
+            {
+                int achId = AchievementConfigCategory.Instance.RandomKillType(10002);
+                if (achId > 0)
+                {
+                    user.AddAchievementLevel(achId);
+
+                    GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                    {
+                        Type = RuleType,
+                        Important = 1,
+                        Message = BattleMsgHelper.BuildAchKillType(achId)
+                    });
+                }
+            }
         }
     }
 }

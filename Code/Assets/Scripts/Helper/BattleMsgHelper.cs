@@ -106,8 +106,20 @@ namespace Game
 
             foreach (Item item in itemList)
             {
-                message += $"<color=#{QualityConfigHelper.GetQualityColor(item.GetQuality())}>[{item.GetName()}]</color>" ;
+                message += $"<color=#{QualityConfigHelper.GetQualityColor(item.GetQuality())}>[{item.GetName()}]</color>";
             }
+
+            return message;
+        }
+
+        public static string BuildAchKillType(int id)
+        {
+            string message = "天降洪福，您击杀怪物获得一个神秘的彩蛋，打开获取成就：";
+
+            AchievementConfig config = AchievementConfigCategory.Instance.Get(id);
+
+            message += $"<color=#{QualityConfigHelper.GetQualityColor(5)}>[{config.Name}]</color>";
+
 
             return message;
         }

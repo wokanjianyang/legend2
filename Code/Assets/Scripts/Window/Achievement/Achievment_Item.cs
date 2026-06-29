@@ -77,7 +77,7 @@ public class Achievment_Item : MonoBehaviour
             return;
         }
 
-        if (progress >= require)
+        if (progress >= require && require>0)
         {
             Btn_Active.gameObject.SetActive(true);
         }

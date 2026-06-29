@@ -99,11 +99,14 @@ namespace Game
 		/// <summary>SpeAtrVue</summary>
 		[ProtoMember(8)]
 		public int SpeAtrVue { get; set; }
-		/// <summary>BaseFee</summary>
+		/// <summary>SpeRequire</summary>
 		[ProtoMember(9)]
+		public int SpeRequire { get; set; }
+		/// <summary>BaseFee</summary>
+		[ProtoMember(10)]
 		public int BaseFee { get; set; }
 		/// <summary>MaxLevel</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public int MaxLevel { get; set; }
 
 	}

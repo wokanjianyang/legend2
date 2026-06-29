@@ -36,11 +36,12 @@ namespace Game
 
         public int CalNextExp(int exp)
         {
-            foreach (int nx in exps)
+            foreach (int e in exps)
             {
+                int nx = e * this.BaseFee;
                 if (nx > exp)
                 {
-                    return nx * this.BaseFee;
+                    return nx;
                 }
             }
 

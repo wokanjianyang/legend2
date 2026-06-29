@@ -36,6 +36,9 @@ namespace Game
         public Dictionary<int, bool> EquipRole { get; private set; } = new Dictionary<int, bool>();
 
 
+        //图鉴
+        public int CardEquipLevel { get; set; } = 0;
+
         //传奇装备
         public int LegendLevel { get; set; } = 0;
 
@@ -63,7 +66,7 @@ namespace Game
             {
                 Equip equip = item as Equip;
 
-                if (equip.Layer > 1)
+                if (equip.Layer > 1 || equip.RefineLevel.Data > 0)
                 {
                     return false;
                 }
@@ -215,6 +218,44 @@ namespace Game
                 {
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        public bool CheckAutuCard(Item item)
+        {
+
+            if (item.IsLock)
+            {
+                return false;
+            }
+
+            User user = User_Data_Manager.Data;
+
+            if (item.GetItemType() == ItemType.Equip)
+            {
+                Equip equip = item as Equip;
+
+                if (equip.Layer > 1 || equip.RefineLevel.Data > 0 || equip.Level > this.CardEquipLevel)
+                {
+                    return false;
+                }
+
+                int cycle = equip.Config.Cycle;
+
+                if (cycle == 1)
+                {
+                    //普通回收
+                    if (equip.Config.CardId > 0 && equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.Config.CardId))
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if (item.GetItemType() == ItemType.Pet)
+            {
+
             }
 
             return false;

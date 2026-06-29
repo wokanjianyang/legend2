@@ -199,6 +199,18 @@ namespace Game
                 items.AddRange(ItemHelper.BurstMulNew(items, itemCount, qualityRise));
             }
 
+            //首先提交图鉴
+            List<Item> cardList = user.AutoToCard(items);
+            if (cardList.Count > 0 && showMessage)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                {
+                    Type = RuleType,
+                    Important = 1,
+                    Message = BattleMsgHelper.BuildAutoCardMessage(cardList)
+                });
+            }
+
             //先回收
             List<Item> recoveryList = user.CheckRecovery(items, out long recoveryGold, out int recoveryCount);
             if (recoveryCount > 0 && showMessage)

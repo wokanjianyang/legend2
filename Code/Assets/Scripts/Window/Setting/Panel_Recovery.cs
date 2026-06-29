@@ -36,6 +36,9 @@ namespace Game
         [Title("传奇装备")]
         public InputField if_Legend_Level;
 
+        [Title("自动图鉴")]
+        public InputField if_Card_EquipLevel;
+
         [Title("其他")]
         public Dropdown dp_Pet;
         public InputField ifSpeicalLevel;
@@ -140,6 +143,7 @@ namespace Game
 
             if_EquipLevel.text = setting.EquipLevel.ToString();
 
+            if_Card_EquipLevel.text = setting.CardEquipLevel.ToString();
 
             foreach (int key in setting.EquipRole.Keys)
             {
@@ -207,6 +211,10 @@ namespace Game
                 setting.EquipRole[i + 1] = equipRoleToggles[i].isOn;
             }
 
+
+            //图鉴提交
+            int.TryParse(if_EquipLevel.text, out int cardEquipLevel);
+            setting.CardEquipLevel = cardEquipLevel;
 
 
             //传奇装备

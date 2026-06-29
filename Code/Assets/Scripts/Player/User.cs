@@ -566,7 +566,7 @@ namespace Game
                             AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i] * level);
                         }
 
-                        if (level >= config.MaxLevel)
+                        if (level >= config.SpeRequire)
                         {
                             AttributeBonus.SetAttr((AttributeEnum)(config.SpeAtrId), attrKey++, config.SpeAtrVue);
                         }
@@ -1719,6 +1719,35 @@ namespace Game
 
 
             return newList;
+        }
+
+        public List<Item> AutoToCard(List<Item> items)
+        {
+            
+            List<Item> cardList = items.Where(m => RecoverySet.CheckAutuCard(m)).ToList();
+
+            if (cardList.Count > 0)
+            {
+                items.RemoveAll(m => RecoverySet.CheckAutuCard(m));
+
+                foreach (var sp in cardList)
+                {
+                    if (sp.GetItemType() == ItemType.Equip)
+                    {
+                        Equip equip = sp as Equip;
+
+                        this.CardRecord[equip.Config.CardId] += 1;
+                    }
+                    else if (sp.GetItemType() == ItemType.Pet) {
+
+                        Pet pet = sp as Pet;
+
+                        this.CardRecord[pet.Config.CardId] += 1;
+                    }
+                }
+            }
+
+            return cardList;
         }
 
         public bool CheckKeepSkill(int skillId, int skillLayer)

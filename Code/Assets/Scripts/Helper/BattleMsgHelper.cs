@@ -100,6 +100,18 @@ namespace Game
             return message;
         }
 
+        public static string BuildAutoCardMessage(List<Item> itemList)
+        {
+            string message = "自动提交图鉴：";
+
+            foreach (Item item in itemList)
+            {
+                message += $"<color=#{QualityConfigHelper.GetQualityColor(item.GetQuality())}>[{item.GetName()}]</color>" ;
+            }
+
+            return message;
+        }
+
         public static string BuildGiftPackMessage(string src, double exp, double gold, List<Item> items)
         {
             string message = $"<color=#{QualityConfigHelper.GetQualityColor(4)}> {src}";

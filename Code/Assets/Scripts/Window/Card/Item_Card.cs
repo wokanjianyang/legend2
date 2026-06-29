@@ -59,15 +59,20 @@ namespace Game
             if (cardLevel >= config.MaxLevel)
             {
                 this.Txt_Level.text = string.Format("Lv.{0}£¨Max{1}£©", cardLevel, config.MaxLevel);
-
-                this.Txt_Atr_Spe.text = StringHelper.FormatAttrText(config.SpeAtrId, config.SpeAtrVue, "£º+");
             }
             else
             {
                 int nextExp = config.CalNextExp(cardExp);
                 this.Txt_Level.text = string.Format("Lv.{0}£¨Exp{1}/{2}£©", cardLevel, cardExp, nextExp);
+            }
 
-                this.Txt_Atr_Spe.gameObject.SetActive(false);
+            if (cardLevel >= config.SpeRequire)
+            {
+                this.Txt_Atr_Spe.text = StringHelper.FormatAttrText(config.SpeAtrId, config.SpeAtrVue, "£º+");
+            }
+            else
+            {
+                this.Txt_Atr_Spe.text = config.SpeRequire + "¼¶½âËø";
             }
 
 

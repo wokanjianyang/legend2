@@ -153,6 +153,9 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         GameProcessor.Inst.UpdateInfo();
 
+        //更新技能描述
+        GameProcessor.Inst.EventCenter.Raise(new SkillShowEvent());
+
         Panel_Exclusive parent = this.GetComponentInParent<Panel_Exclusive>();
         parent.Refresh();
 

@@ -144,7 +144,7 @@ namespace Game
                 List<KeyValuePair<int, double>> btList = BaseAttrList.ToList();
                 List<KeyValuePair<int, double>> refineList = equip.GetRefineSpeAtrList().ToList();
 
-                for (int index = 0; index < 8; index++)
+                for (int index = 0; index < 6; index++)
                 {
                     var child = gridBase.Find(string.Format("Attribute_{0}", index));
                     int bc = btList.Count();
@@ -262,7 +262,7 @@ namespace Game
 
                     if (equip.Config.CardId > 0 && equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.Config.CardId))
                     {
-                        this.btn_Card.gameObject.SetActive(true);
+                        this.btn_Card.gameObject.SetActive(!this.boxItem.Item.IsLock);
                     }
                 }
             }
@@ -404,6 +404,8 @@ namespace Game
 
         private void OnClick_Restore()
         {
+            this.gameObject.SetActive(false);
+
             if (this.boxItem.Item.IsLock)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "锁定的不能重生", ToastType = ToastTypeEnum.Failure });
@@ -413,7 +415,6 @@ namespace Game
             GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重生消耗10000金币，其他材料全额返回。是否确认？", true,
                 () =>
                 {
-                    this.gameObject.SetActive(false);
                     GameProcessor.Inst.EventCenter.Raise(new RestoreEvent()
                     {
                         BoxItem = this.boxItem,

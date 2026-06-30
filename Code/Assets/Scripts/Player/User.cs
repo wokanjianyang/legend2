@@ -511,20 +511,6 @@ namespace Game
                 }
             }
 
-            //技能属性
-            foreach (var sd in this.SkillList)
-            {
-                if (sd.SkillId == 1001 || sd.SkillId == 2001 || sd.SkillId == 3001)
-                {
-                    SkillPanel sp = new SkillPanel(sd, null, null, null, false);
-
-                    for (int i = 0; i < sp.AttrIdList.Count; i++)
-                    {
-                        AttributeBonus.SetAttr((AttributeEnum)(sp.AttrIdList[i]), attrKey++, sp.AttrValueList[i]);
-                    }
-                }
-            }
-
             foreach (var sp in this.PetList)
             {
                 Dictionary<int, double> attrList = sp.GetTotalAttr();
@@ -653,6 +639,15 @@ namespace Game
             }
 
             this.SkillNumber = ConfigHelper.SkillNumber;
+
+            //技能属性
+            foreach (var sp in User_Data.GetSkills())
+            {
+                for (int i = 0; i < sp.AttrIdList.Count; i++)
+                {
+                    AttributeBonus.SetAttr((AttributeEnum)(sp.AttrIdList[i]), attrKey++, sp.AttrValueList[i]);
+                }
+            }
 
             //更新属性面版
             GameProcessor.Inst.EventCenter.Raise(new UpdateBagPanelUserAttr());
@@ -853,10 +848,10 @@ namespace Game
                 EquipSetConfig config = list[i];
 
                 int redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
-                redLevel = redLevel / 10 + 1;
+                int setLayer = redLevel / 10 + 1;
 
                 EquipSetItem redItem = new EquipSetItem();
-                redItem.Level = redLevel;
+                redItem.Level = setLayer;
                 redItem.Count = layers.Where(m => m >= redLevel).Count();
                 redItem.Config = config;
 
@@ -1438,7 +1433,8 @@ namespace Game
             return (int)LegacyLayer.Where(m => m.Key >= startPart && m.Key <= endPart).Select(m => m.Value.Data).Min();
         }
 
-        public int GetLegacyCurrentSet() {
+        public int GetLegacyCurrentSet()
+        {
 
             int r1 = GetLegacySetLayer(1);
             int r2 = GetLegacySetLayer(2);
@@ -1723,7 +1719,7 @@ namespace Game
 
         public List<Item> AutoToCard(List<Item> items)
         {
-            
+
             List<Item> cardList = items.Where(m => RecoverySet.CheckAutuCard(m)).ToList();
 
             if (cardList.Count > 0)
@@ -1738,7 +1734,8 @@ namespace Game
 
                         this.CardRecord[equip.Config.CardId] += 1;
                     }
-                    else if (sp.GetItemType() == ItemType.Pet) {
+                    else if (sp.GetItemType() == ItemType.Pet)
+                    {
 
                         Pet pet = sp as Pet;
 

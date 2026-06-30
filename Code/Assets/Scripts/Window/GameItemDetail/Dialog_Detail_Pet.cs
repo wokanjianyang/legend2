@@ -232,7 +232,7 @@ namespace Game
 
                 if (pet.GetQuality() == pet.Config.CardQuality && !user.IsCardMax(pet.Config.CardId))
                 {
-                    this.Btn_ToCard.gameObject.SetActive(true);
+                    this.Btn_ToCard.gameObject.SetActive(!this.boxItem.Item.IsLock);
                 }
 
             }
@@ -268,6 +268,8 @@ namespace Game
 
         private void OnRecovery()
         {
+            this.gameObject.SetActive(false);
+
             if (this.boxItem.Item.IsLock)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "锁定的不能回收", ToastType = ToastTypeEnum.Failure });
@@ -279,8 +281,6 @@ namespace Game
                 GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否确认回收？", true,
                 () =>
                 {
-                    this.gameObject.SetActive(false);
-
                     GameProcessor.Inst.EventCenter.Raise(new RecoveryEvent()
                     {
                         BoxItem = this.boxItem,
@@ -292,8 +292,6 @@ namespace Game
             }
             else
             {
-                this.gameObject.SetActive(false);
-
                 GameProcessor.Inst.EventCenter.Raise(new RecoveryEvent()
                 {
                     BoxItem = this.boxItem,
@@ -309,28 +307,24 @@ namespace Game
 
         public void OnClick_Lock()
         {
-            this.Btn_Lock.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new EquipLockEvent()
             {
                 BoxItem = this.boxItem,
                 IsLock = true
             });
-
-            this.Btn_Unlock.gameObject.SetActive(true);
         }
 
         private void OnClick_Unlock()
         {
-            this.Btn_Unlock.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new EquipLockEvent()
             {
                 BoxItem = this.boxItem,
                 IsLock = false
             });
-
-            this.Btn_Lock.gameObject.SetActive(true);
         }
     }
 }

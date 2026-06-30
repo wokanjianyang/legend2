@@ -74,7 +74,7 @@ public class Monster_Legacy : APlayer
         double riseDef = Math.Pow(MonsterConfig.DefRise, Layer - 1);
         double riseAkt = Math.Pow(MonsterConfig.AtkRise, Layer - 1);
 
-        double riseRate = Math.Pow(2, Type);
+        double riseRate = Math.Pow(3, Type);
 
         //Debug.Log("attrRate:" + attrRate);
         //Debug.Log("advanceRate:" + advanceRate);

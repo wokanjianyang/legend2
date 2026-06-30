@@ -332,6 +332,15 @@ namespace Game
                 AttrValueList.Add(Percent);
             }
 
+            foreach (var sp in talentList)
+            {
+                if (sp.AttrId > 0)
+                {
+                    AttrIdList.Add(sp.AttrId);
+                    AttrValueList.Add(sp.AttrValue);
+                }
+            }
+
             if (isPlayer)
             {
                 Desc = string.Format(Config.Des, (int)Percent, (int)Damage, Duration, EnemyMax, Row, Column);

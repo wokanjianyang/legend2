@@ -64,10 +64,10 @@ public class Legacy_Copy_Info : MonoBehaviour
 
         Txt_Layer_1.text = currentLayer + "論";
 
+        Txt_Layer_2.text = (currentLayer + 1) + "論";
         int k1 = user.GetExclusiveLevel(105);
         if (k1 > 0)
         {
-            Txt_Layer_2.text = (currentLayer + 1) + "論";
             Btn_Start_2.gameObject.SetActive(true);
             Txt_Info_2.gameObject.SetActive(false);
         }
@@ -76,10 +76,10 @@ public class Legacy_Copy_Info : MonoBehaviour
             Txt_Info_2.gameObject.SetActive(true);
         }
 
+        Txt_Layer_3.text = (currentLayer + 2) + "論";
         int k2 = user.GetExclusiveLevel(106);
         if (k2 > 0)
         {
-            Txt_Layer_3.text = (currentLayer + 2) + "論";
             Btn_Start_3.gameObject.SetActive(true);
             Txt_Info_3.gameObject.SetActive(false);
         }

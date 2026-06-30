@@ -231,7 +231,7 @@ namespace Game
 
 
             //¸ÅÂÊ»ñÈ¡²Êµ°
-            if (RandomHelper.RandomNumber(0, 100) <= 0)
+            if (RandomHelper.RandomNumber(0, 200) <= 0)
             {
                 int achId = AchievementConfigCategory.Instance.RandomKillType(10002);
                 if (achId > 0)

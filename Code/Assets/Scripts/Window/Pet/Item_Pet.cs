@@ -90,7 +90,7 @@ namespace Game
             }
 
             pet.Status = 1;
-            Txt_Name.text = pet.Status == 1 ? "上阵中" : "备战中";
+            Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
             Btn_Stop.gameObject.SetActive(true);
         }
 
@@ -99,7 +99,7 @@ namespace Game
             Btn_Stop.gameObject.SetActive(false);
 
             pet.Status = 0;
-            Txt_Name.text = pet.Status == 1 ? "上阵中" : "备战中";
+            Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
             Btn_Run.gameObject.SetActive(true);
         }
 
@@ -118,7 +118,7 @@ namespace Game
                 Btn_Stop.gameObject.SetActive(true);
             }
 
-            Txt_Name.text = pet.Status == 1 ? "上阵中" : "备战中";
+            Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
             Txt_Level.text = pet.PetLevel.Data + "级";
             Txt_Layer.text = pet.PetLayer.Data + "阶";
 

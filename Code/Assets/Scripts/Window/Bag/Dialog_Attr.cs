@@ -60,6 +60,10 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
             ,AttributeEnum.SpiritAtk,AttributeEnum.IncreaSpiritAtk,AttributeEnum.RateSpiritAtk ,AttributeEnum.MulSpiritAtk
             ,AttributeEnum.HP,AttributeEnum.IncreaHp,AttributeEnum.RateHp ,AttributeEnum.MulHp
             ,AttributeEnum.Def, AttributeEnum.IncreaDef,AttributeEnum.RateDef ,AttributeEnum.MulDef
+
+            ,AttributeEnum.PhyDamage ,AttributeEnum.RatePhyDamage
+            ,AttributeEnum.MagicDamage ,AttributeEnum.RateMagicDamage
+            ,AttributeEnum.SpiritDamage ,AttributeEnum.RateSpiritDamage
         };
 
     AttributeEnum[] array2 = new AttributeEnum[] {

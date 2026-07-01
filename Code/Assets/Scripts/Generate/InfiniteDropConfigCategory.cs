@@ -24,16 +24,6 @@ namespace Game
 
             foreach (InfiniteDropConfig config in this.list)
             {
-                if (config.DropId >= 180001 && config.DropId <= 180100) //ÉñÆ÷
-                {
-                    ArtifactConfig artifactConfig = ArtifactConfigCategory.Instance.GetByItemId(config.DropId);
-                    int atLevel = User_Data_Manager.Data.GetArtifactLevel(artifactConfig.Id);
-
-                    if (atLevel >= artifactConfig.MaxCount)
-                    {
-                        continue;
-                    }
-                }
 
                 dropConfigs.Add(config);
             }

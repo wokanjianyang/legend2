@@ -71,6 +71,8 @@ namespace Game
         public Dialog_Cycle DialogCycle;
         public Dialog_Fashion DialogFashion;
 
+        public Button Btn_Store;
+
         private List<Com_Box> items = new List<Com_Box>();
 
         private void Awake()

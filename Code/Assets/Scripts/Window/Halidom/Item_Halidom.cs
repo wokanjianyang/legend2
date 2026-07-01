@@ -36,7 +36,7 @@ namespace Game
             User user = User_Data_Manager.Data;
 
             MagicData halidomData = user.HalidomData[Config.Id];
-            int maxLevel = user.GetHolidomLimit();
+            int maxLevel = 4;
 
             //Debug.Log("Holidom maxLEvel:" + maxLevel);
 

@@ -9,35 +9,35 @@ namespace Game
 {
     public class Item_Artifact : MonoBehaviour
     {
-        public Text Txt_Name;
-        public Text Txt_Level;
-        public Text Txt_Max;
-        public Text Txt_Des;
+        //public Text Txt_Name;
+        //public Text Txt_Level;
+        //public Text Txt_Max;
+        //public Text Txt_Des;
 
-        public ArtifactConfig Config { get; set; }
+        //public ArtifactConfig Config { get; set; }
 
-        // Start is called before the first frame update
-        void Start()
-        {
+        //// Start is called before the first frame update
+        //void Start()
+        //{
 
-        }
+        //}
 
-        // Update is called once per frame
-        void Update()
-        {
+        //// Update is called once per frame
+        //void Update()
+        //{
 
-        }
+        //}
 
 
-        public void SetContent(ArtifactConfig config, long level)
-        {
-            this.Config = config;
+        //public void SetContent(ArtifactConfig config, long level)
+        //{
+        //    this.Config = config;
 
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(config.Quality), config.Name);
+        //    this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(config.Quality), config.Name);
 
-            this.Txt_Level.text = level + "个";
-            this.Txt_Des.text = config.Des;
-            this.Txt_Max.text = "最多生效(" + config.MaxCount + ")";
-        }
+        //    this.Txt_Level.text = level + "个";
+        //    this.Txt_Des.text = config.Des;
+        //    this.Txt_Max.text = "最多生效(" + config.MaxCount + ")";
+        //}
     }
 }

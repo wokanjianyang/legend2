@@ -56,17 +56,6 @@ namespace Game
             {
                 int total = excludeList.Where(m => m == config.DropBaseId).Count();
 
-                if (config.DropBaseId >= 180001 && config.DropBaseId <= 180100) //ÉñÆ÷
-                {
-                    ArtifactConfig artifactConfig = ArtifactConfigCategory.Instance.GetByItemId(config.DropBaseId);
-                    int atLevel = User_Data_Manager.Data.GetArtifactLevel(artifactConfig.Id);
-
-                    if (total + atLevel >= artifactConfig.MaxCount)
-                    {
-                        continue;
-                    }
-                }
-
                 if (config.Max > total)
                 {
                     list.Add(config);

@@ -147,7 +147,7 @@ public class Panel_SoulRing : MonoBehaviour
             return; //Î´ÅäÖÃµÄ
         }
 
-        long MaxLevel = user.GetSoulRingLimit();
+        long MaxLevel = 15;
 
         if (nextConfig == null || currentLevel >= MaxLevel || currentLevel >= nextConfig.EndLevel)
         {

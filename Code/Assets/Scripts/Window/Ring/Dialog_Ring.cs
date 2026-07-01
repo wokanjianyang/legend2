@@ -133,7 +133,7 @@ public class Dialog_Ring : MonoBehaviour
 
         long currentLevel = user.GetRingLevel(config.Id);
 
-        long maxRingLevel = config.Type == 1 ? user.GetArtifactValue(ArtifactType.RingLimit) + 15 : maxLevel;
+        long maxRingLevel = 15;
 
         currentItem.SetContent(currentLevel);
 

@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class ArtifactConfigCategory : ProtoObject, IMerge
+    public partial class StoreConfigCategory : ProtoObject, IMerge
     {
-        public static ArtifactConfigCategory Instance;
+        public static StoreConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, ArtifactConfig> dict = new Dictionary<int, ArtifactConfig>();
+        private Dictionary<int, StoreConfig> dict = new Dictionary<int, StoreConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<ArtifactConfig> list = new List<ArtifactConfig>();
+        private List<StoreConfig> list = new List<StoreConfig>();
 		
-        public ArtifactConfigCategory()
+        public StoreConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            ArtifactConfigCategory s = o as ArtifactConfigCategory;
+            StoreConfigCategory s = o as StoreConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (ArtifactConfig config in list)
+            foreach (StoreConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public ArtifactConfig Get(int id)
+        public StoreConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out ArtifactConfig item);
+            this.dict.TryGetValue(id, out StoreConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (ArtifactConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (StoreConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, ArtifactConfig> GetAll()
+        public Dictionary<int, StoreConfig> GetAll()
         {
             return this.dict;
         }
 
-        public ArtifactConfig GetOne()
+        public StoreConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,31 +73,25 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class ArtifactConfig: ProtoObject, IConfig
+	public partial class StoreConfig: ProtoObject, IConfig
 	{
 		/// <summary>Id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>ItemId</summary>
-		[ProtoMember(2)]
-		public int ItemId { get; set; }
 		/// <summary>Name</summary>
-		[ProtoMember(3)]
+		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>Type</summary>
+		/// <summary>AtrIdList</summary>
+		[ProtoMember(3)]
+		public int[] AtrIdList { get; set; }
+		/// <summary>AtrVueList</summary>
 		[ProtoMember(4)]
-		public int Type { get; set; }
-		/// <summary>AttrValue</summary>
-		[ProtoMember(5)]
-		public int AttrValue { get; set; }
-		/// <summary>MaxCount</summary>
-		[ProtoMember(6)]
-		public int MaxCount { get; set; }
+		public int[] AtrVueList { get; set; }
 		/// <summary>Quality</summary>
-		[ProtoMember(7)]
+		[ProtoMember(5)]
 		public int Quality { get; set; }
 		/// <summary>Des</summary>
-		[ProtoMember(8)]
+		[ProtoMember(6)]
 		public string Des { get; set; }
 
 	}

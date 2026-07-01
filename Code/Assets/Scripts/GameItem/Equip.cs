@@ -361,7 +361,9 @@ namespace Game
                         dict[ItemHelper.Equip_Refine] = 0;
                     }
 
-                    dict[ItemHelper.Equip_Refine] += 1 * number;
+                    int bc = this.Config.LevelRequired / 20 + 1;
+
+                    dict[ItemHelper.Equip_Refine] += bc * number;
                 }
             }
             else if (Config.Cycle == 10)

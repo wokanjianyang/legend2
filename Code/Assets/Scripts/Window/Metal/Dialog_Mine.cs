@@ -40,11 +40,11 @@ public class Dialog_Mine : MonoBehaviour, IBattleLife
             return;
         }
 
-        int levelN = user.GetLimitMineCount();
+        int levelN = 0;
 
         Txt_Level1.text = "Level:" + levelN;
 
-        int levelS = user.GetLimitMineCount2();
+        int levelS = 0;
 
         Txt_LEvel2.text = "Level:" + levelS;
     }

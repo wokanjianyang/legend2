@@ -472,7 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1438,7 +1438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1748,7 +1748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2019,25 +2019,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8900284681530860510}
     m_Modifications:
+    - target: {fileID: 1648392123159840791, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648392123159840791, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789862410647929880, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2084931582776497479, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
       propertyPath: m_Name
       value: Panel_Card
       objectReference: {fileID: 0}
     - target: {fileID: 3195268772625453081, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3195268772625453081, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502648113067325693, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6330340011828646488, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6330340011828646488, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7151607169134654454, guid: 0b6d953b03f587f41ac0c2e6f0abf087, type: 3}
       propertyPath: m_Pivot.x

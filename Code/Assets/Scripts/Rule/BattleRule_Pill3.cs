@@ -79,7 +79,7 @@ public class BattleRule_Pill3 : ABattleRule
 
         User user = User_Data_Manager.Data;
 
-        int percent = user.GetArtifactValue(ArtifactType.Pill3);
+        int percent = 0;
         int count = (Layer * 20 + 220) * (100 + percent) / 100;
 
         items.Add(ItemHelper.BuildItem(ItemType.Material, ItemHelper.SpecialId_Pill3, 1, count));

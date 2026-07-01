@@ -34,7 +34,7 @@ public class Dialog_BossFamily : MonoBehaviour, IBattleLife
         }
 
         User user = User_Data_Manager.Data;
-        this.Rate = user.GetArtifactValue(ArtifactType.BossBattleRate) + 1;
+        this.Rate = 1;
         //if (user.IsDz())
         //{
         //    this.Rate = 5;

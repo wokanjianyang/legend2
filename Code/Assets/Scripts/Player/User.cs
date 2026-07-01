@@ -190,20 +190,6 @@ namespace Game
 
         public Dictionary<int, long> VersionLog { get; } = new Dictionary<int, long>();
 
-        public int GetArtifactValue(ArtifactType type)
-        {
-            List<ArtifactConfig> list = ArtifactConfigCategory.Instance.GetListByType(type);
-
-            int total = 0;
-            foreach (ArtifactConfig config in list)
-            {
-                int artifactLevel = Math.Min(config.MaxCount, this.GetArtifactLevel(config.Id));
-                total += artifactLevel * config.AttrValue;
-            }
-
-            return total;
-        }
-
         public long GetLimitLevel()
         {
             long level = this.MagicLevel.Data;
@@ -225,69 +211,9 @@ namespace Game
             return 10;
         }
 
-        public int GetSoulRingLimit()
-        {
-            long limit = GetLimitLevel() * 2 + 25;
-            limit = limit + GetArtifactValue(ArtifactType.SoulRingLimit);
-            return (int)limit;
-        }
-
-        public int GetWingLimit()
-        {
-            long limit = GetLimitLevel() * 2 + 30;
-            limit = limit + GetArtifactValue(ArtifactType.WingLimit);
-            return (int)limit;
-        }
-
-        public int GetStrengthLimit()
-        {
-            long limit = GetLimitLevel() * 5000 + 10000;
-            limit = limit + GetArtifactValue(ArtifactType.StrengthLimit);
-            return (int)limit;
-        }
-
-        public int GetRefineLimit()
-        {
-            long limit = GetLimitLevel() * 25 + 50;
-            limit = limit + GetArtifactValue(ArtifactType.RefintLimit);
-            return (int)limit;
-        }
-
         public int GetReformLimit(int position)
         {
             long limit = (GetStrengthLevel(position) - 300000) / 1000;
-            return (int)limit;
-        }
-
-        public int GetFashionLimit()
-        {
-            int atLevel = GetArtifactValue(ArtifactType.FashionLimit);
-
-            int percent = GetArtifactValue(ArtifactType.FashinPercentLimit);
-            if (percent > 0)
-            {
-                atLevel = atLevel * (100 + percent) / 100;
-            }
-
-            return atLevel;
-        }
-
-        public int GetHolidomLimit()
-        {
-            long limit = 4 + GetArtifactValue(ArtifactType.HolidomLimit);
-            return (int)limit;
-        }
-
-
-        public int GetLimitMineCount()
-        {
-            int limit = GetArtifactValue(ArtifactType.MineCount);
-            return (int)(GetLimitLevel() - 4 + limit);
-        }
-
-        public int GetLimitMineCount2()
-        {
-            int limit = GetArtifactValue(ArtifactType.MineCount2);
             return (int)limit;
         }
 
@@ -1234,17 +1160,6 @@ namespace Game
             }
 
             PetCountData[configId]++;
-        }
-
-        public void SaveArtifactLevel(int itemId, int level)
-        {
-            int artifactId = ArtifactConfigCategory.Instance.GetByItemId(itemId).Id;
-
-            if (!this.ArtifactData.ContainsKey(artifactId))
-            {
-                ArtifactData[artifactId] = new MagicData();
-            }
-            ArtifactData[artifactId].Data += level;
         }
 
         public int GetFestiveStep()

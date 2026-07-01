@@ -37,7 +37,7 @@ namespace Game
 
                 int level = RandomHelper.RandomNumber(1, maxLevel + 1);
 
-                if (offline == 0 && RandomHelper.RandomDropRate(100)) //离线才能变异
+                if (offline == 0 && RandomHelper.RandomDropRate(100)) //在线才能变异
                 {
                     level++;
                 }

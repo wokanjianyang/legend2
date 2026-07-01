@@ -13,37 +13,6 @@ namespace Game
             //Debug.Log("BuildMetal seed:" + seed);
             Dictionary<int, int> drops = new Dictionary<int, int>();
 
-            User user = User_Data_Manager.Data;
-
-            int levelN = user.GetLimitMineCount();
-
-            for (int i = 0; i < levelN * count; i++)
-            {
-                seed = AppHelper.RefreshSeed(seed);
-
-                int metalId = RandomMetal(0, levelN, seed);
-
-                if (!drops.ContainsKey(metalId))
-                {
-                    drops[metalId] = 0;
-                }
-                drops[metalId]++;
-            }
-
-            int levelS = user.GetLimitMineCount2();
-            for (int i = 0; i < levelS * count; i++)
-            {
-                seed = AppHelper.RefreshSeed(seed);
-
-                int metalId = RandomMetal(1, levelS, seed);
-
-                if (!drops.ContainsKey(metalId))
-                {
-                    drops[metalId] = 0;
-                }
-                drops[metalId]++;
-            }
-
             return drops;
         }
 

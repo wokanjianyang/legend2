@@ -44,7 +44,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         long nextLevel = currentLevel + 1;
         //Debug.Log("currentLevel show:" + currentLevel);
 
-        long MaxLevel = user.GetWingLimit();
+        long MaxLevel = 60;
 
         this.txt_Level.text = "µÈ¼¶:" + currentLevel;
         if (currentLevel > 0)

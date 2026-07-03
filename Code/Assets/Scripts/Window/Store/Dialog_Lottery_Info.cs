@@ -40,7 +40,14 @@ public class Dialog_Lottery_Info : MonoBehaviour
             }
         }
 
-        Txt_Desc.text = config.Des;
+        if (config.SpeId > 0)
+        {
+            Txt_Desc.text = StringHelper.FormatAttrText(config.SpeId, config.SpeVue, "+");
+        }
+        else
+        {
+            Txt_Desc.text = config.Des;
+        }
     }
 
     public void OnClick_Close()

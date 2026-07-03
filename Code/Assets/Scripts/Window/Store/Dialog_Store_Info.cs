@@ -46,8 +46,19 @@ public class Dialog_Store_Info : MonoBehaviour
             }
         }
 
-        Txt_Desc.text = config.Des;
+        int quality = config.Quality;
 
+        this.Txt_Name.text = config.Name;
+        this.Txt_Name.color = QualityConfigHelper.GetColor(quality);
+
+        if (config.SpeId > 0)
+        {
+            Txt_Desc.text = StringHelper.FormatAttrText(config.SpeId, config.SpeVue, "+");
+        }
+        else
+        {
+            Txt_Desc.text = config.Des;
+        }
     }
 
     public void OnClick_Close()

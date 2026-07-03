@@ -40,7 +40,7 @@ public class Panel_Store : MonoBehaviour
         }
 
         this.Init();
-        this.ChangePanel(0);
+        //this.ChangePanel(0);
     }
 
     public void Init()

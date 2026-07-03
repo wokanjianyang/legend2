@@ -72,7 +72,9 @@ namespace Game
         PetBattleLimit = 112, //宠物出战位
         SkillBattleNumber = 113, //技能栏
         SkillSuitCount = 114, //词条套装数量
-        fk = 222, //词条套装数量
+        PetInherit = 115, //继承损耗
+        EquipStrongLimit = 116, //强化上限
+        EquipRefineLimit = 117, //精炼上限
 
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成

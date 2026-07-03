@@ -20,6 +20,8 @@ namespace Game
         public Image Img_Color_Bg;
         public Image Img_Logo;
 
+        public Image Img_Active;
+
         StoreConfig Config;
         // Start is called before the first frame update
         void Start()

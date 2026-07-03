@@ -87,11 +87,17 @@ namespace Game
 		/// <summary>AtrVueList</summary>
 		[ProtoMember(4)]
 		public int[] AtrVueList { get; set; }
-		/// <summary>Quality</summary>
+		/// <summary>SpeId</summary>
 		[ProtoMember(5)]
+		public int SpeId { get; set; }
+		/// <summary>SpeVue</summary>
+		[ProtoMember(6)]
+		public int SpeVue { get; set; }
+		/// <summary>Quality</summary>
+		[ProtoMember(7)]
 		public int Quality { get; set; }
 		/// <summary>Des</summary>
-		[ProtoMember(6)]
+		[ProtoMember(8)]
 		public string Des { get; set; }
 
 	}

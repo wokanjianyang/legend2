@@ -71,6 +71,9 @@ namespace Game
             {nameof(AttributeEnum.PetBattleLimit), "宠物出战位" },
             {nameof(AttributeEnum.SkillBattleNumber), "技能出战栏" },
             {nameof(AttributeEnum.SkillSuitCount), "词条需求减少" },
+            {nameof(AttributeEnum.PetInherit), "宠物继承损耗减少" },
+            {nameof(AttributeEnum.EquipStrongLimit), "强化上限" },
+            {nameof(AttributeEnum.EquipRefineLimit), "精炼上限" },
 
             {nameof(AttributeEnum.SkillLevelRise), "全技能等级" },
             {nameof(AttributeEnum.SkillLevelRiseP1), "基础心法" },
@@ -96,8 +99,6 @@ namespace Game
             {nameof(AttributeEnum.SkillLevelRiseS5), "太虚麟盾" },
             {nameof(AttributeEnum.SkillLevelRiseS6), "道法自然" },
             {nameof(AttributeEnum.SkillLevelRiseS7), "召唤英灵" },
-
-            {nameof(AttributeEnum.fk), "无效" },
             //{nameof(AttributeEnum.RealMulDamageResist), "完全减伤" },
             //{nameof(AttributeEnum.RealHpDamage), "血量真伤" },
             //{nameof(AttributeEnum.RealCritRate), "弱点暴击" },

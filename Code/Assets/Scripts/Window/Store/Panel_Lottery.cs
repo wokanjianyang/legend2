@@ -41,7 +41,7 @@ public class Panel_Lottery : MonoBehaviour
         }
 
         this.Init();
-        this.ChangePanel(0);
+        //this.ChangePanel(0);
     }
 
 

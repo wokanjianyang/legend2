@@ -7,7 +7,7 @@ using System.Linq;
 namespace Game.Data
 {
 
-    public class LoadingData
+    public class Loading_Data
     {
 
         public List<NetAtrItem> AtrList = new List<NetAtrItem>();

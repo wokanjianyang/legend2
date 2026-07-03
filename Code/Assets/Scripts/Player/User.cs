@@ -553,7 +553,7 @@ namespace Game
             }
 
             //net属性
-            LoadingData ldData = User_Data_Manager.NetData;
+            Loading_Data ldData = User_Data_Manager.NetData;
             if (ldData != null && ldData.AtrList.Count > 0)
             {
                 for (int i = 0; i < ldData.AtrList.Count; i++)

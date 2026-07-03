@@ -16,7 +16,9 @@ namespace Game
     {
         public static User Data;
 
-        public static LoadingData NetData;
+        public static Loading_Data NetData;
+
+        public static Store_Data StoreData;
 
         static string savePath = "player";
 

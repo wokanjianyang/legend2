@@ -6,28 +6,27 @@ using Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Panel_Lottery : MonoBehaviour
+public class Panel_Store : MonoBehaviour
 {
+    private int SelectType = 0;
     public Transform Tf_Nav;
     private List<Toggle> toggleStageList = new List<Toggle>();
 
     public ScrollRect Sr_Bag;
-    private List<Lottery_Item> bagList = new List<Lottery_Item>();
+    private List<Store_Item> bagList = new List<Store_Item>();
 
-    private int SelectType = 0;
-    //private string[] Titles = { "宠物图鉴", "1-50级装备", "60-120级装备", "130-180级装备" };
+    public Text Txt_Title;
 
-    private GameObject PrefabItem = null;
-
-
-    public Dialog_Lottery_Info Dlg_Lottery_Info;
+    public Dialog_Store_Info Dlg_Store_Info;
 
     public int Order => (int)ComponentOrder.Dialog;
+
+    private GameObject PrefabItem = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        PrefabItem = Resources.Load<GameObject>("Prefab/Window/Store/Lottery_Item");
+        PrefabItem = Resources.Load<GameObject>("Prefab/Window/Store/Store_Item");
 
         toggleStageList = Tf_Nav.GetComponentsInChildren<Toggle>().ToList();
 
@@ -44,23 +43,22 @@ public class Panel_Lottery : MonoBehaviour
         this.ChangePanel(0);
     }
 
-
     public void Init()
     {
         List<StoreConfig> list = StoreConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
 
         for (int i = 0; i < list.Count; i++)
         {
-            Lottery_Item item = CreateItem();
+            Store_Item item = CreateItem();
             item.Init(list[i]);
             this.bagList.Add(item);
         }
     }
 
-    private Lottery_Item CreateItem()
+    private Store_Item CreateItem()
     {
         var go = GameObject.Instantiate(PrefabItem);
-        Lottery_Item comItem = go.GetComponent<Lottery_Item>();
+        Store_Item comItem = go.GetComponent<Store_Item>();
         //comItem.SetItem(item, type, cycle);
 
         comItem.transform.SetParent(Sr_Bag.content);
@@ -74,7 +72,8 @@ public class Panel_Lottery : MonoBehaviour
     {
         this.SelectType = index;
 
-        foreach (Lottery_Item sp in bagList)
+
+        foreach (Store_Item sp in bagList)
         {
             sp.ChangeType(SelectType + 3);
         }
@@ -82,6 +81,6 @@ public class Panel_Lottery : MonoBehaviour
 
     public void ShowInfo(StoreConfig config)
     {
-        Dlg_Lottery_Info.Show(config);
+        Dlg_Store_Info.Show(config);
     }
 }

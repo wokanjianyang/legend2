@@ -7,28 +7,48 @@ using Game.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dialog_Store : MonoBehaviour
+public class Dialog_Store : MonoBehaviour, IBattleLife
 {
+    public Button Btn_Close;
 
-    public Toggle toggle_Refine;
-    public Panel_Refine PanelRefine;
+    public Toggle toggle_Lottery;
+    public Panel_Lottery Pnl_Lottery;
 
-    public Toggle toggle_Strengthen;
-    public Panel_Strengthen PanelStrengthen;
+    public Toggle toggle_Store;
+    public Panel_Store Pnl_Store;
 
+    public int Order => (int)ComponentOrder.Dialog;
 
     private void Awake()
     {
-        this.toggle_Strengthen.onValueChanged.AddListener((isOn) =>
+        this.Btn_Close.onClick.AddListener(OnClick_Close);
+
+        this.toggle_Lottery.onValueChanged.AddListener((isOn) =>
         {
-            PanelStrengthen.gameObject.SetActive(isOn);
+            Pnl_Lottery.gameObject.SetActive(isOn);
         });
 
-        this.toggle_Refine.onValueChanged.AddListener((isOn) =>
+        this.toggle_Store.onValueChanged.AddListener((isOn) =>
         {
-            PanelRefine.gameObject.SetActive(isOn);
+            Pnl_Store.gameObject.SetActive(isOn);
         });
     }
 
+    public void OnBattleStart()
+    {
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
+    }
 
+    private void Open(OpenDialogEvent e)
+    {
+        if (e.Type == DialogType.Store)
+        {
+            this.gameObject.SetActive(true);
+        }
+    }
+
+    public void OnClick_Close()
+    {
+        this.gameObject.SetActive(false);
+    }
 }

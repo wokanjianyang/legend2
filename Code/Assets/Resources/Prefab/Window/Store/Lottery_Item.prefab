@@ -29,7 +29,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3612538268403348328}
   m_Father: {fileID: 1877142572398540479}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -86,6 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5528839361914937337}
   - component: {fileID: -3265814321543189491}
+  - component: {fileID: 5239149976728196341}
   m_Layer: 5
   m_Name: Lottery_Item
   m_TagString: Untagged
@@ -122,6 +124,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5528839361914937342}
   m_CullTransparentMesh: 1
+--- !u!114 &5239149976728196341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5528839361914937342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e615b71ca618e44bae50249599193c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Btn_Info: {fileID: 7739009470426486722}
+  Txt_Name: {fileID: 265286425701170039}
+  Img_Color_Bg: {fileID: 83379823091714756}
+  Img_Logo: {fileID: 5907650999392730309}
 --- !u!1 &5640802442324373111
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,8 +170,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 686522806615307083}
-  m_RootOrder: 1
+  m_Father: {fileID: 6764883227607856384}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -287,7 +305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1877142572398540479}
-  - component: {fileID: 42368223004146987}
+  - component: {fileID: 7739009470426486722}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -317,7 +335,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 124, y: 124}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &42368223004146987
+--- !u!114 &7739009470426486722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,7 +344,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6471849825205340775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -358,13 +376,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
-  toggleTransition: 1
-  graphic: {fileID: 3112676379966646974}
-  m_Group: {fileID: 0}
-  onValueChanged:
+  m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
 --- !u!1 &7179958926083170218
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +391,7 @@ GameObject:
   - component: {fileID: 3698575729441135240}
   - component: {fileID: 83379823091714756}
   m_Layer: 5
-  m_Name: Tf_Box
+  m_Name: Img_Color_Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,7 +410,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5177172179636441531}
-  - {fileID: 3612538268403348328}
   m_Father: {fileID: 1877142572398540479}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

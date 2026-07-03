@@ -115,6 +115,8 @@ namespace Game
             this.Btn_Cancle.onClick.AddListener(OnPlanNameClose);
 
             this.btn_Pet.onClick.AddListener(OnOpenPet);
+
+            this.Btn_Store.onClick.AddListener(OnOpenStore);
         }
 
         // Start is called before the first frame update
@@ -1435,6 +1437,11 @@ namespace Game
         public void OnOpenPet()
         {
             GameProcessor.Inst.EventCenter.Raise(new PetShowEvent());
+        }
+
+        public void OnOpenStore()
+        {
+            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Store });
         }
 
         public void OpenFashion()

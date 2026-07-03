@@ -73,6 +73,7 @@ public class Init : MonoBehaviour
                 "Skill/Dialog_Divine",
 
                 "Window/Achievement/Dialog_Achievement",
+                "Window/Store/Dialog_Store",
             }
         },
         {

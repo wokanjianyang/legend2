@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Game;
+using Game.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,13 @@ public class Panel_Lottery : MonoBehaviour
     public ScrollRect Sr_Bag;
     private List<Lottery_Item> bagList = new List<Lottery_Item>();
 
+    public Text Txt_Points;
+    public Text Txt_Lottery;
+
+    public Button Btn_OK;
+    public Button Btn_Batch;
+
     private int SelectType = 0;
-    //private string[] Titles = { "宠物图鉴", "1-50级装备", "60-120级装备", "130-180级装备" };
 
     private GameObject PrefabItem = null;
 
@@ -27,6 +33,9 @@ public class Panel_Lottery : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.Btn_OK.onClick.AddListener(OnClick_Ok);
+        this.Btn_Batch.onClick.AddListener(OnClick_Batch);
+
         PrefabItem = Resources.Load<GameObject>("Prefab/Window/Store/Lottery_Item");
 
         toggleStageList = Tf_Nav.GetComponentsInChildren<Toggle>().ToList();
@@ -83,5 +92,71 @@ public class Panel_Lottery : MonoBehaviour
     public void ShowInfo(StoreConfig config)
     {
         Dlg_Lottery_Info.Show(config);
+    }
+
+    public void Refresh()
+    {
+        this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
+        this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points + "";
+    }
+
+    public void OnClick_Ok()
+    {
+        this.Btn_OK.gameObject.SetActive(false);
+        this.Btn_Batch.gameObject.SetActive(false);
+
+        if (User_Data_Manager.StoreData.Lottery < 1)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽奖次数不足", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        this.ToLottery(1);
+    }
+
+    public void OnClick_Batch()
+    {
+        this.Btn_OK.gameObject.SetActive(false);
+        this.Btn_Batch.gameObject.SetActive(false);
+
+        if (User_Data_Manager.StoreData.Lottery < 10)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽奖次数不足", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        this.ToLottery(10);
+    }
+
+    private void ToLottery(int count)
+    {
+        //再加载net数据
+        try
+        {
+            if (User_Data_Manager.Data.Account != "")
+            {
+                StartCoroutine(NetworkHelper.ToLottery(count,
+                    (WebResultWrapper result) =>
+                    {
+                        if (result.Code == StatusMessage.OK)
+                        {
+                            User_Data_Manager.StoreData = result.List.ToObject<Store_Data>();
+                        }
+                        else
+                        {
+                            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽取失败", ToastType = ToastTypeEnum.Failure });
+                        }
+
+                    },
+                     () =>
+                     {
+                         GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽取失败", ToastType = ToastTypeEnum.Failure });
+                     }));
+            }
+        }
+        catch (Exception ex)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽取失败", ToastType = ToastTypeEnum.Failure });
+        }
     }
 }

@@ -9,8 +9,10 @@ namespace Game.Data
 
     public class Store_Data
     {
+        public int Lottery { get; set; }
+        public int Points‌ { get; set; }
 
-        public List<Store_Data_Item> AtrList = new List<Store_Data_Item>();
+        public List<Store_Data_Item> StoreList = new List<Store_Data_Item>();
     }
 
 

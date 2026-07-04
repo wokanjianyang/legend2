@@ -14,8 +14,8 @@ namespace Game
 {
     public static class NetworkHelper
     {
-        //private static string home = "http://127.0.0.1:11111/public/";
-        private static string home = "http://120.76.249.105/public/";
+        private static string home = "http://127.0.0.1:11111/public/";
+        //private static string home = "http://120.76.249.105/public/";
         //private static string home = "http://192.168.10.5:11111/public/";
 
 
@@ -455,6 +455,23 @@ namespace Game
         public static IEnumerator Loading(Action<WebResultWrapper> successAction, Action failAction)
         {
             return SendRequest("loading", null, successAction, failAction);
+        }
+
+        public static IEnumerator GetStore(Action<WebResultWrapper> successAction, Action failAction)
+        {
+            return SendRequest("get_store", null, successAction, failAction);
+        }
+
+        public static IEnumerator ToLottery(int number, Action<WebResultWrapper> successAction, Action failAction)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("number", number + "");
+
+            string param = JsonConvert.SerializeObject(dict);
+
+            byte[] bytes = new System.Text.UTF8Encoding().GetBytes(param);
+
+            return SendRequest("lottery", bytes, successAction, failAction);
         }
     }
 }

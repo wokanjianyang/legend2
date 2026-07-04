@@ -44,6 +44,36 @@ public class Dialog_Store : MonoBehaviour, IBattleLife
         if (e.Type == DialogType.Store)
         {
             this.gameObject.SetActive(true);
+
+            //再加载net数据
+            try
+            {
+                if (User_Data_Manager.Data.Account != "")
+                {
+                    StartCoroutine(NetworkHelper.GetStore(
+                        (WebResultWrapper result) =>
+                        {
+                            if (result.Code == StatusMessage.OK)
+                            {
+                                User_Data_Manager.StoreData = result.List.ToObject<Store_Data>();
+                                Pnl_Lottery.Refresh();
+                            }
+                            else
+                            {
+                                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "获取数据失败", ToastType = ToastTypeEnum.Failure });
+                            }
+
+                        },
+                         () =>
+                         {
+                             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "获取数据失败", ToastType = ToastTypeEnum.Failure });
+                         }));
+                }
+            }
+            catch (Exception ex)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "获取数据失败", ToastType = ToastTypeEnum.Failure });
+            }
         }
     }
 

@@ -96,7 +96,7 @@ public class Dialog_Babel : MonoBehaviour
                         {
                             if (result.Code == StatusMessage.OK)
                             {
-                                List<BabelRank> list = result.List.ToObject<List<BabelRank>>();
+                                List<BabelRank> list = result.Extend.ToObject<List<BabelRank>>();
                                 Dlg_Babel_Rank.Init(list);
 
                                 if (list.Count > 0)

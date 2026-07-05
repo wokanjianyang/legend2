@@ -21,7 +21,7 @@ namespace Game.Data
 
         public Dictionary<string, string> Data { get; set; }
 
-        public JToken List { get; set; }
+        public JToken Extend { get; set; }
     }
 
 

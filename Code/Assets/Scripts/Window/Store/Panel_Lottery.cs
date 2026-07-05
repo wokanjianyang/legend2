@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game;
 using Game.Data;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ public class Panel_Lottery : MonoBehaviour
 
 
     public Dialog_Lottery_Info Dlg_Lottery_Info;
+    public Dialog_Lottery_Result Dlg_Lottery_Result;
 
     public int Order => (int)ComponentOrder.Dialog;
 
@@ -64,6 +66,9 @@ public class Panel_Lottery : MonoBehaviour
             item.Init(list[i]);
             this.bagList.Add(item);
         }
+
+        this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
+        this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points + "";
     }
 
     private Lottery_Item CreateItem()
@@ -92,12 +97,6 @@ public class Panel_Lottery : MonoBehaviour
     public void ShowInfo(StoreConfig config)
     {
         Dlg_Lottery_Info.Show(config);
-    }
-
-    public void Refresh()
-    {
-        this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
-        this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points + "";
     }
 
     public void OnClick_Ok()
@@ -140,23 +139,48 @@ public class Panel_Lottery : MonoBehaviour
                     {
                         if (result.Code == StatusMessage.OK)
                         {
-                            User_Data_Manager.StoreData = result.List.ToObject<Store_Data>();
+                            JToken lotteryData = result.Extend.SelectToken("LotteryData");
+                            Lottery_Result lr = lotteryData.ToObject<Lottery_Result>();
+
+                            JToken store = result.Extend.SelectToken("StoreData");
+                            User_Data_Manager.StoreData = store.ToObject<Store_Data>();
+
+                            SuccessResult(lr);
                         }
                         else
                         {
-                            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽取失败", ToastType = ToastTypeEnum.Failure });
+                            ErrorResutlt();
                         }
 
                     },
                      () =>
                      {
-                         GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽取失败", ToastType = ToastTypeEnum.Failure });
+                         ErrorResutlt();
                      }));
             }
         }
         catch (Exception ex)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽取失败", ToastType = ToastTypeEnum.Failure });
+            ErrorResutlt();
         }
+    }
+
+    private void SuccessResult(Lottery_Result lr)
+    {
+        Dlg_Lottery_Result.ShowResult(lr);
+
+        this.Btn_OK.gameObject.SetActive(true);
+        this.Btn_Batch.gameObject.SetActive(true);
+
+        this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
+        this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points;
+    }
+
+    private void ErrorResutlt()
+    {
+        this.Btn_OK.gameObject.SetActive(true);
+        this.Btn_Batch.gameObject.SetActive(true);
+
+        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "抽取失败", ToastType = ToastTypeEnum.Failure });
     }
 }

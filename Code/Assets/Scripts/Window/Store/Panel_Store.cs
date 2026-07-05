@@ -24,7 +24,7 @@ public class Panel_Store : MonoBehaviour
     private GameObject PrefabItem = null;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         PrefabItem = Resources.Load<GameObject>("Prefab/Window/Store/Store_Item");
 

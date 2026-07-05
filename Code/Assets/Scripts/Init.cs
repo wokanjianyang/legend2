@@ -157,7 +157,11 @@ public class Init : MonoBehaviour
                     {
                         if (result.Code == StatusMessage.OK)
                         {
-                            User_Data_Manager.NetData = result.List.ToObject<Loading_Data>();
+                            JToken AtrList = result.Extend.SelectToken("LoadingData");
+                            User_Data_Manager.NetData = AtrList.ToObject<Loading_Data>();
+
+                            JToken store = result.Extend.SelectToken("StoreData");
+                            User_Data_Manager.StoreData = store.ToObject<Store_Data>();
 
                             StartCoroutine(AsyncLoadWindows(currentTimeSecond));
                         }

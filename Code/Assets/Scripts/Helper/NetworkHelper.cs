@@ -464,14 +464,18 @@ namespace Game
 
         public static IEnumerator ToLottery(int number, Action<WebResultWrapper> successAction, Action failAction)
         {
+            User user = User_Data_Manager.Data;
+            string account = user.Account;
+
             Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("account", account);
             dict.Add("number", number + "");
 
             string param = JsonConvert.SerializeObject(dict);
 
             byte[] bytes = new System.Text.UTF8Encoding().GetBytes(param);
 
-            return SendRequest("lottery", bytes, successAction, failAction);
+            return SendRequest("to_lottery", bytes, successAction, failAction);
         }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using Game.Data;
 
 namespace Game
 {
@@ -29,6 +30,38 @@ namespace Game
             this.Btn_Info.onClick.AddListener(OnClick);
         }
 
+
+        void OnEnable()
+        {
+            if (this.Config != null)
+            {
+                this.Refresh();
+            }
+        }
+
+        public void Refresh()
+        {
+            int storeId = Config.Id;
+
+            Store_Data_Item data = User_Data_Manager.StoreData.StoreList.Where(m => m.StoreId == storeId).FirstOrDefault();
+
+            if (data != null)
+            {
+                this.Img_Active.gameObject.SetActive(false);
+
+                if (data.Number > 1)
+                {
+                    this.Txt_Number.gameObject.SetActive(true);
+                    this.Txt_Number.text = data.Number + "";
+                }
+            }
+            else
+            {
+                this.Txt_Number.gameObject.SetActive(false);
+                this.Img_Active.gameObject.SetActive(true);
+            }
+        }
+
         public void Init(StoreConfig config)
         {
             this.Config = config;
@@ -41,6 +74,9 @@ namespace Game
             this.Img_Color_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
             this.Txt_Number.gameObject.SetActive(false);
+            this.Img_Active.gameObject.SetActive(true);
+
+            this.Refresh();
             //PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);
         }
 

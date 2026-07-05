@@ -564,6 +564,24 @@ namespace Game
                 }
             }
 
+            //商城属性
+            Store_Data storeData = User_Data_Manager.StoreData;
+            for (int i = 0; i < storeData.StoreList.Count; i++)
+            {
+                Store_Data_Item data_Item = storeData.StoreList[i];
+
+                if (data_Item.Number > 0)
+                {
+                    StoreConfig config = StoreConfigCategory.Instance.Get(data_Item.StoreId);
+
+                    Dictionary<int, double> attrList = config.GetTotalAtrList(data_Item.Number);
+                    foreach (var al in attrList)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
+                    }
+                }
+            }
+
             this.SkillNumber = ConfigHelper.SkillNumber;
 
             //技能属性

@@ -174,6 +174,8 @@ public class Panel_Lottery : MonoBehaviour
 
         this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
         this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points;
+
+        GameProcessor.Inst.UpdateInfo();
     }
 
     private void ErrorResutlt()

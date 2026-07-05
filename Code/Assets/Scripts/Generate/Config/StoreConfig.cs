@@ -93,11 +93,17 @@ namespace Game
 		/// <summary>SpeVue</summary>
 		[ProtoMember(6)]
 		public int SpeVue { get; set; }
-		/// <summary>Quality</summary>
+		/// <summary>SpeLevel</summary>
 		[ProtoMember(7)]
-		public int Quality { get; set; }
-		/// <summary>Des</summary>
+		public int SpeLevel { get; set; }
+		/// <summary>Quality</summary>
 		[ProtoMember(8)]
+		public int Quality { get; set; }
+		/// <summary>Max</summary>
+		[ProtoMember(9)]
+		public int Max { get; set; }
+		/// <summary>Des</summary>
+		[ProtoMember(10)]
 		public string Des { get; set; }
 
 	}

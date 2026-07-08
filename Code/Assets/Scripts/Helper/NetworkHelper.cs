@@ -454,21 +454,42 @@ namespace Game
 
         public static IEnumerator Loading(Action<WebResultWrapper> successAction, Action failAction)
         {
-            return SendRequest("loading", null, successAction, failAction);
+            User user = User_Data_Manager.Data;
+            string accountId = user.AccountId;
+
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("accountId", accountId);
+
+            string param = JsonConvert.SerializeObject(dict);
+
+            byte[] bytes = new System.Text.UTF8Encoding().GetBytes(param);
+
+            return SendRequest("loading", bytes, successAction, failAction);
         }
 
-        public static IEnumerator GetStore(Action<WebResultWrapper> successAction, Action failAction)
+        public static IEnumerator Convert‌Store(int storeId, Action<WebResultWrapper> successAction, Action failAction)
         {
-            return SendRequest("get_store", null, successAction, failAction);
+            User user = User_Data_Manager.Data;
+            string accountId = user.AccountId;
+
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("accountId", accountId);
+            dict.Add("storeId", storeId + "");
+
+            string param = JsonConvert.SerializeObject(dict);
+
+            byte[] bytes = new System.Text.UTF8Encoding().GetBytes(param);
+
+            return SendRequest("convert_store", bytes, successAction, failAction);
         }
 
         public static IEnumerator ToLottery(int number, Action<WebResultWrapper> successAction, Action failAction)
         {
             User user = User_Data_Manager.Data;
-            string account = user.Account;
+            string accountId = user.AccountId;
 
             Dictionary<string, string> dict = new Dictionary<string, string>();
-            dict.Add("account", account);
+            dict.Add("accountId", accountId);
             dict.Add("number", number + "");
 
             string param = JsonConvert.SerializeObject(dict);

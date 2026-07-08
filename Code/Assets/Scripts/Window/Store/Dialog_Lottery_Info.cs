@@ -42,7 +42,12 @@ public class Dialog_Lottery_Info : MonoBehaviour
 
         if (config.SpeId > 0)
         {
-            Txt_Desc.text = StringHelper.FormatAttrText(config.SpeId, config.SpeVue, "+");
+            string text = StringHelper.FormatAttrText(config.SpeId, config.SpeVue, "+");
+            if (config.SpeLevel > 1)
+            {
+                text += "£¨Ã¿" + config.SpeLevel + "¸ö£©";
+            }
+            Txt_Desc.text = text;
         }
         else
         {

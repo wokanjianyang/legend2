@@ -23,7 +23,7 @@ namespace Game
 
         public Image Img_Active;
 
-        StoreConfig Config;
+        public StoreConfig Config;
         // Start is called before the first frame update
         void Start()
         {

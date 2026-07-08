@@ -12,6 +12,10 @@ namespace Game.Data
         public int Lottery { get; set; }
         public int Points‌ { get; set; }
 
+        public int Pity1 { get; set; }
+
+        public int Pity2 { get; set; }
+
         public List<Store_Data_Item> StoreList = new List<Store_Data_Item>();
     }
 

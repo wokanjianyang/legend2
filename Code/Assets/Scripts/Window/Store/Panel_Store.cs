@@ -83,4 +83,10 @@ public class Panel_Store : MonoBehaviour
     {
         Dlg_Store_Info.Show(config);
     }
+
+    public void ConvertSuccess(int sid)
+    {
+        Store_Item item = bagList.Where(m => m.Config.Id == sid).FirstOrDefault();
+        item.Refresh();
+    }
 }

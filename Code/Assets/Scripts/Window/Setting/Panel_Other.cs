@@ -254,7 +254,10 @@ namespace Game
                  {
                      if (result.Code == StatusMessage.OK)
                      {
+                         string accountId = result.Data["accountId"];
+
                          User_Data_Manager.Data.Account = account;
+                         User_Data_Manager.Data.AccountId = accountId;
 
                          if (User_Data_Manager.Data.MagicEquipStrength.Count > 0)
                          {
@@ -384,7 +387,7 @@ namespace Game
                     if (result.Code == StatusMessage.OK)
                     {
                         int serial = int.Parse(result.Data["serial"]);
-
+                        string accountId = result.Data["accountId"];
 
                         StartCoroutine(NetworkHelper.DownData(
                         (byte[] bytes) =>
@@ -410,7 +413,7 @@ namespace Game
 
                             str_json = EncryptionHelper.AesDecrypt(str_json);
 
-                            if (GameProcessor.Inst.LoadInit(str_json, account, serial))
+                            if (GameProcessor.Inst.LoadInit(str_json, account, accountId, serial))
                             {
                                 this.txt_Info.text = "读取存档成功,请退出重进";
                                 User_Data_Manager.Save();

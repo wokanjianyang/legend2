@@ -215,7 +215,7 @@ namespace Game
             User_Data_Manager.Data.SecondTotal++;
         }
 
-        public bool LoadInit(string str_json, string account, int serial)
+        public bool LoadInit(string str_json, string account, string accountId, int serial)
         {
             //Debug.Log(str_json);
 
@@ -229,6 +229,7 @@ namespace Game
             {
                 User_Data_Manager.Data = user;
                 User_Data_Manager.Data.Account = account;
+                User_Data_Manager.Data.AccountId = accountId;
                 User_Data_Manager.Data.Serial = serial;
                 User_Data_Manager.Data.LoadTicketTime = TimeHelper.ClientNowSeconds();
                 //this.User.DataDate = DateTime.Now.Ticks;

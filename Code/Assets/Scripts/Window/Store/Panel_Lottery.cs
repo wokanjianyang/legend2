@@ -18,6 +18,7 @@ public class Panel_Lottery : MonoBehaviour
 
     public Text Txt_Points;
     public Text Txt_Lottery;
+    public Text Txt_Pity;
 
     public Button Btn_OK;
     public Button Btn_Batch;
@@ -55,6 +56,10 @@ public class Panel_Lottery : MonoBehaviour
         //this.ChangePanel(0);
     }
 
+    void OnEnable()
+    {
+        this.ShowPoints();
+    }
 
     public void Init()
     {
@@ -66,9 +71,6 @@ public class Panel_Lottery : MonoBehaviour
             item.Init(list[i]);
             this.bagList.Add(item);
         }
-
-        this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
-        this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points + "";
     }
 
     private Lottery_Item CreateItem()
@@ -172,10 +174,27 @@ public class Panel_Lottery : MonoBehaviour
         this.Btn_OK.gameObject.SetActive(true);
         this.Btn_Batch.gameObject.SetActive(true);
 
-        this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
-        this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points;
+        this.ShowPoints();
 
         GameProcessor.Inst.UpdateInfo();
+    }
+
+    private void ShowPoints()
+    {
+        this.Txt_Lottery.text = "拥有抽奖次数：" + User_Data_Manager.StoreData.Lottery;
+        this.Txt_Points.text = "拥有积分：" + User_Data_Manager.StoreData.Points + "";
+
+        string txtPity = "";
+        if (User_Data_Manager.StoreData.Pity1 > 0)
+        {
+            txtPity += User_Data_Manager.StoreData.Pity1 + "次后必中红色";
+        }
+        if (User_Data_Manager.StoreData.Pity1 > 0)
+        {
+            txtPity += User_Data_Manager.StoreData.Pity1 + "次后必中金色";
+        }
+
+        this.Txt_Pity.text = txtPity;
     }
 
     private void ErrorResutlt()

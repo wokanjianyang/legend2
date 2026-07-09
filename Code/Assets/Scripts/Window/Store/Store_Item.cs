@@ -43,6 +43,11 @@ namespace Game
         {
             int storeId = Config.Id;
 
+            if (User_Data_Manager.StoreData == null)
+            {
+                return;
+            }
+
             Store_Data_Item data = User_Data_Manager.StoreData.StoreList.Where(m => m.StoreId == storeId).FirstOrDefault();
 
             if (data != null)

@@ -14,7 +14,7 @@ namespace Game
 
     public partial class CardConfig
     {
-        private int[] exps = { 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047 };
+        //private int[] exps = { 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047 };
 
         public int CalLevel(int exp)
         {
@@ -23,29 +23,24 @@ namespace Game
                 return 0;
             }
 
-            for (int i = exps.Length - 1; i >= 0; i--)
-            {
-                if (exp >= exps[i] * this.BaseFee)
-                {
-                    return i + 1;
-                }
-            }
-
-            return 0;
+            int level = (int)(Math.Sqrt(exp / this.BaseFee));
+            return Math.Min(level, this.MaxLevel);
         }
 
         public int CalNextExp(int exp)
         {
-            foreach (int e in exps)
-            {
-                int nx = e * this.BaseFee;
-                if (nx > exp)
-                {
-                    return nx;
-                }
-            }
+            int level = CalLevel(exp);
 
-            return int.MaxValue;
+            int nextExp = level * level * this.BaseFee;
+
+            if (nextExp > exp)
+            {
+                return nextExp;
+            }
+            else
+            {
+                return (level + 1) * (level + 1) * this.BaseFee;
+            }
         }
     }
 

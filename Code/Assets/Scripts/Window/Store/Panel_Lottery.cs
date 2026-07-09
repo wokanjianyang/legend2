@@ -208,9 +208,9 @@ public class Panel_Lottery : MonoBehaviour
         {
             txtPity += storeData.Pity1 + "次后必中红色";
         }
-        if (storeData.Pity1 > 0)
+        if (storeData.Pity2 > 0)
         {
-            txtPity += storeData.Pity1 + "次后必中金色";
+            txtPity += storeData.Pity2 + "次后必中金色";
         }
 
         this.Txt_Pity.text = txtPity;

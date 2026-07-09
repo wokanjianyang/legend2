@@ -106,6 +106,11 @@ namespace Game
             return this.list.Where(m => m.Cycle == cycle && m.AttrId == attrId).FirstOrDefault();
         }
 
+        public AttrEntryConfig GetConfig(int cycle, int attrId, int level)
+        {
+            return this.list.Where(m => m.Cycle == cycle && m.AttrId == attrId && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
+        }
+
         public List<KeyValuePair<int, long>> BuildShengxiao(int part, int quality, int seed)
         {
             List<KeyValuePair<int, long>> rsList = new List<KeyValuePair<int, long>>();

@@ -208,7 +208,6 @@ namespace Game
                 List<Equip_Item_Legend> lgs = Tf_Legend.GetComponentsInChildren<Equip_Item_Legend>().ToList();
                 lgs[0].ShowBase(config, equip.LegendData.Value);  //显示传奇部件属性
 
-                Equip_Item_Legend lgSet = Tf_Legend.Find("Item_Equip_Legend_1").GetComponent<Equip_Item_Legend>();
                 EquipLegendSet legendSet = user.GetEquipLegendSet(config.SetId);  //显示传奇套装石属性
                 lgs[1].ShowSet(legendSet);
             }

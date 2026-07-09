@@ -217,6 +217,14 @@ namespace Game
             {
                 int attrId = AttrEntryList[i].Key;
                 long attrTotalValue = AttrEntryList[i].Value;
+
+                AttrEntryConfig config = AttrEntryConfigCategory.Instance.GetConfig(this.Config.Cycle, attrId, this.Config.LevelRequired);
+
+                if (attrTotalValue > config.MaxValue)
+                {
+                    attrTotalValue = 0;  //如果数值修改了，则不计算数值
+                }
+
                 attrTotalValue = attrTotalValue * randomPercent / 100;
 
                 if (!AttrList.ContainsKey(attrId))

@@ -124,6 +124,22 @@ namespace Game
             this.KillCount.Data += rate;
         }
 
+        public bool IsImportant()
+        {
+            bool important = false;
+
+            if (TraitType > 1)
+            {
+                important = true;
+            }
+            if (TraitList.Where(m => m.Type > 1).Count() > 1)
+            {
+                important = true;
+            }
+
+            return important;
+        }
+
         //--------------ovveride
         public override int GetQuality()
         {

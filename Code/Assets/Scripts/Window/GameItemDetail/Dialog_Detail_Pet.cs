@@ -276,9 +276,10 @@ namespace Game
                 return;
             }
 
-            if (this.boxItem.Item.GetQuality() >= 5)
+            Pet pet = this.boxItem.Item as Pet;
+            if (pet.IsImportant())
             {
-                GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否确认回收？", true,
+                GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否确认回收珍贵宠物？", true,
                 () =>
                 {
                     GameProcessor.Inst.EventCenter.Raise(new RecoveryEvent()

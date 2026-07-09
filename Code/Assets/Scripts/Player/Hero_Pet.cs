@@ -18,7 +18,7 @@ namespace Game
         public Hero_Pet(APlayer master, Pet pet) : base()
         {
             this.GroupId = master.GroupId;
-
+            this.RuleType = master.RuleType;
             this.Master = master;
             this.Self = pet;
             //this.FashionId = pet.Mid;

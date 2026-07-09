@@ -63,11 +63,28 @@ namespace Game
             Equip item = new Equip(config.Id, 0, 0, config.Quality);
 
             int lgId = item.Config.LegendId;
-            int lgFlair = seed > 0 ? 50 : RandomHelper.RandomNumber(50, 100 + 1);
+            int lgFlair = seed > 0 ? 40 : RandomHelper.RandomNumber(20, 100 + 1);
 
             item.LegendData = new KeyValuePair<int, int>(lgId, lgFlair);
 
             return item;
+        }
+
+        private int RandonFlair(int seed)
+        {
+            if (seed > 0)
+            {
+                return 40;
+            }
+
+            if (RandomHelper.RandomCritRate(5))
+            {
+                return RandomHelper.RandomNumber(90, 101);
+            }
+            else
+            {
+                return RandomHelper.RandomNumber(20, 91);
+            }
         }
 
         public Item BuildOfflineEquip(int configId, int quality)

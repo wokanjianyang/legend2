@@ -61,6 +61,7 @@ namespace Game
         {
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Hero"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Pet"));
+            PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Defend"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_1"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_2"));
             PlayerList.Add(Resources.Load<GameObject>("Prefab/Player/Monster_3"));
@@ -135,9 +136,13 @@ namespace Game
             {
                 return PlayerList[1];
             }
+            else if (cam == PlayerType.Defend)
+            {
+                return PlayerList[2];
+            }
             else
             {
-                return PlayerList[quality + 1];
+                return PlayerList[quality + 2];
             }
 
         }

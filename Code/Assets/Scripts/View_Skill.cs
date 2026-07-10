@@ -211,10 +211,12 @@ namespace Game
                 return;
             }
 
+            int skillNumber = (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.SkillBattleNumber) + ConfigHelper.SkillNumber;
+
             for (int i = 0; i < AllEquipSkills.Length; i++)
             {
                 AllEquipSkills[i].Clear();
-                if (i < user.SkillNumber)
+                if (i < skillNumber)
                 {
                     AllEquipSkills[i].gameObject.SetActive(true);
                 }

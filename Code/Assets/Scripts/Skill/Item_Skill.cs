@@ -117,7 +117,8 @@ namespace Game
             List<int> list = user.GetCurrentSkillList();
             List<SkillData> skillList = user.SkillList.FindAll(m => list.Contains(m.SkillId));
 
-            if (this.SkillPanel == null || skillList.Count >= user.SkillNumber)
+            int skillNumber = (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.SkillBattleNumber) + ConfigHelper.SkillNumber;
+            if (this.SkillPanel == null || skillList.Count >= skillNumber)
             {
                 return;
             }

@@ -306,10 +306,6 @@ namespace Game
 
         [JsonIgnore]
         public long TempUpExp { get; set; } = 0;
-
-        [JsonIgnore]
-        public int SkillNumber = 0;
-
         public User()
         {
 
@@ -586,8 +582,6 @@ namespace Game
                     }
                 }
             }
-
-            this.SkillNumber = ConfigHelper.SkillNumber;
 
             //技能属性
             foreach (var sp in User_Data.GetSkills())

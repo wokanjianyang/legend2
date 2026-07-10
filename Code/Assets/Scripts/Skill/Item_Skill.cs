@@ -87,8 +87,8 @@ namespace Game
 
             Tg_Recovery.isOn = sd.Recovery;
 
-            //this.Txt_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
-            this.Txt_Level.text = string.Format("LV:{0} (预览)", SkillPanel.Level);
+            this.Txt_Level.text = string.Format("LV:{0} (上限:{1})", SkillPanel.Level, limitLevel);
+            //this.Txt_Level.text = string.Format("LV:{0} (预览)", SkillPanel.Level);
             this.Txt_CD.text = string.Format("CD：{0}秒", SkillPanel.CD);
             this.Txt_Dis.text = string.Format("距离：{0}", SkillPanel.Dis);
             this.Txt_Des.text = SkillPanel.Desc;

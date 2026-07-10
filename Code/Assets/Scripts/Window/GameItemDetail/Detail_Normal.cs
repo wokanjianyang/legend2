@@ -128,11 +128,26 @@ namespace Game
                 {
                     case ItemType.SkillBox://技能书
                         {
-                            var isLearn = user.SkillList.Find(b => b.SkillId == configId) == null;
+                            var sd = user.SkillList.Where(b => b.SkillId == configId).FirstOrDefault();
 
-                            this.Btn_Use.gameObject.SetActive(true);
-                            this.Btn_Use_Batch.gameObject.SetActive(!isLearn);
-                            this.Btn_UseAll.gameObject.SetActive(!isLearn);
+                            if (sd == null)
+                            {  //未学些
+                                this.Btn_Use.gameObject.SetActive(true);
+                                this.Btn_Use_Batch.gameObject.SetActive(false);
+                                this.Btn_UseAll.gameObject.SetActive(false);
+                            }
+                            else if (sd.MagicLevel.Data < sd.SkillConfig.MaxLevel) //未满级
+                            {
+                                this.Btn_Use.gameObject.SetActive(true);
+                                this.Btn_Use_Batch.gameObject.SetActive(true);
+                                this.Btn_UseAll.gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                this.Btn_Use.gameObject.SetActive(false);
+                                this.Btn_Use_Batch.gameObject.SetActive(false);
+                                this.Btn_UseAll.gameObject.SetActive(false);
+                            }
                         }
                         break;
                     case ItemType.GiftPack:

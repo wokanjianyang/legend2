@@ -12,25 +12,15 @@ namespace Game
         [Title("基础")]
         public Text Txt_Name;
 
-        public Button Btn_Level;
         public Text Txt_Level;
         public Text Txt_CD;
         public Text Txt_Des;
         public Text Txt_Dis;
         public Toggle Tg_Recovery;
         public Image Img_Icon;
-        //public Button Btn_UpLevel;
-        //public Button Btn_Divine;
-        //public Text Txt_Divine;
 
-        [Title("词条")]
-        public Transform Tf_Talent;
-        public Transform Tf_Rune;
-        public Transform Tf_Suit;
-
-        List<Item_Skill_Rune> tList = new List<Item_Skill_Rune>();
-        List<Item_Skill_Rune> rList = new List<Item_Skill_Rune>();
-        List<Item_Skill_Rune> sList = new List<Item_Skill_Rune>();
+        public Button Btn_Level;
+        public Button Btn_Detail;
 
         //List<Text> runeList = new List<Text>();
         //List<Text> suitList = new List<Text>();
@@ -39,11 +29,8 @@ namespace Game
 
         void Awake()
         {
-            tList = Tf_Talent.GetComponentsInChildren<Item_Skill_Rune>().ToList();
-            rList = Tf_Rune.GetComponentsInChildren<Item_Skill_Rune>().ToList();
-            sList = Tf_Suit.GetComponentsInChildren<Item_Skill_Rune>().ToList();
-
-            this.Btn_Level.onClick.AddListener(OnClick_Preview_Level);
+            this.Btn_Level.onClick.AddListener(OnClick_Level);
+            this.Btn_Detail.onClick.AddListener(OnClick_Detail);
         }
 
         // Start is called before the first frame update
@@ -78,46 +65,6 @@ namespace Game
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", color, name);
 
             this.Img_Icon.sprite = PrefabHelper.Instance().GetSkillLog(skillPanel.SkillId);
-
-            for (int i = 0; i < tList.Count; i++)
-            {
-                if (i < skillPanel.TalentTextList.Count)
-                {
-                    tList[i].gameObject.SetActive(true);
-                    tList[i].SetTalent(skillPanel.TalentTextList[i].Key, skillPanel.TalentTextList[i].Value);
-                }
-                else
-                {
-                    tList[i].gameObject.SetActive(false);
-                }
-            }
-
-
-            for (int i = 0; i < rList.Count; i++)
-            {
-                if (i < skillPanel.RuneTextList.Count)
-                {
-                    rList[i].gameObject.SetActive(true);
-                    rList[i].SetRune(skillPanel.RuneTextList[i].Key, skillPanel.RuneTextList[i].Value);
-                }
-                else
-                {
-                    rList[i].gameObject.SetActive(false);
-                }
-            }
-
-            for (int i = 0; i < sList.Count; i++)
-            {
-                if (i < skillPanel.SuitTextList.Count)
-                {
-                    sList[i].gameObject.SetActive(true);
-                    sList[i].SetSuit(skillPanel.SuitTextList[i].Key, skillPanel.SuitTextList[i].Value);
-                }
-                else
-                {
-                    sList[i].gameObject.SetActive(false);
-                }
-            }
 
             this.Show();
         }
@@ -201,11 +148,18 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new SkillUpEvent());
         }
 
-        public void OnClick_Preview_Level()
+        public void OnClick_Level()
         {
             View_Skill view = this.GetComponentInParent<View_Skill>();
 
-            view.ShowLevelInfo(this.SkillPanel.Config, this.SkillPanel.Level);
+            view.ShowLevelInfo(this.SkillPanel);
+        }
+
+        public void OnClick_Detail()
+        {
+            View_Skill view = this.GetComponentInParent<View_Skill>();
+
+            view.ShowDetail(this.SkillPanel);
         }
 
         //public void Click_UpLevel()

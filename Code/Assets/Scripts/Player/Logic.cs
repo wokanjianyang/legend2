@@ -148,18 +148,27 @@ namespace Game
 
                 if (SelfPlayer.Camp == PlayerType.Hero)
                 {
-                    if (SelfPlayer.RuleType != RuleType.MainStage || SelfPlayer.RuleType != RuleType.Babel)
-                    {
-                        //自动复活
-                        StartCoroutine(this.AutoResurrection());
+                    switch (SelfPlayer.RuleType) {
+
+                        case RuleType.MainStage:
+                        case RuleType.Babel:
+                            break;
+                        default:
+                            StartCoroutine(this.AutoResurrection());
+                            break;
                     }
                 }
                 else if (SelfPlayer.Camp == PlayerType.Hero_Pet)
                 {
-                    if (SelfPlayer.RuleType != RuleType.MainStage || SelfPlayer.RuleType != RuleType.Babel)
+                    switch (SelfPlayer.RuleType)
                     {
-                        //自动复活
-                        StartCoroutine(this.AutoResurrection());
+
+                        case RuleType.MainStage:
+                        case RuleType.Babel:
+                            break;
+                        default:
+                            StartCoroutine(this.AutoResurrection());
+                            break;
                     }
                 }
                 else

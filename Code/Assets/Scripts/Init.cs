@@ -70,7 +70,6 @@ public class Init : MonoBehaviour
                 "Window/Pet/Dialog_Pet",
 
                 "Window/More/Dialog_Mine",
-                "Skill/Dialog_Divine",
 
                 "Window/Achievement/Dialog_Achievement",
                 "Window/Store/Dialog_Store",

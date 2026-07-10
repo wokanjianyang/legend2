@@ -54,14 +54,16 @@ namespace Game
                 }
             }
 
-            var tempCells = GameProcessor.Inst.MapData.AllCells.ToList();
-            var allPlayerCells = GameProcessor.Inst.PlayerManager.GetAllPlayers(true).Select(p => p.Cell).ToList();
-            tempCells.RemoveAll(p => allPlayerCells.Contains(p));
+            //var tempCells = GameProcessor.Inst.MapData.AllCells.ToList();
+            //var allPlayerCells = GameProcessor.Inst.PlayerManager.GetAllPlayers(true).Select(p => p.Cell).ToList();
+            //tempCells.RemoveAll(p => allPlayerCells.Contains(p));
 
 
-            var index = RandomHelper.RandomNumber(0, tempCells.Count);
-            var bornCell = tempCells[index];
-            hero.SetPosition(bornCell, true);
+            //var index = RandomHelper.RandomNumber(0, tempCells.Count);
+            //var bornCell = tempCells[index];
+            //hero.SetPosition(bornCell, true);
+
+            hero.SetPosition(new Vector3(4, 5), true);
             this.AddPlayer(hero);
 
             //º”‘ÿ≥ËŒÔ

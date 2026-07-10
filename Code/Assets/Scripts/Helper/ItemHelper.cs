@@ -99,6 +99,7 @@ namespace Game
         public static int Pet_Exp = 5004; //宠物口粮
         public static int Legacy_Stone = 5005; //传世精华
         public static int Equip_Legend = 5006; //传奇精华
+        public static int Shuye1 = 5007; //书页
 
         public static int SpecialId_Level_Stone = 7001; //等级丹
         public static int SpecialId_Talent_Book = 7002; //天赋书
@@ -140,7 +141,7 @@ namespace Game
         public static int SpecialId_Chunjie = 4111;
 
 
-        public static int SpecialId_Shuye1 = 4006; //书页
+
         public static int SpecialId_Shuye2 = 4102; //高级书页
         public static int SpecialId_Shuye3 = 4112; //超级书页
 

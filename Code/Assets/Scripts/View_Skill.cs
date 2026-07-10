@@ -18,8 +18,9 @@ namespace Game
 
         public Dialog_Rune_Info Dlg_Rune_Info;
 
-        public Dialog_Level_Info Dlg_Level_Info;
+        public Dialog_Skill_Level Dlg_Level_Info;
         //public List<Button> PlanList;
+        public Dialog_Skill_Detail Dlg_Detail;
 
         public Transform Tf_Plan;
         private List<Toggle> Toggle_Plan_List = new List<Toggle>();
@@ -152,9 +153,14 @@ namespace Game
             Dlg_Rune_Info.Show(desc);
         }
 
-        public void ShowLevelInfo(SkillConfig config, int currentLevel)
+        public void ShowLevelInfo(SkillPanel sp)
         {
-            Dlg_Level_Info.Show(config, currentLevel);
+            Dlg_Level_Info.Show(sp);
+        }
+
+        public void ShowDetail(SkillPanel sp)
+        {
+            Dlg_Detail.Show(sp);
         }
 
         private void ShowSkillPanel()

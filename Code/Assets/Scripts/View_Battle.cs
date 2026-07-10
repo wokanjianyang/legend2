@@ -105,8 +105,18 @@ namespace Game
                     GameProcessor.Inst.LoadMap(RuleType.Legacy, this.transform, param);
                 });
 
+                string type = "普通";
+                if (e.MapId == 1)
+                {
+                    type = "高级";
+                }
+                else if (e.MapId == 2)
+                {
+                    type = "超级";
+                }
+
                 MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
-                this.Txt_MapName.text = "传世挑战-" + e.MapId + "阶";
+                this.Txt_MapName.text = "传世挑(" + type + ")";
             }
             else if (e.Type == RuleType.Defend)
             {

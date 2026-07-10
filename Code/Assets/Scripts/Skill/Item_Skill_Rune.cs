@@ -10,9 +10,7 @@ namespace Game
     public class Item_Skill_Rune : MonoBehaviour
     {
         public Text Txt_Name;
-        public Text Txt_Count;
         public Button Btn_Show;
-
 
         private string desc;
 
@@ -44,9 +42,9 @@ namespace Game
             {
                 name = name.Substring(name.IndexOf("·") + 1);
             }
-            Txt_Name.text = name + "：";
 
-            Txt_Count.text = count > 0 ? "+" + count + "" : "无";
+            string ct = count > 0 ? "+" + count + "" : "无";
+            Txt_Name.text = string.Format("{0}：<color=#FF6600>{1}</color>", name, ct);
 
             this.desc = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate) + "，最大叠加数量" + config.Max;
         }
@@ -60,9 +58,8 @@ namespace Game
             {
                 name = name.Substring(name.IndexOf("·") + 1);
             }
-            Txt_Name.text = name + "：";
-
-            Txt_Count.text = count > 0 ? "+" + count + "" : "无";
+            string ct = count > 0 ? "+" + count + "" : "无";
+            Txt_Name.text = string.Format("{0}：<color=#FF6600>{1}</color>", name, ct);
 
             this.desc = string.Format(config.Des, config.Damage, config.Percent, config.DeadlyRate, config.DeadlyDamage, config.RateDamage, config.AttrIncrea, config.FinalIncrea);
         }
@@ -76,9 +73,8 @@ namespace Game
             {
                 name = name.Substring(name.IndexOf("·") + 1);
             }
-            Txt_Name.text = name + "：";
-
-            Txt_Count.text = count > 0 ? "+" + count + "" : "无";
+            string ct = count > 0 ? "+" + count + "" : "无";
+            Txt_Name.text = string.Format("{0}：<color=#FF6600>{1}</color>", name, ct);
 
             this.desc = string.Format(config.Des, config.Percent);
         }

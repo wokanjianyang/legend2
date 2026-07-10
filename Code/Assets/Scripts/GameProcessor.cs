@@ -684,7 +684,7 @@ namespace Game
                 }
 
                 //再存储新档
-                StartCoroutine(NetworkHelper.SaveRank(type, condition,
+                StartCoroutine(NetworkHelper.SaveRank(user.AccountId, type, condition,
                         (WebResultWrapper result) =>
                         {
                             if (result.Code == StatusMessage.OK)

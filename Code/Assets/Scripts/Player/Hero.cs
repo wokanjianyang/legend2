@@ -207,7 +207,7 @@ namespace Game
                 SelectSkillList.Add(skill);
             }
 
-            //增加被动技能
+            //增加普攻技能
             AddSkillNormal();
 
             base.SetSkillAfter();

@@ -78,41 +78,44 @@ namespace Game
 		/// <summary>_ID</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>Role</summary>
+		/// <summary>Type</summary>
 		[ProtoMember(2)]
+		public int Type { get; set; }
+		/// <summary>Role</summary>
+		[ProtoMember(3)]
 		public int Role { get; set; }
 		/// <summary>Name</summary>
-		[ProtoMember(3)]
+		[ProtoMember(4)]
 		public string Name { get; set; }
 		/// <summary>LevelRate</summary>
-		[ProtoMember(4)]
+		[ProtoMember(5)]
 		public int LevelRate { get; set; }
 		/// <summary>StartPetId</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int StartPetId { get; set; }
 		/// <summary>EndPetId</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int EndPetId { get; set; }
 		/// <summary>Rate</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int Rate { get; set; }
 		/// <summary>AtrIdList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int[] AtrIdList { get; set; }
 		/// <summary>AtrVueList</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int[] AtrVueList { get; set; }
 		/// <summary>AtrVueList1</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public int[] AtrVueList1 { get; set; }
 		/// <summary>RiseType</summary>
-		[ProtoMember(11)]
+		[ProtoMember(12)]
 		public int[] RiseType { get; set; }
 		/// <summary>StartQuality</summary>
-		[ProtoMember(12)]
+		[ProtoMember(13)]
 		public int StartQuality { get; set; }
 		/// <summary>EndQuality</summary>
-		[ProtoMember(13)]
+		[ProtoMember(14)]
 		public int EndQuality { get; set; }
 
 	}

@@ -38,14 +38,15 @@ namespace Game
             pet.PetLayer.Data = 1;
             pet.Quality = quality;
 
+
+            //基础获取一个特性
+            List<PetTrait> traits0 = PetTraitConfigCategory.Instance.BuildTraitList(id, 1, role, quality, offline);
+            pet.TraitList.AddRange(traits0);
+
             //特性，橙色额外随机一个特性
-            //随机默认特性是否变异
-
-            pet.TraitType = PetTraitConfigCategory.Instance.BuildTraitType();
-
             if (quality >= 5)
             {
-                List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, role, quality,offline);
+                List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, 2, role, quality, offline);
 
                 pet.TraitList.AddRange(traits);
             }

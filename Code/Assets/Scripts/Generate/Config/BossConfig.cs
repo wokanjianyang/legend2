@@ -126,21 +126,30 @@ namespace Game
 		/// <summary>MoveSpeed</summary>
 		[ProtoMember(17)]
 		public int MoveSpeed { get; set; }
-		/// <summary>Lucky</summary>
+		/// <summary>Cd</summary>
 		[ProtoMember(18)]
+		public int Cd { get; set; }
+		/// <summary>Lucky</summary>
+		[ProtoMember(19)]
 		public int Lucky { get; set; }
 		/// <summary>Curse</summary>
-		[ProtoMember(19)]
+		[ProtoMember(20)]
 		public int Curse { get; set; }
 		/// <summary>经验</summary>
-		[ProtoMember(20)]
+		[ProtoMember(21)]
 		public long Exp { get; set; }
 		/// <summary>掉落金币</summary>
-		[ProtoMember(21)]
+		[ProtoMember(22)]
 		public long Gold { get; set; }
 		/// <summary>Rate</summary>
-		[ProtoMember(22)]
+		[ProtoMember(23)]
 		public int Rate { get; set; }
+		/// <summary>SkillIdList</summary>
+		[ProtoMember(24)]
+		public int[] SkillIdList { get; set; }
+		/// <summary>RuneCount</summary>
+		[ProtoMember(25)]
+		public int RuneCount { get; set; }
 
 	}
 }

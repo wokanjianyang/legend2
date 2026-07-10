@@ -11,16 +11,9 @@ namespace Game
     {
         private int[] rates = { 1, 4, 10, 25, 45 };
 
-        public int BuildTraitType()
+        public List<PetTrait> BuildTraitList(int petId, int type, int role, int quality, int offline)
         {
-            int tt = RandomHelper.RandomDropRate(100) ? 2 : 1;
-
-            return tt;
-        }
-
-        public List<PetTrait> BuildTraitList(int petId, int role, int quality, int offline)
-        {
-            List<PetTraitConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartPetId <= petId && petId <= m.EndPetId
+            List<PetTraitConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartPetId <= petId && petId <= m.EndPetId && m.Type == type
             && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
 
             List<PetTrait> traits = new List<PetTrait>();
@@ -30,22 +23,30 @@ namespace Game
             for (int i = 1; i <= 1; i++)
             {
                 List<PetTraitConfig> temps = configs.Where(m => !excludeList.Contains(m.Id)).ToList();
-                int index = RandomHelper.RandomNumber(0, temps.Count);
-                PetTraitConfig config = temps[index];
+                List<int> rates = temps.Select(m => m.Rate).ToList();
+                int rd = RandomHelper.RandomListRateIndex(rates);
+                PetTraitConfig config = temps[rd];
 
                 int maxLevel = (petId - config.StartPetId) / config.LevelRate + 1;
 
                 int level = RandomHelper.RandomNumber(1, maxLevel + 1);
 
-                if (offline == 0 && RandomHelper.RandomDropRate(100)) //在线才能变异
+                if (type == 1)
                 {
-                    level++;
+                    level = maxLevel;  //固定天赋，等级固定
                 }
+
+                int tt = 1;
+                if (offline == 0 && RandomHelper.RandomDropRate(100)) //在线天赋可能变异
+                {
+                    tt = 2;
+                }
+
 
                 PetTrait trait = new PetTrait();
                 trait.Id = config.Id;
                 trait.Level = level;
-                trait.Type = BuildTraitType();
+                trait.Type = tt;
                 traits.Add(trait);
 
                 excludeList.Add(config.Id);

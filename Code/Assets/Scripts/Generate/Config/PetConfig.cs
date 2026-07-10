@@ -87,9 +87,9 @@ namespace Game
 		/// <summary>CardId</summary>
 		[ProtoMember(4)]
 		public int CardId { get; set; }
-		/// <summary>TraitId</summary>
+		/// <summary>TraitIdList</summary>
 		[ProtoMember(5)]
-		public int TraitId { get; set; }
+		public int[] TraitIdList { get; set; }
 		/// <summary>TraitLevel</summary>
 		[ProtoMember(6)]
 		public int TraitLevel { get; set; }

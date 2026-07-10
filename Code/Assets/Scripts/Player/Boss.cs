@@ -82,56 +82,29 @@ namespace Game
 
         private void SetSkill()
         {
-            List<SkillData> list = new List<SkillData>();
 
-            PlayerModel model = null;
-
-            List<PlayerModel> models = PlayerModelCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Quality == 0).ToList();
-
-            if (models.Count > 0)
+            if (Config.SkillIdList != null)
             {
-                int index = RandomHelper.RandomNumber(0, models.Count);
-                model = models[index];
-                if (model.SkillList != null)
+                for (int i = 0; i < Config.SkillIdList.Length; i++)
                 {
-                    for (int i = 0; i < model.SkillList.Length; i++)
-                    {
-                        int skillId = model.SkillList[i];
-                        if (this.RuleType == RuleType.BossFamily && this.excludeSkillList.Contains(skillId))
-                        {
-                            continue;
-                        }
+                    int skillId = Config.SkillIdList[i];
 
-                        list.Add(new SkillData(skillId, i)); //增加默认技能
-                    }
+                    SkillData skillData = new SkillData(skillId, i);
+                    skillData.MagicLevel.Data = 1;
+
+                    List<SkillRune> runeList = SkillRuneConfigCategory.Instance.GetAllRune(skillId, Config.RuneCount);
+                    List<SkillSuit> suitList = SkillSuitConfigCategory.Instance.GetAllSuit(skillId, Config.RuneCount);
+                    List<SkillTalent> talentList = SkillTalentConfigCategory.Instance.GetAllTalent(skillId, Config.RuneCount);
+
+                    SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talentList, false);
+
+                    SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
+                    SelectSkillList.Add(skill);
                 }
             }
 
-            list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
-
-            foreach (SkillData skillData in list)
-            {
-                List<SkillRune> runeList = new List<SkillRune>();
-                List<SkillSuit> suitList = new List<SkillSuit>();
-
-                if (model != null)
-                {
-                    if (model.Rune > 0)
-                    {
-                        runeList = SkillRuneConfigCategory.Instance.GetAllRune(skillData.SkillId, model.Rune);
-                    }
-
-                    if (model.Suit > 0)
-                    {
-                        suitList = SkillSuitConfigCategory.Instance.GetAllSuit(skillData.SkillId, model.Suit);
-                    }
-                }
-
-                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, null, false);
-
-                SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                SelectSkillList.Add(skill);
-            }
+            //增加普攻技能
+            AddSkillNormal();
         }
 
         private void MakeReward(DeadRewarddEvent dead)

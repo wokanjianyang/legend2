@@ -27,8 +27,6 @@ namespace Game
 
         public List<PetTrait> TraitList { get; set; } = new List<PetTrait>();
 
-        public int TraitType { get; set; } = 1;
-
         public List<int> Talents { get; set; } = new List<int>();
 
         public int Role { get; set; }
@@ -66,21 +64,21 @@ namespace Game
                 attrs[attrId] += attrValue;
             }
 
-            if (Config.TraitId > 0)
-            {
-                PetTraitConfig trait = PetTraitConfigCategory.Instance.Get(Config.TraitId);
-                for (int i = 0; i < trait.AtrIdList.Length; i++)
-                {
-                    int attrId = trait.AtrIdList[i];
-                    if (!attrs.ContainsKey(attrId))
-                    {
-                        attrs[attrId] = 0;
-                    }
+            //if (Config.TraitId > 0)
+            //{
+            //    PetTraitConfig trait = PetTraitConfigCategory.Instance.Get(Config.TraitId);
+            //    for (int i = 0; i < trait.AtrIdList.Length; i++)
+            //    {
+            //        int attrId = trait.AtrIdList[i];
+            //        if (!attrs.ContainsKey(attrId))
+            //        {
+            //            attrs[attrId] = 0;
+            //        }
 
-                    long atrVue = trait.GetVue(i, Config.TraitLevel, this.TraitType);
-                    attrs[attrId] += atrVue;
-                }
-            }
+            //        long atrVue = trait.GetVue(i, Config.TraitLevel, this.TraitType);
+            //        attrs[attrId] += atrVue;
+            //    }
+            //}
 
             for (int t = 0; t < this.TraitList.Count; t++)
             {
@@ -128,10 +126,6 @@ namespace Game
         {
             bool important = false;
 
-            if (TraitType > 1)
-            {
-                important = true;
-            }
             if (TraitList.Where(m => m.Type > 1).Count() > 1)
             {
                 important = true;

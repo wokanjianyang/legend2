@@ -129,22 +129,14 @@ namespace Game
 
             for (int i = 0; i < TraitList.Count; i++)
             {
-                if (i == 0)
+                if (i < pet.TraitList.Count)
                 {
                     TraitList[i].gameObject.SetActive(true);
-                    TraitList[0].SetContent(pet.Config.TraitId, pet.Config.TraitLevel, pet.TraitType);
+                    TraitList[i].SetContent(pet.TraitList[i].Id, pet.TraitList[i].Level, pet.TraitList[i].Type);
                 }
                 else
                 {
-                    if (i <= pet.TraitList.Count)
-                    {
-                        TraitList[i].gameObject.SetActive(true);
-                        TraitList[i].SetContent(pet.TraitList[i - 1].Id, pet.TraitList[i - 1].Level, pet.TraitList[i - 1].Type);
-                    }
-                    else
-                    {
-                        TraitList[i].gameObject.SetActive(false);
-                    }
+                    TraitList[i].gameObject.SetActive(false);
                 }
             }
 

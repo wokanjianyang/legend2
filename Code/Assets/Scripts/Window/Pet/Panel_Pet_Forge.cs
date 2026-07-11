@@ -34,6 +34,8 @@ public class Panel_Pet_Forge : MonoBehaviour
     private int SelectMainIndex = -1;
     private int SelectBagIndex = -1;
 
+    private int BasePercent = 80;
+
     private void Awake()
     {
         Btn_OK.onClick.AddListener(OnClick_Ok);
@@ -165,9 +167,11 @@ public class Panel_Pet_Forge : MonoBehaviour
 
             Pet pet = bm.CurrentItem;
 
+            int bp = GetBasePercetn();
+
             Txt_Name_Bag.text = pet.GetName();
-            Txt_Kill_Bag.text = "+" + pet.GetTotalKillCount() + "*80% É±µÐ";
-            Txt_Exp_Bag.text = "+" + pet.LevelExp.Data + "*80% Exp";
+            Txt_Kill_Bag.text = "+" + pet.GetTotalKillCount() + "*" + bp + "% É±µÐ";
+            Txt_Exp_Bag.text = "+" + pet.GetTotalExp() + "*" + bp + "% Exp";
         }
 
         if (SelectMainIndex >= 0 && SelectBagIndex >= 0)
@@ -194,6 +198,14 @@ public class Panel_Pet_Forge : MonoBehaviour
         this.ShowInfo();
     }
 
+    private int GetBasePercetn()
+    {
+        User user = User_Data_Manager.Data;
+        int bp = BasePercent + (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.PetInherit);
+
+        return Math.Min(bp, 100);
+    }
+
     public void OnClick_Ok()
     {
         this.Btn_OK.gameObject.SetActive(false);
@@ -210,11 +222,14 @@ public class Panel_Pet_Forge : MonoBehaviour
         //Ïú»Ù
         GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent() { });
 
-        petMain.AddKillCount((int)(petBag.KillCount.Data * 80 / 100));
+        int bp = GetBasePercetn();
 
-        long total = PetAtrConfigCategory.Instance.GetPetFee(petBag.PetLevel.Data) + petBag.LevelExp.Data;
+        long bk = (long)(petBag.KillCount.Data * bp / 100);
+        petMain.AddKillCount(bk);
 
-        petMain.AddExp((int)(total * 80 / 100));
+        long total = petBag.GetTotalExp();
+        long bt = total * bp / 100;
+        petMain.AddExp(bt);
 
         this.Show();
     }

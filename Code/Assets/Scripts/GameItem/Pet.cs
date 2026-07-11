@@ -114,7 +114,20 @@ namespace Game
             {
                 this.LevelExp.Data -= fee;
                 this.PetLevel.Data++;
+
+                fee = PetAtrConfigCategory.Instance.GetPetFee(PetLevel.Data);
             }
+        }
+
+        public long GetTotalExp()
+        {
+            long total = this.LevelExp.Data;
+            for (int i = 1; i < this.PetLevel.Data; i++)
+            {
+                total += PetAtrConfigCategory.Instance.GetPetFee(i);
+            }
+
+            return total;
         }
 
         public void AddKillCount(double rate)

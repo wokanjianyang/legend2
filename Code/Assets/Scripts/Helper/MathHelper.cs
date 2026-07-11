@@ -22,7 +22,6 @@ namespace Game
 
         public static long GetSeqByType(int type, long level, long bc)
         {
-
             if (type == 0)  //0，不增加
             {
                 return bc;
@@ -38,6 +37,10 @@ namespace Game
             else if (type == 3)  //3，指数增加，pow(2,10)
             {
                 return (long)Math.Pow(bc, level);
+            }
+            else if (type == 4) //4.平方，10级需要10*10
+            {
+                return level * level * bc;
             }
 
             return 0;
@@ -60,6 +63,11 @@ namespace Game
             else if (type == 3)  //3，指数增加，pow(2,10)
             {
                 return (long)Math.Pow(bc, level - 1);
+            }
+            else if (type == 4)  //平方差 4-5需要 5*5-4*4
+            {
+                long f = level * level - (level - 1) * (level - 1);
+                return f * bc;
             }
 
             return 0;

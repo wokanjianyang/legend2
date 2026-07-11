@@ -234,17 +234,14 @@ namespace Game
 
         public long GetPetFee(long level)
         {
-            return 50000 + (level - 1) * 5000;
+            long f = level * level - (level - 1) * (level - 1);
+            return 2000 * f;
         }
 
         public long GetFeeTotal(long level)
         {
-            long total = 0;
-            for (int i = 1; i < level; i++)
-            {
-                total += GetPetFee(i);
-            }
-            return total;
+            long f = level * level;
+            return 2000 * f;
         }
 
         public int GetPetLayerFee(long layer)

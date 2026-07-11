@@ -282,7 +282,7 @@ namespace Game
             }
 
             //¸ÅÂÊ»ñÈ¡²Êµ°
-            if (RandomHelper.RandomNumber(0, 200000) <= 0)
+            if (RandomHelper.RandomNumber(0, 300000) <= 0)
             {
                 int achId = AchievementConfigCategory.Instance.RandomKillType(10001);
                 if (achId > 0)

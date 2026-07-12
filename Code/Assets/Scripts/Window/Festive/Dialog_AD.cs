@@ -42,9 +42,9 @@ public class Dialog_AD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Btn_Read1.onClick.AddListener(() => { ReadAd(1); });
-        Btn_Read2.onClick.AddListener(() => { ReadAd(2); });
-        Btn_Read3.onClick.AddListener(() => { ReadAd(3); });
+        Btn_Read1.onClick.AddListener(() => { ReadAdOld(1); });
+        Btn_Read2.onClick.AddListener(() => { ReadAdOld(2); });
+        Btn_Read3.onClick.AddListener(() => { ReadAdOld(3); });
 
         Btn_Close.onClick.AddListener(OnClick_Close);
 
@@ -197,14 +197,14 @@ public class Dialog_AD : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
-        if (toggle_Skip.isOn || true)
+        if (toggle_Skip.isOn)
         {
             int skipCount = user.AdData.GetSkipCount();
 
-            if (skipCount > 0 || true)
+            if (skipCount > 0)
             {
                 //使用跳过次数
-                //user.AdData.Use(); 正式之后要改回来
+                user.AdData.Use(); //正式之后要改回来
                 RewardAd(type, true);
                 return;
             }

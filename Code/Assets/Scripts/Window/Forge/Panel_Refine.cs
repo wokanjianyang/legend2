@@ -187,6 +187,12 @@ public class Panel_Refine : MonoBehaviour
 
         Equip equip = CurrentItem as Equip;
 
+        if (equip == null)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有装备", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
         long nextLevel = equip.RefineLevel.Data + 1;
 
         long fee1 = EquipRefineFeeConfigCategory.Instance.GetFee1(nextLevel, equip.Config.RefineFee);

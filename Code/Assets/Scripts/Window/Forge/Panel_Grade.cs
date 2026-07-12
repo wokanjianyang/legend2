@@ -100,7 +100,9 @@ public class Panel_Grade : MonoBehaviour
 
             EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetConfig(SelectPosition, nextLayer);
 
-            if (config == null)
+            int maxLevel = (int)(Math.Max(5, user.MagicLevel.Data / 5));
+
+            if (config == null || nextLayer >= maxLevel)
             {
                 foreach (Text Txt_Fee in Txt_Fee_List)
                 {

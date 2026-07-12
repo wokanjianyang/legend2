@@ -130,7 +130,7 @@ namespace ET
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
-            PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
+            PlayerSettings.applicationIdentifier = "com.lcgame.wujinzhanchong";
             PlayerSettings.Android.useCustomKeystore = true;
             EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
 
@@ -146,7 +146,7 @@ namespace ET
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
-            PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
+            PlayerSettings.applicationIdentifier = "com.lcgame.wujinzhanchong";
             PlayerSettings.Android.useCustomKeystore = true;
             EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
             var opa = BuildOptions.CompressWithLz4HC;
@@ -188,7 +188,7 @@ namespace ET
             var ret = false;
             try
             {
-                string name = "暗域2之宠物";
+                string name = "无尽战宠";
 
                 //if (buildType == BuildType.Debug)
                 //{

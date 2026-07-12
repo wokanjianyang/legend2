@@ -99,6 +99,13 @@ namespace Game
             pet.PetLayer.Data = 1;
             pet.Quality = config.FlairIdList.Length;
 
+            //特性
+            PetTrait trait = new PetTrait();
+            trait.Id = 1;
+            trait.Level = 1;
+            trait.Type = 1;
+            pet.TraitList.Add(trait);
+
             //杀敌资质
             for (int i = 0; i < config.FlairIdList.Length; i++)
             {

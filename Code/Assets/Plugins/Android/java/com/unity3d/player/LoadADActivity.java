@@ -95,7 +95,7 @@ public class LoadADActivity extends AppCompatActivity {
 
 
     private void loadBannerAD() {
-        mBannerAD = new BannerAD(this, "55343");
+        mBannerAD = new BannerAD(this, "59619");
         mBannerAD.setBannerADListener(new BannerADListener() {
             @Override
             public void onSuccess() {

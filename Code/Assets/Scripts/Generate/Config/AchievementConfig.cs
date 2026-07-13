@@ -96,24 +96,24 @@ namespace Game
 		/// <summary>ConRiseType</summary>
 		[ProtoMember(7)]
 		public int ConRiseType { get; set; }
-		/// <summary>CondRiseVue</summary>
-		[ProtoMember(8)]
-		public long CondRiseVue { get; set; }
 		/// <summary>RewardType</summary>
-		[ProtoMember(9)]
+		[ProtoMember(8)]
 		public int RewardType { get; set; }
 		/// <summary>AtrIdList</summary>
-		[ProtoMember(10)]
+		[ProtoMember(9)]
 		public int[] AtrIdList { get; set; }
 		/// <summary>AtrVueList</summary>
-		[ProtoMember(11)]
+		[ProtoMember(10)]
 		public int[] AtrVueList { get; set; }
 		/// <summary>AtrRiseTypeList</summary>
-		[ProtoMember(12)]
+		[ProtoMember(11)]
 		public int[] AtrRiseTypeList { get; set; }
 		/// <summary>Memo</summary>
-		[ProtoMember(13)]
+		[ProtoMember(12)]
 		public string Memo { get; set; }
+		/// <summary>CondRiseVue</summary>
+		[ProtoMember(13)]
+		public long CondRiseVue { get; set; }
 
 	}
 }

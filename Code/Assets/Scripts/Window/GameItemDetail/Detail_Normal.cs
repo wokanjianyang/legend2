@@ -184,6 +184,12 @@ namespace Game
                 }
 
             }
+
+            if (user.MagicLevel.Data < requireLevel) {
+                this.Btn_Use.gameObject.SetActive(false);
+                this.Btn_Use_Batch.gameObject.SetActive(false);
+                this.Btn_UseAll.gameObject.SetActive(false);
+            }
         }
 
         private void OnRecovery()

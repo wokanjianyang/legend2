@@ -18,18 +18,29 @@ namespace Game
             {
                 return 0;
             }
-            else if (config.ConRiseType == 1)
+
+            //if (level == 1)
+            //{
+            //    return config.Condition;
+            //}
+
+            if (level <= config.Max)
             {
-                return config.Condition + (level - 1) * config.CondRiseVue;
+                return MathHelper.GetSeqByType(config.ConRiseType, level, config.Condition);
             }
-            else if (config.ConRiseType == 2) //sq
-            {
-                return (long)(config.Condition * Math.Pow(2, level));
-            }
-            else if (config.ConRiseType == 3) //sq
-            {
-                return config.Condition * MathHelper.GetSequence2(level);
-            }
+
+            //else if (config.ConRiseType == 1)
+            //{
+            //    return config.Condition + (level - 1) * config.CondRiseVue;
+            //}
+            //else if (config.ConRiseType == 2) //sq
+            //{
+            //    return (long)(config.Condition * Math.Pow(2, level));
+            //}
+            //else if (config.ConRiseType == 3) //sq
+            //{
+            //    return config.Condition * MathHelper.GetSequence2(level);
+            //}
 
 
             return long.MaxValue;
@@ -96,6 +107,8 @@ namespace Game
 
         PetWear = 100,  //上阵宠物
         PetTotal = 101,  //累计获取宠物数量
+        PetBattle = 102,  //宠物出战数量
+
         EquipTotal = 201, //累计获取装备数量
         EquipRefine = 202, //精炼等级
         EquipStrong = 203, //强化等级

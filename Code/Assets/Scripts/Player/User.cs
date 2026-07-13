@@ -927,6 +927,9 @@ namespace Game
                 case AchievementProType.PetWear:
                     progress = this.PetList.Count;
                     break;
+                case AchievementProType.PetBattle:
+                    progress = this.PetList.Where(m => m.Status == 1).Count();
+                    break;
                 case AchievementProType.StageCount:
                     return this.MapId - 1;
                 case AchievementProType.RecoverySet:

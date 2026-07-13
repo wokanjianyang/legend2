@@ -338,14 +338,6 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.RateDef, attrKey++, Level * 1);
             AttributeBonus.SetAttr(AttributeEnum.RateHp, attrKey++, Level * 1);
 
-            if (ConfigHelper.EnvTest == 2)
-            {
-                AttributeBonus.SetAttr(AttributeEnum.ExpIncrea, attrKey++, 500);
-                AttributeBonus.SetAttr(AttributeEnum.GoldIncrea, attrKey++, 500);
-                AttributeBonus.SetAttr(AttributeEnum.BurstIncrea, attrKey++, 500);
-                AttributeBonus.SetAttr(AttributeEnum.QualityIncrea, attrKey++, 500);
-            }
-
             //设置升级属性
             SetUpExp();
 

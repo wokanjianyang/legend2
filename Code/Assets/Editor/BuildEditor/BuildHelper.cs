@@ -120,7 +120,8 @@ namespace ET
             EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
             var opa = BuildOptions.CompressWithLz4HC;
 
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, "");
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, "IS_Test");
+
             BuildHelper.Build(BuildType.Release, PlatformType.Android, BuildAssetBundleOptions.ForceRebuildAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression, opa, true, true, true, "测试版");
         }
 
@@ -156,33 +157,6 @@ namespace ET
             BuildHelper.Build(BuildType.Release, PlatformType.Android, BuildAssetBundleOptions.ForceRebuildAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression, opa, true, true, true, "QQ版", true);
         }
 
-
-        [MenuItem("开发工具/生成正式包Taptap版和兼容版")]
-        public static void BuildReleaseAll()
-        {
-            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
-            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
-            PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
-            PlayerSettings.Android.useCustomKeystore = true;
-            EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
-            var opa = BuildOptions.CompressWithLz4HC;
-
-            var buildSuccess = BuildHelper.Build(BuildType.Release, PlatformType.Android, BuildAssetBundleOptions.ForceRebuildAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression, opa, true, true, true, "Taptap版", false);
-
-            if (buildSuccess)
-            {
-                PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
-                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.All;
-                PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel25;
-                PlayerSettings.applicationIdentifier = "com.lcgame.anyu2";
-                PlayerSettings.Android.useCustomKeystore = true;
-                EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
-                opa = BuildOptions.CompressWithLz4HC;
-
-                BuildHelper.Build(BuildType.Release, PlatformType.Android, BuildAssetBundleOptions.ForceRebuildAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression, opa, true, true, true, "兼容版");
-            }
-        }
         public static bool Build(BuildType buildType, PlatformType type, BuildAssetBundleOptions buildAssetBundleOptions, BuildOptions buildOptions, bool isBuildExe, bool isContainAB, bool clearFolder, string ext = "", bool isAddVersionNum = true)
         {
             var ret = false;

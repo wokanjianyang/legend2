@@ -257,6 +257,7 @@ namespace Game
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("account", account);
             dict.Add("pwd", pwd);
+            dict.Add("srvId", ConfigHelper.SrvId + "");
 
             string param = JsonConvert.SerializeObject(dict);
 

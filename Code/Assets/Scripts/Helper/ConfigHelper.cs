@@ -16,6 +16,14 @@ namespace Game
         public const int AC = 2; //Tap 1 QQ 2
 #endif
 
+#if IS_Test
+        public const int TestRate = 5;
+        public const int SrvId = 98; //测试服99
+#else
+        public const int TestRate = 1;
+        public const int SrvId = 1; //正式1
+#endif
+
         public const int Channel_Tap = 1;
 
         public const int Version = 1;
@@ -115,12 +123,10 @@ namespace Game
 
         public const double PetKillPercent = 100.0;  //为了符合小数值，杀怪加属性削弱十倍
 
-        public const int EnvTest = 0;  //0 不测试 ，1 测试伤害  2测试爆率
+        public const int EnvTest = 0;  //0 不测试 ，1 测试伤害
 
         public const int OfflineTime = 60 * 2;
 
         public const int SkillBoxExp = 500;
-
-        public const int TestRate = 20;
     }
 }

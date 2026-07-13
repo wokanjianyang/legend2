@@ -17,7 +17,7 @@ namespace Game
 #endif
 
 #if IS_Test
-        public const int TestRate = 5;
+        public const int TestRate = 10;
         public const int SrvId = 98; //测试服99
 #else
         public const int TestRate = 1;

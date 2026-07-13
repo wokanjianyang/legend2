@@ -197,11 +197,11 @@ public class Dialog_AD : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
-        if (toggle_Skip.isOn)
+        if (toggle_Skip.isOn || ConfigHelper.TestRate > 1)
         {
             int skipCount = user.AdData.GetSkipCount();
 
-            if (skipCount > 0)
+            if (skipCount > 0 || ConfigHelper.TestRate > 1)
             {
                 //使用跳过次数
                 user.AdData.Use(); //正式之后要改回来

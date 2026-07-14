@@ -122,7 +122,11 @@ namespace Game
         // Start is called before the first frame update
         void Start()
         {
-
+            User user = User_Data_Manager.Data;
+            if (user.AccountId == "" || user.MagicLevel.Data <= 20)
+            {
+                this.Btn_Store.gameObject.SetActive(false);
+            }
         }
 
         // Update is called once per frame

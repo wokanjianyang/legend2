@@ -1302,7 +1302,7 @@ namespace Game
 
         public long GetStrengthLimit()
         {
-            return this.MagicLevel.Data - 20 + (int)AttributeBonus.CalPanelAtr(AttributeEnum.EquipStrongLimit);
+            return this.MagicLevel.Data - 15 + (int)AttributeBonus.CalPanelAtr(AttributeEnum.EquipStrongLimit);
         }
 
         public long GetRefineLimit(long equipMax)

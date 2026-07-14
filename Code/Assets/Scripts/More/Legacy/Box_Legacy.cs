@@ -73,7 +73,7 @@ namespace Game
 
                     if (layer > 0)
                     {
-                        this.Txt_Layer.text = ConfigHelper.LayerChinaList[layer] + "阶";
+                        this.Txt_Layer.text = layer + "阶";
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
 

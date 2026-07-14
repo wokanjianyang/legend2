@@ -105,7 +105,7 @@ namespace Game
             Txt_Des.text = item.GetDes();
             this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, requireLevel);
 
-            if (e.Box_Type == ComBoxType.Bag)
+            if (e.Box_Type == ComBoxType.Bag && requireLevel <= user.MagicLevel.Data)
             {
                 if (item.GetItemType() != ItemType.GiftPack)
                 {
@@ -135,18 +135,27 @@ namespace Game
                                 this.Btn_Use.gameObject.SetActive(true);
                                 this.Btn_Use_Batch.gameObject.SetActive(false);
                                 this.Btn_UseAll.gameObject.SetActive(false);
+
+                                this.Btn_Recovery.gameObject.SetActive(false);
+                                this.Btn_Recovery_All.gameObject.SetActive(false);
                             }
                             else if (sd.MagicLevel.Data < sd.SkillConfig.MaxLevel) //未满级
                             {
                                 this.Btn_Use.gameObject.SetActive(true);
                                 this.Btn_Use_Batch.gameObject.SetActive(true);
                                 this.Btn_UseAll.gameObject.SetActive(true);
+
+                                this.Btn_Recovery.gameObject.SetActive(false);
+                                this.Btn_Recovery_All.gameObject.SetActive(false);
                             }
                             else
                             {
                                 this.Btn_Use.gameObject.SetActive(false);
                                 this.Btn_Use_Batch.gameObject.SetActive(false);
                                 this.Btn_UseAll.gameObject.SetActive(false);
+
+                                this.Btn_Recovery.gameObject.SetActive(true);
+                                this.Btn_Recovery_All.gameObject.SetActive(true);
                             }
                         }
                         break;
@@ -183,12 +192,6 @@ namespace Game
                         break;
                 }
 
-            }
-
-            if (user.MagicLevel.Data < requireLevel) {
-                this.Btn_Use.gameObject.SetActive(false);
-                this.Btn_Use_Batch.gameObject.SetActive(false);
-                this.Btn_UseAll.gameObject.SetActive(false);
             }
         }
 

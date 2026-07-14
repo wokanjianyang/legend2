@@ -193,8 +193,10 @@ namespace Game
             long level = this.RefineLevel.Data;
             if (level > 0)
             {
+                User user = User_Data_Manager.Data;
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(Config.Part);
                 basePercent += refineConfig.GetRisePercent(level, 1);
+                basePercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipBaseIncrea);
                 randomPercent += refineConfig.GetRisePercent(level, 2);
             }
 

@@ -106,7 +106,7 @@ public class Panel_Refine : MonoBehaviour
         Equip equip = this.CurrentItem as Equip;
         long currentLevel = equip.RefineLevel.Data;
 
-        long MaxLevel = equip.Config.RefineMax;
+        long MaxLevel = user.GetRefineLimit(equip.Config.RefineMax);
 
         items[SelectPosition - 1].Refresh();
 

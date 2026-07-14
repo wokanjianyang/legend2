@@ -1300,6 +1300,16 @@ namespace Game
             MagicEquipStrength[position].Data += level;
         }
 
+        public long GetStrengthLimit()
+        {
+            return this.MagicLevel.Data - 20 + (int)AttributeBonus.CalPanelAtr(AttributeEnum.EquipStrongLimit);
+        }
+
+        public long GetRefineLimit(long equipMax)
+        {
+            long limit = (int)AttributeBonus.CalPanelAtr(AttributeEnum.EquipRefineLimit);
+            return limit + equipMax;
+        }
 
         //public long GetRefineLevel(int position)
         //{

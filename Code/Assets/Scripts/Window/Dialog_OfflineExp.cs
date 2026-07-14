@@ -106,107 +106,6 @@ namespace Game
             //测试道具
             this.TestSend(user);
 
-            if (user.OfflineLog.Count != 2)
-            {
-                this.Txt_Name.text = "没有设定离线副本";
-                this.Txt_Exp.text = "没有收益";
-                return;
-            }
-
-            List<Item> itemList = new List<Item>();
-
-            long currentTick = TimeHelper.ClientNowSeconds();
-            long offlineTime = currentTick - user.SecondExpTick;
-
-            int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
-
-            //tempTime = 3600 * 20;
-
-            int mapId = user.OfflineLog[1];
-            int total = user.OfflineLog[2];
-
-            MapConfig mapConfig = MapConfigCategory.Instance.Get(mapId);
-            MonsterConfig monsterConfig = MonsterConfigCategory.Instance.Get(mapId);
-
-            int killCount = tempTime / ConfigHelper.OfflineTime * total;
-
-            double kc = killCount * (mapConfig.GroupId + 1) / ConfigHelper.PetKillPercent;
-
-            List<Item> items = new List<Item>();
-            long exp = 0;
-            long gold = 0;
-
-            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100 + mapConfig.DropRise) / 100.0;
-            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100 + mapConfig.QualtityRise) / 100.0;
-            double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
-            double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
-
-            exp += ((long)(monsterConfig.Exp * expRise)) * killCount;
-            gold += ((long)(monsterConfig.Gold * goldRise)) * killCount;
-
-            items.AddRange(BuildMapReward1(killCount, mapId, burstRise, qualityRise, ref gold));
-
-            //itemList.Add(ItemHelper.BuildItem(dropConfig.ItemType, config.DropIdList, 0, sp.Value));
-
-            //离线经验，金币
-
-            //离线挖矿
-            //this.BuildOfflineMine(user, tempTime, ref OfflineMessage);
-
-            user.SecondExpTick = currentTick;
-            this.Txt_Name.text = mapConfig.Name + "：离线时间" + tempTime + "秒";
-            this.Txt_Kill.text = "击杀怪物：" + killCount + "，杀敌数+" + kc;
-            this.Txt_Exp.text = "获得经验：" + exp + "，金币：" + gold;
-
-            //金币经验奖励
-            user.AddExpAndGold(exp, gold);
-
-            //杀敌数
-            user.KillMonsterEnvent(kc, 1, killCount);
-
-            //增加杀怪成就数量
-            int[] qcl = { 1, 10, 100, 1000, 10000 };
-            for (int q = 5; q >= 2; q--)
-            {
-                int qb = qcl[q - 1];
-                int kqc = killCount / qb;
-
-                AchievementProType mk = (AchievementProType)(301 + q);
-                user.AddAchievementProgeress(mk, kqc);
-            }
-
-
-            foreach (var item in items)
-            {
-                Box_Drop box = PrefabHelper.Instance().CreateBoxDrop(Container.content, item);
-            }
-
-            foreach (var item in items)
-            {
-
-                if (item.GetItemType() == ItemType.Material_Hide)
-                {
-                    user.SaveHideMaterialCount(item.ConfigId, item.Temp_Number);
-                }
-                else
-                {
-                    BoxItem boxItem = user.Bags.Find(m => !m.IsFull() && m.Item.GetItemType() == item.GetItemType() && m.Item.ConfigId == item.ConfigId);  //ͬ
-
-                    if (boxItem != null)
-                    {
-                        boxItem.AddStack(item.Temp_Number);
-                    }
-                    else
-                    {
-                        boxItem = new BoxItem();
-                        boxItem.Item = item;
-                        boxItem.MagicNubmer.Data = Math.Max(1, item.Temp_Number);
-                        boxItem.BoxId = -1;
-                        user.Bags.Add(boxItem);
-                    }
-                }
-            }
-
             //检查
             DateTime saveDate = new DateTime(user.DataDate);
             if (saveDate.Day < DateTime.Now.Day || saveDate.Month < DateTime.Now.Month || saveDate.Year < DateTime.Now.Year)
@@ -217,6 +116,110 @@ namespace Game
 
                 user.DataDate = DateTime.Now.Ticks;
                 //保存到Tap
+            }
+
+            if (user.OfflineLog.Count != 2)
+            {
+                this.Txt_Name.text = "没有设定离线副本";
+                this.Txt_Exp.text = "没有收益";
+                this.Txt_Kill.text = "没有收益";
+                this.Txt_Msg.text = "没有收益";
+            }
+            else {
+
+                List<Item> itemList = new List<Item>();
+
+                long currentTick = TimeHelper.ClientNowSeconds();
+                long offlineTime = currentTick - user.SecondExpTick;
+
+                int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
+
+                //tempTime = 3600 * 20;
+
+                int mapId = user.OfflineLog[1];
+                int total = user.OfflineLog[2];
+
+                MapConfig mapConfig = MapConfigCategory.Instance.Get(mapId);
+                MonsterConfig monsterConfig = MonsterConfigCategory.Instance.Get(mapId);
+
+                int killCount = tempTime / ConfigHelper.OfflineTime * total;
+
+                double kc = killCount * (mapConfig.GroupId + 1) / ConfigHelper.PetKillPercent;
+
+                List<Item> items = new List<Item>();
+                long exp = 0;
+                long gold = 0;
+
+                double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100 + mapConfig.DropRise) / 100.0;
+                double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100 + mapConfig.QualtityRise) / 100.0;
+                double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
+                double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
+
+                exp += ((long)(monsterConfig.Exp * expRise)) * killCount;
+                gold += ((long)(monsterConfig.Gold * goldRise)) * killCount;
+
+                items.AddRange(BuildMapReward1(killCount, mapId, burstRise, qualityRise, ref gold));
+
+                //itemList.Add(ItemHelper.BuildItem(dropConfig.ItemType, config.DropIdList, 0, sp.Value));
+
+                //离线经验，金币
+
+                //离线挖矿
+                //this.BuildOfflineMine(user, tempTime, ref OfflineMessage);
+
+                user.SecondExpTick = currentTick;
+                this.Txt_Name.text = mapConfig.Name + "：离线时间" + tempTime + "秒";
+                this.Txt_Kill.text = "击杀怪物：" + killCount + "，杀敌数+" + kc;
+                this.Txt_Exp.text = "获得经验：" + exp + "，金币：" + gold;
+
+                //金币经验奖励
+                user.AddExpAndGold(exp, gold);
+
+                //杀敌数
+                user.KillMonsterEnvent(kc, 1, killCount);
+
+                //增加杀怪成就数量
+                int[] qcl = { 1, 10, 100, 1000, 10000 };
+                for (int q = 5; q >= 2; q--)
+                {
+                    int qb = qcl[q - 1];
+                    int kqc = killCount / qb;
+
+                    AchievementProType mk = (AchievementProType)(301 + q);
+                    user.AddAchievementProgeress(mk, kqc);
+                }
+
+
+                foreach (var item in items)
+                {
+                    Box_Drop box = PrefabHelper.Instance().CreateBoxDrop(Container.content, item);
+                }
+
+                foreach (var item in items)
+                {
+
+                    if (item.GetItemType() == ItemType.Material_Hide)
+                    {
+                        user.SaveHideMaterialCount(item.ConfigId, item.Temp_Number);
+                    }
+                    else
+                    {
+                        BoxItem boxItem = user.Bags.Find(m => !m.IsFull() && m.Item.GetItemType() == item.GetItemType() && m.Item.ConfigId == item.ConfigId);  //ͬ
+
+                        if (boxItem != null)
+                        {
+                            boxItem.AddStack(item.Temp_Number);
+                        }
+                        else
+                        {
+                            boxItem = new BoxItem();
+                            boxItem.Item = item;
+                            boxItem.MagicNubmer.Data = Math.Max(1, item.Temp_Number);
+                            boxItem.BoxId = -1;
+                            user.Bags.Add(boxItem);
+                        }
+                    }
+                }
             }
 
             GameProcessor.Inst.SaveData();

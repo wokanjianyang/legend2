@@ -136,6 +136,7 @@ public class Panel_Grade : MonoBehaviour
         else
         {
             Tf_Fee.gameObject.SetActive(false);
+            Btn_Ok.gameObject.SetActive(false);
             Txt_Info.text = "此装备不能升阶";
         }
     }

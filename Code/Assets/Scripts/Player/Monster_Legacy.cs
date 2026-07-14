@@ -146,7 +146,7 @@ public class Monster_Legacy : APlayer
                 //auto Replace
                 if (currentLayer > 0)
                 {
-                    recoveryStone += currentLayer;
+                    recoveryStone = currentLayer / 2 + 1;
 
                     message += ",并且回收之前的获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
 
@@ -155,7 +155,7 @@ public class Monster_Legacy : APlayer
             }
             else
             {
-                recoveryStone += dropLayer;
+                recoveryStone = dropLayer / 2 + 1;
 
                 message += ",自动回收获得" + recoveryStone + "个<color=#" + QualityConfigHelper.GetQualityColor(5) + ">传世精华</color>";
             }

@@ -116,7 +116,7 @@ namespace Game
                 }
 
                 MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
-                this.Txt_MapName.text = "传世挑(" + type + ")";
+                this.Txt_MapName.text = "传世挑战(" + type + ")";
             }
             else if (e.Type == RuleType.Defend)
             {

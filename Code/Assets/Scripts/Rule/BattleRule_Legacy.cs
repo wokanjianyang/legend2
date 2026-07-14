@@ -30,7 +30,7 @@ public class BattleRule_Legacy : ABattleRule
 
         User user = User_Data_Manager.Data;
 
-        this.Layer = user.GetLegacyCurrentSet();
+        this.Layer = user.GetLegacyCurrentSet() + Type;
         user.LegacyData.Time.Data -= 3;
 
         MapTime = 0;

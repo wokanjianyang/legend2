@@ -74,10 +74,13 @@ public class Achievment_Item : MonoBehaviour
         if (level >= Config.Max)
         {
             Txt_Ok.gameObject.SetActive(true);
+            Btn_Active.gameObject.SetActive(false);
+            Txt_Progress.text = "进度：已满级";
+            Txt_Des.text = "已满级";
             return;
         }
 
-        if (progress >= require && require>0)
+        if (progress >= require && require > 0)
         {
             Btn_Active.gameObject.SetActive(true);
         }

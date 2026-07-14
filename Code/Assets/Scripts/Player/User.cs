@@ -641,7 +641,7 @@ namespace Game
 
         public int GetSuitMax()
         {
-            return 4;
+            return 4 - (int)AttributeBonus.CalPanelAtr(AttributeEnum.SkillSuitCount);
         }
 
         public List<SkillSuit> GetSuitList(int skillId)

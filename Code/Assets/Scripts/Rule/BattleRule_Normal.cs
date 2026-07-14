@@ -16,6 +16,8 @@ namespace Game
 
         private MapConfig mapConfig;
 
+        private int MaxBossId = 0;  //当前可以刷新的boss
+
         public BattleRule_Normal()
         {
             mapConfig = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
@@ -28,10 +30,12 @@ namespace Game
 
             if (k1 >= 1)  //有勇气号角，刷新低于此图的所有boss
             {
+                MaxBossId = Math.Max(mapConfig.BossId, mapConfig.GroupId - 1);
                 configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id <= mapConfig.BossId || m.Id < mapConfig.GroupId).ToList();
             }
             else  //没有勇气号角，只有boss图刷新固定boss
             {
+                MaxBossId = mapConfig.BossId;
                 configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id == mapConfig.BossId).ToList();
             }
 
@@ -71,9 +75,12 @@ namespace Game
 
                 foreach (var sp in AppHelper.BossLogs)
                 {
-                    if (sp.RandomRefresh())
+                    if (sp.BossId <= MaxBossId)
                     {
-                        GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(sp.BossId, RuleType.Normal));
+                        if (sp.RandomRefresh())
+                        {
+                            GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(sp.BossId, RuleType.Normal));
+                        }
                     }
                 }
             }
@@ -107,7 +114,7 @@ namespace Game
             {
                 foreach (var sp in AppHelper.BossLogs)
                 {
-                    if (sp.BossId <= mapConfig.BossId)
+                    if (sp.BossId <= MaxBossId)
                     {
                         sp.Count += ConfigHelper.TestRate; //20倍测试
                     }
@@ -168,7 +175,7 @@ namespace Game
 
         public bool RandomRefresh()
         {
-            Debug.Log("boss count：" + Count);
+            //Debug.Log("boss " + BossId + " count：" + Count);
 
             if (AppHelper.Boss) //已经刷新了，不再刷新
             {

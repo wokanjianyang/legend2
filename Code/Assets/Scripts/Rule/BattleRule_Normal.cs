@@ -21,8 +21,20 @@ namespace Game
             mapConfig = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
             AppHelper.Boss = false;
 
+            User user = User_Data_Manager.Data;
+            int k1 = user.GetExclusiveLevel(104);
 
-            List<BossConfig> configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id <= mapConfig.BossId || m.Id < mapConfig.GroupId).ToList();
+            List<BossConfig> configs;
+
+            if (k1 >= 1)  //有勇气号角，刷新低于此图的所有boss
+            {
+                configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id <= mapConfig.BossId || m.Id < mapConfig.GroupId).ToList();
+            }
+            else  //没有勇气号角，只有boss图刷新固定boss
+            {
+                configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id == mapConfig.BossId).ToList();
+            }
+
             foreach (BossConfig config in configs)
             {
                 BossLog log = AppHelper.BossLogs.Where(m => m.BossId == config.Id).FirstOrDefault();
@@ -91,11 +103,14 @@ namespace Game
                 return 1;
             }
 
-            foreach (var sp in AppHelper.BossLogs)
+            if (!AppHelper.Boss) //击杀boss过程中，不增加保底
             {
-                if (sp.BossId <= mapConfig.BossId)
+                foreach (var sp in AppHelper.BossLogs)
                 {
-                    sp.Count += 20; //20倍测试
+                    if (sp.BossId <= mapConfig.BossId)
+                    {
+                        sp.Count += ConfigHelper.TestRate; //20倍测试
+                    }
                 }
             }
 

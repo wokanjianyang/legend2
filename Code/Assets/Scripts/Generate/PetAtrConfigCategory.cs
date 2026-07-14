@@ -53,7 +53,7 @@ namespace Game
 
 
             //资质紫色2，橙色3，红色3，金色4
-            List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, quality);
+            List<KeyValuePair<int, int>> flairs = BuildPetFlair(role, id, quality);
             foreach (var flair in flairs)
             {
                 int attrId = flair.Key;
@@ -146,9 +146,10 @@ namespace Game
             return Math.Max(1, quality - 3);
         }
 
-        private List<KeyValuePair<int, int>> BuildPetFlair(int role, int quality)
+        private List<KeyValuePair<int, int>> BuildPetFlair(int role, int id, int quality)
         {
-            List<PetAtrConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
+            List<PetAtrConfig> configs = this.list.Where(m => (m.Role == 0 || m.Role == role) && m.StartId <= id && id <= m.EndId
+            && m.StartQuality <= quality && quality <= m.EndQuality).ToList();
 
             List<KeyValuePair<int, int>> flairs = new List<KeyValuePair<int, int>>();
 

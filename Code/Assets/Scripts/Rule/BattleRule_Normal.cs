@@ -39,14 +39,17 @@ namespace Game
                 configs = BossConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Id == mapConfig.BossId).ToList();
             }
 
+            List<BossLog> temps = AppHelper.BossLogs;
+            AppHelper.BossLogs = new List<BossLog>();
+
             foreach (BossConfig config in configs)
             {
-                BossLog log = AppHelper.BossLogs.Where(m => m.BossId == config.Id).FirstOrDefault();
+                BossLog log = temps.Where(m => m.BossId == config.Id).FirstOrDefault();
                 if (log == null)
                 {
                     log = new BossLog(config.Id, config.Rate);
-                    AppHelper.BossLogs.Add(log);
                 }
+                AppHelper.BossLogs.Add(log);
             }
         }
 
@@ -175,7 +178,7 @@ namespace Game
 
         public bool RandomRefresh()
         {
-            //Debug.Log("boss " + BossId + " count：" + Count);
+            Debug.Log("boss " + BossId + " count：" + Count);
 
             if (AppHelper.Boss) //已经刷新了，不再刷新
             {

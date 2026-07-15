@@ -1307,6 +1307,11 @@ namespace Game
 
         public long GetRefineLimit(long equipMax)
         {
+            if (equipMax <= 0)
+            {
+                return 0;
+            }
+
             long limit = (int)AttributeBonus.CalPanelAtr(AttributeEnum.EquipRefineLimit);
             return limit + equipMax;
         }

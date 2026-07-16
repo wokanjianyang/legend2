@@ -81,6 +81,9 @@ namespace Game
             this.Txt_Number.gameObject.SetActive(false);
             this.Img_Active.gameObject.SetActive(true);
 
+            string logoId = "Store/Store" + config.Id;
+            this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(logoId);
+
             this.Refresh();
             //PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);
         }

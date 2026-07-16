@@ -35,6 +35,8 @@ namespace Game
 
             this.Img_Color_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
+            string logoId = "Store/Store" + config.Id;
+            this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(logoId);
             //PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);
         }
 

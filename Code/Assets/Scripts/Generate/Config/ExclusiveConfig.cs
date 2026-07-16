@@ -105,8 +105,11 @@ namespace Game
 		/// <summary>Quality</summary>
 		[ProtoMember(10)]
 		public int Quality { get; set; }
-		/// <summary>Des</summary>
+		/// <summary>LogoId</summary>
 		[ProtoMember(11)]
+		public string LogoId { get; set; }
+		/// <summary>Des</summary>
+		[ProtoMember(12)]
 		public string Des { get; set; }
 
 	}

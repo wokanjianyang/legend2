@@ -253,6 +253,10 @@ namespace Game
 
         public Sprite GetItemLogo(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                id = "ItemLogo/Default";
+            }
             if (!ItemLogoList.ContainsKey(id))
             {
                 ItemLogoList[id] = Resources.Load<Sprite>("UI/" + id);
@@ -368,10 +372,7 @@ namespace Game
             else
             {
                 string logoId = ItemConfigCategory.Instance.GetLogoId(item.ConfigId);
-                if (!string.IsNullOrEmpty(logoId))
-                {
-                    Img_Logo.sprite = this.GetItemLogo(logoId);
-                }
+                Img_Logo.sprite = this.GetItemLogo(logoId);
             }
         }
     }

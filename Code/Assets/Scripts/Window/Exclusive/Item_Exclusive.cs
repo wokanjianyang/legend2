@@ -70,6 +70,7 @@ namespace Game
             this.Config = config;
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", QualityConfigHelper.GetQualityColor(Config.Quality), Config.Name);
             this.Txt_Desc.text = Config.Des;
+            this.Img_Logo.sprite = PrefabHelper.Instance().GetItemLogo(config.LogoId);
 
             for (int i = 0; i < Txt_Atr_List.Count; i++)
             {

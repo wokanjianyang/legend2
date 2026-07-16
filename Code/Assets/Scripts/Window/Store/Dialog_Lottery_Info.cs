@@ -27,6 +27,11 @@ public class Dialog_Lottery_Info : MonoBehaviour
     {
         this.gameObject.SetActive(true);
 
+        int quality = config.Quality;
+
+        this.Txt_Name.text = config.Name;
+        this.Txt_Name.color = QualityConfigHelper.GetColor(quality);
+
         for (int i = 0; i < Txt_Atr_List.Count; i++)
         {
             if (i < config.AtrIdList.Length)

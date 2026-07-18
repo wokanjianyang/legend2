@@ -1085,11 +1085,10 @@ namespace Game
 
         private void SetUpExp()
         {
-            double levelAttr = LevelConfigCategory.GetLevelAttr(MagicLevel.Data);
+            long levelAttr = MagicLevel.Data * MagicLevel.Data;
             LevelConfig config = LevelConfigCategory.Instance.GetAll().Where(m => m.Value.StartLevel <= MagicLevel.Data && m.Value.EndLevel >= MagicLevel.Data).First().Value;
 
-            double exp = StringHelper.StringToNumber(config.Exp);
-            TempUpExp = (long)(levelAttr * exp);
+            TempUpExp = levelAttr * config.Exp;
         }
 
         public long GetBagItemCount(int id)

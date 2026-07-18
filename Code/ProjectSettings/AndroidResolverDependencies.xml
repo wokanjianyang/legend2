@@ -1,12 +1,13 @@
 <dependencies>
   <packages>
     <package>androidx.appcompat:appcompat:1.2.0</package>
+    <package>com.android.support:appcompat-v7:28.0.0</package>
     <package>com.google.code.gson:gson:2.8.5</package>
   </packages>
   <files />
   <settings>
     <setting name="androidAbis" value="arm64-v8a" />
-    <setting name="bundleId" value="com.lcgame.anyu2.test" />
+    <setting name="bundleId" value="com.lcgame.wujinzhanchong" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="True" />
@@ -17,6 +18,8 @@
     <setting name="patchAndroidManifest" value="True" />
     <setting name="patchMainTemplateGradle" value="True" />
     <setting name="projectExportEnabled" value="False" />
-    <setting name="useJetifier" value="False" />
+    <setting name="useFullCustomMavenRepoPathWhenExport" value="True" />
+    <setting name="useFullCustomMavenRepoPathWhenNotExport" value="False" />
+    <setting name="useJetifier" value="True" />
   </settings>
 </dependencies>

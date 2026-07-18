@@ -21,3 +21,16 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.zh.pocket.** {*;}
+
+# AnyThink SDK 核心保持规则
+-keep class com.anythink.** { *; }
+-keep interface com.anythink.** { *; }
+-keep class com.topon.** { *; } # 如果使用了 TopOn 品牌名
+-keep interface com.topon.** { *; }
+
+# 保持枚举和内部类
+-keepclassmembers enum com.anythink.** { *; }
+-keepclassmembers class com.anythink.** { *; }
+
+# 如果使用了特定的广告网络适配器，也需要保持对应包名
+# 例如: -keep class com.anythink.adapter.** { *; }

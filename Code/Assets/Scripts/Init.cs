@@ -14,6 +14,7 @@ using System.Text;
 using UnityEngine.UI;
 using Game.Data;
 using Newtonsoft.Json.Linq;
+using AnyThinkAds.Api;
 
 public class Init : MonoBehaviour
 {
@@ -111,11 +112,39 @@ public class Init : MonoBehaviour
 
         //InitTapSDK();
 
+        InitTaku();
+
         //AsyncTapAccount();
 
         AsyncStartAsync();
     }
 
+    private void InitTaku()
+    {
+        string placementId = "";
+        //（可选配置）设置自定义的Map信息，可匹配后台配置的广告商顺序的列表（App纬度）
+        //注意：调用此方法会清除setChannel()、setSubChannel()方法设置的信息，如果有设置这些信息，请在调用此方法后重新设置
+        ATSDKAPI.initCustomMap(new Dictionary<string, string>() { { "unity3d_data", "test_data" } });
+
+        //（可选配置）设置自定义的Map信息，可匹配后台配置的广告商顺序的列表（Placement纬度）
+        ATSDKAPI.setCustomDataForPlacementID(new Dictionary<string, string>() { { "unity3d_data_pl", "test_data_pl" } }, placementId);
+
+        //（可选配置）设置渠道的信息，开发者可以通过该渠道信息在后台来区分看各个渠道的广告数据
+        //注意：如果有使用initCustomMap()方法，必须在initCustomMap()方法之后调用此方法
+        ATSDKAPI.setChannel("unity3d_test_channel");
+
+        //（可选配置）设置子渠道的信息，开发者可以通过该渠道信息在后台来区分看各个渠道的子渠道广告数据
+        //注意：如果有使用initCustomMap()方法，必须在initCustomMap()方法之后调用此方法
+        ATSDKAPI.setSubChannel("unity3d_test_subchannel");
+
+        //设置开启Debug日志（强烈建议测试阶段开启，方便排查问题）
+        ATSDKAPI.setLogDebug(true);
+
+        //（必须配置）SDK的初始化
+        ATSDKAPI.initSDK("a6a59c554cc937", "a1bf8be0a390efa79934bd981449f3ec6");//Use your own app_id & app_key here
+
+        Debug.Log("Taku Init Success");
+    }
 
 
     private async Task AsyncStartAsync()

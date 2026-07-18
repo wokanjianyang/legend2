@@ -19,8 +19,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
-import com.zh.pocket.PocketSdk;
-
 public class MainActivity extends Activity implements PermissionsUtils.IPermissionsResult {
 
     WebView webview;

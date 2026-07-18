@@ -102,7 +102,7 @@ public class Panel_Relic : MonoBehaviour
 
     private void SelectItem(int id)
     {
-        Debug.Log("select item id:" + id);
+        //Debug.Log("select item id:" + id);
 
         this.SelectId = id;
         this.Btn_Active.gameObject.SetActive(false);

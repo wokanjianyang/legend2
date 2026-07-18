@@ -189,7 +189,7 @@ public class Panel_Legend : MonoBehaviour
         //this.CurrentItem = item;
         //this.CurrentBox = box;
 
-        Debug.Log("legend select bag p" + p);
+        //Debug.Log("legend select bag p" + p);
 
         this.Show();
     }

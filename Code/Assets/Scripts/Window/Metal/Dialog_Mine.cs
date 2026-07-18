@@ -96,7 +96,7 @@ public class Dialog_Mine : MonoBehaviour, IBattleLife
 
     public void OnClick_Close()
     {
-        Debug.Log("Dialog_Mine Close");
+        //Debug.Log("Dialog_Mine Close");
         this.gameObject.SetActive(false);
     }
 }

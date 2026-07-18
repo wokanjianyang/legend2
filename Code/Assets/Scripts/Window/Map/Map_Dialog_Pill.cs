@@ -70,7 +70,7 @@ public class Map_Dialog_Pill : MonoBehaviour
 
     private void Init(int index)
     {
-        Debug.Log("init panel:" + index);
+        //Debug.Log("init panel:" + index);
 
         User user = User_Data_Manager.Data;
         user.PillTime.Check(user.Cycle.Data);
@@ -116,7 +116,7 @@ public class Map_Dialog_Pill : MonoBehaviour
 
     public void OnClick_Close()
     {
-        Debug.Log("close pill dialog");
+        //Debug.Log("close pill dialog");
         this.gameObject.SetActive(false);
     }
 }

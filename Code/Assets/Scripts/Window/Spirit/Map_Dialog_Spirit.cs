@@ -57,7 +57,7 @@ public class Map_Dialog_Spirit : MonoBehaviour
 
         double total = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CardDamage);
 
-        Debug.Log("total:" + total);
+        //Debug.Log("total:" + total);
 
         int nextRequire = SpiritCopyConfigCategory.Instance.GetAll().Select(m => m.Value.Require).Where(m => m > total).FirstOrDefault();
 

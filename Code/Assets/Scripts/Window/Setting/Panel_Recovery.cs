@@ -95,7 +95,7 @@ namespace Game
 
         public void Init()
         {
-            Debug.Log("Init Recovery");
+            //Debug.Log("Init Recovery");
 
             //初始化
             equipRoleToggles = tran_EquipRoleList.GetComponentsInChildren<Toggle>();

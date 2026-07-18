@@ -138,7 +138,7 @@ public class Item_Fashion : MonoBehaviour
 
     private void OnUp()
     {
-        Debug.Log("OnUp count:");
+        //Debug.Log("OnUp count:");
 
         this.Btn_Up.gameObject.SetActive(false);
 

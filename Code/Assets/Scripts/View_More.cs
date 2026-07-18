@@ -123,7 +123,7 @@ namespace Game
         {
             base.OnOpen();
 
-            Debug.Log("open view more");
+            //Debug.Log("open view more");
 
             scrollRect.gameObject.SetActive(true);
         }

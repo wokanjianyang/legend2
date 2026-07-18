@@ -269,7 +269,7 @@ namespace Game
 
         public static string GetCode()
         {
-            string dllPath = Path.Combine(Application.dataPath, "/com.lcgame.wujinanyu/files/il2cpp/Managed/libil2cpp.so");
+            string dllPath = Path.Combine(Application.dataPath, "/com.lcgame.wujinzhanchong/files/il2cpp/Managed/libil2cpp.so");
 
             string hash = "";
 
@@ -287,7 +287,7 @@ namespace Game
                 }
             }
 
-            Debug.Log($"Assembly-CSharp.dll哈希值：{hash}");
+            //Debug.Log($"Assembly-CSharp.dll哈希值：{hash}");
 
             return hash;
         }

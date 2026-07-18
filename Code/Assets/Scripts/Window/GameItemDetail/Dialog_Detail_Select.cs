@@ -70,7 +70,7 @@ namespace Game
                 ItemList.Add(item);
             }
 
-            Debug.Log(config.Id + " " + config.Name + "" + config.OpenType);
+            //Debug.Log(config.Id + " " + config.Name + "" + config.OpenType);
             if (config.OpenType == 1)
             {
                 this.Btn_OK_All.gameObject.SetActive(true);

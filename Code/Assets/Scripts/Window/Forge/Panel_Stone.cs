@@ -105,7 +105,7 @@ public class Panel_Stone : MonoBehaviour
 
     private void SelectForgeItem(int id)
     {
-        Debug.Log("SelectForgeItem id:" + id);
+        //Debug.Log("SelectForgeItem id:" + id);
 
         this.SelectPosition = id;
         this.MainIndex = 1;
@@ -182,7 +182,7 @@ public class Panel_Stone : MonoBehaviour
 
     private void SelectStoneMain(int index)
     {
-        Debug.Log("SelectMain Index:" + index);
+        //Debug.Log("SelectMain Index:" + index);
 
         this.MainIndex = index;
 
@@ -206,7 +206,7 @@ public class Panel_Stone : MonoBehaviour
 
             List<int> excludeList = record.GetExcludeStoneId(MainIndex);
 
-            Debug.Log("excludeList:" + JsonConvert.SerializeObject(excludeList));
+            //Debug.Log("excludeList:" + JsonConvert.SerializeObject(excludeList));
 
             for (int i = 0; i < stoneList.Count; i++)
             {
@@ -251,7 +251,7 @@ public class Panel_Stone : MonoBehaviour
 
     private void SelectStone(int stoneId)
     {
-        Debug.Log("SelectStone id:" + stoneId);
+        //Debug.Log("SelectStone id:" + stoneId);
         this.StoneId = stoneId;
 
         ShowStone();

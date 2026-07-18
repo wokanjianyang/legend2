@@ -353,14 +353,14 @@ public class Panel_Refresh : MonoBehaviour
         RefreshCount++;
         if (RefreshCount % (7 * type) == 6)
         {
-            Debug.Log("Refresh save : " + RefreshCount);
+            //Debug.Log("Refresh save : " + RefreshCount);
             GameProcessor.Inst.SaveData();
         }
         else
         {
             if ((RefreshCount - AutoSaveCount) > 10)
             {
-                Debug.Log("Refresh save net: " + RefreshCount);
+                //Debug.Log("Refresh save net: " + RefreshCount);
                 AutoSaveCount = RefreshCount;
                 GameProcessor.Inst.SaveNetData();
             }

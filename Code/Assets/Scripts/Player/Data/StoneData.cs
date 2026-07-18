@@ -68,7 +68,7 @@ namespace Game
             {
                 if (List.Count >= SetCount + 1)
                 {
-                    Debug.Log("没有镶嵌位置");
+                    //Debug.Log("没有镶嵌位置");
                     return; //如果没有镶嵌位置，不可以镶嵌
                 }
 

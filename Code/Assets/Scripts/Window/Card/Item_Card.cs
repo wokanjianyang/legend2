@@ -39,7 +39,7 @@ namespace Game
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("click card item");
+            //Debug.Log("click card item");
 
             //Dialog_Card panel = this.GetComponentInParent<Dialog_Card>();
 

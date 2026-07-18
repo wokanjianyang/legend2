@@ -178,7 +178,7 @@ namespace Game
 
         public bool RandomRefresh()
         {
-            Debug.Log("boss " + BossId + " count：" + Count);
+            //Debug.Log("boss " + BossId + " count：" + Count);
 
             if (AppHelper.Boss) //已经刷新了，不再刷新
             {

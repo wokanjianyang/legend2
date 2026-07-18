@@ -64,7 +64,7 @@ namespace Game
             }
             catch (Exception ex)
             {
-                Debug.Log("saved back4 Error." + ex.Message);
+                //Debug.Log("saved back4 Error." + ex.Message);
             }
         }
 

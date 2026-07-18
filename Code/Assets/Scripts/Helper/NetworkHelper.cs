@@ -357,7 +357,7 @@ namespace Game
 
                     if (request.result != UnityWebRequest.Result.Success)
                     {
-                        Debug.Log("Down Error:" + request.error);
+                        //Debug.Log("Down Error:" + request.error);
                         failAction?.Invoke();
                     }
                     else
@@ -398,7 +398,7 @@ namespace Game
                     request.SetRequestHeader("code", BuildCode());
                     if (action == "save_user_file")
                     {
-                        Debug.Log("Start Serial:" + user.Serial);
+                        //Debug.Log("Start Serial:" + user.Serial);
 
                         int serial = user.Serial + 1;
                         request.SetRequestHeader("SaveCount", serial + "");
@@ -418,12 +418,12 @@ namespace Game
 
                     if (request.result != UnityWebRequest.Result.Success)
                     {
-                        Debug.Log("Upload Error:" + request.error);
+                        //Debug.Log("Upload Error:" + request.error);
                         failAction?.Invoke();
                     }
                     else
                     {
-                        Debug.Log("Upload complete! Server response: " + request.downloadHandler.text);
+                        //Debug.Log("Upload complete! Server response: " + request.downloadHandler.text);
 
                         WebResultWrapper result = JsonConvert.DeserializeObject<WebResultWrapper>(request.downloadHandler.text);
 
@@ -445,7 +445,7 @@ namespace Game
                             user.Serial++;
                             User_Data_Manager.Save();
 
-                            Debug.Log("End Serial:" + user.Serial);
+                            //Debug.Log("End Serial:" + user.Serial);
                         }
 
                         successAction?.Invoke(result);

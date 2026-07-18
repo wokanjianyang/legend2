@@ -166,7 +166,7 @@ namespace Game
 
         public void Init()
         {
-            Debug.Log("Other init");
+            //Debug.Log("Other init");
             User user = User_Data_Manager.Data;
 
             tog_Monster_Skill.isOn = AppHelper.ShowMonsterSkill;
@@ -336,7 +336,7 @@ namespace Game
                 str_json = EncryptionHelper.AesEncrypt(str_json);
 
                 string md5 = EncryptionHelper.Md5(str_json);
-                Debug.Log("save md5:" + md5);
+                //Debug.Log("save md5:" + md5);
                 byte[] bytes = Encoding.UTF8.GetBytes(str_json);
 
                 Dictionary<string, string> headers = new Dictionary<string, string>();

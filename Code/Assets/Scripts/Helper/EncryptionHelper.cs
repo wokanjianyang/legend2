@@ -44,7 +44,7 @@ namespace Game
             }
             catch(Exception ex)
             {
-                Debug.Log("AesEncrypt");
+                //Debug.Log("AesEncrypt");
                 Debug.Log(ex);
             }
 
@@ -87,7 +87,7 @@ namespace Game
             }
             catch(Exception ex)
             {
-                Debug.Log("AesDecrypt");
+                //Debug.Log("AesDecrypt");
                 Debug.Log(ex);
             }
 

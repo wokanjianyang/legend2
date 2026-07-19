@@ -31,6 +31,8 @@ public class Dialog_AD : MonoBehaviour
     public Transform tran_FakeAD;
     public Text txt_FakeAD;
 
+    public Text txt_Test;
+
     private int CD_Time = 0;
 
     private int Time_Success = 30;
@@ -81,19 +83,10 @@ public class Dialog_AD : MonoBehaviour
         ATRewardedVideo.Instance.client.onAdClickEvent += onAdClick;
         ATRewardedVideo.Instance.client.onRewardEvent += onReward;
         ATRewardedVideo.Instance.client.onAdVideoCloseEvent += onAdVideoClosedEvent;
-
-        Dictionary<string, string> jsonmap = new Dictionary<string, string>();
-
         //如果需要通过开发者的服务器进行奖励的下发（部分广告平台支持此服务器激励），则需要传递下面两个key
         //ATConst.USERID_KEY必传，用于标识每个用户;ATConst.USER_EXTRA_DATA为可选参数，传入后将透传到开发者的服务器
         //jsonmap.Add(ATConst.USERID_KEY, "test_user_id");
         //jsonmap.Add(ATConst.USER_EXTRA_DATA, "test_user_extra_data");
-
-        ATRewardedVideo.Instance.loadVideoAd(mPlacementId_rewardvideo_all, jsonmap);
-
-        bool hasReady = ATRewardedVideo.Instance.hasAdReady(mPlacementId_rewardvideo_all);
-
-        Debug.Log("hasReady：" + hasReady);
     }
 
     public void UpdateAdData()
@@ -279,6 +272,12 @@ public class Dialog_AD : MonoBehaviour
 
 
         this.AdType = type;
+
+        Dictionary<string, string> jsonmap = new Dictionary<string, string>();
+        ATRewardedVideo.Instance.loadVideoAd(mPlacementId_rewardvideo_all, jsonmap);
+        bool hasReady = ATRewardedVideo.Instance.hasAdReady(mPlacementId_rewardvideo_all);
+        Debug.Log("hasReady：" + hasReady);
+
         Debug.Log("Developer show video....");
         ATRewardedVideo.Instance.showAd(mPlacementId_rewardvideo_all);
 
@@ -318,6 +317,9 @@ public class Dialog_AD : MonoBehaviour
         Debug.Log("Developer callback onAdLoadFail :" + erg.placementId + "--erg.code:" + erg.errorCode + "--msg:" + erg.errorMessage);
 
         GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "广告加载失败,请稍候再试", ToastType = ToastTypeEnum.Failure });
+
+        this.txt_Test.gameObject.SetActive(true);
+        this.txt_Test.text = erg.errorCode + erg.errorMessage;
 
         User_Data_Manager.Data.AdLastTime = TimeHelper.ClientNowSeconds();
         this.CD_Time = this.Time_Error;

@@ -52,21 +52,20 @@ namespace Game
 
             int riseLevel = Progress - Config.StartLevel;
 
+            double hpRise = Math.Pow(Config.RiseHp, riseLevel);
+            double defRise = Math.Pow(Config.RiseDef, riseLevel);
+            double atkRise = Math.Pow(Config.RiseAtk, riseLevel);
+
             double hp = StringHelper.StringToNumber(Config.Hp);
             double atk = StringHelper.StringToNumber(Config.Atk);
             double def = StringHelper.StringToNumber(Config.Def);
 
-            double riseHp = Config.RiseHp * riseLevel * hp;
-            double riseAtk = Config.RiseAtk * riseLevel * atk;
-            double riseDef = Config.RiseDef * riseLevel * def;
-
-            double riseResist = Config.MulResistRise * riseLevel;
-            double riseMul = Config.MulRise * riseLevel;
-            double riseMiss = Config.RiseMiss * riseLevel;
-            double RiseAccuracy = Config.RiseAccuracy * riseLevel;
-
-            double resistMul = StringHelper.StringToNumber(Config.MulResist) * (1 + riseResist);
-            double damageMul = StringHelper.StringToNumber(Config.DamageMul) * (1 + riseMul);
+            long missRise = (long)(Config.RiseMiss * riseLevel);
+            long accuracyRise = (long)(Config.RiseAccuracy * riseLevel);
+            long diRise = (long)(Config.DrRise * riseLevel);
+            long drRise = (long)(Config.DrRise * riseLevel);
+            long crRise = (long)(Config.CrRise * riseLevel);
+            long crdRise = (long)(Config.CrdRise * riseLevel);
 
             //if (Progress >= 100)
             //{
@@ -76,24 +75,21 @@ namespace Game
             //}
             //Debug.Log("Defend " + this.Progress + " HP:" + StringHelper.FormatNumber(hp));
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, hp + riseHp);
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, atk + riseAtk);
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, atk + riseAtk);
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, atk + riseAtk);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, def + riseDef);
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, hp * hpRise);
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, atk * atkRise);
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, atk * atkRise);
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, atk * atkRise);
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, def * defRise);
 
-            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, Config.DamageIncrea);
-            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, Config.DamageResist);
-            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.ConfigBase, Config.CritRate);
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.ConfigBase, Config.CritDamage);
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, Config.DamageIncrea + diRise);
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, Config.DamageResist + drRise);
+            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.ConfigBase, Config.CritRate + crRise);
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.ConfigBase, Config.CritDamage + crdRise);
 
             AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.ConfigBase, Config.Lucky);
             AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.ConfigBase, Config.Curse);
-            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy + RiseAccuracy);
-            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss + riseMiss);
-
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.ConfigBase, damageMul);
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, resistMul);
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy + accuracyRise);
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss + missRise);
 
             if (RiseRecord > 0)
             {

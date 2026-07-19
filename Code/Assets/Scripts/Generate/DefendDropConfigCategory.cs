@@ -48,7 +48,7 @@ namespace Game
 
         private List<DefendDropConfig> GetLevelList(int layer, long level, List<int> excludeList)
         {
-            List<DefendDropConfig> configs = this.list.Where(m => m.Layer == layer && m.StartLevel <= level && m.EndLevel >= level && level % m.RateLevel == 0).ToList();
+            List<DefendDropConfig> configs = this.list.Where(m => m.Layer == layer && m.StartLevel <= level && level <= m.EndLevel && level % m.RateLevel == 0).ToList();
 
             List<DefendDropConfig> list = new List<DefendDropConfig>();
 

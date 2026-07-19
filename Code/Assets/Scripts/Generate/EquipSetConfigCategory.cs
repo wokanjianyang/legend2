@@ -25,7 +25,7 @@ namespace Game
 
         public int GetAtrVue()
         {
-            int atrVue = (int)(Config.AttrValue + (Level - 1) * Config.AttrRise);
+            int atrVue = (int)MathHelper.GetSeqByType(Config.RiseType, Level, Config.AtrValue);
             return atrVue;
         }
 

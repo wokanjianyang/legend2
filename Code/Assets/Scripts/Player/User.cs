@@ -372,7 +372,7 @@ namespace Game
                 {
                     if (setItem.IsActive() && setItem.Level > 0)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(setItem.Config.AttrId), attrKey++, setItem.GetAtrVue());
+                        AttributeBonus.SetAttr((AttributeEnum)(setItem.Config.AtrId), attrKey++, setItem.GetAtrVue());
                     }
                 }
             }
@@ -394,7 +394,7 @@ namespace Game
                 {
                     if (setItem.IsActive() && setItem.Level > 0)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(setItem.Config.AttrId), attrKey++, setItem.GetAtrVue());
+                        AttributeBonus.SetAttr((AttributeEnum)(setItem.Config.AtrId), attrKey++, setItem.GetAtrVue());
                     }
                 }
             }

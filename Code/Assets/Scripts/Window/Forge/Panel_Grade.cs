@@ -100,7 +100,7 @@ public class Panel_Grade : MonoBehaviour
 
             EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetConfig(SelectPosition, nextLayer);
 
-            int maxLevel = (int)(Math.Max(5, user.MagicLevel.Data / 5));
+            int maxLevel = (int)(5 + user.MagicLevel.Data / 5);
 
             if (config == null || nextLayer >= maxLevel)
             {
@@ -146,6 +146,17 @@ public class Panel_Grade : MonoBehaviour
         User user = User_Data_Manager.Data;
 
         int nextLayer = CurrentItem.Layer + 1;
+
+        if (SelectPosition >= 1001 && SelectPosition <= 1004)//四格
+        {
+            int maxLevel = (int)(5 + user.MagicLevel.Data / 5);
+
+            if (nextLayer > maxLevel)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经满阶", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+        }
 
         EquipGradeConfig config = EquipGradeConfigCategory.Instance.GetConfig(SelectPosition, nextLayer);
 

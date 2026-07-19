@@ -502,7 +502,7 @@ namespace Game
             double power = 0;
 
             double atk = CalBaseMaxAtk();
-            power += atk;
+            power += atk / 10;
 
             AttributeEnum[] DamageLis = { AttributeEnum.CardDamage, AttributeEnum.FashionDamage, AttributeEnum.AchievementDamage, AttributeEnum.LegacyDamage, AttributeEnum.ExclusiveDamage, AttributeEnum.BabelDamage };
             foreach (var sp in DamageLis)
@@ -515,7 +515,7 @@ namespace Game
             }
             double def = CalPanelTotalAttr(AttributeEnum.Def);
 
-            power += def * 5;
+            power += def  / 2;
 
             double hp = CalPanelTotalAttr(AttributeEnum.HP);
 

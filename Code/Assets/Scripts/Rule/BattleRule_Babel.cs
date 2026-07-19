@@ -99,11 +99,11 @@ public class BattleRule_Babel : ABattleRule
 
     private int[] CalTypes(long progress)
     {
-        if (progress % 100 == 0)
+        if (progress % 25 == 0)
         {
             return MonsterList3;
         }
-        else if (progress % 10 == 0)
+        else if (progress % 5 == 0)
         {
 
             return MonsterList2;

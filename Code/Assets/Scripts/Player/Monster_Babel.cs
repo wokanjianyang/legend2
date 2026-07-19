@@ -46,6 +46,10 @@ namespace Game
             this.Logic.SetData(null); //…Ë÷√UI
         }
 
+        private double[] HpTypeList = new double[] { 1, 3, 6 };
+        private double[] AtkTypeList = new double[] { 1, 1.5, 2 };
+        private double[] DefTypeList = new double[] { 1, 2, 4 };
+
         private void SetAttr()
         {
             this.AttributeBonus = new AttributeBonus();
@@ -56,9 +60,9 @@ namespace Game
             double defRise = Math.Pow(Config.RiseDef, riseLevel);
             double atkRise = Math.Pow(Config.RiseAtk, riseLevel);
 
-            double hp = StringHelper.StringToNumber(Config.Hp);
-            double atk = StringHelper.StringToNumber(Config.Atk);
-            double def = StringHelper.StringToNumber(Config.Def);
+            double hp = StringHelper.StringToNumber(Config.Hp) * HpTypeList[Type - 1];
+            double atk = StringHelper.StringToNumber(Config.Atk) * AtkTypeList[Type - 1];
+            double def = StringHelper.StringToNumber(Config.Def) * DefTypeList[Type - 1];
 
             long missRise = (long)(Config.RiseMiss * riseLevel);
             long accuracyRise = (long)(Config.RiseAccuracy * riseLevel);
@@ -112,7 +116,7 @@ namespace Game
 
             if (Type == 3)
             {
-                SkillIdList = new int[] { 2002, 1004, 2007 };
+                SkillIdList = new int[] { 2002, 1004, 2004, 2007 };
             }
             else if (Type == 2)
             {

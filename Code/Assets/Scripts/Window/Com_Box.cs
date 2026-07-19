@@ -98,7 +98,11 @@ namespace Game
                         this.Txt_Layer.text = ConfigHelper.RoleName1[role - 1];
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
-
+                    if (item.PetLevel.Data > 1)
+                    {
+                        this.Txt_Count.text = item.PetLevel.Data + "级";
+                        this.Txt_Count.gameObject.SetActive(true);
+                    }
                 }
             }
         }

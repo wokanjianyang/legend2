@@ -39,7 +39,7 @@ namespace Game
 
             int attr = redItem.GetAtrVue();
 
-            this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"), redItem.Count, redItem.Config.Count);
+            this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AtrId, attr, "+"), redItem.Count, redItem.Config.Count);
         }
 
         public void SetEquipSpecial(EquipSetItem redItem, EquipSpeicalConfig config)
@@ -50,7 +50,7 @@ namespace Game
 
             int attr = redItem.GetAtrVue();
 
-            this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AttrId, attr, "+"), redItem.Count, redItem.Config.Count);
+            this.Txt_Des.text = string.Format("<color=#{0}>{1}({2}/{3})</color>", color, StringHelper.FormatAttrText(redItem.Config.AtrId, attr, "+"), redItem.Count, redItem.Config.Count);
         }
 
         public void SetShengxiaoGroup(ShengxiaoGroupItem item)

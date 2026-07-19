@@ -87,15 +87,15 @@ namespace Game
 		/// <summary>Count</summary>
 		[ProtoMember(4)]
 		public int Count { get; set; }
-		/// <summary>AttrId</summary>
+		/// <summary>AtrId</summary>
 		[ProtoMember(5)]
-		public int AttrId { get; set; }
-		/// <summary>AttrValue</summary>
+		public int AtrId { get; set; }
+		/// <summary>AtrValue</summary>
 		[ProtoMember(6)]
-		public int AttrValue { get; set; }
-		/// <summary>AttrRise</summary>
+		public int AtrValue { get; set; }
+		/// <summary>RiseType</summary>
 		[ProtoMember(7)]
-		public double AttrRise { get; set; }
+		public int RiseType { get; set; }
 
 	}
 }

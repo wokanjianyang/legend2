@@ -63,8 +63,8 @@ namespace Game
 
         public string Desc { get; set; }
 
-        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer)
-            : this(skillData, runeList, suitList, talentList, 0, 0, 0, isPlayer)
+        public SkillPanel(SkillData skillData, List<SkillRune> runeList, List<SkillSuit> suitList, List<SkillTalent> talentList, bool isPlayer)  //怪物默认满CD
+            : this(skillData, runeList, suitList, talentList, 0, 0, 500, isPlayer)
         {
 
         }

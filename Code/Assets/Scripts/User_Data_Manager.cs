@@ -191,5 +191,53 @@ namespace Game
 
             return filePath;
         }
+
+        public static string GetTapPath()
+        {
+            string folderPath = Path.Combine(Application.persistentDataPath, "tap"); //文件夹路径
+
+            if (!File.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            string filePath = Path.Combine(folderPath, fileName);             //文件路径
+
+            if (!File.Exists(filePath))
+            {
+                //创建文件
+                File.Create(filePath).Dispose();
+            }
+
+            return filePath;
+        }
+
+
+        public static void SaveTap()
+        {
+            //序列化
+            string str_json = JsonConvert.SerializeObject(Data, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+
+            if (str_json.Length <= 0)
+            {
+                return;
+            }
+
+            string filePath = GetTapPath();             //文件路径
+
+            try
+            {
+                File.WriteAllText(filePath, str_json);
+                //Debug.Log("saved successfully.");
+            }
+            catch (Exception ex)
+            {
+
+                Debug.Log("saved tap Error." + ex.Message);
+            }
+        }
     }
 }

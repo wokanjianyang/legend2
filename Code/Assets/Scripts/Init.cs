@@ -16,6 +16,9 @@ using Game.Data;
 using Newtonsoft.Json.Linq;
 using AnyThinkAds.Api;
 
+using TapSDK.Core;
+using TapSDK.Login;
+
 public class Init : MonoBehaviour
 {
     public enum UILayer
@@ -158,6 +161,10 @@ public class Init : MonoBehaviour
             currentTimeSecond = TimeHelper.ClientNowSeconds();
 
             Log.Debug("local time:" + currentTimeSecond);
+
+            //tap 登录
+
+            InitTap();
         }
         else
         {
@@ -173,7 +180,8 @@ public class Init : MonoBehaviour
 
         User_Data_Manager.Load();  //再加载存档
 
-        //再加载net数据
+
+        //再加载QQ-net数据
         try
         {
             if (User_Data_Manager.Data.Account != "")
@@ -217,6 +225,25 @@ public class Init : MonoBehaviour
             StartCoroutine(AsyncLoadWindows(currentTimeSecond));
         }
 
+    }
+
+    private void InitTap()
+    {
+        Debug.Log($"InitTap");
+
+        try
+        {
+            // 初始化配置
+            var options = new TapTapSdkOptions();
+            options.clientId = "eojtx8jl61ea53vvb0";
+            options.clientToken = "4ayp1zusGadOhEYvcb1iiKmqV5VDT1Ti1zj2VKAi";
+            options.region = TapTapRegionType.CN; // 或 TapRegion.GLOBAL
+            TapTapSDK.Init(options);
+        }
+        catch (Exception exception)
+        {
+            Debug.Log($"tap skd init 失败：{exception}");
+        }
     }
 
     private void LoadConfig()

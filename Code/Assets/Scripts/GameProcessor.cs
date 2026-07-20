@@ -72,8 +72,6 @@ namespace Game
         private Coroutine ie_autoStartMap = null;
 
         //副本临时设置
-
-        public bool Yundang = false;
         public bool Net = true;
 
         void Awake()
@@ -228,8 +226,11 @@ namespace Game
             if (user != null)
             {
                 User_Data_Manager.Data = user;
-                User_Data_Manager.Data.Account = account;
-                User_Data_Manager.Data.AccountId = accountId;
+                if (account != "")  //QQ版本才覆盖ID，Tap版本不处理
+                {
+                    User_Data_Manager.Data.Account = account;
+                    User_Data_Manager.Data.AccountId = accountId;
+                }
                 User_Data_Manager.Data.Serial = serial;
                 User_Data_Manager.Data.LoadTicketTime = TimeHelper.ClientNowSeconds();
                 //this.User.DataDate = DateTime.Now.Ticks;

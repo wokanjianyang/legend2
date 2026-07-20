@@ -39,6 +39,22 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
-  }
+    "com.unity.modules.xr": "1.0.0",
+
+    "com.taptap.sdk.core": "4.10.7",
+    "com.taptap.sdk.login": "4.10.7",
+    "com.taptap.sdk.cloudsave": "4.10.7"
+  },
+
+  "scopedRegistries": [
+    {
+      "name": "NPMJS",
+      "url": "https://registry.npmjs.org/",
+      "scopes": [
+        "com.tapsdk",
+        "com.taptap",
+        "com.leancloud"
+      ]
+    }
+  ]
 }

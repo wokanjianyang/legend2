@@ -106,6 +106,8 @@ namespace Game
 
         public string DeviceId { get; set; } = "";
 
+        public string TapUUID { get; set; } = "";
+
         public string Account { get; set; } = "";
         public string Name { get; set; }
 

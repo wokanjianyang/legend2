@@ -6,7 +6,7 @@
             url "https://maven.google.com"
         }
         maven {
-            url "https://repo.maven.apache.org/maven2" // Packages/com.taptap.sdk.cloudsave/Mobile/Editor/NativeDependencies.xml:6, Packages/com.taptap.sdk.core/Mobile/Editor/NativeDependencies.xml:6, Packages/com.taptap.sdk.login/Mobile/Editor/NativeDependencies.xml:6
+            url "https://repo.maven.apache.org/maven2" // Packages/com.taptap.sdk.core/Mobile/Editor/NativeDependencies.xml:6, Packages/com.taptap.sdk.login/Mobile/Editor/NativeDependencies.xml:6
         }
         mavenLocal()
         mavenCentral()
@@ -22,7 +22,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0' // Assets/Plugins/StansAssets/NativePlugins/AndroidNativePro/Editor/Dependencies/AN_Dependencies.xml:4
     implementation 'com.android.support:appcompat-v7:28.0.0' // Assets/AnyThinkPlugin/AnyThinkAds/Plugins/Android/China/Editor/Dependencies.xml:3
     implementation 'com.google.code.gson:gson:2.8.5' // Assets/Plugins/StansAssets/NativePlugins/AndroidNativePro/Editor/Dependencies/AN_Dependencies.xml:3
-    implementation 'com.taptap.sdk:tap-cloudsave-unity:4.10.7' // Packages/com.taptap.sdk.cloudsave/Mobile/Editor/NativeDependencies.xml:7
     implementation 'com.taptap.sdk:tap-core-unity:4.10.7' // Packages/com.taptap.sdk.core/Mobile/Editor/NativeDependencies.xml:7
     implementation 'com.taptap.sdk:tap-login-unity:4.10.7' // Packages/com.taptap.sdk.login/Mobile/Editor/NativeDependencies.xml:7
 // Android Resolver Dependencies End
@@ -42,8 +41,6 @@ dependencies {
 
 // Android Resolver Exclusions Start
 android {
-	namespace "com.unity3d.player"
-	ndkPath "**NDKPATH**"
   packagingOptions {
       exclude ('/lib/armeabi/*' + '*')
       exclude ('/lib/armeabi-v7a/*' + '*')

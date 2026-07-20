@@ -52,7 +52,30 @@ namespace Game
             this.btn_Load.onClick.AddListener(this.OnClick_Load);
 
             this.Init();
+
+            InitTap();
         }
+
+
+        private void InitTap()
+        {
+            Debug.Log($"InitTap");
+
+            try
+            {
+                // 初始化配置
+                var options = new TapTapSdkOptions();
+                options.clientId = "eojtx8jl61ea53vvb0";
+                options.clientToken = "4ayp1zusGadOhEYvcb1iiKmqV5VDT1Ti1zj2VKAi";
+                options.region = TapTapRegionType.CN; // 或 TapRegion.GLOBAL
+                TapTapSDK.Init(options);
+            }
+            catch (Exception exception)
+            {
+                Debug.Log($"tap skd init 失败：{exception}");
+            }
+        }
+
 
         float currentRoundTime = 0;
         private void Update()
@@ -269,18 +292,16 @@ namespace Game
                 if (user.TapUUID == "")
                 {
                     ArchiveData archive = await TapTapCloudSave.CreateArchive(metadata, archiveFilePath, archiveCoverPath);
-
                     user.TapUUID = archive.Uuid;
 
-
-                    Debug.Log("save success:" + archive.Uuid);
+                    this.txt_Info.text = "存档成功";
                 }
                 else
                 {
                     string archiveUuid = user.TapUUID;
-
-
                     ArchiveData updated = await TapTapCloudSave.UpdateArchive(archiveUuid, metadata, archiveFilePath, archiveCoverPath);
+
+                    this.txt_Info.text = "存档成功";
                 }
             }
             catch (TapException ex)

@@ -87,15 +87,15 @@ namespace Game
 		/// <summary>Fee1</summary>
 		[ProtoMember(4)]
 		public long Fee1 { get; set; }
-		/// <summary>RiseFee1</summary>
+		/// <summary>RiseType1</summary>
 		[ProtoMember(5)]
-		public long RiseFee1 { get; set; }
+		public int RiseType1 { get; set; }
 		/// <summary>Fee2</summary>
 		[ProtoMember(6)]
 		public long Fee2 { get; set; }
-		/// <summary>RiseFee2</summary>
+		/// <summary>RiseType2</summary>
 		[ProtoMember(7)]
-		public long RiseFee2 { get; set; }
+		public int RiseType2 { get; set; }
 
 	}
 }

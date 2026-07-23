@@ -99,9 +99,6 @@ namespace Game
 		/// <summary>RiseTypeList</summary>
 		[ProtoMember(8)]
 		public int[] RiseTypeList { get; set; }
-		/// <summary>RiseMcList</summary>
-		[ProtoMember(9)]
-		public int[] RiseMcList { get; set; }
 
 	}
 }

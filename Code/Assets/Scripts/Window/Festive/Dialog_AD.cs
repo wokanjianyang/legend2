@@ -40,6 +40,8 @@ public class Dialog_AD : MonoBehaviour
 
     public Button Btn_Close;
 
+    private string appId = "a6a59c554cc937";
+    private string appKey = "a1bf8be0a390efa79934bd981449f3ec6";
     private string mPlacementId_rewardvideo_all = "b6a59c565b561d";
     private int AdType = 0;
 
@@ -74,6 +76,8 @@ public class Dialog_AD : MonoBehaviour
 
     private void InitAd()
     {
+        //ATSDKAPI.initSDK(appId, appKey);//Use your own app_id & app_key here
+
         //加载广告
         ATRewardedVideo.Instance.client.onAdLoadEvent += onAdLoad;
         ATRewardedVideo.Instance.client.onAdLoadFailureEvent += onAdLoadFail;
@@ -181,32 +185,32 @@ public class Dialog_AD : MonoBehaviour
         Btn_Read3.gameObject.SetActive(true);
     }
 
-    private void ReadAd(int type)
-    {
-        DisableButton();
-        GameProcessor.Inst.StartCoroutine(EnableButton());
+    //private void ReadAd(int type)
+    //{
+    //    DisableButton();
+    //    GameProcessor.Inst.StartCoroutine(EnableButton());
 
-        //
-        if (!CheckCount(type))
-        {
-            return;
-        }
+    //    //
+    //    if (!CheckCount(type))
+    //    {
+    //        return;
+    //    }
 
-        User user = User_Data_Manager.Data;
+    //    User user = User_Data_Manager.Data;
 
-        int skipCount = user.AdData.GetSkipCount();
+    //    int skipCount = user.AdData.GetSkipCount();
 
-        if (skipCount > 0 && toggle_Skip.isOn)
-        {
-            //使用跳过次数
-            user.AdData.Use();
-            RewardAd(type, true);
-        }
-        else
-        {
-            RewardAd(type, false);
-        }
-    }
+    //    if (skipCount > 0 && toggle_Skip.isOn)
+    //    {
+    //        //使用跳过次数
+    //        user.AdData.Use();
+    //        RewardAd(type, true);
+    //    }
+    //    else
+    //    {
+    //        RewardAd(type, false);
+    //    }
+    //}
 
     private void ReadAdOld(int type)
     {

@@ -27,7 +27,7 @@ namespace Game
             EquipStrengthFeeConfig config = this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
             long riseLevel = level - config.StartLevel;
 
-            return config.Fee1 + config.RiseFee1 * riseLevel;
+            return MathHelper.GetSeqByType(config.RiseType1, level, config.Fee1);
         }
 
         public long GetFee2(long level)
@@ -35,7 +35,7 @@ namespace Game
             EquipStrengthFeeConfig config = this.list.Where(m => m.StartLevel <= level && m.EndLevel >= level).FirstOrDefault();
             long riseLevel = level - config.StartLevel;
 
-            return config.Fee2 + config.RiseFee2 * riseLevel;
+            return MathHelper.GetSeqByType(config.RiseType2, level, config.Fee2);
         }
 
 

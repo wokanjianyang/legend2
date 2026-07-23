@@ -43,7 +43,7 @@ namespace Game
     {
         public long GetFee(int index, int level)
         {
-            long fee = this.McList[index] * MathHelper.GetSeqByType(RiseTypeList[index], level - StartLayer + 1, RiseMcList[index]);
+            long fee =  MathHelper.GetSeqByType(RiseTypeList[index], level - StartLayer + 1, McList[index]);
 
             return fee;
         }

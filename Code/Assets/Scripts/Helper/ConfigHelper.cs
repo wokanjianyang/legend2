@@ -17,7 +17,7 @@ namespace Game
 #endif
 
 #if IS_Test
-        public const int TestRate = 10;
+        public const int TestRate = 1;
         public const int SrvId = 98; //测试服99
 #else
         public const int TestRate = 1;
@@ -38,21 +38,16 @@ namespace Game
 
         public const long Cycle_Max = 32;
 
-
         public const long RestoreGold = 10000;
 
         public const double Def_Rate = 3; //防御系数
 
-
         public const long MaxOfflineTime = 3600 * 24;  //最长离线时间
 
-        //public const int MaxBagCount = 210;  // 包裹数量
         public static int[] BagCount = new int[] { 200, 200, 200, 450, 550 };
 
         public const int LegacyDefaultTime = 1200; //20分钟 
 
-
-        //public static int[] PercentAttrIdList = { 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 43, 45, 50, 51, 52, 53, 54, 55, 60, 91, 92, 93, 94, 101, 102, 103, 108, 109, 110, 201, 202, 203, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 };
 
         public static int[] BaseAttrIdList = { 1, 2, 3, 4, 5, 6, 7, 8, 85, 86, 111, 112, 113, 114, 116, 117, 222 };
 
@@ -80,7 +75,7 @@ namespace Game
         public const int MapStartId = 1;
 
         public const int DefendHp = 300; //防守塔默认血量
-        public const int DefendMaxLevel = 8; //守沙难度
+        public const int DefendMaxLevel = 1; //守沙难度
 
         public const int SkillSuitMax = 4;
         public const int SkillSuitMin = 2;
@@ -88,8 +83,6 @@ namespace Game
         public const int SkillNumber = 5;
 
         public const float DelayShowTime = 0.75f;
-        //public const float SkillAnimaTime = 0.75f;
-        //public const float SkillAnimaTime1 = 0.75f;
 
         public const float PvpRate = 200;
         public const float ValetPvpRate = 30;

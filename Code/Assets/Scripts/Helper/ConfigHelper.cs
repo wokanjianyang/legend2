@@ -28,15 +28,15 @@ namespace Game
 
         public const int Version = 1;
 
-        public const long PackTime = 1759807046; //打包时间，防止作弊
+        public const long PackTime = 1784895416; //打包时间，防止作弊
 
-        public const long PackEndTime = 1805727046; //超过此时间,游戏不能使用，需要更新
+        public const long PackEndTime = 1785500216; //超过此时间,游戏不能使用，需要更新
 
-        public const long Max_Level = 120000; //最大人物等级和强化等级
+        public const long Max_Level = 100; //最大人物等级和强化等级
 
-        public const long Cycle_Level = 10000; //每次轮回增加等级
+        public const long Cycle_Level = 100; //每次轮回增加等级
 
-        public const long Cycle_Max = 32;
+        public const long Cycle_Max = 1;
 
         public const long RestoreGold = 10000;
 
@@ -50,9 +50,6 @@ namespace Game
 
 
         public static int[] BaseAttrIdList = { 1, 2, 3, 4, 5, 6, 7, 8, 85, 86, 111, 112, 113, 114, 116, 117, 222 };
-
-
-        public static int[] RateAttrIdList = { 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 };
 
         public static string[] LayerNameList = { "黄", "玄", "地", "天", "荒", "洪", "宙", "宇", "极", "道", "虚", "始" };
         public static string[] LayerChinaList = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十",

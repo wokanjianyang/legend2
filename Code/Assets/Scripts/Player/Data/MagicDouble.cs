@@ -8,9 +8,9 @@ namespace Game.Data
 
     public class MagicDouble
     {
-        private const double MagicRate = 3;
+        private const double MagicRate = 5;
 
-        private const double MagicOff = 10211;
+        private const double MagicOff = 10111;
 
         private double data;
 

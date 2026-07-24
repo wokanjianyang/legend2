@@ -319,7 +319,7 @@ namespace Game
                     }
                     else
                     {
-                        //Debug.Log("Upload complete! Server response: " + request.downloadHandler.text);
+                        Debug.Log("Upload complete! Server response: " + request.downloadHandler.text);
 
                         WebResultWrapper result = JsonConvert.DeserializeObject<WebResultWrapper>(request.downloadHandler.text);
 

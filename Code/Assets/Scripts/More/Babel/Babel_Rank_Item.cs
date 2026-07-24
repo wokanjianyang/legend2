@@ -31,7 +31,8 @@ namespace Game
 
         }
 
-        private int[] atrVueList = { 20, 15, 10, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, };
+        private int[] atrVueList = { 20, 15, 10, };  //前面排行的奖励
+        private int atrVue = 5;  //最后排行的奖励
 
         public void SetContent(int rank, BabelRank data)
         {
@@ -39,7 +40,9 @@ namespace Game
             this.Txt_Name.text = data.Name;
             this.Txt_Progress.text = data.Rank + "层";
 
-            this.Txt_Atr.text = StringHelper.FormatAttrText((int)AttributeEnum.MulAtk, atrVueList[rank - 1], "+");
+            int av = rank <= atrVueList.Length ? atrVueList[rank - 1] : atrVue;
+
+            this.Txt_Atr.text = StringHelper.FormatAttrText((int)AttributeEnum.MulAtk, av, "+");
         }
     }
 }

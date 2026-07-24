@@ -43,7 +43,7 @@ namespace Game
             }
             else
             {
-                this.Txt_Points.text = "兑换" + data.Points + "积分";
+                this.Txt_Points.text = string.Format("<color=#CBFFC2>{0}</color>", "兑换" + data.Points + "积分");;
             }
 
             //PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);

@@ -912,6 +912,9 @@ namespace Game
                 case AchievementProType.EquipRefine:
                     progress = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value.RefineLevel.Data).Sum();
                     break;
+                case AchievementProType.EquipSpeical:
+                    progress = this.EquipSpecialList.Select(m => m.Value.Layer).Sum();
+                    break;
                 case AchievementProType.EquipWear:
                     progress = this.EquipPanelList[EquipPanelIndex].Count;
                     break;

@@ -277,8 +277,6 @@ namespace Game
 
         public Dictionary<int, MagicData> HalidomData { get; } = new Dictionary<int, MagicData>();
 
-        public Dictionary<int, MagicData> ArtifactData { get; } = new Dictionary<int, MagicData>();
-
         public Dictionary<int, int> PetCountData { get; } = new Dictionary<int, int>();
 
         public Dictionary<int, SpiritData> SpiritRecord { get; } = new Dictionary<int, SpiritData>();
@@ -1138,16 +1136,6 @@ namespace Game
             }
 
             return list;
-        }
-
-        public int GetArtifactLevel(int artifactId)
-        {
-            if (!this.ArtifactData.ContainsKey(artifactId))
-            {
-                ArtifactData[artifactId] = new MagicData();
-            }
-
-            return (int)ArtifactData[artifactId].Data;
         }
 
         public int GetPetCount(int configId)

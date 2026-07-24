@@ -22,8 +22,6 @@ namespace Game
 
         public bool Recovery { get; set; } = false;
 
-        public Dictionary<int, MagicData> DivineData = new Dictionary<int, MagicData>();
-
         [JsonIgnore]
         public SkillConfig SkillConfig { get; set; }
 
@@ -67,36 +65,6 @@ namespace Game
             }
 
             return true;
-        }
-
-        public long GetDivineItemLevel(int divinePart)
-        {
-            if (!DivineData.ContainsKey(divinePart))
-            {
-                DivineData[divinePart] = new MagicData();
-            }
-
-            return DivineData[divinePart].Data;
-        }
-
-        public void AddDivineItemLevel(int divinePart)
-        {
-            if (!DivineData.ContainsKey(divinePart))
-            {
-                DivineData[divinePart] = new MagicData();
-            }
-
-            DivineData[divinePart].Data++;
-        }
-
-        public long GetDivineLevel()
-        {
-            if (DivineData.Count == 10)
-            {
-                return DivineData.Select(m => m.Value.Data).Min();
-            }
-
-            return 0;
         }
         //----------------
     }

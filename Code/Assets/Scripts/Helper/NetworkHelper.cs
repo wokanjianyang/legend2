@@ -89,52 +89,6 @@ namespace Game
             long advert = user.GetAchievementProgeress(AchievementProType.Advert);
             paramDict.Add("advert", advert + "");
 
-            long artifactTotal = user.ArtifactData.Select(m => m.Value.Data).Sum();
-            paramDict.Add("artifact", artifactTotal + "");
-
-            long artifactMetal = user.ArtifactData.Where(m => m.Key >= 30).Select(m => m.Value.Data).Sum();
-            paramDict.Add("artifactMetal", artifactMetal + "");
-
-            long babel = user.BabelData.Progress.Data;
-            paramDict.Add("babel", babel + "");
-
-            long soulBoneTotal = user.SoulBoneData.Select(m => m.Value.Data).Sum();
-            soulBoneTotal += GetTotal(user.Bags, 8101, 8108);
-            soulBoneTotal += GetTotal(user.Bags, 28);
-            paramDict.Add("bone", soulBoneTotal + "");
-
-            long divineTotal = GetTotal(user.Bags, 8001, 8010);
-            divineTotal += GetTotal(user.Bags, 26);
-            long skill11 = 0;
-            long skill12 = 0;
-            foreach (var sp in user.SkillList)
-            {
-                if (sp.DivineData != null)
-                {
-                    foreach (var di in sp.DivineData)
-                    {
-                        divineTotal += MathHelper.GetSequence2(di.Value.Data);
-                    }
-                }
-
-                if (sp.SkillConfig.SkillLayer == 11)
-                {
-                    skill11 += sp.MagicLevel.Data;
-                }
-                else if (sp.SkillConfig.SkillLayer == 12)
-                {
-                    skill12 += sp.MagicLevel.Data;
-                }
-            }
-            paramDict.Add("divine", divineTotal + "");
-
-            long equip1 = 0;
-            foreach (var sp in user.EquipPanelGoldenList[user.EquipGoldenIndex])
-            {
-                equip1 += sp.Value.GetFull();
-            }
-            paramDict.Add("equip1", equip1 + "");
-
             long fashion = GetTotal(user.Bags, ItemHelper.Fashion_Stone);
             foreach (var sp in user.FashionData)
             {
@@ -152,49 +106,6 @@ namespace Game
             long infiniteMax = user.GetAchievementProgeress(AchievementProType.Infinite);
             paramDict.Add("infinite", infiniteMax + "");
 
-            long metalTotal = user.MetalData.Select(m => m.Value.Data).Sum();
-            paramDict.Add("metal", metalTotal + "");
-
-            long pill = user.PillData.Data;
-            paramDict.Add("pill", pill + "");
-
-            long ringTotal = user.RingData.Where(m => m.Key <= 6).Select(m => m.Value.Data).Sum();
-            ringTotal += GetTotal(user.Bags, 190001, 190006);
-            ringTotal += GetTotal(user.Bags, 22);
-            paramDict.Add("ring", ringTotal + "");
-
-            long ring1Total = user.RingData.Where(m => m.Key >= 7).Select(m => m.Value.Data).Sum();
-            ring1Total += GetTotal(user.Bags, 190007, 190012);
-            ring1Total += GetTotal(user.Bags, 44);
-            paramDict.Add("ring1", ring1Total + "");
-
-            long relic = 0;
-            long relic1 = 0;
-
-            foreach (var sp in user.RelicData)
-            {
-                int fee = RelicConfigCategory.Instance.GetTotalFee(sp.Value.Data);
-                relic += fee;
-                if (sp.Key > 32)
-                {
-                    relic1 += fee;
-                }
-            }
-            relic += GetTotal(user.Bags, 61000001, 61000040);
-            relic1 += GetTotal(user.Bags, 61000033, 61000040);
-
-            relic += GetTotal(user.Bags, 35);
-            relic += GetTotal(user.Bags, 37, 41);
-            relic1 += GetTotal(user.Bags, 40, 41);
-
-            paramDict.Add("relic", relic + "");
-            paramDict.Add("relic1", relic1 + "");
-            //user.SaveRecordMax((int)AbcType.Relic, relic);
-
-
-            long stone = user.StoneData.Select(m => m.Value.GetTotalLevel()).Sum();
-            paramDict.Add("stone", stone + "");
-            //user.SaveRecordMax((int)AbcType.Stone, stone);
 
             paramDict.Add("swing", user.WingData.Data + "");
 
@@ -207,21 +118,6 @@ namespace Game
             long talent = user.TalentExp.Data / 10000;
             paramDict.Add("talent", talent + "");
             //user.SaveRecordMax((int)AbcType.Talent, talent);
-
-            long sx = user.ShengxiaoList.Where(m => m.Value.GetQuality() >= 9).Count();
-            paramDict.Add("shengxiao", sx + "");
-
-            skill11 += GetTotal(user.Bags, 1011);
-            skill11 += GetTotal(user.Bags, 2011);
-            skill11 += GetTotal(user.Bags, 3011);
-            skill11 += GetTotal(user.Bags, 29);
-            paramDict.Add("skill11", skill11 + "");
-
-            skill12 += GetTotal(user.Bags, 1012);
-            skill12 += GetTotal(user.Bags, 2012);
-            skill12 += GetTotal(user.Bags, 3012);
-            skill12 += GetTotal(user.Bags, 42);
-            paramDict.Add("skill12", skill12 + "");
 
             long minVersion = user.VersionLog.Select(m => m.Key).Min();
             paramDict.Add("minVersion", minVersion + "");

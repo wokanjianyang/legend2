@@ -24,7 +24,7 @@ namespace Game
             AppHelper.Boss = false;
 
             User user = User_Data_Manager.Data;
-            int k1 = user.GetExclusiveLevel(104);
+            int k1 = user.GetExclusiveLevel(106);
 
             List<BossConfig> configs;
 
@@ -44,11 +44,18 @@ namespace Game
 
             foreach (BossConfig config in configs)
             {
+                int rate = config.MapId == mapConfig.Id ? 100 : 150;  //非本图，boss刷新概率降低50%
+
                 BossLog log = temps.Where(m => m.BossId == config.Id).FirstOrDefault();
                 if (log == null)
                 {
-                    log = new BossLog(config.Id, config.Rate);
+                    log = new BossLog(config.Id);
                 }
+
+                rate = config.Rate * rate / 100;
+
+                log.InitRate(rate);
+
                 AppHelper.BossLogs.Add(log);
             }
         }
@@ -152,13 +159,17 @@ namespace Game
     {
         public static int TimeNumber = 20;
 
-        public BossLog(int bossId, int rate)
+        public BossLog(int bossId)
         {
             this.BossId = bossId;
+            this.Count = 0;
+        }
+
+        public void InitRate(int rate)
+        {
             this.Rate = rate;
             this.MinRate = rate / 2;
             this.LimitRate = (int)(rate * 1.5);
-            this.Count = 0;
         }
 
         //bossid
@@ -181,6 +192,11 @@ namespace Game
             //Debug.Log("boss " + BossId + " count：" + Count);
 
             if (AppHelper.Boss) //已经刷新了，不再刷新
+            {
+                return false;
+            }
+
+            if (Rate <= 0)
             {
                 return false;
             }

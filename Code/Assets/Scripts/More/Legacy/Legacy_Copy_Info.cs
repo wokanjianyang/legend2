@@ -65,7 +65,7 @@ public class Legacy_Copy_Info : MonoBehaviour
         Txt_Layer_1.text = currentLayer + "½×";
 
         Txt_Layer_2.text = (currentLayer + 1) + "½×";
-        int k1 = user.GetExclusiveLevel(105);
+        int k1 = user.GetExclusiveLevel(103);
         if (k1 > 0)
         {
             Btn_Start_2.gameObject.SetActive(true);
@@ -77,7 +77,7 @@ public class Legacy_Copy_Info : MonoBehaviour
         }
 
         Txt_Layer_3.text = (currentLayer + 2) + "½×";
-        int k2 = user.GetExclusiveLevel(106);
+        int k2 = user.GetExclusiveLevel(104);
         if (k2 > 0)
         {
             Btn_Start_3.gameObject.SetActive(true);

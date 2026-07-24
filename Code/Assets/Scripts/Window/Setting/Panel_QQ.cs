@@ -35,6 +35,8 @@ namespace Game
         public InputField If_Pwd;
         public Button btn_Change;
 
+        public Transform Tf_Load;
+
         public Text Txt_Save_Auto;
         public Button btn_Save;
         public Text Txt_Save;
@@ -76,18 +78,14 @@ namespace Game
             if (account == "")
             {
                 this.Tf_Login.gameObject.SetActive(true);
-
-                this.btn_Save.gameObject.SetActive(false);
-                this.btn_Load.gameObject.SetActive(false);
-                this.txt_Memo.gameObject.SetActive(false);
+                this.Tf_Load.gameObject.SetActive(false);
+               
             }
             else
             {
                 this.Tf_Login.gameObject.SetActive(false);
+                this.Tf_Load.gameObject.SetActive(true);
 
-                this.btn_Save.gameObject.SetActive(true);
-                this.btn_Load.gameObject.SetActive(true);
-                this.txt_Memo.gameObject.SetActive(true);
                 this.txt_Memo.text = buildMeme(account);
             }
         }
@@ -163,7 +161,7 @@ namespace Game
         {
             string account = If_Account.text;
 
-            string pattern = @"A-Za-z0-9]{6,12}$";
+            string pattern = @"^[A-Za-z0-9]{6,12}$";
             if (!Regex.IsMatch(account, pattern))
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "帐号请输入6-12个数字和字母", ToastType = ToastTypeEnum.Failure });
@@ -196,10 +194,8 @@ namespace Game
                          }
 
                          this.Tf_Login.gameObject.SetActive(false);
+                         this.Tf_Load.gameObject.SetActive(true);
 
-                         this.btn_Save.gameObject.SetActive(true);
-                         this.btn_Load.gameObject.SetActive(true);
-                         this.txt_Memo.gameObject.SetActive(true);
                          this.txt_Memo.text = buildMeme(account);
 
                          //update

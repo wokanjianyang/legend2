@@ -95,7 +95,8 @@ namespace Game
                     int role = item.Role;
                     if (role > 0)
                     {
-                        this.Txt_Layer.text = ConfigHelper.RoleName1[role - 1];
+                        string color = item.IsImportant() ? QualityConfigHelper.GetQualityColor(7) : QualityConfigHelper.GetQualityColor(0);
+                        this.Txt_Layer.text = string.Format("<color=#{0}>{1}</color>", color, ConfigHelper.RoleName1[role - 1]);
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                     if (item.PetLevel.Data > 1)

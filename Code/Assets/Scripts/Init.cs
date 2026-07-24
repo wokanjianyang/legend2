@@ -165,10 +165,6 @@ public class Init : MonoBehaviour
             var timeTaks = TimeCheatingDetector.GetOnlineTimeTask("https://www.baidu.com/");
             await timeTaks;
             currentTimeSecond = (long)timeTaks.Result.onlineSecondsUtc;
-
-            //tap 登录
-
-            //InitTap();
         }
         else
         {
@@ -184,11 +180,10 @@ public class Init : MonoBehaviour
 
         User_Data_Manager.Load();  //再加载存档
 
-
         //再加载QQ-net数据
         try
         {
-            if (User_Data_Manager.Data.Account != "")
+            if (ConfigHelper.Channel != ConfigHelper.Channel_Tap && User_Data_Manager.Data.Account != "")
             {
                 this.Txt_Memo.text = "加载服务器数据中...";
 
@@ -230,25 +225,6 @@ public class Init : MonoBehaviour
         }
 
     }
-
-    //private void InitTap()
-    //{
-    //    Debug.Log($"InitTap");
-
-    //    try
-    //    {
-    //        // 初始化配置
-    //        var options = new TapTapSdkOptions();
-    //        options.clientId = "eojtx8jl61ea53vvb0";
-    //        options.clientToken = "4ayp1zusGadOhEYvcb1iiKmqV5VDT1Ti1zj2VKAi";
-    //        options.region = TapTapRegionType.CN; // 或 TapRegion.GLOBAL
-    //        TapTapSDK.Init(options);
-    //    }
-    //    catch (Exception exception)
-    //    {
-    //        Debug.Log($"tap skd init 失败：{exception}");
-    //    }
-    //}
 
     private void LoadConfig()
     {

@@ -139,7 +139,7 @@ namespace Game
         {
             bool important = false;
 
-            if (TraitList.Where(m => m.Type > 1).Count() > 1)
+            if (TraitList.Where(m => m.Type > 1).Count() >= 1)
             {
                 important = true;
             }

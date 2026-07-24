@@ -123,7 +123,11 @@ namespace Game
         void Start()
         {
             User user = User_Data_Manager.Data;
-            if (user.AccountId == "" || user.MagicLevel.Data <= 20)
+            if (ConfigHelper.Channel == ConfigHelper.Channel_Tap || user.AccountId == "" || user.MagicLevel.Data <= 20)
+            {
+                this.Btn_Store.gameObject.SetActive(false);
+            }
+            else
             {
                 this.Btn_Store.gameObject.SetActive(false);
             }

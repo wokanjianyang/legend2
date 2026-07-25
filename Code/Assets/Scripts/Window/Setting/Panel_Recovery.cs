@@ -213,7 +213,7 @@ namespace Game
 
 
             //图鉴提交
-            int.TryParse(if_EquipLevel.text, out int cardEquipLevel);
+            int.TryParse(if_Card_EquipLevel.text, out int cardEquipLevel);
             setting.CardEquipLevel = cardEquipLevel;
 
 

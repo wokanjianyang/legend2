@@ -108,20 +108,6 @@ public class Panel_SoulRing : MonoBehaviour
         SoulRingAttrConfig currentConfig = SoulRingConfigCategory.Instance.GetAttrConfig(sid, level);
         Toggle ringAuras = RingSkillList[sid - 1];
         Text aurasName = ringAuras.GetComponentInChildren<Text>();
-
-        if (currentConfig != null && currentConfig.AurasId > 0)
-        {
-            AurasAttrConfig aurasConfig = AurasAttrConfigCategory.Instance.Get(currentConfig.AurasId);
-
-            //¼¤»îAuras
-            ringAuras.isOn = true;
-            aurasName.text = aurasConfig.Name.Insert(2, "\n");
-        }
-        else
-        {
-            ringAuras.isOn = false;
-            aurasName.text = "Î´¼¤»î";
-        }
     }
 
     private void ShowSoulRing(int sid)
@@ -189,11 +175,6 @@ public class Panel_SoulRing : MonoBehaviour
         long aurasLevel = showConfig.GetAurasLevel(currentLevel);
         double aurasAttr = 0;
 
-        if (currentConfig != null && currentConfig.AurasId > 0)
-        {
-            AurasAttrConfig aurasAttrConfig = AurasAttrConfigCategory.Instance.GetConfig(currentConfig.AurasId);
-            aurasAttr = aurasAttrConfig.GetAttr(aurasLevel);
-        }
 
         LockLevel.text = string.Format(showConfig.LockMemo, aurasLevel);
         LockMemo.text = string.Format(showConfig.AurasMemo, aurasAttr);

@@ -20,6 +20,8 @@ namespace Game
 
         public static Store_Data StoreData;
 
+        public static string TapKey = "ar3zkrdff";
+
         static string savePath = "player";
 
         static string fileName = "wj2.xml"; //文件名
@@ -225,6 +227,8 @@ namespace Game
             {
                 return;
             }
+
+            str_json = EncryptionHelper.AesEncrypt(str_json);
 
             string filePath = GetTapPath();             //文件路径
 

@@ -7,8 +7,8 @@ namespace Game
 {
     public static class EncryptionHelper
     {
-        private const string aseKey = "hAC8hM9f36N5Zwbz";
-        private const string md5_key = "abdoes9JDKk32kkD";
+        private const string aseKey = "hA1Lhzf7rK5Zw0bz";
+        private const string md5_key = "RbdQesJD7rkP2kD3";
 
 
 

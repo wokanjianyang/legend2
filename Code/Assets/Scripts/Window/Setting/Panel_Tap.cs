@@ -59,8 +59,6 @@ namespace Game
 
         private void InitTap()
         {
-            Debug.Log($"InitTap");
-
             try
             {
                 // 初始化配置
@@ -227,15 +225,15 @@ namespace Game
                     return;
                 }
 
-                string uuid = archives[archives.Count - 1].Uuid;  //读取最后一份
-                string fileId = archives[archives.Count - 1].FileId;  //读取最后一份
-                int serial = archives[archives.Count - 1].Playtime;
+                string uuid = archives[0].Uuid;  //读取最新一份
+                string fileId = archives[0].FileId;  //读取最新一份
+                int serial = archives[0].Playtime; //读取最新一份
 
                 byte[] data = await TapTapCloudSave.GetArchiveData(uuid, fileId);
 
                 string str_json = Encoding.UTF8.GetString(data);
 
-                Debug.Log(str_json);
+                str_json = EncryptionHelper.AesDecrypt(str_json);
 
                 if (GameProcessor.Inst.LoadInit(str_json, "", "", serial))
                 {
@@ -322,7 +320,6 @@ namespace Game
 
                 // 发起 Tap 登录
                 var userInfo = await TapTapLogin.Instance.LoginWithScopes(scopes.ToArray());
-                Debug.Log($"登录成功，当前用户 ID：{userInfo.unionId}");
 
                 TapTapAccount account = await TapTapLogin.Instance.GetCurrentTapAccount();
                 if (account != null)
@@ -331,8 +328,6 @@ namespace Game
                     AccessToken accessToken = account.accessToken;
                     string openId = account.openId;
                     string name = account.name;
-
-                    Debug.Log("unionId:" + account.unionId);
 
                     User user = User_Data_Manager.Data;
                     user.Name = name;

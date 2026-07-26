@@ -572,6 +572,7 @@ namespace Game
                 case "int[]":
                 case "int32[]":
                 case "long[]":
+                case "double[]":
                     {
                         value = value.Replace("{", "").Replace("}", "");
                         return $"[{value}]";
@@ -658,7 +659,7 @@ namespace Game
             //D67512B30D2D4B6AFE9E782E8EACE7E2
 
             //加密
-            string text = EncryptionHelper.AesEncrypt(baseText, "fb2d1feffd645dae1c574954fd702a80");
+            string text = EncryptionHelper.AesEncrypt(baseText, "q2cd1feufd6p5dae1c5z4il4fdo02a8n");
 
             using (StreamWriter writer = new StreamWriter(path))
             {

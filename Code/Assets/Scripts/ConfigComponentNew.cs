@@ -41,11 +41,7 @@ namespace Game
 			var bundle = AssetsBundleHelper.LoadBundle("config.unity3d");
 			keys = bundle.Item2;
 
-			string skey = getKey();
-
-#if UNITY_EDITOR
-			skey = "fb2d1feffd645dae1c574954fd702a80";
-#endif
+			string skey =  "q2cd1feufd6p5dae1c5z4il4fdo02a8n";
 			//Debug.Log("skey:" + skey);
 
 			foreach (var kv in keys)
@@ -56,6 +52,10 @@ namespace Game
 				string text = Encoding.UTF8.GetString(v.bytes);
 				text = EncryptionHelper.AesDecrypt(text, skey);
 				byte[] bytes = Convert.FromBase64String(text);
+
+				if (text == "") {
+					Debug.Log("load error:" + key);
+				}
 
 				configBytes[key] = bytes;
 			}

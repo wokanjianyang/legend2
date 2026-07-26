@@ -141,12 +141,12 @@ public class Init : MonoBehaviour
         ATSDKAPI.setSubChannel("unity3d_test_subchannel");
 
         //设置开启Debug日志（强烈建议测试阶段开启，方便排查问题）
-        ATSDKAPI.setLogDebug(true);
+        //ATSDKAPI.setLogDebug(true);
 
         //（必须配置）SDK的初始化
         ATSDKAPI.initSDK("a6a59c554cc937", "a1bf8be0a390efa79934bd981449f3ec6");//Use your own app_id & app_key here
 
-        Debug.Log("Taku Init Success");
+        //Debug.Log("Taku Init Success");
     }
 
 
@@ -304,29 +304,14 @@ public class Init : MonoBehaviour
 
     void InitBuglySDK()
     {
-        // TODO NOT Required. Set the crash reporter type and log to report
-        // BuglyAgent.ConfigCrashReporter (1, 2);
 
-        // TODO NOT Required. Enable debug log print, please set false for release version
 #if DEBUG
-        BuglyAgent.ConfigDebugMode(true);
+        //BuglyAgent.ConfigDebugMode(true);
 #endif
-        BuglyAgent.ConfigDebugMode(true);
-        // TODO NOT Required. Register log callback with 'BuglyAgent.LogCallbackDelegate' to replace the 'Application.RegisterLogCallback(Application.LogCallback)'
-        // BuglyAgent.RegisterLogCallback (CallbackDelegate.Instance.OnApplicationLogCallbackHandler);
-
-        // BuglyAgent.ConfigDefault ("Bugly", null, "ronnie", 0);
-
-        BuglyAgent.InitWithAppId(BuglyAppIDForAndroid);
-
-        // TODO Required. If you do not need call 'InitWithAppId(string)' to initialize the sdk(may be you has initialized the sdk it associated Android or iOS project),
-        // please call this method to enable c# exception handler only.
-        BuglyAgent.EnableExceptionHandler();
-
-        // TODO NOT Required. If you need to report extra data with exception, you can set the extra handler
-        //        BuglyAgent.SetLogCallbackExtrasHandler (MyLogCallbackExtrasHandler);
-
-        BuglyAgent.PrintLog(LogSeverity.LogInfo, "Init the bugly sdk");
+        //BuglyAgent.ConfigDebugMode(false);
+        //BuglyAgent.InitWithAppId(BuglyAppIDForAndroid);
+        //BuglyAgent.EnableExceptionHandler();
+        //BuglyAgent.PrintLog(LogSeverity.LogInfo, "Init the bugly sdk");
     }
 
     //private void InitTapSDK()

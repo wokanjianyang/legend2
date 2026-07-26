@@ -53,14 +53,10 @@ namespace Game
             else if (config.RateType == 2)
             {
                 //线性随机
-                int max = config.MaxValue + 1;
+                int max = config.MaxValue;
                 if (offline > 0)
                 { //离线模式
-                    max = (config.MaxValue - config.MinValue) / 2 + config.MinValue;
-                }
-                if (max <= config.MinValue)
-                {
-                    max = config.MinValue + 1;
+                    max = (config.MaxValue + config.MinValue) / 2;
                 }
 
                 return RandomHelper.RandomSerialNumber(config.MinValue, max);

@@ -77,14 +77,8 @@ namespace Game
                 return 40;
             }
 
-            if (RandomHelper.RandomCritRate(5))
-            {
-                return RandomHelper.RandomNumber(90, 101);
-            }
-            else
-            {
-                return RandomHelper.RandomNumber(20, 91);
-            }
+            return RandomHelper.RandomSerialNumber(30, 100);
+
         }
 
         public Item BuildOfflineEquip(int configId, int quality)

@@ -194,20 +194,12 @@ namespace Game
         /// <returns></returns>
         public static int RandomSerialNumber(int lower, int upper)
         {
-            int min = lower * lower - lower;
+            int min = (lower - 1) * (lower - 1) + 1;
             int max = upper * upper;
-            int value = random.Next(min, max + 1);
+            int val = RandomNumber(min, max + 1);
 
-            for (int i = lower; i <= upper; i++)
-            {
-                int m = i * i;
-                if (value <= m)
-                {
-                    return upper + lower - i;
-                }
-            }
-
-            return lower;
+            //return val;
+            return upper - (int)Math.Ceiling(Math.Sqrt(val)) + lower;
         }
 
 

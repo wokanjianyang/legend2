@@ -11,6 +11,7 @@ using static UnityEngine.UI.Dropdown;
 using System;
 using Game.Data;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Game
 {
@@ -27,8 +28,8 @@ namespace Game
         [LabelText("兑换")]
         public Button btn_Code;
 
-        private const int CHARACTER_LIMIT = 10;
         private long ticket = 0;
+        private long GoldUnit = 1000000;
 
         // Start is called before the first frame update
         void Start()
@@ -50,7 +51,14 @@ namespace Game
 
         public void OnClick_ChangeName()
         {
-            var name = this.SplitNameByUTF8(this.if_Name.text.Trim());
+            string name = if_Name.text.Trim();
+
+            if (!IsValid(name))
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "名字不能超过6个字，并且只能是汉字、字母、数字", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
             User_Data_Manager.Data.Name = name;
             GameProcessor.Inst.SaveData();
             //设置名称
@@ -129,7 +137,7 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            if (user.GiftListNew.ContainsKey(code))
+            if (user.GiftList.ContainsKey(code))
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您已经使用了兑换码", ToastType = ToastTypeEnum.Failure });
                 return;
@@ -163,7 +171,7 @@ namespace Game
 
                 if (type == ItemType.Gold)
                 {
-                    user.AddExpAndGold(0, 100000000L * quantity);
+                    user.AddExpAndGold(0, GoldUnit * quantity);
                 }
                 else
                 {
@@ -174,14 +182,14 @@ namespace Game
 
             GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
-            user.GiftListNew[code] = true;
+            user.GiftList[code] = true;
         }
 
         private void SpecialCode(string code)
         {
             User user = User_Data_Manager.Data;
 
-            if (user.GiftListNew.ContainsKey(code))
+            if (user.GiftList.ContainsKey(code))
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "您已经使用了兑换码", ToastType = ToastTypeEnum.Failure });
                 return;
@@ -207,7 +215,7 @@ namespace Game
                 return;
             }
 
-            user.GiftListNew[code] = true;
+            user.GiftList[code] = true;
 
             if (config.Type == 99)
             {
@@ -229,7 +237,7 @@ namespace Game
 
                     if (type == ItemType.Gold)
                     {
-                        user.AddExpAndGold(0, 100000000L * quantity);
+                        user.AddExpAndGold(0, GoldUnit * quantity);
                     }
                     else
                     {
@@ -244,43 +252,35 @@ namespace Game
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "兑换成功", ToastType = ToastTypeEnum.Success });
         }
 
-        //4、UTF8编码格式（汉字3byte，英文1byte）,//UTF8编码格式,目前是最常用的 
-        private string SplitNameByUTF8(string temp)
+        /// <summary>
+        /// 验证字符串：
+        /// 1. 只能包含汉字、英文字母、数字
+        /// 2. 不能包含空格或其他特殊字符
+        /// 3. 总字符数不能超过 6 个
+        /// </summary>
+        public static bool IsValid(string input)
         {
-            string outputStr = "";
-            int count = 0;
+            // 1. 非空检查
+            if (string.IsNullOrEmpty(input))
+                return false;
 
-            for (int i = 0; i < temp.Length; i++)
-            {
-                string tempStr = temp.Substring(i, 1);
-                byte[] encodedBytes = System.Text.ASCIIEncoding.UTF8.GetBytes(tempStr);//Unicode用两个字节对字符进行编码
-                string output = "[" + temp + "]";
-                for (int byteIndex = 0; byteIndex < encodedBytes.Length; byteIndex++)
-                {
-                    output += Convert.ToString((int)encodedBytes[byteIndex], 2) + "  ";//二进制
-                }
+            // 2. 长度检查：C# 中 string.Length 返回的是字符数（Char Count）
+            // 一个汉字、一个字母、一个数字都算 1 个字符
+            if (input.Length > 6)
+                return false;
 
-                int byteCount = System.Text.ASCIIEncoding.UTF8.GetByteCount(tempStr);
+            // 3. 正则检查：只允许汉字、字母、数字
+            //^          : 字符串开头
+            // [\u4e00-\u9fa5] : 匹配常用汉字 Unicode 范围
+            // a-zA-Z     : 匹配大小写英文字母
+            // 0-9        : 匹配数字
+            // +          : 至少出现一次（如果允许空串可改为 *，但前面已做空值判断）
+            // $          : 字符串结尾
+            string pattern = @"^[\u4e00-\u9fa5a-zA-Z0-9]+$";
 
-                if (byteCount > 1)
-                {
-                    count += 2;
-                }
-                else
-                {
-                    count += 1;
-                }
-                if (count <= CHARACTER_LIMIT)
-                {
-                    outputStr += tempStr;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            return outputStr;
+            return Regex.IsMatch(input, pattern);
         }
+
 
 
     }

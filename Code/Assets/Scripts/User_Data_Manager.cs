@@ -80,13 +80,15 @@ namespace Game
 
             try
             {
+                string deivceId = AppHelper.GetDeviceIdentifier();
+
                 if (Data == null)
                 {
                     Data = new User();
                     //首次初始化
                     Data.MagicLevel.Data = 1;
                     Data.MagicExp.Data = 0;
-                    Data.Name = "传奇";
+                    Data.Name = "传奇" + RandomHelper.RandomNumber(1000, 9999);
                     Data.MapId = ConfigHelper.MapStartId;
                     Data.MagicGold.Data = 0;
                     Data.First_Create_Time = TimeHelper.ClientNowSeconds();
@@ -116,7 +118,7 @@ namespace Game
 
                 if (Data.DeviceId == "")
                 {
-                    Data.DeviceId = AppHelper.GetDeviceIdentifier();
+                    Data.DeviceId = deivceId;
                 }
 
                 //记录版号

@@ -159,6 +159,8 @@ namespace Game
 
             List<Item> items = new List<Item>();
 
+            long gold = 0;
+
             for (int i = 0; i < config.ItemTypeList.Count(); i++)
             {
                 int quantity = 1;
@@ -171,7 +173,7 @@ namespace Game
 
                 if (type == ItemType.Gold)
                 {
-                    user.AddExpAndGold(0, GoldUnit * quantity);
+                    gold += GoldUnit * quantity;
                 }
                 else
                 {
@@ -179,6 +181,17 @@ namespace Game
                     items.Add(item);
                 }
             }
+
+            if (gold > 0)
+            {
+                user.AddExpAndGold(0, gold);
+            }
+
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+            {
+                Important = 1,
+                Message = BattleMsgHelper.BuildGiftPackMessage("兑换码奖励", 0, gold, items)
+            });
 
             GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
@@ -217,6 +230,8 @@ namespace Game
 
             user.GiftList[code] = true;
 
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "兑换成功", ToastType = ToastTypeEnum.Success });
+
             if (config.Type == 99)
             {
                 user.AdData.SaveCode(code);
@@ -224,6 +239,8 @@ namespace Game
             else
             {
                 List<Item> items = new List<Item>();
+
+                long gold = 0;
 
                 for (int i = 0; i < config.ItemTypeList.Count(); i++)
                 {
@@ -237,7 +254,7 @@ namespace Game
 
                     if (type == ItemType.Gold)
                     {
-                        user.AddExpAndGold(0, GoldUnit * quantity);
+                        gold += GoldUnit * quantity;
                     }
                     else
                     {
@@ -246,10 +263,19 @@ namespace Game
                     }
                 }
 
+                if (gold > 0)
+                {
+                    user.AddExpAndGold(0, gold);
+                }
+
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                {
+                    Important = 1,
+                    Message = BattleMsgHelper.BuildGiftPackMessage("兑换码奖励", 0, gold, items)
+                });
+
                 GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
-
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "兑换成功", ToastType = ToastTypeEnum.Success });
         }
 
         /// <summary>

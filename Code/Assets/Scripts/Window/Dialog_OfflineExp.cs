@@ -97,7 +97,19 @@ namespace Game
             }
         }
 
+        private void CheckChange(User user)
+        {
+            long lm = user.GetAchievementProgeress(AchievementProType.LoadMonster);
+            long km = user.GetAchievementProgeress(AchievementProType.MonsterKillTotal);
 
+            if (km > lm)
+            {
+                Debug.Log("check error- load monster:" + lm + "，kill monster:" + km);
+            }
+
+            long pk = user.PetList.Select(m => m.GetTotalExp()).Sum();
+
+        }
 
         public void ShowOffline()
         {
@@ -118,6 +130,8 @@ namespace Game
                 //保存到Tap
             }
 
+            //this.CheckChange(user);
+
             if (user.OfflineLog.Count != 2)
             {
                 this.Txt_Name.text = "没有设定离线副本";
@@ -125,7 +139,8 @@ namespace Game
                 this.Txt_Kill.text = "没有收益";
                 this.Txt_Msg.text = "没有收益";
             }
-            else {
+            else
+            {
 
                 List<Item> itemList = new List<Item>();
 
@@ -176,6 +191,7 @@ namespace Game
                 user.AddExpAndGold(exp, gold);
 
                 //杀敌数
+                user.LoadMonsterEvent(killCount);
                 user.KillMonsterEnvent(kc, 1, killCount);
 
                 //增加杀怪成就数量

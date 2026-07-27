@@ -642,9 +642,20 @@ namespace Game
 
         public void SaveNetData()
         {
+            if (ConfigHelper.Channel == ConfigHelper.Channel_Tap)
+            {
+                return;
+            }
+
             try
             {
                 User user = User_Data_Manager.Data;
+
+                if (user.Account == "")
+                {
+                    return;
+                }
+
                 string str_json = JsonConvert.SerializeObject(user, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
                 str_json = EncryptionHelper.AesEncrypt(str_json);
 

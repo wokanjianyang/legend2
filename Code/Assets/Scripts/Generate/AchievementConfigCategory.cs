@@ -123,6 +123,6 @@ namespace Game
         MonsterKill4 = 305, //累计紫怪数量
         MonsterKill5 = 306, //累计boss数量
         MonsterKill6 = 307, //累计区域boss数量
-
+        LoadMonster = 310,
     }
 }

@@ -26,6 +26,8 @@ namespace Game
 
             this.Init();
             this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
+
+            User_Data_Manager.Data.LoadMonsterEvent(1);
         }
 
         private void Init()

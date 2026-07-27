@@ -989,6 +989,10 @@ namespace Game
             AchievementData[id]++;
         }
 
+        public void LoadMonsterEvent(int count)
+        {
+            AddAchievementProgeress(AchievementProType.LoadMonster, count);
+        }
 
         public void KillMonsterEnvent(double rate, int quality, int count)
         {

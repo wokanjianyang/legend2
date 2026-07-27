@@ -80,14 +80,65 @@ public class Achievment_Item : MonoBehaviour
             return;
         }
 
-        if (progress >= require && require > 0)
+
+        //彩蛋未激活，独立判断
+        if (this.Config.GroupId == 502 && level <= 0)
         {
-            Btn_Active.gameObject.SetActive(true);
+            this.CheckSpeical();
         }
         else
         {
-            Txt_No.gameObject.SetActive(true);
+            if (progress >= require && require > 0)
+            {
+                Btn_Active.gameObject.SetActive(true);
+            }
+            else
+            {
+                Txt_No.gameObject.SetActive(true);
+            }
         }
+    }
+
+    private void CheckSpeical()
+    {
+        bool complete = false;
+
+        User user = User_Data_Manager.Data;
+        switch (this.Config.Id)
+        {
+            case 52001:  //传奇人生，全身传奇装备
+                long lc = user.EquipPanelList[user.EquipPanelIndex].Select(m => m.Value.Config.Cycle == 10).Count();
+                //Debug.Log("52001:" + lc);
+                if (lc >= 10)
+                {
+                    complete = true;
+                }
+                break;
+            case 52002:  //百折不挠，死亡166次 
+                long dc = user.GetAchievementProgeress(AchievementProType.DeadCount);
+                //Debug.Log("52002:" + dc);
+                if (dc >= 66)
+                {
+                    complete = true;
+                }
+                break;
+            case 52003: //全职大师,上三系装备和3系技能
+                long rc = user.EquipPanelList[user.EquipPanelIndex].Select(m => m.Value.Config.Role).Distinct().Count();
+                long sc = user.GetCurrentSkillList().Select(m => m / 1000).Distinct().Count();
+                //Debug.Log("52003:" + rc + "-" + sc);
+                if (rc >= 3 && sc >= 3)
+                {
+                    complete = true;
+                }
+                break;
+        }
+
+        if (complete)
+        {
+            Btn_Active.gameObject.SetActive(true);
+            Txt_No.gameObject.SetActive(false);
+        }
+
     }
 
     private void OnClick_Active()

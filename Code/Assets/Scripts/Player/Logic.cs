@@ -148,7 +148,9 @@ namespace Game
 
                 if (SelfPlayer.Camp == PlayerType.Hero)
                 {
-                    switch (SelfPlayer.RuleType) {
+                    User_Data_Manager.Data.AddAchievementProgeress(AchievementProType.DeadCount, 1);
+                    switch (SelfPlayer.RuleType)
+                    {
 
                         case RuleType.MainStage:
                         case RuleType.Babel:

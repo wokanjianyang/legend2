@@ -104,6 +104,7 @@ namespace Game
         Infinite = 9, //
         SkillCount = 10, //技能总数量
         SkillLevel = 11, //技能总等级
+        DeadCount = 12, //人物死亡次数
 
         PetWear = 100,  //上阵宠物
         PetTotal = 101,  //累计获取宠物数量

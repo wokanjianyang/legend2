@@ -23,6 +23,8 @@ namespace Game
 
         private User user;
 
+        string color = ConfigHelper.Channel == ConfigHelper.Channel_Tap ? "#CBFFC2" : "#76B0FF";
+
         public int Order => (int)ComponentOrder.TopNav;
 
         void Awake()
@@ -34,7 +36,8 @@ namespace Game
         {
             this.gameObject.SetActive(true);
             this.user = User_Data_Manager.Data;
-            this.tmp_Name.text = user.Name;
+
+            this.tmp_Name.text = string.Format("<color={0}>{1}</color>", color, user.Name);
 
             this.OnHeroInfoUpdateEvent(null);
 
@@ -86,7 +89,7 @@ namespace Game
 
         private void OnSetPlayerNameEvent(SetPlayerNameEvent e)
         {
-            this.tmp_Name.text = e.Name;
+            this.tmp_Name.text = string.Format("<color={0}>{1}</color>", color, e.Name);
         }
 
     }

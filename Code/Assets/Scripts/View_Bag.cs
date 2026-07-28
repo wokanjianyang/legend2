@@ -1040,8 +1040,9 @@ namespace Game
                 }
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                 {
+                    Important = 1,
                     Message = BattleMsgHelper.BuildGiftPackMessage("礼包奖励:", 0, 0, items)
-                });
+                }); ;
                 GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
             else if (boxItem.Item.GetItemType() == ItemType.Ticket)

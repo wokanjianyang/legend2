@@ -65,9 +65,9 @@ namespace Game
         private void OnClick_Babel()
         {
             User user = User_Data_Manager.Data;
-            if (user.MagicLevel.Data < 25)
+            if (user.MagicLevel.Data < 20)
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "25级才解锁", ToastType = ToastTypeEnum.Failure });
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "20级才解锁", ToastType = ToastTypeEnum.Failure });
                 return;
             }
             this.ItemBabel.gameObject.SetActive(true);
@@ -76,9 +76,9 @@ namespace Game
         private void OnClick_Defend()
         {
             User user = User_Data_Manager.Data;
-            if (user.MagicLevel.Data < 30)
+            if (user.MagicLevel.Data < 25)
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "30级才解锁", ToastType = ToastTypeEnum.Failure });
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "25级才解锁", ToastType = ToastTypeEnum.Failure });
                 return;
             }
 
@@ -87,9 +87,9 @@ namespace Game
         private void OnClick_Legacy()
         {
             User user = User_Data_Manager.Data;
-            if (user.MagicLevel.Data < 35)
+            if (user.MagicLevel.Data < 30)
             {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "35级才解锁", ToastType = ToastTypeEnum.Failure });
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "30级才解锁", ToastType = ToastTypeEnum.Failure });
                 return;
             }
 

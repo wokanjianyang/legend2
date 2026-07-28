@@ -107,7 +107,7 @@ public class Achievment_Item : MonoBehaviour
         switch (this.Config.Id)
         {
             case 52001:  //传奇人生，全身传奇装备
-                long lc = user.EquipPanelList[user.EquipPanelIndex].Select(m => m.Value.Config.Cycle == 10).Count();
+                long lc = user.EquipPanelList[user.EquipPanelIndex].Where(m => m.Value.Config.Cycle == 10).Count();
                 //Debug.Log("52001:" + lc);
                 if (lc >= 10)
                 {

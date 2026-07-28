@@ -57,10 +57,6 @@ namespace Game
 
         public ShowDialog ShowSecondaryConfirmationDialog;
 
-        public delegate void ShowAd(string des, string action, Action<int> adResult);
-
-        public ShowAd ShowVideoAd;
-
         private float currentSaveTime = 0f;
 
         private float currentToastShowTime = 0f;
@@ -114,7 +110,7 @@ namespace Game
             if (isLoadMap)
             {
                 this.BattleRule?.OnUpdate();
-                this.MineRule?.OnUpdate();
+                //this.MineRule?.OnUpdate();
             }
 
             if (User_Data_Manager.Data == null)
@@ -199,7 +195,8 @@ namespace Game
 
         private void SecondRewarod()
         {
-            if (User_Data_Manager.Data == null)
+            User user = User_Data_Manager.Data;
+            if (user == null)
             {
                 return;
             }
@@ -209,8 +206,25 @@ namespace Game
                 return;
             }
 
-            User_Data_Manager.Data.SecondExpTick = TimeHelper.ClientNowSeconds();
-            User_Data_Manager.Data.SecondTotal++;
+            if (user.SecondExpTick == 0)
+            {
+                user.SecondExpTick = TimeHelper.ClientNowSeconds();
+            }
+            else
+            {
+                if (TimeHelper.ClientNowSeconds() < (user.SecondExpTick - 60 * 2))
+                {
+                    isTimeError = true;
+                    return;
+                }
+
+                long tempTime = TimeHelper.ClientNowSeconds() - user.SecondExpTick;
+                if (tempTime >= 5)
+                {
+                    user.SecondTotal++;
+                    user.InlineTime += 5;
+                }
+            }
         }
 
         public bool LoadInit(string str_json, string account, string accountId, int serial)
@@ -341,8 +355,6 @@ namespace Game
             this.EventCenter.AddListener<BattlerEndEvent>(this.OnEndCopy);
             this.EventCenter.AddListener<CheckGameCheatEvent>(CheckGameCheat);
             this.EventCenter.AddListener<NewVersionEvent>(NewVersion);
-
-            ShowVideoAd += OnShowVideoAd;
 
             this.UIRoot_Top = GameObject.Find("Canvas/UIRoot/Top").transform;
             this.barragePrefab = Resources.Load<GameObject>("Prefab/Dialog/Toast");
@@ -541,22 +553,23 @@ namespace Game
         }
         public void NewVersion(NewVersionEvent e)
         {
-            //if (e.Type == 1)
-            //{
-            //    if (User != null)
-            //    {
-            //        User.OldFile = true;
-            //    }
-            //    StartCoroutine(this.AutoExitApp(ExitType.OldFile));
-            //}
-            //else
-            //{
-            //    if (User != null)
-            //    {
-            //        User.VersionLog[e.Version] = TimeHelper.ClientNowSeconds();
-            //    }
-            //    StartCoroutine(this.AutoExitApp(ExitType.Version));
-            //}
+            User user = User_Data_Manager.Data;
+            if (e.Type == 1)
+            {
+                if (user != null)
+                {
+                    user.OldFile = true;
+                }
+                StartCoroutine(this.AutoExitApp(ExitType.OldFile));
+            }
+            else
+            {
+                if (user != null)
+                {
+                    user.VersionLog[e.Version] = TimeHelper.ClientNowSeconds();
+                }
+                StartCoroutine(this.AutoExitApp(ExitType.Version));
+            }
         }
 
         private void OnEndCopy(BattlerEndEvent e)
@@ -741,68 +754,6 @@ namespace Game
         public void CloseBattle(RuleType ruleType, long time)
         {
             ie_autoExitKey = StartCoroutine(this.AutoExitMap(ruleType, time, ConfigHelper.AutoExitMapTime));
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="des"></param>
-        /// <param name="action"></param>
-        /// <param name="adResult"></param>
-        public void OnShowVideoAd(string des, string action, Action<int> adResult)
-        {
-            string title = "友情支持";
-            string message = des;
-            var builder = new UM_NativeDialogBuilder(title, message);
-            builder.SetPositiveButton(des, () =>
-            {
-                Log.Debug(des);
-                PocketAD.Inst.ShowAD(action, async delegate (int rv, AdStateEnum state, AdTypeEnum type)
-                {
-                    //var ret = false;
-                    switch (state)
-                    {
-                        case AdStateEnum.Click:
-                            Log.Debug("点击广告");
-                            break;
-                        case AdStateEnum.Close:
-                            Log.Debug("关闭广告");
-                            break;
-                        case AdStateEnum.Reward:
-                            Log.Debug("发放奖励");
-                            //ret = true;
-                            break;
-                        case AdStateEnum.Show:
-                            Log.Debug("广告显示");
-                            break;
-                        case AdStateEnum.LoadFail:
-                            Log.Debug("广告加载失败");
-                            break;
-                        case AdStateEnum.NotSupport:
-                            Log.Debug("不支持广告");
-                            break;
-                        case AdStateEnum.SkippedVideo:
-                            Log.Debug("跳过广告");
-                            break;
-                        case AdStateEnum.VideoComplete:
-                            Log.Debug("广告播放完毕");
-                            //ret = true;
-                            break;
-                    }
-                    // 到主线程执行
-                    await Loom.ToMainThread;
-                    adResult?.Invoke((int)(state));
-                });
-            });
-            builder.SetNegativeButton("取消", async () =>
-            {
-                // 到主线程执行
-                await Loom.ToMainThread;
-                adResult?.Invoke(-1);
-            });
-            var dialog = builder.Build();
-            dialog.Show();
         }
 
         public void SetGameOver(PlayerType winCamp)

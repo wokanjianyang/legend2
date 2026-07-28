@@ -240,6 +240,10 @@ namespace Game
 
         public long First_Create_Time { get; set; } = 0;
 
+        public long InlineTime { get; set; } = 0;
+
+        public long OfflineTime { get; set; } = 0;
+
         //幻神记录
         public Dictionary<int, int> PhantomRecord { get; } = new Dictionary<int, int>();
 

@@ -109,6 +109,10 @@ namespace Game
 
             long pk = user.PetList.Select(m => m.GetTotalExp()).Sum();
 
+
+            Debug.Log("check error- offline time:" + user.OfflineTime);
+
+            Debug.Log("check error- inline time:" + user.InlineTime);
         }
 
         public void ShowOffline()
@@ -149,6 +153,7 @@ namespace Game
 
                 int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
 
+                user.OfflineTime += tempTime;
                 //tempTime = 3600 * 20;
 
                 int mapId = user.OfflineLog[1];

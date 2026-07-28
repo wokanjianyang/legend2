@@ -13,8 +13,8 @@ namespace Game
         public RectTransform scrollRect;
 
 
-        public Button Btn_Boss;
-        public Dialog_BossFamily ItemBoss;
+        public Button Btn_Material;
+        public Dialog_Material ItemMaterial;
 
         public Button Btn_Legacy;
         public Legacy_Copy_Info ItemLegacy;
@@ -30,7 +30,7 @@ namespace Game
 
         void Start()
         {
-            Btn_Boss.onClick.AddListener(OnClick_Boss);
+            Btn_Material.onClick.AddListener(OnClick_Material);
             Btn_Legacy.onClick.AddListener(OnClick_Legacy);
             Btn_Babel.onClick.AddListener(OnClick_Babel);
             Btn_Defend.onClick.AddListener(OnClick_Defend);
@@ -57,9 +57,9 @@ namespace Game
             GameProcessor.Inst.EventCenter.AddListener<BattlerEndEvent>(this.OnBattlerEnd);
         }
 
-        private void OnClick_Boss()
+        private void OnClick_Material()
         {
-            this.ItemBoss.gameObject.SetActive(true);
+            this.ItemMaterial.gameObject.SetActive(true);
         }
 
         private void OnClick_Babel()

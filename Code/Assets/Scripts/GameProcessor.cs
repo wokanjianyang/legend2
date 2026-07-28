@@ -443,8 +443,8 @@ namespace Game
                 case RuleType.Pill2:
                     this.BattleRule = new BattleRule_Pill2(param);
                     break;
-                case RuleType.Pill3:
-                    this.BattleRule = new BattleRule_Pill3(param);
+                case RuleType.Materail:
+                    this.BattleRule = new BattleRule_Material(param);
                     break;
                 case RuleType.Babel:
                     this.BattleRule = new BattleRule_Babel(param);

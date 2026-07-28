@@ -181,6 +181,8 @@ namespace Game
 
         public Defend_Data DefendData { get; set; } = new Defend_Data();
 
+        public Materail_Data MaterailData { get; set; } = new Materail_Data();
+
         public InfiniteData InfiniteData { get; set; } = new InfiniteData();
 
         public HeroPhatomData HeroPhatomData { get; set; }

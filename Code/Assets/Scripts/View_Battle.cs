@@ -141,6 +141,21 @@ namespace Game
 
                 this.Txt_MapName.text = "守卫龙城";
             }
+            else if (e.Type == RuleType.Materail)
+            {
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                param.Add("MapTime", TimeHelper.ClientNowSeconds());
+                param.Add("MapId", e.MapId);
+
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.LoadMap(RuleType.Materail, this.transform, param);
+                });
+
+                
+                this.Txt_MapName.text = "材料副本";
+            }
             else if (e.Type == RuleType.Babel)
             {
                 Dictionary<string, object> param = new Dictionary<string, object>();

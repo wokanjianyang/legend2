@@ -7,32 +7,32 @@ namespace Game
 {
     [ProtoContract]
     [Config]
-    public partial class MonsterMaterialConfigCategory : ProtoObject, IMerge
+    public partial class MaterialCopyConfigCategory : ProtoObject, IMerge
     {
-        public static MonsterMaterialConfigCategory Instance;
+        public static MaterialCopyConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, MonsterMaterialConfig> dict = new Dictionary<int, MonsterMaterialConfig>();
+        private Dictionary<int, MaterialCopyConfig> dict = new Dictionary<int, MaterialCopyConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<MonsterMaterialConfig> list = new List<MonsterMaterialConfig>();
+        private List<MaterialCopyConfig> list = new List<MaterialCopyConfig>();
 		
-        public MonsterMaterialConfigCategory()
+        public MaterialCopyConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            MonsterMaterialConfigCategory s = o as MonsterMaterialConfigCategory;
+            MaterialCopyConfigCategory s = o as MaterialCopyConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (MonsterMaterialConfig config in list)
+            foreach (MaterialCopyConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace Game
             this.AfterEndInit();
         }
 		
-        public MonsterMaterialConfig Get(int id)
+        public MaterialCopyConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out MonsterMaterialConfig item);
+            this.dict.TryGetValue(id, out MaterialCopyConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (MonsterMaterialConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (MaterialCopyConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace Game
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, MonsterMaterialConfig> GetAll()
+        public Dictionary<int, MaterialCopyConfig> GetAll()
         {
             return this.dict;
         }
 
-        public MonsterMaterialConfig GetOne()
+        public MaterialCopyConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,53 +73,65 @@ namespace Game
     }
 
     [ProtoContract]
-	public partial class MonsterMaterialConfig: ProtoObject, IConfig
+	public partial class MaterialCopyConfig: ProtoObject, IConfig
 	{
 		/// <summary>ID</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>Type</summary>
+		/// <summary>MapName</summary>
 		[ProtoMember(2)]
-		public int Type { get; set; }
-		/// <summary>StartLevel</summary>
+		public string MapName { get; set; }
+		/// <summary>MonsterName</summary>
 		[ProtoMember(3)]
+		public string MonsterName { get; set; }
+		/// <summary>Type</summary>
+		[ProtoMember(4)]
+		public int Type { get; set; }
+		/// <summary>Layer</summary>
+		[ProtoMember(5)]
+		public int Layer { get; set; }
+		/// <summary>StartLevel</summary>
+		[ProtoMember(6)]
 		public int StartLevel { get; set; }
 		/// <summary>EndLevel</summary>
-		[ProtoMember(4)]
+		[ProtoMember(7)]
 		public int EndLevel { get; set; }
 		/// <summary>Atk</summary>
-		[ProtoMember(5)]
+		[ProtoMember(8)]
 		public string Atk { get; set; }
 		/// <summary>AtrRise</summary>
-		[ProtoMember(6)]
+		[ProtoMember(9)]
 		public string AtrRise { get; set; }
 		/// <summary>Def</summary>
-		[ProtoMember(7)]
+		[ProtoMember(10)]
 		public string Def { get; set; }
 		/// <summary>DefRise</summary>
-		[ProtoMember(8)]
+		[ProtoMember(11)]
 		public string DefRise { get; set; }
 		/// <summary>Hp</summary>
-		[ProtoMember(9)]
+		[ProtoMember(12)]
 		public string Hp { get; set; }
 		/// <summary>HpRise</summary>
-		[ProtoMember(10)]
+		[ProtoMember(13)]
 		public string HpRise { get; set; }
 		/// <summary>DamageIncrea</summary>
-		[ProtoMember(11)]
+		[ProtoMember(14)]
 		public double DamageIncrea { get; set; }
 		/// <summary>DamageResist</summary>
-		[ProtoMember(12)]
+		[ProtoMember(15)]
 		public double DamageResist { get; set; }
 		/// <summary>Accuracy</summary>
-		[ProtoMember(13)]
+		[ProtoMember(16)]
 		public double Accuracy { get; set; }
 		/// <summary>Miss</summary>
-		[ProtoMember(14)]
+		[ProtoMember(17)]
 		public double Miss { get; set; }
-		/// <summary>Reward</summary>
-		[ProtoMember(15)]
-		public int Reward { get; set; }
+		/// <summary>RewardId</summary>
+		[ProtoMember(18)]
+		public int RewardId { get; set; }
+		/// <summary>RewardCount</summary>
+		[ProtoMember(19)]
+		public int RewardCount { get; set; }
 
 	}
 }

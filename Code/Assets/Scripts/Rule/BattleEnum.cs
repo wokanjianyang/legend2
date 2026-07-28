@@ -25,6 +25,8 @@ namespace Game
         Phantom,
         BossFamily,
         Defend,
+        Materail,
+
         HeroPhantom,
         Mine,
         Infinite,

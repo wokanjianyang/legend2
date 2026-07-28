@@ -106,6 +106,10 @@ namespace Game
         SkillLevel = 11, //技能总等级
         DeadCount = 12, //人物死亡次数
 
+        Material1 = 21,//金币副本
+        Material2 = 22,//强化副本
+        Material3 = 23,//黑铁副本
+
         PetWear = 100,  //上阵宠物
         PetTotal = 101,  //累计获取宠物数量
         PetBattle = 102,  //宠物出战数量

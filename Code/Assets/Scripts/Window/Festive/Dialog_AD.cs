@@ -245,14 +245,23 @@ public class Dialog_AD : MonoBehaviour
             return;
         }
 
-        if (toggle_Fail.isOn)
-        {   //无法播放,直接给播白屏
+        if (1 == 1)
+        {   //没有软著，先播放白屏
             StartCoroutine(ShowFakeAD(() =>
             {
-                RewardAd(type, false);
+                RewardAd(type, true);
             }));
             return;
         }
+
+        //if (toggle_Fail.isOn)
+        //{   //无法播放,直接给播白屏
+        //    StartCoroutine(ShowFakeAD(() =>
+        //    {
+        //        RewardAd(type, false);
+        //    }));
+        //    return;
+        //}
 
         string des = "";
         string action = "";

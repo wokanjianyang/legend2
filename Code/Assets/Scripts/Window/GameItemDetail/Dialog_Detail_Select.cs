@@ -59,7 +59,7 @@ namespace Game
 
                 Gift_Item item = itemUI.GetComponent<Gift_Item>();
 
-                Item newItem = ItemHelper.BuildItem((ItemType)config.ItemTypeList[i], config.ItemIdList[i], 1, config.ItemCountList[i]);
+                Item newItem = ItemHelper.BuildItemByGift((ItemType)config.ItemTypeList[i], config.ItemIdList[i], 1, config.ItemCountList[i]);
                 BoxItem newBox = new BoxItem();
                 newBox.Item = newItem;
                 newBox.MagicNubmer.Data = 1;

@@ -14,6 +14,52 @@ namespace Game
         }
 
 
+        public static Item BuildItemByGift(ItemType type, int configId, double qualityRise, long number)
+        {
+            Item item = null;
+
+            if (type == ItemType.Equip)
+            {
+                item = EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, 0);
+            }
+            else if (type == ItemType.EquipSpeical)
+            {
+                item = EquipSpeicalConfigCategory.Instance.BuildEquip(configId, 1);
+            }
+            else if (type == ItemType.GiftPack)
+            {
+                item = new Gift_Pack(configId);
+            }
+            else if (type == ItemType.Material)
+            {
+                item = BuildMaterial(configId, number);
+            }
+            else if (type == ItemType.GiftPackEquip)
+            {
+                item = EquipConfigCategory.Instance.BuildByPack(configId);
+            }
+            else if (type == ItemType.GiftPackPet)
+            {
+                item = PetAtrConfigCategory.Instance.BuildByPack(configId);
+            }
+            else if (type == ItemType.GiftPackShengxiao)
+            {
+                item = ShengxiaoConfigCategory.Instance.BuildByPack(configId);
+            }
+            else if (type == ItemType.Pet)
+            {
+                item = PetAtrConfigCategory.Instance.BuildPet(configId, 0, qualityRise);
+            }
+            else
+            {
+                item = new Item_Normal(configId);
+            }
+
+            item.Temp_Number = number;
+
+            return item;
+        }
+
         public static Item BuildItemNew(ItemType type, int configId, double qualityRise, long number, int seed)
         {
             Item item = null;

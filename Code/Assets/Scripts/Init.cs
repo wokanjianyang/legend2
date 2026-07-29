@@ -115,7 +115,7 @@ public class Init : MonoBehaviour
 
         //InitTapSDK();
 
-        InitTaku();
+        //InitTaku();
 
         //AsyncTapAccount();
 
@@ -158,13 +158,13 @@ public class Init : MonoBehaviour
 
         if (ConfigHelper.Channel == ConfigHelper.Channel_Tap)
         {
-            //currentTimeSecond = TimeHelper.ClientNowSeconds();
+            currentTimeSecond = TimeHelper.ClientNowSeconds();
 
             //Log.Debug("local time:" + currentTimeSecond);
 
-            var timeTaks = TimeCheatingDetector.GetOnlineTimeTask("https://www.baidu.com/");
-            await timeTaks;
-            currentTimeSecond = (long)timeTaks.Result.onlineSecondsUtc;
+            //var timeTaks = TimeCheatingDetector.GetOnlineTimeTask("https://www.baidu.com/");
+            //await timeTaks;
+            //currentTimeSecond = (long)timeTaks.Result.onlineSecondsUtc;
         }
         else
         {

@@ -11,18 +11,11 @@ public class BattleRule_Material : ABattleRule
 
     private bool Over = true;
 
-    //private long Progress = 1;
-
     private int MaxProgress = 0; //
-    private const int SkipTime = 15;
-    private const int SkipCount = 10;
-
-    private int[] MonsterList = new int[] { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1 };
-
 
     private int MapType = 0;
+    private string MapName = "";
     private AchievementProType at;
-    MaterialCopyConfig config;
 
     protected override RuleType ruleType => RuleType.Materail;
 
@@ -41,11 +34,23 @@ public class BattleRule_Material : ABattleRule
         User user = User_Data_Manager.Data;
         Materail_Record record = user.MaterailData.GetRecordType(MapType);
 
-        config = MaterialCopyConfigCategory.Instance.GetByProgress(this.MapType, record.Progress);
+        if (!record.SkipReward)
+        {
+            int mp = (int)user.GetAchievementProgeress(at);
+            mp = Math.Max(0, mp - 10);
+            record.SkipProgress = mp;  //计算跳过的关卡
+            record.Progress = mp + 1;
 
-        this.MaxProgress = config.EndLevel;
+            //发送跳关奖励
+            this.BuildSkipReward(record, mp);
+        }
 
-        string msg = config.MapName + "-进图次数" + record.Count + "次";
+        this.MaxProgress = MaterialCopyConfigCategory.Instance.GetMaxProgress(this.MapType);
+
+        MaterialCopyConfig config = MaterialCopyConfigCategory.Instance.GetByProgress(this.MapType, record.Progress);
+        this.MapName = config.MapName;
+
+        string msg = MapName + "-进图次数" + record.Count + "次";
         GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Title = msg });
     }
 
@@ -110,13 +115,15 @@ public class BattleRule_Material : ABattleRule
         if (currentProgres > MaxProgress && this.Over)
         {
             this.Over = false;
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Infinite, Message = config.MapName + "本阶段通关，您就是神！！！" });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Materail, Message = this.MapName + "通关，您就是神！！！" });
             return;
         }
     }
 
     private void BuildReward(long level)
     {
+        MaterialCopyConfig config = MaterialCopyConfigCategory.Instance.GetByProgress(this.MapType, level);
+
         User user = User_Data_Manager.Data;
 
         long gold = 0;
@@ -151,34 +158,47 @@ public class BattleRule_Material : ABattleRule
         });
     }
 
+    private void BuildSkipReward(Materail_Record record, int sp)
+    {
+        record.SkipReward = true;
+
+        if (sp <= 0)
+        {
+            return;
+        }
+
+        long gold = 0;
+        List<Item> items = new List<Item>();
+
+        MaterialCopyConfig config = MaterialCopyConfigCategory.Instance.GetByProgress(this.MapType, sp);
+
+        long rc = (sp - config.StartLevel + 1) * config.RewardCount;
+        rc += config.SkipReward;
+
+        if (config.RewardId == 0)
+        {
+            //金币副本
+            gold = rc;
+        }
+        else
+        {
+            Item item = ItemHelper.BuildMaterial(config.RewardId, rc);
+            items.Add(item);
+        }
+
+        GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+        {
+            Type = RuleType.Materail,
+            Message = BattleMsgHelper.BuildRewardMessage(MapName + "跳过" + sp + "关获得奖励:", 0, gold, items),
+        });
+    }
+
     public override void CheckGameResult()
     {
         var hero = GameProcessor.Inst.PlayerManager.GetHero();
         if (hero != null && hero.HP <= 0)
         {
-            User user = User_Data_Manager.Data;
-            InfiniteRecord record = user.InfiniteData.GetCurrentRecord();
 
-            if (record == null)
-            {
-                return;
-            }
-
-            record.Count.Data--;
-            GameProcessor.Inst.EventCenter.Raise(new ShowInfiniteInfoEvent() { Count = record.Progress.Data, PauseCount = record.Count.Data });
-
-            if (record.Count.Data > 0)
-            {
-                GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-                GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
-            }
-            else
-            {
-                this.Over = false;
-                user.InfiniteData.Complete();
-                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Infinite, Message = "无尽闯关失败，请明天再来" });
-                GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
-            }
         }
     }
 }

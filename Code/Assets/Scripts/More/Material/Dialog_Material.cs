@@ -42,7 +42,7 @@ public class Dialog_Material : MonoBehaviour
     void Start()
     {
         this.Init();
-        this.ChangePanel(1);
+        //this.ChangePanel(1);
     }
 
 

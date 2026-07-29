@@ -49,6 +49,7 @@ namespace Game
 
             MaterialCopyConfig config = MaterialCopyConfigCategory.Instance.GetByProgress(this.Type, cp);
 
+            Txt_Name.text = config.MapName;
             if (cp > config.EndLevel)
             {
                 this.Txt_Progress.text = "完美通关";

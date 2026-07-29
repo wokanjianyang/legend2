@@ -62,15 +62,16 @@ namespace Game
 
         public int Type { get; set; } = 0;
 
+        public bool SkipReward { get; set; } = false;
+
+        public int SkipProgress { get; set; } = 0;
+
         public void Init()
         {
             this.Progress = 1;
             this.Count = 10;
-        }
-
-        public void Complete()
-        {
-            this.Count = 0;
+            this.SkipReward = false;
+            this.SkipProgress = 0;
         }
     }
 }

@@ -87,45 +87,45 @@ namespace Game
 		/// <summary>Type</summary>
 		[ProtoMember(4)]
 		public int Type { get; set; }
-		/// <summary>Layer</summary>
-		[ProtoMember(5)]
-		public int Layer { get; set; }
 		/// <summary>StartLevel</summary>
-		[ProtoMember(6)]
+		[ProtoMember(5)]
 		public int StartLevel { get; set; }
 		/// <summary>EndLevel</summary>
-		[ProtoMember(7)]
+		[ProtoMember(6)]
 		public int EndLevel { get; set; }
 		/// <summary>Atk</summary>
-		[ProtoMember(8)]
+		[ProtoMember(7)]
 		public string Atk { get; set; }
 		/// <summary>AtrRise</summary>
-		[ProtoMember(9)]
+		[ProtoMember(8)]
 		public string AtrRise { get; set; }
 		/// <summary>Def</summary>
-		[ProtoMember(10)]
+		[ProtoMember(9)]
 		public string Def { get; set; }
 		/// <summary>DefRise</summary>
-		[ProtoMember(11)]
+		[ProtoMember(10)]
 		public string DefRise { get; set; }
 		/// <summary>Hp</summary>
-		[ProtoMember(12)]
+		[ProtoMember(11)]
 		public string Hp { get; set; }
 		/// <summary>HpRise</summary>
-		[ProtoMember(13)]
+		[ProtoMember(12)]
 		public string HpRise { get; set; }
 		/// <summary>DamageIncrea</summary>
-		[ProtoMember(14)]
+		[ProtoMember(13)]
 		public double DamageIncrea { get; set; }
 		/// <summary>DamageResist</summary>
-		[ProtoMember(15)]
+		[ProtoMember(14)]
 		public double DamageResist { get; set; }
 		/// <summary>Accuracy</summary>
-		[ProtoMember(16)]
+		[ProtoMember(15)]
 		public double Accuracy { get; set; }
 		/// <summary>Miss</summary>
-		[ProtoMember(17)]
+		[ProtoMember(16)]
 		public double Miss { get; set; }
+		/// <summary>SkipReward</summary>
+		[ProtoMember(17)]
+		public long SkipReward { get; set; }
 		/// <summary>RewardId</summary>
 		[ProtoMember(18)]
 		public int RewardId { get; set; }

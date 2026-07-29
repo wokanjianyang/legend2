@@ -14,7 +14,10 @@ namespace Game
             return config;
         }
 
-
+        public int GetMaxProgress(int type)
+        {
+            return this.list.Where(m => m.Type == type).Select(m => m.EndLevel).Max();
+        }
     }
 
 }

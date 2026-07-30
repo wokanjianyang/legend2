@@ -59,6 +59,12 @@ namespace Game
 
         private void OnClick_Material()
         {
+            User user = User_Data_Manager.Data;
+            if (user.MagicLevel.Data < 15)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "15¼¶²Å½âËø", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
             this.ItemMaterial.gameObject.SetActive(true);
         }
 

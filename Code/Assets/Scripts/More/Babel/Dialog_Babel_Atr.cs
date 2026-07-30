@@ -53,7 +53,7 @@ public class Dialog_Babel_Atr : MonoBehaviour
 
         int progress = (int)user.BabelData.Progress.Data;
 
-        List<BabelAtrConfig> configs = BabelAtrConfigCategory.Instance.GetNormalListByProgress(progress + 1);
+        List<BabelAtrConfig> configs = BabelAtrConfigCategory.Instance.GetNormalListByProgress(progress);
 
         for (int i = 0; i < AtrList.Length; i++)
         {
@@ -63,7 +63,7 @@ public class Dialog_Babel_Atr : MonoBehaviour
 
                 double atrRise = configs[i].AtrValue;
 
-                double attrCurrent = configs[i].AtrValue * ((progress - configs[i].StartLevel) / configs[i].Rate);
+                double attrCurrent = configs[i].GetAtrVue(progress);
 
                 AtrList[i].SetContent(attrId, attrCurrent, atrRise);
                 AtrList[i].gameObject.SetActive(true);

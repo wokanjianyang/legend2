@@ -20,5 +20,14 @@ namespace Game
 
 
 
+    public partial class BabelAtrConfig
+    {
+        public double GetAtrVue(int progress)
+        {
+            double vue = this.AtrValue * ((progress - this.StartLevel) / this.Rate);
+            return vue;
+        }
+    }
+
 
 }

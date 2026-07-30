@@ -548,6 +548,30 @@ namespace Game
                 }
             }
 
+            //通天
+            int bp = (int)BabelData.Progress.Data;
+            List<BabelAtrConfig> configs = BabelAtrConfigCategory.Instance.GetNormalListByProgress(bp);
+
+            for (int i = 0; i < configs.Count; i++)
+            {
+                int attrId = configs[i].AtrId;
+                double attrCurrent = configs[i].GetAtrVue(bp);
+
+                AttributeBonus.SetAttr((AttributeEnum)(attrId), attrKey++, attrCurrent);
+            }
+
+            List<BabelAtrConfig> speConfigs = BabelAtrConfigCategory.Instance.GetSpeList();
+
+            for (int i = 0; i < speConfigs.Count; i++)
+            {
+                if (speConfigs[i].StartLevel <= bp)
+                {
+                    int attrId = speConfigs[i].AtrId;
+                    double atrVue = speConfigs[i].AtrValue;
+                    AttributeBonus.SetAttr((AttributeEnum)(attrId), attrKey++, atrVue);
+                }
+            }
+
             //net属性
             Loading_Data ldData = User_Data_Manager.NetData;
             if (ldData != null && ldData.AtrList.Count > 0)

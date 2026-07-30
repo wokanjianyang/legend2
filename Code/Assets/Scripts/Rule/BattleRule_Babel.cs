@@ -132,7 +132,7 @@ public class BattleRule_Babel : ABattleRule
 
         User user = User_Data_Manager.Data;
 
-        if (ConfigHelper.Channel != ConfigHelper.Channel_Tap && user.AccountId != "" && AppHelper.BabelMinRecord > 0 && progress >= AppHelper.BabelMinRecord)
+        if (ConfigHelper.Channel != ConfigHelper.Channel_Tap && user.AccountId != "" && AppHelper.BabelMinRecord > 0 && progress >= AppHelper.BabelMinRecord && ConfigHelper.SrvId < 98)
         {
             GameProcessor.Inst.SaveRecord("babel", progress + "");
         }

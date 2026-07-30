@@ -44,7 +44,7 @@ namespace Game
 
             foreach (BossConfig config in configs)
             {
-                int rate = config.MapId == mapConfig.Id ? 100 : 150;  //非本图，boss刷新概率降低50%
+                int rate = config.Id == mapConfig.BossId ? 100 : 150;  //非本图，boss刷新概率降低50%
 
                 BossLog log = temps.Where(m => m.BossId == config.Id).FirstOrDefault();
                 if (log == null)
@@ -189,7 +189,7 @@ namespace Game
 
         public bool RandomRefresh()
         {
-            //Debug.Log("boss " + BossId + " count：" + Count);
+            //Debug.Log("boss " + BossId + " count：" + Count + " minRate:" + MinRate + " maxRate:" + LimitRate);
 
             if (AppHelper.Boss) //已经刷新了，不再刷新
             {

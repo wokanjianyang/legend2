@@ -186,6 +186,16 @@ public class BattleRule_Material : ABattleRule
             items.Add(item);
         }
 
+        if (gold > 0)
+        {
+            User user = User_Data_Manager.Data;
+            user.AddExpAndGold(0, gold);
+        }
+        if (items.Count > 0)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        }
+
         GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
         {
             Type = RuleType.Materail,

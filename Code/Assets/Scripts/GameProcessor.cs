@@ -221,6 +221,7 @@ namespace Game
                 long tempTime = TimeHelper.ClientNowSeconds() - user.SecondExpTick;
                 if (tempTime >= 5)
                 {
+                    user.SecondExpTick += 5;
                     user.SecondTotal++;
                     user.InlineTime += 5;
                 }

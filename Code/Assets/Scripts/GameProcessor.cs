@@ -246,6 +246,7 @@ namespace Game
                     User_Data_Manager.Data.Account = account;
                     User_Data_Manager.Data.AccountId = accountId;
                 }
+                User_Data_Manager.Data.OldFile = false;
                 User_Data_Manager.Data.Serial = serial;
                 User_Data_Manager.Data.LoadTicketTime = TimeHelper.ClientNowSeconds();
                 //this.User.DataDate = DateTime.Now.Ticks;

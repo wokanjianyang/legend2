@@ -33,6 +33,10 @@ namespace Game
 
         public Dictionary<int, int> OfflineLog { get; set; } = new Dictionary<int, int>();
 
+        public int TaskProgress { get; set; } = 0;
+
+        public int TaskId { get; set; } = 0;
+
         public long SecondExpTick { get; set; }
 
         public long SecondTotal { get; set; } = 0;
@@ -980,6 +984,24 @@ namespace Game
             }
 
             return progress;
+        }
+
+        public long GetTaskProgress(int id)
+        {
+            if (TaskId != id)
+            {
+                return 0;
+            }
+
+            return TaskProgress;
+        }
+
+        public void SaveTaskProgress(int p)
+        {
+            if (TaskId > 0)
+            {
+                TaskProgress++;
+            }
         }
 
         public void SetAchievementProgeress(AchievementProType type, long count)

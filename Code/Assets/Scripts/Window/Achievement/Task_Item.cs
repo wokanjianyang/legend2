@@ -16,6 +16,7 @@ public class Task_Item : MonoBehaviour
     public Text Txt_Ok;
 
     public Button Btn_Active;
+    public Button Btn_Accept;
 
     private AchievementTaskConfig Config;
 
@@ -23,6 +24,7 @@ public class Task_Item : MonoBehaviour
     void Awake()
     {
         Btn_Active.onClick.AddListener(OnClick_Active);
+        Btn_Accept.onClick.AddListener(OnClick_Accept);
     }
 
     float time = 0;
@@ -68,9 +70,34 @@ public class Task_Item : MonoBehaviour
             return;
         }
 
-        long progress = user.GetAchievementProgeress((AchievementProType)Config.ConType);
+        long progress = 0;
+        if (Config.GroupId <= 2)
+        {
+            progress = user.GetAchievementProgeress((AchievementProType)Config.ConType);
+        }
+        else
+        {
+            progress = user.GetTaskProgress(Config.Id);
+        }
+
         string color = progress >= require ? "00FF00" : "FF0000";
         Txt_Progress.text = string.Format("进度：<color=#{0}>{1}</color> /{2}", color, progress, require);
+
+        if (Config.GroupId > 2)
+        {
+            //日常任务
+            if (user.TaskId == 0)
+            {
+                this.Btn_Active.gameObject.SetActive(false);
+                this.Txt_No.gameObject.SetActive(false);
+                this.Btn_Accept.gameObject.SetActive(true);
+                return;
+            }
+            else
+            {
+                this.Btn_Accept.gameObject.SetActive(false);
+            }
+        }
 
         if (progress >= require)
         {
@@ -98,6 +125,12 @@ public class Task_Item : MonoBehaviour
 
         user.TaskLog[Config.Id] = true;
 
+        if (Config.GroupId > 2)  //日常任务
+        {
+            user.TaskId = 0;
+            user.TaskProgress = 0;
+        }
+
         //奖励
         user.AddExpAndGold(Config.RewardExp, Config.RewardGold);
 
@@ -123,5 +156,21 @@ public class Task_Item : MonoBehaviour
         Dialog_Task dialog = this.GetComponentInParent<Dialog_Task>();
 
         dialog.SelectItem(this.Config.GroupId);
+    }
+
+    public void OnClick_Accept()
+    {
+        User user = User_Data_Manager.Data;
+
+        if (user.TaskId > 0)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "上个任务还没完成" });
+            return;
+        }
+
+        user.TaskId = Config.Id;
+        user.TaskProgress = 0;
+
+        this.Show();
     }
 }

@@ -203,6 +203,7 @@ namespace Game
             MapConfig mapConfig = MapConfigCategory.Instance.Get(MapId);
             double kc = (mapConfig.GroupId + 1 + this.Quality) / ConfigHelper.PetKillPercent;
             user.KillMonsterEnvent(kc, this.Quality, 1);
+            user.SaveTaskProgress(1);
 
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
             double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;

@@ -84,24 +84,30 @@ namespace Game
 		/// <summary>Mid</summary>
 		[ProtoMember(3)]
 		public int Mid { get; set; }
-		/// <summary>FlairIdList</summary>
+		/// <summary>TraitId</summary>
 		[ProtoMember(4)]
+		public int TraitId { get; set; }
+		/// <summary>FlairIdList</summary>
+		[ProtoMember(5)]
 		public int[] FlairIdList { get; set; }
 		/// <summary>FlairVueList</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int[] FlairVueList { get; set; }
 		/// <summary>TalentList</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int[] TalentList { get; set; }
 		/// <summary>SkillList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int[] SkillList { get; set; }
 		/// <summary>SkillLevelList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int[] SkillLevelList { get; set; }
 		/// <summary>Role</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int Role { get; set; }
+		/// <summary>Quality</summary>
+		[ProtoMember(11)]
+		public int Quality { get; set; }
 
 	}
 }

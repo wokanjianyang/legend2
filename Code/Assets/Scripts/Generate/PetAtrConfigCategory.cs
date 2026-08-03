@@ -97,11 +97,11 @@ namespace Game
 
             pet.PetLevel.Data = 1;
             pet.PetLayer.Data = 1;
-            pet.Quality = config.FlairIdList.Length;
+            pet.Quality = config.Quality;
 
             //Ьиад
             PetTrait trait = new PetTrait();
-            trait.Id = 1;
+            trait.Id = config.TraitId;
             trait.Level = 1;
             trait.Type = 1;
             pet.TraitList.Add(trait);

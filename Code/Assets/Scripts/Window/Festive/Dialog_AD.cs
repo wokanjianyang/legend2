@@ -518,7 +518,7 @@ public class Dialog_AD : MonoBehaviour
     private IEnumerator ShowFakeAD(Action endCallback)
     {
         this.tran_FakeAD.gameObject.SetActive(true);
-        var duration = RandomHelper.RandomNumber(35, 40);
+        var duration = RandomHelper.RandomNumber(1, 1);
         for (int i = duration; i > 0; i--)
         {
             this.txt_FakeAD.text = $"广告还没接入，先看{i}秒假广告就发奖励";

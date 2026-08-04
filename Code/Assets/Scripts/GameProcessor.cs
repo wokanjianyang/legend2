@@ -784,7 +784,9 @@ namespace Game
                 yield return new WaitForSeconds(1f);
             }
 
-            if (ruleType == RuleType.Babel && AppHelper.Babel_Auto)
+            User user = User_Data_Manager.Data;
+
+            if (ruleType == RuleType.Babel && AppHelper.Babel_Auto && user.BabelData.Count > 0)
             {
                 this.AutoStartMap(ruleType);
             }

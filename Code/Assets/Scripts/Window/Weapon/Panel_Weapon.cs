@@ -143,7 +143,15 @@ public class Panel_Weapon : MonoBehaviour
         else
         {
             this.Txt_Status.gameObject.SetActive(false);
-            this.Btn_Status.gameObject.SetActive(true);
+
+            if (currentLevel > 0)
+            {
+                this.Btn_Status.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.Btn_Status.gameObject.SetActive(false);
+            }
         }
 
 

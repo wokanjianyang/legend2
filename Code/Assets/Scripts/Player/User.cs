@@ -49,6 +49,8 @@ namespace Game
 
         public Babel_Data BabelData { get; set; } = new Babel_Data();
 
+        public Dictionary<int, Weapon_Data> WeaponData = new Dictionary<int, Weapon_Data>();
+
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -1054,6 +1056,14 @@ namespace Game
                 sp.AddExp(count);
             }
 
+            foreach (var sp in WeaponData)
+            {
+                if (sp.Value.Status == 1)
+                {
+                    sp.Value.AddExp(count);
+                }
+            }
+
             AddAchievementProgeress(AchievementProType.MonsterKillTotal, count);
             AchievementProType mk = (AchievementProType)(301 + quality);
             AddAchievementProgeress(mk, count);
@@ -1454,6 +1464,22 @@ namespace Game
             }
 
             LegacyLayer[keyId].Data = layer;
+        }
+
+        public Weapon_Data GetWeaponData(int wid)
+        {
+            if (!WeaponData.ContainsKey(wid))
+            {
+                Weapon_Data data = new Weapon_Data();
+                data.Id = wid;
+                data.Exp.Data = 0;
+                data.Layer.Data = 0;
+                data.Level.Data = 0;
+
+                WeaponData[wid] = data;
+            }
+
+            return WeaponData[wid];
         }
 
         public long GetRingLevel(int ringId)

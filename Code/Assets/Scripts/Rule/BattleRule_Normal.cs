@@ -132,7 +132,7 @@ namespace Game
             }
 
             int rd = RandomHelper.RandomNumber(1, 5000);
-            if (rd < 1)
+            if (rd <= 2)
             {
                 return 5;
             }

@@ -87,18 +87,24 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(4)]
 		public string Name { get; set; }
-		/// <summary>AttrIdList</summary>
+		/// <summary>Logo</summary>
 		[ProtoMember(5)]
-		public int[] AttrIdList { get; set; }
-		/// <summary>AttrValueList</summary>
+		public string Logo { get; set; }
+		/// <summary>AtrIdList</summary>
 		[ProtoMember(6)]
-		public int[] AttrValueList { get; set; }
-		/// <summary>SpeAtrId</summary>
+		public int[] AtrIdList { get; set; }
+		/// <summary>AtrVueList</summary>
 		[ProtoMember(7)]
-		public int SpeAtrId { get; set; }
-		/// <summary>SpeAtrVue</summary>
+		public int[] AtrVueList { get; set; }
+		/// <summary>GradeAtrIdList</summary>
 		[ProtoMember(8)]
-		public int SpeAtrVue { get; set; }
+		public int[] GradeAtrIdList { get; set; }
+		/// <summary>GradeAtrVueList</summary>
+		[ProtoMember(9)]
+		public int[] GradeAtrVueList { get; set; }
+		/// <summary>Des</summary>
+		[ProtoMember(10)]
+		public string Des { get; set; }
 
 	}
 }

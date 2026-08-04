@@ -28,6 +28,10 @@ public class View_Forge : AViewPage
     private List<Toggle> Toggle_Legacy_List;
     public Panel_Legacy PanelLegacy;
 
+
+    public Panel_Weapon PanelWeapon;
+
+
     private void Awake()
     {
         Toggle_Legacy_List = Tf_Toggle_Legacy.GetComponentsInChildren<Toggle>().ToList();

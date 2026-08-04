@@ -76,6 +76,11 @@ namespace Game
     {
         public long GetAtrVue(int i, int level)
         {
+            if (level > this.Max)
+            {
+                return 0;
+            }
+
             int riseLevel = level;
             return MathHelper.GetSeqByType(this.AtrRiseTypeList[i], riseLevel, AtrVueList[i]);
         }

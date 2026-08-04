@@ -473,7 +473,7 @@ namespace Game
                     int exp = sp.Value;
                     CardConfig config = CardConfigCategory.Instance.Get(sp.Key);
                     int level = config.CalLevel(exp);
-                    if (level > 0)
+                    if (level > 0 && level <= config.MaxLevel)
                     {
                         for (int i = 0; i < config.AtrIdList.Length; i++)
                         {

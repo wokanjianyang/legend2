@@ -94,7 +94,7 @@ public class Panel_Weapon : MonoBehaviour
         }
 
 
-        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "上阵成功", ToastType = ToastTypeEnum.Failure });
+        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "上阵成功", ToastType = ToastTypeEnum.Success });
         this.Show();
 
     }
@@ -267,40 +267,33 @@ public class Panel_Weapon : MonoBehaviour
     {
         User user = User_Data_Manager.Data;
 
-        int keyId = WeaponId;
-        int currentLevel = user.GetLegacyLevel(keyId);
-        int nextLevel = currentLevel + 1;
+        Weapon_Data data = user.GetWeaponData(WeaponId);
 
-        LegacyGradeConfig config = LegacyGradeConfigCategory.Instance.GetConfig(keyId, nextLevel);
-
-        long fee1 = config.GetFee1(nextLevel);
-
-        if (user.MagicGold.Data < fee1)
+        if (!data.isExpFull())
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的金币", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "经验不足", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        long fee2 = config.GetFee2(nextLevel);
-        long mc = user.GetMaterialCount(ItemHelper.Legacy_Stone);
+        int feeId = data.GetFeeId();
+        long fee = data.GetFee();
+        long mc = user.GetMaterialCount(feeId);
 
-        if (mc < fee2)
+        if (mc < fee)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的传世精华", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的材料", ToastType = ToastTypeEnum.Failure });
             return;
         }
-
-        user.SubGold(fee1);
 
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
             Type = ItemType.Material,
-            ItemId = ItemHelper.Legacy_Stone,
-            Quantity = fee2
+            ItemId = feeId,
+            Quantity = fee
         });
 
+        data.Grade();
 
-        user.SaveLegacyLevel(keyId, 1);
 
         GameProcessor.Inst.UpdateInfo();
 

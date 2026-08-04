@@ -102,8 +102,14 @@ namespace Game
 		/// <summary>GradeAtrVueList</summary>
 		[ProtoMember(9)]
 		public int[] GradeAtrVueList { get; set; }
-		/// <summary>Des</summary>
+		/// <summary>Fee</summary>
 		[ProtoMember(10)]
+		public int Fee { get; set; }
+		/// <summary>Exp</summary>
+		[ProtoMember(11)]
+		public int Exp { get; set; }
+		/// <summary>Des</summary>
+		[ProtoMember(12)]
 		public string Des { get; set; }
 
 	}

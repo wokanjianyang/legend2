@@ -14,8 +14,6 @@ namespace Game
 
         public MagicData Level { get; set; } = new MagicData();
 
-        public MagicData Layer { get; set; } = new MagicData();
-
         public MagicData Exp { get; set; } = new MagicData();
 
         public int Status { get; set; } = 0;
@@ -34,7 +32,9 @@ namespace Game
 
         public long GetNeedExp()
         {
-            return 1000 * this.Level.Data;
+            WeaponConfig config = WeaponConfigCategory.Instance.Get(Id);
+            long layer = this.Level.Data / 10;
+            return config.Exp * (100 + layer * 20) / 100;
         }
 
         public void AddExp(long e)
@@ -47,14 +47,30 @@ namespace Game
             }
         }
 
+        private int[] fs = { 5, 4, 3, 2, 1 };
         public long GetFee()
         {
-            return this.Level.Data - this.Layer.Data * 10;
+            WeaponConfig config = WeaponConfigCategory.Instance.Get(Id);
+
+            int layer = (int)(this.Level.Data / 10);
+            return fs[layer] * config.Fee;
         }
 
         public int GetFeeId()
         {
-            return 5015 + (int)this.Layer.Data;
+            int layer = (int)(this.Level.Data / 10);
+            return 5015 + layer;
+        }
+
+        public void Grade()
+        {
+            if (this.Level.Data >= 50)
+            {
+                return;
+            }
+
+            this.Level.Data++;
+            this.Exp.Data = 0;
         }
     }
 }

@@ -578,6 +578,33 @@ namespace Game
                 }
             }
 
+            //神兵
+            foreach (var sp in WeaponData)
+            {
+                Weapon_Data data = sp.Value;
+                long wl = data.Level.Data;
+                if (wl > 0)
+                {
+                    WeaponConfig config = WeaponConfigCategory.Instance.Get(data.Id);
+
+                    for (int i = 0; i < config.AtrIdList.Length; i++)
+                    {
+                        long atrVue = config.AtrVueList[i] * wl;
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, atrVue);
+                    }
+
+                    long wy = wl / 10;
+                    if (wy > 0)
+                    {
+                        for (int i = 0; i < config.GradeAtrIdList.Length; i++)
+                        {
+                            long atrVue = config.GradeAtrVueList[i] * wy;
+                            AttributeBonus.SetAttr((AttributeEnum)(config.GradeAtrIdList[i]), attrKey++, atrVue);
+                        }
+                    }
+                }
+            }
+
             //net属性
             Loading_Data ldData = User_Data_Manager.NetData;
             if (ldData != null && ldData.AtrList.Count > 0)
@@ -1473,7 +1500,6 @@ namespace Game
                 Weapon_Data data = new Weapon_Data();
                 data.Id = wid;
                 data.Exp.Data = 0;
-                data.Layer.Data = 0;
                 data.Level.Data = 0;
 
                 WeaponData[wid] = data;

@@ -215,6 +215,16 @@ public class Panel_Pet_Forge : MonoBehaviour
     {
         this.Btn_OK.gameObject.SetActive(false);
 
+        User user = User_Data_Manager.Data;
+
+        if (user.MagicGold.Data <= 100000)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "½ð±Ò²»×ã10Íò", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
+
+        user.SubGold(100000);
+
         Pet_Forge_Box fm = mainList[SelectMainIndex];
         Pet petMain = fm.CurrentItem;
 

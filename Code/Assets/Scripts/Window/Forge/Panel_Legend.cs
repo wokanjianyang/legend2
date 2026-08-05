@@ -255,10 +255,17 @@ public class Panel_Legend : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
+
         Equip equip = CurrentItem as Equip;
         Equip me = bagList[SelectBagIndex].CurrentItem as Equip;
 
         EquipLegendConfig legendConfig = EquipLegendConfigCategory.Instance.Get(me.LegendData.Key);
+
+        if (user.MagicGold.Data <= legendConfig.Fee)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
 
         user.SubGold(legendConfig.Fee);
 

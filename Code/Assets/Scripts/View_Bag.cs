@@ -541,8 +541,9 @@ namespace Game
             {
                 List<Item> items = new List<Item>();
 
-                e.Item.Temp_Number = e.Nubmer;
+                long tm = e.Item.Temp_Number * e.Nubmer;
 
+                e.Item.Temp_Number = tm;
                 items.Add(e.Item);
                 GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
             }
@@ -1081,7 +1082,7 @@ namespace Game
             }
         }
 
-        
+
 
 
         private void OnEquipLockEvent(EquipLockEvent e)

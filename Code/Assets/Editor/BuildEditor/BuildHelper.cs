@@ -164,10 +164,10 @@ namespace ET
             {
                 string name = "无尽战宠";
 
-                //if (buildType == BuildType.Debug)
-                //{
-                //    name += "-测试";
-                //}
+                if (ext == "测试版")
+                {
+                    name += "-测试";
+                }
 
                 PlayerSettings.productName = name;
 

@@ -151,6 +151,7 @@ namespace Game
             GameProcessor.Inst.EventCenter.AddListener<AutoRecoveryEvent>(this.OnAutoRecoveryEvent);
             GameProcessor.Inst.EventCenter.AddListener<BagUseEvent>(this.OnBagUseEvent);
             GameProcessor.Inst.EventCenter.AddListener<BagRemoveEvent>(this.OnBagRemove);
+            GameProcessor.Inst.EventCenter.AddListener<BagRefreshEvent>(this.OnBagRefresh);
 
             GameProcessor.Inst.EventCenter.AddListener<CompositeEvent>(this.OnCompositeEvent);
             GameProcessor.Inst.EventCenter.AddListener<SystemUseEvent>(this.OnSystemUse);
@@ -1071,6 +1072,16 @@ namespace Game
 
             User_Data_Manager.Data.Bags.RemoveAll(m => m.Item.IsDelete);
         }
+
+        private void OnBagRefresh(BagRefreshEvent e)
+        {
+            foreach (Com_Box sp in items)
+            {
+                sp.Refresh();
+            }
+        }
+
+        
 
 
         private void OnEquipLockEvent(EquipLockEvent e)

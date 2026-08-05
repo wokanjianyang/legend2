@@ -30,6 +30,11 @@ namespace Game
 
         public int Important { get; set; }
     }
+
+    public class BagRefreshEvent : SDD.Events.Event
+    {
+
+    }
     //--------------old
 
     public class PetBattleUpEvent : SDD.Events.Event

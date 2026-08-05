@@ -58,7 +58,7 @@ public class Dialog_AD : MonoBehaviour
 
         //string md5 = AppHelper.GetBaseMd5();
         //txt_Rule.text = "md5 length:" + md5.Length + "\n md5:" + md5;
-        this.InitAd();
+        //this.InitAd();
     }
 
     // Update is called once per frame

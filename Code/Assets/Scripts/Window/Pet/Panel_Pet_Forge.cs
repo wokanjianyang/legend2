@@ -170,8 +170,11 @@ public class Panel_Pet_Forge : MonoBehaviour
             int bp = GetBasePercetn();
 
             Txt_Name_Bag.text = pet.GetName();
-            Txt_Kill_Bag.text = "+" + pet.GetTotalKillCount() + "*" + bp + "% É±µÐ";
-            Txt_Exp_Bag.text = "+" + pet.GetTotalExp() + "*" + bp + "% Exp";
+            Txt_Kill_Bag.text = "+" + pet.GetTotalKillCount() + " É±µÐ";
+            Txt_Exp_Bag.text = "+" + pet.GetTotalExp() + "Exp";
+
+            //Txt_Kill_Bag.text = "+" + pet.GetTotalKillCount() + "*" + bp + "% É±µÐ";
+            //Txt_Exp_Bag.text = "+" + pet.GetTotalExp() + "*" + bp + "% Exp";
         }
 
         if (SelectMainIndex >= 0 && SelectBagIndex >= 0)
@@ -200,10 +203,12 @@ public class Panel_Pet_Forge : MonoBehaviour
 
     private int GetBasePercetn()
     {
-        User user = User_Data_Manager.Data;
-        int bp = BasePercent + (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.PetInherit);
+        return 100;
 
-        return Math.Min(bp, 100);
+        //User user = User_Data_Manager.Data;
+        //int bp = BasePercent + (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.PetInherit);
+
+        //return Math.Min(bp, 100);
     }
 
     public void OnClick_Ok()
@@ -217,19 +222,27 @@ public class Panel_Pet_Forge : MonoBehaviour
 
         Pet petBag = bm.CurrentItem;
 
-        petBag.IsDelete = true;
+        //petBag.IsDelete = true;
 
-        //Ïú»Ù
-        GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent() { });
+        ////Ïú»Ù
+        //GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent() { });
 
-        int bp = GetBasePercetn();
+        //int bp = GetBasePercetn();
 
-        long bk = (long)(petBag.KillCount.Data * bp / 100);
+        long bk = (long)(petBag.KillCount.Data);
+
+        //long total = petBag.GetTotalExp();
+        long bt = petBag.GetTotalExp();
+
+        petBag.LevelExp.Data = 0;
+        petBag.KillCount.Data = 0;
+        petBag.PetLevel.Data = 1;
+
         petMain.AddKillCount(bk);
-
-        long total = petBag.GetTotalExp();
-        long bt = total * bp / 100;
         petMain.AddExp(bt);
+
+        //Ë¢ÐÂ
+        GameProcessor.Inst.EventCenter.Raise(new BagRefreshEvent() { });
 
         this.Show();
     }

@@ -133,6 +133,11 @@ namespace Game
         public void OnPointerDown(PointerEventData eventData)
         {
         }
+
+        public void Refresh() {
+            this.ShowName();
+        }
+
         public void SetItem(BoxItem item)
         {
             this.Img_Lock.gameObject.SetActive(false);

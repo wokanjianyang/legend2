@@ -101,7 +101,7 @@ namespace Game
 
         public long GetTotalKillCount()
         {
-            return (long)(this.KillCount.Data + InheritCount.Data * 0.8);
+            return (long)(this.KillCount.Data);
         }
 
         public void AddExp(long exp)

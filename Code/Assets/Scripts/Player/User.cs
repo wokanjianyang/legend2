@@ -1029,7 +1029,7 @@ namespace Game
         {
             if (TaskId > 0)
             {
-                TaskProgress++;
+                TaskProgress += p;
             }
         }
 

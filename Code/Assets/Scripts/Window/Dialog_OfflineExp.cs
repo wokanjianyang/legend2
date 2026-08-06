@@ -202,6 +202,7 @@ namespace Game
                 //杀敌数
                 user.LoadMonsterEvent(killCount);
                 user.KillMonsterEnvent(kc, 1, killCount);
+                user.SaveTaskProgress(killCount);
 
                 //增加杀怪成就数量
                 int[] qcl = { 1, 10, 100, 1000, 10000 };

@@ -27,6 +27,16 @@ public class Task_Group : MonoBehaviour
     {
         this.Config = config;
         Txt_Name.text = config.Name;
+
+        User user = User_Data_Manager.Data;
+
+        if (this.Config.Id >= 11)
+        {
+            if (ConfigHelper.Channel == ConfigHelper.Channel_Tap || user.Account == "")
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void Show()

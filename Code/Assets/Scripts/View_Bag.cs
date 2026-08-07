@@ -129,7 +129,7 @@ namespace Game
             }
             else
             {
-                this.Btn_Store.gameObject.SetActive(false);
+                this.Btn_Store.gameObject.SetActive(true);
             }
         }
 

@@ -396,5 +396,21 @@ namespace Game
 
             return SendRequest("to_lottery", bytes, successAction, failAction);
         }
+
+        public static IEnumerator SubmitTask(int taskId, Action<WebResultWrapper> successAction, Action failAction)
+        {
+            User user = User_Data_Manager.Data;
+            string accountId = user.AccountId;
+
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("accountId", accountId);
+            dict.Add("taskId", taskId + "");
+
+            string param = JsonConvert.SerializeObject(dict);
+
+            byte[] bytes = new System.Text.UTF8Encoding().GetBytes(param);
+
+            return SendRequest("submit_task", bytes, successAction, failAction);
+        }
     }
 }

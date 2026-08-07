@@ -33,9 +33,9 @@ namespace Game
 
         public Dictionary<int, int> OfflineLog { get; set; } = new Dictionary<int, int>();
 
-        public int TaskProgress { get; set; } = 0;
+        public Dictionary<int, int> TaskRecord = new Dictionary<int, int>();
 
-        public int TaskId { get; set; } = 0;
+        public Task_Data TaskData = new Task_Data();
 
         public long SecondExpTick { get; set; }
 
@@ -1015,21 +1015,35 @@ namespace Game
             return progress;
         }
 
-        public long GetTaskProgress(int id)
+        public long GetTaskProgress(int tid)
         {
-            if (TaskId != id)
+            if (!TaskRecord.ContainsKey(tid))
             {
                 return 0;
             }
 
-            return TaskProgress;
+            return TaskRecord[tid];
         }
 
+
+        private int[] tps = { 3, 11, 12 };
         public void SaveTaskProgress(int p)
         {
-            if (TaskId > 0)
+            foreach (int k in tps)
             {
-                TaskProgress += p;
+                if (TaskRecord.ContainsKey(k))
+                {
+                    TaskRecord[k] += p;
+                }
+            }
+
+            foreach (var sp in TaskData.Data)
+            {
+                Task_Item_Data data = sp.Value;
+                if (data.TaskStatus == 1)
+                {
+                    data.Progress += p;
+                }
             }
         }
 

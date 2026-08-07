@@ -130,6 +130,8 @@ namespace Game
                 //user.HeroPhatomData.Refresh();
                 //user.PillTime.Check(user.Cycle.Data);
 
+                user.TaskData.Check();
+
                 user.DataDate = DateTime.Now.Ticks;
                 //保存到Tap
             }

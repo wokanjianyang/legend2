@@ -81,35 +81,38 @@ namespace Game
 		/// <summary>GroupId</summary>
 		[ProtoMember(2)]
 		public int GroupId { get; set; }
-		/// <summary>ConType</summary>
+		/// <summary>CalId</summary>
 		[ProtoMember(3)]
+		public int CalId { get; set; }
+		/// <summary>ConType</summary>
+		[ProtoMember(4)]
 		public int ConType { get; set; }
 		/// <summary>ConRequire</summary>
-		[ProtoMember(4)]
+		[ProtoMember(5)]
 		public long ConRequire { get; set; }
 		/// <summary>RewardGold</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public long RewardGold { get; set; }
 		/// <summary>RewardExp</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public long RewardExp { get; set; }
 		/// <summary>RewardTypeList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int[] RewardTypeList { get; set; }
 		/// <summary>RewardIdList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int[] RewardIdList { get; set; }
 		/// <summary>NumberList</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int[] NumberList { get; set; }
 		/// <summary>Desc</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public string Desc { get; set; }
 		/// <summary>RewardText</summary>
-		[ProtoMember(11)]
+		[ProtoMember(12)]
 		public string RewardText { get; set; }
 		/// <summary>Sort</summary>
-		[ProtoMember(12)]
+		[ProtoMember(13)]
 		public int Sort { get; set; }
 
 	}

@@ -36,6 +36,11 @@ public class Task_Group : MonoBehaviour
             {
                 this.gameObject.SetActive(false);
             }
+
+            if (user.MagicLevel.Data < Config.RequireLevel)
+            {
+                this.gameObject.SetActive(false);
+            }
         }
     }
 

@@ -68,26 +68,26 @@ public class Task_Item : MonoBehaviour
 
         if (Config.CalId <= 0)
         {
-            this.Show0();  //普通任务
+            this.ShowTaskNormal();  //普通任务
         }
         else if (Config.CalId > 0 && Config.CalId <= 10)
         {
 
-            this.Show1();
+            this.ShowTaskKill();
         }
         else if (Config.CalId == 11)
         {
             //每日任务
-            this.Show11();
+            this.ShowTaskRepeat();
         }
         else if (Config.CalId == 12)
         {
             //福利任务
-            this.Show1();
+            this.ShowTaskKill();
         }
     }
 
-    private void Show0()
+    private void ShowTaskNormal()
     {
         //指引任务
         User user = User_Data_Manager.Data;
@@ -114,7 +114,7 @@ public class Task_Item : MonoBehaviour
         }
     }
 
-    private void Show1()
+    private void ShowTaskKill()
     {
         //杀怪任务
         User user = User_Data_Manager.Data;
@@ -149,7 +149,7 @@ public class Task_Item : MonoBehaviour
         }
     }
 
-    private void Show11()
+    private void ShowTaskRepeat()
     {
         //循环任务
         long require = Config.ConRequire;
@@ -170,7 +170,6 @@ public class Task_Item : MonoBehaviour
         string color = progress >= require ? "00FF00" : "FF0000";
         Txt_Progress.text = string.Format("进度：<color=#{0}>{1}</color> /{2}", color, progress, require);
 
-
         //日常任务
         if (data.TaskStatus == 0)  //未接取
         {
@@ -185,13 +184,12 @@ public class Task_Item : MonoBehaviour
             else
             {
                 Txt_No.gameObject.SetActive(true);
-                this.Txt_No.text = "进行中";
             }
         }
         else if (data.TaskStatus == 2)  //已完成
         {
-            this.Txt_No.gameObject.SetActive(true);
-            this.Txt_No.text = "已完成";
+            this.Txt_Ok.gameObject.SetActive(true);
+            this.Txt_Progress.text = "领取成功，明日重启刷新";
         }
     }
 
@@ -203,6 +201,17 @@ public class Task_Item : MonoBehaviour
         if (Config.CalId <= 0)
         {
             this.Ok0();  //普通任务
+
+            Dialog_Task dialog = this.GetComponentInParent<Dialog_Task>();
+            dialog.SelectItem(this.Config.GroupId);
+        }
+        else if (Config.CalId > 0 && Config.CalId <= 10)
+        {
+
+            this.OkTaskKill();
+
+            Dialog_Task dialog = this.GetComponentInParent<Dialog_Task>();
+            dialog.SelectItem(this.Config.GroupId);
         }
         else if (Config.CalId == 11)
         {
@@ -217,9 +226,6 @@ public class Task_Item : MonoBehaviour
 
 
 
-        Dialog_Task dialog = this.GetComponentInParent<Dialog_Task>();
-
-        dialog.SelectItem(this.Config.GroupId);
     }
 
     private void Ok0()
@@ -268,6 +274,49 @@ public class Task_Item : MonoBehaviour
         GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "获得任务奖励", ToastType = ToastTypeEnum.Success });
     }
 
+    private void OkTaskKill()
+    {
+        //普通杀怪任务
+        User user = User_Data_Manager.Data;
+
+
+        user.TaskLog.TryGetValue(Config.Id, out bool complete);
+        if (complete)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经领过奖励了" });
+            return;
+        }
+
+        user.TaskLog[Config.Id] = true;
+
+        if (Config.CalId > 0)  //日常任务
+        {
+            user.TaskRecord.Remove(Config.CalId);
+        }
+
+        //奖励
+        user.AddExpAndGold(Config.RewardExp, Config.RewardGold);
+
+        if (Config.RewardIdList != null)
+        {
+            List<Item> items = new List<Item>();
+            for (int i = 0; i < Config.RewardIdList.Length; i++)
+            {
+                int itemId = Config.RewardIdList[i];
+                ItemType type = (ItemType)Config.RewardTypeList[i];
+
+                Item item = ItemHelper.BuildItem(type, itemId, 1, Config.NumberList[i]);
+                if (item != null)
+                {
+                    items.Add(item);
+                }
+            }
+            GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
+        }
+
+        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "获得任务奖励", ToastType = ToastTypeEnum.Success });
+    }
+
     private void Ok11()
     {
         Btn_Active.gameObject.SetActive(false);
@@ -283,7 +332,7 @@ public class Task_Item : MonoBehaviour
             return;
         }
 
-        if (data.TaskStatus == 1)
+        if (data.TaskStatus == 2)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经领取过任务奖励了" });
             return;
@@ -296,36 +345,46 @@ public class Task_Item : MonoBehaviour
         {
             if (User_Data_Manager.Data.Account != "")
             {
-                StartCoroutine(NetworkHelper.SubmitTask(Config.Id,
+                StartCoroutine(NetworkHelper.SubmitTask(Config.Id, data.Day,
                     (WebResultWrapper result) =>
                     {
                         if (result.Code == StatusMessage.OK)
                         {
-                            JToken lotteryData = result.Extend.SelectToken("LotteryData");
-                            Lottery_Result lr = lotteryData.ToObject<Lottery_Result>();
+                            if (result.Data != null)
+                            {
+                                int lottery = int.Parse(result.Data["lottery"]);
+                                User_Data_Manager.StoreData.Lottery = lottery;
 
+                                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "领取成功", ToastType = ToastTypeEnum.Success });
 
-                            this.Txt_Progress.text = "领取成功";
+                                this.Txt_Progress.text = "领取成功，明日重启刷新";
+                            }
+                            else
+                            {
+                                this.Txt_Progress.text = result.Msg;
+                            }
+
+                            data.TaskStatus = 2; //完成任务
                         }
                         else
                         {
-                            ErrorResutlt11();
+                            ErrorResutlt();
                         }
 
                     },
                      () =>
                      {
-                         ErrorResutlt11();
+                         ErrorResutlt();
                      }));
             }
         }
         catch (Exception ex)
         {
-            ErrorResutlt11();
+            ErrorResutlt();
         }
     }
 
-    private void ErrorResutlt11()
+    private void ErrorResutlt()
     {
         this.Txt_Progress.text = "领取失败，请稍后重试";
     }
@@ -333,7 +392,64 @@ public class Task_Item : MonoBehaviour
     private void Ok12()
     {
         //福利任务
+        Btn_Active.gameObject.SetActive(false);
 
+        //循环任务
+        User user = User_Data_Manager.Data;
+
+        user.TaskLog.TryGetValue(Config.Id, out bool complete);
+        if (complete)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经领过奖励了" });
+            return;
+        }
+
+        this.Txt_Progress.text = "领取中...";
+
+        //再加载net数据
+        try
+        {
+            if (User_Data_Manager.Data.Account != "")
+            {
+                StartCoroutine(NetworkHelper.SubmitTask(Config.Id, "",
+                    (WebResultWrapper result) =>
+                    {
+                        if (result.Code == StatusMessage.OK)
+                        {
+                            user.TaskLog[Config.Id] = true;
+                            user.TaskRecord.Remove(Config.CalId);
+
+                            if (result.Data != null)
+                            {
+                                int lottery = int.Parse(result.Data["lottery"]);
+                                User_Data_Manager.StoreData.Lottery = lottery;
+
+                                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "领取成功", ToastType = ToastTypeEnum.Success });
+
+                                Dialog_Task dialog = this.GetComponentInParent<Dialog_Task>();
+                                dialog.SelectItem(this.Config.GroupId);
+                            }
+                            else
+                            {
+                                this.Txt_Progress.text = result.Msg;
+                            }
+                        }
+                        else
+                        {
+                            ErrorResutlt();
+                        }
+
+                    },
+                     () =>
+                     {
+                         ErrorResutlt();
+                     }));
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorResutlt();
+        }
     }
 
     public void OnClick_Accept()
@@ -344,7 +460,7 @@ public class Task_Item : MonoBehaviour
         {
             Task_Item_Data data = user.TaskData.GetItem(Config.Id);
             data.TaskStatus = 1;
-            data.TaskDay = DateTime.Today.Ticks;
+            data.Ticket = DateTime.Today.Ticks;
             data.Progress = 0;
         }
         else

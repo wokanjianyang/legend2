@@ -33,7 +33,7 @@ namespace Game
             {
                 Task_Item_Data item = sp.Value;
 
-                if (item.TaskDay < ticket)
+                if (item.Ticket < ticket)
                 {
                     sp.Value.Reset();
                 }
@@ -45,17 +45,20 @@ namespace Game
     {
         public int TaskId { get; set; } = 0;
 
-        public long TaskDay { get; set; } = 0;
+        public long Ticket { get; set; } = 0;
 
         public int Progress { get; set; } = 0;
 
         public int TaskStatus { get; set; } = 0;
 
+        public string Day { get; set; }
+
         public void Reset()
         {
-            this.TaskDay = DateTime.Now.Ticks;
+            this.Ticket = DateTime.Now.Ticks;
             this.Progress = 0;
             this.TaskStatus = 0;
+            this.Day = DateTime.Now.ToString("yyyy-MM-dd");
         }
     }
 }

@@ -14,8 +14,8 @@ namespace Game
 {
     public static class NetworkHelper
     {
-        //private static string home = "http://127.0.0.1:11111/public/";
-        private static string home = "http://120.76.249.105/public/";
+        private static string home = "http://127.0.0.1:11111/public/";
+        //private static string home = "http://120.76.249.105/public/";
         //private static string home = "http://192.168.10.5:11111/public/";
 
 
@@ -397,7 +397,7 @@ namespace Game
             return SendRequest("to_lottery", bytes, successAction, failAction);
         }
 
-        public static IEnumerator SubmitTask(int taskId, Action<WebResultWrapper> successAction, Action failAction)
+        public static IEnumerator SubmitTask(int taskId, string day, Action<WebResultWrapper> successAction, Action failAction)
         {
             User user = User_Data_Manager.Data;
             string accountId = user.AccountId;
@@ -405,12 +405,13 @@ namespace Game
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("accountId", accountId);
             dict.Add("taskId", taskId + "");
+            dict.Add("day", day + "");
 
             string param = JsonConvert.SerializeObject(dict);
 
             byte[] bytes = new System.Text.UTF8Encoding().GetBytes(param);
 
-            return SendRequest("submit_task", bytes, successAction, failAction);
+            return SendRequest("to_task", bytes, successAction, failAction);
         }
     }
 }

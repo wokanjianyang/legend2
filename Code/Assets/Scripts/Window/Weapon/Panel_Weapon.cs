@@ -232,6 +232,8 @@ public class Panel_Weapon : MonoBehaviour
 
         switch (WeaponId)
         {
+
+
             case 1:
                 progress = user.MagicLevel.Data;  //等级40级
                 break;
@@ -240,6 +242,12 @@ public class Panel_Weapon : MonoBehaviour
                 break;
             case 3:
                 progress = user.GetAchievementProgeress(AchievementProType.Advert);  //广告100次
+                break;
+            case 4:
+                progress = User_Data_Manager.GetStoreNumber(5002);
+                break;
+            case 5:
+                progress = User_Data_Manager.GetStoreNumber(5004);
                 break;
             default:
                 break;

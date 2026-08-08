@@ -245,5 +245,22 @@ namespace Game
                 Debug.Log("saved tap Error." + ex.Message);
             }
         }
+
+        public static int GetStoreNumber(int storeId)
+        {
+            if (StoreData == null)
+            {
+                return 0;
+            }
+
+            Store_Data_Item data = StoreData.StoreList.Where(m => m.StoreId == storeId).FirstOrDefault();
+
+            if (data == null)
+            {
+                return 0;
+            }
+
+            return data.Number;
+        }
     }
 }

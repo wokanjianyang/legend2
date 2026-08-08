@@ -36,7 +36,7 @@ namespace Game
             this.Camp = PlayerType.Enemy;
 
             this.Name = Config.Name;
-            this.Level = (Config.MapId - 999) * 100;
+            this.Level = Config.Id * 10;
             this.FashionId = BossId;
 
             this.SetAttr();  //…Ë÷√ Ù–‘÷µ

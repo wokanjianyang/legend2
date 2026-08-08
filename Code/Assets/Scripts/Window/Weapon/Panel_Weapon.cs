@@ -36,6 +36,7 @@ public class Panel_Weapon : MonoBehaviour
     public Button Btn_Ok;
     public Button Btn_Active;
 
+    private int WeapIndex = 1;
     private int WeaponId = 1;
     private int MaxWeapon = 1;
 
@@ -52,10 +53,12 @@ public class Panel_Weapon : MonoBehaviour
         Btn_Active.onClick.AddListener(OnClick_Active);
     }
 
+    private List<WeaponConfig> list = WeaponConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Type <= ConfigHelper.Channel).ToList();
+
     // Update is called once per frame
     void Start()
     {
-        MaxWeapon = WeaponConfigCategory.Instance.GetAll().Count();
+        MaxWeapon = list.Count;
         this.Show();
     }
 
@@ -69,8 +72,9 @@ public class Panel_Weapon : MonoBehaviour
 
     private void OnClick_Next()
     {
-        WeaponId++;
-        WeaponId = (WeaponId - 1) % MaxWeapon + 1;
+        WeapIndex++;
+        WeapIndex = (WeapIndex - 1) % MaxWeapon + 1;
+        WeaponId = list[WeapIndex - 1].Id;
 
         Show();
     }

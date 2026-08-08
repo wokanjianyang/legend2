@@ -81,35 +81,38 @@ namespace Game
 		/// <summary>Sid</summary>
 		[ProtoMember(2)]
 		public int Sid { get; set; }
-		/// <summary>Condtion</summary>
+		/// <summary>Type</summary>
 		[ProtoMember(3)]
+		public int Type { get; set; }
+		/// <summary>Condtion</summary>
+		[ProtoMember(4)]
 		public int Condtion { get; set; }
 		/// <summary>Name</summary>
-		[ProtoMember(4)]
+		[ProtoMember(5)]
 		public string Name { get; set; }
 		/// <summary>Logo</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public string Logo { get; set; }
 		/// <summary>AtrIdList</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int[] AtrIdList { get; set; }
 		/// <summary>AtrVueList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int[] AtrVueList { get; set; }
 		/// <summary>GradeAtrIdList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int[] GradeAtrIdList { get; set; }
 		/// <summary>GradeAtrVueList</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int[] GradeAtrVueList { get; set; }
 		/// <summary>Fee</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public int Fee { get; set; }
 		/// <summary>Exp</summary>
-		[ProtoMember(11)]
+		[ProtoMember(12)]
 		public int Exp { get; set; }
 		/// <summary>Des</summary>
-		[ProtoMember(12)]
+		[ProtoMember(13)]
 		public string Des { get; set; }
 
 	}

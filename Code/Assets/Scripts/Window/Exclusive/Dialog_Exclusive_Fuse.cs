@@ -50,9 +50,17 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
 
         Txt_Name.text = config.Name;
 
-        for (int i = 0; i < config.AtrIdList.Length; i++)
+        for (int i = 0; i < Txt_Atr_List.Count; i++)
         {
-            Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i], "+");
+            if (i < config.AtrIdList.Length)
+            {
+                Txt_Atr_List[i].gameObject.SetActive(true);
+                Txt_Atr_List[i].text = StringHelper.FormatAttrText(config.AtrIdList[i], config.AtrVueList[i], "+");
+            }
+            else
+            {
+                Txt_Atr_List[i].gameObject.SetActive(false);
+            }
         }
 
         if (config.TalentId == 0)

@@ -76,8 +76,8 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRate));
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamage));
             AttributeBonus.SetAttr(AttributeEnum.DeadlyRate, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyRate));
-            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
-            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
+            AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DeadlyDamage));
+            AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritRateResist));
             AttributeBonus.SetAttr(AttributeEnum.CritDamageResist, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.CritDamageResist));
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageIncrea));
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.DamageResist));

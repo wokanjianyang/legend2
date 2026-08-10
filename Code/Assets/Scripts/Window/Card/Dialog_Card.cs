@@ -17,7 +17,7 @@ public class Dialog_Card : MonoBehaviour
     public Panel_Card panel1;
 
     public Text Txt_Title;
-    private string[] Titles = { "宠物图鉴", "1-50级装备", "60-120级装备", "130-180级装备" };
+    private string[] Titles = { "宠物图鉴", "装备图鉴", "60-120级装备", "130-180级装备" };
     private int[] stages = { 11, 1, 2, 3 };
 
     public int Order => (int)ComponentOrder.Dialog;

@@ -112,6 +112,19 @@ namespace Game
             return message;
         }
 
+        public static string BuildAutoWeaponessage(int wdId, long wdLevel, int feeId, long fee)
+        {
+            WeaponConfig config = WeaponConfigCategory.Instance.Get(wdId);
+
+            string message = "神兵<color=#FFD700>" + config.Name + "</color>自动进阶到" + wdLevel + "级：";
+
+            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(feeId);
+
+            message += $"消耗材料<color=#{QualityConfigHelper.GetQualityColor(itemConfig.Quality)}>[{itemConfig.Name}]</color>*{fee}";
+
+            return message;
+        }
+
         public static string BuildAchKillType(int id)
         {
             string message = "天降洪福，您击杀怪物获得一个神秘的彩蛋，打开获取成就：";

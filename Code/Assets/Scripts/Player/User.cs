@@ -1134,11 +1134,13 @@ namespace Game
 
                             GameProcessor.Inst.UpdateInfo();
 
+                            string msg = BattleMsgHelper.BuildAutoWeaponessage(wd.Id, wd.Level.Data, feeId, fee);
+
                             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                             {
                                 Type = RuleType.Normal,
                                 Important = 1,
-                                Message = "神兵自动进阶成功"
+                                Message = msg
                             });
                         }
                     }

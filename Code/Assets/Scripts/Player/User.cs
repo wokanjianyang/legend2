@@ -1101,7 +1101,47 @@ namespace Game
             {
                 if (sp.Value.Status == 1)
                 {
-                    sp.Value.AddExp(count);
+                    Weapon_Data wd = sp.Value;
+                    wd.AddExp(count);
+
+                    if (AppHelper.WeaponAuto && wd.isExpFull())
+                    {
+                        //自动进阶
+                        int feeId = wd.GetFeeId();
+                        long fee = wd.GetFee();
+                        long mc = GetMaterialCount(feeId);
+
+                        if (mc < fee)
+                        {
+                            AppHelper.WeaponAuto = false;
+                            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                            {
+                                Type = RuleType.Normal,
+                                Important = 1,
+                                Message = "神兵进阶材料不足，停止自动"
+                            });
+                        }
+                        else
+                        {
+                            GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+                            {
+                                Type = ItemType.Material,
+                                ItemId = feeId,
+                                Quantity = fee
+                            });
+
+                            wd.Grade();
+
+                            GameProcessor.Inst.UpdateInfo();
+
+                            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
+                            {
+                                Type = RuleType.Normal,
+                                Important = 1,
+                                Message = "神兵自动进阶成功"
+                            });
+                        }
+                    }
                 }
             }
 

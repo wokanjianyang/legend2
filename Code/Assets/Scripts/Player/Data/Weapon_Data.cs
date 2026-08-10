@@ -30,6 +30,18 @@ namespace Game
             return false;
         }
 
+        public bool isMaxLevel()
+        {
+            if (this.Level.Data >= 50)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public long GetNeedExp()
         {
             WeaponConfig config = WeaponConfigCategory.Instance.Get(Id);
@@ -64,7 +76,7 @@ namespace Game
 
         public void Grade()
         {
-            if (this.Level.Data >= 50)
+            if (isMaxLevel())
             {
                 return;
             }

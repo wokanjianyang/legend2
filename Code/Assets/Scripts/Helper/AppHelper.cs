@@ -71,6 +71,9 @@ namespace Game
         public static bool World_Auto = false;
         public static int World_Auto_Id = 0;
 
+        //----神兵自动进阶
+        public static bool WeaponAuto = false;
+
         public static int GetLossQuality()
         {
             //如果次数少于500次，则品质-1

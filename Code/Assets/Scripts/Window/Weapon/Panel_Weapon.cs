@@ -32,6 +32,7 @@ public class Panel_Weapon : MonoBehaviour
     public Button Btn_Status;
     public Button Btn_Next;
 
+    public Toggle toggle_Auto;
 
     public Button Btn_Ok;
     public Button Btn_Active;
@@ -51,6 +52,11 @@ public class Panel_Weapon : MonoBehaviour
 
         Btn_Ok.onClick.AddListener(OnClick_OK);
         Btn_Active.onClick.AddListener(OnClick_Active);
+
+        toggle_Auto.onValueChanged.AddListener((isOn) =>
+        {
+            AppHelper.WeaponAuto = isOn;
+        });
     }
 
     private List<WeaponConfig> list = WeaponConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Type <= ConfigHelper.Channel).ToList();
@@ -64,6 +70,8 @@ public class Panel_Weapon : MonoBehaviour
 
     void OnEnable()
     {
+        toggle_Auto.isOn = AppHelper.WeaponAuto;
+
         if (MaxWeapon > 1)
         {
             this.Show();
@@ -159,7 +167,7 @@ public class Panel_Weapon : MonoBehaviour
         }
 
 
-        if (data.Level.Data >= 50)
+        if (data.isMaxLevel())
         {
             Txt_Fee.text = "神兵已经满级";
             Btn_Ok.gameObject.SetActive(false);

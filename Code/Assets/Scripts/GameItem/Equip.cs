@@ -214,6 +214,8 @@ namespace Game
                 AttrList[attrId] += BaseAttrList[attrId] * basePercent / 100;
             }
 
+            Dictionary<int, int> rs = new Dictionary<int, int>();
+
             //计算随机属性
             for (int i = 0; i < AttrEntryList.Count; i++)
             {
@@ -221,6 +223,12 @@ namespace Game
                 long attrTotalValue = AttrEntryList[i].Value;
 
                 AttrEntryConfig config = AttrEntryConfigCategory.Instance.GetConfig(this.Config.Cycle, attrId, this.Config.LevelRequired);
+
+                if (!rs.ContainsKey(config.Id))
+                {
+                    rs[config.Id] = 0;
+                }
+                rs[config.Id]++;
 
                 if (attrTotalValue > config.MaxValue)
                 {
@@ -235,6 +243,11 @@ namespace Game
                 }
 
                 AttrList[attrId] += attrTotalValue;
+
+                if (rs[config.Id] > config.MaxCount)
+                {
+                    AttrList[attrId] = 0; //如果修改了数量
+                }
             }
 
 

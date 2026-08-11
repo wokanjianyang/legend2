@@ -68,7 +68,7 @@ namespace Game
                 { //ÀëÏßÄ£Ê½
                     return config.MinValue;
                 }
-                return RandomHelper.RandomPowNumber(config.MinValue, config.MaxValue + 1);
+                return RandomHelper.RandomPowNumber(config.MinValue, config.MaxValue);
             }
 
             return config.MinValue;

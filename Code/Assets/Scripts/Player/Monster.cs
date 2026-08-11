@@ -9,17 +9,25 @@ namespace Game
     {
         public int MapId;
         public int MonsterId;
+        public int Model;
+
         MonsterConfig Config { get; set; }
         MonsterQualityConfig QualityConfig { get; set; }
 
-        public Monster(int mapId, int quality, RuleType ruleType) : base()
+        MapModeConfig MModelConfig { get; set; }
+
+
+        public Monster(int mapId, int quality, RuleType ruleType, int model) : base()
         {
             this.MapId = mapId;
             this.MonsterId = mapId;
             this.GroupId = 2;
             this.Quality = quality;
 
+            this.Model = model;
             this.RuleType = ruleType;
+
+            this.MModelConfig = MapModeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.StartMapId <= mapId && mapId <= m.EndMapId).FirstOrDefault();
 
             this.Config = MonsterConfigCategory.Instance.Get(MonsterId);
             this.QualityConfig = MonsterQualityConfigCategory.Instance.Get(Quality);
@@ -34,7 +42,7 @@ namespace Game
         {
             this.Camp = PlayerType.Enemy;
 
-            this.Name = Config.Name;
+            this.Name = Config.Name + "£¨N" + this.Model + "£©";
 
             this.Level = Config.MapId;
             this.FashionId = Config.ModelId;
@@ -80,15 +88,19 @@ namespace Game
                 }
             }
 
+            double mhpRate = Math.Pow(MModelConfig.HpRate, this.Model - 1);
+            double mdefRate = Math.Pow(MModelConfig.DefRate, this.Model - 1);
+            double matkRate = Math.Pow(MModelConfig.AtkRate, this.Model - 1);
+
             double hp = StringHelper.StringToNumber(Config.HP);
             double atk = StringHelper.StringToNumber(Config.Atk);
             double def = StringHelper.StringToNumber(Config.Def);
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, (hp * hpRate * QualityConfig.HpRate));
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate));
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate));
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate));
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, (def * defRate * QualityConfig.DefRate));
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, (hp * hpRate * QualityConfig.HpRate * mhpRate));
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate * matkRate));
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate * matkRate));
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate * matkRate));
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, (def * defRate * QualityConfig.DefRate * mdefRate));
 
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, Config.DamageIncrea);
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, Config.DamageResist);
@@ -205,10 +217,12 @@ namespace Game
             user.KillMonsterEnvent(kc, this.Quality, 1);
             user.SaveTaskProgress(1);
 
+            int riseModel = this.Model - 1;
+
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
             double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
-            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100 + mapConfig.DropRise) / 100.0;
-            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100 + mapConfig.QualtityRise) / 100.0;
+            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100 + mapConfig.DropRise + MModelConfig.DropRate * riseModel) / 100.0;
+            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100 + mapConfig.QualtityRise + MModelConfig.QualityRate * riseModel) / 100.0;
 
             double expKI = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpKillIncrea);
             double goldKI = user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldKillIncrea);

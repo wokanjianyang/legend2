@@ -21,6 +21,8 @@ namespace Game
         public Button Btn_Offline;
         public Dialog_State_Offline Dlg_Offline;
 
+        public Button Btn_Mode;
+        public Text Txt_Mode;
 
         public Button Btn_Task;
         public Dialog_Task Dlg_Task;
@@ -37,6 +39,7 @@ namespace Game
             this.Btn_Offline.onClick.AddListener(this.OnClick_Offline);
             this.Btn_Task.onClick.AddListener(this.OnClick_Task);
             this.Btn_Stage.onClick.AddListener(this.OnClick_ToStage);
+            this.Btn_Mode.onClick.AddListener(this.OnClick_ChangeModel);
 
             this.Init();
         }
@@ -53,7 +56,7 @@ namespace Game
             MapConfig config = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
 
             this.Txt_Desc.text = "0S击杀0个";
-            this.Txt_MapName.text = config.Name;
+            this.Txt_MapName.text = string.Format("{0}（N{1}）", config.Name, AppHelper.CurrentMapModel);
         }
 
         protected override bool CheckPageType(ViewPageType page)
@@ -77,6 +80,8 @@ namespace Game
 
 
             User user = User_Data_Manager.Data;
+
+            AppHelper.CurrentRuleType = e.Type;
 
             if (e.Type == RuleType.MainStage)
             {
@@ -153,7 +158,7 @@ namespace Game
                     GameProcessor.Inst.LoadMap(RuleType.Materail, this.transform, param);
                 });
 
-                
+
                 this.Txt_MapName.text = "材料副本";
             }
             else if (e.Type == RuleType.Babel)
@@ -173,6 +178,7 @@ namespace Game
                 Dictionary<string, object> param = new Dictionary<string, object>();
                 param.Add("MapTime", TimeHelper.ClientNowSeconds());
                 param.Add("MapId", e.MapId);
+                param.Add("Model", AppHelper.CurrentMapModel);
 
                 GameProcessor.Inst.DelayAction(0.1f, () =>
                 {
@@ -181,11 +187,12 @@ namespace Game
                 });
 
                 MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
-                this.Txt_MapName.text = "离线记录-" + config.Name;
+                this.Txt_MapName.text = "离线记录-" + config.Name + "（N" + AppHelper.CurrentMapModel + "）";
             }
             else
             {
                 AppHelper.CurrentMapId = e.MapId;
+                AppHelper.CurrentMapModel = 1; //换图默认为N1
                 user.OffLineMapId = AppHelper.CurrentMapId;
 
                 GameProcessor.Inst.DelayAction(0.1f, () =>
@@ -197,7 +204,8 @@ namespace Game
 
                 MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
                 //this.Txt_Desc.text = "0S击杀0个";
-                this.Txt_MapName.text = config.Name;
+                this.Txt_MapName.text = string.Format("{0}（N{1}）", config.Name, AppHelper.CurrentMapModel);
+                this.Txt_Mode.text = "难度N" + AppHelper.CurrentMapModel;
             }
         }
 
@@ -294,6 +302,25 @@ namespace Game
                 GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.MainStage, MapId = mapId });
 
                 //GameProcessor.Inst.EventCenter.Raise(new StartStageEvent());
+            }
+        }
+
+        private void OnClick_ChangeModel()
+        {
+            if (AppHelper.CurrentRuleType == RuleType.Normal)
+            {
+                MapConfig config = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
+                int MaxModel = Mathf.Min(5, config.GroupId) + 1;
+
+                AppHelper.CurrentMapModel = (AppHelper.CurrentMapModel) % MaxModel + 1;
+
+                this.Txt_Mode.text = "难度N" + AppHelper.CurrentMapModel;
+
+                this.Txt_MapName.text = string.Format("{0}（N{1}）", config.Name, AppHelper.CurrentMapModel);
+            }
+            else
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "只有主线副本可以切换难度", ToastType = ToastTypeEnum.Failure });
             }
         }
 

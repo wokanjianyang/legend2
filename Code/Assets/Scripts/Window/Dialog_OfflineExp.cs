@@ -138,7 +138,7 @@ namespace Game
 
             //this.CheckChange(user);
 
-            if (user.OfflineLog.Count != 2)
+            if (user.OfflineLog.Count < 2)
             {
                 this.Txt_Name.text = "没有设定离线副本";
                 this.Txt_Exp.text = "没有收益";

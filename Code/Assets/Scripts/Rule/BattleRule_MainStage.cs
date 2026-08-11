@@ -79,13 +79,12 @@ public class BattleRule_MainStage : ABattleRule
                 {
                     if (QualityList[0] <= 5)
                     {
-                        var enemy = MonsterConfigCategory.Instance.BuildMonster(mapConfig, QualityList[0], RuleType.MainStage);
+                        var enemy = new Monster(mapConfig.Id, QualityList[0], RuleType.MainStage, 1);
                         GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
                     }
                     else
                     {
-                        BossConfig bossConfig = BossConfigCategory.Instance.Get(this.MapId);
-                        GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(this.MapId, RuleType.MainStage));
+                        GameProcessor.Inst.PlayerManager.LoadMonster(new Boss(this.MapId, RuleType.MainStage, 1));
                     }
                     QualityList.RemoveAt(0);
                 }

@@ -74,6 +74,9 @@ namespace Game
         //----神兵自动进阶
         public static bool WeaponAuto = false;
 
+        public static RuleType CurrentRuleType = RuleType.Normal;
+        public static int CurrentMapModel = 1; //默认副本难度
+
         public static int GetLossQuality()
         {
             //如果次数少于500次，则品质-1

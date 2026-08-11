@@ -69,15 +69,21 @@ namespace Game
             string msg = (int)MapTime + "S击杀" + Math.Max(0, Total - enemys.Count) + "个";
             GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
-            if (enemys.Count >= 20)
+            if (enemys.Count >= (16 + AppHelper.CurrentMapModel * 4))
             {
                 return;
             }
 
             int quality = BuildQuality();
 
-            var enemy = MonsterConfigCategory.Instance.BuildMonster(mapConfig, quality, RuleType.Normal);
-            GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
+            int rd = roundNum % 5 + 1;
+            int mc = rd < AppHelper.CurrentMapModel ? 2 : 1;  //难度1，每秒5怪，难度2每秒6怪，难度6，每秒10怪。 每秒刷新5次怪，所以N2的第一次刷新2怪，N6的1-5次都刷新2怪
+
+            for (int i = 0; i < mc; i++)
+            {
+                var enemy = new Monster(mapConfig.Id, quality, RuleType.Normal, AppHelper.CurrentMapModel);
+                GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
+            }
 
 
             if (roundNum % BossLog.TimeNumber <= 1)
@@ -89,7 +95,7 @@ namespace Game
                     {
                         if (sp.RandomRefresh())
                         {
-                            GameProcessor.Inst.PlayerManager.LoadMonster(BossHelper.BuildBoss(sp.BossId, RuleType.Normal));
+                            GameProcessor.Inst.PlayerManager.LoadMonster(new Boss(sp.BossId, RuleType.Normal, AppHelper.CurrentMapModel));
                         }
                     }
                 }
@@ -105,7 +111,7 @@ namespace Game
             //    }
             //}
 
-            Total++;
+            Total += mc;
         }
 
         private int BuildQuality()

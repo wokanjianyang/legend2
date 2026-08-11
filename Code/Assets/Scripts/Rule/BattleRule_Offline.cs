@@ -14,13 +14,16 @@ namespace Game
 
         private int MapId = 0;
         private int Total = 0;
+        private int Model = 1;
         private bool Complete = false;
 
         public BattleRule_Offline(Dictionary<string, object> param)
         {
             param.TryGetValue("MapId", out object mapId);
+            param.TryGetValue("MapId", out object model);
 
             this.MapId = (int)mapId;
+            this.Model = (int)model;
             this.MapTime = 0;
         }
 
@@ -57,7 +60,7 @@ namespace Game
 
             int quality = 1;
 
-            var enemy = MonsterConfigCategory.Instance.BuildMonster(mapConfig, quality, RuleType.Normal);
+            var enemy = new Monster(mapConfig.Id, quality, RuleType.Normal, this.Model);
             GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
 
             Total++;
@@ -72,6 +75,7 @@ namespace Game
 
             user.OfflineLog[1] = this.MapId;
             user.OfflineLog[2] = this.Total;
+            user.OfflineLog[3] = this.Model;
 
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "记录离线效率成功！" });
         }

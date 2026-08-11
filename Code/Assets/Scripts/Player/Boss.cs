@@ -10,20 +10,26 @@ namespace Game
     public class Boss : APlayer
     {
         public int BossId;
+        public int Model;
+
         BossConfig Config { get; set; }
+        MapModeConfig MModelConfig { get; set; }
 
         private int[] excludeSkillList = { };
         //private int[] excludeSuitList = { 6 };
 
-        public Boss(int bossId, RuleType ruleType) : base()
+        public Boss(int bossId, RuleType ruleType, int model) : base()
         {
             this.BossId = bossId;
             this.GroupId = 2;
             this.Quality = 6;
 
+            this.Model = model;
             this.RuleType = ruleType;
 
             this.Config = BossConfigCategory.Instance.Get(BossId);
+
+            this.MModelConfig = MapModeConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.StartMapId <= bossId && bossId <= m.EndMapId).FirstOrDefault();
 
             this.Init();
             this.EventCenter.AddListener<DeadRewarddEvent>(MakeReward);
@@ -35,7 +41,7 @@ namespace Game
         {
             this.Camp = PlayerType.Enemy;
 
-            this.Name = Config.Name;
+            this.Name = Config.Name + "£®N" + this.Model + "£©";
             this.Level = Config.Id * 10;
             this.FashionId = BossId;
 
@@ -58,11 +64,16 @@ namespace Game
             double atk = StringHelper.StringToNumber(Config.Atk);
             double def = StringHelper.StringToNumber(Config.Def);
 
-            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, (hp * hpModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, (atk * attrModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, (atk * attrModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, (atk * attrModelRate));
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, (def * defModelRate));
+
+            double mhpRate = Math.Pow(MModelConfig.HpRate, this.Model - 1);
+            double mdefRate = Math.Pow(MModelConfig.DefRate, this.Model - 1);
+            double matkRate = Math.Pow(MModelConfig.AtkRate, this.Model - 1);
+
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, (hp * hpModelRate * mhpRate));
+            AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, (atk * attrModelRate * matkRate));
+            AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, (atk * attrModelRate * matkRate));
+            AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, (atk * attrModelRate * matkRate));
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, (def * defModelRate * mdefRate));
 
             AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, Config.DamageIncrea);
             AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, Config.DamageResist);
@@ -131,12 +142,12 @@ namespace Game
             user.KillMonsterEnvent(kc, this.Quality, 1);
 
             //«¯”Úboss∂¿ÃÿµÙ¬‰
-
+            int riseModel = this.Model - 1;
 
             double expRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.ExpIncrea) + 100) / 100.0;
             double goldRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.GoldIncrea) + 100) / 100.0;
-            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100) / 100.0;
-            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100) / 100.0;
+            double burstRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.BurstIncrea) + 100 + MModelConfig.BossDropRate * riseModel) / 100.0;
+            double qualityRise = (user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.QualityIncrea) + 100 + MModelConfig.BossQualityRate * riseModel) / 100.0;
 
             long exp = (long)(Config.Exp * expRise);
             long gold = (long)(Config.Gold * goldRise);

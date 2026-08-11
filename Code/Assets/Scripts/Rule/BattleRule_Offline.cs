@@ -20,7 +20,7 @@ namespace Game
         public BattleRule_Offline(Dictionary<string, object> param)
         {
             param.TryGetValue("MapId", out object mapId);
-            param.TryGetValue("MapId", out object model);
+            param.TryGetValue("Model", out object model);
 
             this.MapId = (int)mapId;
             this.Model = (int)model;
@@ -42,7 +42,7 @@ namespace Game
             string msg = (int)MapTime + "S击杀" + Math.Max(0, Total - enemys.Count) + "个";
             GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
-            if (enemys.Count >= 20)
+            if (enemys.Count >= (16 + this.Model * 4))
             {
                 return;
             }
@@ -60,10 +60,16 @@ namespace Game
 
             int quality = 1;
 
-            var enemy = new Monster(mapConfig.Id, quality, RuleType.Normal, this.Model);
-            GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
+            int rd = roundNum % 5 + 1;
+            int mc = rd < this.Model ? 2 : 1;  //难度1，每秒5怪，难度2每秒6怪，难度6，每秒10怪。 每秒刷新5次怪，所以N2的第一次刷新2怪，N6的1-5次都刷新2怪
 
-            Total++;
+            for (int i = 0; i < mc; i++)
+            {
+                var enemy = new Monster(mapConfig.Id, quality, RuleType.Normal, this.Model);
+                GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
+            }
+
+            Total += mc;
         }
 
         private void GameOver()

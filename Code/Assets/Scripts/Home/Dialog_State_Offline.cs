@@ -34,14 +34,15 @@ public class Dialog_State_Offline : MonoBehaviour
     {
         User user = User_Data_Manager.Data;
 
-        if (user.OfflineLog != null && user.OfflineLog.Count == 2)
+        if (user.OfflineLog != null && user.OfflineLog.Count == 3)
         {
             int mapId = user.OfflineLog[1];
             int total = user.OfflineLog[2];
+            int model = user.OfflineLog[3];
 
             MapConfig config = MapConfigCategory.Instance.Get(mapId);
 
-            Txt_Content.text = string.Format("记录离线副本为：{0}，\n" + ConfigHelper.OfflineTime + "秒杀怪效率为：{1}个", config.Name, total);
+            Txt_Content.text = string.Format("记录离线副本为：{0}（N{2}），\n" + ConfigHelper.OfflineTime + "秒杀怪效率为：{1}个", config.Name, total, model);
         }
         else
         {

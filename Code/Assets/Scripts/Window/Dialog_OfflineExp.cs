@@ -164,6 +164,7 @@ namespace Game
 
                 int mapId = user.OfflineLog[1];
                 int total = user.OfflineLog[2];
+                int model = user.OfflineLog[3];
 
                 MapConfig mapConfig = MapConfigCategory.Instance.Get(mapId);
                 MonsterConfig monsterConfig = MonsterConfigCategory.Instance.Get(mapId);

@@ -846,7 +846,7 @@ namespace Game
                 EquipSetConfig config = list[i];
 
                 int redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
-                int setLayer = redLevel / 10 + 1;
+                int setLayer = redLevel / 5 + 1;
 
                 EquipSetItem redItem = new EquipSetItem();
                 redItem.Level = setLayer;

@@ -800,13 +800,6 @@ namespace Game
                     return;
                 }
 
-                if (equip.LegendData.Key > 0)
-                {
-                    Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
-                    newList.Add(le);
-                }
-
-                equip.LegendData = new KeyValuePair<int, int>(0, 0);
                 equip.RefineLevel.Data = 0;
 
                 newList.Add(equip);
@@ -952,6 +945,20 @@ namespace Game
 
             foreach (BoxItem box in recoveryList)
             {
+                if (box.Item.GetItemType() == ItemType.Equip)
+                {  //带有传奇的装备，只能手动回收
+
+                    Equip equip = box.Item as Equip;
+
+                    if (equip.LegendData.Key > 0)
+                    {
+                        Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
+                        itemList.Add(le);
+
+                        AddBoxItem(le);
+                    }
+                }
+
                 gold += box.Item.ToRecoverDict(recoveryDict, box.MagicNubmer.Data);
 
                 UseBoxItem(box, box.MagicNubmer.Data);

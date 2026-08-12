@@ -800,6 +800,13 @@ namespace Game
                     return;
                 }
 
+                if (equip.LegendData.Key > 0)
+                {
+                    Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
+                    newList.Add(le);
+                }
+
+                equip.LegendData = new KeyValuePair<int, int>(0, 0);
                 equip.RefineLevel.Data = 0;
 
                 newList.Add(equip);

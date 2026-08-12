@@ -190,6 +190,11 @@ namespace Game
 
                     }
 
+                    if (equip.LegendData.Key > 0)
+                    {
+                        return false;
+                    }
+
                     if (equip.Level < EquipLevel || EquipRole.GetValueOrDefault(role, false) || quality <= EquipQualityRecovery)
                     {
                         return true;
@@ -237,7 +242,7 @@ namespace Game
             {
                 Equip equip = item as Equip;
 
-                if (equip.Layer > 1 || equip.RefineLevel.Data > 0 || equip.Level > this.CardEquipLevel)
+                if (equip.Layer > 1 || equip.RefineLevel.Data > 0 || equip.Level > this.CardEquipLevel || equip.LegendData.Key > 0)
                 {
                     return false;
                 }

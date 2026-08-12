@@ -63,12 +63,22 @@ namespace Game
             Equip item = new Equip(config.Id, 0, 0, config.Quality);
 
             int lgId = item.Config.LegendId;
-            int lgFlair = seed > 0 ? 40 : RandomHelper.RandomNumber(20, 100 + 1);
+            int lgFlair = RandonFlair(seed);
 
             item.LegendData = new KeyValuePair<int, int>(lgId, lgFlair);
 
             return item;
         }
+
+        public Equip BuildCycle10(int configId, int lgId, int lgFlair)
+        {
+            Equip item = new Equip(configId, 0, 0, 7);
+
+            item.LegendData = new KeyValuePair<int, int>(lgId, lgFlair);
+
+            return item;
+        }
+
 
         private int RandonFlair(int seed)
         {
@@ -77,7 +87,7 @@ namespace Game
                 return 40;
             }
 
-            return RandomHelper.RandomSerialNumber(30, 100);
+            return RandomHelper.RandomSerialNumber(20, 100);
 
         }
 

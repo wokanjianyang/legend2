@@ -310,7 +310,9 @@ namespace Game
             if (AppHelper.CurrentRuleType == RuleType.Normal)
             {
                 MapConfig config = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
-                int MaxModel = Mathf.Min(5, config.GroupId) + 1;
+                //int MaxModel = Mathf.Min(5, config.GroupId) + 1;
+
+                int MaxModel = 6;
 
                 AppHelper.CurrentMapModel = (AppHelper.CurrentMapModel) % MaxModel + 1;
 

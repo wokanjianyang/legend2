@@ -47,7 +47,7 @@ public class BattleRule_Material : ABattleRule
 
         this.MaxProgress = MaterialCopyConfigCategory.Instance.GetMaxProgress(this.MapType);
 
-        MaterialCopyConfig config = MaterialCopyConfigCategory.Instance.GetByProgress(this.MapType, record.Progress);
+        MaterialCopyConfig config = MaterialCopyConfigCategory.Instance.GetByProgress(this.MapType, 1);
         this.MapName = config.MapName;
 
         string msg = MapName + "-进图次数" + record.Count + "次";

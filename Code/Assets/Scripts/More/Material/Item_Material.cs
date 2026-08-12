@@ -35,6 +35,7 @@ namespace Game
         }
 
         private AchievementProType[] TypeList = { AchievementProType.Material1, AchievementProType.Material2, AchievementProType.Material3 };
+        private string[] names = { "金币副本", "强化副本", "精炼副本" };
 
         private void Show()
         {
@@ -46,13 +47,15 @@ namespace Game
             long maxProgess = user.GetAchievementProgeress(at);
 
             int cp = record.Progress;
+            int max = MaterialCopyConfigCategory.Instance.GetMaxProgress(this.Type);
 
-            MaterialCopyConfig config = MaterialCopyConfigCategory.Instance.GetByProgress(this.Type, cp);
-
-            Txt_Name.text = config.MapName;
-            if (cp > config.EndLevel)
+            Txt_Name.text = names[this.Type - 1];
+            if (cp > max)
             {
                 this.Txt_Progress.text = "完美通关";
+
+                this.Txt_Over.gameObject.SetActive(true);
+                Btn_Start.gameObject.SetActive(false);
             }
             else
             {

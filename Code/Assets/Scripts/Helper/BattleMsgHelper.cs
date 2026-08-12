@@ -127,7 +127,7 @@ namespace Game
 
         public static string BuildAchKillType(int id)
         {
-            string message = "天降洪福，您击杀怪物获得一个神秘的彩蛋，打开获取成就：";
+            string message = "天降洪福，您击杀怪物获得一个神秘的彩蛋，自动激活成就：";
 
             AchievementConfig config = AchievementConfigCategory.Instance.Get(id);
 

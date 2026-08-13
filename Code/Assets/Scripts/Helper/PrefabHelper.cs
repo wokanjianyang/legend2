@@ -311,12 +311,14 @@ namespace Game
             int[] pl = { 1, 2, 3, 4, 5, 7, 9, 10 };
             int p = pl[part - 1];
 
-            if (!LegacyLogoList.ContainsKey(part))
+            int key = role * 10 + part;
+
+            if (!LegacyLogoList.ContainsKey(key))
             {
-                LegacyLogoList[part] = Resources.Load<Sprite>("UI/Bag/Equip/" + "Box_Equip_" + role + "_" + p);
+                LegacyLogoList[key] = Resources.Load<Sprite>("UI/Bag/Equip/" + "Box_Equip_" + role + "_" + p);
             }
 
-            return LegacyLogoList[part];
+            return LegacyLogoList[key];
         }
 
         public Sprite GetMonsterWorld(int id)

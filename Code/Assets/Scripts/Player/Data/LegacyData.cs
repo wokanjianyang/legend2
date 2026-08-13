@@ -14,7 +14,7 @@ namespace Game
 
         public MagicDouble Time { get; set; } = new MagicDouble();
 
-        public void Check(long level)
+        public void Check()
         {
             long nt = DateTime.Today.Ticks;
 

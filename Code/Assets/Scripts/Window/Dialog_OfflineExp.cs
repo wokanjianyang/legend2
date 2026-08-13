@@ -132,6 +132,11 @@ namespace Game
 
                 user.TaskData.Check();
 
+                if (user.MagicLevel.Data >= 25)
+                {
+                    user.LegacyData.Check();
+                }
+
                 user.DataDate = DateTime.Now.Ticks;
                 //保存到Tap
             }

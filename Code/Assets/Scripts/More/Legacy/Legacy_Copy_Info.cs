@@ -37,7 +37,7 @@ public class Legacy_Copy_Info : MonoBehaviour
     private void Start()
     {
         User user = User_Data_Manager.Data;
-        user.LegacyData.Check(user.MagicLevel.Data);
+        user.LegacyData.Check();
     }
 
     void OnEnable()

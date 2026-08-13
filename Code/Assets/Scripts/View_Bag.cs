@@ -950,12 +950,15 @@ namespace Game
 
                     Equip equip = box.Item as Equip;
 
-                    if (equip.LegendData.Key > 0)
+                    if (equip.Config.Cycle != 10)
                     {
-                        Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
-                        itemList.Add(le);
+                        if (equip.LegendData.Key > 0)
+                        {
+                            Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
+                            itemList.Add(le);
 
-                        AddBoxItem(le);
+                            AddBoxItem(le);
+                        }
                     }
                 }
 

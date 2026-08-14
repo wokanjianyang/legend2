@@ -284,7 +284,7 @@ namespace Game
                     GameProcessor.Inst.EventCenter.Raise(new ShowAttackIcon { NeedShow = true, Player = _enemy });
                 }
             }
-
+            _enemy = this.FindNearestEnemy();
 
             if (_enemy != null)
             {

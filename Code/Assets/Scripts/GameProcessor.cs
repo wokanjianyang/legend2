@@ -51,6 +51,7 @@ namespace Game
         public bool isCheckError = false;
         public bool isVersionError = false;
 
+
         private bool isGameOver { get; set; } = true;
 
         public delegate void ShowDialog(string msg, bool showButton, Action doneAction, Action cancleAction);
@@ -66,6 +67,8 @@ namespace Game
         private Coroutine ie_autoExitKey = null;
 
         private Coroutine ie_autoStartMap = null;
+
+        private Coroutine ie_GameOver = null;
 
         //副本临时设置
         public bool Net = true;
@@ -203,12 +206,20 @@ namespace Game
 
             if (isTimeError)
             {
+                if (ie_GameOver == null)
+                {
+                    ie_GameOver = StartCoroutine(this.AutoExitApp(ExitType.Time));
+                }
+
                 return;
             }
 
             if (user.SecondExpTick == 0)
             {
-                user.SecondExpTick = TimeHelper.ClientNowSeconds();
+                if (!isTimeError)
+                {
+                    user.SecondExpTick = TimeHelper.ClientNowSeconds();
+                }
             }
             else
             {
@@ -316,14 +327,13 @@ namespace Game
                 isTimeError = true;
             }
 
-            isCheckError = false;
-            isTimeError = false;
-            isVersionError = false;
-
             if (!isTimeError && !isCheckError && !isVersionError && User_Data_Manager.Data.SecondExpTick >= 0)
             {
                 Dialog_OfflineExp offlineExp = Canvas.FindObjectOfType<Dialog_OfflineExp>(true);
                 offlineExp.ShowOffline();
+
+                //计算离线后，立即存档
+                this.SaveData();
             }
 
             this.Run();
@@ -859,6 +869,8 @@ namespace Game
 
         private IEnumerator AutoExitApp(ExitType type)
         {
+            this.isGameOver = true;
+
             string text = "";
 
             switch (type)
@@ -879,7 +891,7 @@ namespace Game
                     text = "后自动关闭游戏,您的账号是黑名单";
                     break;
                 case ExitType.Time:
-                    text = "后自动关闭游戏,没有得到正确的时间";
+                    text = "后自动关闭游戏,没有得到正确的时间，存档时间为：" + TimeHelper.SecondsToDate(User_Data_Manager.Data.SecondExpTick).ToString() + "，当前设备时间为：" + DateTime.Now.ToString();
                     break;
                 default:
                     text = "后自动关闭游戏";

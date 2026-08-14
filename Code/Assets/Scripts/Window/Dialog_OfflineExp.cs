@@ -143,6 +143,13 @@ namespace Game
 
             //this.CheckChange(user);
 
+            long currentTick = TimeHelper.ClientNowSeconds();
+            long offlineTime = currentTick - user.SecondExpTick;
+            int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
+            user.OfflineTime += tempTime;
+
+            user.SecondExpTick = currentTick;
+
             if (user.OfflineLog.Count < 2)
             {
                 this.Txt_Name.text = "没有设定离线副本";
@@ -152,19 +159,8 @@ namespace Game
             }
             else
             {
-                if (user.SecondExpTick == 0)
-                {
-                    user.SecondExpTick = TimeHelper.ClientNowSeconds();
-                }
-
                 List<Item> itemList = new List<Item>();
 
-                long currentTick = TimeHelper.ClientNowSeconds();
-                long offlineTime = currentTick - user.SecondExpTick;
-
-                int tempTime = (int)Math.Min(offlineTime, ConfigHelper.MaxOfflineTime);
-
-                user.OfflineTime += tempTime;
                 //tempTime = 3600 * 20;
 
                 int mapId = user.OfflineLog[1];
@@ -198,8 +194,6 @@ namespace Game
 
                 //离线挖矿
                 //this.BuildOfflineMine(user, tempTime, ref OfflineMessage);
-
-                user.SecondExpTick = currentTick;
                 this.Txt_Name.text = mapConfig.Name + "：离线时间" + tempTime + "秒(至少120秒才会有奖励)";
                 this.Txt_Kill.text = "击杀怪物：" + killCount + "，杀敌数+" + kc;
                 this.Txt_Exp.text = "获得经验：" + exp + "，金币：" + gold;

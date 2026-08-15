@@ -123,14 +123,14 @@ namespace Game
                         if (CurseTotal > 0)
                         {
                             long curse = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.Curse).Select(m => m.Value).Sum();
-                            if (curse >= LuckyTotal)
+                            if (curse >= CurseTotal)
                             {
                                 item.IsKeep = true;
                                 return false;
                             }
                         }
 
-                        if (CurseTotal > 0)
+                        if (SpeedTotal > 0)
                         {
                             long speed = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.Speed).Select(m => m.Value).Sum();
                             if (speed >= SpeedTotal)
@@ -140,7 +140,7 @@ namespace Game
                             }
                         }
 
-                        if (CurseTotal > 0)
+                        if (CdTotal > 0)
                         {
                             long cd = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.Cd).Select(m => m.Value).Sum();
                             if (cd >= CdTotal)

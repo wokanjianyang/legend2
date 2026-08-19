@@ -645,17 +645,24 @@ namespace Game
 
             int lv = config.CalLevel(user.GetCardExp(e.CardId));
 
-            Equip equip = e.BoxItem.Item as Equip;
-
-            int cardExp = equip.ReformExp + 1;
-
-            user.CardRecord[e.CardId] += cardExp;
-
-            if (equip.Config.Cycle == 1 && equip.LegendData.Key > 0)
+            if (e.BoxItem.Item.GetItemType() == ItemType.Equip)
             {
-                //把传奇重置出来
-                Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
-                AddBoxItem(le);
+                Equip equip = e.BoxItem.Item as Equip;
+
+                int cardExp = equip.ReformExp + 1;
+
+                user.CardRecord[e.CardId] += cardExp;
+
+                if (equip.Config.Cycle == 1 && equip.LegendData.Key > 0)
+                {
+                    //把传奇重置出来
+                    Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
+                    AddBoxItem(le);
+                }
+            }
+            else
+            {
+                user.CardRecord[e.CardId] += 1;
             }
 
             int lvn = config.CalLevel(user.GetCardExp(e.CardId));

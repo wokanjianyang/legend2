@@ -195,7 +195,7 @@ namespace Game
                         return false;
                     }
 
-                    if (equip.Level < EquipLevel || EquipRole.GetValueOrDefault(role, false) || quality <= EquipQualityRecovery)
+                    if (equip.Config.LevelRequired < EquipLevel || EquipRole.GetValueOrDefault(role, false) || quality <= EquipQualityRecovery)
                     {
                         return true;
                     }

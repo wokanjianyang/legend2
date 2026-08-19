@@ -11,6 +11,8 @@ public class Main_Map_Group : MonoBehaviour
 {
     public Button Btn_Group;
 
+    public Toggle toggle;
+
     public Text Txt_Name;
     public Text Txt_Desc;
     public Text Txt_Icon;
@@ -29,7 +31,17 @@ public class Main_Map_Group : MonoBehaviour
         Item_List = Tf_Item_List.GetComponentsInChildren<Main_Map_Item>(true).ToList();
 
         Btn_Group.onClick.AddListener(OnClick_Name);
+
+        toggle.onValueChanged.AddListener((isOn) =>
+        {
+            if (this.Config != null)
+            {
+                AppHelper.BossOpen[Config.Id] = isOn;
+            }
+        });
+
     }
+
 
     public void SetContent(MapGroupConfig config)
     {

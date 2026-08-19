@@ -50,6 +50,7 @@ namespace Game
         //-----boss数据
         public static bool Boss = true; //区域boss
         public static List<BossLog> BossLogs = new List<BossLog>();
+        public static IDictionary<int, bool> BossOpen = new Dictionary<int, bool>();
 
         public static IDictionary<int, int> EquipRecord { get; set; } = new Dictionary<int, int>();
 

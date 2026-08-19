@@ -44,6 +44,11 @@ namespace Game
 
             foreach (BossConfig config in configs)
             {
+                if (AppHelper.BossOpen.ContainsKey(config.Id) && AppHelper.BossOpen[config.Id])
+                {
+                    continue; //如果关闭了区域boss，则跳过
+                }
+
                 int rate = config.Id == mapConfig.BossId ? 100 : 150;  //非本图，boss刷新概率降低50%
 
                 BossLog log = temps.Where(m => m.BossId == config.Id).FirstOrDefault();

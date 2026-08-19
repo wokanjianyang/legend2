@@ -89,6 +89,10 @@ namespace Game
                     Panel_Legend panel = this.gameObject.GetComponentInParent<Panel_Legend>();
                     panel.SelectBag(this.BoxId, CurrentItem, this);
                 }
+                else if (Type == 2) {
+                    Panel_Reform panel = this.gameObject.GetComponentInParent<Panel_Reform>();
+                    panel.SelectBag(this.BoxId, CurrentItem, this);
+                }
             }
         }
     }

@@ -67,11 +67,25 @@ namespace Game
                 if (CurrentItem.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = CurrentItem as Equip;
-                    if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
+
+                    if (Type == 4)
                     {
-                        this.Txt_Layer.text = string.Format("<color=#{0}>传</color>", QualityConfigHelper.GetQualityColor(7));
-                        this.Txt_Layer.gameObject.SetActive(true);
+                        if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
+                        {
+                            this.Txt_Layer.text = string.Format("<color=#{0}>传</color>", QualityConfigHelper.GetQualityColor(7));
+                            this.Txt_Layer.gameObject.SetActive(true);
+                        }
                     }
+                    else
+                    {
+                        int rl = equip.GetReformLevel();
+                        if (rl > 0)
+                        {
+                            this.Txt_Layer.text = string.Format("改{0}", rl);
+                            this.Txt_Layer.gameObject.SetActive(true);
+                        }
+                    }
+
                     if (equip.RefineLevel.Data > 0)
                     {
                         this.Txt_Level.text = string.Format("精{0}", equip.RefineLevel.Data);
@@ -143,6 +157,11 @@ namespace Game
                 else if (Type == 4)
                 {
                     Panel_Legend panel = this.gameObject.GetComponentInParent<Panel_Legend>();
+                    panel.SelectItem(this.Position, CurrentItem, this);
+                }
+                else if (Type == 5)
+                {
+                    Panel_Reform panel = this.gameObject.GetComponentInParent<Panel_Reform>();
                     panel.SelectItem(this.Position, CurrentItem, this);
                 }
             }

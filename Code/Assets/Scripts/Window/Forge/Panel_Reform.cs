@@ -12,174 +12,280 @@ using UnityEngine.UI;
 public class Panel_Reform : MonoBehaviour
 {
     public Transform Tran_Item_List;
-    private ItemForge[] items;
+    private Box_Forge[] items;
 
-    public Transform Tran_Attr_List;
-    private Forge_Atr_Item[] AttrList;
+    public ScrollRect Sr_Bag;
 
-    public Text Reform_Txt_Fee;
-    public Text Reform_Txt_Fee1;
-    public Button Btn_Reform;
+    public Text Txt_Fee;
 
-    private int Refine_Position = 1;
+    public Button Btn_Ok;
 
-    private double UnitGold = 10000000000000000L;
-    //private int ReformStoneFee = 1;
+    public Text Txt_Info;
+    public Text Txt_Exp;
+
+    private int SelectMainIndex = 1;
+    private int SelectBagIndex = -1;
+
+    private Item CurrentItem;
+
+    private int ForgeType = 5;
+
+    private List<Box_Forge_Bag> bagList = new List<Box_Forge_Bag>();
+    private int MaxMC = 40;
+
     // Start is called before the first frame update
     void Awake()
     {
-        items = Tran_Item_List.GetComponentsInChildren<ItemForge>();
-        Btn_Reform.onClick.AddListener(OnClick_Refine);
+        items = Tran_Item_List.GetComponentsInChildren<Box_Forge>();
 
-        AttrList = Tran_Attr_List.GetComponentsInChildren<Forge_Atr_Item>();
+        Btn_Ok.onClick.AddListener(OnClick_OK);
     }
 
     // Update is called once per frame
     void Start()
     {
-        GameProcessor.Inst.EventCenter.AddListener<EquipReformSelectEvent>(this.OnEquipReformSelectEvent);
-
         this.Init();
-        this.ShowRefine();
     }
 
     private void Init()
     {
+        var emptyPrefab = PrefabHelper.Instance().ComBoxEmpty;
+        for (var i = 0; i < MaxMC; i++)
+        {
+            var empty = GameObject.Instantiate(emptyPrefab, this.Sr_Bag.content);
+            empty.name = "Box_" + i;
+            //yield return null;
+        }
+    }
+
+    void OnEnable()
+    {
+        this.Refresh();
+    }
+
+    private void Refresh()
+    {
         User user = User_Data_Manager.Data;
+
+        if (user == null)
+        {
+            return;
+        }
+
+        //清理
+        this.CurrentItem = null;
+
+        foreach (var sp in items)
+        {
+            sp.SetItem(null);
+        }
+
+        foreach (var sp in bagList)
+        {
+            GameObject.Destroy(sp.gameObject);
+        }
+        bagList.Clear();
 
         ToggleGroup toggleGroup = Tran_Item_List.GetComponent<ToggleGroup>();
 
         for (int i = 0; i < items.Count(); i++)
         {
             int position = i + 1;
-            long level = user.GetReformLevel(position);
 
-            items[i].Init(3, position, level, toggleGroup);
+            items[i].Init(ForgeType, position, toggleGroup);
+            items[i].SetItem(user.GetEquip(position));
         }
+
+        this.Txt_Exp.text = "请选择材料装备";
+        this.Txt_Info.text = "请选择改造装备";
     }
 
-    private void ShowRefine()
+
+    public void SelectItem(int p, Item item, Box_Forge box)
     {
-        User user = User_Data_Manager.Data;
+        this.SelectMainIndex = p;
+        this.CurrentItem = item;
 
-        long MaxLevel = user.GetReformLimit(Refine_Position);
-        long currentLevel = user.GetReformLevel(Refine_Position);
-
-        items[Refine_Position - 1].SetLevel(currentLevel);
-
-        long nextLevel = currentLevel + 1;
-        EquipReformFeeConfig feeConfig = EquipReformFeeConfigCategory.Instance.GetByLevel(nextLevel);
-
-        if (feeConfig == null || nextLevel > MaxLevel)
+        //清理
+        foreach (var sp in bagList)
         {
-            Reform_Txt_Fee.text = "已满级";
-            Reform_Txt_Fee1.text = "已满级";
-            Btn_Reform.gameObject.SetActive(false);
+            GameObject.Destroy(sp.gameObject);
+        }
+        bagList.Clear();
+
+        this.Txt_Exp.text = "请选择材料装备";
+
+        if (this.CurrentItem == null)
+        {
+            Txt_Info.text = "此部位没有装备";
+            return;
         }
         else
         {
-            long stoneCount = user.GetMaterialCount(ItemHelper.SpecialId_Reform_Stone);
-            double needGold = feeConfig.GetFee(nextLevel); //京单位
+            Equip equip = this.CurrentItem as Equip;
 
-            int needStoneCount = feeConfig.StoneFee;
-            if (stoneCount > needStoneCount)
+            if (equip.Config.Cycle > 1)
             {
-                Reform_Txt_Fee.text = string.Format("需要改造石：<color={0}>{1}/{2}</color>", "#FFFF00", stoneCount, needStoneCount);
-                Btn_Reform.gameObject.SetActive(true);
+                Txt_Info.text = "只有普通准备可以改造";
+                return;
+            }
+            else if (equip.GetQuality() < 5)
+            {
+                Txt_Info.text = "只能改造橙色装备";
+                return;
+            }
+            else if (equip.GetReformLevel() >= 5)
+            {
+                Txt_Info.text = "此装备改造已经满级了";
+                return;
             }
             else
             {
-                Reform_Txt_Fee.text = string.Format("需要改造石：<color={0}>{1}/{2}</color>", "#FF0000", stoneCount, needStoneCount);
-                Btn_Reform.gameObject.SetActive(false);
-            }
-
-            double realNeedGold = UnitGold * needGold;
-
-            if (user.MagicGold.Data >= realNeedGold)
-            {
-                Reform_Txt_Fee1.text = string.Format("需要金币：<color={0}>{1}</color>", "#FFFF00", StringHelper.FormatNumber(realNeedGold) );
-                Btn_Reform.gameObject.SetActive(true);
-            }
-            else
-            {
-                Reform_Txt_Fee1.text = string.Format("需要金币：<color={0}>{1}</color>", "#FF0000", StringHelper.FormatNumber(realNeedGold));
-                Btn_Reform.gameObject.SetActive(false);
+                Txt_Info.text = string.Format("{0}：当前经验{1}/{2}", equip.GetName(), equip.ReformExp, equip.GetReformNeedExp());
             }
         }
 
 
-        EquipReformConfig reformConfig = EquipReformConfigCategory.Instance.Get(Refine_Position);
-
-        for (int i = 0; i < AttrList.Length; i++)
-        {
-            if (i < reformConfig.AttrList.Length && currentLevel >= reformConfig.RequireLevel[i])
-            {
-                int attrId = reformConfig.AttrList[i];
-
-                long attrAdd = reformConfig.AttrValueList[i];
-                long attrCurrent = reformConfig.GetAttr(currentLevel, i);
-
-                AttrList[i].SetContent(attrId, attrCurrent, attrAdd);
-                AttrList[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                AttrList[i].gameObject.SetActive(false);
-            }
-        }
+        this.Select_Main();
     }
 
-    private void OnEquipReformSelectEvent(EquipReformSelectEvent e)
-    {
-        this.Refine_Position = e.Position;
-        ShowRefine();
-    }
-
-    private void OnClick_Refine()
+    private void Select_Main()
     {
         User user = User_Data_Manager.Data;
 
-        long currentLevel = user.GetReformLevel(Refine_Position);
+        Equip equip = this.CurrentItem as Equip;
 
-        long MaxLevel = user.GetReformLimit(Refine_Position);
-        if (currentLevel >= MaxLevel)
+        int part = equip.Config.Part;
+        int quality = equip.GetQuality();
+        int configId = equip.ConfigId;
+
+        var equips = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Equip && m.Item.GetQuality() == quality
+        && m.Item.ConfigId == configId && !m.Item.IsLock).ToList();
+
+        List<Equip> bags = new List<Equip>();
+        foreach (var item in equips)
         {
-            //
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "改造等级满级了", ToastType = ToastTypeEnum.Failure });
+            Equip bi = item.Item as Equip;
+            bags.Add(bi);
+        }
+
+        ToggleGroup tgBag = Sr_Bag.GetComponent<ToggleGroup>();
+
+        int BoxId = 0;
+        for (int i = 0; i < MaxMC; i++)
+        {
+            if (i < bags.Count)
+            {
+                var bagBox = Sr_Bag.content.GetChild(i);
+                if (bagBox == null)
+                {
+                    return;
+                }
+
+                Box_Forge_Bag box = PrefabHelper.Instance().CreateForgeBag(bagBox);
+                box.SetItem(bags[i]);
+                box.Init(2, BoxId, tgBag);
+                this.bagList.Add(box);
+
+                BoxId++;
+            }
+        }
+
+    }
+
+    public void SelectBag(int p, Item item, Box_Forge_Bag bag)
+    {
+        this.SelectBagIndex = p;
+        //this.SelectPosition = p;
+        //this.CurrentItem = item;
+        //this.CurrentBox = box;
+
+        //Debug.Log("legend select bag p" + p);
+
+        this.Show();
+    }
+
+    private void Show()
+    {
+        User user = User_Data_Manager.Data;
+
+        if (CurrentItem == null)
+        {
+            Txt_Info.text = "此部位没有装备";
+        }
+        else if (SelectBagIndex < 0)
+        {
+            Txt_Info.text = "请选择材料";
+        }
+        else
+        {
+            Equip equip = this.CurrentItem as Equip;
+
+            if (equip.Config.Cycle != 1)
+            {
+                Txt_Exp.text = "没有选择材料";
+                Txt_Info.text = "此不可以改造";
+            }
+            else
+            {
+                Equip me = bagList[SelectBagIndex].CurrentItem as Equip;
+
+                long fee = 10000;
+
+                Txt_Exp.text = "材料提供经验值：" + (me.ReformExp + 1);
+                Txt_Info.text = string.Format("{0}：当前经验{1}/{2}", equip.GetName(), equip.ReformExp, equip.GetReformNeedExp());
+
+                string color = user.MagicGold.Data >= fee ? "#11FF11" : "#FF1111";
+                Txt_Fee.text = string.Format("所需金币：<color={0}>{1}</color>", color, fee);
+
+                if (user.MagicGold.Data < fee)
+                {
+                    Btn_Ok.gameObject.SetActive(false);
+                }
+                else
+                {
+                    Btn_Ok.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+
+    private void OnClick_OK()
+    {
+        Btn_Ok.gameObject.SetActive(true);
+
+        User user = User_Data_Manager.Data;
+
+        Equip equip = CurrentItem as Equip;
+        Equip me = bagList[SelectBagIndex].CurrentItem as Equip;
+
+        int fee = 10000;
+
+        if (user.MagicGold.Data <= fee)
+        {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        long nextLevel = currentLevel + 1;
-        EquipReformFeeConfig config = EquipReformFeeConfigCategory.Instance.GetByLevel(nextLevel);
+        user.SubGold(fee);
 
-        long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_Reform_Stone);
-
-        if (materialCount < config.StoneFee)
+        if (me.LegendData.Key > 0)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的改造石头", ToastType = ToastTypeEnum.Failure });
-            return;
+            int lgId = me.LegendData.Key;
+            int lgFliar = me.LegendData.Value;
+            equip.ToLegend(lgId, lgFliar);
         }
 
-        double needGold = config.GetFee(nextLevel); //京单位
-        double realNeedGold = UnitGold * needGold;
+        equip.AddReformExp(me.ReformExp + 1);
 
-        if (user.MagicGold.Data < realNeedGold)
-        {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的金币", ToastType = ToastTypeEnum.Failure });
-            return;
-        }
-
-        user.SubGold(realNeedGold);
-        GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
-        {
-            Type = ItemType.Material,
-            ItemId = ItemHelper.SpecialId_Reform_Stone,
-            Quantity = config.StoneFee
-        });
-        user.MagicEquipReform[Refine_Position].Data++;
+        //销毁
+        me.IsDelete = true;
+        GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent() { });
 
         GameProcessor.Inst.UpdateInfo();
-        ShowRefine();
+
+        this.Refresh();
     }
 
 

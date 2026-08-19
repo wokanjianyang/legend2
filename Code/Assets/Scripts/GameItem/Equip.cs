@@ -29,6 +29,8 @@ namespace Game
 
         public KeyValuePair<int, int> LegendData { get; set; } = new KeyValuePair<int, int>();
 
+        public int ReformExp { get; set; } = 0;
+
         public EquipData Data { get; set; } = new EquipData();
 
         [JsonIgnore]
@@ -98,6 +100,12 @@ namespace Game
                 if (Config.Cycle == 1)
                 {
                     AttributeBase = AttributeBase * QualityRate[Quality - 1] / 100;
+
+                    int rl = GetReformLevel();
+                    if (rl > 0)
+                    {
+                        AttributeBase = AttributeBase * (100 + rl * 10) / 100; //改造属性
+                    }
                 }
 
                 BaseAttrList.Add(Config.AttrIdList[i], AttributeBase);
@@ -334,7 +342,31 @@ namespace Game
             return 0;
         }
 
+        public void AddReformExp(int exp)
+        {
+            this.ReformExp += exp;
+        }
 
+        public int GetReformLevel()
+        {
+            if (ReformExp <= 0)
+            {
+                return 0;
+            }
+            else
+            {
+                int r = (int)Math.Sqrt(8 * ReformExp + 1);
+                r = (r - 1) / 2;
+                return r;
+            }
+        }
+
+        public int GetReformNeedExp()
+        {
+            int nl = GetReformLevel() + 1;
+
+            return nl * (nl + 1) / 2;
+        }
         //--------------ovveride
         public override int GetQuality()
         {
@@ -410,5 +442,6 @@ namespace Game
             int count = Config.LevelRequired / 10 + this.GetQuality();
             return count;
         }
+
     }
 }

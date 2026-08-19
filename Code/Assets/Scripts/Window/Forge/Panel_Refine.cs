@@ -73,6 +73,9 @@ public class Panel_Refine : MonoBehaviour
             items[i].Init(ForgeType, position, toggleGroup);
             items[i].SetItem(user.GetEquip(position));
         }
+
+        this.CurrentItem = null;
+        this.CurrentBox = null;
     }
 
     public void SelectItem(int p, Item item, Box_Forge box)

@@ -24,6 +24,9 @@ public class View_Forge : AViewPage
     public Toggle Toggle_Grade;
     public Panel_Grade PanelGrade;
 
+    public Toggle Toggle_Reform;
+    public Panel_Reform PanelReform;
+
     public Transform Tf_Toggle_Legacy;
     private List<Toggle> Toggle_Legacy_List;
     public Panel_Legacy PanelLegacy;
@@ -72,6 +75,11 @@ public class View_Forge : AViewPage
         this.Toggle_Grade.onValueChanged.AddListener((isOn) =>
         {
             PanelGrade.gameObject.SetActive(isOn);
+        });
+
+        this.Toggle_Reform.onValueChanged.AddListener((isOn) =>
+        {
+            PanelReform.gameObject.SetActive(isOn);
         });
     }
 

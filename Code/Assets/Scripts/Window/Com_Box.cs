@@ -61,9 +61,15 @@ namespace Game
                 if (BoxItem.Item.GetItemType() == ItemType.Equip)
                 {
                     Equip equip = BoxItem.Item as Equip;
-                    if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
+                    //if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
+                    //{
+                    //    this.Txt_Layer.text = string.Format("<color=#{0}>传</color>", QualityConfigHelper.GetQualityColor(7));
+                    //    this.Txt_Layer.gameObject.SetActive(true);
+                    //}
+                    int reformLevel = equip.GetReformLevel();
+                    if (reformLevel > 0)
                     {
-                        this.Txt_Layer.text = string.Format("<color=#{0}>传</color>", QualityConfigHelper.GetQualityColor(7));
+                        this.Txt_Layer.text = string.Format("改{0}", reformLevel);
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
                     if (equip.RefineLevel.Data > 0)
@@ -134,7 +140,8 @@ namespace Game
         {
         }
 
-        public void Refresh() {
+        public void Refresh()
+        {
             this.ShowName();
         }
 

@@ -92,6 +92,8 @@ public class Panel_Legend : MonoBehaviour
             items[i].Init(ForgeType, position, toggleGroup);
             items[i].SetItem(user.GetEquip(position));
         }
+
+        this.CurrentItem = null;
     }
 
 

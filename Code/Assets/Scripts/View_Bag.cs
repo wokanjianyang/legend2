@@ -645,7 +645,18 @@ namespace Game
 
             int lv = config.CalLevel(user.GetCardExp(e.CardId));
 
-            user.CardRecord[e.CardId] += 1;
+            Equip equip = e.BoxItem.Item as Equip;
+
+            int cardExp = equip.ReformExp + 1;
+
+            user.CardRecord[e.CardId] += cardExp;
+
+            if (equip.Config.Cycle == 1 && equip.LegendData.Key > 0)
+            {
+                //把传奇重置出来
+                Equip le = EquipConfigCategory.Instance.BuildCycle10(equip.LegendData.Key + 201000, equip.LegendData.Key, equip.LegendData.Value);
+                AddBoxItem(le);
+            }
 
             int lvn = config.CalLevel(user.GetCardExp(e.CardId));
 
@@ -1144,6 +1155,7 @@ namespace Game
             //用光了，移除队列
             if (boxItem.MagicNubmer.Data <= 0)
             {
+                boxItem.Item.IsDelete = true;
                 user.Bags.Remove(boxItem);
                 boxItem = null;
             }

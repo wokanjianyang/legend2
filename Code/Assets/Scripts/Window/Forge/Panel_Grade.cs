@@ -72,6 +72,9 @@ public class Panel_Grade : MonoBehaviour
             speItems[i].Init(ForgeType, position, toggleGroup);
             speItems[i].SetItem(user.GetEquip(position));
         }
+
+        this.CurrentBox = null;
+        this.CurrentItem = null;
     }
 
     public void SelectItem(int p, Item item, Box_Forge box)

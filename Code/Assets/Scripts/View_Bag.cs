@@ -1162,7 +1162,6 @@ namespace Game
             //用光了，移除队列
             if (boxItem.MagicNubmer.Data <= 0)
             {
-                boxItem.Item.IsDelete = true;
                 user.Bags.Remove(boxItem);
                 boxItem = null;
             }

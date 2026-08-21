@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AnyThinkAds.Api;
 using Game;
 using Game.Data;
 using Sirenix.OdinInspector;
@@ -72,25 +71,6 @@ public class Dialog_AD : MonoBehaviour
     {
         this.UpdateAdData();
         this.gameObject.SetActive(true);
-    }
-
-    private void InitAd()
-    {
-        //ATSDKAPI.initSDK(appId, appKey);//Use your own app_id & app_key here
-
-        //加载广告
-        ATRewardedVideo.Instance.client.onAdLoadEvent += onAdLoad;
-        ATRewardedVideo.Instance.client.onAdLoadFailureEvent += onAdLoadFail;
-        ATRewardedVideo.Instance.client.onAdVideoStartEvent += onAdVideoStartEvent;
-        ATRewardedVideo.Instance.client.onAdVideoEndEvent += onAdVideoEndEvent;
-        ATRewardedVideo.Instance.client.onAdVideoFailureEvent += onAdVideoPlayFail;
-        ATRewardedVideo.Instance.client.onAdClickEvent += onAdClick;
-        ATRewardedVideo.Instance.client.onRewardEvent += onReward;
-        ATRewardedVideo.Instance.client.onAdVideoCloseEvent += onAdVideoClosedEvent;
-        //如果需要通过开发者的服务器进行奖励的下发（部分广告平台支持此服务器激励），则需要传递下面两个key
-        //ATConst.USERID_KEY必传，用于标识每个用户;ATConst.USER_EXTRA_DATA为可选参数，传入后将透传到开发者的服务器
-        //jsonmap.Add(ATConst.USERID_KEY, "test_user_id");
-        //jsonmap.Add(ATConst.USER_EXTRA_DATA, "test_user_extra_data");
     }
 
     public void UpdateAdData()
@@ -286,13 +266,6 @@ public class Dialog_AD : MonoBehaviour
 
         this.AdType = type;
 
-        Dictionary<string, string> jsonmap = new Dictionary<string, string>();
-        ATRewardedVideo.Instance.loadVideoAd(mPlacementId_rewardvideo_all, jsonmap);
-        bool hasReady = ATRewardedVideo.Instance.hasAdReady(mPlacementId_rewardvideo_all);
-        Debug.Log("hasReady：" + hasReady);
-
-        Debug.Log("Developer show video....");
-        ATRewardedVideo.Instance.showAd(mPlacementId_rewardvideo_all);
 
         //GameProcessor.Inst.OnShowVideoAd(des, action, (code) =>
         //{
@@ -319,70 +292,7 @@ public class Dialog_AD : MonoBehaviour
         //});
     }
 
-    //广告加载成功
-    public void onAdLoad(object sender, ATAdEventArgs erg)
-    {
-        Debug.Log("Developer callback onAdLoad :" + erg.placementId);
-    }
-    //广告加载失败
-    public void onAdLoadFail(object sender, ATAdErrorEventArgs erg)
-    {
-        Debug.Log("Developer callback onAdLoadFail :" + erg.placementId + "--erg.code:" + erg.errorCode + "--msg:" + erg.errorMessage);
-
-        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "广告加载失败,请稍候再试", ToastType = ToastTypeEnum.Failure });
-
-        this.txt_Test.gameObject.SetActive(true);
-        this.txt_Test.text = erg.errorCode + erg.errorMessage;
-
-        User_Data_Manager.Data.AdLastTime = TimeHelper.ClientNowSeconds();
-        this.CD_Time = this.Time_Error;
-    }
-
-    public void onAdVideoStartEvent(object sender, ATAdEventArgs erg)
-    {
-        Debug.Log("Developer onAdVideoStartEvent------" + "->" + JsonUtility.ToJson(erg.callbackInfo.toDictionary()));
-    }
-
-    public void onAdVideoEndEvent(object sender, ATAdEventArgs erg)
-    {
-        Debug.Log("Developer onAdVideoEndEvent------" + "->" + JsonUtility.ToJson(erg.callbackInfo.toDictionary()));
-    }
-
-
-    public void onAdVideoPlayFail(object sender, ATAdErrorEventArgs erg)
-    {
-        Debug.Log("Developer onAdVideoClosedEvent------" + "->" + JsonUtility.ToJson(erg.errorMessage));
-
-        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "广告播放失败,请稍候再试", ToastType = ToastTypeEnum.Failure });
-
-        User_Data_Manager.Data.AdLastTime = TimeHelper.ClientNowSeconds();
-        this.CD_Time = this.Time_Error;
-    }
-
-
-    //sender 为广告类型对象，erg为返回信息
-    //广告被点击
-    public void onAdClick(object sender, ATAdEventArgs erg)
-    {
-        Debug.Log("Developer callback onAdClick :" + erg.placementId);
-    }
-
-    public void onReward(object sender, ATAdEventArgs erg)
-    {
-        Debug.Log("Developer onReward------" + "->" + JsonUtility.ToJson(erg.callbackInfo.toDictionary()));
-
-        RewardAd(AdType, true);
-
-        User_Data_Manager.Data.AdLastTime = TimeHelper.ClientNowSeconds();
-        this.CD_Time = this.Time_Success;
-    }
-
-
-    public void onAdVideoClosedEvent(object sender, ATAdEventArgs erg)
-    {
-        Debug.Log("Developer onAdVideoClosedEvent------" + "->" + JsonUtility.ToJson(erg.callbackInfo.toDictionary()));
-    }
-
+   
 
     public void RewardAd(int type, bool real)
     {

@@ -124,8 +124,8 @@ namespace Game
             long basePercent = 0;
             long randomPercent = 0;
 
-            long refineLevel = equip.RefineLevel.Data;
-            if (refineLevel > 0)
+            long refineLevel = user.GetRefineLevel(Positioin);
+            if (refineLevel >= 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(equip.Config.Part);
                 basePercent = refineConfig.GetRisePercent(refineLevel, 1);
@@ -143,7 +143,7 @@ namespace Game
                 Transform gridBase = Tf_Base.Find("Grid_Base");
 
                 List<KeyValuePair<int, double>> btList = BaseAttrList.ToList();
-                List<KeyValuePair<int, double>> refineList = equip.GetRefineSpeAtrList().ToList();
+                List<KeyValuePair<int, double>> refineList = equip.GetRefineSpeAtrList(Positioin).ToList();
 
                 for (int index = 0; index < 6; index++)
                 {

@@ -114,11 +114,13 @@ namespace Game
             return BaseAttrList;
         }
 
-        public IDictionary<int, double> GetRefineSpeAtrList()
+        public IDictionary<int, double> GetRefineSpeAtrList(int position)
         {
             IDictionary<int, double> RefineSpeAtrList = new Dictionary<int, double>();
 
-            long level = this.RefineLevel.Data;
+            User user = User_Data_Manager.Data;
+
+            long level = user.GetRefineLevel(position);
             if (level > 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(Config.Part);
@@ -193,15 +195,16 @@ namespace Game
         /// <summary>
         /// 属性列表
         /// </summary>
-        public IDictionary<int, double> GetTotalAttrList()
+        public IDictionary<int, double> GetTotalAttrList(int position)
         {
             long basePercent = 100;
             long randomPercent = 100;
 
-            long level = this.RefineLevel.Data;
+            User user = User_Data_Manager.Data;
+
+            long level = user.GetRefineLevel(position);
             if (level > 0)
             {
-                User user = User_Data_Manager.Data;
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(Config.Part);
                 basePercent += refineConfig.GetRisePercent(level, 1);
                 basePercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipBaseIncrea);
@@ -259,7 +262,7 @@ namespace Game
             }
 
 
-            IDictionary<int, double> RefineAttrList = this.GetRefineSpeAtrList();
+            IDictionary<int, double> RefineAttrList = this.GetRefineSpeAtrList(position);
             foreach (int attrId in RefineAttrList.Keys)
             {
                 if (!AttrList.ContainsKey(attrId))

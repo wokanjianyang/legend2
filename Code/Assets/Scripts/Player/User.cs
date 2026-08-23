@@ -356,7 +356,7 @@ namespace Game
             {
                 Equip equip = kvp.Value;
 
-                foreach (KeyValuePair<int, double> a in equip.GetTotalAttrList())
+                foreach (KeyValuePair<int, double> a in equip.GetTotalAttrList(kvp.Key))
                 {
                     AttributeBonus.SetAttr((AttributeEnum)a.Key, attrKey++, a.Value);
                 }
@@ -971,7 +971,7 @@ namespace Game
                     progress = this.MagicEquipStrength.Select(m => m.Value.Data).Sum();
                     break;
                 case AchievementProType.EquipRefine:
-                    progress = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value.RefineLevel.Data).Sum();
+                    progress = this.MagicEquipRefine.Select(m => m.Value.Data).Sum();
                     break;
                 case AchievementProType.EquipSpeical:
                     progress = this.EquipSpecialList.Select(m => m.Value.Layer).Sum();

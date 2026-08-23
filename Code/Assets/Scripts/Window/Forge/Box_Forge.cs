@@ -68,29 +68,24 @@ namespace Game
                 {
                     Equip equip = CurrentItem as Equip;
 
-                    if (Type == 4)
+                    if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
                     {
-                        if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
-                        {
-                            this.Txt_Layer.text = string.Format("<color=#{0}>传</color>", QualityConfigHelper.GetQualityColor(7));
-                            this.Txt_Layer.gameObject.SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        int rl = equip.GetReformLevel();
-                        if (rl > 0)
-                        {
-                            this.Txt_Layer.text = string.Format("改{0}", rl);
-                            this.Txt_Layer.gameObject.SetActive(true);
-                        }
+                        this.Txt_Layer.text = string.Format("<color=#{0}>传</color>", QualityConfigHelper.GetQualityColor(7));
+                        this.Txt_Layer.gameObject.SetActive(true);
                     }
 
-                    if (equip.RefineLevel.Data > 0)
+                    int rl = equip.GetReformLevel();
+                    if (rl > 0)
                     {
-                        this.Txt_Level.text = string.Format("精{0}", equip.RefineLevel.Data);
+                        this.Txt_Level.text = string.Format("改{0}", rl);
                         this.Txt_Level.gameObject.SetActive(true);
                     }
+
+                    //if (equip.RefineLevel.Data > 0)
+                    //{
+                    //    this.Txt_Level.text = string.Format("精{0}", equip.RefineLevel.Data);
+                    //    this.Txt_Level.gameObject.SetActive(true);
+                    //}
                 }
                 else if (CurrentItem.GetItemType() == ItemType.EquipSpeical)
                 {

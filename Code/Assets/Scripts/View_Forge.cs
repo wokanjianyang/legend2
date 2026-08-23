@@ -13,6 +13,7 @@ public class View_Forge : AViewPage
     public List<Transform> Tf_Nav_List;
 
     public Toggle toggle_Refine;
+    public Panel_Refine_New PanelRefineNew;
     public Panel_Refine PanelRefine;
 
     public Toggle toggle_Strengthen;
@@ -69,7 +70,7 @@ public class View_Forge : AViewPage
 
         this.toggle_Refine.onValueChanged.AddListener((isOn) =>
         {
-            PanelRefine.gameObject.SetActive(isOn);
+            PanelRefineNew.gameObject.SetActive(isOn);
         });
 
         this.Toggle_Grade.onValueChanged.AddListener((isOn) =>

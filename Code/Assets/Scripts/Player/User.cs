@@ -51,6 +51,10 @@ namespace Game
 
         public Dictionary<int, Weapon_Data> WeaponData = new Dictionary<int, Weapon_Data>();
 
+        public IDictionary<int, MagicData> MagicEquipStrength { get; set; } = new Dictionary<int, MagicData>();
+
+        public IDictionary<int, MagicData> MagicEquipRefine { get; set; } = new Dictionary<int, MagicData>();
+
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -160,7 +164,7 @@ namespace Game
 
         public int SkillPanelIndex { get; set; } = 0;
 
-        public IDictionary<int, MagicData> MagicEquipStrength { get; set; } = new Dictionary<int, MagicData>();
+
 
         public IDictionary<int, MagicData> MagicEquipReform { get; set; } = new Dictionary<int, MagicData>();
 
@@ -221,12 +225,6 @@ namespace Game
             //return (int)limit;
 
             return 10;
-        }
-
-        public int GetReformLimit(int position)
-        {
-            long limit = (GetStrengthLevel(position) - 300000) / 1000;
-            return (int)limit;
         }
 
         public long LastUploadTime { get; set; }
@@ -1441,9 +1439,29 @@ namespace Game
             MagicEquipStrength[position].Data += level;
         }
 
+        public long GetRefineLevel(int position)
+        {
+            if (!MagicEquipRefine.ContainsKey(position))
+            {
+                MagicEquipRefine[position] = new MagicData();
+            }
+
+            return MagicEquipRefine[position].Data;
+        }
+        public void SaveRefineLevel(int position, int level)
+        {
+            MagicEquipRefine[position].Data += level;
+        }
+
         public long GetStrengthLimit()
         {
             return this.MagicLevel.Data - 15 + (int)AttributeBonus.CalPanelAtr(AttributeEnum.EquipStrongLimit);
+        }
+        public long GetRefineLimit()
+        {
+            int max = this.MapId / 6 * 3 + 10;
+            long limit = (int)AttributeBonus.CalPanelAtr(AttributeEnum.EquipRefineLimit);
+            return limit + max;
         }
 
         public long GetRefineLimit(long equipMax)

@@ -136,7 +136,7 @@ public class Panel_Refine_New : MonoBehaviour
                 int attrId = config.AtrList[i];
 
                 long atrRise = config.AtrVueList[i];
-                long attrCurrent = atrRise * currentLevel;
+                long attrCurrent = config.GetAtrVue(i, currentLevel);
 
                 AtrList[i].SetContent(attrId, attrCurrent, atrRise);
                 AtrList[i].gameObject.SetActive(true);

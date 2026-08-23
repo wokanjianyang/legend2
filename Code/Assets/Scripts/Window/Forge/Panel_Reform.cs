@@ -74,6 +74,7 @@ public class Panel_Reform : MonoBehaviour
 
         //清理
         this.CurrentItem = null;
+        this.SelectBagIndex = -1;
 
         foreach (var sp in items)
         {
@@ -105,6 +106,7 @@ public class Panel_Reform : MonoBehaviour
     {
         this.SelectMainIndex = p;
         this.CurrentItem = item;
+        this.SelectBagIndex = -1;
 
         //清理
         foreach (var sp in bagList)
@@ -254,6 +256,11 @@ public class Panel_Reform : MonoBehaviour
     private void OnClick_OK()
     {
         Btn_Ok.gameObject.SetActive(true);
+
+        if (this.SelectBagIndex < 0) {
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请选择材料装备", ToastType = ToastTypeEnum.Failure });
+            return;
+        }
 
         User user = User_Data_Manager.Data;
 

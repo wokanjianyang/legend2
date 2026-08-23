@@ -66,7 +66,7 @@ namespace Game
 
             long missRise = (long)(Config.RiseMiss * riseLevel);
             long accuracyRise = (long)(Config.RiseAccuracy * riseLevel);
-            long diRise = (long)(Config.DrRise * riseLevel);
+            long diRise = (long)(Config.DiRise * riseLevel);
             long drRise = (long)(Config.DrRise * riseLevel);
             long crRise = (long)(Config.CrRise * riseLevel);
             long crdRise = (long)(Config.CrdRise * riseLevel);

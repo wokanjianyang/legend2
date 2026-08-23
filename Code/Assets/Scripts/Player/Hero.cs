@@ -134,7 +134,9 @@ namespace Game
                 AttributeBonus.SetAttr(sp, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(sp));
             }
 
-
+            double asp = this.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed);
+            double msp = this.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed);
+            this.SetSpeed((int)asp, (int)msp);
             //此处不能回血，因为会修改人物属性之类的
         }
 

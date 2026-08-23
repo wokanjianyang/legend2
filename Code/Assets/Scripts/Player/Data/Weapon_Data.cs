@@ -59,7 +59,7 @@ namespace Game
             }
         }
 
-        private int[] fs = { 5, 4, 3, 2, 1 };
+        private int[] fs = { 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         public long GetFee()
         {
             WeaponConfig config = WeaponConfigCategory.Instance.Get(Id);

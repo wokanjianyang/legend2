@@ -88,6 +88,10 @@ namespace Game
             {
                 return string.Format(Config.Desc, vues[0], vues[1]);
             }
+            else if (Config.AtrIdList.Length == 5)
+            {
+                return string.Format(Config.Desc, vues[0], vues[1], vues[2], vues[3], vues[4]);
+            }
 
             return Config.Desc;
         }

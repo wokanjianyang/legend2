@@ -168,7 +168,11 @@ public class Panel_Reform : MonoBehaviour
         foreach (var item in equips)
         {
             Equip bi = item.Item as Equip;
-            bags.Add(bi);
+
+            if (bi.ReformExp <= 0)
+            {
+                bags.Add(bi);
+            }
         }
 
         ToggleGroup tgBag = Sr_Bag.GetComponent<ToggleGroup>();
@@ -257,7 +261,8 @@ public class Panel_Reform : MonoBehaviour
     {
         Btn_Ok.gameObject.SetActive(true);
 
-        if (this.SelectBagIndex < 0) {
+        if (this.SelectBagIndex < 0)
+        {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请选择材料装备", ToastType = ToastTypeEnum.Failure });
             return;
         }

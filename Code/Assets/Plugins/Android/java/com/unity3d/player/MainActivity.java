@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements PermissionsUtils.IPermissi
 //                 Manifest.permission.REQUEST_INSTALL_PACKAGES,
 //                 Manifest.permission.GET_TASKS,
 //                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WAKE_LOCK
+//                Manifest.permission.WAKE_LOCK
         };
 
 

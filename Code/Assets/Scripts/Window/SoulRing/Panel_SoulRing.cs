@@ -50,6 +50,8 @@ public class Panel_SoulRing : MonoBehaviour
                 ShowItem(item);
             });
         }
+
+        this.ShowItem(items[0]);
     }
 
     private void Init()
@@ -94,6 +96,23 @@ public class Panel_SoulRing : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < SpeAtrList.Count; i++)
+        {
+            if (i < config.SpeIdList.Length)
+            {
+                int attrId = config.SpeIdList[i];
+                long atrVue = config.SpeVueList[i];
+                int rv = config.SpeRequireList[i];
+
+                SpeAtrList[i].SetSpContent(attrId, atrVue, rv, currentLevel);
+                SpeAtrList[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                SpeAtrList[i].gameObject.SetActive(false);
+            }
+        }
+
         long total = user.GetBagItemCount(config.ItemId);
         long needNumber = GetNeedNumber(currentLevel);
 
@@ -120,7 +139,7 @@ public class Panel_SoulRing : MonoBehaviour
 
     private long GetNeedNumber(long level)
     {
-        return 1;
+        return level / 30 + 1;
     }
 
     public void OnClick_Ok()

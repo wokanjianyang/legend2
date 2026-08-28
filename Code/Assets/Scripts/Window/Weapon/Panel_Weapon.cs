@@ -263,6 +263,15 @@ public class Panel_Weapon : MonoBehaviour
             case 5:
                 progress = User_Data_Manager.GetStoreNumber(5004);
                 break;
+            case 6:
+                progress = user.GetExclusiveLevel(1201);
+                break;
+            case 7:
+                progress = user.GetExclusiveLevel(2201);
+                break;
+            case 8:
+                progress = user.GetExclusiveLevel(3201);
+                break;
             default:
                 break;
         }

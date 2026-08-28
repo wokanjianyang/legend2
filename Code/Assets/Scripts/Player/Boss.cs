@@ -128,8 +128,10 @@ namespace Game
             {
                 for (int i = 0; i < ConfigHelper.TestRate; i++)
                 {
-                    BuildReword();
+    
                 }
+
+                BuildReword();
             }
         }
 

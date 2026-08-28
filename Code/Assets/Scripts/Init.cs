@@ -76,6 +76,11 @@ public class Init : MonoBehaviour
 
                 "Window/Achievement/Dialog_Achievement",
                 "Window/Store/Dialog_Store",
+                "Window/Fashion/Dialog_Fashion",
+                "Window/SoulRing/Dialog_SoulRing",
+                "Window/Card/Dialog_Card",
+                "Window/Exclusive/Dialog_Exclusive",
+                "Window/Ring/Dialog_Ring",
             }
         },
         {

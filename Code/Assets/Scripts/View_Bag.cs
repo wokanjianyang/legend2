@@ -63,13 +63,16 @@ namespace Game
         public Button btn_Relic;
 
 
+
         [Title("功能框")]
+        public Dialog_System Dlg_System;
+
         public Dialog_Exclusive DialogExclusive;
         public Dialog_Card DialogCard;
         public Dialog_Wing DialogWing;
         public Dialog_Ring DialogRing;
         public Dialog_Cycle DialogCycle;
-        public Dialog_Fashion DialogFashion;
+
 
         public Button Btn_Store;
 
@@ -1460,12 +1463,13 @@ namespace Game
         }
         public void OnExclusive()
         {
-            this.DialogExclusive.gameObject.SetActive(true);
+            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Exclusive });
+
         }
 
         public void OnOpenCard()
         {
-            this.DialogCard.gameObject.SetActive(true);
+            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Card });
         }
 
         public void OnOpenRing()
@@ -1492,7 +1496,7 @@ namespace Game
 
         public void OnOpenPet()
         {
-            GameProcessor.Inst.EventCenter.Raise(new PetShowEvent());
+            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Pet });
         }
 
         public void OnOpenStore()
@@ -1502,7 +1506,8 @@ namespace Game
 
         public void OpenFashion()
         {
-            DialogFashion.gameObject.SetActive(true);
+            Dlg_System.gameObject.SetActive(true);
+
         }
 
         public override void OnOpen()

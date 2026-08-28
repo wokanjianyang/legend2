@@ -41,6 +41,8 @@ public class Panel_Weapon : MonoBehaviour
     private int WeaponId = 1;
     private int MaxWeapon = 1;
 
+    private List<WeaponConfig> list;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -59,12 +61,12 @@ public class Panel_Weapon : MonoBehaviour
         });
     }
 
-    private List<WeaponConfig> list = WeaponConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Type <= ConfigHelper.Channel).ToList();
 
     // Update is called once per frame
     void Start()
     {
-        MaxWeapon = list.Count;
+        this.list = WeaponConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Type <= ConfigHelper.Channel).ToList();
+        MaxWeapon = list.Count();
         this.Show();
     }
 

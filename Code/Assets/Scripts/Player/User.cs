@@ -1582,6 +1582,7 @@ namespace Game
             return WeaponData[wid];
         }
 
+
         public long GetRingLevel(int ringId)
         {
             if (!RingData.ContainsKey(ringId))
@@ -1600,6 +1601,11 @@ namespace Game
             }
 
             RingData[ringId].Data++;
+        }
+
+        public int GetSoulRingLimit()
+        {
+            return (int)this.MagicLevel.Data - 30;
         }
 
         public long GetSoulRingLevel(int sid)

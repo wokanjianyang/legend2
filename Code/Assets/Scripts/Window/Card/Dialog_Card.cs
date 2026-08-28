@@ -6,7 +6,7 @@ using Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dialog_Card : MonoBehaviour
+public class Dialog_Card : MonoBehaviour, IBattleLife
 {
     public Button Btn_Close;
 
@@ -39,6 +39,19 @@ public class Dialog_Card : MonoBehaviour
         }
 
         this.ChangePanel(0);
+    }
+
+    public void OnBattleStart()
+    {
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
+    }
+
+    private void Open(OpenDialogEvent e)
+    {
+        if (e.Type == DialogType.Card)
+        {
+            this.gameObject.SetActive(true);
+        }
     }
 
     private void ChangePanel(int index)

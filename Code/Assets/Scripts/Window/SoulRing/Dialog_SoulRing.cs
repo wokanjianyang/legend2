@@ -36,13 +36,18 @@ public class Dialog_SoulRing : MonoBehaviour, IBattleLife
 
     public void OnBattleStart()
     {
-        GameProcessor.Inst.EventCenter.AddListener<ShowSoulRingEvent>(this.OnShowSoulRingEvent);
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
     }
 
-    public void OnShowSoulRingEvent(ShowSoulRingEvent e)
+    private void Open(OpenDialogEvent e)
     {
-        this.gameObject.SetActive(true);
+        if (e.Type == DialogType.SoulRing)
+        {
+            this.gameObject.SetActive(true);
+        }
     }
+
+
     public void OnClick_Close()
     {
         this.gameObject.SetActive(false);

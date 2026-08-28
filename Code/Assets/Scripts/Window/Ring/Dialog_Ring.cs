@@ -7,7 +7,7 @@ using Game.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dialog_Ring : MonoBehaviour
+public class Dialog_Ring : MonoBehaviour, IBattleLife
 {
     public Transform Tran_Item_List;
     public List<Item_Ring> items;
@@ -47,6 +47,19 @@ public class Dialog_Ring : MonoBehaviour
         });
 
         this.Init();
+    }
+
+    public void OnBattleStart()
+    {
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
+    }
+
+    private void Open(OpenDialogEvent e)
+    {
+        if (e.Type == DialogType.Ring)
+        {
+            this.gameObject.SetActive(true);
+        }
     }
 
     // Start is called before the first frame update

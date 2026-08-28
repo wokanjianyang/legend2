@@ -28,6 +28,13 @@ namespace Game
     {
         Achievement = 1,
         Store = 2,
+        Fashion = 3,
+        SoulRing = 4,
+        Card = 5,
+        Exclusive = 6,
+        Pet = 7,
+        Ring = 8,
+        Wing = 9,
     }
     //--------------------------old--------------------------- 
 

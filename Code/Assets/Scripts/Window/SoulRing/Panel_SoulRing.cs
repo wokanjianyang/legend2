@@ -9,33 +9,24 @@ using UnityEngine.UI;
 
 public class Panel_SoulRing : MonoBehaviour
 {
-    public Text Fee;
-
+    public Text txt_Fee;
     public Button Btn_Active;
-    public Button Btn_Strong;
-
-    public Text LockLevel;
-    public Text LockMemo;
 
     public Transform Tf_Ring;
     public Transform Tf_Attr;
-    public Transform Tf_RingSkill;
 
     private List<Toggle> RingList;
     private List<Forge_Atr_Item> AttrList;
-    private List<Toggle> RingSkillList;
 
     private int Sid = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        Btn_Active.onClick.AddListener(OnStrong);
+
         RingList = Tf_Ring.GetComponentsInChildren<Toggle>().ToList();
         AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
-        RingSkillList = Tf_RingSkill.GetComponentsInChildren<Toggle>().ToList();
-
-        Btn_Active.onClick.AddListener(OnStrong);
-        Btn_Strong.onClick.AddListener(OnStrong);
 
         for (int i = 0; i < RingList.Count; i++)
         {
@@ -49,7 +40,6 @@ public class Panel_SoulRing : MonoBehaviour
 
         Init();
     }
-
 
     private void Init()
     {
@@ -70,6 +60,7 @@ public class Panel_SoulRing : MonoBehaviour
         }
     }
 
+
     private void InitRing(int sid, long level)
     {
         Toggle ring = RingList[sid - 1];
@@ -79,9 +70,8 @@ public class Panel_SoulRing : MonoBehaviour
         {
             AttrList[i].gameObject.SetActive(false);
         }
-        Fee.gameObject.SetActive(false);
+
         Btn_Active.gameObject.SetActive(false);
-        Btn_Strong.gameObject.SetActive(false);
 
         Text[] txtList = ring.GetComponentsInChildren<Text>();
 
@@ -89,25 +79,14 @@ public class Panel_SoulRing : MonoBehaviour
         {
             if (txtList[i].name == "lb_Name")
             {
-                if (level <= 0)
-                {
-                    txtList[i].text = "未激活";
-                }
-                else
-                {
-                    SoulRingConfig srConfig = SoulRingConfigCategory.Instance.Get(sid);
-                    txtList[i].text = srConfig.Name.Insert(2, "\n");
-                }
+                SoulBoneConfig config = SoulBoneConfigCategory.Instance.Get(sid);
+                txtList[i].text = config.Name.Insert(2, "\n");
             }
             else
             {
                 txtList[i].text = level + "";
             }
         }
-
-        SoulRingAttrConfig currentConfig = SoulRingConfigCategory.Instance.GetAttrConfig(sid, level);
-        Toggle ringAuras = RingSkillList[sid - 1];
-        Text aurasName = ringAuras.GetComponentInChildren<Text>();
     }
 
     private void ShowSoulRing(int sid)
@@ -116,107 +95,66 @@ public class Panel_SoulRing : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
-        long currentLevel = 0;
+        long currentLevel = user.GetSoulRingLevel(sid);
+        int maxLevel = user.GetSoulRingLimit();
 
-        if (user.SoulRingData.TryGetValue(sid, out MagicData data))
-        {
-            currentLevel = data.Data;
-        }
         InitRing(sid, currentLevel);
 
-        SoulRingAttrConfig currentConfig = SoulRingConfigCategory.Instance.GetAttrConfig(sid, currentLevel);
-        SoulRingAttrConfig nextConfig = SoulRingConfigCategory.Instance.GetAttrConfig(sid, currentLevel + 1);
+        SoulRingConfig config = SoulRingConfigCategory.Instance.GetConfig(sid, currentLevel);
 
+        long materialCount = user.GetMaterialCount(config.ItemId);
+        long fee = 1;
+        ItemConfig itemConfig = ItemConfigCategory.Instance.Get(config.ItemId);
 
-        if (currentConfig == null && nextConfig == null)
+        if (currentLevel >= maxLevel)
         {
-            return; //未配置的
+            txt_Fee.text = "已满级";
+        }
+        else
+        {
+            string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
+            txt_Fee.text = string.Format("<color={0}>{1}</color>", color, itemConfig.Name + ":" + materialCount + "/ " + fee);
         }
 
-        long MaxLevel = 15;
-
-        if (nextConfig == null || currentLevel >= MaxLevel || currentLevel >= nextConfig.EndLevel)
+        if (currentLevel >= maxLevel || materialCount < fee)
         {
-            //满了
-            Btn_Strong.gameObject.SetActive(false);
             Btn_Active.gameObject.SetActive(false);
         }
         else
         {
-            SoulRingConfig ringConfig = SoulRingConfigCategory.Instance.Get(sid);
-
-            if (currentLevel == 0)
-            {
-                Btn_Active.gameObject.SetActive(true);
-                Btn_Strong.gameObject.SetActive(false);
-            }
-            else
-            {
-                Btn_Active.gameObject.SetActive(false);
-                Btn_Strong.gameObject.SetActive(true);
-            }
+            Btn_Active.gameObject.SetActive(true);
         }
-
-        //Fee
-        long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_SoulRingShard);
-        if (nextConfig != null)
-        {
-            long fee = nextConfig.GetFee(currentLevel + 1);
-            string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
-
-            string feeText = StringHelper.FormatNumber(fee);
-
-            Fee.gameObject.SetActive(true);
-            Fee.text = string.Format("<color={0}>{1}</color>", color, "需要:" + feeText + " 魂环碎片");
-        }
-
-        SoulRingAttrConfig showConfig = currentConfig == null ? nextConfig : currentConfig;
-
-        long aurasLevel = showConfig.GetAurasLevel(currentLevel);
-        double aurasAttr = 0;
-
-
-        LockLevel.text = string.Format(showConfig.LockMemo, aurasLevel);
-        LockMemo.text = string.Format(showConfig.AurasMemo, aurasAttr);
 
         //Attr
         for (int i = 0; i < AttrList.Count; i++)
         {
             Forge_Atr_Item attrItem = AttrList[i];
 
-            if (i >= showConfig.AttrIdList.Length)
+            if (i >= config.AttrIdList.Length)
             {
                 attrItem.gameObject.SetActive(false);
             }
             else
             {
+                int attrId = config.AttrIdList[i];
+                double baseValue = config.AttrValueList[i];
+
                 attrItem.gameObject.SetActive(true);
 
-                long attrBase = currentConfig == null ? 0 : currentConfig.GetAttr(i, currentLevel);
-                long attrRise = nextConfig == null ? 0 : nextConfig.AttrRiseList[i];
-
-                attrItem.SetContent(showConfig.AttrIdList[i], attrBase, attrRise);
+                attrItem.SetContent(attrId, baseValue * currentLevel, baseValue);
             }
         }
     }
+
 
     public void OnStrong()
     {
         User user = User_Data_Manager.Data;
 
-        long currentLevel = 0;
+        SoulBoneConfig config = SoulBoneConfigCategory.Instance.Get(this.Sid);
+        long materialCount = user.GetMaterialCount(config.ItemId);
 
-        if (user.SoulRingData.TryGetValue(this.Sid, out MagicData data))
-        {
-            currentLevel = data.Data;
-        }
-
-        long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_SoulRingShard);
-
-        SoulRingAttrConfig currentConfig = SoulRingConfigCategory.Instance.GetAttrConfig(this.Sid, currentLevel);
-        SoulRingAttrConfig nextConfig = SoulRingConfigCategory.Instance.GetAttrConfig(this.Sid, currentLevel + 1);
-
-        long fee = nextConfig.GetFee(currentLevel + 1);
+        long fee = 1;
 
         if (materialCount < fee)
         {
@@ -224,23 +162,17 @@ public class Panel_SoulRing : MonoBehaviour
             return;
         }
 
-        if (currentLevel == 0)
-        {
-            user.SoulRingData[Sid] = new MagicData();
-        }
-        user.SoulRingData[Sid].Data = currentLevel + 1;
-
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
             Type = ItemType.Material,
-            ItemId = ItemHelper.SpecialId_SoulRingShard,
+            ItemId = config.ItemId,
             Quantity = fee
         });
+
+        user.AddSoulBoneLevel(Sid);
 
         GameProcessor.Inst.UpdateInfo();
 
         ShowSoulRing(this.Sid);
-
-        GameProcessor.Inst.SaveData();
     }
 }

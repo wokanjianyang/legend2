@@ -7,7 +7,7 @@ using Game.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dialog_Fashion : MonoBehaviour
+public class Dialog_Fashion : MonoBehaviour, IBattleLife
 {
     public Button Btn_Close;
 
@@ -31,6 +31,19 @@ public class Dialog_Fashion : MonoBehaviour
         Btn_Close.onClick.AddListener(OnClick_Close);
 
         ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Fashion/Item_Fashion");
+    }
+
+    public void OnBattleStart()
+    {
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
+    }
+
+    private void Open(OpenDialogEvent e)
+    {
+        if (e.Type == DialogType.Fashion)
+        {
+            this.gameObject.SetActive(true);
+        }
     }
 
     // Start is called before the first frame update

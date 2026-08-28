@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class Dialog_Exclusive : MonoBehaviour
+    public class Dialog_Exclusive : MonoBehaviour, IBattleLife
     {
         public Button Btn_Close;
 
@@ -41,6 +41,20 @@ namespace Game
                 });
             }
         }
+
+        public void OnBattleStart()
+        {
+            GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
+        }
+
+        private void Open(OpenDialogEvent e)
+        {
+            if (e.Type == DialogType.Exclusive)
+            {
+                this.gameObject.SetActive(true);
+            }
+        }
+
 
         void Start()
         {

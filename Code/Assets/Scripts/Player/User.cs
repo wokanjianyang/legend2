@@ -506,6 +506,21 @@ namespace Game
                 }
             }
 
+            //魂环
+            foreach (var sp in SoulRingData) {
+                int sl = (int)sp.Value.Data;
+                if (sl > 0)
+                {
+                    SoulRingConfig config = SoulRingConfigCategory.Instance.Get(sp.Key);
+
+                    Dictionary<int, double> attrList = config.GetTotalAtrList(sl);
+                    foreach (var al in attrList)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
+                    }
+                }
+            }
+
             //传世
             for (int keyId = 1; keyId <= 24; keyId++)
             {
@@ -1615,6 +1630,15 @@ namespace Game
                 SoulRingData[sid] = new MagicData();
             }
             return SoulRingData[sid].Data;
+        }
+
+        public void AddSoulRingLevel(int sid)
+        {
+            if (!SoulRingData.ContainsKey(sid))
+            {
+                SoulRingData[sid] = new MagicData();
+            }
+            SoulRingData[sid].Data++;
         }
 
         public long GetSoulBoneLevel(int sid)

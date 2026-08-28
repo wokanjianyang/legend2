@@ -9,156 +9,134 @@ using UnityEngine.UI;
 
 public class Panel_SoulRing : MonoBehaviour
 {
-    public Text txt_Fee;
-    public Button Btn_Active;
+    public Transform Tf_Item_List;
+    private List<Item_SoulRing> items;
 
-    public Transform Tf_Ring;
-    public Transform Tf_Attr;
+    public Transform Tf_Atr_List;
+    private List<Forge_Atr_Item> AtrList;
 
-    private List<Toggle> RingList;
-    private List<Forge_Atr_Item> AttrList;
+    public Transform Tf_Atr_Spe;
+    private List<Forge_Atr_Item> SpeAtrList;
 
-    private int Sid = 0;
+    public Text Txt_Desc;
+    public Text Txt_Fee;
+
+    public Button Btn_Ok;
+
+    private SoulRingConfig CurrentConfig = null;
+
+    int maxLevel = 10;
+
+
+    private void Awake()
+    {
+        items = Tf_Item_List.GetComponentsInChildren<Item_SoulRing>().ToList();
+        AtrList = Tf_Atr_List.GetComponentsInChildren<Forge_Atr_Item>().ToList();
+        SpeAtrList = Tf_Atr_Spe.GetComponentsInChildren<Forge_Atr_Item>().ToList();
+
+        Btn_Ok.onClick.AddListener(OnClick_Ok);
+
+        this.Init();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        Btn_Active.onClick.AddListener(OnStrong);
-
-        RingList = Tf_Ring.GetComponentsInChildren<Toggle>().ToList();
-        AttrList = Tf_Attr.GetComponentsInChildren<Forge_Atr_Item>().ToList();
-
-        for (int i = 0; i < RingList.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-            int index = i + 1;
-
-            RingList[i].onValueChanged.AddListener((isOn) =>
+            var item = items[i];
+            items[i].toggle.onValueChanged.AddListener((isOn) =>
             {
-                if (isOn) { ShowSoulRing(index); }
+                ShowItem(item);
             });
         }
-
-        Init();
     }
 
     private void Init()
     {
-        User user = User_Data_Manager.Data;
+        ToggleGroup toggleGroup = Tf_Item_List.GetComponent<ToggleGroup>();
 
-        for (int i = 0; i < RingList.Count; i++)
+        List<SoulRingConfig> configs = SoulRingConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
+
+        for (int i = 0; i < items.Count; i++)
         {
-            int sid = i + 1;
+            SoulRingConfig config = configs[i];
+            Item_SoulRing box = items[i];
 
-            if (user.SoulRingData.TryGetValue(sid, out MagicData data)) //active
-            {
-                InitRing(sid, data.Data);
-            }
-            else
-            {
-                InitRing(sid, 0);
-            }
+            box.Init(toggleGroup, config);
         }
     }
 
-
-    private void InitRing(int sid, long level)
+    private void ShowItem(Item_SoulRing currentItem)
     {
-        Toggle ring = RingList[sid - 1];
+        User user = User_Data_Manager.Data;
 
-        //初始未选中,隐藏具体信息
-        for (int i = 0; i < AttrList.Count; i++)
+        SoulRingConfig config = currentItem.Config;
+        this.CurrentConfig = config;
+
+        long currentLevel = user.GetSoulRingLevel(config.Id);
+
+        long maxRingLevel = user.GetSoulRingLimit();
+
+        currentItem.SetContent(currentLevel);
+
+        //attr
+        for (int i = 0; i < AtrList.Count; i++)
         {
-            AttrList[i].gameObject.SetActive(false);
-        }
-
-        Btn_Active.gameObject.SetActive(false);
-
-        Text[] txtList = ring.GetComponentsInChildren<Text>();
-
-        for (int i = 0; i < txtList.Length; i++)
-        {
-            if (txtList[i].name == "lb_Name")
+            if (i < config.AtrIdList.Length)
             {
-                SoulBoneConfig config = SoulBoneConfigCategory.Instance.Get(sid);
-                txtList[i].text = config.Name.Insert(2, "\n");
+                AtrList[i].gameObject.SetActive(true);
+                AtrList[i].SetContent(config.AtrIdList[i], config.AtrVueList[i] * currentLevel, config.AtrVueList[i]);
             }
             else
             {
-                txtList[i].text = level + "";
+                AtrList[i].gameObject.SetActive(false);
             }
         }
-    }
 
-    private void ShowSoulRing(int sid)
-    {
-        this.Sid = sid;
+        long total = user.GetBagItemCount(config.ItemId);
+        long needNumber = GetNeedNumber(currentLevel);
 
-        User user = User_Data_Manager.Data;
+        string color = total >= needNumber ? "#FFFF00" : "#FF0000";
 
-        long currentLevel = user.GetSoulRingLevel(sid);
-        int maxLevel = user.GetSoulRingLimit();
-
-        InitRing(sid, currentLevel);
-
-        SoulRingConfig config = SoulRingConfigCategory.Instance.GetConfig(sid, currentLevel);
-
-        long materialCount = user.GetMaterialCount(config.ItemId);
-        long fee = 1;
-        ItemConfig itemConfig = ItemConfigCategory.Instance.Get(config.ItemId);
-
-        if (currentLevel >= maxLevel)
+        if (currentLevel < maxRingLevel)
         {
-            txt_Fee.text = "已满级";
+            Txt_Fee.text = string.Format("消耗{4}<color={0}>{1}</color> /{2} (满级：{3})", color, total, needNumber, maxRingLevel, config.Name);
         }
         else
         {
-            string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
-            txt_Fee.text = string.Format("<color={0}>{1}</color>", color, itemConfig.Name + ":" + materialCount + "/ " + fee);
+            Txt_Fee.text = "已满级";
         }
 
-        if (currentLevel >= maxLevel || materialCount < fee)
+        if (total >= needNumber && currentLevel < maxRingLevel)
         {
-            Btn_Active.gameObject.SetActive(false);
+            Btn_Ok.gameObject.SetActive(true);
         }
         else
         {
-            Btn_Active.gameObject.SetActive(true);
-        }
-
-        //Attr
-        for (int i = 0; i < AttrList.Count; i++)
-        {
-            Forge_Atr_Item attrItem = AttrList[i];
-
-            if (i >= config.AttrIdList.Length)
-            {
-                attrItem.gameObject.SetActive(false);
-            }
-            else
-            {
-                int attrId = config.AttrIdList[i];
-                double baseValue = config.AttrValueList[i];
-
-                attrItem.gameObject.SetActive(true);
-
-                attrItem.SetContent(attrId, baseValue * currentLevel, baseValue);
-            }
+            Btn_Ok.gameObject.SetActive(false);
         }
     }
 
-
-    public void OnStrong()
+    private long GetNeedNumber(long level)
     {
+        return 1;
+    }
+
+    public void OnClick_Ok()
+    {
+        Item_SoulRing currentItem = items.Where(m => m.toggle.isOn).FirstOrDefault();
+        SoulRingConfig config = currentItem.Config;
+
         User user = User_Data_Manager.Data;
+        long currentLevel = user.GetSoulRingLevel(config.Id);
 
-        SoulBoneConfig config = SoulBoneConfigCategory.Instance.Get(this.Sid);
-        long materialCount = user.GetMaterialCount(config.ItemId);
+        long total = user.GetBagItemCount(config.ItemId);
+        long needCount = GetNeedNumber(currentLevel);
 
-        long fee = 1;
-
-        if (materialCount < fee)
+        if (total < needCount)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有足够的材料", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "魂环数量不足", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
@@ -166,13 +144,12 @@ public class Panel_SoulRing : MonoBehaviour
         {
             Type = ItemType.Material,
             ItemId = config.ItemId,
-            Quantity = fee
+            Quantity = needCount
         });
+        user.AddSoulRingLevel(config.Sid);
 
-        user.AddSoulBoneLevel(Sid);
+        this.ShowItem(currentItem);
 
         GameProcessor.Inst.UpdateInfo();
-
-        ShowSoulRing(this.Sid);
     }
 }

@@ -44,12 +44,15 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
 
     public void OnBattleStart()
     {
-        GameProcessor.Inst.EventCenter.AddListener<PetShowEvent>(this.OnShow);
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
     }
 
-    public void OnShow(PetShowEvent e)
+    private void Open(OpenDialogEvent e)
     {
-        this.gameObject.SetActive(true);
+        if (e.Type == DialogType.Pet)
+        {
+            this.gameObject.SetActive(true);
+        }
     }
 
     private void ShowPanel(int index)

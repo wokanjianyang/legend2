@@ -67,7 +67,6 @@ public class Init : MonoBehaviour
 
                 "Window/Relic/Dialog_Relic",
                 "Window/Talent/Dialog_Talent",
-                "Window/Fashion/Dialog_Fashion",
                 "Home/Bag/Dialog_Attr",
                 "Window/Pet/Dialog_Pet",
 

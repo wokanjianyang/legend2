@@ -35,6 +35,7 @@ namespace Game
 
         [Title("传奇装备")]
         public InputField if_Legend_Level;
+        public InputField if_Legend_Keep;
 
         [Title("自动图鉴")]
         public InputField if_Card_EquipLevel;
@@ -155,7 +156,7 @@ namespace Game
 
             //传奇装备
             if_Legend_Level.text = setting.LegendLevel.ToString();
-
+            if_Legend_Keep.text = setting.LegendKeep.ToString();
         }
 
 
@@ -220,6 +221,9 @@ namespace Game
             //传奇装备
             int.TryParse(if_Legend_Level.text, out int legendLevel);
             setting.LegendLevel = legendLevel;
+
+            int.TryParse(if_Legend_Keep.text, out int legendKeep);
+            setting.LegendKeep = legendKeep;
 
             //其他回收
             setting.PetQuality = dp_Pet.value;

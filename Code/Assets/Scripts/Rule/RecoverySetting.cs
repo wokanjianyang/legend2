@@ -42,6 +42,8 @@ namespace Game
         //传奇装备
         public int LegendLevel { get; set; } = 0;
 
+        public int LegendKeep { get; set; } = 0;
+
         //其他回收
         public int SpecailLevel { get; set; } = 0;
 
@@ -202,6 +204,11 @@ namespace Game
                 }
                 else if (cycle == 10)
                 {
+                    if (LegendKeep > 0 && equip.LegendData.Value >= LegendKeep)
+                    {
+                        return false;
+                    }
+
                     if (LegendLevel > 0 && equip.Config.LevelRequired < LegendLevel)
                     {
                         return true;

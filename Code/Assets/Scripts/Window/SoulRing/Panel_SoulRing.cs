@@ -139,7 +139,7 @@ public class Panel_SoulRing : MonoBehaviour
 
     private long GetNeedNumber(long level)
     {
-        return level / 30 + 1;
+        return level / 10 + 1;
     }
 
     public void OnClick_Ok()

@@ -66,7 +66,6 @@ public class Init : MonoBehaviour
                 "Window/Setting/Dialog_Settings",
 
                 "Window/Relic/Dialog_Relic",
-                "Window/SoulRing/Dialog_SoulRing",
                 "Window/Talent/Dialog_Talent",
                 "Window/Fashion/Dialog_Fashion",
                 "Home/Bag/Dialog_Attr",

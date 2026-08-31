@@ -507,7 +507,8 @@ namespace Game
             }
 
             //魂环
-            foreach (var sp in SoulRingData) {
+            foreach (var sp in SoulRingData)
+            {
                 int sl = (int)sp.Value.Data;
                 if (sl > 0)
                 {
@@ -762,6 +763,25 @@ namespace Game
                         if (!dict.ContainsKey(talentConfig.Id))
                         {
                             dict[talentConfig.Id] = talentConfig.Id;
+                        }
+                    }
+                }
+            }
+
+            foreach (var ex in User_Data_Manager.StoreData.StoreList)
+            {
+                if (ex.Number > 0)
+                {
+                    StoreConfig config = StoreConfigCategory.Instance.Get(ex.StoreId);
+                    if (config.Tid > 0)
+                    {
+                        SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(config.Tid);
+                        if (talentConfig.SkillId == skillId)
+                        {
+                            if (!dict.ContainsKey(talentConfig.Id))
+                            {
+                                dict[talentConfig.Id] = talentConfig.Id;
+                            }
                         }
                     }
                 }

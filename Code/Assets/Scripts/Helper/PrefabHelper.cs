@@ -259,7 +259,13 @@ namespace Game
             }
             if (!ItemLogoList.ContainsKey(id))
             {
-                ItemLogoList[id] = Resources.Load<Sprite>("UI/" + id);
+                Sprite s = Resources.Load<Sprite>("UI/" + id);
+                if (s == null)
+                {
+                    s = Resources.Load<Sprite>("UI/ItemLogo/Default");
+                }
+
+                ItemLogoList[id] = s;
             }
 
             return ItemLogoList[id];

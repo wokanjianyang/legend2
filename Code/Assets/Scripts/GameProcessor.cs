@@ -536,10 +536,9 @@ namespace Game
 
             if (this.PlayerManager != null && this.PlayerManager.GetHero() != null)
             {
-                this.PlayerManager.GetHero().EventCenter.Raise(new HeroUpdateSkillEvent());
-
                 if (AppHelper.CurrentMapId <= 6)  //前面6张图，变更人物属性立即刷新战斗属性
                 {
+                    this.PlayerManager.GetHero().EventCenter.Raise(new HeroUpdateSkillEvent());
                     this.PlayerManager.GetHero().EventCenter.Raise(new HeroAttrChangeEvent());
                 }
             }

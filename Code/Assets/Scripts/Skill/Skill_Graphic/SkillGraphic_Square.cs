@@ -26,7 +26,7 @@ namespace Game
                 //Debug.Log(cells.ListToString());
             }
 
-            Vector3Int scale = new Vector3Int(SkillPanel.Column, SkillPanel.Row, 0);
+            Vector3Int scale = new Vector3Int(SkillPanel.Column / 2, SkillPanel.Row / 2, 0);
 
             var startPos = GameProcessor.Inst.MapData.GetWorldPosition(SelfPlayer.Cell);
             //var endPos = GameProcessor.Inst.MapData.GetCenterPosition(cells);
@@ -40,7 +40,7 @@ namespace Game
                 effectCom.transform.localPosition = startPos;
 
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(effectCom.transform.DOLocalMove(endPos, (float)SkillModelConfig.ModelTime/ 2));
+                sequence.Append(effectCom.transform.DOLocalMove(endPos, (float)SkillModelConfig.ModelTime / 2));
                 sequence.Append(effectCom.transform.DOScale(scale, (float)SkillModelConfig.ModelTime / 2));
                 sequence.OnComplete(() =>
                 {

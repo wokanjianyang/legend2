@@ -87,26 +87,29 @@ namespace Game
 		/// <summary>AtrVueList</summary>
 		[ProtoMember(4)]
 		public int[] AtrVueList { get; set; }
-		/// <summary>SpeId</summary>
+		/// <summary>Tid</summary>
 		[ProtoMember(5)]
+		public int Tid { get; set; }
+		/// <summary>SpeId</summary>
+		[ProtoMember(6)]
 		public int SpeId { get; set; }
 		/// <summary>SpeVue</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int SpeVue { get; set; }
 		/// <summary>SpeLevel</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int SpeLevel { get; set; }
 		/// <summary>Quality</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int Quality { get; set; }
 		/// <summary>Max</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int Max { get; set; }
 		/// <summary>Fee</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public int Fee { get; set; }
 		/// <summary>Des</summary>
-		[ProtoMember(11)]
+		[ProtoMember(12)]
 		public string Des { get; set; }
 
 	}

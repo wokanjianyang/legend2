@@ -360,7 +360,7 @@ namespace Game
             {
                 int r = (int)Math.Sqrt(8 * ReformExp + 1);
                 r = (r - 1) / 2;
-                return r;
+                return Math.Min(5, r);
             }
         }
 

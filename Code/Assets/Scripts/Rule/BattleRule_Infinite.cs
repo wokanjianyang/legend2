@@ -71,7 +71,7 @@ public class BattleRule_Infinite : ABattleRule
 
         if (enemys.Count <= 0 && currentProgres <= MaxProgress && this.Start)
         {
-            if (user.InfoColor <= 1)
+            if (AppHelper.SetData.InfoColor <= 1)
             {
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Infinite, Message = "第" + currentProgres + "波发起了进攻" });
             }
@@ -192,7 +192,7 @@ public class BattleRule_Infinite : ABattleRule
             }
         }
 
-        if (QualityConfigHelper.GetMaxColor(items) >= user.InfoColor)
+        if (QualityConfigHelper.GetMaxColor(items) >= AppHelper.SetData.InfoColor)
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
             {

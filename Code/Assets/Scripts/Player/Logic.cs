@@ -83,8 +83,8 @@ namespace Game
                 }
                 this.SelfPlayer.SetSP(currentSP);
 
-                if ((this.SelfPlayer.Camp == PlayerType.Enemy && AppHelper.ShowMonsterDamage)
-                 || (this.SelfPlayer.Camp != PlayerType.Enemy && AppHelper.ShowPlayerEffect))
+                if ((this.SelfPlayer.Camp == PlayerType.Enemy && AppHelper.SetData.ShowMonsterDamage)
+                 || (this.SelfPlayer.Camp != PlayerType.Enemy && AppHelper.SetData.ShowPlayerEffect))
                 {
                     this.SelfPlayer.EventCenter.Raise(new ShowMsgEvent
                     {
@@ -108,10 +108,10 @@ namespace Game
 
             this.SelfPlayer.SetHP(currentHP);
 
-            if ((this.SelfPlayer.Camp == PlayerType.Enemy && AppHelper.ShowMonsterDamage)
-             || (this.SelfPlayer.Camp != PlayerType.Enemy && AppHelper.ShowPlayerEffect))
+            if ((this.SelfPlayer.Camp == PlayerType.Enemy && AppHelper.SetData.ShowMonsterDamage)
+             || (this.SelfPlayer.Camp != PlayerType.Enemy && AppHelper.SetData.ShowPlayerEffect))
             {
-                if (AppHelper.ShowMonsterDamage)
+                if (AppHelper.SetData.ShowMonsterDamage)
                 {
                     string content = "-" + StringHelper.FormatNumber(dr.Damage);
                     if (dr.ExtendDamage > 0)

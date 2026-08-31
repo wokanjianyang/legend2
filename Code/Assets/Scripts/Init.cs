@@ -181,6 +181,7 @@ public class Init : MonoBehaviour
         this.LoadConfig();  //先加载配置
 
         User_Data_Manager.Load();  //再加载存档
+        User_Data_Manager.SettingLoad();
 
         //再加载QQ-net数据
         try

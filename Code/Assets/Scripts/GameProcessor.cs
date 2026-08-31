@@ -795,7 +795,7 @@ namespace Game
 
             User user = User_Data_Manager.Data;
 
-            if (ruleType == RuleType.Babel && AppHelper.Babel_Auto && user.BabelData.Count > 0)
+            if (ruleType == RuleType.Babel && AppHelper.SetData.Babel_Auto && user.BabelData.Count > 0)
             {
                 this.AutoStartMap(ruleType);
             }

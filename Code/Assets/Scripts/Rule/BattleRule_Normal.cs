@@ -44,7 +44,7 @@ namespace Game
 
             foreach (BossConfig config in configs)
             {
-                if (AppHelper.BossOpen.ContainsKey(config.Id) && AppHelper.BossOpen[config.Id])
+                if (AppHelper.SetData.BossOpen.ContainsKey(config.Id) && AppHelper.SetData.BossOpen[config.Id])
                 {
                     continue; //如果关闭了区域boss，则跳过
                 }

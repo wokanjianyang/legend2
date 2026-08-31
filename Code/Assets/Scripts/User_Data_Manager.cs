@@ -175,6 +175,25 @@ namespace Game
             }
         }
 
+        public static void SettingLoad()
+        {
+            string str_json = PlayerPrefs.GetString("st");
+            Setting_Data data = JsonConvert.DeserializeObject<Setting_Data>(str_json);
+
+            if (data == null)
+            {
+                data = new Setting_Data();
+            }
+
+            AppHelper.SetData = data;
+        }
+
+        public static void SettingSave()
+        {
+            string str_json = JsonConvert.SerializeObject(AppHelper.SetData);
+            PlayerPrefs.SetString("st", str_json);
+            PlayerPrefs.Save();
+        }
 
         public static string GetSavePath()
         {

@@ -65,7 +65,7 @@ public class Battle_Defend : ABattleRule
                 GameProcessor.Inst.EventCenter.Raise(new DefendBuffSelectEvent() { Index = si, Level = this.Level });
             }
 
-            if (User_Data_Manager.Data.InfoColor <= 1)
+            if (AppHelper.SetData.InfoColor <= 1)
             {
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Defend, Message = "第" + this.CurrentRecord.Progress + "波发起了进攻" });
             }
@@ -166,7 +166,7 @@ public class Battle_Defend : ABattleRule
             GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
-        if (QualityConfigHelper.GetMaxColor(items) >= user.InfoColor)
+        if (QualityConfigHelper.GetMaxColor(items) >= AppHelper.SetData.InfoColor)
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
             {

@@ -36,7 +36,8 @@ public class Dialog_Babel : MonoBehaviour
     {
         toggle_Auto.onValueChanged.AddListener((isOn) =>
         {
-            AppHelper.Babel_Auto = isOn;
+            AppHelper.SetData.Babel_Auto = isOn;
+            User_Data_Manager.SettingSave();
         });
 
         Btn_Atr.onClick.AddListener(OnClick_Atr);
@@ -44,6 +45,8 @@ public class Dialog_Babel : MonoBehaviour
 
         Btn_Start.onClick.AddListener(OnClick_Start);
         Btn_Close.onClick.AddListener(OnClick_Close);
+
+        toggle_Auto.isOn = AppHelper.SetData.Babel_Auto;
     }
 
     void OnEnable()

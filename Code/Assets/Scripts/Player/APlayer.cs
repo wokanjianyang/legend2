@@ -495,8 +495,8 @@ namespace Game
 
         public void ShowMiss()
         {
-            if ((this.Camp == PlayerType.Enemy && AppHelper.ShowMonsterDamage)
-              || (this.Camp != PlayerType.Enemy && AppHelper.ShowPlayerEffect))
+            if ((this.Camp == PlayerType.Enemy && AppHelper.SetData.ShowMonsterDamage)
+              || (this.Camp != PlayerType.Enemy && AppHelper.SetData.ShowPlayerEffect))
             {
                 this.EventCenter.Raise(new ShowMsgEvent()
                 {
@@ -508,8 +508,8 @@ namespace Game
 
         public void ShowMiss2()
         {
-            if ((this.Camp == PlayerType.Enemy && AppHelper.ShowMonsterDamage)
-             || (this.Camp != PlayerType.Enemy && AppHelper.ShowPlayerEffect))
+            if ((this.Camp == PlayerType.Enemy && AppHelper.SetData.ShowMonsterDamage)
+             || (this.Camp != PlayerType.Enemy && AppHelper.SetData.ShowPlayerEffect))
             {
                 this.EventCenter.Raise(new ShowMsgEvent()
                 {

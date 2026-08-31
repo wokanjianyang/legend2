@@ -62,7 +62,8 @@ namespace Game
         {
             //Debug.Log("dropDown：" + value);
 
-            User_Data_Manager.Data.InfoColor = value + 1;
+            AppHelper.SetData.InfoColor = value + 1;
+            User_Data_Manager.SettingSave();
         }
 
         public void Init()
@@ -70,10 +71,10 @@ namespace Game
             //Debug.Log("Other init");
             User user = User_Data_Manager.Data;
 
-            tog_Monster_Skill.isOn = AppHelper.ShowMonsterSkill;
-            tog_Monster_Damage.isOn = AppHelper.ShowMonsterDamage;
-            tog_Player.isOn = AppHelper.ShowPlayerEffect;
-            dp_InfoColor.value = user.InfoColor - 1;
+            tog_Monster_Skill.isOn = AppHelper.SetData.ShowMonsterSkill;
+            tog_Monster_Damage.isOn = AppHelper.SetData.ShowMonsterDamage;
+            tog_Player.isOn = AppHelper.SetData.ShowPlayerEffect;
+            dp_InfoColor.value = AppHelper.SetData.InfoColor - 1;
 
 
             if (ConfigHelper.Channel == ConfigHelper.Channel_Tap)
@@ -89,16 +90,19 @@ namespace Game
 
         public void ShowSkill(bool show)
         {
-            AppHelper.ShowMonsterSkill = show;
+            AppHelper.SetData.ShowMonsterSkill = show;
+            User_Data_Manager.SettingSave();
         }
         public void ShowDamage(bool show)
         {
-            AppHelper.ShowMonsterDamage = show;
+            AppHelper.SetData.ShowMonsterDamage = show;
+            User_Data_Manager.SettingSave();
         }
 
         public void ShowPlayerEffect(bool show)
         {
-            AppHelper.ShowPlayerEffect = show;
+            AppHelper.SetData.ShowPlayerEffect = show;
+            User_Data_Manager.SettingSave();
             //保存到本地设置
         }
     }

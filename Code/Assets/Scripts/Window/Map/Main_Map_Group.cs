@@ -36,16 +36,21 @@ public class Main_Map_Group : MonoBehaviour
         {
             if (this.Config != null)
             {
-                AppHelper.BossOpen[Config.Id] = isOn;
+                AppHelper.SetData.BossOpen[Config.Id] = isOn;
+                User_Data_Manager.SettingSave();
             }
         });
-
     }
 
 
     public void SetContent(MapGroupConfig config)
     {
         this.Config = config;
+
+        if (AppHelper.SetData.BossOpen.ContainsKey(config.Id))
+        {
+            toggle.isOn = AppHelper.SetData.BossOpen[config.Id];
+        }
 
         Txt_Name.text = config.Name;
         Txt_Desc.text = config.Memo;

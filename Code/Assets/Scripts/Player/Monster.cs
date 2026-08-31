@@ -251,7 +251,7 @@ namespace Game
 
             int itemCount = 0;
 
-            bool showMessage = QualityConfigHelper.GetMaxColor(items) >= user.InfoColor;
+            bool showMessage = QualityConfigHelper.GetMaxColor(items) >= AppHelper.SetData.InfoColor;
             if (showMessage)
             {
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()

@@ -125,7 +125,7 @@ public class PlayerUI : MonoBehaviour, IPlayer, IPointerClickHandler
 
         this.SelfPlayer.EventCenter.AddListener<ShowHideEvent>(OnShowHide);
 
-        if (!AppHelper.ShowMonsterDamage && player.Camp != PlayerType.Hero)
+        if (!AppHelper.SetData.ShowMonsterDamage && player.Camp != PlayerType.Hero)
         {
             ShowUI = false;
         }

@@ -10,6 +10,7 @@ namespace Game
 {
     public static class AppHelper
     {
+        public static Setting_Data SetData;
 
         public static int Map_Cell_Size_X = 118;
         public static int Map_Cell_Size_Y = 118;
@@ -17,7 +18,6 @@ namespace Game
 
         public static long StartTime = 0;
         public static int CurrentMapId = 1;
-
 
         public static int DefendLevel = 0;
 
@@ -50,20 +50,13 @@ namespace Game
         //-----boss数据
         public static bool Boss = true; //区域boss
         public static List<BossLog> BossLogs = new List<BossLog>();
-        public static IDictionary<int, bool> BossOpen = new Dictionary<int, bool>();
 
         public static IDictionary<int, int> EquipRecord { get; set; } = new Dictionary<int, int>();
 
-        //-------设置
-        public static bool ShowPlayerEffect = true; //是否显示技能效果
-        public static bool ShowMonsterDamage = true; //是否显示怪物伤害
-        public static bool ShowMonsterSkill = true; //是否显示怪物技能
-        public static int InfoColor = 1; //掉落信息显示颜色
 
         //=-------自动挑战
         public static long ChangeMapTime = 0;
 
-        public static bool Babel_Auto = false;
         public static bool BossFamily_Auto = false;
 
         public static bool Phantom_Auto = false;
@@ -73,7 +66,7 @@ namespace Game
         public static int World_Auto_Id = 0;
 
         //----神兵自动进阶
-        public static bool WeaponAuto = false;
+        public static bool WeaponAuto = true;
 
         public static RuleType CurrentRuleType = RuleType.Normal;
         public static int CurrentMapModel = 1; //默认副本难度

@@ -51,14 +51,14 @@ namespace Game
             bool isShow = true;
             if (player.Camp == PlayerType.Enemy)
             {
-                if (!AppHelper.ShowMonsterSkill)
+                if (!AppHelper.SetData.ShowMonsterSkill)
                 {
                     isShow = false;
                 }
             }
             else
             {
-                if (!AppHelper.ShowPlayerEffect)
+                if (!AppHelper.SetData.ShowPlayerEffect)
                 {
                     isShow = false;
                 }

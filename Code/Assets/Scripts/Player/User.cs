@@ -180,8 +180,6 @@ namespace Game
 
         public RecoverySetting RecoverySet { get; set; } = new RecoverySetting();
 
-        public int InfoColor { get; set; } = 1;
-
         public List<SkillData> SkillList { get; set; } = new List<SkillData>();
 
         public IDictionary<int, List<int>> SkillPanelList { get; set; } = new Dictionary<int, List<int>>();
@@ -1147,6 +1145,7 @@ namespace Game
                         if (mc < fee)
                         {
                             AppHelper.WeaponAuto = false;
+
                             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
                             {
                                 Type = RuleType.Normal,

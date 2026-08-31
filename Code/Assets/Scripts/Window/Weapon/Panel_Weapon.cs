@@ -55,10 +55,10 @@ public class Panel_Weapon : MonoBehaviour
         Btn_Ok.onClick.AddListener(OnClick_OK);
         Btn_Active.onClick.AddListener(OnClick_Active);
 
-        toggle_Auto.onValueChanged.AddListener((isOn) =>
-        {
-            AppHelper.WeaponAuto = isOn;
-        });
+        //toggle_Auto.onValueChanged.AddListener((isOn) =>
+        //{
+        //    AppHelper.WeaponAuto = isOn;
+        //});
     }
 
 

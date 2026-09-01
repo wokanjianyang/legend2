@@ -116,7 +116,7 @@ namespace Game
 		public string Des { get; set; }
 		/// <summary>冷却时间</summary>
 		[ProtoMember(14)]
-		public int CD { get; set; }
+		public double CD { get; set; }
 		/// <summary>持续时间</summary>
 		[ProtoMember(15)]
 		public int Duration { get; set; }

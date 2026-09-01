@@ -38,9 +38,9 @@ namespace Game
 
             Txt_Name.text = config.Name;
             Txt_Level.text = "";
-            this.image_Background.sprite = PrefabHelper.Instance().GetItemLogo("");
+            this.image_Background.color = ColorHelper.GetColorByQuality(config.Id);
 
-            Txt_Name.color = ColorHelper.GetColorByQuality(6);
+            //Txt_Name.color = ColorHelper.GetColorByQuality(6);
         }
 
         public void SetContent(long level)

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Game
 {
 
-    public class InfiniteData
+    public class Infinite_Data
     {
 
         public long Ticket { get; set; }
@@ -17,7 +17,7 @@ namespace Game
 
         public InfiniteRecord Current { get; set; }
 
-        public List<List<int>> DropList = new List<List<int>>();
+        public List<List<DropData>> DropList = new List<List<DropData>>();
 
         public InfiniteRecord GetCurrentRecord()
         {
@@ -42,7 +42,7 @@ namespace Game
             return Current;
         }
 
-        public int GetDropId(int level)
+        public DropData GetDropId(int level)
         {
             if (this.DropList.Count < 2)
             {
@@ -56,11 +56,11 @@ namespace Game
             //Debug.Log("infinite drop1-100:" + DropList[0][99]);
             //Debug.Log("drop:" + DropList[0][99] + "," + DropList[0][199] + "," + DropList[0][299]);
 
-            List<int> dropList = DropList[0];
+            List<DropData> dropList = DropList[0];
 
             if (level > dropList.Count)
             {
-                return 0;
+                return null;
             }
             else
             {

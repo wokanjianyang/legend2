@@ -8,21 +8,22 @@ namespace Game.Data
 
     public class DropData
     {
-        public int DropLimitId { get; set; }
+        public int DropId { get; set; }
 
-        public double Number { get; set; } = 0;
+        public int DropIndex { get; set; } = 0;
 
-        public int Seed { get; set; } = 0;
-
-
-        public DropData(int dropLimitId)
+        public DropData(int dropId, int dropIndex)
         {
-            this.DropLimitId = dropLimitId;
+            this.DropId = dropId;
+            this.DropIndex = dropIndex;
         }
 
-        public void Init(int startSeed)
+        public Item BuildItem(int number)
         {
-            this.Seed = AppHelper.RefreshSeed(startSeed);
+            DropBaseConfig config = DropBaseConfigCategory.Instance.Get(DropId);
+
+            return ItemHelper.BuildItemNew((ItemType)config.ItemType, config.ItemIdList[DropIndex], 0, number, 0);
         }
+
     }
 }

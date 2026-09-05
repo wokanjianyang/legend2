@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Game.Data;
 
 public class BattleRule_Infinite : ABattleRule
 {
@@ -65,7 +66,7 @@ public class BattleRule_Infinite : ABattleRule
         }
 
         User user = User_Data_Manager.Data;
-        InfiniteRecord record = user.InfiniteData.GetCurrentRecord();
+        InfiniteRecord record = user.InfinData.GetCurrentRecord();
 
         long currentProgres = record.Progress.Data;
 
@@ -101,7 +102,7 @@ public class BattleRule_Infinite : ABattleRule
             if (UseTime >= 0 && currentProgres < progess)
             {
                 long ar = progess / 1000;
-                ap = Math.Min(progess - currentProgres, 10 + ar * 5);
+                ap = Math.Min(progess - currentProgres, 5 + ar * 5);
                 if (MaxProgress > currentProgres)
                 {
                     ap = Math.Min(ap, MaxProgress - currentProgres);
@@ -127,7 +128,7 @@ public class BattleRule_Infinite : ABattleRule
         if (currentProgres > MaxProgress && this.Over)
         {
             this.Over = false;
-            user.InfiniteData.Complete();
+            user.InfinData.Complete();
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "无尽闯关成功，您就是神！！！" });
             return;
         }
@@ -149,26 +150,25 @@ public class BattleRule_Infinite : ABattleRule
         //增加经验,金币
         user.AddExpAndGold(exp, gold);
 
-        List<KeyValuePair<double, DropConfig>> dropList = new List<KeyValuePair<double, DropConfig>>();
-
         //掉落道具
-        int dropId = user.InfiniteData.GetDropId((int)level);
+        DropData dd = user.InfinData.GetDropId((int)level);
+        int number = 1;
 
-        List<Item> items = new List<Item>();
-        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, 0));
-
-        InfiniteDropConfig infiniteDropConfig = InfiniteDropConfigCategory.Instance.GetConfig(dropId);
+        InfiniteDropConfig infiniteDropConfig = InfiniteDropConfigCategory.Instance.GetConfig(dd.DropId);
         if (infiniteDropConfig != null)
         {
-            long nr = 1;
+            int nr = 1;
             if (infiniteDropConfig.RateNumber > 0)
             {
-                nr = (level / infiniteDropConfig.RateNumber + 1);
+                nr = ((int)level / infiniteDropConfig.RateNumber + 1);
             }
-            foreach (Item item in items)
-            {
-                item.Temp_Number = infiniteDropConfig.Number * nr;
-            }
+            number = infiniteDropConfig.Number * nr;
+        }
+
+        List<Item> items = new List<Item>();
+        if (dd.DropId > 0)
+        {
+            items.Add(dd.BuildItem(number));
         }
 
         if (items.Count > 0)
@@ -192,7 +192,7 @@ public class BattleRule_Infinite : ABattleRule
         if (hero != null && hero.HP <= 0)
         {
             User user = User_Data_Manager.Data;
-            InfiniteRecord record = user.InfiniteData.GetCurrentRecord();
+            InfiniteRecord record = user.InfinData.GetCurrentRecord();
 
             if (record == null)
             {
@@ -210,7 +210,7 @@ public class BattleRule_Infinite : ABattleRule
             else
             {
                 this.Over = false;
-                user.InfiniteData.Complete();
+                user.InfinData.Complete();
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "无尽闯关失败，请明天再来" });
                 GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
             }

@@ -119,7 +119,7 @@ namespace Game
             }
 
             //ÃÙ’Ω
-            InfiniteRecord record = user.InfiniteData.GetCurrentRecord();
+            InfiniteRecord record = user.InfinData.GetCurrentRecord();
 
             if (record == null || record.Count <= 0)
             {

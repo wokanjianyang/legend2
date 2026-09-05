@@ -55,6 +55,8 @@ namespace Game
 
         public IDictionary<int, MagicData> MagicEquipRefine { get; set; } = new Dictionary<int, MagicData>();
 
+        public Infinite_Data InfinData { get; set; } = new Infinite_Data();
+
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -190,8 +192,6 @@ namespace Game
         public Defend_Data DefendData { get; set; } = new Defend_Data();
 
         public Materail_Data MaterailData { get; set; } = new Materail_Data();
-
-        public InfiniteData InfiniteData { get; set; } = new InfiniteData();
 
         public HeroPhatomData HeroPhatomData { get; set; }
 

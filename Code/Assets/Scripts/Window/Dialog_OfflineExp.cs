@@ -537,15 +537,15 @@ namespace Game
 
             for (int i = 0; i < 20; i++)
             {
-                user.InfiniteData.GetDropId(10);
-                List<int> drops = user.InfiniteData.DropList[0];
-                user.InfiniteData.DropList.RemoveAt(0);
+                //user.InfiniteData.GetDropId(10);
+                //List<int> drops = user.InfiniteData.DropList[0];
+                //user.InfiniteData.DropList.RemoveAt(0);
 
-                int countT = drops.Where(m => m >= 180032 && m <= 180034).Count();
-                if (countT > 0)
-                {
-                    Debug.Log(i + " drop Talent :" + countT);
-                }
+                //int countT = drops.Where(m => m >= 180032 && m <= 180034).Count();
+                //if (countT > 0)
+                //{
+                //    Debug.Log(i + " drop Talent :" + countT);
+                //}
             }
         }
     }

@@ -1,3 +1,4 @@
+using Game.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ namespace Game
             return this.list.Where(m => m.DropBaseId == dropId).FirstOrDefault();
         }
 
-        public List<int> GetAllDropIdList()
+        public List<DropData> GetAllDropIdList()
         {
             int maxLevel = ConfigHelper.Infinit_Max;
 
-            List<int> rates = new List<int>();
+            List<DropData> rates = new List<DropData>();
 
             Dictionary<int, int> dict = new Dictionary<int, int>();
 
@@ -39,7 +40,7 @@ namespace Game
 
                 if (config == null)
                 {
-                    rates.Add(0);
+                    rates.Add(new DropData(0, 0));
                     continue;
                 }
 
@@ -55,7 +56,10 @@ namespace Game
                     dropConfigs.Remove(config); //掉落上限的，去掉
                 }
 
-                rates.Add(config.DropBaseId);
+                DropBaseConfig dropBaseConfig = DropBaseConfigCategory.Instance.Get(config.DropBaseId);
+                int di = RandomHelper.RandomNumber(0, dropBaseConfig.ItemIdList.Length);
+
+                rates.Add(new DropData(config.DropBaseId, di));
             }
 
             return rates;

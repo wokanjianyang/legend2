@@ -766,19 +766,22 @@ namespace Game
                 }
             }
 
-            foreach (var ex in User_Data_Manager.StoreData.StoreList)
+            if (User_Data_Manager.StoreData != null)
             {
-                if (ex.Number > 0)
+                foreach (var ex in User_Data_Manager.StoreData.StoreList)
                 {
-                    StoreConfig config = StoreConfigCategory.Instance.Get(ex.StoreId);
-                    if (config.Tid > 0)
+                    if (ex.Number > 0)
                     {
-                        SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(config.Tid);
-                        if (talentConfig.SkillId == skillId)
+                        StoreConfig config = StoreConfigCategory.Instance.Get(ex.StoreId);
+                        if (config.Tid > 0)
                         {
-                            if (!dict.ContainsKey(talentConfig.Id))
+                            SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(config.Tid);
+                            if (talentConfig.SkillId == skillId)
                             {
-                                dict[talentConfig.Id] = talentConfig.Id;
+                                if (!dict.ContainsKey(talentConfig.Id))
+                                {
+                                    dict[talentConfig.Id] = talentConfig.Id;
+                                }
                             }
                         }
                     }

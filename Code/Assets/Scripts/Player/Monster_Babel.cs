@@ -37,7 +37,10 @@ namespace Game
             this.Camp = PlayerType.Enemy;
             this.Name = names[Type - 1];
             this.Level = Progress;
-            this.FashionId = (Progress - 1) / 100 + 1;
+
+            int fid = (Progress - 1) / 100;
+            fid = (Type == 3 ? fid % 12 : fid % 72) + 1;
+            this.FashionId = fid;
 
             this.SetAttr();  //设置属性值
             this.SetSkill(); //设置技能

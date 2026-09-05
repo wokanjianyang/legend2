@@ -173,6 +173,18 @@ namespace Game
 
                 this.Txt_MapName.text = "通天塔";
             }
+            else if (e.Type == RuleType.Infinite)
+            {
+                Dictionary<string, object> param = new Dictionary<string, object>();
+
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.LoadMap(RuleType.Infinite, this.transform, param);
+                });
+
+                this.Txt_MapName.text = "无尽挑战";
+            }
             else if (e.Type == RuleType.Offline)
             {
                 Dictionary<string, object> param = new Dictionary<string, object>();

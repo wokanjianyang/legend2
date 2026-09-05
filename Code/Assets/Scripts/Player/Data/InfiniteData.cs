@@ -30,7 +30,7 @@ namespace Game
                 Ticket = nt;
                 Current = new InfiniteRecord();
                 Current.Progress.Data = 1;
-                Current.Count.Data = 100;
+                Current.Count = 10;
 
                 if (this.DropList.Count > 0)
                 {
@@ -79,6 +79,6 @@ namespace Game
     {
         public MagicData Progress { get; set; } = new MagicData();
 
-        public MagicData Count { get; set; } = new MagicData();
+        public int Count { get; set; } = 0;
     }
 }

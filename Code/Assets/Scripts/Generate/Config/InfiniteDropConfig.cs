@@ -78,9 +78,9 @@ namespace Game
 		/// <summary>Id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>DropId</summary>
+		/// <summary>DropBaseId</summary>
 		[ProtoMember(2)]
-		public int DropId { get; set; }
+		public int DropBaseId { get; set; }
 		/// <summary>Name</summary>
 		[ProtoMember(3)]
 		public string Name { get; set; }
@@ -99,8 +99,11 @@ namespace Game
 		/// <summary>Max</summary>
 		[ProtoMember(8)]
 		public int Max { get; set; }
-		/// <summary>Number</summary>
+		/// <summary>RateNumber</summary>
 		[ProtoMember(9)]
+		public int RateNumber { get; set; }
+		/// <summary>Number</summary>
+		[ProtoMember(10)]
 		public int Number { get; set; }
 
 	}

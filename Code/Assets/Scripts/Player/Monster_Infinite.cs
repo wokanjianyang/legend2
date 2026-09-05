@@ -16,7 +16,8 @@ namespace Game
         private double[] HpRate = { 1, 2.5, 5, 7.5, 10 };
         private double[] DefRate = { 1, 2, 3, 4, 5 };
         private double[] AttrRate = { 1, 1.25, 1.5, 1.75, 2 };
-        private int[] excludeSuitList = { 6 };
+
+        private int[] excludeSuitList = { };
 
         public Monster_Infinite(long progress, int quality) : base()
         {
@@ -29,146 +30,95 @@ namespace Game
 
             this.ModelConfig = InfiniteModelConfigCategory.Instance.RandomConfig();
 
-            //this.Init();
+            this.Init();
         }
 
-    //    private void Init()
-    //    {
-    //        QualityConfig qualityConfig = QualityConfigCategory.Instance.Get(this.Quality);
+        private void Init()
+        {
+            MonsterQualityConfig qualityConfig = MonsterQualityConfigCategory.Instance.Get(this.Quality);
 
-    //        this.Camp = PlayerType.Enemy;
-    //        this.Name = ModelConfig.Name + qualityConfig.MonsterTitle;
-    //        this.Level = Progress * 100;
+            this.Camp = PlayerType.Enemy;
+            this.Name = ModelConfig.Name + qualityConfig.MonsterTitle;
+            this.Level = Progress / 5 + 1;
+            this.FashionId = (Progress - 1) / 10 + 1;
 
-    //        this.SetAttr();  //设置属性值
-    //        this.SetSkill(); //设置技能
+            this.SetAttr();  //设置属性值
+            this.SetSkill(); //设置技能
 
-    //        base.Load();
-    //        this.Logic.SetData(null); //设置UI
-    //    }
+            base.Load();
+            this.Logic.SetData(null); //设置UI
+        }
 
-    //    private void SetAttr()
-    //    {
-    //        this.AttributeBonus = new AttributeBonus();
+        private void SetAttr()
+        {
+            this.AttributeBonus = new AttributeBonus();
 
-    //        int riseLevel = this.Progress - Config.StartLevel;
+            int riseLevel = this.Progress - Config.StartLevel;
 
-    //        double hp = StringHelper.StringToNumber(Config.HP);
-    //        //Debug.Log("Config " + this.Progress + " HP:" + StringHelper.FormatNumber(hp));
-    //        hp += hp * Config.HpRise * riseLevel;
+            double hpRise = Math.Pow(Config.RiseHp, riseLevel);
+            double defRise = Math.Pow(Config.RiseDef, riseLevel);
+            double atkRise = Math.Pow(Config.RiseAtk, riseLevel);
 
-    //        double attr = StringHelper.StringToNumber(Config.Attr);
-    //        //Debug.Log("Config " + this.Progress + " Attr:" + StringHelper.FormatNumber(attr));
-    //        attr += attr * Config.AttrRise * riseLevel;
+            double hp = StringHelper.StringToNumber(Config.Hp) * hpRise;
+            double atk = StringHelper.StringToNumber(Config.Atk) * defRise;
+            double def = StringHelper.StringToNumber(Config.Def) * atkRise;
 
-    //        double def = StringHelper.StringToNumber(Config.Def);
-    //        //Debug.Log("Config " + this.Progress + " Def:" + StringHelper.FormatNumber(def));
-    //        def += def * Config.DefRise * riseLevel;
 
-    //        double damageMul = StringHelper.StringToNumber(Config.DamageMul);
-    //        damageMul += damageMul * Config.MulRise * riseLevel;
 
-    //        double strong = StringHelper.StringToNumber(Config.Strong);
-    //        strong += strong * Config.StrongRise * riseLevel;
+            //Debug.Log("Infinit " + this.Progress + " HP:" + StringHelper.FormatNumber(hp));
+            //Debug.Log("Infinit " + this.Progress + " Def:" + StringHelper.FormatNumber(def));
+            //Debug.Log("Infinit " + this.Progress + " Attr:" + StringHelper.FormatNumber(attr));
 
-    //        double parry = StringHelper.StringToNumber(Config.Parry);
-    //        parry += parry * Config.ParrayRise * riseLevel;
+            AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, hp);
+            AttributeBonus.SetAttr(AttributeEnum.Atk, AttributeFrom.ConfigBase, atk);
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, def);
 
-    //        //Debug.Log("Infinit " + this.Progress + " HP:" + StringHelper.FormatNumber(hp));
-    //        //Debug.Log("Infinit " + this.Progress + " Def:" + StringHelper.FormatNumber(def));
-    //        //Debug.Log("Infinit " + this.Progress + " Attr:" + StringHelper.FormatNumber(attr));
+            AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.ConfigBase, Config.DamageIncrea);
+            AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.ConfigBase, Config.DamageResist);
+            AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.ConfigBase, Config.CritRate);
+            AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.ConfigBase, Config.CritDamage);
 
-    //        AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.HeroBase, hp * HpRate[Quality - 1]);
-    //        AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.HeroBase, attr * AttrRate[Quality - 1]);
-    //        AttributeBonus.SetAttr(AttributeEnum.MagicAtt, AttributeFrom.HeroBase, attr * AttrRate[Quality - 1]);
-    //        AttributeBonus.SetAttr(AttributeEnum.SpiritAtt, AttributeFrom.HeroBase, attr * AttrRate[Quality - 1]);
-    //        AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.HeroBase, def * DefRate[Quality - 1]);
+            AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy);
+            AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss);
 
-    //        AttributeBonus.SetAttr(AttributeEnum.DamageIncrea, AttributeFrom.HeroBase, Config.DamageIncrea);
-    //        AttributeBonus.SetAttr(AttributeEnum.DamageResist, AttributeFrom.HeroBase, Config.DamageResist);
-    //        AttributeBonus.SetAttr(AttributeEnum.CritRate, AttributeFrom.HeroBase, Config.CritRate);
-    //        AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.HeroBase, Config.CritDamage);
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, Config.MulDamageResist);
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.ConfigBase, Config.MulDamageIncrea);
 
-    //        AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.HeroBase, Config.Accuracy);
-    //        AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.HeroBase, Config.Miss);
-    //        AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.HeroBase, Config.MulDamageResist);
-    //        AttributeBonus.SetAttr(AttributeEnum.Protect, AttributeFrom.HeroBase, Config.Protect);
+            this.SetSpeed(Config.Speed, Config.Speed);
 
-    //        AttributeBonus.SetAttr(AttributeEnum.Strong, AttributeFrom.HeroBase, strong);
-    //        AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.HeroBase, damageMul);
+            //回满当前血量
+            SetHP(AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP));
+        }
 
-    //        AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.HeroBase, parry);
+        private void SetSkill()
+        {
+            List<SkillData> list = new List<SkillData>();
 
-    //        SetAttackSpeed(Config.Speed);
-    //        SetMoveSpeed(Config.Speed);
+            List<int> rdList = SkillConfigCategory.Instance.RandomList(Quality, this.Progress);
 
-    //        //回满当前血量
-    //        SetHP(AttributeBonus.GetTotalAttrDouble(AttributeEnum.HP));
-    //    }
+            for (int i = 0; i < rdList.Count; i++)
+            {
+                int skillId = rdList[i];
+                SkillData skillData = new SkillData(skillId, i);
+                skillData.MagicLevel.Data = this.Progress / 100;
+                list.Add(skillData);
+            }
 
-    //    private void SetSkill()
-    //    {
-    //        List<SkillData> list = new List<SkillData>();
+            foreach (SkillData skillData in list)
+            {
+                List<SkillRune> runeList = SkillRuneConfigCategory.Instance.GetAllRune(skillData.SkillId, this.Quality);
+                List<SkillSuit> suitList = SkillSuitConfigCategory.Instance.GetAllSuit(skillData.SkillId, this.Quality, excludeSuitList);
+                List<SkillTalent> talents = SkillTalentConfigCategory.Instance.GetAllTalent(skillData.SkillId, this.Quality);
 
-    //        List<int> rdList = SkillConfigCategory.Instance.RandomList(Quality, this.Progress);
+                SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, talents, false);
 
-    //        for (int i = 0; i < rdList.Count; i++)
-    //        {
-    //            int skillId = rdList[i];
-    //            SkillData skillData = new SkillData(skillId, i);
-    //            skillData.MagicLevel.Data = this.Progress * skillData.SkillConfig.MaxLevel / 100;
-    //            list.Add(skillData);
-    //        }
+                SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
+                SelectSkillList.Add(skill);
+            }
 
-    //        list.Add(new SkillData(9001, (int)SkillPosition.Default)); //add default skill
+            base.AddSkillNormal();
 
-    //        foreach (SkillData skillData in list)
-    //        {
-    //            List<SkillRune> runeList = SkillRuneConfigCategory.Instance.GetAllRune(skillData.SkillId, this.Quality);
-    //            List<SkillSuit> suitList = SkillSuitHelper.GetAllSuit(skillData.SkillId, this.Quality, excludeSuitList);
-
-    //            SkillPanel skillPanel = new SkillPanel(skillData, runeList, suitList, false);
-
-    //            SkillPanel from = null;
-    //            if (skillPanel.SkillData.SkillConfig.FromId > 0)
-    //            {
-    //                SkillData fromData = new SkillData(skillPanel.SkillData.SkillConfig.FromId, 0);
-
-    //                if (fromData == null)
-    //                {
-    //                    continue;
-    //                }
-
-    //                from = new SkillPanel(fromData, SkillRuneConfigCategory.Instance.GetAllRune(fromData.SkillId, this.Quality), SkillSuitHelper.GetAllSuit(skillData.SkillId, this.Quality), false);
-    //            }
-
-    //            SkillState skill = new SkillState(this, skillPanel, from, skillData.Position, 0);
-    //            SelectSkillList.Add(skill);
-
-    //            //职业专精技能的属性
-    //            if (skillData.SkillConfig.Type == (int)SkillType.Expert)
-    //            {
-    //                int attrKey = (int)AttributeFrom.Skill * 10000 + skillData.SkillId;
-
-    //                if (skillData.SkillConfig.Role == (int)RoleType.Warrior)
-    //                {
-    //                    AttributeBonus.SetAttr(AttributeEnum.WarriorSkillPercent, attrKey, skillPanel.Percent);
-    //                    AttributeBonus.SetAttr(AttributeEnum.WarriorSkillDamage, attrKey, skillPanel.Damage);
-    //                }
-    //                else if (skillData.SkillConfig.Role == (int)RoleType.Mage)
-    //                {
-    //                    AttributeBonus.SetAttr(AttributeEnum.MageSkillPercent, attrKey, skillPanel.Percent);
-    //                    AttributeBonus.SetAttr(AttributeEnum.MageSkillDamage, attrKey, skillPanel.Damage);
-    //                }
-    //                else if (skillData.SkillConfig.Role == (int)RoleType.Warlock)
-    //                {
-    //                    AttributeBonus.SetAttr(AttributeEnum.WarlockSkillPercent, attrKey, skillPanel.Percent);
-    //                    AttributeBonus.SetAttr(AttributeEnum.WarlockSkillDamage, attrKey, skillPanel.Damage);
-    //                }
-    //            }
-    //        }
-
-    //        base.SetSkillAfter();
-    //    }
+            base.SetSkillAfter();
+        }
     }
 }

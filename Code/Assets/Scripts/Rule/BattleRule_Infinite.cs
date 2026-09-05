@@ -54,7 +54,7 @@ public class BattleRule_Infinite : ABattleRule
         {
             //倒计时
             this.UseTime = this.AttckTime + SkipTime - TimeHelper.ClientNowSeconds();
-            GameProcessor.Inst.EventCenter.Raise(new ShowInfiniteInfoEvent() { Time = UseTime });
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = "剩余时间：" + this.UseTime + "秒" });
         }
 
         var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
@@ -73,7 +73,7 @@ public class BattleRule_Infinite : ABattleRule
         {
             if (AppHelper.SetData.InfoColor <= 1)
             {
-                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Infinite, Message = "第" + currentProgres + "波发起了进攻" });
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "第" + currentProgres + "波发起了进攻" });
             }
 
             this.AttckTime = TimeHelper.ClientNowSeconds();
@@ -85,7 +85,9 @@ public class BattleRule_Infinite : ABattleRule
                 GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
             }
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowInfiniteInfoEvent() { Count = currentProgres, PauseCount = record.Count.Data, Time = SkipTime });
+            string msg = currentProgres + "关，" + SkipTime + "内通关可跳关";
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
+
 
             this.Start = false;
 
@@ -126,7 +128,7 @@ public class BattleRule_Infinite : ABattleRule
         {
             this.Over = false;
             user.InfiniteData.Complete();
-            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Infinite, Message = "无尽闯关成功，您就是神！！！" });
+            GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "无尽闯关成功，您就是神！！！" });
             return;
         }
     }
@@ -151,29 +153,21 @@ public class BattleRule_Infinite : ABattleRule
 
         //掉落道具
         int dropId = user.InfiniteData.GetDropId((int)level);
-        if (dropId > 0)
-        {
-            DropConfig dropConfig = DropConfigCategory.Instance.Get(dropId);
-            dropList.Add(new KeyValuePair<double, DropConfig>(1, dropConfig));
-        }
-
-        InfiniteDropConfig infiniteDropConfig = InfiniteDropConfigCategory.Instance.GetConfig(dropId, level);
-
-        int seed = AppHelper.GetDeviceIdentifier().GetHashCode();
-        if (user != null && user.Account != null)
-        {
-            seed = user.Account.GetHashCode();
-        }
-        seed += TimeHelper.TodaySeed() + (int)level;
 
         List<Item> items = new List<Item>();
-        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, seed));
+        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, 0));
 
-        if (infiniteDropConfig != null && infiniteDropConfig.Number > 1)
+        InfiniteDropConfig infiniteDropConfig = InfiniteDropConfigCategory.Instance.GetConfig(dropId);
+        if (infiniteDropConfig != null)
         {
+            long nr = 1;
+            if (infiniteDropConfig.RateNumber > 0)
+            {
+                nr = (level / infiniteDropConfig.RateNumber + 1);
+            }
             foreach (Item item in items)
             {
-                item.Temp_Number = infiniteDropConfig.Number;
+                item.Temp_Number = infiniteDropConfig.Number * nr;
             }
         }
 
@@ -182,21 +176,11 @@ public class BattleRule_Infinite : ABattleRule
             GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
         }
 
-        if (dropId >= 220101 && dropId <= 220110)
-        {
-            GameProcessor.Inst.SaveData();
-
-            if (dropId >= 220106)
-            {
-                GameProcessor.Inst.SaveNetData();
-            }
-        }
-
         if (QualityConfigHelper.GetMaxColor(items) >= AppHelper.SetData.InfoColor)
         {
             GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent()
             {
-                Type = RuleType.Infinite,
+                Type = RuleType.Normal,
                 Message = BattleMsgHelper.BuildRewardMessage("无尽闯关" + level + "奖励:", exp, gold, items),
             });
         }
@@ -215,10 +199,10 @@ public class BattleRule_Infinite : ABattleRule
                 return;
             }
 
-            record.Count.Data--;
-            GameProcessor.Inst.EventCenter.Raise(new ShowInfiniteInfoEvent() { Count = record.Progress.Data, PauseCount = record.Count.Data });
+            record.Count--;
+            GameProcessor.Inst.EventCenter.Raise(new ShowInfiniteInfoEvent() { Count = record.Progress.Data, PauseCount = record.Count });
 
-            if (record.Count.Data > 0)
+            if (record.Count > 0)
             {
                 GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
                 GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
@@ -227,7 +211,7 @@ public class BattleRule_Infinite : ABattleRule
             {
                 this.Over = false;
                 user.InfiniteData.Complete();
-                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Infinite, Message = "无尽闯关失败，请明天再来" });
+                GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "无尽闯关失败，请明天再来" });
                 GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
             }
         }

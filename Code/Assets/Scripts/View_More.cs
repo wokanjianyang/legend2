@@ -25,6 +25,7 @@ namespace Game
         public Button Btn_Babel;
         public Dialog_Babel ItemBabel;
 
+        public Button Btn_Infinite;
 
         public Text Txt_Limit;
 
@@ -34,6 +35,7 @@ namespace Game
             Btn_Legacy.onClick.AddListener(OnClick_Legacy);
             Btn_Babel.onClick.AddListener(OnClick_Babel);
             Btn_Defend.onClick.AddListener(OnClick_Defend);
+            Btn_Infinite.onClick.AddListener(OnClick_Infinite);
         }
 
         void OnEnable()
@@ -46,6 +48,11 @@ namespace Game
             }
 
             long level = user.MagicLevel.Data;
+
+            if (user.MagicLevel.Data < 40)
+            {
+                Btn_Infinite.gameObject.SetActive(false);
+            }
 
         }
 
@@ -100,6 +107,32 @@ namespace Game
             }
 
             this.ItemLegacy.gameObject.SetActive(true);
+        }
+
+        private void OnClick_Infinite()
+        {
+            User user = User_Data_Manager.Data;
+            if (user.MagicLevel.Data < 40)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "40级才解锁", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+            //挑战
+            InfiniteRecord record = user.InfiniteData.GetCurrentRecord();
+
+            if (record == null || record.Count <= 0)
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "没有了挑战次数", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
+
+            record.Count--;
+
+            GameProcessor.Inst.EventCenter.Raise(new ChangePageEvent() { Page = ViewPageType.View_Battle });
+
+            GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Infinite });
+
         }
 
         public void HideItem()

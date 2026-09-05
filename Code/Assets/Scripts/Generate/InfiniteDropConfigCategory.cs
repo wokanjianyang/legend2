@@ -7,9 +7,9 @@ namespace Game
 
     public partial class InfiniteDropConfigCategory
     {
-        public InfiniteDropConfig GetConfig(int dropId, long level)
+        public InfiniteDropConfig GetConfig(int dropId)
         {
-            return this.list.Where(m => m.DropId == dropId && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
+            return this.list.Where(m => m.DropBaseId == dropId).FirstOrDefault();
         }
 
         public List<int> GetAllDropIdList()
@@ -55,7 +55,7 @@ namespace Game
                     dropConfigs.Remove(config); //掉落上限的，去掉
                 }
 
-                rates.Add(config.DropId);
+                rates.Add(config.DropBaseId);
             }
 
             return rates;

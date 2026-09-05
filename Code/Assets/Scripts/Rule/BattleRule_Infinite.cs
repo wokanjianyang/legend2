@@ -54,8 +54,8 @@ public class BattleRule_Infinite : ABattleRule
         if (!Start)
         {
             //倒计时
-            this.UseTime = this.AttckTime + SkipTime - TimeHelper.ClientNowSeconds();
-            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = "剩余时间：" + this.UseTime + "秒" });
+            //this.UseTime = this.AttckTime + SkipTime - TimeHelper.ClientNowSeconds();
+            //GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = "剩余时间：" + this.UseTime + "秒" });
         }
 
         var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);
@@ -86,7 +86,7 @@ public class BattleRule_Infinite : ABattleRule
                 GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
             }
 
-            string msg = currentProgres + "关，" + SkipTime + "内通关可跳关";
+            string msg = "第" + currentProgres + "波，剩余" + record.Count + "次挑战机会";
             GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
 
@@ -120,6 +120,8 @@ public class BattleRule_Infinite : ABattleRule
             {
                 BuildReward(currentProgres + i);
             }
+
+            //
 
             this.Start = true;
             return;
@@ -200,18 +202,20 @@ public class BattleRule_Infinite : ABattleRule
             }
 
             record.Count--;
-            GameProcessor.Inst.EventCenter.Raise(new ShowInfiniteInfoEvent() { Count = record.Progress.Data, PauseCount = record.Count });
+
+            string msg = "第" + record.Progress.Data + "波，剩余" + record.Count + "次挑战机会";
+            GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
             if (record.Count > 0)
             {
-                GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
-                GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
+                GameProcessor.Inst.SetGameOver(PlayerType.Enemy);  //停止地图逻辑
             }
             else
             {
                 this.Over = false;
                 user.InfinData.Complete();
                 GameProcessor.Inst.EventCenter.Raise(new BattleMsgEvent() { Type = RuleType.Normal, Message = "无尽闯关失败，请明天再来" });
+                GameProcessor.Inst.SetGameOver(PlayerType.Enemy);
                 GameProcessor.Inst.CloseBattle(RuleType.Infinite, 0);
             }
         }

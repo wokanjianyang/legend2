@@ -137,7 +137,7 @@ namespace Game
                 {
                     if (sp.BossId <= MaxBossId)
                     {
-                        sp.Count += ConfigHelper.TestRate; //20倍测试
+                        sp.Count++; //20倍测试
                     }
                 }
             }

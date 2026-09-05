@@ -99,8 +99,9 @@ public class Monster_Legacy : APlayer
     {
         for (int i = 0; i < ConfigHelper.TestRate; i++)
         {
-            BuildReward();
+      
         }
+        BuildReward();
     }
 
     private void BuildReward()

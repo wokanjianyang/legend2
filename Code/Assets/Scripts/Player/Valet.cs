@@ -103,22 +103,6 @@ namespace Game
 
         private void SetSkill()
         {
-            //加载技能
-            if (this.ModelConfig.SkillList != null)
-            {
-                foreach (int skillId in this.ModelConfig.SkillList)
-                {
-                    SkillData skillData = new SkillData(skillId, (int)SkillPosition.Default);
-                    skillData.MagicLevel.Data = SkillPanel.Level;
-
-                    SkillPanel skillPanel = new SkillPanel(skillData, null, null, null, false);
-
-                    SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
-                    SelectSkillList.Add(skill);
-                }
-            }
-
-
             if (Master.Camp == PlayerType.Hero)
             {
                 int c1001 = this.SkillPanel.EffectList.Where(m => m.Key == 1001).Count();
@@ -130,6 +114,23 @@ namespace Game
                     if (masterSkill != null)
                     {
                         SkillState skill = new SkillState(this, masterSkill, null, 1, 0);
+                        SelectSkillList.Add(skill);
+                    }
+                }
+            }
+
+            //如果有灭魂符，则用默认技能
+            if (SelectSkillList.Count == 0) {
+                if (this.ModelConfig.SkillList != null)
+                {
+                    foreach (int skillId in this.ModelConfig.SkillList)
+                    {
+                        SkillData skillData = new SkillData(skillId, (int)SkillPosition.Default);
+                        skillData.MagicLevel.Data = SkillPanel.Level;
+
+                        SkillPanel skillPanel = new SkillPanel(skillData, null, null, null, false);
+
+                        SkillState skill = new SkillState(this, skillPanel, skillData.Position, 0);
                         SelectSkillList.Add(skill);
                     }
                 }

@@ -18,7 +18,7 @@ namespace Game
 
         public List<SkillTalentConfig> GetSkillAllConfigs(List<int> ids)
         {
-            return this.list.Where(m => ids.Contains(m.SkillId)).ToList();
+            return this.list.Where(m => ids.Contains(m.SkillId) && m.Role > 0).ToList();
 
         }
 

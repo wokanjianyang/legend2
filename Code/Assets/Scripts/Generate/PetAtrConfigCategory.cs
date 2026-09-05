@@ -77,7 +77,12 @@ namespace Game
             //技能橙色2，红色3，金色4
             if (quality >= 4)
             {
-                List<int> talents = BuildPetTalents(skills.Select(m => m.Key).ToList(), pet.Quality);
+                List<int> skillids = skills.Select(m => m.Key).ToList();
+                if (role == 3)
+                {
+                    skillids.Add(3007);
+                }
+                List<int> talents = BuildPetTalents(skillids, pet.Quality);
                 foreach (var telent in talents)
                 {
                     pet.Talents.Add(telent);

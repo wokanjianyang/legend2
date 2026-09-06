@@ -191,7 +191,7 @@ namespace Game
         Buff3_Rate4 = 30027,//天命1概率
         Buff3_Vue4 = 30028,//天命1加成
         Buff3_Rate5 = 30029,//天命1概率
-        Buff3_Vue5 = 30020,//天命1加成
+        Buff3_Vue5 = 30030,//天命1加成
 
         Buff4_Vue = 30031, //致命节奏加成
 

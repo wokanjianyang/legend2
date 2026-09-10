@@ -55,6 +55,8 @@ namespace Game
 
         public IDictionary<int, MagicData> MagicEquipRefine { get; set; } = new Dictionary<int, MagicData>();
 
+        public IDictionary<int, MagicData> LegendData { get; set; } = new Dictionary<int, MagicData>();
+
         public Infinite_Data InfinData { get; set; } = new Infinite_Data();
 
         //---------cal function
@@ -1583,6 +1585,21 @@ namespace Game
             return currentLayer;
         }
 
+
+        public int GetLegend(int keyId)
+        {
+            if (!LegendData.ContainsKey(keyId))
+            {
+                LegendData[keyId] = new MagicData();
+            }
+
+            return (int)LegendData[keyId].Data;
+        }
+
+        public void SaveLegend(int id, int vue)
+        {
+            LegendData[id].Data = vue;
+        }
 
         public int GetLegacyLayer(int keyId)
         {

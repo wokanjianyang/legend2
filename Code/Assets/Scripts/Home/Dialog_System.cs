@@ -17,6 +17,8 @@ namespace Game
         public Button Btn_SoulRing;
         public Button Btn_Ring;
         public Button Btn_Wing;
+        public Button Btn_Legend;
+
         public int Order => (int)ComponentOrder.Dialog;
 
         void Start()
@@ -26,6 +28,7 @@ namespace Game
             Btn_SoulRing.onClick.AddListener(OnClick_SoulRing);
             Btn_Ring.onClick.AddListener(OnClick_Ring);
             Btn_Wing.onClick.AddListener(OnClick_Wing);
+            Btn_Legend.onClick.AddListener(OnClick_Legend);
         }
 
 
@@ -59,6 +62,13 @@ namespace Game
             this.gameObject.SetActive(false);
 
             GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Wing });
+        }
+
+        private void OnClick_Legend()
+        {
+            this.gameObject.SetActive(false);
+
+            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Legend });
         }
     }
 }

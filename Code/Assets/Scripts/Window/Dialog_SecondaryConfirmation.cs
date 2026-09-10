@@ -14,9 +14,13 @@ namespace Game
         public Button Btn_OK;
         public Button Btn_Cancle;
 
-        void Start()
+        public Button Btn_Close;
+
+        void Awake()
         {
+            Btn_Close.onClick.AddListener(OnClick_Cancle);
         }
+
         public void OnBattleStart()
         {
             this.gameObject.SetActive(false);

@@ -69,7 +69,7 @@ public class Init : MonoBehaviour
                 "Window/Talent/Dialog_Talent",
                 "Home/Bag/Dialog_Attr",
                 "Window/Pet/Dialog_Pet",
-
+                "Window/Legend/Dialog_Legend",
                 "Window/More/Dialog_Mine",
 
                 "Window/Achievement/Dialog_Achievement",

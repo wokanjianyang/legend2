@@ -169,7 +169,7 @@ namespace Game
                 double bf3_vue2 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue2);
                 double bf3_vue3 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue3);
                 double bf3_vue4 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue4);
-                double bf3_vue5 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue5);
+                //double bf3_vue5 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue5);
 
                 int rd = RandomHelper.RandomNumber(0, 1000);
                 if (rd < 1)
@@ -187,10 +187,6 @@ namespace Game
                 else if (rd < 511)
                 {
                     dr.Damage *= 1 + bf3_vue4 / 100.0;
-                }
-                else
-                {
-                    dr.Damage *= Math.Max(1 - bf3_vue5 / 100.0, 0);
                 }
             }
 

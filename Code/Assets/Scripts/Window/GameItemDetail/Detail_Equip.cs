@@ -38,6 +38,7 @@ namespace Game
 
         public Button btn_Recovery;
         public Button btn_Card;
+        public Button btn_Legend;
         public Button btn_Restore;
 
         public Button btn_Lock;
@@ -57,6 +58,7 @@ namespace Game
 
             this.btn_Recovery.onClick.AddListener(this.OnRecovery);
             this.btn_Card.onClick.AddListener(this.OnCard);
+            this.btn_Legend.onClick.AddListener(this.OnLegend);
             this.btn_Restore.onClick.AddListener(this.OnClick_Restore);
 
             this.btn_Lock.onClick.AddListener(this.OnClick_Lock);
@@ -99,7 +101,7 @@ namespace Game
             this.btn_Restore.gameObject.SetActive(false);
             this.btn_Lock.gameObject.SetActive(false);
             this.btn_Unlock.gameObject.SetActive(false);
-
+            this.btn_Legend.gameObject.SetActive(false);
             // this.transform.position = this.GetBetterPosition(e.Position);
             // this.img_Background.sprite = this.list_BackgroundImgs[this.item.GetQuality() - 1];
             this.boxItem = e.Show_Item;
@@ -267,7 +269,14 @@ namespace Game
 
                     if (equip.Config.Cycle == 10)
                     {
-                        this.btn_Card.gameObject.SetActive(true);
+                        //判断资质是否大于已激活的
+                        int lc = equip.LegendData.Value;
+                        int ln = user.GetLegend(equip.LegendData.Key);
+
+                        if (lc > ln)
+                        {
+                            this.btn_Legend.gameObject.SetActive(true);
+                        }
                     }
                 }
             }
@@ -452,70 +461,75 @@ namespace Game
 
             Equip equip = this.boxItem.Item as Equip;
 
-            if (equip.Config.Cycle == 10)
+            GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
             {
-                int legId = equip.LegendData.Key;
-                int legVue = equip.LegendData.Value;
-                EquipLegendConfig legendConfig = EquipLegendConfigCategory.Instance.Get(legId);
+                BoxItem = this.boxItem,
+                CardId = equip.Config.CardId
+            });
 
-                GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否激活/覆盖传奇，需要消耗" + legendConfig.Fee + "金币和" + legendConfig.Mc + "传奇精华？", true,
-                    () =>
-                    {
-                        User user = User_Data_Manager.Data;
-
-                        if (user.MagicGold.Data < legendConfig.Fee)
-                        {
-                            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足", ToastType = ToastTypeEnum.Failure });
-                            return;
-                        }
-
-                        long mc = user.GetMaterialCount(ItemHelper.Equip_Legend);
-
-                        if (mc < legendConfig.Mc)
-                        {
-                            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "传奇精华不足", ToastType = ToastTypeEnum.Failure });
-                            return;
-                        }
-
-                        long lc = user.GetLegend(legId);
-                        if (legVue <= lc)
-                        {
-                            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "传奇资质低于已激活的资质", ToastType = ToastTypeEnum.Failure });
-                            return;
-                        }
-
-                        //扣除材料
-                        user.SubGold(legendConfig.Fee);
-                        GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
-                        {
-                            Type = ItemType.Material,
-                            ItemId = ItemHelper.Equip_Legend,
-                            Quantity = legendConfig.Mc
-                        });
-
-                        //销毁装备
-                        equip.IsDelete = true;
-                        GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent() { });
-
-                        //激活传奇
-                        user.SaveLegend(legId, legVue);
-
-                        GameProcessor.Inst.UpdateInfo();
-
-                    }, () =>
-                    {
-
-                    });
-            }
-            else
-            {
-                GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
-                {
-                    BoxItem = this.boxItem,
-                    CardId = equip.Config.CardId
-                });
-            }
         }
+
+        public void OnLegend()
+        {
+            this.gameObject.SetActive(false);
+
+            Equip equip = this.boxItem.Item as Equip;
+
+
+            int legId = equip.LegendData.Key;
+            int legVue = equip.LegendData.Value;
+            EquipLegendConfig legendConfig = EquipLegendConfigCategory.Instance.Get(legId);
+
+            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("是否激活/覆盖传奇，需要消耗" + legendConfig.Fee + "金币和" + legendConfig.Mc + "传奇精华？", true,
+                () =>
+                {
+                    User user = User_Data_Manager.Data;
+
+                    if (user.MagicGold.Data < legendConfig.Fee)
+                    {
+                        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足", ToastType = ToastTypeEnum.Failure });
+                        return;
+                    }
+
+                    long mc = user.GetMaterialCount(ItemHelper.Equip_Legend);
+
+                    if (mc < legendConfig.Mc)
+                    {
+                        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "传奇精华不足", ToastType = ToastTypeEnum.Failure });
+                        return;
+                    }
+
+                    long lc = user.GetLegend(legId);
+                    if (legVue <= lc)
+                    {
+                        GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "传奇资质低于已激活的资质", ToastType = ToastTypeEnum.Failure });
+                        return;
+                    }
+
+                    //扣除材料
+                    user.SubGold(legendConfig.Fee);
+                    GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
+                    {
+                        Type = ItemType.Material,
+                        ItemId = ItemHelper.Equip_Legend,
+                        Quantity = legendConfig.Mc
+                    });
+
+                    //销毁装备
+                    equip.IsDelete = true;
+                    GameProcessor.Inst.EventCenter.Raise(new BagRemoveEvent() { });
+
+                    //激活传奇
+                    user.SaveLegend(legId, legVue);
+
+                    GameProcessor.Inst.UpdateInfo();
+
+                }, () =>
+                {
+
+                });
+        }
+
 
         public void OnClick_Close()
         {

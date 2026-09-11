@@ -194,7 +194,8 @@ namespace Game
         Buff3_Vue5 = 30030,//天命1加成
 
         Buff4_Vue = 30031, //致命节奏加成
-
+        Buff5_Vue = 30041, //背刺加成
+        Buff6_Vue = 30051, //斩杀加成
         //--废弃
         //MonsterFaster = 107,//副刷新速度加快
         //MetailFinal = 109, //挖矿

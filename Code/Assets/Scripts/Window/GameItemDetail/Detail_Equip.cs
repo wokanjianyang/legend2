@@ -250,7 +250,10 @@ namespace Game
             if (e.Box_Type == ComBoxType.Bag)
             {
                 //包裹中
-                this.btn_Equip.gameObject.SetActive(true);
+                if (equip.Config.LevelRequired <= user.MagicLevel.Data)
+                {
+                    this.btn_Equip.gameObject.SetActive(true);
+                }
                 this.btn_Lock.gameObject.SetActive(!this.boxItem.Item.IsLock);
                 this.btn_Unlock.gameObject.SetActive(this.boxItem.Item.IsLock);
 

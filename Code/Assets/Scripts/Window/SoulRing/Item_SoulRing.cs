@@ -41,6 +41,10 @@ namespace Game
             this.image_Background.color = ColorHelper.GetColorByQuality(config.Id);
 
             //Txt_Name.color = ColorHelper.GetColorByQuality(6);
+
+            User user = User_Data_Manager.Data;
+            long currentLevel = user.GetSoulRingLevel(config.Id);
+            this.SetContent(currentLevel);
         }
 
         public void SetContent(long level)

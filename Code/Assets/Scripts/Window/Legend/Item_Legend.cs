@@ -29,9 +29,12 @@ public class Item_Legend : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void OnEnable()
     {
-
+        if (Config != null)
+        {
+            this.Show();
+        }
     }
 
     public void SetItem(EquipLegendSetConfig config)

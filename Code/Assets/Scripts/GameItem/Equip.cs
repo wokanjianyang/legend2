@@ -274,22 +274,22 @@ namespace Game
             }
 
 
-            //计算传奇属性
-            if (LegendData.Key > 0)
-            {
-                EquipLegendConfig legendConfig = EquipLegendConfigCategory.Instance.Get(LegendData.Key);
-                for (int i = 0; i < legendConfig.AtrIdList.Length; i++)
-                {
-                    int atrId = legendConfig.AtrIdList[i];
-                    double atrVue = legendConfig.AtrVueList[i];
-                    if (!AttrList.ContainsKey(atrId))
-                    {
-                        AttrList[atrId] = 0;
-                    }
+            ////计算传奇属性
+            //if (LegendData.Key > 0)
+            //{
+            //    EquipLegendConfig legendConfig = EquipLegendConfigCategory.Instance.Get(LegendData.Key);
+            //    for (int i = 0; i < legendConfig.AtrIdList.Length; i++)
+            //    {
+            //        int atrId = legendConfig.AtrIdList[i];
+            //        double atrVue = legendConfig.AtrVueList[i];
+            //        if (!AttrList.ContainsKey(atrId))
+            //        {
+            //            AttrList[atrId] = 0;
+            //        }
 
-                    AttrList[atrId] += atrVue;
-                }
-            }
+            //        AttrList[atrId] += atrVue;
+            //    }
+            //}
 
             return AttrList;
         }

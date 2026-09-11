@@ -362,6 +362,20 @@ namespace Game
                 }
             }
 
+            //传奇基础属性
+            foreach (var sp in LegendData)
+            {
+                if (sp.Value.Data > 0)
+                {
+                    EquipLegendConfig config = EquipLegendConfigCategory.Instance.Get(sp.Key);
+
+                    for (int i = 0; i < config.AtrIdList.Length; i++)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i]);
+                    }
+                }
+            }
+
             //传奇装备套装
             List<EquipLegendSet> legs = this.GetActiveLegendSetList();
             foreach (var sp in legs)
@@ -938,21 +952,22 @@ namespace Game
         {
             Dictionary<int, EquipLegendSet> dict = new Dictionary<int, EquipLegendSet>();
 
-            foreach (var sp in this.EquipPanelList[EquipPanelIndex])
+            foreach (var sp in LegendData)
             {
-                Equip equip = sp.Value;
-                int lgId = equip.LegendData.Key;
+                int lgId = sp.Key;
+                int lgVue = (int)sp.Value.Data;
 
-                if (lgId > 0)
+                if (lgVue > 0)
                 {
-                    int setId = equip.LegendConfig.SetId;
+                    EquipLegendConfig config = EquipLegendConfigCategory.Instance.Get(lgId);
+                    int setId = config.SetId;
                     if (!dict.ContainsKey(setId))
                     {
                         EquipLegendSet set = new EquipLegendSet(setId);
                         dict[setId] = set;
                     }
 
-                    dict[setId].Add(equip.LegendData.Value);
+                    dict[setId].Add(lgVue);
                 }
 
             }

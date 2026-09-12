@@ -45,17 +45,17 @@ namespace Game
 
         private void ShowDetail()
         {
-            BoxItem box = new BoxItem();
-            box.Item = pet;
-            box.BoxId = -1;
+            //BoxItem box = new BoxItem();
+            //box.Item = pet;
+            //box.BoxId = -1;
 
-            GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
-            {
-                Show_Item = box,
-                Box_Type = ComBoxType.PreView,
-                Show_Type = pet.GetShowType(),
-                Position = -1,
-            });
+            //GameProcessor.Inst.EventCenter.Raise(new ShowDetailEvent()
+            //{
+            //    Show_Item = box,
+            //    Box_Type = ComBoxType.PreView,
+            //    Show_Type = pet.GetShowType(),
+            //    Position = -1,
+            //});
         }
 
         private void OnDown()
@@ -76,31 +76,31 @@ namespace Game
 
         private void OnRun()
         {
-            Btn_Run.gameObject.SetActive(false);
+            //Btn_Run.gameObject.SetActive(false);
 
-            User user = User_Data_Manager.Data;
+            //User user = User_Data_Manager.Data;
 
-            int maxCount = (int)user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetBattleLimit) + 1;
-            int count = user.PetList.Where(m => m.Status == 1).Count();
+            //int maxCount = (int)user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetBattleLimit) + 1;
+            //int count = user.PetList.Where(m => m.Status == 1).Count();
 
-            if (count >= maxCount)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经出战上限了", ToastType = ToastTypeEnum.Failure });
-                return;
-            }
+            //if (count >= maxCount)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经出战上限了", ToastType = ToastTypeEnum.Failure });
+            //    return;
+            //}
 
-            pet.Status = 1;
-            Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
-            Btn_Stop.gameObject.SetActive(true);
+            //pet.Status = 1;
+            //Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
+            //Btn_Stop.gameObject.SetActive(true);
         }
 
         private void OnStop()
         {
-            Btn_Stop.gameObject.SetActive(false);
+            //Btn_Stop.gameObject.SetActive(false);
 
-            pet.Status = 0;
-            Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
-            Btn_Run.gameObject.SetActive(true);
+            //pet.Status = 0;
+            //Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
+            //Btn_Run.gameObject.SetActive(true);
         }
 
         public void Init(Pet pet)

@@ -54,6 +54,7 @@ namespace Game
         public Button Btn_Close;
 
         private BoxItem boxItem;
+        private int Positioin;
 
         //private RectTransform rectTransform;
 
@@ -114,18 +115,26 @@ namespace Game
             this.Btn_Unlock.gameObject.SetActive(false);
 
             this.boxItem = e.Show_Item;
+            this.Positioin = e.Position;
 
             User user = User_Data_Manager.Data;
             string titleColor = QualityConfigHelper.GetQualityColor(this.boxItem.Item.GetQuality());
 
             Pet pet = this.boxItem.Item as Pet;
 
-            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.GetName());
-            this.Txt_Level.text = "宠物等级：" + pet.PetLevel.Data;
+            long kc = 0;
+            if (Positioin > 0)
+            {
+                Pet_Data data = user.PetData[Positioin - 1];
+                kc = (long)data.Kill.Data;
+            }
 
-            long exp = PetAtrConfigCategory.Instance.GetPetFee(pet.PetLevel.Data);
-            this.Txt_Exp.text = "Exp：" + pet.LevelExp.Data + "/" + exp;
-            this.Txt_Count.text = "杀敌数：" + pet.GetTotalKillCount() + "点";
+            this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.GetName());
+            this.Txt_Level.text = "宠物ID：" + pet.Config.Id;
+
+            //long exp = PetAtrConfigCategory.Instance.GetPetFee(pet.PetLevel.Data);
+            //this.Txt_Exp.text = "Exp：" + pet.LevelExp.Data + "/" + exp;
+            //this.Txt_Count.text = "杀敌数：" + pet.GetTotalKillCount() + "点";
 
             for (int i = 0; i < TraitList.Count; i++)
             {
@@ -152,7 +161,7 @@ namespace Game
 
                     if (i < flairs.Count())
                     {
-                        child.SetContent(flairs[i].Key, flairs[i].Value.Data, pet.GetTotalKillCount());
+                        child.SetContent(flairs[i].Key, flairs[i].Value.Data, kc);
                         child.gameObject.SetActive(true);
                     }
                     else

@@ -619,6 +619,7 @@ namespace Game
             }
 
             user.SkillPanelIndex = index;
+            //user.PetPanelIndex = index;
 
             GameProcessor.Inst.UpdateInfo();
         }
@@ -707,9 +708,10 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            int pg = (int)user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetOnLimit);
+            int pg = (int)user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetOnLimit) + ConfigHelper.PetMax;
+            Dictionary<int, Pet> dict = user.GetCurrentPetList();
 
-            if (user.PetList.Count >= ConfigHelper.PetMax + pg)
+            if (dict.Count >= ConfigHelper.PetMax + pg)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "宠物上阵位置已经满了", ToastType = ToastTypeEnum.Failure });
                 return;
@@ -720,7 +722,25 @@ namespace Game
             //从包袱移除
             UseBoxItem(e.BoxItem, 1);
 
-            user.PetList.Add(pet);
+            for (int i = 1; i <= pg; i++)
+            {
+                if (!dict.ContainsKey(i))
+                {
+                    if (pet.GetTotalKillCount() > 0 || pet.PetLevel.Data > 1 || pet.LevelExp.Data > 0)
+                    {
+                        Pet_Data pd = user.PetData[i - 1];
+                        pd.Add(pet.GetTotalExp(), pet.GetTotalKillCount());
+
+                        //清空现有宠物，附加到宠物栏位上面
+                        pet.KillCount.Data = 0;
+                        pet.PetLevel.Data = 0;
+                        pet.LevelExp.Data = 0;
+                    }
+
+                    dict[i] = pet;
+                    break;
+                }
+            }
 
             //更新属性面板
             GameProcessor.Inst.UpdateInfo();

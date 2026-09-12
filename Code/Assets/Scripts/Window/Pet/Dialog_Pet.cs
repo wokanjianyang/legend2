@@ -14,6 +14,7 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
 
     public Panel_Pet panelPet;
     public Panel_Pet_Forge panelPetForge;
+    public Panel_Pet_New panelPetNew;
 
     public Button Btn_Close;
 
@@ -59,13 +60,13 @@ public class Dialog_Pet : MonoBehaviour, IBattleLife
     {
         if (index == 1)
         {
-            panelPet.gameObject.SetActive(true);
-            panelPetForge.gameObject.SetActive(false);
+            panelPet.gameObject.SetActive(false);
+            panelPetNew.gameObject.SetActive(true);
         }
         else
         {
-            panelPet.gameObject.SetActive(false);
-            panelPetForge.gameObject.SetActive(true);
+            panelPet.gameObject.SetActive(true);
+            panelPetNew.gameObject.SetActive(false);
         }
     }
 

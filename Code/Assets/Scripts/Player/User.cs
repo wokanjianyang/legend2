@@ -23,6 +23,12 @@ namespace Game
 
         public IDictionary<int, int> AchievementData { get; set; } = new Dictionary<int, int>();
 
+        public List<Pet_Data> PetData { get; set; } = new List<Pet_Data>();
+
+        public Dictionary<int, Dictionary<int, Pet>> PetNewList { get; set; } = new Dictionary<int, Dictionary<int, Pet>>();
+
+        public int PetPanelIndex { get; set; } = 0;
+
         public List<Pet> PetList { get; set; } = new List<Pet>();
 
         public Dictionary<int, MagicData> FashionData { get; set; } = new Dictionary<int, MagicData>();
@@ -675,6 +681,17 @@ namespace Game
                 }
             }
 
+            //生成宠物数据
+            int pg = (int)this.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetOnLimit) + ConfigHelper.PetMax;
+            if (this.PetData.Count < pg)
+            {
+                for (int i = 0; i < pg - this.PetData.Count; i++)
+                {
+                    Pet_Data data = new Pet_Data();
+                    this.PetData.Add(data);
+                }
+            }
+
             //更新属性面版
             GameProcessor.Inst.EventCenter.Raise(new UpdateBagPanelUserAttr());
         }
@@ -1142,10 +1159,9 @@ namespace Game
 
         public void KillMonsterEnvent(double rate, int quality, int count)
         {
-            foreach (Pet sp in PetList)
+            foreach (Pet_Data sp in PetData)
             {
-                sp.AddKillCount(rate);
-                sp.AddExp(count);
+                sp.Add(count, rate);
             }
 
             foreach (var sp in WeaponData)
@@ -1340,6 +1356,17 @@ namespace Game
             }
 
             return list;
+        }
+
+        public Dictionary<int, Pet> GetCurrentPetList()
+        {
+            if (!this.PetNewList.ContainsKey(this.PetPanelIndex))
+            {
+                Dictionary<int, Pet> dict = new Dictionary<int, Pet>();
+                this.PetNewList.Add(PetPanelIndex, dict);
+            }
+
+            return this.PetNewList[PetPanelIndex];
         }
 
         public int GetPetCount(int configId)

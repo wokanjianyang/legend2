@@ -69,10 +69,16 @@ namespace Game
             //¼ÓÔØ³èÎï
 
             User user = User_Data_Manager.Data;
-            List<Pet> pets = user.PetList.Where(m => m.Status == 1).ToList();
-            foreach (Pet pet in pets)
+            for (int i = 1; i <= user.PetData.Count; i++)
             {
-                LoadPet(pet);
+                if (user.PetData[i - 1].Status == 1)
+                {
+                    Dictionary<int, Pet> dict = user.GetCurrentPetList();
+                    if (dict.ContainsKey(i))
+                    {
+                        LoadPet(dict[i]);
+                    }
+                }
             }
         }
 

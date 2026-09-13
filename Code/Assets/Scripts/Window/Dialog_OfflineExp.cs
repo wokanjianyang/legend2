@@ -107,7 +107,7 @@ namespace Game
                 Debug.Log("check error- load monster:" + lm + "，kill monster:" + km);
             }
 
-            long pk = user.PetList.Select(m => m.GetTotalExp()).Sum();
+            //long pk = user.PetList.Select(m => m.GetTotalExp()).Sum();
 
 
             Debug.Log("check error- offline time:" + user.OfflineTime);

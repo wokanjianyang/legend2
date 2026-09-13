@@ -60,11 +60,11 @@ namespace Game
 
         private void OnDown()
         {
-            if (this.pet.Status == 1)
-            {
-                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "出战中，不能下阵", ToastType = ToastTypeEnum.Failure });
-                return;
-            }
+            //if (this.pet.Status == 1)
+            //{
+            //    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "出战中，不能下阵", ToastType = ToastTypeEnum.Failure });
+            //    return;
+            //}
 
             this.gameObject.gameObject.SetActive(false);
 
@@ -96,11 +96,11 @@ namespace Game
 
         private void OnStop()
         {
-            //Btn_Stop.gameObject.SetActive(false);
+            Btn_Stop.gameObject.SetActive(false);
 
-            //pet.Status = 0;
-            //Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
-            //Btn_Run.gameObject.SetActive(true);
+            pet.Status = 0;
+            Txt_Name.text = pet.Status == 1 ? "出战中" : "备战中";
+            Btn_Run.gameObject.SetActive(true);
         }
 
         public void Init(Pet pet)

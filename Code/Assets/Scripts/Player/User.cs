@@ -458,18 +458,21 @@ namespace Game
             }
 
             //宠物
-            Dictionary<int, Pet> petdict = this.PetNewList[PetPanelIndex];
-            foreach (var sp in petdict)
+            if (this.PetNewList.ContainsKey(PetPanelIndex))
             {
-                Pet_Data data = PetData[sp.Key - 1];
-                Pet pet = sp.Value;
-
-                Dictionary<int, double> attrList = pet.GetTotalAttr((long)data.Kill.Data);
-                foreach (var al in attrList)
+                Dictionary<int, Pet> petdict = this.PetNewList[PetPanelIndex];
+                foreach (var sp in petdict)
                 {
-                    AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
-                }
+                    Pet_Data data = PetData[sp.Key - 1];
+                    Pet pet = sp.Value;
 
+                    Dictionary<int, double> attrList = pet.GetTotalAttr((long)data.Kill.Data);
+                    foreach (var al in attrList)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
+                    }
+
+                }
             }
 
             //专属属性
@@ -790,16 +793,19 @@ namespace Game
         {
             Dictionary<int, int> dict = new Dictionary<int, int>();
 
-            foreach (var ex in this.PetList)
+            if (this.PetNewList.ContainsKey(this.PetPanelIndex))
             {
-                foreach (var sp in ex.Talents)
+                foreach (var ex in this.PetNewList[PetPanelIndex])
                 {
-                    SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(sp);
-                    if (talentConfig.SkillId == skillId)
+                    foreach (var sp in ex.Value.Talents)
                     {
-                        if (!dict.ContainsKey(talentConfig.Id))
+                        SkillTalentConfig talentConfig = SkillTalentConfigCategory.Instance.Get(sp);
+                        if (talentConfig.SkillId == skillId)
                         {
-                            dict[talentConfig.Id] = talentConfig.Id;
+                            if (!dict.ContainsKey(talentConfig.Id))
+                            {
+                                dict[talentConfig.Id] = talentConfig.Id;
+                            }
                         }
                     }
                 }
@@ -1065,10 +1071,10 @@ namespace Game
                     progress = this.MagicLevel.Data;
                     break;
                 case AchievementProType.PetWear:
-                    progress = this.PetList.Count;
+                    progress = this.PetNewList.Select(m => m.Value.Count).Count();
                     break;
                 case AchievementProType.PetBattle:
-                    progress = this.PetList.Where(m => m.Status == 1).Count();
+                    progress = this.PetData.Where(m => m.Status == 1).Count();
                     break;
                 case AchievementProType.StageCount:
                     return this.MapId - 1;

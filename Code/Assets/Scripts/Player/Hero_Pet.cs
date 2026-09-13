@@ -43,7 +43,7 @@ namespace Game
 
         private void SetAttr()
         {
-            Debug.Log("pet level:" + this.Level);
+
             this.AttributeBonus = new AttributeBonus();
 
             double levelRise = (1 + this.Level * 0.01);

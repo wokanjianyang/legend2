@@ -457,13 +457,19 @@ namespace Game
                 }
             }
 
-            foreach (var sp in this.PetList)
+            //宠物
+            Dictionary<int, Pet> petdict = this.PetNewList[PetPanelIndex];
+            foreach (var sp in petdict)
             {
-                Dictionary<int, double> attrList = sp.GetTotalAttr();
+                Pet_Data data = PetData[sp.Key - 1];
+                Pet pet = sp.Value;
+
+                Dictionary<int, double> attrList = pet.GetTotalAttr((long)data.Kill.Data);
                 foreach (var al in attrList)
                 {
                     AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
                 }
+
             }
 
             //专属属性

@@ -46,7 +46,7 @@ namespace Game
             this.Name = Config.Name;
         }
 
-        public Dictionary<int, double> GetTotalAttr()
+        public Dictionary<int, double> GetTotalAttr(long kc)
         {
             Dictionary<int, double> attrs = new Dictionary<int, double>();
 
@@ -60,7 +60,7 @@ namespace Game
                     attrs[attrId] = 0;
                 }
 
-                long attrValue = GetTotalKillCount() * config.AtrVue / sp.Value.Data;
+                long attrValue = kc * config.AtrVue / sp.Value.Data;
                 attrs[attrId] += attrValue;
             }
 

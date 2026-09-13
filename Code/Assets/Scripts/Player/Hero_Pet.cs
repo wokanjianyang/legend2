@@ -15,7 +15,7 @@ namespace Game
 
         private int Life = 0;
 
-        public Hero_Pet(APlayer master, Pet pet) : base()
+        public Hero_Pet(APlayer master, Pet pet, int level) : base()
         {
             this.GroupId = master.GroupId;
             this.RuleType = master.RuleType;
@@ -23,6 +23,7 @@ namespace Game
             this.Self = pet;
             //this.FashionId = pet.Mid;
             this.FashionId = pet.ConfigId;
+            this.Level = level;
 
             this.Init();
         }
@@ -30,8 +31,6 @@ namespace Game
         private void Init()
         {
             this.Camp = PlayerType.Hero_Pet;
-
-            this.Level = Self.PetLevel.Data;
 
             this.Name = Self.GetName();
 
@@ -44,6 +43,7 @@ namespace Game
 
         private void SetAttr()
         {
+            Debug.Log("pet level:" + this.Level);
             this.AttributeBonus = new AttributeBonus();
 
             double levelRise = (1 + this.Level * 0.01);

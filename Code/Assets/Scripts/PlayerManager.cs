@@ -76,7 +76,8 @@ namespace Game
                     Dictionary<int, Pet> dict = user.GetCurrentPetList();
                     if (dict.ContainsKey(i))
                     {
-                        LoadPet(dict[i]);
+                        int level = user.PetData[i - 1].GetLevel();
+                        LoadPet(dict[i], level);
                     }
                 }
             }
@@ -87,9 +88,9 @@ namespace Game
             return heroPet;
         }
 
-        public void LoadPet(Pet pet)
+        public void LoadPet(Pet pet, int level)
         {
-            heroPet = new Hero_Pet(hero, pet);
+            heroPet = new Hero_Pet(hero, pet, level);
 
             var coms = heroPet.Transform.GetComponents<MonoBehaviour>();
             foreach (var com in coms)

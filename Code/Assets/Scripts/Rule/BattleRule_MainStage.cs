@@ -77,16 +77,19 @@ public class BattleRule_MainStage : ABattleRule
             {
                 if (QualityList.Count > 0)
                 {
-                    if (QualityList[0] <= 5)
+                    int r = RandomHelper.RandomNumber(0, QualityList.Count());
+                    int q = QualityList[r];
+
+                    if (q <= 5)
                     {
-                        var enemy = new Monster(mapConfig.Id, QualityList[0], RuleType.MainStage, 1);
+                        var enemy = new Monster(mapConfig.Id, q, RuleType.MainStage, 1);
                         GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
                     }
                     else
                     {
                         GameProcessor.Inst.PlayerManager.LoadMonster(new Boss(this.MapId, RuleType.MainStage, 1));
                     }
-                    QualityList.RemoveAt(0);
+                    QualityList.RemoveAt(r);
                 }
             }
         }

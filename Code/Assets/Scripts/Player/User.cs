@@ -397,8 +397,17 @@ namespace Game
             //套装属性
             for (int i = 1; i <= 3; i++)
             {
-                EquipSetSuit suit = GetEquipSet(i, 1);
+                EquipSetSuit suit = GetEquipSet(i, 1);  //普通橙色
                 foreach (EquipSetItem setItem in suit.List)
+                {
+                    if (setItem.IsActive() && setItem.Level > 0)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(setItem.Config.AtrId), attrKey++, setItem.GetAtrVue());
+                    }
+                }
+
+                EquipSetSuit suit1 = GetEquipSet(i, 2);  //红色
+                foreach (EquipSetItem setItem in suit1.List)
                 {
                     if (setItem.IsActive() && setItem.Level > 0)
                     {
@@ -903,15 +912,30 @@ namespace Game
             return red;
         }
 
+
         public EquipSetSuit GetEquipSet(int role, int cycle)
         {
+
             List<int> layers = null;
+
+            List<Equip> equips = null;
+
+            if (cycle <= 2)
+            { //基础栏位
+                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).ToList();
+            }
 
             if (cycle == 1)
             {
-                List<Equip> equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Config.Role == role && m.GetQuality() == 5).ToList();
+                equips = equips.Where(m => m.Config.Role == role && m.Config.Cycle == 1 && m.GetQuality() == 5).ToList();
 
                 layers = equips.Select(m => m.Config.LevelRequired).OrderByDescending(m => m).ToList();
+            }
+            else if (cycle == 2)
+            {
+                equips = equips.Where(m => m.Config.Role == role && m.Config.Cycle == 2 && m.GetQuality() == 6).ToList();
+
+                layers = equips.Select(m => m.Layer).OrderByDescending(m => m).ToList();
             }
 
             List<EquipSetConfig> list = EquipSetConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Role == role && m.Cycle == cycle).ToList();
@@ -922,8 +946,19 @@ namespace Game
             {
                 EquipSetConfig config = list[i];
 
-                int redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
-                int setLayer = redLevel / 5 + 1;
+                int redLevel = 0;
+                int setLayer = 0;
+
+                if (cycle == 1)
+                {
+                    redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
+                    setLayer = redLevel / 5 + 1;
+                }
+                else if (cycle == 2)
+                {
+                    redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
+                    setLayer = redLevel;
+                }
 
                 EquipSetItem redItem = new EquipSetItem();
                 redItem.Level = setLayer;

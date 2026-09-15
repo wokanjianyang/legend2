@@ -97,9 +97,14 @@ namespace Game
             {
                 long AttributeBase = Config.AttrValueList[i];
 
-                if (Config.Cycle == 1)
+                if (Config.Cycle <= 2)
                 {
                     AttributeBase = AttributeBase * QualityRate[Quality - 1] / 100;
+
+                    if (this.Layer > 1)
+                    {
+                        AttributeBase = AttributeBase * (40 * Layer + 60) / 100;
+                    }
 
                     int rl = GetReformLevel();
                     if (rl > 0)
@@ -235,29 +240,32 @@ namespace Game
 
                 AttrEntryConfig config = AttrEntryConfigCategory.Instance.GetConfig(this.Config.Cycle, attrId, this.Config.LevelRequired);
 
-                if (!rs.ContainsKey(config.Id))
+                if (config != null)
                 {
-                    rs[config.Id] = 0;
-                }
-                rs[config.Id]++;
+                    if (!rs.ContainsKey(config.Id))
+                    {
+                        rs[config.Id] = 0;
+                    }
+                    rs[config.Id]++;
 
-                if (attrTotalValue > config.MaxValue)
-                {
-                    attrTotalValue = 0;  //如果数值修改了，则不计算数值
-                }
+                    if (attrTotalValue > config.MaxValue)
+                    {
+                        attrTotalValue = 0;  //如果数值修改了，则不计算数值
+                    }
 
-                attrTotalValue = attrTotalValue * randomPercent / 100;
+                    attrTotalValue = attrTotalValue * randomPercent / 100;
 
-                if (!AttrList.ContainsKey(attrId))
-                {
-                    AttrList[attrId] = 0;
-                }
+                    if (!AttrList.ContainsKey(attrId))
+                    {
+                        AttrList[attrId] = 0;
+                    }
 
-                AttrList[attrId] += attrTotalValue;
+                    AttrList[attrId] += attrTotalValue;
 
-                if (rs[config.Id] > config.MaxCount)
-                {
-                    AttrList[attrId] = 0; //如果修改了数量
+                    if (rs[config.Id] > config.MaxCount)
+                    {
+                        AttrList[attrId] = 0; //如果修改了数量
+                    }
                 }
             }
 

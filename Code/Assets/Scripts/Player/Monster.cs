@@ -126,6 +126,13 @@ namespace Game
             List<SkillData> list = new List<SkillData>();
             list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
 
+            if (this.Config.Id >= 73 && this.Config.Id <= 144 && this.Quality >= 5) //随机一个2技能
+            {
+                int[] ids = { 1002, 2002, 3002 };
+                int index = RandomHelper.RandomNumber(0, ids.Length);
+                list.Add(new SkillData(ids[index], 1)); 
+            }
+
             foreach (SkillData skillData in list)
             {
                 List<SkillRune> runeList = new List<SkillRune>();
@@ -198,9 +205,9 @@ namespace Game
         {
             //Log.Info("Monster :" + this.ToString() + " dead");
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < ConfigHelper.TestRate; i++)
             {
-                BuildReword();
+
             }
             BuildReword();
 

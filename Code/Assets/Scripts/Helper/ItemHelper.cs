@@ -20,7 +20,7 @@ namespace Game
 
             if (type == ItemType.Equip)
             {
-                item = EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, 0);
+                item = EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, 0, 0);
             }
             else if (type == ItemType.EquipSpeical)
             {
@@ -62,15 +62,20 @@ namespace Game
 
         public static Item BuildItemNew(ItemType type, int configId, double qualityRise, long number, int seed)
         {
+            return BuildItemNew(type, configId, qualityRise, number, seed, 0);
+        }
+
+        public static Item BuildItemNew(ItemType type, int configId, double qualityRise, long number, int seed, int layer)
+        {
             Item item = null;
 
             if (type == ItemType.Equip)
             {
-                item = EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, seed);
+                item = EquipConfigCategory.Instance.BuildEquip(configId, qualityRise, seed, layer);
             }
             else if (type == ItemType.EquipSpeical)
             {
-                item = EquipSpeicalConfigCategory.Instance.BuildEquip(configId, 1);
+                item = EquipSpeicalConfigCategory.Instance.BuildEquip(configId, layer);
             }
             else if (type == ItemType.GiftPack)
             {

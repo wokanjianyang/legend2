@@ -275,7 +275,14 @@ namespace Game
         {
             if (!MonsterList.ContainsKey(id))
             {
-                MonsterList[id] = Resources.Load<Sprite>("UI/Player/Monster/Monster" + id);
+                if (id <= 72)
+                {
+                    MonsterList[id] = Resources.Load<Sprite>("UI/Player/Monster/Monster" + id);
+                }
+                else
+                {
+                    return GetBoss(id - 72);
+                }
             }
 
             return MonsterList[id];

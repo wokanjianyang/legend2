@@ -12,7 +12,7 @@ namespace Game
         public Item BuildEquip(int configId, int layer)
         {
             Item item = new Equip_Special(configId);
-
+            item.Layer = layer;
             return item;
         }
 

@@ -150,7 +150,7 @@ public class Battle_Defend : ABattleRule
         //seed += TimeHelper.TodaySeed() + this.CurrentRecord.Progress;
 
         List<Item> items = new List<Item>();
-        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, 0));
+        items.Add(DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, 0, 0));
 
         DefendDropConfig defendDropConfig = DefendDropConfigCategory.Instance.GetConfig(this.Level, dropId);
         if (defendDropConfig != null && defendDropConfig.Number > 1)

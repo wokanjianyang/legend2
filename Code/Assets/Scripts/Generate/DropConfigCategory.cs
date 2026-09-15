@@ -39,9 +39,14 @@ namespace Game
                 for (int i = 0; i < mapConfig.BaseIdList.Length; i++)
                 {
                     int realRate = (int)(mapConfig.BaseRateList[i] / burstRise);
+                    int layer = 0;
+                    if (mapConfig.BaseLayerList != null && mapConfig.BaseLayerList.Length > i)
+                    {
+                        layer = mapConfig.BaseLayerList[i];
+                    }
                     if (RandomHelper.RandomDropRate(realRate))
                     {
-                        list.Add(BuildByDropBaseId(mapConfig.BaseIdList[i], (int)qualityRise, 0));
+                        list.Add(BuildByDropBaseId(mapConfig.BaseIdList[i], (int)qualityRise, 0, layer));
                     }
                 }
             }
@@ -53,7 +58,12 @@ namespace Game
                     int realRate = (int)(mapConfig.DropRateList[i] / burstRise);
                     if (RandomHelper.RandomDropRate(realRate))
                     {
-                        list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise, 0));
+                        int layer = 0;
+                        if (mapConfig.DropLayerList != null && mapConfig.DropLayerList.Length > i)
+                        {
+                            layer = mapConfig.DropLayerList[i];
+                        }
+                        list.Add(BuildByDropId(mapConfig.DropIdList[i], (int)qualityRise, 0, layer));
                     }
                 }
             }
@@ -74,7 +84,13 @@ namespace Game
                     int realRate = (int)(groupConfig.BaseRateList[i] / burstRise);
                     if (RandomHelper.RandomDropRate(realRate))
                     {
-                        list.Add(BuildByDropBaseId(groupConfig.BaseIdList[i], (int)qualityRise, 0));
+                        int layer = 0;
+                        if (groupConfig.BaseLayerList != null && groupConfig.BaseLayerList.Length > i)
+                        {
+                            layer = groupConfig.BaseLayerList[i];
+                        }
+
+                        list.Add(BuildByDropBaseId(groupConfig.BaseIdList[i], (int)qualityRise, 0, layer));
                     }
                 }
             }
@@ -86,7 +102,13 @@ namespace Game
                     int realRate = (int)(groupConfig.DropRateList[i] / burstRise);
                     if (RandomHelper.RandomDropRate(realRate))
                     {
-                        list.Add(BuildByDropId(groupConfig.DropIdList[i], (int)qualityRise, 0));
+                        int layer = 0;
+                        if (groupConfig.DropLayerList != null && groupConfig.DropLayerList.Length > i)
+                        {
+                            layer = groupConfig.DropLayerList[i];
+                        }
+
+                        list.Add(BuildByDropId(groupConfig.DropIdList[i], (int)qualityRise, 0, layer));
                     }
                 }
             }
@@ -94,7 +116,7 @@ namespace Game
             return list;
         }
 
-        public Item BuildByDropBaseId(int baseId, int qualityRise, int seed)
+        public Item BuildByDropBaseId(int baseId, int qualityRise, int seed, int layer)
         {
             DropBaseConfig config = DropBaseConfigCategory.Instance.Get(baseId);
 
@@ -105,7 +127,7 @@ namespace Game
 
             int itemIndex = RandomHelper.RandomNumber(seed, 0, config.ItemIdList.Length);
 
-            return ItemHelper.BuildItemNew((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, 1, seed);
+            return ItemHelper.BuildItemNew((ItemType)config.ItemType, config.ItemIdList[itemIndex], (int)qualityRise, 1, seed, layer);
         }
         public List<Item> BuildByDropBaseIdList(List<int> idList, int qualityRise, int seed)
         {
@@ -137,7 +159,7 @@ namespace Game
             return list;
         }
 
-        public Item BuildByDropId(int dropId, int qualityRise, int seed)
+        public Item BuildByDropId(int dropId, int qualityRise, int seed, int layer)
         {
             DropConfig config = DropConfigCategory.Instance.Get(dropId);
 
@@ -145,7 +167,7 @@ namespace Game
 
             int baseId = config.BaseIdList[index];
 
-            return BuildByDropBaseId(baseId, qualityRise, seed);
+            return BuildByDropBaseId(baseId, qualityRise, seed, layer);
         }
 
 

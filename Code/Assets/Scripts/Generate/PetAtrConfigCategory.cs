@@ -61,7 +61,7 @@ namespace Game
             //特性，橙色额外随机一个特性
             if (quality >= 5)
             {
-                for (int i = 5; i < quality; i++)
+                for (int i = 5; i <= quality; i++)
                 {
                     List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, 2, role, quality, offline);
                     pet.TraitList.AddRange(traits);
@@ -229,7 +229,8 @@ namespace Game
 
                 SkillConfig config = temps[index - 1];
 
-                int level = RandomHelper.RandomSerialNumber(1, 8) + quality / 2;
+                int max = (quality - 5) * 5;
+                int level = RandomHelper.RandomSerialNumber(1, 10) + max;
 
                 skills.Add(new KeyValuePair<int, int>(config.SkillId, level));
                 ids.Add(config.SkillId);

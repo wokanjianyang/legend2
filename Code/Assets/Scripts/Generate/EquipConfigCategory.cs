@@ -12,13 +12,22 @@ namespace Game
         private int[] rates = { 1, 5, 40, 200, 1000 };
         private int[] rates1 = { 1, 3, 15, 120, 600, 3000 };
 
-        public Item BuildEquip(int configId, double qualityRise, int seed)
+        public Item BuildEquip(int configId, double qualityRise, int seed, int layer)
         {
             EquipConfig config = this.Get(configId);
 
             if (config.Cycle == 1)
             {
                 return BuildCycle1(config, qualityRise, seed);
+            }
+            if (config.Cycle == 2)
+            {
+                Item item = BuildCycle1(config, qualityRise, seed);
+                if (item.GetQuality() == 6)
+                {
+                    item.Layer = layer;
+                }
+                return item;
             }
             else if (config.Cycle == 10)
             {

@@ -85,7 +85,7 @@ namespace Game
                 }
 
 
-                if (cycle == 1)
+                if (cycle == 1 || cycle == 2)
                 {
                     //∆’Õ®ªÿ ’
 

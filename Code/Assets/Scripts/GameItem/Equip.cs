@@ -64,7 +64,7 @@ namespace Game
         [JsonIgnore]
         public int Part { get; set; }
 
-        private int[] QualityRate = { 100, 110, 120, 150, 200 };
+        private int[] QualityRate = { 100, 110, 120, 150, 200, 250, 300 };
 
 
         public Equip(int configId, int runeConfigId, int suitConfigId, int quality) : base(configId, ItemType.Equip)

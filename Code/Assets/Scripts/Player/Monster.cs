@@ -198,9 +198,9 @@ namespace Game
         {
             //Log.Info("Monster :" + this.ToString() + " dead");
 
-            for (int i = 0; i < ConfigHelper.TestRate; i++)
+            for (int i = 0; i < 30; i++)
             {
-
+                BuildReword();
             }
             BuildReword();
 

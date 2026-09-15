@@ -15,7 +15,7 @@ namespace Game
             List<AttrEntryConfig> configs = list.FindAll(m =>
             m.PartList.Contains(part)
             && m.StartLevel <= level && level <= m.EndLevel
-            && m.Cycle == cycle
+            && (m.Cycle == cycle || m.Cycle == 0)
             && (m.Role == role || m.Role == 0));
 
             if (configs.Count <= 0)

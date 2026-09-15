@@ -10,6 +10,7 @@ namespace Game
     public partial class EquipConfigCategory
     {
         private int[] rates = { 1, 5, 40, 200, 1000 };
+        private int[] rates1 = { 1, 3, 15, 120, 600, 3000 };
 
         public Item BuildEquip(int configId, double qualityRise, int seed)
         {
@@ -27,9 +28,23 @@ namespace Game
             return null;
         }
 
+        public int RandomQuality(int cycle, double qualityRise)
+        {
+            if (cycle == 1)
+            {
+                return MathHelper.RandomArrayIndex(rates, qualityRise);
+            }
+            else if (cycle == 2)
+            {
+                return MathHelper.RandomArrayIndex(rates1, qualityRise);
+            }
+
+            return 1;
+        }
+
         public Equip BuildCycle1(EquipConfig config, double qualityRise, int seed)
         {
-            int quality = MathHelper.RandomArrayIndex(rates, qualityRise);
+            int quality = RandomQuality(config.Cycle, qualityRise);
 
             int runeId = 0;
             int suitId = 0;

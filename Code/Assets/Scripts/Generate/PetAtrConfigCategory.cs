@@ -10,10 +10,11 @@ namespace Game
     public partial class PetAtrConfigCategory
     {
         private int[] rates = { 1, 4, 10, 25, 45 };
+        private int[] rates1 = { 1, 3, 12, 30, 75, 135 };
 
         public Pet BuildPet(int id, int role, double qualityRise)
         {
-            int quality = MathHelper.RandomArrayIndex(rates, qualityRise);
+            int quality = this.RandomQuality(id, qualityRise);
 
             if (role == 0)
             {
@@ -21,6 +22,20 @@ namespace Game
             }
 
             return this.BuildPet(id, role, quality, 0);
+        }
+
+        public int RandomQuality(int id, double qualityRise)
+        {
+            if (id <= 72)
+            {
+                return MathHelper.RandomArrayIndex(rates, qualityRise);
+            }
+            else if (id == 73)
+            {
+                return MathHelper.RandomArrayIndex(rates1, qualityRise);
+            }
+
+            return 1;
         }
 
         public Pet BuildOfflinePet(int id, int quality)
@@ -46,9 +61,11 @@ namespace Game
             //特性，橙色额外随机一个特性
             if (quality >= 5)
             {
-                List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, 2, role, quality, offline);
-
-                pet.TraitList.AddRange(traits);
+                for (int i = 5; i < quality; i++)
+                {
+                    List<PetTrait> traits = PetTraitConfigCategory.Instance.BuildTraitList(id, 2, role, quality, offline);
+                    pet.TraitList.AddRange(traits);
+                }
             }
 
 

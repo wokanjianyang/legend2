@@ -90,14 +90,20 @@ namespace Game
 		/// <summary>地图Id掉落</summary>
 		[ProtoMember(5)]
 		public int[] DropIdList { get; set; }
-		/// <summary>DropRateList</summary>
+		/// <summary>DropLayerList</summary>
 		[ProtoMember(6)]
+		public int[] DropLayerList { get; set; }
+		/// <summary>DropRateList</summary>
+		[ProtoMember(7)]
 		public int[] DropRateList { get; set; }
 		/// <summary>BaseIdList</summary>
-		[ProtoMember(7)]
-		public int[] BaseIdList { get; set; }
-		/// <summary>BaseRateList</summary>
 		[ProtoMember(8)]
+		public int[] BaseIdList { get; set; }
+		/// <summary>BaseLayerList</summary>
+		[ProtoMember(9)]
+		public int[] BaseLayerList { get; set; }
+		/// <summary>BaseRateList</summary>
+		[ProtoMember(10)]
 		public int[] BaseRateList { get; set; }
 
 	}

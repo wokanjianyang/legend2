@@ -711,7 +711,7 @@ namespace Game
             int pg = (int)user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PetOnLimit) + ConfigHelper.PetMax;
             Dictionary<int, Pet> dict = user.GetCurrentPetList();
 
-            if (dict.Count >= ConfigHelper.PetMax)
+            if (dict.Count >= pg)
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "宠物上阵位置已经满了", ToastType = ToastTypeEnum.Failure });
                 return;

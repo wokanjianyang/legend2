@@ -105,6 +105,12 @@ namespace Game
 		/// <summary>QualtityRise</summary>
 		[ProtoMember(10)]
 		public int QualtityRise { get; set; }
+		/// <summary>DropLayerList</summary>
+		[ProtoMember(11)]
+		public int[] DropLayerList { get; set; }
+		/// <summary>BaseLayerList</summary>
+		[ProtoMember(12)]
+		public int[] BaseLayerList { get; set; }
 
 	}
 }

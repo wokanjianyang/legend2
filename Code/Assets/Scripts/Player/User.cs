@@ -559,8 +559,7 @@ namespace Game
                 {
                     LegacyConfig config = LegacyConfigCategory.Instance.Get(keyId);
 
-                    Dictionary<int, double> attrList = config.GetTotalAtrList(ly);
-                    foreach (var al in attrList)
+                    foreach (KeyValuePair<int, double> al in config.GetTotalAtrList(ly))
                     {
                         AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
                     }
@@ -571,8 +570,7 @@ namespace Game
                 {
                     LegacyGradeConfig gradeConfig = LegacyGradeConfigCategory.Instance.GetConfig(keyId, lv);
 
-                    Dictionary<int, double> attrList = gradeConfig.GetTotalAtrList(lv);
-                    foreach (var al in attrList)
+                    foreach (KeyValuePair<int, double> al in gradeConfig.GetTotalAtrList(lv))
                     {
                         AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
                     }

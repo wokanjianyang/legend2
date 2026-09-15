@@ -16,15 +16,15 @@ namespace Game
 
     public partial class EquipStrengthConfig
     {
-        public Dictionary<int, double> GetTotalAtrList(long level)
+        public List<KeyValuePair<int, double>> GetTotalAtrList(long level)
         {
-            Dictionary<int, double> list = new Dictionary<int, double>();
+            List<KeyValuePair<int, double>> list = new List<KeyValuePair<int, double>>();
 
             for (int i = 0; i < this.AtrList.Length; i++)
             {
                 if (level >= RequireLevel[i])
                 {
-                    list[AtrList[i]] = GetCurrentAtr(i, level);
+                    list.Add(new KeyValuePair<int, double>(AtrList[i], GetCurrentAtr(i, level)));
                 }
             }
 
@@ -32,7 +32,7 @@ namespace Game
             {
                 if (level >= this.SpeLevel[i])
                 {
-                    list[SpeAtrList[i]] = SpeVueList[i];
+                    list.Add(new KeyValuePair<int, double>(SpeAtrList[i], SpeVueList[i]));
                 }
             }
 

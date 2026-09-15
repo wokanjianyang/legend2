@@ -89,11 +89,17 @@ public class Main_Map_Group : MonoBehaviour
 
     }
 
-    public void Show()
+    public void Show(int layer)
     {
         User user = User_Data_Manager.Data;
         if (user == null || this.Config == null)
         {
+            return;
+        }
+
+        if (Config.Layer != layer)
+        {
+            this.gameObject.SetActive(false);
             return;
         }
 

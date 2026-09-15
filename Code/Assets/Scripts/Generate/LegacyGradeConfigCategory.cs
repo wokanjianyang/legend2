@@ -25,9 +25,9 @@ namespace Game
             return this.Fee2 * level;
         }
 
-        public Dictionary<int, double> GetTotalAtrList(int level)
+        public List<KeyValuePair<int, double>> GetTotalAtrList(int level)
         {
-            Dictionary<int, double> dict = new Dictionary<int, double>();
+            List<KeyValuePair<int, double>> list = new List<KeyValuePair<int, double>>();
 
             for (int i = 0; i < AtrIdList.Length; i++)
             {
@@ -39,7 +39,7 @@ namespace Game
                     int attrId = AtrIdList[i];
                     double attrValue = AtrVueList[i] * riseLevel;
 
-                    dict[attrId] = attrValue;
+                    list.Add(new KeyValuePair<int, double>(attrId, attrValue));
                 }
             }
 
@@ -47,11 +47,11 @@ namespace Game
             {
                 if (level >= SpeRequireList[i])
                 {
-                    dict[SpeIdList[i]] = SpeVueList[i];
+                    list.Add(new KeyValuePair<int, double>(SpeIdList[i], SpeVueList[i]));
                 }
             }
 
-            return dict;
+            return list;
         }
     }
 }

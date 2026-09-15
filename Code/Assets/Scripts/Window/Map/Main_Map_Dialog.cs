@@ -16,9 +16,7 @@ public class Main_Map_Dialog : MonoBehaviour
     public Transform Tf_Layer;
 
     private List<Toggle> tgLevelList;
-    private int LevelCount = 12; //每个难度多少个
 
-    private int MaxLayer = -1;
     private int SelectLayer = -1;
 
     List<Main_Map_Group> items = new List<Main_Map_Group>();
@@ -30,7 +28,7 @@ public class Main_Map_Dialog : MonoBehaviour
         tgLevelList = Tf_Layer.GetComponentsInChildren<Toggle>().ToList();
         for (int i = 0; i < tgLevelList.Count; i++)
         {
-            int index = i;
+            int index = i + 1;
             tgLevelList[i].onValueChanged.AddListener((isOn) =>
             {
                 this.ChangeLevel(index);
@@ -43,7 +41,7 @@ public class Main_Map_Dialog : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.ChangeLevel(0);
+        this.ChangeLevel(1);
     }
 
     void OnEnable()
@@ -86,7 +84,7 @@ public class Main_Map_Dialog : MonoBehaviour
     {
         foreach (var item in items)
         {
-            item.Show();
+            item.Show(SelectLayer);
         }
     }
 

@@ -170,23 +170,18 @@ namespace Game
 
         public override long ToRecoverDict(Dictionary<int, long> dict, long number)
         {
-            //long rn = CalRecoveryNumber();
-            //int rid = ItemHelper.Pet_Exp;
-
-            //if (!dict.ContainsKey(rid))
-            //{
-            //    dict[rid] = 0;
-            //}
-
-            //dict[rid] += rn;
+            if (this.GetQuality() >= 6)
+            {
+                int rid = ItemHelper.Specail_Pet_Layer[this.GetQuality() - 6];
+                if (!dict.ContainsKey(rid))
+                {
+                    dict[rid] = 0;
+                }
+                dict[rid] += 1 * number;
+            }
 
             return this.GetQuality() * 10000;
         }
-
-        //private long CalRecoveryNumber()
-        //{
-        //    return this.GetQuality() * 100;
-        //}
     }
 
     public class PetTrait

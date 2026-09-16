@@ -249,7 +249,7 @@ namespace Game
             {
                 Equip equip = item as Equip;
 
-                if (equip.Layer > 1 || equip.RefineLevel.Data > 0 || equip.Level > this.CardEquipLevel || equip.LegendData.Key > 0)
+                if (equip.Layer >= 10 || equip.RefineLevel.Data > 0 || equip.Level > this.CardEquipLevel || equip.LegendData.Key > 0)
                 {
                     return false;
                 }

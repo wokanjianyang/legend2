@@ -411,7 +411,7 @@ namespace Game
 
         public override long ToRecoverDict(Dictionary<int, long> dict, long number)
         {
-            if (Config.Cycle == 1)
+            if (Config.Cycle < 10)
             {
                 if (!dict.ContainsKey(ItemHelper.Equip_Strong))
                 {
@@ -420,7 +420,7 @@ namespace Game
 
                 dict[ItemHelper.Equip_Strong] += CalStone() * number;
 
-                if (this.GetQuality() >= 5)
+                if (this.GetQuality() == 5)
                 {
                     if (!dict.ContainsKey(ItemHelper.Equip_Refine))
                     {
@@ -430,6 +430,15 @@ namespace Game
                     int bc = this.Config.LevelRequired / 20 + 1;
 
                     dict[ItemHelper.Equip_Refine] += bc * number;
+                }
+                else if (this.GetQuality() >= 6)
+                {
+                    int rid = ItemHelper.Specail_Equip_Layer[this.GetQuality() - 6];
+                    if (!dict.ContainsKey(rid))
+                    {
+                        dict[rid] = 0;
+                    }
+                    dict[rid] += 1 * number;
                 }
             }
             else if (Config.Cycle == 10)

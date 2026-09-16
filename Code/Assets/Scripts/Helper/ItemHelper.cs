@@ -154,6 +154,10 @@ namespace Game
 
         public static int SpecialId_Level_Stone = 7001; //等级丹
         public static int SpecialId_Talent_Book = 7002; //天赋书
+
+        public static int[] Specail_Pet_Layer = { 5201, 5202, 5203 };
+
+        public static int[] Specail_Equip_Layer = { 5101, 5102, 5103 };
         //--------old
         public static int SpecialId_SoulRingShard = 4001; //魂环碎片
         public static int SpecialId_Copy_Ticket = 4003; //装备副本卷
@@ -200,7 +204,7 @@ namespace Game
 
         public static int SpecailEquipRefreshId = 4201; //橙装精华
 
-        public static int[] Specail_Pet_Layer = { 4023, 4024, 4025 };
+
 
         public static int Specail_Pet_Speical = 4041; //暗金魂心
         public static int Specail_Shengxiao = 4042; //生肖精华

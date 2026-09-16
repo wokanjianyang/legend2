@@ -119,9 +119,9 @@ namespace Game
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 
             User user = User_Data_Manager.Data;
-            string color = user.MagicLevel.Data >= equip.Config.LevelRequired ? "green" : "red";
+            string color = user.MagicLevel.Data >= equip.GetRequired() ? "green" : "red";
 
-            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, equip.Config.LevelRequired);
+            this.Txt_Require.text = string.Format("<color={0}>需要等级{1}</color>", color, equip.GetRequired());
 
             long basePercent = 0;
             long randomPercent = 0;
@@ -250,7 +250,7 @@ namespace Game
             if (e.Box_Type == ComBoxType.Bag)
             {
                 //包裹中
-                if (equip.Config.LevelRequired <= user.MagicLevel.Data)
+                if (equip.GetRequired() <= user.MagicLevel.Data)
                 {
                     this.btn_Equip.gameObject.SetActive(true);
                 }

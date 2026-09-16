@@ -75,7 +75,7 @@ namespace Game
 
                 int role = equip.Config.Role;
                 int cycle = equip.Config.Cycle;
-                int level = equip.Level;
+                int level = equip.GetRequired();
                 int quality = equip.GetQuality();
                 long ar = equip.GetAttrRateCount();
                 bool keepSkill = false;
@@ -183,7 +183,7 @@ namespace Game
 
                         if (equip.SkillSuitConfig != null)
                         {
-                            if (item.Level >= EquipLevel && keepSkill)
+                            if (item.GetRequired() >= EquipLevel && keepSkill)
                             {
                                 item.IsKeep = true;
                                 return false;
@@ -197,7 +197,7 @@ namespace Game
                         return false;
                     }
 
-                    if (equip.Config.LevelRequired < EquipLevel || EquipRole.GetValueOrDefault(role, false) || quality <= EquipQualityRecovery)
+                    if (equip.GetRequired() < EquipLevel || EquipRole.GetValueOrDefault(role, false) || quality <= EquipQualityRecovery)
                     {
                         return true;
                     }
@@ -209,7 +209,7 @@ namespace Game
                         return false;
                     }
 
-                    if (LegendLevel > 0 && equip.Config.LevelRequired < LegendLevel)
+                    if (LegendLevel > 0 && equip.GetRequired() < LegendLevel)
                     {
                         return true;
                     }
@@ -249,7 +249,7 @@ namespace Game
             {
                 Equip equip = item as Equip;
 
-                if (equip.Layer >= 10 || equip.RefineLevel.Data > 0 || equip.Level > this.CardEquipLevel || equip.LegendData.Key > 0)
+                if (equip.Layer >= 10 || equip.RefineLevel.Data > 0 || equip.GetRequired() > this.CardEquipLevel || equip.LegendData.Key > 0)
                 {
                     return false;
                 }

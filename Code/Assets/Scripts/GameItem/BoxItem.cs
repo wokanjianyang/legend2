@@ -56,7 +56,7 @@ namespace Game
             {
                 Equip equip = this.Item as Equip;
                 var config = equip.Config;
-                return config.Part * 10000 + config.LevelRequired + equip.GetQuality();
+                return config.Part * 10000 + equip.GetRequired() + equip.GetQuality();
             }
 
             return this.Item.ConfigId;

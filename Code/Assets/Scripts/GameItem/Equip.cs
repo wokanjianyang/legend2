@@ -77,7 +77,7 @@ namespace Game
             Part = Config.Part;
             Position = Config.Position;
             Quality = quality;
-            Level = Config.LevelRequired;
+            //Level = GetRequired();
 
             if (RuneConfigId > 0 && (Config.Cycle > 0))
             {
@@ -391,7 +391,7 @@ namespace Game
 
         public override int GetRequired()
         {
-            return this.Config.LevelRequired;
+            return this.Config.LevelRequired + this.Layer;
         }
 
         public override int GetBagType()
@@ -427,7 +427,7 @@ namespace Game
                         dict[ItemHelper.Equip_Refine] = 0;
                     }
 
-                    int bc = this.Config.LevelRequired / 20 + 1;
+                    int bc = this.GetRequired() / 20 + 1;
 
                     dict[ItemHelper.Equip_Refine] += bc * number;
                 }
@@ -448,7 +448,7 @@ namespace Game
                     dict[ItemHelper.Equip_Legend] = 0;
                 }
 
-                int count = Config.LevelRequired / 10;
+                int count = this.GetRequired() / 10;
                 dict[ItemHelper.Equip_Legend] += count * number;
             }
 
@@ -459,7 +459,7 @@ namespace Game
 
         private int CalStone()
         {
-            int count = Config.LevelRequired / 10 + this.GetQuality();
+            int count = this.GetRequired() / 10 + this.GetQuality();
             return count;
         }
 

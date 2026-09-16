@@ -82,11 +82,11 @@ namespace Game
                 {
                     Equip_Special item = BoxItem.Item as Equip_Special;
 
-                    if (item.Level > 0)
-                    {
-                        this.Txt_Count.text = item.Level + "级";
-                        this.Txt_Count.gameObject.SetActive(true);
-                    }
+                    //if (item.GetRequired() > 0)
+                    //{
+                    //    this.Txt_Count.text = item.GetRequired() + "级";
+                    //    this.Txt_Count.gameObject.SetActive(true);
+                    //}
                     if (item.Layer > 0)
                     {
                         this.Txt_Layer.text = ConfigHelper.LayerChinaList[item.Layer] + "阶";

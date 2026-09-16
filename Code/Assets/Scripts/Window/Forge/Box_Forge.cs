@@ -91,9 +91,9 @@ namespace Game
                 {
                     Equip_Special item = CurrentItem as Equip_Special;
 
-                    if (item.Level > 0)
+                    if (item.GetRequired() > 0)
                     {
-                        this.Txt_Level.text = item.Level + "¼¶";
+                        this.Txt_Level.text = item.GetRequired() + "¼¶";
                         this.Txt_Level.gameObject.SetActive(true);
                     }
                     if (item.Layer > 0)

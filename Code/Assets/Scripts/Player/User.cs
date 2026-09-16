@@ -929,7 +929,7 @@ namespace Game
             {
                 equips = equips.Where(m => m.Config.Role == role && m.Config.Cycle == 1 && m.GetQuality() == 5).ToList();
 
-                layers = equips.Select(m => m.Config.LevelRequired).OrderByDescending(m => m).ToList();
+                layers = equips.Select(m => m.GetRequired()).OrderByDescending(m => m).ToList();
             }
             else if (cycle == 2)
             {

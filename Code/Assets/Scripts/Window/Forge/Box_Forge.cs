@@ -68,9 +68,9 @@ namespace Game
                 {
                     Equip equip = CurrentItem as Equip;
 
-                    if (equip.LegendData.Key > 0 && equip.Config.Cycle != 10)
+                    if (equip.Layer > 0)
                     {
-                        this.Txt_Layer.text = string.Format("<color=#{0}>´«</color>", QualityConfigHelper.GetQualityColor(7));
+                        this.Txt_Layer.text = string.Format("<color=#{0}>{1}×ª</color>", QualityConfigHelper.GetQualityColor(quality), equip.Layer);
                         this.Txt_Layer.gameObject.SetActive(true);
                     }
 

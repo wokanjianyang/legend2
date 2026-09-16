@@ -256,7 +256,7 @@ namespace Game
 
                 int cycle = equip.Config.Cycle;
 
-                if (cycle == 1)
+                if (cycle <= 2)
                 {
                     //ÆÕÍ¨»ØÊÕ
                     if (equip.Config.CardId > 0 && equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.Config.CardId))

@@ -126,14 +126,14 @@ public class Panel_Reform : MonoBehaviour
         {
             Equip equip = this.CurrentItem as Equip;
 
-            if (equip.Config.Cycle > 1)
+            if (equip.Config.Cycle >= 10)
             {
                 Txt_Info.text = "只有普通准备可以改造";
                 return;
             }
             else if (equip.GetQuality() < 5)
             {
-                Txt_Info.text = "只能改造橙色装备";
+                Txt_Info.text = "只能改造橙色以上装备";
                 return;
             }
             else if (equip.GetReformLevel() >= 5)
@@ -160,9 +160,10 @@ public class Panel_Reform : MonoBehaviour
         int part = equip.Config.Part;
         int quality = equip.GetQuality();
         int configId = equip.ConfigId;
+        int layer = equip.Layer;
 
         var equips = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Equip && m.Item.GetQuality() == quality
-        && m.Item.ConfigId == configId && !m.Item.IsLock).ToList();
+        && m.Item.ConfigId == configId && m.Item.Layer == layer && !m.Item.IsLock).ToList();
 
         List<Equip> bags = new List<Equip>();
         foreach (var item in equips)
@@ -227,10 +228,10 @@ public class Panel_Reform : MonoBehaviour
         {
             Equip equip = this.CurrentItem as Equip;
 
-            if (equip.Config.Cycle != 1)
+            if (equip.Config.Cycle >= 10)
             {
                 Txt_Exp.text = "没有选择材料";
-                Txt_Info.text = "此不可以改造";
+                Txt_Info.text = "此装备不可以改造";
             }
             else
             {

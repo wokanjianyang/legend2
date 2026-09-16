@@ -14,6 +14,8 @@ namespace Game
 
         public Toggle toggle;
         public Text Txt_Name;
+        public Text Txt_Layer;
+        public Text Txt_Level;
 
         public Image Img_Bg;
         public Image Img_Logo;
@@ -44,6 +46,8 @@ namespace Game
             {
                 Tf_Box.gameObject.SetActive(true);
                 Img_Logo.gameObject.SetActive(true);
+                this.Txt_Layer.gameObject.SetActive(false);
+                this.Txt_Level.gameObject.SetActive(false);
 
                 int quality = CurrentItem.GetQuality();
 
@@ -53,6 +57,24 @@ namespace Game
                 this.Img_Bg.sprite = PrefabHelper.Instance().GetBoxImage(quality);
 
                 PrefabHelper.Instance().SetItemLogo(this.Img_Logo, CurrentItem);
+
+                if (CurrentItem.GetItemType() == ItemType.Equip)
+                {
+                    Equip equip = CurrentItem as Equip;
+
+                    if (equip.Layer > 0)
+                    {
+                        this.Txt_Layer.text = string.Format("<color=#{0}>{1}×ª</color>", QualityConfigHelper.GetQualityColor(quality), equip.Layer);
+                        this.Txt_Layer.gameObject.SetActive(true);
+                    }
+
+                    int rl = equip.GetReformLevel();
+                    if (rl > 0)
+                    {
+                        this.Txt_Level.text = string.Format("¸Ä{0}", rl);
+                        this.Txt_Level.gameObject.SetActive(true);
+                    }
+                }
             }
             else
             {

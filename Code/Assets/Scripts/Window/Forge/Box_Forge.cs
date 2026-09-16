@@ -91,11 +91,11 @@ namespace Game
                 {
                     Equip_Special item = CurrentItem as Equip_Special;
 
-                    if (item.GetRequired() > 0)
-                    {
-                        this.Txt_Level.text = item.GetRequired() + "¼¶";
-                        this.Txt_Level.gameObject.SetActive(true);
-                    }
+                    //if (item.GetRequired() > 0)
+                    //{
+                    //    this.Txt_Level.text = item.GetRequired() + "¼¶";
+                    //    this.Txt_Level.gameObject.SetActive(true);
+                    //}
                     if (item.Layer > 0)
                     {
                         this.Txt_Layer.text = ConfigHelper.LayerChinaList[item.Layer] + "½×";

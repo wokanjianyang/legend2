@@ -42,7 +42,7 @@ namespace Game
         {
             this.Camp = PlayerType.Enemy;
 
-            this.Name = Config.Name + "£¨N" + this.Model + "£©";
+            this.Name = Config.Name + "£¨" + AppHelper.GetMapName(Config.Id) + "N" + this.Model + "£©";
 
             this.Level = Config.MapId;
             this.FashionId = Config.ModelId;
@@ -130,7 +130,7 @@ namespace Game
             {
                 int[] ids = { 1002, 2002, 3002 };
                 int index = RandomHelper.RandomNumber(0, ids.Length);
-                list.Add(new SkillData(ids[index], 1)); 
+                list.Add(new SkillData(ids[index], 1));
             }
 
             foreach (SkillData skillData in list)

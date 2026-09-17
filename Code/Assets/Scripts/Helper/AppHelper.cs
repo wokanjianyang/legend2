@@ -77,6 +77,14 @@ namespace Game
             return CopyCount > 600 ? 0 : 1;
         }
 
+        public static string GetMapName(int id)
+        {
+            int mc = (id - 1) / 72;
+            string cn = ConfigHelper.MapCycleNameLsit[mc];
+            return cn;
+        }
+
+
         public static int GetEquipPosition(Equip equip)
         {
             if (equip.Position.Length > 1)

@@ -41,7 +41,9 @@ namespace Game
         {
             this.Camp = PlayerType.Enemy;
 
-            this.Name = Config.Name + "£¨N" + this.Model + "£©";
+            int mc = (Config.Id - 1) / 12;
+            string cn = ConfigHelper.MapCycleNameLsit[mc];
+            this.Name = Config.Name + "£¨" + cn + "N" + this.Model + "£©";
             this.Level = Config.Id * 10;
             this.FashionId = BossId;
 
@@ -128,7 +130,7 @@ namespace Game
             {
                 for (int i = 0; i < ConfigHelper.TestRate; i++)
                 {
-    
+
                 }
 
                 BuildReword();

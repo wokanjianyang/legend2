@@ -56,7 +56,7 @@ namespace Game
             MapConfig config = MapConfigCategory.Instance.Get(AppHelper.CurrentMapId);
 
             this.Txt_Desc.text = "0S击杀0个";
-            this.Txt_MapName.text = string.Format("{0}（N{1}）", config.Name, AppHelper.CurrentMapModel);
+            this.Txt_MapName.text = buildMapName(config, true);
         }
 
         protected override bool CheckPageType(ViewPageType page)
@@ -96,7 +96,7 @@ namespace Game
                 });
 
                 MapConfig config = MapConfigCategory.Instance.Get(user.MapId);
-                this.Txt_MapName.text = config.Name + "-关卡挑战";
+                this.Txt_MapName.text = buildMapName(config, false) + "-关卡挑战";
             }
             else if (e.Type == RuleType.Legacy)
             {
@@ -199,7 +199,7 @@ namespace Game
                 });
 
                 MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
-                this.Txt_MapName.text = "离线记录-" + config.Name + "（N" + AppHelper.CurrentMapModel + "）";
+                this.Txt_MapName.text = "离线记录-" + buildMapName(config, true);
             }
             else
             {
@@ -216,7 +216,7 @@ namespace Game
 
                 MapConfig config = MapConfigCategory.Instance.Get(e.MapId);
                 //this.Txt_Desc.text = "0S击杀0个";
-                this.Txt_MapName.text = string.Format("{0}（N{1}）", config.Name, AppHelper.CurrentMapModel);
+                this.Txt_MapName.text = buildMapName(config, true);
                 this.Txt_Mode.text = "难度N" + AppHelper.CurrentMapModel;
             }
         }
@@ -329,12 +329,24 @@ namespace Game
                 AppHelper.CurrentMapModel = (AppHelper.CurrentMapModel) % MaxModel + 1;
 
                 this.Txt_Mode.text = "难度N" + AppHelper.CurrentMapModel;
-
-                this.Txt_MapName.text = string.Format("{0}（N{1}）", config.Name, AppHelper.CurrentMapModel);
+                this.Txt_MapName.text = buildMapName(config, true);
             }
             else
             {
                 GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "只有主线副本可以切换难度", ToastType = ToastTypeEnum.Failure });
+            }
+        }
+
+        private string buildMapName(MapConfig config, bool m)
+        {
+            string cn = AppHelper.GetMapName(config.Id);
+            if (m)
+            {
+                return string.Format("{0}（{1}N{2}）", config.Name, cn, AppHelper.CurrentMapModel);
+            }
+            else
+            {
+                return string.Format("{0}（{1}）", config.Name, cn);
             }
         }
 

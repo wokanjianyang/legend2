@@ -45,7 +45,7 @@ namespace Game
             string cn = ConfigHelper.MapCycleNameLsit[mc];
             this.Name = Config.Name + "£®" + cn + "N" + this.Model + "£©";
             this.Level = Config.Id * 10;
-            this.FashionId = BossId;
+            this.FashionId = ((BossId - 1) % 12) + 1;
 
             this.SetAttr();  //…Ë÷√ Ù–‘÷µ
             this.SetSkill();

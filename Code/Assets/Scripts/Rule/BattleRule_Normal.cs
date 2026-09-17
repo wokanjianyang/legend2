@@ -58,7 +58,6 @@ namespace Game
                 }
 
                 rate = config.Rate * rate / 100;
-
                 log.InitRate(rate);
 
                 AppHelper.BossLogs.Add(log);

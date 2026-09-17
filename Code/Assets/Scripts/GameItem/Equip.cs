@@ -389,6 +389,18 @@ namespace Game
             return this.Config.Name;
         }
 
+        public override string GetFullName()
+        {
+            if (this.Layer > 0)
+            {
+                return this.Config.Name + this.Layer + "转";
+            }
+            else
+            {
+                return this.Config.Name;
+            }
+        }
+
         public override int GetRequired()
         {
             return this.Config.LevelRequired + this.Layer;

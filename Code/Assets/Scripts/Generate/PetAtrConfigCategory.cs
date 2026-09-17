@@ -10,7 +10,7 @@ namespace Game
     public partial class PetAtrConfigCategory
     {
         private int[] rates = { 1, 4, 10, 25, 45 };
-        private int[] rates1 = { 1, 3, 12, 30, 75, 135 };
+        private int[] rates1 = { 1, 4, 16, 40, 100, 180 };
 
         public Pet BuildPet(int id, int role, double qualityRise)
         {

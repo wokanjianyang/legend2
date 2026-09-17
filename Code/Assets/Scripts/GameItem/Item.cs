@@ -54,6 +54,11 @@ namespace Game
             return "not name" + Type.ToString();
         }
 
+        public virtual string GetFullName()
+        {
+            return "not full name" + Type.ToString();
+        }
+
         public virtual string GetDes()
         {
             return "not description" + Type.ToString();

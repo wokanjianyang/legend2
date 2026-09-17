@@ -23,10 +23,8 @@ namespace Game
             if (config.Cycle == 2)
             {
                 Item item = BuildCycle1(config, qualityRise, seed);
-                if (item.GetQuality() == 6)
-                {
-                    item.Layer = layer;
-                }
+                item.Layer = layer;
+
                 return item;
             }
             else if (config.Cycle == 10)

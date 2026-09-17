@@ -464,10 +464,16 @@ namespace Game
 
             Equip equip = this.boxItem.Item as Equip;
 
+            int cardId = equip.Config.CardId;
+            if (equip.Layer > 0)
+            {
+                cardId = cardId + (equip.Layer - 1) * 3;
+            }
+
             GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
             {
                 BoxItem = this.boxItem,
-                CardId = equip.Config.CardId
+                CardId = cardId
             });
 
         }

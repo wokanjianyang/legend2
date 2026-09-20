@@ -230,13 +230,18 @@ namespace Game
                 SkillConfig config = temps[index - 1];
 
                 int level = 0;
-                if (quality <= 5)
+                if (quality >= 6)
                 {
-                    level = RandomHelper.RandomSerialNumber(1, 10);
+                    level = RandomHelper.RandomSerialNumber(3, 15); //ºìÉ«
+                }
+                else if (quality == 5)
+                {
+                    level = RandomHelper.RandomSerialNumber(3, 10); //³ÈÉ«
                 }
                 else
                 {
-                    level = RandomHelper.RandomSerialNumber(3, 15);
+                    level = RandomHelper.RandomSerialNumber(1, 10);
+
                 }
 
                 skills.Add(new KeyValuePair<int, int>(config.SkillId, level));

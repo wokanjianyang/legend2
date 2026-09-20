@@ -104,7 +104,7 @@ namespace Game
 
         public AttrEntryConfig GetConfig(int cycle, int attrId, int level)
         {
-            return this.list.Where(m => m.Cycle == cycle && m.AttrId == attrId && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
+            return this.list.Where(m => (m.Cycle == cycle || m.Cycle == 0) && m.AttrId == attrId && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
         }
 
         public List<KeyValuePair<int, long>> BuildShengxiao(int part, int quality, int seed)

@@ -229,8 +229,15 @@ namespace Game
 
                 SkillConfig config = temps[index - 1];
 
-                int max = (quality - 5) * 5;
-                int level = RandomHelper.RandomSerialNumber(1, 10) + max;
+                int level = 0;
+                if (quality <= 5)
+                {
+                    level = RandomHelper.RandomSerialNumber(1, 10);
+                }
+                else
+                {
+                    level = RandomHelper.RandomSerialNumber(3, 15);
+                }
 
                 skills.Add(new KeyValuePair<int, int>(config.SkillId, level));
                 ids.Add(config.SkillId);

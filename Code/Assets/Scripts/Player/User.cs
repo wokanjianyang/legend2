@@ -2004,7 +2004,13 @@ namespace Game
                     {
                         Equip equip = sp as Equip;
 
-                        this.CardRecord[equip.Config.CardId] += 1;
+                        int cardId = equip.Config.CardId;
+                        if (equip.Layer > 0)
+                        {
+                            cardId = cardId + (equip.Layer - 1) * 3;
+                        }
+
+                        this.CardRecord[cardId] += 1;
                     }
                     else if (sp.GetItemType() == ItemType.Pet)
                     {

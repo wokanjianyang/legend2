@@ -106,8 +106,17 @@ namespace Game
             long infiniteMax = user.GetAchievementProgeress(AchievementProType.Infinite);
             paramDict.Add("infinite", infiniteMax + "");
 
+            paramDict.Add("babel", user.BabelData.Progress.Data + "");
 
             paramDict.Add("swing", user.WingData.Data + "");
+
+            paramDict.Add("mapId", user.MapId + "");
+
+            long legacyLayer = user.LegacyLayer.Select(m => m.Value.Data).Sum();
+            paramDict.Add("legacy", legacyLayer + "");
+
+            long refineTotal = user.MagicEquipRefine.Select(m => m.Value.Data).Sum();
+            paramDict.Add("refine", refineTotal + "");
 
             long strongTotal = user.MagicEquipStrength.Select(m => m.Value.Data).Sum();
             paramDict.Add("strong", strongTotal + "");

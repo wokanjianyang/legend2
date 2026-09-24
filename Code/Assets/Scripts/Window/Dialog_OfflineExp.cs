@@ -251,7 +251,7 @@ namespace Game
             }
 
             GameProcessor.Inst.SaveData();
-            GameProcessor.Inst.SaveNetData();
+            //GameProcessor.Inst.SaveNetData();
 
             this.gameObject.SetActive(true);
             //Time.timeScale = 0;

@@ -333,7 +333,7 @@ namespace Game
                 offlineExp.ShowOffline();
 
                 //计算离线后，立即存档
-                this.SaveData();
+                //this.SaveData();
             }
 
             this.Run();

@@ -1139,7 +1139,7 @@ namespace Game
         }
 
 
-        private int[] tps = { 3, 11, 12 };
+        private int[] tps = { 3, 11, 12, 13 };
         public void SaveTaskProgress(int p)
         {
             foreach (int k in tps)

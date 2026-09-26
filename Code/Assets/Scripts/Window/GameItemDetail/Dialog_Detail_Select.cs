@@ -40,7 +40,7 @@ namespace Game
             GameProcessor.Inst.EventCenter.AddListener<ShowDetailEvent>(this.OnShow);
         }
 
-        private void Init()
+        private void Init(ShowDetailEvent e)
         {
             //clear
             foreach (var si in ItemList)
@@ -71,13 +71,24 @@ namespace Game
             }
 
             //Debug.Log(config.Id + " " + config.Name + "" + config.OpenType);
-            if (config.OpenType == 1)
+            if (e.Box_Type == ComBoxType.PreView)
             {
-                this.Btn_OK_All.gameObject.SetActive(true);
+                this.Btn_OK.gameObject.SetActive(false);
+                this.Btn_Query.gameObject.SetActive(false);
+                this.Btn_OK_All.gameObject.SetActive(false);
             }
             else
             {
-                this.Btn_OK_All.gameObject.SetActive(false);
+                this.Btn_OK.gameObject.SetActive(true);
+                this.Btn_Query.gameObject.SetActive(true);
+                if (config.OpenType == 1)
+                {
+                    this.Btn_OK_All.gameObject.SetActive(true);
+                }
+                else
+                {
+                    this.Btn_OK_All.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -90,7 +101,10 @@ namespace Game
 
             this.FromItem = e.Show_Item;
             this.ConfigId = this.FromItem.Item.ConfigId;
-            this.Init();
+            this.Init(e);
+
+
+
             this.gameObject.SetActive(true);
         }
 

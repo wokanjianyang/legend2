@@ -122,11 +122,15 @@ namespace Game
             pet.Quality = config.Quality;
 
             //特性
-            PetTrait trait = new PetTrait();
-            trait.Id = config.TraitId;
-            trait.Level = 1;
-            trait.Type = 1;
-            pet.TraitList.Add(trait);
+            for (int i = 0; i < config.TraitIdList.Length; i++)
+            {
+                PetTrait trait = new PetTrait();
+                trait.Id = config.TraitIdList[i];
+                trait.Level = config.TraitLevelList[i];
+                trait.Type = config.TraitTypeList[i];
+
+                pet.TraitList.Add(trait);
+            }
 
             //杀敌资质
             for (int i = 0; i < config.FlairIdList.Length; i++)

@@ -313,14 +313,17 @@ namespace Game
                 case AttributeEnum.PhyDamage:
                     total = CalPanelAtr(AttributeEnum.PhyDamage);
                     total *= (1 + CalBattleSingleAdd(AttributeEnum.RatePhyDamage) / 100.0);
+                    total *= CalPanelAtr(AttributeEnum.MulPhyDamageRise);
                     break;
                 case AttributeEnum.MagicDamage:
                     total = CalPanelAtr(AttributeEnum.MagicDamage);
                     total *= (1 + CalBattleSingleAdd(AttributeEnum.RateMagicDamage) / 100.0);
+                    total *= CalPanelAtr(AttributeEnum.MulMagicDamageRise);
                     break;
                 case AttributeEnum.SpiritDamage:
                     total = CalPanelAtr(AttributeEnum.SpiritDamage);
                     total *= (1 + CalBattleSingleAdd(AttributeEnum.RateSpiritDamage) / 100.0);
+                    total *= CalPanelAtr(AttributeEnum.MulSpiritDamageRise);
                     break;
                 default:
                     total = CalPanelAtr(attrType);
@@ -443,6 +446,32 @@ namespace Game
             return attack;
         }
 
+        public double GetBattleRoleDamage(int role)
+        {
+            double attack = 0;
+            switch (role)
+            {
+                case (int)RoleType.Warrior:
+                    {
+                        attack = CalBattleTotalAttr(AttributeEnum.PhyDamage);
+                        break;
+                    }
+                case (int)RoleType.Mage:
+                    {
+                        attack = CalBattleTotalAttr(AttributeEnum.MagicDamage);
+                        break;
+                    }
+                case (int)RoleType.Warlock:
+                    {
+                        attack = CalBattleTotalAttr(AttributeEnum.SpiritDamage);
+                        break;
+                    }
+            }
+
+            return attack;
+        }
+
+
         //获取（物攻，魔法，道术）的面本属性，召唤用
         public double CalBaseRoleAtk(int role)
         {
@@ -515,7 +544,7 @@ namespace Game
             }
             double def = CalPanelTotalAttr(AttributeEnum.Def);
 
-            power += def  / 2;
+            power += def / 2;
 
             double hp = CalPanelTotalAttr(AttributeEnum.HP);
 

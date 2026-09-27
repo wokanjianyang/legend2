@@ -86,6 +86,9 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Shatter));
             AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Parry));
 
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelSingleMul(AttributeEnum.MulDamageIncrea));
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelSingleMul(AttributeEnum.MulDamageResist));
+
             AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyDamage));
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));

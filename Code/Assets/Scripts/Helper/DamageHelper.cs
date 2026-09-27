@@ -114,6 +114,13 @@ namespace Game
                 atk *= 1 + extraDamage / 100.0;
             }
 
+            //职业增伤
+            double roleDamage = attcher.GetBattleRoleDamage(role);
+            if (roleDamage > 0)
+            {
+                atk *= (1 + roleDamage / 100.0);
+            }
+
             //增伤倍率
             double mdi = attcher.CalBattleTotalAttr(AttributeEnum.MulDamageIncrea);
             if (mdi > 1)

@@ -153,6 +153,20 @@ namespace Game
             this.AddPlayer(hero);
         }
 
+        public void LoadTest(APlayer player)
+        {
+            var coms = player.Transform.GetComponents<MonoBehaviour>();
+            foreach (var com in coms)
+            {
+                if (com is IPlayer _com)
+                {
+                    _com.SetParent(player);
+                }
+            }
+            player.SetPosition(new Vector3(5, 5), true);
+            this.AddPlayer(player);
+        }
+
         public void LoadHeroPhantom(APlayer player)
         {
             var coms = player.Transform.GetComponents<MonoBehaviour>();

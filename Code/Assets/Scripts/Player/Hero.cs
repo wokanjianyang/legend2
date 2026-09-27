@@ -114,6 +114,9 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.Shatter, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Shatter));
             AttributeBonus.SetAttr(AttributeEnum.Parry, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Parry));
 
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.UserBase, user.AttributeBonus.CalPanelSingleMul(AttributeEnum.MulDamageIncrea));
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.UserBase, user.AttributeBonus.CalPanelSingleMul(AttributeEnum.MulDamageResist));
+
             AttributeBonus.SetAttr(AttributeEnum.PhyDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.PhyDamage));
             AttributeBonus.SetAttr(AttributeEnum.MagicDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MagicDamage));
             AttributeBonus.SetAttr(AttributeEnum.SpiritDamage, AttributeFrom.UserBase, user.AttributeBonus.CalPanelTotalAttr(AttributeEnum.SpiritDamage));
@@ -248,7 +251,6 @@ namespace Game
             //Debug.Log("减伤:"+AttributeBonus.GetAttackAttr(AttributeEnum.DamageResist)+" 增伤:"+ AttributeBonus.GetAttackAttr(AttributeEnum.DamageIncrea));
 
             //Debug.Log("瞬移魔法伤害:" + AttributeBonus.GetAttackAttr(AttributeEnum.MagicDamage));
-
             //1. 控制前计算高优级技能
             SkillState skill;
 

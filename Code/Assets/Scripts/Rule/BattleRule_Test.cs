@@ -33,7 +33,7 @@ namespace Game
             }
 
             var enemy = new Monster_Test();
-            GameProcessor.Inst.PlayerManager.LoadMonster(enemy);
+            GameProcessor.Inst.PlayerManager.LoadTest(enemy);
 
 
 

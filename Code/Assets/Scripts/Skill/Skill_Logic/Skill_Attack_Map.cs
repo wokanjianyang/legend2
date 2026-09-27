@@ -56,7 +56,7 @@ namespace Game
             //先行特效
             SkillPanel.RunBefore(this.SelfPlayer, enemy);
 
-            var dr = DamageHelper.CalcDamage(this.SelfPlayer.AttributeBonus, enemy.AttributeBonus, this.SkillPanel);
+            var dr = DamageHelper.CalcDamage(this.SelfPlayer, enemy, this.SkillPanel);
             dr.FromId = this.SelfPlayer.ID;
             enemy.OnHit(dr);
 

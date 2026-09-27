@@ -48,7 +48,7 @@ namespace Game
                     SkillPanel.RunBefore(this.SelfPlayer, enemy);
 
                     //Debug.Log("dm:" + StringHelper.FormatNumber(dm) + "  edm:" + StringHelper.FormatNumber(edm));
-                    var dr = DamageHelper.CalcDamage(SelfPlayer.AttributeBonus, enemy.AttributeBonus, FromSkill != null ? FromSkill : SkillPanel);
+                    var dr = DamageHelper.CalcDamage(SelfPlayer, enemy, FromSkill != null ? FromSkill : SkillPanel);
 
                     //Debug.Log("base .damage：" + dr.Damage);
 

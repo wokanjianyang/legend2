@@ -43,7 +43,7 @@ namespace Game
                     int distance = this.CalDistance(SelfPlayer.Cell, enemy.Cell);
                     //Debug.Log("distance:" + distance + " rise percent:" + percent);
 
-                    var dr = DamageHelper.CalcDamage(SelfPlayer.AttributeBonus, enemy.AttributeBonus, SkillPanel);
+                    var dr = DamageHelper.CalcDamage(SelfPlayer, enemy, SkillPanel);
 
                     //Debug.Log("base damage:" + dr.Damage);
 

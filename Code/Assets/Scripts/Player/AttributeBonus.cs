@@ -14,6 +14,8 @@ namespace Game
 
         public Dictionary<AttributeEnum, Dictionary<int, double>> BuffDict = new Dictionary<AttributeEnum, Dictionary<int, double>>();
 
+        public Dictionary<AttributeEnum, int> Flags = new Dictionary<AttributeEnum, int>();
+
         public AttributeBonus()
         {
             foreach (AttributeEnum item in Enum.GetValues(typeof(AttributeEnum)))

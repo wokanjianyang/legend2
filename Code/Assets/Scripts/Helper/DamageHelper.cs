@@ -8,8 +8,10 @@ namespace Game
     {
         private static AttributeEnum[] DamageLis = { AttributeEnum.CardDamage, AttributeEnum.FashionDamage, AttributeEnum.AchievementDamage, AttributeEnum.LegacyDamage, AttributeEnum.ExclusiveDamage, AttributeEnum.BabelDamage };
 
-        public static DamageResult CalcDamage(AttributeBonus attcher, AttributeBonus enemy, SkillPanel skill)
+        public static DamageResult CalcDamage(APlayer attcher, APlayer enemy, SkillPanel skill)
         {
+            AttributeBonus acAb = attcher.AttributeBonus;
+            AttributeBonus eyAb = enemy.AttributeBonus;
             //计算公式  ((攻击 - 防御) * 百分比系数 + 固定数值) * 暴击?.暴击倍率 * (伤害加成-伤害减免) * (幸运)
 
             DamageResult dr = new DamageResult();
@@ -21,12 +23,12 @@ namespace Game
             if (role == 0)
             {
                 //职业攻击，取对应攻击
-                atk = attcher.CalBattleMaxAtk();
+                atk = acAb.CalBattleMaxAtk();
             }
             else
             {
                 //普攻,取最大3系最大攻击
-                atk = attcher.CalBattleRoleAtk(role);
+                atk = acAb.CalBattleRoleAtk(role);
             }
 
             //技能百分比
@@ -36,10 +38,10 @@ namespace Game
             atk *= (1 + skill.AttrIncrea / 100.0);
 
             //lucky
-            int lucky = (int)(attcher.CalBattleTotalAttr(AttributeEnum.Lucky) - enemy.CalBattleTotalAttr(AttributeEnum.Curse));
+            int lucky = (int)(acAb.CalBattleTotalAttr(AttributeEnum.Lucky) - eyAb.CalBattleTotalAttr(AttributeEnum.Curse));
 
             //防御减伤为 攻击/防御*0.75
-            double def = enemy.CalBattleTotalAttr(AttributeEnum.Def);
+            double def = eyAb.CalBattleTotalAttr(AttributeEnum.Def);
 
             if (def >= 1)
             {
@@ -67,20 +69,20 @@ namespace Game
             atk *= (1 + skill.FinalIncrea / 100.0);
 
             //致命
-            int deadlyRate = (int)((attcher.CalBattleTotalAttr(AttributeEnum.DeadlyRate) + skill.DeadlyRate));
+            int deadlyRate = (int)((acAb.CalBattleTotalAttr(AttributeEnum.DeadlyRate) + skill.DeadlyRate));
             if (RandomHelper.RandomCritRate(deadlyRate))
             {
-                int deadlyDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.DeadlyDamage) + skill.DeadlyDamage);
+                int deadlyDamage = (int)(acAb.CalBattleTotalAttr(AttributeEnum.DeadlyDamage) + skill.DeadlyDamage);
                 atk *= (1 + deadlyDamage / 100.0);
 
                 dr.IsDeadly = true;
             }
 
             //暴击
-            int critRate = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritRate) + skill.CritRate - enemy.CalBattleTotalAttr(AttributeEnum.CritRateResist));
+            int critRate = (int)(acAb.CalBattleTotalAttr(AttributeEnum.CritRate) + skill.CritRate - eyAb.CalBattleTotalAttr(AttributeEnum.CritRateResist));
             if (RandomHelper.RandomCritRate(critRate))
             {
-                long critDamage = (int)(attcher.CalBattleTotalAttr(AttributeEnum.CritDamage) + skill.CritDamage - enemy.CalBattleTotalAttr(AttributeEnum.CritDamageResist));
+                long critDamage = (int)(acAb.CalBattleTotalAttr(AttributeEnum.CritDamage) + skill.CritDamage - eyAb.CalBattleTotalAttr(AttributeEnum.CritDamageResist));
                 atk *= (1 + critDamage / 100.0);
 
                 dr.IsCrit = true;
@@ -89,7 +91,7 @@ namespace Game
             //特殊增伤
             foreach (var sp in DamageLis)
             {
-                double dm = attcher.CalBattleTotalAttr(sp);
+                double dm = acAb.CalBattleTotalAttr(sp);
                 if (dm > 0)
                 {
                     atk *= (1 + dm / 100.0);
@@ -97,7 +99,7 @@ namespace Game
             }
 
             //伤害加成-伤害减免
-            double dma = attcher.CalBattleTotalAttr(AttributeEnum.DamageIncrea) - enemy.CalBattleTotalAttr(AttributeEnum.DamageResist);
+            double dma = acAb.CalBattleTotalAttr(AttributeEnum.DamageIncrea) - eyAb.CalBattleTotalAttr(AttributeEnum.DamageResist);
             if (dma >= 0)
             {
                 atk *= (1 + dma / 100.0);
@@ -108,28 +110,28 @@ namespace Game
             }
 
             //承受者的易伤
-            double extraDamage = enemy.CalBattleTotalAttr(AttributeEnum.DecreExtraDamage);
+            double extraDamage = eyAb.CalBattleTotalAttr(AttributeEnum.DecreExtraDamage);
             if (extraDamage > 0)
             {
                 atk *= 1 + extraDamage / 100.0;
             }
 
             //职业增伤
-            double roleDamage = attcher.GetBattleRoleDamage(role);
+            double roleDamage = acAb.GetBattleRoleDamage(role);
             if (roleDamage > 0)
             {
                 atk *= (1 + roleDamage / 100.0);
             }
 
             //增伤倍率
-            double mdi = attcher.CalBattleTotalAttr(AttributeEnum.MulDamageIncrea);
+            double mdi = acAb.CalBattleTotalAttr(AttributeEnum.MulDamageIncrea);
             if (mdi > 1)
             {
                 atk *= mdi;
             }
 
             //减伤倍率
-            double mdr = enemy.CalBattleTotalAttr(AttributeEnum.MulDamageResist);
+            double mdr = eyAb.CalBattleTotalAttr(AttributeEnum.MulDamageResist);
             if (mdr > 1)
             {
                 atk = atk / mdr;
@@ -149,33 +151,36 @@ namespace Game
             return dr;
         }
 
-        public static void DoBuff(AttributeBonus attcher, AttributeBonus enemy, DamageResult dr)
+        public static void DoBuff(APlayer attcher, APlayer enemy, DamageResult dr)
         {
-            int bf1_rate = (int)attcher.CalBattleSingleAdd(AttributeEnum.Buff1_Rate);
+            AttributeBonus acAb = attcher.AttributeBonus;
+            AttributeBonus eyAb = enemy.AttributeBonus;
+
+            int bf1_rate = (int)acAb.CalBattleSingleAdd(AttributeEnum.Buff1_Rate);
             if (bf1_rate > 0)
             {
                 if (RandomHelper.RandomCritRate(bf1_rate))
                 {
-                    double bf1_vue = 1 + attcher.CalBattleSingleAdd(AttributeEnum.Buff1_Vue) / 100.0;
+                    double bf1_vue = 1 + acAb.CalBattleSingleAdd(AttributeEnum.Buff1_Vue) / 100.0;
                     dr.Damage *= bf1_vue;
                 }
             }
 
             if (dr.IsCrit)
             {
-                double bf2_vue = attcher.CalBattleSingleAdd(AttributeEnum.Buff2_Vue);
+                double bf2_vue = acAb.CalBattleSingleAdd(AttributeEnum.Buff2_Vue);
                 if (bf2_vue > 0)
                 {
                     dr.Damage *= 1 + bf2_vue / 100.0;
                 }
             }
 
-            double bf3_vue1 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue1);
+            double bf3_vue1 = acAb.CalBattleSingleAdd(AttributeEnum.Buff3_Vue1);
             if (bf3_vue1 > 0)
             {
-                double bf3_vue2 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue2);
-                double bf3_vue3 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue3);
-                double bf3_vue4 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue4);
+                double bf3_vue2 = acAb.CalBattleSingleAdd(AttributeEnum.Buff3_Vue2);
+                double bf3_vue3 = acAb.CalBattleSingleAdd(AttributeEnum.Buff3_Vue3);
+                double bf3_vue4 = acAb.CalBattleSingleAdd(AttributeEnum.Buff3_Vue4);
                 //double bf3_vue5 = attcher.CalBattleSingleAdd(AttributeEnum.Buff3_Vue5);
 
                 int rd = RandomHelper.RandomNumber(0, 1000);
@@ -199,10 +204,35 @@ namespace Game
 
             if (dr.IsDeadly)
             {
-                double bf4_vue = attcher.CalBattleSingleAdd(AttributeEnum.Buff4_Vue);
+                double bf4_vue = acAb.CalBattleSingleAdd(AttributeEnum.Buff4_Vue);
                 if (bf4_vue > 0)
                 {
                     dr.Damage *= 1 + bf4_vue / 100.0;
+                }
+            }
+
+            double bf5_vue = acAb.CalBattleSingleAdd(AttributeEnum.Buff5_Vue);
+            if (bf5_vue > 0)
+            {
+                if (!eyAb.Flags.ContainsKey(AttributeEnum.Buff5_Vue))
+                {
+                    eyAb.Flags[AttributeEnum.Buff5_Vue] = 1;
+
+                    double ed = eyAb.CalBattleTotalAttr(AttributeEnum.HP);
+                    ed = ed * bf5_vue / 100;
+                    dr.ExtendDamage += ed;
+                }
+            }
+
+            double bf6_vue = acAb.CalBattleSingleAdd(AttributeEnum.Buff6_Vue);
+            if (bf6_vue > 0)
+            {
+                double maxHp = eyAb.CalBattleTotalAttr(AttributeEnum.HP);
+                double curHp = enemy.HP;
+                double rh = curHp * 100 / maxHp;
+                if (rh < bf6_vue)
+                {
+                    dr.ExtendDamage += curHp;
                 }
             }
         }

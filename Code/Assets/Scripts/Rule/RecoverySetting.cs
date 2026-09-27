@@ -259,7 +259,8 @@ namespace Game
                 if (cycle <= 2)
                 {
                     //ÆÕÍ¨»ØÊÕ
-                    if (equip.Config.CardId > 0 && equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.Config.CardId))
+
+                    if (equip.GetCardId() > 0 && equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.GetCardId()))
                     {
                         return true;
                     }

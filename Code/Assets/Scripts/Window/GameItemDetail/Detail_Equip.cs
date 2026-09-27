@@ -265,7 +265,7 @@ namespace Game
                 {
                     this.btn_Recovery.gameObject.SetActive(!this.boxItem.Item.IsLock);
 
-                    if (equip.Config.CardId > 0 && equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.Config.CardId))
+                    if (equip.GetCardId() > 0 && equip.GetQuality() == equip.Config.CardQuality && !user.IsCardMax(equip.GetCardId()))
                     {
                         this.btn_Card.gameObject.SetActive(!this.boxItem.Item.IsLock);
                     }
@@ -464,11 +464,7 @@ namespace Game
 
             Equip equip = this.boxItem.Item as Equip;
 
-            int cardId = equip.Config.CardId;
-            if (equip.Layer > 0)
-            {
-                cardId = cardId + (equip.Layer - 1) * 3;
-            }
+            int cardId = equip.GetCardId();
 
             GameProcessor.Inst.EventCenter.Raise(new EquipToCardEvent()
             {

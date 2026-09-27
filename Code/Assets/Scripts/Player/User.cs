@@ -2004,11 +2004,7 @@ namespace Game
                     {
                         Equip equip = sp as Equip;
 
-                        int cardId = equip.Config.CardId;
-                        if (equip.Layer > 0)
-                        {
-                            cardId = cardId + (equip.Layer - 1) * 3;
-                        }
+                        int cardId = equip.GetCardId();
 
                         this.CardRecord[cardId] += 1;
                     }

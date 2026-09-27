@@ -475,5 +475,15 @@ namespace Game
             return count;
         }
 
+        public int GetCardId()
+        {
+            int cardId = Config.CardId;
+            if (this.Layer > 0)
+            {
+                cardId = cardId + (this.Layer - 1) * 3;
+            }
+
+            return cardId;
+        }
     }
 }

@@ -73,6 +73,7 @@ public class Dialog_Attr : MonoBehaviour, IBattleLife
             AttributeEnum.Cd,AttributeEnum.RestoreIncrea,
             AttributeEnum.DamageIncrea, AttributeEnum.DamageResist,
             AttributeEnum.MulDamageIncrea, AttributeEnum.MulDamageResist,
+            AttributeEnum.MulPhyDamageRise, AttributeEnum.MulMagicDamageRise,  AttributeEnum.MulSpiritDamageRise,
             AttributeEnum.CritRate, AttributeEnum.CritDamage,
             AttributeEnum.CritRateResist, AttributeEnum.CritDamageResist,
             AttributeEnum.DeadlyRate, AttributeEnum.DeadlyDamage,

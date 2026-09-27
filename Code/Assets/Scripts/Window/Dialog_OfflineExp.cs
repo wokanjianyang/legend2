@@ -82,8 +82,8 @@ namespace Game
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 1, 1, 1)); //1-9技能自选
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 10, 1, 1)); //新手宠物礼包
             //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 11, 1, 1)); //四格碎片包
-            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 12, 1, 1)); //区域1-4珍品材料自选
-
+            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 16, 1, 1)); //红色珍品材料自选
+            //items.Add(ItemHelper.BuildItem(ItemType.GiftPack, 201, 1, 1)); //红宠物自选
 
             //items.AddRange(AddGoldenEquip());
 

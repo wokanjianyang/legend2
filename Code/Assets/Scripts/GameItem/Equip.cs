@@ -450,7 +450,7 @@ namespace Game
                     {
                         dict[rid] = 0;
                     }
-                    dict[rid] += 1 * number;
+                    dict[rid] += 1 * number + this.ReformExp;
                 }
             }
             else if (Config.Cycle == 10)

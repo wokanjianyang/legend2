@@ -77,7 +77,7 @@ public class Dialog_Babel_Atr : MonoBehaviour
 
         List<BabelAtrConfig> speConfigs = BabelAtrConfigCategory.Instance.GetSpeList();
 
-        for (int i = 0; i < speConfigs.Count; i++)
+        for (int i = 0; i < AtrSpeList.Length; i++)
         {
             if (i < speConfigs.Count)
             {

@@ -247,9 +247,9 @@ namespace Game
             }
 
             //加上点
-            if (src.Length <= 3)
+            if (src.Length <= 6)
             {
-                string scale = val.Substring(src.Length, 3 - src.Length).TrimEnd('0');
+                string scale = val.Substring(src.Length, 6 - src.Length).TrimEnd('0');
                 if (scale.Length > 0) //小数位全是0,不显示
                 {
                     src += "." + scale;

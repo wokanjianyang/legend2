@@ -91,6 +91,8 @@ public class Monster_Legacy : APlayer
         AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.ConfigBase, atk * riseRate);
         AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.ConfigBase, def * riseRate);
 
+        AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Layer);
+
         double MaxHP = AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
         SetHP(MaxHP);
     }
@@ -99,7 +101,7 @@ public class Monster_Legacy : APlayer
     {
         for (int i = 0; i < ConfigHelper.TestRate; i++)
         {
-      
+
         }
         BuildReward();
     }
@@ -190,8 +192,14 @@ public class Monster_Legacy : APlayer
     private int[] rates = { 1, 5, 20, 40, 100 };
     private int RandomDropLayer(int maxLayer)
     {
-        //掉率 1/100
-        if (RandomHelper.RandomNumber(0, 100) > 0)
+        int rate = 100;
+        if (maxLayer > 30)
+        {
+            rate += (maxLayer - 30) * 2;
+        }
+
+        //掉率 1/100,30阶之后，每阶-2;
+        if (RandomHelper.RandomNumber(0, rate) > 0)
         {
             return 0;
         }

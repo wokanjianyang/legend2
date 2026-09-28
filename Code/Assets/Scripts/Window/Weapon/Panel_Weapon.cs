@@ -67,6 +67,13 @@ public class Panel_Weapon : MonoBehaviour
     {
         this.list = WeaponConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Type <= ConfigHelper.Channel).ToList();
         MaxWeapon = list.Count();
+
+        Weapon_Data data = User_Data_Manager.Data.WeaponData.Select(m => m.Value).Where(m => m.Status == 1).FirstOrDefault();
+        if (data != null)
+        {
+            WeaponId = data.Id;
+        }
+
         this.Show();
     }
 
@@ -271,6 +278,12 @@ public class Panel_Weapon : MonoBehaviour
                 break;
             case 8:
                 progress = user.GetExclusiveLevel(3201);
+                break;
+            case 9:
+                progress = user.GetExclusiveLevel(107);
+                break;
+            case 10:
+                progress = user.GetExclusiveLevel(108);
                 break;
             default:
                 break;

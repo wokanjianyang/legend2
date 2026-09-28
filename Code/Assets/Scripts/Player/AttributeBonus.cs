@@ -557,7 +557,7 @@ namespace Game
 
         public string GetPowerText()
         {
-            return StringHelper.FormatNumber(GetPower());
+            return StringHelper.FormatFullNumber(GetPower());
 
             //return GetPowerNew().FormatUnit();
         }

@@ -226,6 +226,40 @@ namespace Game
             return src + unit;
         }
 
+        public static string FormatFullNumber(double v)
+        {
+            string val = v.ToString("0");
+            string unit = "";
+
+            if (val.Length <= 6)
+            {
+                return val + unit;
+            }
+
+            int index = (val.Length - Start - 2) / 4;
+            string src = val.Substring(0, val.Length - index * 4);
+
+            while (index > 0)
+            {
+                int unitIndex = Math.Min(index, ConfigHelper.UnitList.Length);
+                index -= unitIndex;
+                unit = ConfigHelper.UnitList[unitIndex - 1] + unit;
+            }
+
+            //加上点
+            if (src.Length <= 3)
+            {
+                string scale = val.Substring(src.Length, 3 - src.Length).TrimEnd('0');
+                if (scale.Length > 0) //小数位全是0,不显示
+                {
+                    src += "." + scale;
+                }
+            }
+
+            return src + unit;
+        }
+
+
         public static double StringToNumber(string text)
         {
             if (String.IsNullOrEmpty(text))

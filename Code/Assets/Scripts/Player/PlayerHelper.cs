@@ -122,7 +122,7 @@ namespace Game
             {nameof(AttributeEnum.RateDef), "防御增幅" },
             {nameof(AttributeEnum.RateAtk), "攻击增幅" },
             {nameof(AttributeEnum.RatePhyAtk), "物攻增幅" },
-            {nameof(AttributeEnum.RateMagicAtk), "魔击增幅" },
+            {nameof(AttributeEnum.RateMagicAtk), "魔攻增幅" },
             {nameof(AttributeEnum.RateSpiritAtk), "道攻增幅" },
             {nameof(AttributeEnum.RatePhyDamage), "物伤增幅" },
             {nameof(AttributeEnum.RateMagicDamage), "魔伤增幅" },

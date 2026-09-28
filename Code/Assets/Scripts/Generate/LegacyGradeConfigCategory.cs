@@ -18,11 +18,22 @@ namespace Game
     {
         public long GetFee1(long level)
         {
-            return this.Fee1 * level;
+            long rate = 1;
+            if (level > 30)
+            {
+                rate += (level - 21) / 10;
+            }
+            return this.Fee1 * level * rate;
         }
         public long GetFee2(long level)
         {
-            return this.Fee2 * level;
+            double rate = 1;
+            if (level > 30)
+            {
+                long rise = (level - 21) / 10;
+                rate += rise / 5.0;
+            }
+            return (long)(this.Fee2 * level * rate);
         }
 
         public List<KeyValuePair<int, double>> GetTotalAtrList(int level)

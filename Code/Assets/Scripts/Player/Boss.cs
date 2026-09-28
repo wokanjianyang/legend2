@@ -223,7 +223,20 @@ namespace Game
             //概率获取彩蛋
             if (RandomHelper.RandomNumber(0, 300) <= 0)
             {
-                int achId = AchievementConfigCategory.Instance.RandomKillType(10002);
+                int achId = 0;
+
+                if (this.GroupId >= 13 && this.GroupId <= 24)
+                {
+                    //优先困难
+                    achId = AchievementConfigCategory.Instance.RandomKillType(10004);
+                }
+
+                if (achId <= 0)
+                {
+                    //如果困难满了，普通还没满，就再普通
+                    achId = AchievementConfigCategory.Instance.RandomKillType(10002);
+                }
+
                 if (achId > 0)
                 {
                     user.AddAchievementLevel(achId);

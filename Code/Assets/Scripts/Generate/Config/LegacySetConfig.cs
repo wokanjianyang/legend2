@@ -96,6 +96,9 @@ namespace Game
 		/// <summary>AtrVueList</summary>
 		[ProtoMember(7)]
 		public int[] AtrVueList { get; set; }
+		/// <summary>RequireList</summary>
+		[ProtoMember(8)]
+		public int[] RequireList { get; set; }
 
 	}
 }

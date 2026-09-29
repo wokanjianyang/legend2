@@ -219,12 +219,12 @@ public class Panel_Legacy : MonoBehaviour
         LegacySetConfig setConfig = LegacySetConfigCategory.Instance.GetByRole(this.Role);
         for (int i = 0; i < SetList.Length; i++)
         {
-            if (i < setConfig.AtrIdList.Length)
+            if (i < setConfig.AtrIdList.Length && legacySetLayer >= setConfig.RequireList[i])
             {
                 int attrId = setConfig.AtrIdList[i];
 
                 long atrRise = setConfig.AtrVueList[i];
-                long attrCurrent = setConfig.AtrVueList[i] * legacySetLayer;
+                long attrCurrent = setConfig.GetAtrVue(i, legacySetLayer);
 
                 SetList[i].SetContent(attrId, attrCurrent, atrRise);
                 SetList[i].gameObject.SetActive(true);

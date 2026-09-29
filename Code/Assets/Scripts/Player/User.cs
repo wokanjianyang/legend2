@@ -597,7 +597,7 @@ namespace Game
                     for (int k = 0; k < setConfig.AtrIdList.Length; k++)
                     {
                         int atrId = setConfig.AtrIdList[k];
-                        long vue = setConfig.AtrVueList[k] * ls;
+                        long vue = setConfig.GetAtrVue(k, ls);
 
                         AttributeBonus.SetAttr((AttributeEnum)(atrId), attrKey++, vue);
                     }

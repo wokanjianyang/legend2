@@ -65,4 +65,13 @@ namespace Game
             return list;
         }
     }
+
+
+    public partial class LegacySetConfig
+    {
+        public long GetAtrVue(int index, int layer)
+        {
+            return this.AtrVueList[index] * (layer - this.RequireList[index]);
+        }
+    }
 }

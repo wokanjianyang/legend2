@@ -102,8 +102,11 @@ namespace Game
 		/// <summary>Max</summary>
 		[ProtoMember(9)]
 		public int Max { get; set; }
-		/// <summary>Number</summary>
+		/// <summary>RateNumber</summary>
 		[ProtoMember(10)]
+		public int RateNumber { get; set; }
+		/// <summary>Number</summary>
+		[ProtoMember(11)]
 		public int Number { get; set; }
 
 	}

@@ -155,9 +155,15 @@ public class Battle_Defend : ABattleRule
         DefendDropConfig defendDropConfig = DefendDropConfigCategory.Instance.GetConfig(this.Level, dropId);
         if (defendDropConfig != null && defendDropConfig.Number > 1)
         {
+            int nr = 1;
+            if (defendDropConfig.RateNumber > 0)
+            {
+                nr = (this.CurrentRecord.Progress / defendDropConfig.RateNumber + 1);
+            }
+
             foreach (Item item in items)
             {
-                item.Temp_Number = defendDropConfig.Number;
+                item.Temp_Number = defendDropConfig.Number * nr;
             }
         }
 

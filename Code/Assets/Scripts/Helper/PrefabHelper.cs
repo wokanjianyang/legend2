@@ -311,6 +311,7 @@ namespace Game
         public Sprite GetEquipLog(int role, int part)
         {
             int key = role * 100 + part;
+
             if (!EquipLogoList.ContainsKey(key))
             {
                 EquipLogoList[key] = Resources.Load<Sprite>("UI/Bag/Equip/" + "Box_Equip_" + role + "_" + part);

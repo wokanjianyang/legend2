@@ -9,6 +9,7 @@ namespace Game
 {
     public class Item_Legend_Part : MonoBehaviour
     {
+        public Image Logo;
         public Text Txt_Name;
         public Text Txt_Value;
 
@@ -24,9 +25,10 @@ namespace Game
 
         }
 
-        public void SetContent(string name, double attrValue)
+        public void SetContent(int part, string name, double attrValue)
         {
             Txt_Name.text = name;
+            this.Logo.sprite = PrefabHelper.Instance().GetItemLogo("Bag/Equip/Box_Equip_4_" + part);
 
             if (attrValue > 0)
             {

@@ -73,7 +73,7 @@ public class Item_Legend : MonoBehaviour
             int lgId = config.Id;
             int lgVue = user.GetLegend(lgId);
 
-            PartList[i].SetContent(config.Name, lgVue);
+            PartList[i].SetContent(config.Part, config.Name, lgVue);
 
             if (lgVue > 0)
             {

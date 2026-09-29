@@ -594,12 +594,10 @@ namespace Game
                 {
                     LegacySetConfig setConfig = LegacySetConfigCategory.Instance.GetByRole(i);
 
-                    for (int k = 0; k < setConfig.AtrIdList.Length; k++)
+                    List<KeyValuePair<int, double>> attrList = setConfig.GetTotalAtrList(ls);
+                    foreach (var al in attrList)
                     {
-                        int atrId = setConfig.AtrIdList[k];
-                        long vue = setConfig.GetAtrVue(k, ls);
-
-                        AttributeBonus.SetAttr((AttributeEnum)(atrId), attrKey++, vue);
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
                     }
                 }
             }

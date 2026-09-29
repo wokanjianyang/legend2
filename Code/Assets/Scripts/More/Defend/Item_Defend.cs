@@ -126,7 +126,7 @@ namespace Game
                 return;
             }
 
-            //record.Complete();
+            record.Complete();
 
             double expTotal = 0;
             double goldTotal = 0;

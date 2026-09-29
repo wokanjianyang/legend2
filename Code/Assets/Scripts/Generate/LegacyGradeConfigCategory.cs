@@ -71,7 +71,30 @@ namespace Game
     {
         public long GetAtrVue(int index, int layer)
         {
-            return this.AtrVueList[index] * (layer - this.RequireList[index]);
+            return this.AtrVueList[index] * layer;
+        }
+
+        public List<KeyValuePair<int, double>> GetTotalAtrList(int layer)
+        {
+            List<KeyValuePair<int, double>> list = new List<KeyValuePair<int, double>>();
+
+            for (int i = 0; i < AtrIdList.Length; i++)
+            {
+                int attrId = AtrIdList[i];
+                double attrValue = AtrVueList[i] * layer;
+
+                list.Add(new KeyValuePair<int, double>(attrId, attrValue));
+            }
+
+            for (int i = 0; i < SpeIdList.Length; i++)
+            {
+                if (layer >= SpeRequireList[i])
+                {
+                    list.Add(new KeyValuePair<int, double>(SpeIdList[i], SpeVueList[i]));
+                }
+            }
+
+            return list;
         }
     }
 }

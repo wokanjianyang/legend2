@@ -67,7 +67,7 @@ public class Panel_Lottery : MonoBehaviour
 
     public void Init()
     {
-        List<StoreConfig> list = StoreConfigCategory.Instance.GetAll().Select(m => m.Value).ToList();
+        List<StoreConfig> list = StoreConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.Cycle > 0).ToList();
 
         for (int i = 0; i < list.Count; i++)
         {

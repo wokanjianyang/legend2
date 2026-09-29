@@ -17,6 +17,9 @@ public class Panel_Legacy : MonoBehaviour
     public Transform Tf_Set_List;
     private Forge_Atr_Item[] SetList;
 
+    public Transform Tf_Set_Spe_List;
+    private Forge_Atr_Item[] SetSpeList;
+
     public Transform Tf_Atr_List_Base;
     private Forge_Atr_Item[] AtrListBase;
 
@@ -48,6 +51,8 @@ public class Panel_Legacy : MonoBehaviour
 
         AtrGradeList = Tf_Atr_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
         AtrGradeSpeList = Tf_Atr_Spe_List_Level.GetComponentsInChildren<Forge_Atr_Item>();
+
+        SetSpeList = Tf_Set_Spe_List.GetComponentsInChildren<Forge_Atr_Item>();
 
         items = Tran_Item_List.GetComponentsInChildren<Box_Legacy>();
         Btn_Ok.onClick.AddListener(OnClick_OK);
@@ -219,7 +224,7 @@ public class Panel_Legacy : MonoBehaviour
         LegacySetConfig setConfig = LegacySetConfigCategory.Instance.GetByRole(this.Role);
         for (int i = 0; i < SetList.Length; i++)
         {
-            if (i < setConfig.AtrIdList.Length && legacySetLayer >= setConfig.RequireList[i])
+            if (i < setConfig.AtrIdList.Length)
             {
                 int attrId = setConfig.AtrIdList[i];
 
@@ -234,6 +239,23 @@ public class Panel_Legacy : MonoBehaviour
                 SetList[i].gameObject.SetActive(false);
             }
 
+        }
+
+        for (int i = 0; i < SetSpeList.Length; i++)
+        {
+            if (i < setConfig.SpeIdList.Length)
+            {
+                int attrId = setConfig.SpeIdList[i];
+                long atrVue = setConfig.SpeVueList[i];
+                int rv = setConfig.SpeRequireList[i];
+
+                SetSpeList[i].SetSpContent(attrId, atrVue, rv, legacySetLayer);
+                SetSpeList[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                SetSpeList[i].gameObject.SetActive(false);
+            }
         }
     }
 

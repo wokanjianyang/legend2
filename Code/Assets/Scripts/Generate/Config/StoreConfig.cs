@@ -108,8 +108,11 @@ namespace Game
 		/// <summary>Fee</summary>
 		[ProtoMember(11)]
 		public int Fee { get; set; }
-		/// <summary>Des</summary>
+		/// <summary>Cycle</summary>
 		[ProtoMember(12)]
+		public int Cycle { get; set; }
+		/// <summary>Des</summary>
+		[ProtoMember(13)]
 		public string Des { get; set; }
 
 	}

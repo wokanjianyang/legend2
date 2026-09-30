@@ -111,10 +111,10 @@ namespace Game
 
             string name = equip.GetName();
 
-            //if (equip.Part <= 10 || equip.Part >= 21)
-            //{
-            //    name += "(" + ConfigHelper.LayerChinaList[equip.Layer] + "阶)";
-            //}
+            if (equip.Layer > 0)
+            {
+                name += "(" + equip.Layer + "转)";
+            }
             var titleColor = QualityConfigHelper.GetQualityColor(equip.GetQuality());
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, name);
 

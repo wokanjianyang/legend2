@@ -50,7 +50,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
     private long GetFee(long level)
     {
-        return 5 * level;
+        return 10 * level;
     }
 
     private void Show()
@@ -77,7 +77,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
             string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
 
             txt_Fee.gameObject.SetActive(true);
-            txt_Fee.text = string.Format("<color={0}>{1}</color>", color, "需要:" + fee + " 凤凰之羽");
+            txt_Fee.text = string.Format("凤凰之羽：<color={0}>{1}/{2}</color>", color, fee, materialCount);
 
         }
 

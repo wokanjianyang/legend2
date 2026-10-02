@@ -84,7 +84,7 @@ namespace Game
             }
             else
             {
-                this.Txt_Attr_Add.text = "（" + requireLevel + "级解锁特殊属性）";
+                this.Txt_Attr_Add.text = "（" + requireLevel + "级解锁）";
             }
         }
     }

@@ -79,6 +79,7 @@ public class Init : MonoBehaviour
                 "Window/Card/Dialog_Card",
                 "Window/Exclusive/Dialog_Exclusive",
                 "Window/Ring/Dialog_Ring",
+                "Window/Wing/Dialog_Wing",
             }
         },
         {

@@ -138,6 +138,9 @@ namespace Game
 		/// <summary>Gold</summary>
 		[ProtoMember(21)]
 		public long Gold { get; set; }
+		/// <summary>MulDamageResit</summary>
+		[ProtoMember(22)]
+		public int MulDamageResit { get; set; }
 
 	}
 }

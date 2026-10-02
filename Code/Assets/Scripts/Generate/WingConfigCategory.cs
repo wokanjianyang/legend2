@@ -7,10 +7,10 @@ namespace Game
 
     public partial class WingConfigCategory
     {
-        public WingConfig GetByLevel(long level)
+        public List<WingConfig> GetAllByType(int type)
         {
-            var config = WingConfigCategory.Instance.GetAll().Select(m => m.Value).Where(m => m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
-            return config;
+            var configs = this.list.Where(m => m.Type == type).ToList();
+            return configs;
         }
     }
 
@@ -18,21 +18,24 @@ namespace Game
     {
         public long GetFee(long level)
         {
-            long riseLevel = (level - this.StartLevel);
-            long fee = this.Fee + riseLevel * this.FeeRise;
-            return fee;
+            return 5 * level;
         }
 
-        public long GetAttr(int index, long level)
+        public long GetAttr(long level)
         {
-            if (index >= this.AttrValueList.Length)
+            if (level >= this.RequireLevel)
             {
-                return 0;
+                if (this.RiseType <= 0)
+                {
+                    return this.AtrVue;
+                }
+                else
+                {
+                    return MathHelper.GetSeqByType(this.RiseType, level, this.AtrVue);
+                }
             }
 
-            long riseLevel = (level - this.StartLevel);
-            long attr = this.AttrValueList[index] + riseLevel * this.AttrRiseList[index];
-            return attr;
+            return 0;
         }
     }
 }

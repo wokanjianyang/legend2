@@ -84,6 +84,8 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.ConfigBase, Config.CritDamage);
             AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.ConfigBase, Config.CritRateResist);
 
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, Config.MulDamageResit);
+
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy);
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss);
             AttributeBonus.SetAttr(AttributeEnum.Lucky, AttributeFrom.ConfigBase, Config.Lucky);

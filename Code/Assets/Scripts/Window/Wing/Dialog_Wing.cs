@@ -13,21 +13,23 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
     public Text txt_Level;
 
     public Button Btn_Full;
-    public Button Btn_Active;
     public Button Btn_Strong;
 
     public Transform tf_attr;
-    private List<Forge_Atr_Item> AtrrList;
+    private List<Forge_Atr_Item> AtrList;
+
+    public Transform tf_spe;
+    private List<Item_Atr_Spe> AtrSpeList;
 
     public int Order => (int)ComponentOrder.Dialog;
 
     // Start is called before the first frame update
     void Start()
     {
-        AtrrList = tf_attr.GetComponentsInChildren<Forge_Atr_Item>(true).ToList();
+        AtrList = tf_attr.GetComponentsInChildren<Forge_Atr_Item>(true).ToList();
+        AtrSpeList = tf_spe.GetComponentsInChildren<Item_Atr_Spe>(true).ToList();
 
         Btn_Full.onClick.AddListener(OnClick_Close);
-        Btn_Active.onClick.AddListener(OnStrong);
         Btn_Strong.onClick.AddListener(OnStrong);
 
         Show();
@@ -35,6 +37,20 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
     public void OnBattleStart()
     {
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
+    }
+
+    private void Open(OpenDialogEvent e)
+    {
+        if (e.Type == DialogType.Wing)
+        {
+            this.gameObject.SetActive(true);
+        }
+    }
+
+    private long GetFee(long level)
+    {
+        return 5 * level;
     }
 
     private void Show()
@@ -47,21 +63,8 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         long MaxLevel = 60;
 
         this.txt_Level.text = "等级:" + currentLevel;
-        if (currentLevel > 0)
-        {
-            this.Btn_Active.gameObject.SetActive(false);
-            this.Btn_Strong.gameObject.SetActive(true);
-        }
-        else
-        {
-            this.Btn_Active.gameObject.SetActive(true);
-            this.Btn_Strong.gameObject.SetActive(false);
-        }
 
-        WingConfig currentConfig = WingConfigCategory.Instance.GetByLevel(currentLevel);
-        WingConfig nextConfig = WingConfigCategory.Instance.GetByLevel(nextLevel);
-
-        if (nextConfig == null || currentLevel >= MaxLevel)
+        if (currentLevel >= MaxLevel)
         {
             this.Btn_Strong.gameObject.SetActive(false);
             this.txt_Fee.text = "已满级";
@@ -70,7 +73,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         {
             //Fee
             long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_Wing_Stone);
-            long fee = nextConfig.GetFee(nextLevel);
+            long fee = this.GetFee(nextLevel);
             string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
 
             txt_Fee.gameObject.SetActive(true);
@@ -78,21 +81,47 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
         }
 
-        WingConfig showConfig = nextConfig == null ? currentConfig : nextConfig;
+        List<WingConfig> list = WingConfigCategory.Instance.GetAllByType(0);
 
-        for (int i = 0; i < AtrrList.Count; i++)
+        for (int i = 0; i < AtrList.Count; i++)
         {
-            Forge_Atr_Item attrItem = AtrrList[i];
+            Forge_Atr_Item attrItem = AtrList[i];
 
-            if (i >= showConfig.AttrIdList.Length)
+            if (i >= list.Count)
             {
                 attrItem.gameObject.SetActive(false);
             }
             else
             {
-                attrItem.gameObject.SetActive(true);
-                long attrBase = currentConfig == null ? 0 : currentConfig.GetAttr(i, currentLevel);
-                attrItem.SetContent(showConfig.AttrIdList[i], attrBase, showConfig.AttrRiseList[i]);
+                WingConfig config = list[i];
+
+                if (nextLevel >= config.RequireLevel)
+                {
+                    attrItem.gameObject.SetActive(true);
+                    long attrBase = config.GetAttr(currentLevel);
+                    long rise = MathHelper.GetRiseByType(config.RiseType, nextLevel, config.AtrVue);
+                    attrItem.SetContent(config.AtrId, attrBase, rise);
+                }
+                else
+                {
+                    attrItem.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        List<WingConfig> slist = WingConfigCategory.Instance.GetAllByType(1);
+        for (int i = 0; i < AtrSpeList.Count; i++)
+        {
+            Item_Atr_Spe item = AtrSpeList[i];
+            if (i >= list.Count)
+            {
+                item.gameObject.SetActive(false);
+            }
+            else
+            {
+                WingConfig config = slist[i];
+                item.SetContent(config.AtrId, config.AtrVue, config.RequireLevel, currentLevel);
+                item.gameObject.SetActive(true);
             }
         }
     }
@@ -106,8 +135,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
         long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_Wing_Stone);
 
-        WingConfig nextConfig = WingConfigCategory.Instance.GetByLevel(nextLevel);
-        long fee = nextConfig.GetFee(nextLevel);
+        long fee = this.GetFee(nextLevel);
 
         if (materialCount < fee)
         {

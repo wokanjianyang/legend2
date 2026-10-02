@@ -50,7 +50,6 @@ namespace Game
         public Button Btn_Cycle;
 
         public Button btn_SoulRing;
-        public Button btn_Wing;
         public Button btn_Exclusive;
         public Button btn_Card;
         public Button btn_Shengxiao;
@@ -69,7 +68,6 @@ namespace Game
 
         public Dialog_Exclusive DialogExclusive;
         public Dialog_Card DialogCard;
-        public Dialog_Wing DialogWing;
         public Dialog_Ring DialogRing;
         public Dialog_Cycle DialogCycle;
 
@@ -105,7 +103,6 @@ namespace Game
             this.btn_Card.onClick.AddListener(OnOpenCard);
 
             this.btn_SoulRing.onClick.AddListener(this.OnClick_RingSoul);
-            this.btn_Wing.onClick.AddListener(OnOpenWing);
             this.btn_Exclusive.onClick.AddListener(OnExclusive);
 
             this.btn_Ring.onClick.AddListener(OnOpenRing);
@@ -1495,12 +1492,6 @@ namespace Game
         public void OnOpenRing()
         {
             this.DialogRing.Show();
-        }
-
-
-        public void OnOpenWing()
-        {
-            this.DialogWing.gameObject.SetActive(true);
         }
 
         public void OnOpenTalent()

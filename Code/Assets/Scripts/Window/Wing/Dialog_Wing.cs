@@ -23,6 +23,8 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
     public int Order => (int)ComponentOrder.Dialog;
 
+    private int Part = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,19 +50,27 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         }
     }
 
-    private long GetFee(long level)
+    private long GetFee(int p, long level)
     {
-        return 10 * level;
+        if (p > 1)
+        {
+            return 1;
+        }
+        else
+        {
+            long rate = (level - 1) / 10 + 1;
+            return 10 * level * rate;
+        }
     }
 
     private void Show()
     {
         User user = User_Data_Manager.Data;
-        long currentLevel = user.WingData.Data;
-        long nextLevel = currentLevel + 1;
-        //Debug.Log("currentLevel show:" + currentLevel);
+        long currentLevel = user.GetWingLevel(this.Part);
 
-        long MaxLevel = 60;
+        long nextLevel = currentLevel + 1;
+
+        long MaxLevel = user.MagicLevel.Data - 30;
 
         this.txt_Level.text = "µÈ¼¶:" + currentLevel;
 
@@ -72,16 +82,19 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         else
         {
             //Fee
-            long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_Wing_Stone);
-            long fee = this.GetFee(nextLevel);
+            int mcId = GetMcId();
+            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(mcId);
+
+            long materialCount = user.GetMaterialCount(mcId);
+            long fee = this.GetFee(this.Part, nextLevel);
             string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
 
             txt_Fee.gameObject.SetActive(true);
-            txt_Fee.text = string.Format("·ï»ËÖ®Óð£º<color={0}>{1}/{2}</color>", color, fee, materialCount);
+            txt_Fee.text = string.Format("{3}£º<color={0}>{1}/{2}</color>", color, fee, materialCount, itemConfig.Name);
 
         }
 
-        List<WingConfig> list = WingConfigCategory.Instance.GetAllByType(0);
+        List<WingConfig> list = WingConfigCategory.Instance.GetAllByPartAndType(this.Part, 1);
 
         for (int i = 0; i < AtrList.Count; i++)
         {
@@ -98,8 +111,8 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
                 if (nextLevel >= config.RequireLevel)
                 {
                     attrItem.gameObject.SetActive(true);
-                    long attrBase = config.GetAttr(currentLevel);
-                    long rise = MathHelper.GetRiseByType(config.RiseType, nextLevel, config.AtrVue);
+                    double attrBase = config.GetAttr(currentLevel);
+                    double rise = MathHelper.GetRiseByType(config.RiseType, nextLevel, 1) * config.AtrVue;
                     attrItem.SetContent(config.AtrId, attrBase, rise);
                 }
                 else
@@ -109,7 +122,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
             }
         }
 
-        List<WingConfig> slist = WingConfigCategory.Instance.GetAllByType(1);
+        List<WingConfig> slist = WingConfigCategory.Instance.GetAllByPartAndType(this.Part, 2);
         for (int i = 0; i < AtrSpeList.Count; i++)
         {
             Item_Atr_Spe item = AtrSpeList[i];
@@ -130,12 +143,13 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
     {
         User user = User_Data_Manager.Data;
 
-        long currentLevel = user.WingData.Data;
+        long currentLevel = user.GetWingLevel(this.Part);
         long nextLevel = currentLevel + 1;
 
-        long materialCount = user.GetMaterialCount(ItemHelper.SpecialId_Wing_Stone);
+        int mcId = GetMcId();
+        long materialCount = user.GetMaterialCount(mcId);
 
-        long fee = this.GetFee(nextLevel);
+        long fee = this.GetFee(this.Part, nextLevel);
 
         if (materialCount < fee)
         {
@@ -143,12 +157,12 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
             return;
         }
 
-        user.WingData.Data = nextLevel;
+        user.SaveWingLevel(this.Part);
 
         GameProcessor.Inst.EventCenter.Raise(new SystemUseEvent()
         {
             Type = ItemType.Material,
-            ItemId = ItemHelper.SpecialId_Wing_Stone,
+            ItemId = mcId,
             Quantity = fee
         });
 
@@ -158,6 +172,11 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
         GameProcessor.Inst.SaveData();
         //Debug.Log("OnStrong :" + user.WingData.Data);
+    }
+
+    private int GetMcId()
+    {
+        return ItemHelper.SpecialId_Wing_Stone + this.Part - 1;
     }
 
     public void OnClick_Close()

@@ -65,6 +65,7 @@ namespace Game
 
         public Infinite_Data InfinData { get; set; } = new Infinite_Data();
 
+        public Dictionary<int, MagicData> WingDict { get; } = new Dictionary<int, MagicData>();
         //---------cal function
         public int GetExclusiveLevel(int id)
         {
@@ -237,8 +238,6 @@ namespace Game
 
         public long LastSaveTime { get; set; }
 
-        private bool isInLevelUp;
-
         public int MapId { get; set; } = 1;
 
 
@@ -281,7 +280,6 @@ namespace Game
         public Dictionary<int, MagicData> FestiveAttrData { get; } = new Dictionary<int, MagicData>();
 
         public WorldData WorldData { get; set; } = new WorldData();
-        public MagicData WingData { get; set; } = new MagicData();
 
         public MagicData PillData { get; set; } = new MagicData();
 
@@ -322,6 +320,9 @@ namespace Game
 
         [JsonIgnore]
         public long TempUpExp { get; set; } = 0;
+
+        private bool isInLevelUp = false;
+
         public User()
         {
 
@@ -553,6 +554,20 @@ namespace Game
                     SoulRingConfig config = SoulRingConfigCategory.Instance.Get(sp.Key);
 
                     Dictionary<int, double> attrList = config.GetTotalAtrList(sl);
+                    foreach (var al in attrList)
+                    {
+                        AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
+                    }
+                }
+            }
+
+            //翅膀
+            foreach (var sp in WingDict)
+            {
+                int wl = (int)sp.Value.Data;
+                if (wl > 0)
+                {
+                    List<KeyValuePair<int, double>> attrList = WingConfigCategory.Instance.GetTotalAtrList(sp.Key, wl);
                     foreach (var al in attrList)
                     {
                         AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
@@ -2131,6 +2146,26 @@ namespace Game
             }
 
             return (int)SpiritRecord[cardId].Level.Data;
+        }
+
+        public int GetWingLevel(int part)
+        {
+            if (!WingDict.ContainsKey(part))
+            {
+                WingDict[part] = new MagicData();
+            }
+
+            return (int)WingDict[part].Data;
+        }
+
+        public void SaveWingLevel(int part)
+        {
+            if (!WingDict.ContainsKey(part))
+            {
+                WingDict[part] = new MagicData();
+            }
+
+            WingDict[part].Data++;
         }
     }
 }

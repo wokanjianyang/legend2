@@ -108,7 +108,7 @@ namespace Game
 
             paramDict.Add("babel", user.BabelData.Progress.Data + "");
 
-            paramDict.Add("swing", user.WingData.Data + "");
+            paramDict.Add("wing", user.WingDict.Select(m => m.Value.Data).Sum() + "");
 
             paramDict.Add("mapId", user.MapId + "");
 

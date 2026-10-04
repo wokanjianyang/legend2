@@ -18,8 +18,6 @@ namespace Game
 
         public Image Img_Logo;
 
-        private Item CurrentItem;
-
         private int Part = 0;
 
         // Start is called before the first frame update
@@ -44,15 +42,11 @@ namespace Game
 
         private void Show()
         {
-            if (this.CurrentItem != null)
+            if (this.Part > 0)
             {
-                this.Txt_Level.gameObject.SetActive(false);
+                User user = User_Data_Manager.Data;
 
-                int quality = CurrentItem.GetQuality();
-
-                this.Txt_Name.text = CurrentItem.GetName();
-
-                int level = 1;
+                int level = user.GetWingLevel(this.Part);
 
                 this.Txt_Level.text = string.Format("{0}¼¶", level);
                 this.Txt_Level.gameObject.SetActive(true);

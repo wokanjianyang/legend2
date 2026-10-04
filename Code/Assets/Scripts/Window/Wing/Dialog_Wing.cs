@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class Dialog_Wing : MonoBehaviour, IBattleLife
 {
     public Text txt_Fee;
-    public Text txt_Level;
 
     public Button Btn_Full;
     public Button Btn_Strong;
@@ -21,6 +20,9 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
     public Transform tf_spe;
     private List<Item_Atr_Spe> AtrSpeList;
 
+    public Transform tf_list;
+    private List<Wing_Item> item_list;
+
     public int Order => (int)ComponentOrder.Dialog;
 
     private int Part = 1;
@@ -30,11 +32,22 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
     {
         AtrList = tf_attr.GetComponentsInChildren<Forge_Atr_Item>(true).ToList();
         AtrSpeList = tf_spe.GetComponentsInChildren<Item_Atr_Spe>(true).ToList();
+        item_list = tf_list.GetComponentsInChildren<Wing_Item>(true).ToList();
 
         Btn_Full.onClick.AddListener(OnClick_Close);
         Btn_Strong.onClick.AddListener(OnStrong);
 
+        this.Init();
         Show();
+    }
+
+    private void Init()
+    {
+        ToggleGroup toggleGroup = tf_list.GetComponent<ToggleGroup>();
+        for (int i = 1; i <= item_list.Count; i++)
+        {
+            item_list[i - 1].Init(i, toggleGroup);
+        }
     }
 
     public void OnBattleStart()
@@ -59,8 +72,14 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         else
         {
             long rate = (level - 1) / 10 + 1;
-            return 10 * level * rate;
+            return 5 * level * rate;
         }
+    }
+
+    public void SelectItem(int p)
+    {
+        this.Part = p;
+        this.Show();
     }
 
     private void Show()
@@ -71,8 +90,6 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         long nextLevel = currentLevel + 1;
 
         long MaxLevel = user.MagicLevel.Data - 30;
-
-        this.txt_Level.text = "µÈ¼¶:" + currentLevel;
 
         if (currentLevel >= MaxLevel)
         {

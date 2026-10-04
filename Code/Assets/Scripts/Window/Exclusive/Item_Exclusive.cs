@@ -54,13 +54,19 @@ namespace Game
         public void Show()
         {
             User user = User_Data_Manager.Data;
-            if (user.GetExclusiveLevel(Config.Id) > 0)
+            int level = user.GetExclusiveLevel(Config.Id);
+            if (level > 0)
             {
                 this.Img_Active.gameObject.SetActive(false);
             }
             else
             {
                 this.Img_Active.gameObject.SetActive(true);
+            }
+
+            if (Config.Max > 1)
+            {
+                this.Txt_Name.text = string.Format("<color=#{0}>{1}(Lv{2})</color>", QualityConfigHelper.GetQualityColor(Config.Quality), Config.Name, level);
             }
 
         }

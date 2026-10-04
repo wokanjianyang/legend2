@@ -72,20 +72,23 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
             Txt_Talent.text = "获得天赋：" + config.Des;
         }
 
-        if (config.RequireId > 0)
-        {
-            ExclusiveConfig requireConfig = ExclusiveConfigCategory.Instance.Get(config.RequireId);
+        //if (config.RequireId > 0)
+        //{
+        //    ExclusiveConfig requireConfig = ExclusiveConfigCategory.Instance.Get(config.RequireId);
 
-            string color = user.GetExclusiveLevel(config.RequireId) > 0 ? "#11FF11" : "#FF0000";
+        //    string color = user.GetExclusiveLevel(config.RequireId) > 0 ? "#11FF11" : "#FF0000";
 
-            Txt_Require.text = "" + string.Format("<color={0}>需求前置珍宝：{1}</color>", color, requireConfig.Name);
-        }
-        else
-        {
-            Txt_Require.text = string.Format("<color={0}>无前置需求</color>", "#11FF11");
-        }
+        //    Txt_Require.text = "" + string.Format("<color={0}>需求前置珍宝：{1}</color>", color, requireConfig.Name);
+        //}
+        //else
+        //{
+        //    Txt_Require.text = string.Format("<color={0}>无前置需求</color>", "#11FF11");
+        //}
+        int level = user.GetExclusiveLevel(Tid);
 
-        if (user.GetExclusiveLevel(Tid) > 0)
+        Txt_Require.text = string.Format("<color={0}>等级{1}（Max:{2}）</color>", "#11FF11", level, config.Max);
+
+        if (level >= config.Max)
         {
             Btn_OK.gameObject.SetActive(false);
             Txt_Actived.gameObject.SetActive(true);
@@ -155,7 +158,7 @@ public class Dialog_Exclusive_Fuse : MonoBehaviour
             user.UseHideMaterialCount(mid, count);
         }
 
-        user.ExclusiveDict[Tid] = 1;
+        user.ExclusiveDict[Tid] += 1;
 
         this.gameObject.SetActive(false);
 

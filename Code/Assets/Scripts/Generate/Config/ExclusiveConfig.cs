@@ -81,35 +81,38 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>Role</summary>
+		/// <summary>Max</summary>
 		[ProtoMember(3)]
+		public int Max { get; set; }
+		/// <summary>Role</summary>
+		[ProtoMember(4)]
 		public int Role { get; set; }
 		/// <summary>RequireId</summary>
-		[ProtoMember(4)]
+		[ProtoMember(5)]
 		public int RequireId { get; set; }
 		/// <summary>TalentId</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int TalentId { get; set; }
 		/// <summary>AtrIdList</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int[] AtrIdList { get; set; }
 		/// <summary>AtrVueList</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int[] AtrVueList { get; set; }
 		/// <summary>MidList</summary>
-		[ProtoMember(8)]
+		[ProtoMember(9)]
 		public int[] MidList { get; set; }
 		/// <summary>McList</summary>
-		[ProtoMember(9)]
+		[ProtoMember(10)]
 		public int[] McList { get; set; }
 		/// <summary>Quality</summary>
-		[ProtoMember(10)]
+		[ProtoMember(11)]
 		public int Quality { get; set; }
 		/// <summary>LogoId</summary>
-		[ProtoMember(11)]
+		[ProtoMember(12)]
 		public string LogoId { get; set; }
 		/// <summary>Des</summary>
-		[ProtoMember(12)]
+		[ProtoMember(13)]
 		public string Des { get; set; }
 
 	}

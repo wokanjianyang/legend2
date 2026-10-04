@@ -497,7 +497,7 @@ namespace Game
 
                     for (int i = 0; i < config.AtrIdList.Length; i++)
                     {
-                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i]);
+                        AttributeBonus.SetAttr((AttributeEnum)(config.AtrIdList[i]), attrKey++, config.AtrVueList[i] * level);
                     }
                 }
             }

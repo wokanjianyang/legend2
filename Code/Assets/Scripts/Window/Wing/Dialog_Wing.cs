@@ -98,6 +98,8 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         }
         else
         {
+
+
             //Fee
             int mcId = GetMcId();
             ItemConfig itemConfig = ItemConfigCategory.Instance.Get(mcId);
@@ -105,6 +107,11 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
             long materialCount = user.GetMaterialCount(mcId);
             long fee = this.GetFee(this.Part, nextLevel);
             string color = materialCount >= fee ? "#FFFF00" : "#FF0000";
+
+            if (materialCount >= fee)
+            {
+                this.Btn_Strong.gameObject.SetActive(true);
+            }
 
             txt_Fee.gameObject.SetActive(true);
             txt_Fee.text = string.Format("{3}£º<color={0}>{1}/{2}</color>", color, fee, materialCount, itemConfig.Name);

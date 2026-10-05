@@ -358,6 +358,27 @@ namespace Game
             //设置升级属性
             SetUpExp();
 
+            //商城属性
+            Store_Data storeData = User_Data_Manager.StoreData;
+            if (storeData != null && storeData.StoreList != null)
+            {
+                for (int i = 0; i < storeData.StoreList.Count; i++)
+                {
+                    Store_Data_Item data_Item = storeData.StoreList[i];
+
+                    if (data_Item.Number > 0)
+                    {
+                        StoreConfig config = StoreConfigCategory.Instance.Get(data_Item.StoreId);
+
+                        Dictionary<int, double> attrList = config.GetTotalAtrList(data_Item.Number);
+                        foreach (var al in attrList)
+                        {
+                            AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
+                        }
+                    }
+                }
+            }
+
             //装备属性-普通装备
             foreach (KeyValuePair<int, Equip> kvp in EquipPanelList[EquipPanelIndex])
             {
@@ -548,12 +569,14 @@ namespace Game
             //魂环
             foreach (var sp in SoulRingData)
             {
-                int sl = (int)sp.Value.Data;
+                int extend = (int)this.AttributeBonus.CalPanelAtr(AttributeEnum.SoulRingLevel);
+                int exPer = (int)this.AttributeBonus.CalPanelAtr(AttributeEnum.SoulRingIncrea);
+                int sl = (int)sp.Value.Data + extend;
                 if (sl > 0)
                 {
                     SoulRingConfig config = SoulRingConfigCategory.Instance.Get(sp.Key);
 
-                    Dictionary<int, double> attrList = config.GetTotalAtrList(sl);
+                    Dictionary<int, double> attrList = config.GetTotalAtrList(sl, exPer);
                     foreach (var al in attrList)
                     {
                         AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
@@ -564,10 +587,12 @@ namespace Game
             //翅膀
             foreach (var sp in WingDict)
             {
-                int wl = (int)sp.Value.Data;
+                int extend = (int)this.AttributeBonus.CalPanelAtr(AttributeEnum.WingLevel);
+                int exPer = (int)this.AttributeBonus.CalPanelAtr(AttributeEnum.SoulRingIncrea);
+                int wl = (int)sp.Value.Data + extend;
                 if (wl > 0)
                 {
-                    List<KeyValuePair<int, double>> attrList = WingConfigCategory.Instance.GetTotalAtrList(sp.Key, wl);
+                    List<KeyValuePair<int, double>> attrList = WingConfigCategory.Instance.GetTotalAtrList(sp.Key, wl, exPer);
                     foreach (var al in attrList)
                     {
                         AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
@@ -680,26 +705,7 @@ namespace Game
                 }
             }
 
-            //商城属性
-            Store_Data storeData = User_Data_Manager.StoreData;
-            if (storeData != null && storeData.StoreList != null)
-            {
-                for (int i = 0; i < storeData.StoreList.Count; i++)
-                {
-                    Store_Data_Item data_Item = storeData.StoreList[i];
 
-                    if (data_Item.Number > 0)
-                    {
-                        StoreConfig config = StoreConfigCategory.Instance.Get(data_Item.StoreId);
-
-                        Dictionary<int, double> attrList = config.GetTotalAtrList(data_Item.Number);
-                        foreach (var al in attrList)
-                        {
-                            AttributeBonus.SetAttr((AttributeEnum)(al.Key), attrKey++, al.Value);
-                        }
-                    }
-                }
-            }
 
             //技能属性
             foreach (var sp in User_Data.GetSkills())
@@ -2156,6 +2162,12 @@ namespace Game
             }
 
             return (int)WingDict[part].Data;
+        }
+
+        public int GetWingFullLevel(int part)
+        {
+            int extend = (int)this.AttributeBonus.CalPanelAtr(AttributeEnum.WingLevel);
+            return extend + GetWingLevel(part);
         }
 
         public void SaveWingLevel(int part)

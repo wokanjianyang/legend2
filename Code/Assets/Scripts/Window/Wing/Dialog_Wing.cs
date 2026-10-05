@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class Dialog_Wing : MonoBehaviour, IBattleLife
 {
+    public Text txt_Level;
     public Text txt_Fee;
 
     public Button Btn_Full;
@@ -67,7 +68,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
     {
         if (p > 1)
         {
-            return 1;
+            return (level - 1) / 30 + 1;
         }
         else
         {
@@ -86,10 +87,21 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
     {
         User user = User_Data_Manager.Data;
         long currentLevel = user.GetWingLevel(this.Part);
+        int exLevel = (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.WingLevel);
+        int exPercent = (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.WingIncrea);
 
         long nextLevel = currentLevel + 1;
 
         long MaxLevel = user.MagicLevel.Data - 30;
+
+        if (exLevel > 0)
+        {
+            this.txt_Level.text = string.Format("等级（Lv{0}+{1}）", currentLevel, exLevel);
+        }
+        else
+        {
+            this.txt_Level.text = string.Format("等级（Lv{0}）", currentLevel);
+        }
 
         if (currentLevel >= MaxLevel)
         {
@@ -98,8 +110,6 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
         }
         else
         {
-
-
             //Fee
             int mcId = GetMcId();
             ItemConfig itemConfig = ItemConfigCategory.Instance.Get(mcId);
@@ -135,9 +145,9 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
                 if (nextLevel >= config.RequireLevel)
                 {
                     attrItem.gameObject.SetActive(true);
-                    double attrBase = config.GetAttr(currentLevel);
+                    double attrBase = config.GetAttr(currentLevel + exLevel);
                     double rise = MathHelper.GetRiseByType(config.RiseType, nextLevel, 1) * config.AtrVue;
-                    attrItem.SetContent(config.AtrId, attrBase, rise);
+                    attrItem.SetContent(config.AtrId, attrBase, exPercent, rise);
                 }
                 else
                 {
@@ -157,7 +167,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
             else
             {
                 WingConfig config = slist[i];
-                item.SetContent(config.AtrId, config.AtrVue, config.RequireLevel, currentLevel);
+                item.SetContent(config.AtrId, config.AtrVue, config.RequireLevel, currentLevel + exLevel);
                 item.gameObject.SetActive(true);
             }
         }
@@ -190,11 +200,11 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
             Quantity = fee
         });
 
+        item_list[this.Part - 1].Refresh();
+
         Show();
 
         GameProcessor.Inst.UpdateInfo();
-
-        GameProcessor.Inst.SaveData();
         //Debug.Log("OnStrong :" + user.WingData.Data);
     }
 

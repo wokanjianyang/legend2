@@ -19,7 +19,7 @@ namespace Game
             return configs;
 
         }
-        public List<KeyValuePair<int, double>> GetTotalAtrList(int part, int level)
+        public List<KeyValuePair<int, double>> GetTotalAtrList(int part, int level, int percent)
         {
             List<KeyValuePair<int, double>> totals = new List<KeyValuePair<int, double>>();
 
@@ -27,7 +27,7 @@ namespace Game
 
             foreach (var sp in list)
             {
-                double vue = sp.GetAttr(level);
+                double vue = sp.GetAttr(level) * (100 + percent) / 100;
                 if (vue > 0)
                 {
                     KeyValuePair<int, double> item = new KeyValuePair<int, double>(sp.AtrId, vue);

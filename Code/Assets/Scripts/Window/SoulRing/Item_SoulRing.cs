@@ -44,7 +44,9 @@ namespace Game
 
             User user = User_Data_Manager.Data;
             long currentLevel = user.GetSoulRingLevel(config.Id);
-            this.SetContent(currentLevel);
+            int exLevel = (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.SoulRingLevel);
+
+            this.SetContent(currentLevel + exLevel);
         }
 
         public void SetContent(long level)

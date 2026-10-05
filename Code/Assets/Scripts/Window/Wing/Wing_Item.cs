@@ -46,7 +46,7 @@ namespace Game
             {
                 User user = User_Data_Manager.Data;
 
-                int level = user.GetWingLevel(this.Part);
+                int level = user.GetWingFullLevel(this.Part);
 
                 this.Txt_Level.text = string.Format("{0}¼¶", level);
                 this.Txt_Level.gameObject.SetActive(true);

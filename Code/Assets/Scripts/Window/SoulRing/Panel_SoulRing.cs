@@ -18,7 +18,7 @@ public class Panel_SoulRing : MonoBehaviour
     public Transform Tf_Atr_Spe;
     private List<Forge_Atr_Item> SpeAtrList;
 
-    public Text Txt_Desc;
+    public Text txt_Level;
     public Text Txt_Fee;
 
     public Button Btn_Ok;
@@ -35,13 +35,13 @@ public class Panel_SoulRing : MonoBehaviour
         SpeAtrList = Tf_Atr_Spe.GetComponentsInChildren<Forge_Atr_Item>().ToList();
 
         Btn_Ok.onClick.AddListener(OnClick_Ok);
-
-        this.Init();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        this.Init();
+
         for (int i = 0; i < items.Count; i++)
         {
             var item = items[i];
@@ -77,10 +77,21 @@ public class Panel_SoulRing : MonoBehaviour
         this.CurrentConfig = config;
 
         long currentLevel = user.GetSoulRingLevel(config.Id);
+        int exLevel = (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.SoulRingLevel);
+        int exPercent = (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.SoulRingIncrea);
 
         long maxRingLevel = user.GetSoulRingLimit();
 
-        currentItem.SetContent(currentLevel);
+        currentItem.SetContent(currentLevel + exLevel);
+
+        if (exLevel > 0)
+        {
+            this.txt_Level.text = string.Format("等级（Lv{0}+{1}）", currentLevel, exLevel);
+        }
+        else
+        {
+            this.txt_Level.text = string.Format("等级（Lv{0}）", currentLevel);
+        }
 
         //attr
         for (int i = 0; i < AtrList.Count; i++)
@@ -88,7 +99,7 @@ public class Panel_SoulRing : MonoBehaviour
             if (i < config.AtrIdList.Length)
             {
                 AtrList[i].gameObject.SetActive(true);
-                AtrList[i].SetContent(config.AtrIdList[i], config.AtrVueList[i] * currentLevel, config.AtrVueList[i]);
+                AtrList[i].SetContent(config.AtrIdList[i], config.AtrVueList[i] * currentLevel, exPercent, config.AtrVueList[i]);
             }
             else
             {

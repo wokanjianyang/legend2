@@ -12,7 +12,7 @@ namespace Game
 
     public partial class SoulRingConfig
     {
-        public Dictionary<int, double> GetTotalAtrList(int  level)
+        public Dictionary<int, double> GetTotalAtrList(int level, int percent)
         {
             Dictionary<int, double> dict = new Dictionary<int, double>();
 
@@ -25,7 +25,7 @@ namespace Game
                     int riseLevel = level - rl;
                     int attrId = AtrIdList[i];
                     double attrValue = AtrVueList[i] * riseLevel;
-
+                    attrValue = attrValue * (100 + percent) / 100;
                     dict[attrId] = attrValue;
                 }
             }

@@ -116,6 +116,10 @@ namespace Game
             {nameof(AttributeEnum.EquipQualityIncrea), "装备品质属性" },
             {nameof(AttributeEnum.EquipSetIncrea), "装备套装属性" },
 
+            {nameof(AttributeEnum.SoulRingIncrea), "魂环基础属性" },
+            {nameof(AttributeEnum.SoulRingLevel), "魂环额外等级" },
+            {nameof(AttributeEnum.WingIncrea), "翅膀基础属性" },
+            {nameof(AttributeEnum.WingLevel), "翅膀额外等级" },
 
 
             {nameof(AttributeEnum.RateHp), "生命增幅" },

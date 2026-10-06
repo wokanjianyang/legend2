@@ -73,6 +73,8 @@ namespace Game
             long drRise = (long)(Config.DrRise * riseLevel);
             long crRise = (long)(Config.CrRise * riseLevel);
             long crdRise = (long)(Config.CrdRise * riseLevel);
+            long mulDrRise = (long)(Config.MulDrRise * riseLevel);
+            //long mulDrRise = 
 
             //if (Progress >= 100)
             //{
@@ -97,6 +99,8 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.Curse, AttributeFrom.ConfigBase, Config.Curse);
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy + accuracyRise);
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss + missRise);
+
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, Config.MulDamageResist + mulDrRise);
 
             if (RiseRecord > 0)
             {

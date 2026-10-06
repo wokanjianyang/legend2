@@ -385,7 +385,7 @@ namespace Game
             }
 
             string refineText = "";
-            double refineAttr = val * percent / 100;
+            long refineAttr = ((long)val) * percent / 100;
             if (refineAttr > 0)
             {
                 refineText = "+" + StringHelper.FormatNumber(refineAttr);

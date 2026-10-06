@@ -96,6 +96,8 @@ namespace Game
             double atk = StringHelper.StringToNumber(Config.Atk);
             double def = StringHelper.StringToNumber(Config.Def);
 
+            double mdRise = (this.Model - 1) * 20 / 100;
+
             AttributeBonus.SetAttr(AttributeEnum.HP, AttributeFrom.ConfigBase, (hp * hpRate * QualityConfig.HpRate * mhpRate));
             AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate * matkRate));
             AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.ConfigBase, (atk * atkRate * QualityConfig.AttrRate * matkRate));
@@ -109,7 +111,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, AttributeFrom.ConfigBase, Config.CritDamage);
             AttributeBonus.SetAttr(AttributeEnum.CritRateResist, AttributeFrom.ConfigBase, Config.CritRateResist);
 
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, Config.MulDamageResit);
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, Config.MulDamageResit * (1 + mdRise));
 
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy);
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss);

@@ -129,11 +129,14 @@ namespace Game
 		/// <summary>MulDamageResist</summary>
 		[ProtoMember(18)]
 		public int MulDamageResist { get; set; }
-		/// <summary>Exp</summary>
+		/// <summary>MulDrRise</summary>
 		[ProtoMember(19)]
+		public double MulDrRise { get; set; }
+		/// <summary>Exp</summary>
+		[ProtoMember(20)]
 		public double Exp { get; set; }
 		/// <summary>Gold</summary>
-		[ProtoMember(20)]
+		[ProtoMember(21)]
 		public double Gold { get; set; }
 
 	}

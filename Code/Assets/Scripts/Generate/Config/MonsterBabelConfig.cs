@@ -117,38 +117,44 @@ namespace Game
 		/// <summary>DrRise</summary>
 		[ProtoMember(14)]
 		public double DrRise { get; set; }
-		/// <summary>CritRate</summary>
+		/// <summary>MulDamageResist</summary>
 		[ProtoMember(15)]
+		public int MulDamageResist { get; set; }
+		/// <summary>MulDrRise</summary>
+		[ProtoMember(16)]
+		public double MulDrRise { get; set; }
+		/// <summary>CritRate</summary>
+		[ProtoMember(17)]
 		public int CritRate { get; set; }
 		/// <summary>CrRise</summary>
-		[ProtoMember(16)]
+		[ProtoMember(18)]
 		public double CrRise { get; set; }
 		/// <summary>CritDamage</summary>
-		[ProtoMember(17)]
+		[ProtoMember(19)]
 		public int CritDamage { get; set; }
 		/// <summary>CrdRise</summary>
-		[ProtoMember(18)]
+		[ProtoMember(20)]
 		public double CrdRise { get; set; }
 		/// <summary>Accuracy</summary>
-		[ProtoMember(19)]
+		[ProtoMember(21)]
 		public int Accuracy { get; set; }
 		/// <summary>RiseAccuracy</summary>
-		[ProtoMember(20)]
+		[ProtoMember(22)]
 		public double RiseAccuracy { get; set; }
 		/// <summary>Miss</summary>
-		[ProtoMember(21)]
+		[ProtoMember(23)]
 		public int Miss { get; set; }
 		/// <summary>RiseMiss</summary>
-		[ProtoMember(22)]
+		[ProtoMember(24)]
 		public double RiseMiss { get; set; }
 		/// <summary>Lucky</summary>
-		[ProtoMember(23)]
+		[ProtoMember(25)]
 		public int Lucky { get; set; }
 		/// <summary>Curse</summary>
-		[ProtoMember(24)]
+		[ProtoMember(26)]
 		public int Curse { get; set; }
 		/// <summary>Speed</summary>
-		[ProtoMember(25)]
+		[ProtoMember(27)]
 		public int Speed { get; set; }
 
 	}

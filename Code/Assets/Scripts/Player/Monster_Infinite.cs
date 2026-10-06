@@ -63,6 +63,7 @@ namespace Game
             double atk = StringHelper.StringToNumber(Config.Atk) * defRise;
             double def = StringHelper.StringToNumber(Config.Def) * atkRise;
 
+            long mulDrRise = (long)(Config.MulDrRise * riseLevel);
 
 
             //Debug.Log("Infinit " + this.Progress + " HP:" + StringHelper.FormatNumber(hp));
@@ -81,7 +82,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.Accuracy, AttributeFrom.ConfigBase, Config.Accuracy);
             AttributeBonus.SetAttr(AttributeEnum.Miss, AttributeFrom.ConfigBase, Config.Miss);
 
-            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, Config.MulDamageResist);
+            AttributeBonus.SetAttr(AttributeEnum.MulDamageResist, AttributeFrom.ConfigBase, Config.MulDamageResist + mulDrRise);
             AttributeBonus.SetAttr(AttributeEnum.MulDamageIncrea, AttributeFrom.ConfigBase, Config.MulDamageIncrea);
 
             this.SetSpeed(Config.Speed, Config.Speed);

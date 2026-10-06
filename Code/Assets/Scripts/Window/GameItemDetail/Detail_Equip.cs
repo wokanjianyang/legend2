@@ -145,7 +145,7 @@ namespace Game
                 Transform gridBase = Tf_Base.Find("Grid_Base");
 
                 List<KeyValuePair<int, double>> btList = BaseAttrList.ToList();
-                List<KeyValuePair<int, double>> refineList = equip.GetRefineSpeAtrList(Positioin).ToList();
+                List<KeyValuePair<int, double>> refineList = equip.GetRefineSpeAtrList(Positioin);
 
                 for (int index = 0; index < 6; index++)
                 {

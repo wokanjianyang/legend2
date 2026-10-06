@@ -119,9 +119,9 @@ namespace Game
             return BaseAttrList;
         }
 
-        public IDictionary<int, double> GetRefineSpeAtrList(int position)
+        public List<KeyValuePair<int, double>> GetRefineSpeAtrList(int position)
         {
-            IDictionary<int, double> RefineSpeAtrList = new Dictionary<int, double>();
+            List<KeyValuePair<int, double>> list = new List<KeyValuePair<int, double>>();
 
             User user = User_Data_Manager.Data;
 
@@ -134,12 +134,12 @@ namespace Game
                 {
                     if (level >= refineConfig.SpeLevel[i])
                     {
-                        RefineSpeAtrList.Add(refineConfig.SpeAtrList[i], refineConfig.SpeVueList[i]);
+                        list.Add(new KeyValuePair<int, double>(refineConfig.SpeAtrList[i], refineConfig.SpeVueList[i]));
                     }
                 }
             }
 
-            return RefineSpeAtrList;
+            return list;
         }
 
         public void CheckReFreshCount()
@@ -269,16 +269,16 @@ namespace Game
                 }
             }
 
-
-            IDictionary<int, double> RefineAttrList = this.GetRefineSpeAtrList(position);
-            foreach (int attrId in RefineAttrList.Keys)
+            List<KeyValuePair<int, double>> RefineAttrList = this.GetRefineSpeAtrList(position);
+            foreach (var sp in RefineAttrList)
             {
+                int attrId = sp.Key;
                 if (!AttrList.ContainsKey(attrId))
                 {
                     AttrList[attrId] = 0;
                 }
 
-                AttrList[attrId] += RefineAttrList[attrId];
+                AttrList[attrId] += sp.Value;
             }
 
 

@@ -71,7 +71,7 @@ namespace Game
         {
             if (!this.ExclusiveDict.ContainsKey(id))
             {
-                return 0;
+                this.ExclusiveDict[id] = 0;
             }
 
             return ExclusiveDict[id];

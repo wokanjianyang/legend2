@@ -346,7 +346,7 @@ namespace Game
 
             //基础属性，攻击10，防御0，生命1000，爆伤150，致命伤害150
             AttributeBonus.SetAttr(AttributeEnum.HP, attrKey++, 1000);
-            AttributeBonus.SetAttr(AttributeEnum.Atk, attrKey++, 10);
+            AttributeBonus.SetAttr(AttributeEnum.Atk, attrKey++, 100);
             AttributeBonus.SetAttr(AttributeEnum.CritDamage, attrKey++, 50);
             AttributeBonus.SetAttr(AttributeEnum.DeadlyDamage, attrKey++, 50);
 

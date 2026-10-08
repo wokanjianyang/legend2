@@ -213,7 +213,9 @@ namespace Game
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(Config.Part);
                 basePercent += refineConfig.GetRisePercent(level, 1);
                 basePercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipBaseIncrea);
+
                 randomPercent += refineConfig.GetRisePercent(level, 2);
+                randomPercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipRandomIncrea);
             }
 
             //根据基础属性和词条属性，计算总属性

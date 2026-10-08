@@ -149,8 +149,8 @@ namespace Game
 
         //----------特殊-------------
         EquipBaseIncrea = 20001, //装备基础属性百分比
-        EquipRandomIncrea = 20002, //装备套装属性百分比
-        EquipSetIncrea = 20003, //装备随机属性百分比
+        EquipRandomIncrea = 20002, //装备随机属性百分比
+        EquipSetIncrea = 20003, //装备套装属性百分比
         EquipQualityIncrea = 20004, //品质属性百分比
         SoulRingIncrea = 20005, //魂环基础属性百分比
         SoulRingLevel = 20006, //魂环额外等级

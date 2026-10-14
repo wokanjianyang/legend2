@@ -147,6 +147,17 @@ namespace Game
             return important;
         }
 
+        public int GetCardId()
+        {
+            if (this.Config.Id <= 72)
+            {
+                return this.Config.CardId;
+            }
+            else
+            {
+                return this.Config.CardId + this.Role - 1;
+            }
+        }
         //--------------ovveride
         public override int GetQuality()
         {

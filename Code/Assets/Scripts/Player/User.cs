@@ -2037,7 +2037,7 @@ namespace Game
 
                         Pet pet = sp as Pet;
 
-                        this.CardRecord[pet.Config.CardId] += 1;
+                        this.CardRecord[pet.GetCardId()] += 1;
                     }
                 }
             }

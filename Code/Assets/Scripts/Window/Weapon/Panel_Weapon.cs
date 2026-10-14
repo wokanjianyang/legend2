@@ -249,47 +249,38 @@ public class Panel_Weapon : MonoBehaviour
     {
         User user = User_Data_Manager.Data;
 
+        WeaponConfig config = WeaponConfigCategory.Instance.Get(WeaponId);
+
         long progress = 0;
 
-        switch (WeaponId)
+        if (config.Exid > 0)
         {
-
-
-            case 1:
-                progress = user.MagicLevel.Data;  //等级40级
-                break;
-            case 2:
-                progress = user.GetAchievementProgeress(AchievementProType.DayCount);  //登录7天
-                break;
-            case 3:
-                progress = user.GetAchievementProgeress(AchievementProType.Advert);  //广告100次
-                break;
-            case 4:
-                progress = User_Data_Manager.GetStoreNumber(5002);
-                break;
-            case 5:
-                progress = User_Data_Manager.GetStoreNumber(5004);
-                break;
-            case 6:
-                progress = user.GetExclusiveLevel(1201);
-                break;
-            case 7:
-                progress = user.GetExclusiveLevel(2201);
-                break;
-            case 8:
-                progress = user.GetExclusiveLevel(3201);
-                break;
-            case 9:
-                progress = user.GetExclusiveLevel(107);
-                break;
-            case 10:
-                progress = user.GetExclusiveLevel(108);
-                break;
-            default:
-                break;
+            progress = user.GetExclusiveLevel(config.Exid);
         }
+        else
+        {
+            switch (WeaponId)
+            {
+                case 1:
+                    progress = user.MagicLevel.Data;  //等级40级
+                    break;
+                case 2:
+                    progress = user.GetAchievementProgeress(AchievementProType.DayCount);  //登录7天
+                    break;
+                case 3:
+                    progress = user.GetAchievementProgeress(AchievementProType.Advert);  //广告100次
+                    break;
+                case 4:
+                    progress = User_Data_Manager.GetStoreNumber(5002);
+                    break;
+                case 5:
+                    progress = User_Data_Manager.GetStoreNumber(5004);
+                    break;
+                default:
+                    break;
+            }
 
-        WeaponConfig config = WeaponConfigCategory.Instance.Get(WeaponId);
+        }
 
         if (progress < config.Condtion)
         {

@@ -92,7 +92,7 @@ public class Dialog_Wing : MonoBehaviour, IBattleLife
 
         long nextLevel = currentLevel + 1;
 
-        long MaxLevel = user.MagicLevel.Data - 30;
+        long MaxLevel = user.GetWingLimit();
 
         if (exLevel > 0)
         {

@@ -49,7 +49,7 @@ namespace Game
         public const int LegacyDefaultTime = 1200; //20分钟 
 
 
-        public static int[] BaseAttrIdList = { 1, 2, 3, 4, 5, 6, 7, 8, 85, 86, 111, 112, 113, 114, 116, 117, 222 };
+        public static int[] BaseAttrIdList = { 1, 2, 3, 4, 5, 6, 7, 8, 85, 86, 111, 112, 113, 114, 116, 117, 118, 119, 222, 20006, 20008 };
 
         public static string[] LayerNameList = { "黄", "玄", "地", "天", "荒", "洪", "宙", "宇", "极", "道", "虚", "始" };
         public static string[] LayerChinaList = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十",

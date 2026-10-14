@@ -1763,9 +1763,14 @@ namespace Game
             RingData[ringId].Data++;
         }
 
+        public int GetWingLimit()
+        {
+            return (int)this.MagicLevel.Data - 30 + (int)AttributeBonus.CalPanelAtr(AttributeEnum.WingLimit);
+        }
+
         public int GetSoulRingLimit()
         {
-            return (int)this.MagicLevel.Data - 30;
+            return (int)this.MagicLevel.Data - 30 + (int)AttributeBonus.CalPanelAtr(AttributeEnum.SoulLimit);
         }
 
         public long GetSoulRingLevel(int sid)

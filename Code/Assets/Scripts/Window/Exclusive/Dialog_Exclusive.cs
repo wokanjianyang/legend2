@@ -19,12 +19,14 @@ namespace Game
 
         private int CycleIndex = 0;
 
+        public Button Btn_Convert;
 
         public int Order => (int)ComponentOrder.Dialog;
 
         void Awake()
         {
             Btn_Close.onClick.AddListener(OnClick_Close);
+            Btn_Convert.onClick.AddListener(OnClick_Convert);
 
             Toggle_Cycle_List = Tf_Cycle.GetComponentsInChildren<Toggle>().ToList();
 
@@ -80,6 +82,41 @@ namespace Game
                 int[] roleList = { -1, 1, 2, 3, 0 };
 
                 Panel2.Show(roleList[CycleIndex]);
+            }
+        }
+
+        public void OnClick_Convert()
+        {
+            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("把所有紫色材料100:1兑换成同地图的红色材料，橙色材料10:1兑换成同地图的红色材料，是否确认？", true,
+            () =>
+            {
+                User user = User_Data_Manager.Data;
+
+                for (int i = 0; i < 12; i++)
+                {
+                    Convert(40000001 + i * 3, 100, 40000003 + i * 3);
+                    Convert(40000002 + i * 3, 10, 40000003 + i * 3);
+                }
+
+                //刷新
+                Panel1.Show(0);
+            }, () =>
+            {
+
+            });
+        }
+
+        private void Convert(int fromId, int convetRate, int targetId)
+        {
+            User user = User_Data_Manager.Data;
+
+            long count = user.GetHideMaterialCount(fromId);
+
+            long vc = count / convetRate;
+            if (vc > 0)
+            {
+                user.UseHideMaterialCount(fromId, vc * convetRate);
+                user.SaveHideMaterialCount(targetId, vc);
             }
         }
 

@@ -75,7 +75,8 @@ namespace Game
         PetInherit = 115, //继承损耗
         EquipStrongLimit = 116, //强化上限
         EquipRefineLimit = 117, //精炼上限
-
+        SoulLimit = 118, //魂环上限
+        WingLimit = 119, //翅膀上限
         //------------------加成------------------------------
         IncreaHp = 1001, //生命加成
         IncreaDef = 1002,//防御加成

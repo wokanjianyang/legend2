@@ -74,6 +74,8 @@ namespace Game
             {nameof(AttributeEnum.PetInherit), "宠物继承损耗减少" },
             {nameof(AttributeEnum.EquipStrongLimit), "强化上限" },
             {nameof(AttributeEnum.EquipRefineLimit), "精炼上限" },
+            {nameof(AttributeEnum.SoulLimit), "魂环上限" },
+            {nameof(AttributeEnum.WingLimit), "翅膀上限" },
 
             {nameof(AttributeEnum.SkillLevelRise), "全技能等级" },
             {nameof(AttributeEnum.SkillLevelRiseP1), "基础心法" },

@@ -168,7 +168,6 @@ namespace Game
 
         //public static int SpecialId_Exclusive_Core = 4009; //专属精华
         public static int SpecialId_Exclusive_Heart = 4010; //专属之心
-        public static int SpecialId_Red_Stone = 4011;  //红装精华
 
         public static int SpecialId_Legacy_Ticket = 4013; //传世挑战卷
 
@@ -185,7 +184,6 @@ namespace Game
 
         public static int SpecialId_Pill_Ticket = 4017; //幻境挑战卷
         public static int SpecialId_Halidom_Chip = 4018; //遗物粉尘
-        public static int SpecialId_Golden_Stone = 4019;  //金装精华
 
         public static int SpecialId_Reform_Stone = 4021; //改造石
 

@@ -31,6 +31,8 @@ namespace Game
 
         public int ReformExp { get; set; } = 0;
 
+        public int RebuildExp { get; set; } = 0;
+
         public EquipData Data { get; set; } = new EquipData();
 
         [JsonIgnore]
@@ -380,6 +382,12 @@ namespace Game
 
             return nl * (nl + 1) / 2;
         }
+
+        public int GetRebuildFee()
+        {
+            return (RebuildExp + 1) * 10;
+        }
+
         //--------------ovveride
         public override int GetQuality()
         {

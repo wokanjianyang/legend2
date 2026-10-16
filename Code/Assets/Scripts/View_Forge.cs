@@ -19,8 +19,8 @@ public class View_Forge : AViewPage
     public Toggle toggle_Strengthen;
     public Panel_Strengthen PanelStrengthen;
 
-    public Toggle Toggle_Legend;
-    public Panel_Legend PanelLegend;
+    public Toggle Toggle_Rebuild;
+    public Panel_Rebuild PanelRebuild;
 
     public Toggle Toggle_Grade;
     public Panel_Grade PanelGrade;
@@ -58,9 +58,9 @@ public class View_Forge : AViewPage
             });
         }
 
-        this.Toggle_Legend.onValueChanged.AddListener((isOn) =>
+        this.Toggle_Rebuild.onValueChanged.AddListener((isOn) =>
         {
-            this.PanelLegend.gameObject.SetActive(isOn);
+            this.PanelRebuild.gameObject.SetActive(isOn);
         });
 
         this.toggle_Strengthen.onValueChanged.AddListener((isOn) =>

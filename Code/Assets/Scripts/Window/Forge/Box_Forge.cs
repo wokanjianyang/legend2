@@ -159,6 +159,11 @@ namespace Game
                     Panel_Reform panel = this.gameObject.GetComponentInParent<Panel_Reform>();
                     panel.SelectItem(this.Position, CurrentItem, this);
                 }
+                else if (Type == 6)
+                {
+                    Panel_Rebuild panel = this.gameObject.GetComponentInParent<Panel_Rebuild>();
+                    panel.SelectItem(this.Position, CurrentItem, this);
+                }
             }
         }
     }

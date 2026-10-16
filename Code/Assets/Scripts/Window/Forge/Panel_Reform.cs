@@ -170,7 +170,7 @@ public class Panel_Reform : MonoBehaviour
         {
             Equip bi = item.Item as Equip;
 
-            if (bi.RefineLevel.Data <= 0)
+            if (bi.RefineLevel.Data <= 0 && bi.RebuildExp <= 0)
             {
                 bags.Add(bi);
             }

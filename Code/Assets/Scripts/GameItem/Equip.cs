@@ -461,6 +461,14 @@ namespace Game
                         dict[rid] = 0;
                     }
                     dict[rid] += 1 * number + this.ReformExp;
+
+
+                    for (int i = 1; i <= this.RebuildExp; i++)
+                    {
+                        int fee = i * 100;
+
+                        dict[rid] += fee;
+                    }
                 }
             }
             else if (Config.Cycle == 10)

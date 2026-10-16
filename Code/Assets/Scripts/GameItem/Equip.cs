@@ -385,7 +385,7 @@ namespace Game
 
         public int GetRebuildFee()
         {
-            return (RebuildExp + 1) * 10;
+            return (RebuildExp + 1) * 100;
         }
 
         //--------------ovveride

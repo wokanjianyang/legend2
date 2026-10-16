@@ -18,9 +18,10 @@ namespace Game
         {
             Dictionary<int, double> dict = new Dictionary<int, double>();
 
+            level = Math.Min(level, this.Max);
+
             for (int i = 0; i < AtrIdList.Length; i++)
             {
-                int riseLevel = Math.Min(level, this.Max);
                 int attrId = AtrIdList[i];
                 double attrValue = AtrVueList[i] * level;
 

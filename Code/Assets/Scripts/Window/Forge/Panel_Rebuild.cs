@@ -148,6 +148,9 @@ public class Panel_Rebuild : MonoBehaviour
         this.Tf_Atr_Main.gameObject.SetActive(false);
         this.Txt_Fee.text = string.Format("材料需求");
 
+        this.Txt_Info_2.gameObject.SetActive(true);
+        this.Tf_Atr_Material.gameObject.SetActive(false);
+
         //清理
         foreach (var sp in bagList)
         {
@@ -359,7 +362,7 @@ public class Panel_Rebuild : MonoBehaviour
 
         //判断属性是否超数量了
         int count = equip.AttrEntryList.Where(m => m.Key == ky.Key).Count();
-        if (count + 1 >= config.MaxCount)
+        if (count >= config.MaxCount)
         {
             GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "属性数量不能超出最大设定", ToastType = ToastTypeEnum.Failure });
             return;

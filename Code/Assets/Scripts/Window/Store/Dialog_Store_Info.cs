@@ -77,14 +77,25 @@ public class Dialog_Store_Info : MonoBehaviour
             }
         }
 
+
         if (data == null || data.Number < config.Max)
         {
-            string color = storeData.Points >= config.Fee ? "#00FF00" : "#FF0000";
-            Txt_Fee.text = string.Format("需要积分：<color={0}>{1}</color>（现有：{2})", color, config.Fee, storeData.Points);
+            if (config.Cycle == 0)
+            {
+                Txt_Fee.text = string.Format("节日道具无法兑换");
+                Txt_Fee.gameObject.SetActive(true);
+                Btn_Active.gameObject.SetActive(false);
+                Txt_Active.gameObject.SetActive(false);
+            }
+            else
+            {
+                string color = storeData.Points >= config.Fee ? "#00FF00" : "#FF0000";
+                Txt_Fee.text = string.Format("需要积分：<color={0}>{1}</color>（现有：{2})", color, config.Fee, storeData.Points);
 
-            Txt_Fee.gameObject.SetActive(true);
-            Btn_Active.gameObject.SetActive(true);
-            Txt_Active.gameObject.SetActive(false);
+                Txt_Fee.gameObject.SetActive(true);
+                Btn_Active.gameObject.SetActive(true);
+                Txt_Active.gameObject.SetActive(false);
+            }
         }
         else
         {

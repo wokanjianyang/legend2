@@ -87,15 +87,15 @@ namespace Game
 
         public void OnClick_Convert()
         {
-            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("把所有紫色材料100:1兑换成同地图的红色材料，橙色材料10:1兑换成同地图的红色材料，是否确认？", true,
+            GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("把所有紫色材料66:1兑换成同地图的红色材料，橙色材料6:1兑换成同地图的红色材料，是否确认？", true,
             () =>
             {
                 User user = User_Data_Manager.Data;
 
                 for (int i = 0; i < 12; i++)
                 {
-                    Convert(40000001 + i * 3, 100, 40000003 + i * 3);
-                    Convert(40000002 + i * 3, 10, 40000003 + i * 3);
+                    Convert(40000001 + i * 3, 66, 40000003 + i * 3);
+                    Convert(40000002 + i * 3, 6, 40000003 + i * 3);
                 }
 
                 //刷新

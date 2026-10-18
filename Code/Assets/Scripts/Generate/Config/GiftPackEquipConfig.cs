@@ -81,20 +81,23 @@ namespace Game
 		/// <summary>EquipId</summary>
 		[ProtoMember(2)]
 		public int EquipId { get; set; }
-		/// <summary>RuneId</summary>
+		/// <summary>Layer</summary>
 		[ProtoMember(3)]
+		public int Layer { get; set; }
+		/// <summary>RuneId</summary>
+		[ProtoMember(4)]
 		public int RuneId { get; set; }
 		/// <summary>SuitId</summary>
-		[ProtoMember(4)]
+		[ProtoMember(5)]
 		public int SuitId { get; set; }
 		/// <summary>AttrIdList</summary>
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int[] AttrIdList { get; set; }
 		/// <summary>Quality</summary>
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int Quality { get; set; }
 		/// <summary>Cycle</summary>
-		[ProtoMember(7)]
+		[ProtoMember(8)]
 		public int Cycle { get; set; }
 
 	}

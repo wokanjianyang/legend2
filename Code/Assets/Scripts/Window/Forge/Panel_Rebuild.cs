@@ -107,8 +107,6 @@ public class Panel_Rebuild : MonoBehaviour
         //清理
         this.CurrentItem = null;
         this.SelectBagIndex = -1;
-        this.SelectAtrIndex1 = 0;
-        this.SelectAtrIndex2 = 0;
 
         foreach (var sp in items)
         {

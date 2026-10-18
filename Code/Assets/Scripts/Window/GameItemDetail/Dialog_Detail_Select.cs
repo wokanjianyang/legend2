@@ -42,6 +42,10 @@ namespace Game
 
         private void Init(ShowDetailEvent e)
         {
+            this.Btn_OK.gameObject.SetActive(false);
+            this.Btn_Query.gameObject.SetActive(false);
+            this.Btn_OK_All.gameObject.SetActive(false);
+
             //clear
             foreach (var si in ItemList)
             {
@@ -71,13 +75,7 @@ namespace Game
             }
 
             //Debug.Log(config.Id + " " + config.Name + "" + config.OpenType);
-            if (e.Box_Type == ComBoxType.PreView)
-            {
-                this.Btn_OK.gameObject.SetActive(false);
-                this.Btn_Query.gameObject.SetActive(false);
-                this.Btn_OK_All.gameObject.SetActive(false);
-            }
-            else
+            if (e.Box_Type != ComBoxType.PreView)
             {
                 this.Btn_OK.gameObject.SetActive(true);
                 this.Btn_Query.gameObject.SetActive(true);

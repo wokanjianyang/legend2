@@ -137,13 +137,14 @@ namespace Game
             GiftPackEquipConfig config = GiftPackEquipConfigCategory.Instance.Get(configId);
 
             Equip item = new Equip(config.EquipId, config.RuneId, config.SuitId, config.Quality);
+            item.Layer = config.Layer;
 
             List<KeyValuePair<int, long>> AttrEntryList = new List<KeyValuePair<int, long>>();
 
             for (int i = 0; i < config.AttrIdList.Length; i++)
             {
                 int attrId = config.AttrIdList[i];
-                AttrEntryConfig entryConfig = AttrEntryConfigCategory.Instance.GetRedConfig(attrId, config.Cycle);
+                AttrEntryConfig entryConfig = AttrEntryConfigCategory.Instance.GetConfig(config.Cycle, attrId, item.Config.LevelRequired);
                 AttrEntryList.Add(new KeyValuePair<int, long>(attrId, entryConfig.MaxValue));
             }
 

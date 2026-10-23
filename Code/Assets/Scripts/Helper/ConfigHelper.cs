@@ -32,7 +32,7 @@ namespace Game
 
         public const long PackEndTime = 1794740311; //超过此时间,游戏不能使用，需要更新
 
-        public const long Max_Level = 100; //最大人物等级和强化等级
+        public const long Max_Level = 120; //最大人物等级和强化等级
 
         public const long Cycle_Level = 100; //每次轮回增加等级
 

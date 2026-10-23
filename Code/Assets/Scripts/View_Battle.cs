@@ -161,6 +161,23 @@ namespace Game
 
                 this.Txt_MapName.text = "²ÄÁÏ¸±±¾";
             }
+            else if (e.Type == RuleType.Myth)
+            {
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                param.Add("MapTime", TimeHelper.ClientNowSeconds());
+                param.Add("MapId", e.MapId);
+
+                GameProcessor.Inst.DelayAction(0.1f, () =>
+                {
+                    GameProcessor.Inst.OnDestroy();
+                    GameProcessor.Inst.LoadMap(RuleType.Myth, this.transform, param);
+                });
+
+
+                MythConfig mythConfig = MythConfigCategory.Instance.Get(e.MapId);
+
+                this.Txt_MapName.text = mythConfig.MapName;
+            }
             else if (e.Type == RuleType.Babel)
             {
                 Dictionary<string, object> param = new Dictionary<string, object>();

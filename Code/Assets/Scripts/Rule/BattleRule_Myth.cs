@@ -15,7 +15,7 @@ public class BattleRule_Myth : ABattleRule
 
     private int MaxTime = 20;
     private int CurrentLayer = 1;
-    private int[] LayerCount = new int[] { 10, 8, 6, 4, 2 };
+    private int[] LayerCount = new int[] { 12, 8, 4, 2 };
 
     protected override RuleType ruleType => RuleType.Myth;
 
@@ -24,13 +24,6 @@ public class BattleRule_Myth : ABattleRule
         param.TryGetValue("MapId", out object mapId);
 
         this.MapId = (int)mapId;
-        this.LoadHero();
-    }
-
-    private void LoadHero()
-    {
-        HeroMyth hero = new HeroMyth(false);
-        GameProcessor.Inst.PlayerManager.LoadHero(hero);
 
         Start = true;
         MapTime = 0;

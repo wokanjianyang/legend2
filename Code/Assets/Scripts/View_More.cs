@@ -25,6 +25,9 @@ namespace Game
         public Button Btn_Babel;
         public Dialog_Babel ItemBabel;
 
+        public Button Btn_Mtyh;
+        public Dialog_Myth ItemMyth;
+
         public Button Btn_Infinite;
 
         public Text Txt_Limit;
@@ -36,6 +39,7 @@ namespace Game
             Btn_Babel.onClick.AddListener(OnClick_Babel);
             Btn_Defend.onClick.AddListener(OnClick_Defend);
             Btn_Infinite.onClick.AddListener(OnClick_Infinite);
+            Btn_Mtyh.onClick.AddListener(OnClick_Myth);
         }
 
         void OnEnable()
@@ -54,6 +58,10 @@ namespace Game
                 Btn_Infinite.gameObject.SetActive(false);
             }
 
+            if (user.MagicLevel.Data < 50)
+            {
+                Btn_Mtyh.gameObject.SetActive(false);
+            }
         }
 
         public override void OnBattleStart()
@@ -73,6 +81,11 @@ namespace Game
                 return;
             }
             this.ItemMaterial.gameObject.SetActive(true);
+        }
+
+        private void OnClick_Myth()
+        {
+            this.ItemMyth.gameObject.SetActive(true);
         }
 
         private void OnClick_Babel()

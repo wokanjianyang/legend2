@@ -111,18 +111,24 @@ namespace Game
 		/// <summary>CritDamageResist</summary>
 		[ProtoMember(12)]
 		public int CritDamageResist { get; set; }
-		/// <summary>Protect</summary>
+		/// <summary>Accuracy</summary>
 		[ProtoMember(13)]
-		public int Protect { get; set; }
-		/// <summary>ResotrePercent</summary>
+		public int Accuracy { get; set; }
+		/// <summary>Miss</summary>
 		[ProtoMember(14)]
-		public int ResotrePercent { get; set; }
-		/// <summary>SkillIdList</summary>
+		public int Miss { get; set; }
+		/// <summary>Lucky</summary>
 		[ProtoMember(15)]
-		public int[] SkillIdList { get; set; }
-		/// <summary>SkillLevelList</summary>
+		public int Lucky { get; set; }
+		/// <summary>Curse</summary>
 		[ProtoMember(16)]
-		public int[] SkillLevelList { get; set; }
+		public int Curse { get; set; }
+		/// <summary>MulDamageResit</summary>
+		[ProtoMember(17)]
+		public int MulDamageResit { get; set; }
+		/// <summary>SkillIdList</summary>
+		[ProtoMember(18)]
+		public int[] SkillIdList { get; set; }
 
 	}
 }

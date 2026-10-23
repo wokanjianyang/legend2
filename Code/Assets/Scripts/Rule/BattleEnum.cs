@@ -26,6 +26,7 @@ namespace Game
         BossFamily,
         Defend,
         Materail,
+        Myth,
 
         HeroPhantom,
         Mine,
@@ -33,7 +34,6 @@ namespace Game
         Legacy,
         Pill,
         Babel,
-        Myth,
         World,
         Pill2,
         Pill3,

@@ -462,7 +462,6 @@ namespace Game
                     this.BattleRule = new BattleRule_Babel(param);
                     break;
                 case RuleType.Myth:
-                    autoHero = false;
                     this.BattleRule = new BattleRule_Myth(param);
                     break;
                 case RuleType.World:

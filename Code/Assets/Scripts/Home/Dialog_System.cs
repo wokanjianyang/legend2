@@ -54,7 +54,7 @@ namespace Game
         {
             this.gameObject.SetActive(false);
 
-            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Ring });
+            GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Talent });
         }
 
         private void OnClick_Wing()

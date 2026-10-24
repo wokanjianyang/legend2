@@ -36,6 +36,7 @@ namespace Game
         Ring = 8,
         Wing = 9,
         Legend,
+        Talent,
     }
     //--------------------------old--------------------------- 
 

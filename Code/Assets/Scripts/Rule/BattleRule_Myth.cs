@@ -85,7 +85,7 @@ public class BattleRule_Myth : ABattleRule
 
         GameProcessor.Inst.EventCenter.Raise(new HeroBagUpdateEvent() { ItemList = items });
 
-        string message = "神话之路" + mythConfig.MapName + "通关奖励";
+        string message = mythConfig.MapName + "通关奖励";
         GameProcessor.Inst.EventCenter.Raise(new ShowDropEvent() { Message = message, Items = items });
     }
 

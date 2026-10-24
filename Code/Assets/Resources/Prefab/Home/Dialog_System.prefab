@@ -113,7 +113,7 @@ RectTransform:
   - {fileID: 9129103901060565262}
   - {fileID: 1840779055764750924}
   m_Father: {fileID: 3343223524546497689}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -205,7 +205,7 @@ RectTransform:
   - {fileID: 1091334515204062060}
   - {fileID: 326452832025370911}
   m_Father: {fileID: 3343223524546497689}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1031,12 +1031,12 @@ GameObject:
   - component: {fileID: 3684838859546874126}
   - component: {fileID: 3557256521018681562}
   m_Layer: 5
-  m_Name: Btn_Ring
+  m_Name: Btn_Talent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4088297234787475203
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1052,12 +1052,12 @@ RectTransform:
   - {fileID: 3537348157294269928}
   - {fileID: 6831362611127915742}
   m_Father: {fileID: 3343223524546497689}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 550, y: -200}
-  m_SizeDelta: {x: 150, y: 150}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3684838859546874126
 CanvasRenderer:
@@ -1447,9 +1447,9 @@ RectTransform:
   m_Children:
   - {fileID: 6804469592251309803}
   - {fileID: 2163789299858420278}
-  - {fileID: 4088297234787475203}
   - {fileID: 6347384250741709536}
   - {fileID: 7179432742680078096}
+  - {fileID: 4088297234787475203}
   m_Father: {fileID: 8900284681530860510}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1599,4 +1599,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u7279\u6212"
+  m_Text: "\u5929\u8D4B"

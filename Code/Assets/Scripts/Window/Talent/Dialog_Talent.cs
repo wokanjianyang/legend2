@@ -52,8 +52,16 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
     public void OnBattleStart()
     {
-        GameProcessor.Inst.EventCenter.AddListener<TalentShowEvent>(this.OnShowEvent);
+        GameProcessor.Inst.EventCenter.AddListener<OpenDialogEvent>(this.Open);
         GameProcessor.Inst.EventCenter.AddListener<TalentDetailShowEvent>(this.OnShowDetailEvent);
+    }
+
+    private void Open(OpenDialogEvent e)
+    {
+        if (e.Type == DialogType.Talent)
+        {
+            this.gameObject.SetActive(true);
+        }
     }
 
     private void Start()

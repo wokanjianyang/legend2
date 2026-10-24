@@ -16,7 +16,7 @@ namespace Game
         public Button Btn_Start;
         public Text Txt_Over;
 
-        private int Type = 0;
+        private int cycle = 0;
         private MythConfig Config;
 
         // Update is called once per frame
@@ -27,7 +27,7 @@ namespace Game
 
         void OnEnable()
         {
-            if (this.Type > 0)
+            if (this.Config != null)
             {
                 this.Show();
             }
@@ -37,28 +37,16 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            int maxId = user.MythData.GetMax() + 1;
-
-            if (this.Config.Id <= maxId)
+            if (user.MythData.GetOver(Config.Id))
             {
-                this.gameObject.SetActive(true);
-
-                if (this.Config.Id == maxId)
-                {
-                    this.Txt_Over.gameObject.SetActive(false);
-                    Btn_Start.gameObject.SetActive(true);
-                }
-                else
-                {
-                    this.Txt_Over.gameObject.SetActive(true);
-                    Btn_Start.gameObject.SetActive(false);
-                }
+                Txt_Over.gameObject.SetActive(true);
+                Btn_Start.gameObject.SetActive(false);
             }
             else
             {
-                this.gameObject.SetActive(false);
+                this.Txt_Over.gameObject.SetActive(false);
+                Btn_Start.gameObject.SetActive(true);
             }
-
         }
 
         public void SetContent(MythConfig config)
@@ -69,12 +57,11 @@ namespace Game
             this.Show();
         }
 
-        public void ShowType(int type)
+        public void SetMax(int cycle, int maxId)
         {
-            if (this.Type == type)
+            if (Config.Id - 1 <= maxId && Config.Id >= cycle)
             {
                 this.gameObject.SetActive(true);
-                this.Show();
             }
             else
             {
@@ -86,6 +73,14 @@ namespace Game
         {
             Dialog_Myth dlg = this.GetComponentInParent<Dialog_Myth>();
             dlg.gameObject.SetActive(false);
+
+            User user = User_Data_Manager.Data;
+
+            if (user.MythData.GetOver(this.Config.Id))
+            {
+                GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已通过，请等下周", ToastType = ToastTypeEnum.Failure });
+                return;
+            }
 
             GameProcessor.Inst.EventCenter.Raise(new ChangePageEvent() { Page = ViewPageType.View_Battle });
 

@@ -16,7 +16,7 @@ public class Dialog_Myth : MonoBehaviour
     public ScrollRect sr_Boss;
     private List<Item_Myth> ItemList = new List<Item_Myth>();
 
-    string[] names = { "金币副本", "强化副本", "精炼副本", };
+    private int SelectLayer = 1;
 
     // Start is called before the first frame update
     void Awake()
@@ -43,18 +43,32 @@ public class Dialog_Myth : MonoBehaviour
         //this.ChangePanel(1);
     }
 
+    private void OnEnable()
+    {
+        this.ShowItemMax();
+    }
 
-    private void ChangePanel(int type)
+    private void ShowItemMax()
     {
         User user = User_Data_Manager.Data;
 
-        Materail_Record record = user.MaterailData.GetRecordType(type);
-        //this.Txt_Count.text = names[type - 1] + "剩余挑战次数：" + record.Count;
-
-        foreach (var sp in ItemList)
+        if (user == null)
         {
-            sp.ShowType(type);
+            return;
         }
+
+        int max = user.MythData.GetMax();
+
+        for (int i = 0; i < ItemList.Count; i++)
+        {
+            ItemList[i].SetMax(SelectLayer, max);
+        }
+    }
+
+    private void ChangePanel(int layer)
+    {
+        this.SelectLayer = layer;
+        this.ShowItemMax();
     }
 
     private void Init()
@@ -81,6 +95,7 @@ public class Dialog_Myth : MonoBehaviour
             ItemList.Add(com);
         }
 
+        this.ShowItemMax();
     }
 
     public void OnClick_Close()

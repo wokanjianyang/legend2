@@ -66,7 +66,6 @@ public class Init : MonoBehaviour
                 "Window/Setting/Dialog_Settings",
 
                 "Window/Relic/Dialog_Relic",
-                "Window/Talent/Dialog_Talent",
                 "Home/Bag/Dialog_Attr",
                 "Window/Pet/Dialog_Pet",
                 "Window/Legend/Dialog_Legend",
@@ -80,6 +79,7 @@ public class Init : MonoBehaviour
                 "Window/Exclusive/Dialog_Exclusive",
                 "Window/Ring/Dialog_Ring",
                 "Window/Wing/Dialog_Wing",
+                "Window/Talent/Dialog_Talent",
             }
         },
         {

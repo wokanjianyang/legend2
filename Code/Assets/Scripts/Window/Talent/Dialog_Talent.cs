@@ -13,19 +13,15 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
     public Text Txt_Total;
     public Text Txt_Enable;
-    public Text Txt_Used;
 
     public Transform Tf_Layer;
     private List<Toggle> tgLevelList;
 
-    public HP_Progress ExpProgress;
-
     public List<Transform> tfs;
     private List<Item_Talent> ItemList = new List<Item_Talent>();
+
     public Button Btn_Close;
     public Button Btn_Reset;
-
-    private const int LevelExp = 10000;
 
     private int SelectLayer = 0;
 
@@ -37,8 +33,6 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
         Btn_Close.onClick.AddListener(OnClick_Close);
         Btn_Reset.onClick.AddListener(OnClick_Reset);
-
-
 
         for (int i = 0; i < tgLevelList.Count; i++)
         {
@@ -61,6 +55,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
         if (e.Type == DialogType.Talent)
         {
             this.gameObject.SetActive(true);
+            this.Refresh();
         }
     }
 
@@ -93,12 +88,6 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
         this.Show();
     }
 
-    private void OnShowEvent(TalentShowEvent e)
-    {
-        this.gameObject.SetActive(true);
-        this.Refresh();
-    }
-
     private void OnShowDetailEvent(TalentDetailShowEvent e)
     {
         DialogDetail.Open(e.Tid);
@@ -108,16 +97,12 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
     {
         User user = User_Data_Manager.Data;
 
-        long total = user.TalentExp.Data / LevelExp;
-        long used = user.TalentPoint;
+        long total = user.TalentTotal.Data;
+        long used = user.TalentUsed;
         long enabled = total - used;
 
-        long exp = user.TalentExp.Data % LevelExp;
-        this.ExpProgress.SetProgress(exp, LevelExp);
-
-        Txt_Total.text = "天赋等级：Lv" + total;
+        Txt_Total.text = "总天赋点：" + total;
         Txt_Enable.text = "剩余天赋点：" + enabled;
-        Txt_Used.text = "已分配天赋点：" + used;
 
         int startId = SelectLayer * 100;
         for (int i = 0; i < ItemList.Count; i++)
@@ -130,16 +115,12 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
     {
         User user = User_Data_Manager.Data;
 
-        long total = user.TalentExp.Data / LevelExp;
-        long used = user.TalentPoint;
+        long total = user.TalentTotal.Data;
+        long used = user.TalentUsed;
         long enabled = total - used;
 
-        long exp = user.TalentExp.Data % LevelExp;
-        this.ExpProgress.SetProgress(exp, LevelExp);
-
-        Txt_Total.text = "天赋等级：Lv" + total;
+        Txt_Total.text = "总天赋点：" + total;
         Txt_Enable.text = "剩余天赋点：" + enabled;
-        Txt_Used.text = "已分配天赋点：" + used;
 
         for (int i = 0; i < ItemList.Count; i++)
         {
@@ -154,7 +135,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
     public void OnClick_Reset()
     {
-        GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重置天赋消耗1垓金币。是否确认？", true,
+        GameProcessor.Inst.ShowSecondaryConfirmationDialog?.Invoke("重置天赋消耗1亿金币。是否确认？", true,
          () =>
          {
              ResetTalent();
@@ -168,16 +149,16 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
     {
         User user = User_Data_Manager.Data;
 
-        if (user.MagicGold.Data <= ConfigHelper.RestoreGold * 20000.0)
+        if (user.MagicGold.Data <= 1E8)
         {
-            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足1垓", ToastType = ToastTypeEnum.Failure });
+            GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "金币不足1亿", ToastType = ToastTypeEnum.Failure });
             return;
         }
 
-        user.SubGold(ConfigHelper.RestoreGold * 20000.0);
+        user.SubGold(1E8);
 
         user.TalentData.Clear();
-        user.TalentPoint = 0;
+        user.TalentUsed = 0;
 
         GameProcessor.Inst.UpdateInfo();
         this.Refresh();

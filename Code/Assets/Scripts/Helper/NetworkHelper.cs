@@ -124,7 +124,7 @@ namespace Game
             long spirit = user.SpiritRecord.Select(m => m.Value.Level.Data).Sum();
             paramDict.Add("spirit", spirit + "");
 
-            long talent = user.TalentExp.Data / 10000;
+            long talent = user.TalentTotal.Data / 10000;
             paramDict.Add("talent", talent + "");
             //user.SaveRecordMax((int)AbcType.Talent, talent);
 

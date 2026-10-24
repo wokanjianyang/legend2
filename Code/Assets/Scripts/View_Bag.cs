@@ -1073,7 +1073,7 @@ namespace Game
             {
                 ItemConfig config = ItemConfigCategory.Instance.Get(boxItem.Item.ConfigId);
 
-                user.TalentExp.Data += number * config.UseParam;
+                user.TalentTotal.Data += number * config.UseParam;
             }
             else if (boxItem.Item.GetItemType() == ItemType.SkillBox)
             {

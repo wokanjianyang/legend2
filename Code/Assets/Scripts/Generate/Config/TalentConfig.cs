@@ -96,21 +96,21 @@ namespace Game
 		/// <summary>MaxLevel</summary>
 		[ProtoMember(7)]
 		public int MaxLevel { get; set; }
-		/// <summary>AttrId</summary>
+		/// <summary>AtrId</summary>
 		[ProtoMember(8)]
-		public int AttrId { get; set; }
-		/// <summary>AttrValue</summary>
+		public int AtrId { get; set; }
+		/// <summary>AtrVue</summary>
 		[ProtoMember(9)]
-		public int AttrValue { get; set; }
+		public double AtrVue { get; set; }
 		/// <summary>RiseType</summary>
 		[ProtoMember(10)]
 		public int RiseType { get; set; }
-		/// <summary>RiseValue</summary>
-		[ProtoMember(11)]
-		public int RiseValue { get; set; }
 		/// <summary>RiseUnit</summary>
-		[ProtoMember(12)]
+		[ProtoMember(11)]
 		public string RiseUnit { get; set; }
+		/// <summary>RiseVue</summary>
+		[ProtoMember(12)]
+		public double RiseVue { get; set; }
 		/// <summary>Fee</summary>
 		[ProtoMember(13)]
 		public int Fee { get; set; }

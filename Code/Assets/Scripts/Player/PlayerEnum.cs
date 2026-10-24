@@ -51,6 +51,8 @@ namespace Game
         Protect = 52,//免疫
         BurstMul = 53,//连爆
         Miss2 = 54,//二次闪避
+        MaxDamage = 55, //最大承伤
+        ShieldRise = 56, //护盾最终加成
 
 
         GoldIncrea = 81, //金币加成

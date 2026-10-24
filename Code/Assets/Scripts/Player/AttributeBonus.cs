@@ -130,6 +130,7 @@ namespace Game
                 case AttributeEnum.Speed:
                 case AttributeEnum.DecreRestore:
                 case AttributeEnum.RestoreIncrea:
+                case AttributeEnum.ShieldRise:
                     total = CalBattleSingleAdd(attrType);
                     break;
                 case AttributeEnum.MulDamageIncrea:

@@ -268,10 +268,9 @@ namespace Game
 
         public Dictionary<int, MagicData> RelicData { get; } = new Dictionary<int, MagicData>();
 
-        public MagicData TalentExp { get; set; } = new MagicData();
+        public MagicData TalentTotal { get; set; } = new MagicData();
+        public int TalentUsed { get; set; } = 0;
         public Dictionary<int, MagicData> TalentData { get; } = new Dictionary<int, MagicData>();
-
-        public int TalentPoint { get; set; } = 0;
 
         public MythData MythData { get; set; } = new MythData();
 
@@ -1863,7 +1862,7 @@ namespace Game
                 TalentData[tid] = new MagicData();
             }
             TalentData[tid].Data++;
-            TalentPoint += fee;
+            TalentUsed += fee;
         }
 
         public long GetHalidomLevel(int id)

@@ -27,8 +27,10 @@ namespace Game
             //先行特效
             SkillPanel.RunBefore(this.SelfPlayer, null);
 
+            double sr = this.SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.ShieldRise);
+
             //增加护盾
-            double percent = this.SkillPanel.Percent * (1 + this.SkillPanel.AttrIncrea / 100.0);
+            double percent = this.SkillPanel.Percent * (1 + this.SkillPanel.AttrIncrea / 100.0) * (1 + sr / 100);
 
             double maxHp = this.SelfPlayer.AttributeBonus.CalBattleTotalAttr(AttributeEnum.HP);
             double sp = maxHp * percent / 100.0;

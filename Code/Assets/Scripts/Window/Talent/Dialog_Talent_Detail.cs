@@ -45,8 +45,8 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
-        long totalPoint = user.TalentExp.Data / 10000;
-        long usedPoint = user.TalentPoint;
+        long totalPoint = user.TalentTotal.Data / 10000;
+        long usedPoint = user.TalentUsed;
         long enablePoint = totalPoint - usedPoint;
 
         long totalLevel = user.TalentData.Select(m => m.Value.Data).Sum();
@@ -59,11 +59,11 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         if (level > 0)
         {
-            Txt_Next.text = "升级提高：" + "" + config.RiseValue + config.RiseUnit;
+            Txt_Next.text = "升级提高：" + "" + config.RiseVue + config.RiseUnit;
         }
         else
         {
-            Txt_Next.text = "激活提高：" + "" + config.AttrValue + config.RiseUnit;
+            Txt_Next.text = "激活提高：" + "" + config.AtrVue + config.RiseUnit;
         }
 
         string color = config.Fee <= enablePoint ? "#00FF00" : "#FF0000";
@@ -98,8 +98,8 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
-        long total = user.TalentExp.Data / 10000;
-        long use = user.TalentPoint;
+        long total = user.TalentTotal.Data / 10000;
+        long use = user.TalentUsed;
 
 
         long level = user.GetTalentLevel(this.Tid);
@@ -128,11 +128,11 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         int level = (int)user.GetTalentLevel(this.Tid);
 
-        long total = user.TalentExp.Data / 10000;
+        long total = user.TalentTotal.Data / 10000;
 
         for (int i = level; i < config.MaxLevel; i++)
         {
-            if (config.Fee <= (total - user.TalentPoint))
+            if (config.Fee <= (total - user.TalentUsed))
             {
                 user.AddTalentLevel(Tid, config.Fee);
             }

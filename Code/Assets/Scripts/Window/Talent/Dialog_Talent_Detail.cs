@@ -45,16 +45,15 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
-        long totalPoint = user.TalentTotal.Data / 10000;
-        long usedPoint = user.TalentUsed;
+        long totalPoint = user.TalentTotal.Data;
+        long usedPoint = user.GetTalentUsed();
         long enablePoint = totalPoint - usedPoint;
 
-        long totalLevel = user.TalentData.Select(m => m.Value.Data).Sum();
         long level = user.GetTalentLevel(this.Tid);
         double attrVal = config.GetAttrValue(level);
 
         Txt_Name.text = config.Name;
-        Txt_Desc.text = string.Format(config.desc, StringHelper.FormatNumber(attrVal));
+        Txt_Desc.text = string.Format(config.desc, attrVal);
         Txt_Current.text = "等级：" + level + "/" + config.MaxLevel;
 
         if (level > 0)
@@ -69,10 +68,21 @@ public class Dialog_Talent_Detail : MonoBehaviour
         string color = config.Fee <= enablePoint ? "#00FF00" : "#FF0000";
         Txt_Cost.text = string.Format("需求天赋点：<color={0}>{1} /{2}</color>", color, enablePoint, config.Fee);
 
-        color = totalLevel >= config.RequireLevel ? "#00FF00" : "#FF0000";
-        Txt_Require.text = string.Format("前置天赋总等级：<color={0}>{1} /{2}</color>", color, totalLevel, config.RequireLevel);
+        long requireLevel = 0;
+        if (config.RequireId > 0)
+        {
+            TalentConfig requireConfig = TalentConfigCategory.Instance.Get(config.RequireId);
+            requireLevel = user.GetTalentLevel(config.RequireId);
 
-        if (level < config.MaxLevel && config.RequireLevel <= totalLevel && config.Fee <= enablePoint)
+            color = requireLevel >= config.RequireLevel ? "#00FF00" : "#FF0000";
+            Txt_Require.text = string.Format("前置需求天赋，{3}：<color={0}>{1} /{2}</color>", color, requireLevel, config.RequireLevel, requireConfig.Name);
+        }
+        else
+        {
+            Txt_Require.text = string.Format("无前置天赋需求");
+        }
+
+        if (level < config.MaxLevel && config.RequireLevel <= requireLevel && config.Fee <= enablePoint)
         {
             Btn_OK.gameObject.SetActive(true);
             Btn_OK_Batch.gameObject.SetActive(true);
@@ -98,9 +108,8 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         User user = User_Data_Manager.Data;
 
-        long total = user.TalentTotal.Data / 10000;
-        long use = user.TalentUsed;
-
+        long total = user.TalentTotal.Data;
+        long use = user.GetTalentUsed();
 
         long level = user.GetTalentLevel(this.Tid);
 
@@ -128,11 +137,11 @@ public class Dialog_Talent_Detail : MonoBehaviour
 
         int level = (int)user.GetTalentLevel(this.Tid);
 
-        long total = user.TalentTotal.Data / 10000;
+        long total = user.TalentTotal.Data;
 
         for (int i = level; i < config.MaxLevel; i++)
         {
-            if (config.Fee <= (total - user.TalentUsed))
+            if (config.Fee <= (total - user.GetTalentUsed()))
             {
                 user.AddTalentLevel(Tid, config.Fee);
             }

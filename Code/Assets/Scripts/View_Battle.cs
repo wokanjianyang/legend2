@@ -165,7 +165,18 @@ namespace Game
             {
                 Dictionary<string, object> param = new Dictionary<string, object>();
                 param.Add("MapTime", TimeHelper.ClientNowSeconds());
-                param.Add("MapId", e.MapId);
+
+                int mapId = user.MythData.GetMax() + 1;
+
+                int maxId = MythConfigCategory.Instance.GetAll().Select(m => m.Value.Id).Max();
+
+                if (mapId > maxId)
+                {
+                    GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "已经通关了", ToastType = ToastTypeEnum.Failure });
+                    return;
+                }
+
+                param.Add("MapId", mapId);
 
                 GameProcessor.Inst.DelayAction(0.1f, () =>
                 {
@@ -174,7 +185,7 @@ namespace Game
                 });
 
 
-                MythConfig mythConfig = MythConfigCategory.Instance.Get(e.MapId);
+                MythConfig mythConfig = MythConfigCategory.Instance.Get(mapId);
 
                 this.Txt_MapName.text = mythConfig.MapName;
             }

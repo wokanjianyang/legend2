@@ -98,6 +98,22 @@ namespace Game
             return level >= config.MaxLevel;
         }
 
+        internal long GetTalentUsed()
+        {
+            if (!this.TalentList.ContainsKey(TalentPlanIndex))
+            {
+                this.TalentList[TalentPlanIndex] = new Dictionary<int, int>();
+            }
+
+            long total = 0;
+            foreach (var sp in this.TalentList[TalentPlanIndex])
+            {
+                TalentConfig config = TalentConfigCategory.Instance.Get(sp.Key);
+                total += config.Fee * sp.Value;
+            }
+
+            return total;
+        }
 
         public Item GetEquip(int position)
         {
@@ -269,8 +285,8 @@ namespace Game
         public Dictionary<int, MagicData> RelicData { get; } = new Dictionary<int, MagicData>();
 
         public MagicData TalentTotal { get; set; } = new MagicData();
-        public int TalentUsed { get; set; } = 0;
-        public Dictionary<int, MagicData> TalentData { get; } = new Dictionary<int, MagicData>();
+        public int TalentPlanIndex { get; set; } = 0;
+        public Dictionary<int, Dictionary<int, int>> TalentList { get; set; } = new Dictionary<int, Dictionary<int, int>>();
 
         public MythData MythData { get; set; } = new MythData();
 
@@ -688,6 +704,19 @@ namespace Game
                             long atrVue = config.GradeAtrVueList[i] * wy;
                             AttributeBonus.SetAttr((AttributeEnum)(config.GradeAtrIdList[i]), attrKey++, atrVue);
                         }
+                    }
+                }
+            }
+
+            //天赋
+            if (this.TalentList.ContainsKey(TalentPlanIndex))
+            {
+                foreach (var sp in this.TalentList[TalentPlanIndex])
+                {
+                    if (sp.Value > 0)
+                    {
+                        TalentConfig talentConfig = TalentConfigCategory.Instance.Get(sp.Key);
+                        AttributeBonus.SetAttr((AttributeEnum)talentConfig.AtrId, attrKey++, talentConfig.GetAttrValue(sp.Value));
                     }
                 }
             }
@@ -1848,21 +1877,30 @@ namespace Game
 
         public long GetTalentLevel(int tid)
         {
-            if (!TalentData.ContainsKey(tid))
+            if (!TalentList.ContainsKey(TalentPlanIndex))
             {
-                TalentData[tid] = new MagicData();
+                TalentList[TalentPlanIndex] = new Dictionary<int, int>();
             }
-            return TalentData[tid].Data;
+
+            if (!TalentList[TalentPlanIndex].ContainsKey(tid))
+            {
+                TalentList[TalentPlanIndex][tid] = 0;
+            }
+            return TalentList[TalentPlanIndex][tid];
         }
 
         public void AddTalentLevel(int tid, int fee)
         {
-            if (!TalentData.ContainsKey(tid))
+            if (!TalentList.ContainsKey(TalentPlanIndex))
             {
-                TalentData[tid] = new MagicData();
+                TalentList[TalentPlanIndex] = new Dictionary<int, int>();
             }
-            TalentData[tid].Data++;
-            TalentUsed += fee;
+
+            if (!TalentList[TalentPlanIndex].ContainsKey(tid))
+            {
+                TalentList[TalentPlanIndex][tid] = 0;
+            }
+            TalentList[TalentPlanIndex][tid]++;
         }
 
         public long GetHalidomLevel(int id)

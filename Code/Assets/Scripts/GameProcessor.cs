@@ -798,6 +798,10 @@ namespace Game
             {
                 this.AutoStartMap(ruleType);
             }
+            else if (ruleType == RuleType.Myth && AppHelper.SetData.Myth_Auto)
+            {
+                this.AutoStartMap(ruleType);
+            }
             else  //不自动挑战的，就自动回到主线副本
             {
                 Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Normal, MapId = AppHelper.CurrentMapId });
@@ -842,7 +846,7 @@ namespace Game
             switch (ruleType)
             {
                 case RuleType.Babel:
-                    GameProcessor.Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Babel, MapId = 0 });
+                    Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Babel, MapId = 0 });
                     break;
                 case RuleType.World:
                     this.EventCenter.Raise(new WorldStartEvent() { Id = AppHelper.World_Auto_Id });
@@ -853,8 +857,8 @@ namespace Game
                 case RuleType.BossFamily:
                     this.EventCenter.Raise(new AutoStartBossFamily());
                     break;
-                    //case RuleType.EquipCopy:
-                    //    this.EventCenter.Raise(new AutoStartCopyEvent());
+                case RuleType.Myth:
+                    Inst.EventCenter.Raise(new ChangeMainMapEvent() { Type = RuleType.Myth });
                     break;
                 case RuleType.Shengxiao:
                     this.EventCenter.Raise(new ShengxiaoStartEvent() { Id = AppHelper.Shengxiao_Id });

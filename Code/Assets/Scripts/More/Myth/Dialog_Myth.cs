@@ -18,6 +18,7 @@ public class Dialog_Myth : MonoBehaviour
 
     private int SelectLayer = 1;
 
+    public Toggle toggle_Auto;
     // Start is called before the first frame update
     void Awake()
     {
@@ -39,6 +40,12 @@ public class Dialog_Myth : MonoBehaviour
 
     void Start()
     {
+        toggle_Auto.onValueChanged.AddListener((isOn) =>
+        {
+            AppHelper.SetData.Myth_Auto  = isOn;
+            User_Data_Manager.SettingSave();
+        });
+
         this.Init();
         //this.ChangePanel(1);
     }

@@ -15,7 +15,9 @@ namespace Game
         public bool ShowMonsterSkill { get; set; } = true; //是否显示怪物技能
         public int InfoColor { get; set; } = 1; //掉落信息显示颜色
 
-        public bool Babel_Auto { get; set; } = false;
+        public bool Babel_Auto { get; set; } = true;
+
+        public bool Myth_Auto { get; set; } = true;
 
         public IDictionary<int, bool> BossOpen { get; set; } = new Dictionary<int, bool>();
 

@@ -55,7 +55,7 @@ public class Map_Myth_Item : MonoBehaviour
         var vm = this.GetComponentInParent<View_More>();
         vm.HideItem();
 
-        GameProcessor.Inst.EventCenter.Raise(new MythStartEvent() { Id = Config.Id });
+        GameProcessor.Inst.EventCenter.Raise(new MythStartEvent() { });
     }
 
     public void SetContent(MythConfig config)

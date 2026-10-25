@@ -17,6 +17,9 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
     public Transform Tf_Layer;
     private List<Toggle> tgLevelList;
 
+    public Transform Tf_Plan;
+    private List<Toggle> tgPlanList;
+
     public List<Transform> tfs;
     private List<Item_Talent> ItemList = new List<Item_Talent>();
 
@@ -30,9 +33,19 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
     private void Awake()
     {
         tgLevelList = Tf_Layer.GetComponentsInChildren<Toggle>().ToList();
+        tgPlanList = Tf_Plan.GetComponentsInChildren<Toggle>().ToList();
 
         Btn_Close.onClick.AddListener(OnClick_Close);
         Btn_Reset.onClick.AddListener(OnClick_Reset);
+
+        for (int i = 0; i < tgPlanList.Count; i++)
+        {
+            int index = i;
+            tgPlanList[i].onValueChanged.AddListener((isOn) =>
+            {
+                this.ChangePlan(index);
+            });
+        }
 
         for (int i = 0; i < tgLevelList.Count; i++)
         {
@@ -66,6 +79,13 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
         this.Show();
     }
 
+    private void ChangePlan(int p)
+    {
+        User_Data_Manager.Data.TalentPlanIndex = p;
+        this.Show();
+
+        GameProcessor.Inst.UpdateInfo();
+    }
 
     private void ChangeLevel(int layer)
     {
@@ -98,7 +118,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
         User user = User_Data_Manager.Data;
 
         long total = user.TalentTotal.Data;
-        long used = user.TalentUsed;
+        long used = user.GetTalentUsed();
         long enabled = total - used;
 
         Txt_Total.text = "总天赋点：" + total;
@@ -116,7 +136,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
         User user = User_Data_Manager.Data;
 
         long total = user.TalentTotal.Data;
-        long used = user.TalentUsed;
+        long used = user.GetTalentUsed();
         long enabled = total - used;
 
         Txt_Total.text = "总天赋点：" + total;
@@ -157,8 +177,7 @@ public class Dialog_Talent : MonoBehaviour, IBattleLife
 
         user.SubGold(1E8);
 
-        user.TalentData.Clear();
-        user.TalentUsed = 0;
+        user.TalentList[user.TalentPlanIndex].Clear();
 
         GameProcessor.Inst.UpdateInfo();
         this.Refresh();

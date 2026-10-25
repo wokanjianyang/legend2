@@ -154,6 +154,7 @@ namespace Game
 
                         case RuleType.MainStage:
                         case RuleType.Babel:
+                        case RuleType.Myth:
                             break;
                         default:
                             StartCoroutine(this.AutoResurrection());
@@ -167,6 +168,7 @@ namespace Game
 
                         case RuleType.MainStage:
                         case RuleType.Babel:
+                        case RuleType.Myth:
                             break;
                         default:
                             StartCoroutine(this.AutoResurrection());

@@ -225,7 +225,7 @@ public class Panel_Rebuild : MonoBehaviour
         int layer = equip.Layer;
 
         var equips = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Equip && m.Item.GetQuality() == quality
-        && m.Item.Layer == layer && !m.Item.IsLock).ToList();
+        && !m.Item.IsLock).ToList();
 
         List<Equip> bags = new List<Equip>();
         foreach (var item in equips)

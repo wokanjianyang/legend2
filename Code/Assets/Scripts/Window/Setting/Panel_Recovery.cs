@@ -25,6 +25,7 @@ namespace Game
         public InputField if_DropRate;
         public InputField if_DropQuality;
         public InputField if_Sk;
+        public InputField if_Mul;
 
         public Dropdown Dp_Equip_Base;
 
@@ -103,10 +104,10 @@ namespace Game
 
             //普通装备保留颜色
             dp_Equip_Skill.ClearOptions();
-            dp_Equip_Skill.AddOptions(new List<string>() { "无", "紫色", "橙色" });
+            dp_Equip_Skill.AddOptions(new List<string>() { "无", "紫色", "橙色", "红色" });
 
             Dp_Equip_Base.ClearOptions();
-            Dp_Equip_Base.AddOptions(new List<string>() { "无", "白色", "绿色", "蓝色", "紫色", "橙色" });
+            Dp_Equip_Base.AddOptions(new List<string>() { "无", "白色", "绿色", "蓝色", "紫色", "橙色", "红色" });
 
             dp_Pet.ClearOptions();
             dp_Pet.AddOptions(new List<string>() { "无", "白色", "绿色", "蓝色", "紫色", "橙色" });
@@ -141,6 +142,7 @@ namespace Game
             if_DropRate.text = setting.DropRate.ToString();
             if_DropQuality.text = setting.DropQuality.ToString();
             if_Sk.text = setting.SkLevel.ToString();
+            if_Mul.text = setting.MulTotal.ToString();
 
             if_EquipLevel.text = setting.EquipLevel.ToString();
 
@@ -203,6 +205,9 @@ namespace Game
 
             int.TryParse(if_Sk.text, out int sk);
             setting.SkLevel = sk;
+
+            int.TryParse(if_Mul.text, out int ml);
+            setting.MulTotal = ml;
 
             int.TryParse(if_EquipLevel.text, out int equipLevel);
             setting.EquipLevel = equipLevel;

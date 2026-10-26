@@ -149,14 +149,24 @@ namespace Game
 
         public int GetCardId()
         {
-            if (this.Config.Id <= 72)
+            //³ÈÉ«
+            if (this.GetQuality() == 5)
             {
-                return this.Config.CardId;
+                if (this.Config.Id <= 72)
+                {
+                    return this.Config.CardId;
+                }
+                else
+                {
+                    return this.Config.CardId + this.Role - 1;
+                }
             }
-            else
+            else if (this.GetQuality() == 6)
             {
-                return this.Config.CardId + this.Role - 1;
+                return this.Config.CardId + 3 + this.Role - 1;
             }
+
+            return 0;
         }
         //--------------ovveride
         public override int GetQuality()

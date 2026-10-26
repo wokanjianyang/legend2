@@ -33,6 +33,8 @@ namespace Game
 
         public int SkLevel { get; set; } = 0;
 
+        public int MulTotal { get; set; } = 0;
+
         public Dictionary<int, bool> EquipRole { get; private set; } = new Dictionary<int, bool>();
 
 
@@ -175,6 +177,44 @@ namespace Game
                         {
                             long skTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.SkillLevelRise).Select(m => m.Value).Sum();
                             if (skTotal >= SkLevel)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+                        }
+
+                        if (MulTotal > 0)
+                        {
+                            long mulTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.MulHp).Select(m => m.Value).Sum();
+                            if (mulTotal >= MulTotal)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+
+                            mulTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.MulAtk).Select(m => m.Value).Sum();
+                            if (mulTotal >= MulTotal)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+
+                            mulTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.MulDef).Select(m => m.Value).Sum();
+                            if (mulTotal >= MulTotal)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+
+                            mulTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.MulDamageResist).Select(m => m.Value).Sum();
+                            if (mulTotal >= MulTotal)
+                            {
+                                item.IsKeep = true;
+                                return false;
+                            }
+
+                            mulTotal = equip.AttrEntryList.Where(m => m.Key == (int)AttributeEnum.MulDamageIncrea).Select(m => m.Value).Sum();
+                            if (mulTotal >= MulTotal)
                             {
                                 item.IsKeep = true;
                                 return false;

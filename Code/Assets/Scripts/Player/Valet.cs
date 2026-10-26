@@ -54,7 +54,7 @@ namespace Game
             double levelRise = this.SkillPanel.Percent * 0.01;
             double mAtk = Master.AttributeBonus.CalBaseRoleAtk(role) * levelRise; //职业攻击
 
-            double mHp = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP);
+            double mHp = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.HP) * levelRise;
             double mDef = Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Def);
 
             this.AttributeBonus = new AttributeBonus();
@@ -62,7 +62,7 @@ namespace Game
             AttributeBonus.SetAttr(AttributeEnum.PhyAtk, AttributeFrom.UserBase, mAtk);
             AttributeBonus.SetAttr(AttributeEnum.MagicAtk, AttributeFrom.UserBase, mAtk);
             AttributeBonus.SetAttr(AttributeEnum.SpiritAtk, AttributeFrom.UserBase, mAtk);
-            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.UserBase, mDef); 
+            AttributeBonus.SetAttr(AttributeEnum.Def, AttributeFrom.UserBase, mDef);
 
             AttributeBonus.SetAttr(AttributeEnum.Speed, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.Speed));
             AttributeBonus.SetAttr(AttributeEnum.MoveSpeed, AttributeFrom.UserBase, Master.AttributeBonus.CalPanelTotalAttr(AttributeEnum.MoveSpeed));
@@ -120,7 +120,8 @@ namespace Game
             }
 
             //如果有灭魂符，则用默认技能
-            if (SelectSkillList.Count == 0) {
+            if (SelectSkillList.Count == 0)
+            {
                 if (this.ModelConfig.SkillList != null)
                 {
                     foreach (int skillId in this.ModelConfig.SkillList)

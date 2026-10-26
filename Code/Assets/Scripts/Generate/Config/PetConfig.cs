@@ -81,17 +81,14 @@ namespace Game
 		/// <summary>Name</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>CardQuality</summary>
-		[ProtoMember(3)]
-		public int CardQuality { get; set; }
 		/// <summary>CardId</summary>
-		[ProtoMember(4)]
+		[ProtoMember(3)]
 		public int CardId { get; set; }
 		/// <summary>TraitIdList</summary>
-		[ProtoMember(5)]
+		[ProtoMember(4)]
 		public int[] TraitIdList { get; set; }
 		/// <summary>TraitLevel</summary>
-		[ProtoMember(6)]
+		[ProtoMember(5)]
 		public int TraitLevel { get; set; }
 
 	}

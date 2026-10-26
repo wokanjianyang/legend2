@@ -105,6 +105,12 @@ namespace Game
 		/// <summary>BossQualityRate</summary>
 		[ProtoMember(10)]
 		public int BossQualityRate { get; set; }
+		/// <summary>EquipRise</summary>
+		[ProtoMember(11)]
+		public int EquipRise { get; set; }
+		/// <summary>PetRise</summary>
+		[ProtoMember(12)]
+		public int PetRise { get; set; }
 
 	}
 }

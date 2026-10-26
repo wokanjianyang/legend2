@@ -161,7 +161,7 @@ namespace Game
             List<Item> items = new List<Item>();
 
             //生成道具奖励
-            items.AddRange(DropConfigCategory.Instance.BuildBossDropItem(Config.Id, burstRise, qualityRise));
+            items.AddRange(DropConfigCategory.Instance.BuildBossDropItem(Config.Id, burstRise, qualityRise, MModelConfig.EquipRise, MModelConfig.PetRise));
 
 
             //限时奖励

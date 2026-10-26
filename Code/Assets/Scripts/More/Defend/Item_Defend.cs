@@ -141,7 +141,7 @@ namespace Game
                 goldTotal += exp;
 
                 int dropId = user.DefendData.GetDropId(this.Level, i);
-                Item item = DropConfigCategory.Instance.BuildByDropBaseId(dropId, 1, 0, 0);
+                Item item = DropConfigCategory.Instance.BuildByDropBaseId(dropId);
 
                 DefendDropConfig defendDropConfig = DefendDropConfigCategory.Instance.GetConfig(this.Level, dropId);
                 if (defendDropConfig != null && defendDropConfig.Number > 1)

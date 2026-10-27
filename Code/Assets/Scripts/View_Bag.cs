@@ -826,12 +826,6 @@ namespace Game
             {
                 Equip equip = boxItem.Item as Equip;
 
-                long number = EquipRefineFeeConfigCategory.Instance.GetTotalFee2(equip.RefineLevel.Data, equip.Config.RefineFee);
-                backGold = EquipRefineFeeConfigCategory.Instance.GetTotalFee1(equip.RefineLevel.Data, equip.Config.RefineFee);
-
-                Item item = ItemHelper.BuildMaterial(ItemHelper.Equip_Refine, number);
-                newList.Add(item);
-
                 if (haveCount < newList.Count)
                 {
                     GameProcessor.Inst.EventCenter.Raise(new ShowGameMsgEvent() { Content = "请保留" + newList.Count + "个包裹空额", ToastType = ToastTypeEnum.Failure });

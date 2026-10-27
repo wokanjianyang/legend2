@@ -141,8 +141,8 @@ namespace Game
             {
                 if (Type == 2)
                 {
-                    Panel_Refine panel = this.gameObject.GetComponentInParent<Panel_Refine>();
-                    panel.SelectItem(this.Position, CurrentItem, this);
+                    //Panel_Refine_New panel = this.gameObject.GetComponentInParent<Panel_Refine_New>();
+                    //panel.SelectItem(this.Position, CurrentItem, this);
                 }
                 else if (Type == 3)
                 {

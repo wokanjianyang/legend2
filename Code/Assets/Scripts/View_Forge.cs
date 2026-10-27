@@ -14,7 +14,6 @@ public class View_Forge : AViewPage
 
     public Toggle toggle_Refine;
     public Panel_Refine_New PanelRefineNew;
-    public Panel_Refine PanelRefine;
 
     public Toggle toggle_Strengthen;
     public Panel_Strengthen PanelStrengthen;

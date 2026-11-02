@@ -41,7 +41,17 @@ public class BattleRule_Myth : ABattleRule
         {
             MapTime += currentRoundTime;
         }
-        GameProcessor.Inst.EventCenter.Raise(new ShowMythInfoEvent() { Layer = CurrentLayer, Time = (int)(MaxTime - MapTime) });
+
+        string msg = "";
+        if (CurrentLayer < 5)
+        {
+            msg = "下波出怪时间：" + (int)(MaxTime - MapTime);
+        }
+        else
+        {
+            msg = "击杀所有怪物通关";
+        }
+        GameProcessor.Inst.EventCenter.Raise(new ShowMainMapInfoEvent() { Message = msg });
 
         //Debug.Log("create pill MapTime:" + MapTime);
         var enemys = GameProcessor.Inst.PlayerManager.GetPlayersByCamp(PlayerType.Enemy);

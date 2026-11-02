@@ -93,6 +93,14 @@ public class Main_Map_Dialog : MonoBehaviour
             tgLevelList[1].gameObject.SetActive(true);
         }
 
+        if (user.MapId <= 144)
+        {
+            tgLevelList[2].gameObject.SetActive(false);
+        }
+        else {
+            tgLevelList[2].gameObject.SetActive(true);
+        }
+
         foreach (var item in items)
         {
             item.Show(SelectLayer);

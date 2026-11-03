@@ -971,6 +971,10 @@ namespace Game
             { //基础栏位
                 equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).ToList();
             }
+            else if (cycle == 3) {
+                //基础栏位
+                equips = this.EquipPanelGoldenList[EquipGoldenIndex].Select(m => m.Value).ToList();
+            }
 
             if (cycle == 1)
             {
@@ -981,6 +985,12 @@ namespace Game
             else if (cycle == 2)
             {
                 equips = equips.Where(m => m.Config.Role == role && m.Config.Cycle == 2 && m.GetQuality() == 6).ToList();
+
+                layers = equips.Select(m => m.Layer).OrderByDescending(m => m).ToList();
+            }
+            else if (cycle == 3)
+            {
+                equips = equips.Where(m => m.Config.Role == role && m.Config.Cycle == 3 && m.GetQuality() == 7).ToList();
 
                 layers = equips.Select(m => m.Layer).OrderByDescending(m => m).ToList();
             }
@@ -1001,7 +1011,7 @@ namespace Game
                     redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
                     setLayer = redLevel / 5 + 1;
                 }
-                else if (cycle == 2)
+                else if (cycle >= 2 && cycle < 10)
                 {
                     redLevel = layers.Count >= config.Count ? layers[config.Count - 1] : 0;
                     setLayer = redLevel;

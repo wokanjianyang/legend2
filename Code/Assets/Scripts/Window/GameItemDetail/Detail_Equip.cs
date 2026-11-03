@@ -130,11 +130,15 @@ namespace Game
             if (refineLevel >= 0)
             {
                 EquipRefineConfig refineConfig = EquipRefineConfigCategory.Instance.GetByPart(equip.Config.Part);
-                basePercent = refineConfig.GetRisePercent(refineLevel, 1);
-                basePercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipBaseIncrea);
 
-                randomPercent = refineConfig.GetRisePercent(refineLevel, 2);
-                randomPercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipRandomIncrea);
+                if (refineConfig != null)
+                {
+                    basePercent = refineConfig.GetRisePercent(refineLevel, 1);
+                    basePercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipBaseIncrea);
+
+                    randomPercent = refineConfig.GetRisePercent(refineLevel, 2);
+                    randomPercent += (int)user.AttributeBonus.CalPanelAtr(AttributeEnum.EquipRandomIncrea);
+                }
             }
 
             //Debug.Log("randomPercent:" + randomPercent + " basePercent:" + basePercent);
@@ -307,11 +311,11 @@ namespace Game
             }
             else if (quality == 6)
             {
-                redTitle.text = string.Format("<color=#{0}>[{1}红装]</color>", color, rt);
+                redTitle.text = string.Format("<color=#{0}>[{1}天龙]</color>", color, rt);
             }
             else if (quality == 7)
             {
-                redTitle.text = string.Format("<color=#{0}>[{1}金装]</color>", color, rt);
+                redTitle.text = string.Format("<color=#{0}>[{1}神龙]</color>", color, rt);
             }
             else if (quality == 8)
             {

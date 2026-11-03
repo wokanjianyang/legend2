@@ -310,6 +310,11 @@ namespace Game
 
         public Sprite GetEquipLog(int role, int part)
         {
+            if (part >= 11 && part <= 20) //金装使用红装的图
+            {
+                part -= 10;
+            }
+
             int key = role * 100 + part;
 
             if (!EquipLogoList.ContainsKey(key))

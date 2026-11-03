@@ -63,7 +63,7 @@ namespace Game
 
             if (quality >= 3)
             {
-                SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, config.LevelRequired);
+                SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, config.Cycle, config.LevelRequired);
 
                 if (runeConfig == null)
                 {
@@ -125,7 +125,7 @@ namespace Game
             int runeId = 0;
             int suitId = 0;
 
-            SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, config.LevelRequired);
+            SkillRuneConfig runeConfig = SkillRuneConfigCategory.Instance.RandomEquipRuneId(quality, config.Role, config.Cycle, config.LevelRequired);
 
             runeId = runeConfig.Id;
 

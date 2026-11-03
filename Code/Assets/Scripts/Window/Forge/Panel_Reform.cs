@@ -163,14 +163,14 @@ public class Panel_Reform : MonoBehaviour
         int layer = equip.Layer;
 
         var equips = user.Bags.Where(m => m.Item.GetItemType() == ItemType.Equip && m.Item.GetQuality() == quality
-        && m.Item.ConfigId == configId && m.Item.Layer == layer && !m.Item.IsLock).ToList();
+         && m.Item.Layer == layer && !m.Item.IsLock).ToList();
 
         List<Equip> bags = new List<Equip>();
         foreach (var item in equips)
         {
             Equip bi = item.Item as Equip;
 
-            if (bi.RefineLevel.Data <= 0 && bi.RebuildExp <= 0)
+            if (bi.RefineLevel.Data <= 0 && bi.Part == part)
             {
                 bags.Add(bi);
             }

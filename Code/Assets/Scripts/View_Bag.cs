@@ -34,6 +34,7 @@ namespace Game
 
         //public Transform Tran_Equip_List;
         public Equip_Panel EquipPanel;
+        public Equip_Panel EquipPanelGold;
 
         public RectTransform EquipInfoSpecial;
         public Transform Tran_Plan;
@@ -59,7 +60,8 @@ namespace Game
         public Button btn_Talent;
         public Button btn_Pet;
 
-        public Button btn_Relic;
+        public Button btn_Equip_Normal;
+        public Button btn_Equip_Gold;
 
 
 
@@ -107,7 +109,6 @@ namespace Game
 
             this.btn_Ring.onClick.AddListener(OnOpenRing);
             this.btn_Talent.onClick.AddListener(OnOpenTalent);
-            this.btn_Relic.onClick.AddListener(OnOpenRelic);
 
             this.Btn_Reset.onClick.AddListener(OnRefreshBag);
             this.Btn_ReName.onClick.AddListener(OnSetPlanName);
@@ -115,6 +116,9 @@ namespace Game
             this.Btn_Cancle.onClick.AddListener(OnPlanNameClose);
 
             this.btn_Pet.onClick.AddListener(OnOpenPet);
+
+            this.btn_Equip_Normal.onClick.AddListener(OnOpenEquipNorml);
+            this.btn_Equip_Gold.onClick.AddListener(OnOpenEquipGold);
 
             this.Btn_Store.onClick.AddListener(OnOpenStore);
         }
@@ -203,7 +207,7 @@ namespace Game
             ,AttributeEnum.Accuracy, AttributeEnum.Miss
             ,AttributeEnum.CritRate,  AttributeEnum.CritDamage
             ,AttributeEnum.Speed,AttributeEnum.Cd
-            ,AttributeEnum.DamageIncrea,   AttributeEnum.DamageResist
+            //,AttributeEnum.DamageIncrea,   AttributeEnum.DamageResist
         };
 
             for (int i = 0; i < Attr_List.Count; i++)
@@ -247,6 +251,13 @@ namespace Game
                 slots[p].Init(p + 1);
             }
 
+            var slots1 = EquipPanelGold.GetComponentsInChildren<SlotBox>();
+
+            for (int p = 0; p < slots.Count(); p++)
+            {
+                slots1[p].Init(p + 11);
+            }
+
             List<SlotBox> sps = EquipInfoSpecial.GetComponentsInChildren<SlotBox>().ToList();
             for (int i = 0; i < sps.Count; i++)
             {
@@ -270,11 +281,11 @@ namespace Game
             }
 
             //穿戴金装
-            //foreach (var kvp in user.EquipPanelGoldenList[user.EquipGoldenIndex])
-            //{
-            //    this.CreateEquipPanelItem(-1, kvp.Key, kvp.Value);
-            //    //yield return null;
-            //}
+            foreach (var kvp in user.EquipPanelGoldenList[user.EquipGoldenIndex])
+            {
+                this.CreateEquipPanelItem(kvp.Key, kvp.Value);
+                //yield return null;
+            }
 
 
             var emptyPrefab = PrefabHelper.Instance().ComBoxEmpty;
@@ -589,7 +600,7 @@ namespace Game
             {
                 user.EquipGoldenIndex = e.Index;
 
-                for (int i = 21; i <= 30; i++)
+                for (int i = 11; i <= 20; i++)
                 {
                     this.ClearEquipPanelItem(i);
                 }
@@ -619,6 +630,18 @@ namespace Game
             //user.PetPanelIndex = index;
 
             GameProcessor.Inst.UpdateInfo();
+        }
+
+
+        public void OnOpenEquipNorml()
+        {
+            EquipPanel.gameObject.SetActive(true);
+            EquipPanelGold.gameObject.SetActive(false);
+        }
+        public void OnOpenEquipGold()
+        {
+            EquipPanel.gameObject.SetActive(false);
+            EquipPanelGold.gameObject.SetActive(true);
         }
 
         private void ShowBagPanel(int index)
@@ -1322,9 +1345,11 @@ namespace Game
 
             if (position <= 10)
             {
-                int pi = User_Data_Manager.Data.EquipPanelIndex;
-
                 slot = EquipPanel.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
+            }
+            else if (position >= 11 && position <= 20)
+            {
+                slot = EquipPanelGold.GetComponentsInChildren<SlotBox>().Where(s => s.Part == position).First();
             }
             else if (position >= 1001 && position <= 1004)
             {
@@ -1503,6 +1528,11 @@ namespace Game
         {
             GameProcessor.Inst.EventCenter.Raise(new OpenDialogEvent() { Type = DialogType.Pet });
         }
+
+
+
+
+
 
         public void OnOpenStore()
         {

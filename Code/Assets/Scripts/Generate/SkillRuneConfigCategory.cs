@@ -8,9 +8,11 @@ namespace Game
 
     public partial class SkillRuneConfigCategory
     {
-        public SkillRuneConfig RandomEquipRuneId(int quality, int role, int level)
+        public SkillRuneConfig RandomEquipRuneId(int quality, int role, int cycle, int level)
         {
-            List<SkillRuneConfig> tempList = this.list.Where(m => (m.Role == role) && m.StartQuality <= quality && quality <= m.EndQuality
+            List<SkillRuneConfig> tempList = this.list.Where(m => (m.Role == role)
+            && m.StartQuality <= quality && quality <= m.EndQuality
+            && m.StartCycle <= cycle && cycle <= m.EndCycle
             && m.StartLevel <= level && level <= m.EndLevel).ToList();
 
             if (tempList.Count == 0)

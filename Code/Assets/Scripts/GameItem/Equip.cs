@@ -66,7 +66,7 @@ namespace Game
         [JsonIgnore]
         public int Part { get; set; }
 
-        private int[] QualityRate = { 100, 110, 120, 150, 200, 250, 300 };
+        private int[] QualityRate = { 100, 110, 120, 150, 200, 250, 300, 400, 600 };
 
 
         public Equip(int configId, int runeConfigId, int suitConfigId, int quality) : base(configId, ItemType.Equip)
@@ -99,7 +99,7 @@ namespace Game
             {
                 long AttributeBase = Config.AttrValueList[i];
 
-                if (Config.Cycle <= 2)
+                if (Config.Cycle <= 9)
                 {
                     AttributeBase = AttributeBase * QualityRate[Quality - 1] / 100;
 
@@ -270,6 +270,10 @@ namespace Game
                     {
                         AttrList[attrId] = 0; //如果修改了数量
                     }
+                }
+                else
+                {
+                    Debug.LogError(attrId + " is error");
                 }
             }
 

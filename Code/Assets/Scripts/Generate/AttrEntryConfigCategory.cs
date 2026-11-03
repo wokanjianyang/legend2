@@ -15,7 +15,7 @@ namespace Game
             List<AttrEntryConfig> configs = list.FindAll(m =>
             m.PartList.Contains(part)
             && m.StartLevel <= level && level <= m.EndLevel
-            && (m.Cycle == cycle || m.Cycle == 0)
+            && (m.StartCycle <= cycle && cycle <= m.EndCycle)
             && (m.Role == role || m.Role == 0));
 
             if (configs.Count <= 0)
@@ -99,12 +99,12 @@ namespace Game
 
         public AttrEntryConfig GetRedConfig(int attrId, int cycle)
         {
-            return this.list.Where(m => m.Cycle == cycle && m.AttrId == attrId).FirstOrDefault();
+            return this.list.Where(m => m.StartCycle <= cycle && cycle <= m.EndCycle && m.AttrId == attrId).FirstOrDefault();
         }
 
         public AttrEntryConfig GetConfig(int cycle, int attrId, int level)
         {
-            return this.list.Where(m => (m.Cycle == cycle || m.Cycle == 0) && m.AttrId == attrId && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
+            return this.list.Where(m => m.StartCycle <= cycle && cycle <= m.EndCycle && m.AttrId == attrId && m.StartLevel <= level && level <= m.EndLevel).FirstOrDefault();
         }
 
         public List<KeyValuePair<int, long>> BuildShengxiao(int part, int quality, int seed)

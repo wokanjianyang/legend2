@@ -117,7 +117,7 @@ namespace Game
 
         public Item GetEquip(int position)
         {
-            if (position >= 0 && position <= 10)
+            if (position >= 0 && position <= ConfigHelper.MaxPart)
             {
                 var ep = EquipPanelList[EquipPanelIndex];
                 if (ep.ContainsKey(position))

@@ -83,7 +83,7 @@ namespace Game
             ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box8"));
             ComBoxList.Add(Resources.Load<Sprite>("UI/Bag/Box9"));
 
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= ConfigHelper.MaxPart; i++)
             {
                 EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip" + i));
             }
@@ -93,10 +93,6 @@ namespace Game
                 EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip" + i));
             }
 
-            for (int i = 15; i <= 20; i++)
-            {
-                EquipBgList.Add(i, Resources.Load<Sprite>("UI/Equip/Equip1"));
-            }
 
             Pet_Forge_Box_Prefab = Resources.Load<GameObject>("Prefab/Window/Pet/Pet_Forge_Box");
             Box_Forge_Bag_Prefab = Resources.Load<GameObject>("Prefab/Window/Forge/Equip/Box_Forge_Bag");

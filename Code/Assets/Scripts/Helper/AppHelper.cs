@@ -21,6 +21,8 @@ namespace Game
 
         public static int DefendLevel = 0;
 
+        public static int EquipType = 1;
+
         public static int BabelMaxRecord = 0;
         public static int BabelMinRecord = 0;
 

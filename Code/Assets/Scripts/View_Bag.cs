@@ -608,11 +608,13 @@ namespace Game
 
         public void OnOpenEquipNorml()
         {
+            AppHelper.EquipType = 1;
             EquipPanel.gameObject.SetActive(true);
             EquipPanelGold.gameObject.SetActive(false);
         }
         public void OnOpenEquipGold()
         {
+            AppHelper.EquipType = 2;
             EquipPanel.gameObject.SetActive(false);
             EquipPanelGold.gameObject.SetActive(true);
         }
@@ -1336,7 +1338,7 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            if (position <= 10)
+            if (position <= ConfigHelper.MaxPart)
             {
                 var ep = user.EquipPanelList[user.EquipPanelIndex];
                 if (ep.ContainsKey(position))

@@ -91,7 +91,7 @@ public class Panel_Reform : MonoBehaviour
 
         for (int i = 0; i < items.Count(); i++)
         {
-            int position = i + 1;
+            int position = i + 1 + (AppHelper.EquipType - 1) * 10;
 
             items[i].Init(ForgeType, position, toggleGroup);
             items[i].SetItem(user.GetEquip(position));

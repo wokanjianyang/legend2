@@ -121,7 +121,8 @@ public class Panel_Rebuild : MonoBehaviour
 
         for (int i = 0; i < items.Count(); i++)
         {
-            items[i].SetItem(user.GetEquip(i + 1));
+            int p = i + 1 + (AppHelper.EquipType - 1) * 10;
+            items[i].SetItem(user.GetEquip(p));
         }
 
         this.Txt_Info_1.gameObject.SetActive(true);

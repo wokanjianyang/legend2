@@ -130,7 +130,7 @@ namespace Game
             }
 
             this.Txt_Name.text = string.Format("<color=#{0}>{1}</color>", titleColor, pet.GetName());
-            this.Txt_Level.text = "宠物ID：" + pet.Config.Id;
+            this.Txt_Level.text = "宠物等级：" + pet.Config.Id;
 
             //long exp = PetAtrConfigCategory.Instance.GetPetFee(pet.PetLevel.Data);
             //this.Txt_Exp.text = "Exp：" + pet.LevelExp.Data + "/" + exp;

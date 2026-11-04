@@ -52,7 +52,7 @@ public class Map_Dialog_Myth : MonoBehaviour
         User user = User_Data_Manager.Data;
         bool ac = ConfigHelper.AC == ConfigHelper.Channel_Tap || user.Account == "";
 
-        user.MythData.Check();
+        //user.MythData.Check();
 
         ItemPrefab = Resources.Load<GameObject>("Prefab/Window/Map/Map_Myth_Item");
 

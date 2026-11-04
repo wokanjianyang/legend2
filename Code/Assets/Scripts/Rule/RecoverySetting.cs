@@ -41,6 +41,10 @@ namespace Game
         //Í¼¼ø
         public int CardEquipLevel { get; set; } = 0;
 
+        public int CardPetLevel { get; set; } = 0;
+
+        public int CardPetQuality { get; set; } = 0;
+
         //´«Ææ×°±¸
         public int LegendLevel { get; set; } = 0;
 
@@ -308,7 +312,18 @@ namespace Game
             }
             else if (item.GetItemType() == ItemType.Pet)
             {
+                Pet pet = item as Pet;
+                if (this.CardPetLevel <= 0 || this.CardPetQuality <= 0)
+                {
+                    return false;
+                }
 
+                int cardId = pet.GetCardId();
+
+                if (pet.Config.Id <= this.CardPetLevel && pet.GetQuality() <= (this.CardPetQuality + 4) && cardId > 0 && !user.IsCardMax(cardId))
+                {
+                    return true;
+                }
             }
 
             return false;

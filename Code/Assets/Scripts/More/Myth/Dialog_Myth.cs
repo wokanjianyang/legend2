@@ -48,6 +48,8 @@ public class Dialog_Myth : MonoBehaviour
 
         this.Init();
         //this.ChangePanel(1);
+
+        User_Data_Manager.Data.MythData.Check();
     }
 
     private void OnEnable()

@@ -41,6 +41,9 @@ namespace Game
         [Title("自动图鉴")]
         public InputField if_Card_EquipLevel;
 
+        public InputField if_Card_PetLevel;
+        public Dropdown Dp_Card_PetQuality;
+
         [Title("其他")]
         public Dropdown dp_Pet;
         public InputField ifSpeicalLevel;
@@ -113,6 +116,9 @@ namespace Game
             dp_Pet.AddOptions(new List<string>() { "无", "白色", "绿色", "蓝色", "紫色", "橙色" });
 
 
+            Dp_Card_PetQuality.ClearOptions();
+            Dp_Card_PetQuality.AddOptions(new List<string>() { "无", "橙色", "红色" });
+
             //
             User user = User_Data_Manager.Data;
             RecoverySetting setting = user.RecoverySet;
@@ -146,7 +152,14 @@ namespace Game
 
             if_EquipLevel.text = setting.EquipLevel.ToString();
 
+            //图鉴
             if_Card_EquipLevel.text = setting.CardEquipLevel.ToString();
+            if_Card_PetLevel.text = setting.CardPetLevel.ToString();
+
+            if (setting.CardPetQuality > 0)
+            {
+                Dp_Card_PetQuality.value = setting.CardPetQuality;
+            }
 
             foreach (int key in setting.EquipRole.Keys)
             {
@@ -222,6 +235,10 @@ namespace Game
             int.TryParse(if_Card_EquipLevel.text, out int cardEquipLevel);
             setting.CardEquipLevel = cardEquipLevel;
 
+            int.TryParse(if_Card_PetLevel.text, out int cardPetLevel);
+            setting.CardPetLevel = cardPetLevel;
+
+            setting.CardPetQuality = Dp_Card_PetQuality.value;
 
             //传奇装备
             int.TryParse(if_Legend_Level.text, out int legendLevel);

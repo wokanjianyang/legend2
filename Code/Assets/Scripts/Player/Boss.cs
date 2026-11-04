@@ -223,7 +223,7 @@ namespace Game
 
 
             //¸ÅÂÊ»ñÈ¡²Êµ°
-            if (RandomHelper.RandomNumber(0, 300) <= 0)
+            if (RandomHelper.RandomNumber(0, 30) <= 0)
             {
                 int achId = 0;
 

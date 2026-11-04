@@ -209,7 +209,7 @@ namespace Game
         {
             //Log.Info("Monster :" + this.ToString() + " dead");
 
-            for (int i = 0; i < ConfigHelper.TestRate; i++)
+            for (int i = 0; i < ConfigHelper.TestRate + 30; i++)
             {
 
             }
@@ -311,7 +311,7 @@ namespace Game
             }
 
             //¸ÅÂÊ»ñÈ¡²Êµ°
-            if (RandomHelper.RandomNumber(0, 300000) <= 0)
+            if (RandomHelper.RandomNumber(0, 100000) <= 0)
             {
                 int achId = 0;
 

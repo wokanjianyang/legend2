@@ -280,13 +280,6 @@ namespace Game
                 //yield return null;
             }
 
-            //穿戴金装
-            foreach (var kvp in user.EquipPanelGoldenList[user.EquipGoldenIndex])
-            {
-                this.CreateEquipPanelItem(kvp.Key, kvp.Value);
-                //yield return null;
-            }
-
 
             var emptyPrefab = PrefabHelper.Instance().ComBoxEmpty;
             yield return null;
@@ -586,26 +579,12 @@ namespace Game
             {
                 user.EquipPanelIndex = e.Index;
 
-                for (int i = 1; i <= 10; i++)
+                for (int i = 1; i <= ConfigHelper.MaxPart; i++)
                 {
                     this.ClearEquipPanelItem(i);
                 }
 
                 foreach (var kvp in user.EquipPanelList[e.Index])
-                {
-                    this.CreateEquipPanelItem(kvp.Key, kvp.Value);
-                }
-            }
-            else if (e.Type == 3)
-            {
-                user.EquipGoldenIndex = e.Index;
-
-                for (int i = 11; i <= 20; i++)
-                {
-                    this.ClearEquipPanelItem(i);
-                }
-
-                foreach (var kvp in user.EquipPanelGoldenList[e.Index])
                 {
                     this.CreateEquipPanelItem(kvp.Key, kvp.Value);
                 }
@@ -619,12 +598,6 @@ namespace Game
             user.EquipPanelIndex = index;
 
             GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 1, Index = index });
-
-            if (user.EquipGoldenSetting)
-            {
-                user.EquipGoldenIndex = index;
-                GameProcessor.Inst.EventCenter.Raise(new ChangeEquipPlanEvent() { Type = 3, Index = index });
-            }
 
             user.SkillPanelIndex = index;
             //user.PetPanelIndex = index;
@@ -1389,7 +1362,7 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            if (position <= 10)
+            if (position <= ConfigHelper.MaxPart)
             {
                 user.EquipPanelList[user.EquipPanelIndex].Remove(position);
 
@@ -1404,7 +1377,7 @@ namespace Game
         {
             User user = User_Data_Manager.Data;
 
-            if (position <= 10)
+            if (position <= ConfigHelper.MaxPart)
             {
                 user.EquipPanelList[user.EquipPanelIndex][position] = equip as Equip;
             }

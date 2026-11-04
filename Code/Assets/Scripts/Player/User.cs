@@ -174,8 +174,6 @@ namespace Game
 
         public IDictionary<int, IDictionary<int, Equip>> EquipPanelList { get; set; } = new Dictionary<int, IDictionary<int, Equip>>();
 
-        public IDictionary<int, IDictionary<int, Equip>> EquipPanelGoldenList { get; set; } = new Dictionary<int, IDictionary<int, Equip>>();
-
         public IDictionary<int, Equip_Special> EquipSpecialList { get; set; } = new Dictionary<int, Equip_Special>();
 
         public Dictionary<int, long> RecordMax = new Dictionary<int, long>();
@@ -184,10 +182,6 @@ namespace Game
 
         public int EquipPanelIndex { get; set; } = 0;
         public IDictionary<int, string> PlanNameList { get; set; } = new Dictionary<int, string>();
-
-        public bool EquipGoldenSetting { get; set; } = false;
-
-        public int EquipGoldenIndex { get; set; } = 0;
 
         public int SkillPanelIndex { get; set; } = 0;
 
@@ -784,7 +778,6 @@ namespace Game
             //list.AddRange(SkillRuneConfigCategory.Instance.GetAllRune(skillId, 2)); //测试代码，给技能加上所有词条 test
 
             //金装词条
-            skillList.AddRange(this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillRuneConfig != null && m.Value.SkillRuneConfig.SkillId == skillId).Select(m => m.Value.SkillRuneConfig.Id).ToList());
 
             foreach (int runeId in skillList)
             {
@@ -823,9 +816,6 @@ namespace Game
 
             //计算装备的套装加成
             List<SkillSuitConfig> skillList = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SkillSuitConfig.SkillId == skillId).Select(m => m.Value.SkillSuitConfig).ToList();
-
-            //金装套装
-            skillList.AddRange(this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SkillSuitConfig.SkillId == skillId).Select(m => m.Value.SkillSuitConfig).ToList());
 
             var suitGroup = skillList.GroupBy(m => m.Id);
 
@@ -920,7 +910,6 @@ namespace Game
         public int GetSuitCount(int suitId)
         {
             int count = this.EquipPanelList[EquipPanelIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
-            count += this.EquipPanelGoldenList[EquipGoldenIndex].Where(m => m.Value.SkillSuitConfig != null && m.Value.SuitConfigId == suitId).Count();
 
             return count;
         }
@@ -969,11 +958,12 @@ namespace Game
 
             if (cycle <= 2)
             { //基础栏位
-                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).ToList();
+                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Part >= 1 && m.Part <= 10).ToList();
             }
-            else if (cycle == 3) {
+            else if (cycle == 3)
+            {
                 //基础栏位
-                equips = this.EquipPanelGoldenList[EquipGoldenIndex].Select(m => m.Value).ToList();
+                equips = this.EquipPanelList[EquipPanelIndex].Select(m => m.Value).Where(m => m.Part >= 11 && m.Part <= 20).ToList();
             }
 
             if (cycle == 1)

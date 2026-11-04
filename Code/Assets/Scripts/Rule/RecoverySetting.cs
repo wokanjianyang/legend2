@@ -296,7 +296,7 @@ namespace Game
 
                 int cycle = equip.Config.Cycle;
 
-                if (cycle <= 2)
+                if (cycle <= 9)
                 {
                     //ÆÕÍ¨»ØÊÕ
 

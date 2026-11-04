@@ -50,7 +50,7 @@ namespace Game
 
             this.SetAttr();  //设置属性值
 
-            if (this.Config.Layer <= 2)
+            if (this.Config.Layer <= 3)
             {
                 this.SetSkill(); //设置技能
             }
@@ -130,7 +130,7 @@ namespace Game
             List<SkillData> list = new List<SkillData>();
             list.Add(new SkillData(9001, (int)SkillPosition.Default)); //增加默认技能
 
-            if (this.Config.Id >= 73 && this.Config.Id <= 144 && this.Quality >= 5) //随机一个2技能
+            if (this.Config.Id >= 73 && this.Config.Id <= 216 && this.Quality >= 5) //随机一个2技能
             {
                 int[] ids = { 1002, 2002, 3002 };
                 int index = RandomHelper.RandomNumber(0, ids.Length);

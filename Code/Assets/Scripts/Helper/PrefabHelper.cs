@@ -114,6 +114,7 @@ namespace Game
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box6"));
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box7"));
             BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box8"));
+            BoxImageList.Add(Resources.Load<Sprite>("UI/Bag/Box9"));
 
             ValetList.Add(Resources.Load<Sprite>("UI/Player/Valet/Player_Valet1"));
 

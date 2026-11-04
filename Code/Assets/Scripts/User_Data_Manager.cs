@@ -105,17 +105,6 @@ namespace Game
                     }
                 }
 
-                if (Data.EquipPanelGoldenList.Count < 7)
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        if (!Data.EquipPanelGoldenList.ContainsKey(i))
-                        {
-                            Data.EquipPanelGoldenList[i] = new Dictionary<int, Equip>();
-                        }
-                    }
-                }
-
                 if (Data.DeviceId == "")
                 {
                     Data.DeviceId = deivceId;

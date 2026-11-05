@@ -114,6 +114,7 @@ namespace Game
         Material1 = 21,//金币副本
         Material2 = 22,//强化副本
         Material3 = 23,//黑铁副本
+        Myth = 24, //神话副本
 
         PetWear = 100,  //上阵宠物
         PetTotal = 101,  //累计获取宠物数量
@@ -124,6 +125,7 @@ namespace Game
         EquipStrong = 203, //强化等级
         LegacyStrong = 204, //传世强化等级
         EquipSpeical = 205, //四格阶数
+
 
         StageCount = 300, //闯关数
         MonsterKillTotal = 301, //累计杀敌数量

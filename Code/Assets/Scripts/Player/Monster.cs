@@ -315,7 +315,13 @@ namespace Game
             {
                 int achId = 0;
 
-                if (this.MapId >= 73 && this.MapId <= 144)
+                if (achId == 0 && this.MapId >= 145)
+                {
+                    //优先困难
+                    achId = AchievementConfigCategory.Instance.RandomKillType(10005);
+                }
+
+                if (achId == 0 && this.MapId >= 73)
                 {
                     //优先困难
                     achId = AchievementConfigCategory.Instance.RandomKillType(10003);

@@ -227,7 +227,13 @@ namespace Game
             {
                 int achId = 0;
 
-                if (this.GroupId >= 13 && this.GroupId <= 24)
+                if (achId == 0 && this.BossId >= 25)
+                {
+                    //优先困难
+                    achId = AchievementConfigCategory.Instance.RandomKillType(10006);
+                }
+
+                if (achId == 0 && this.BossId >= 13)
                 {
                     //优先困难
                     achId = AchievementConfigCategory.Instance.RandomKillType(10004);

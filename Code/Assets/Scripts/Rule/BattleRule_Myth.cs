@@ -84,6 +84,15 @@ public class BattleRule_Myth : ABattleRule
 
     private void BuildReward(int mapId)
     {
+        User user = User_Data_Manager.Data;
+
+        long progess = user.GetAchievementProgeress(AchievementProType.Myth);
+
+        if (progess < mapId)
+        {
+            user.SetAchievementProgeress(AchievementProType.Myth, mapId);
+        }
+
         List<Item> items = new List<Item>();
 
         MythConfig mythConfig = MythConfigCategory.Instance.Get(mapId);
